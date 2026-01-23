@@ -30,10 +30,29 @@ class Spaces:
     ) -> GetOrganizationSpacesIntegrateStatusResponse | None:
         """Get the status of the Spaces integration in Meraki.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-spaces-integrate-status
+        [API documentation: getOrganizationSpacesIntegrateStatus](https://developer.cisco.com/meraki/api-v1/#!get-organization-spaces-integrate-status)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "status": true,
+              "states": [
+                "Spaces account created",
+                "Meraki Organization Import initiated",
+                "Importing Meraki Organization Administrators",
+                "Invite email sent to meraki-user@cisco.com"
+              ],
+              "email": "meraki-user@cisco.com",
+              "accountName": "My First Meraki Org",
+              "accountType": "Extend"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -51,10 +70,21 @@ class Spaces:
     ) -> RemoveOrganizationSpacesIntegrationResponse | None:
         """Remove the Spaces integration from Meraki.
 
-        https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration
+        [API documentation: removeOrganizationSpacesIntegration](https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "status": true,
+              "message": "Succesfully fetched the spaces dashboard access"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

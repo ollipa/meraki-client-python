@@ -35,7 +35,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the LAN Settings for a single MG.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan
+        [API documentation: updateDeviceCellularGatewayLan](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan)
 
         Args:
             serial: Serial.
@@ -70,7 +70,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates the port forwarding rules for a single MG.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules
+        [API documentation: updateDeviceCellularGatewayPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules)
 
         Args:
             serial: Serial.
@@ -101,7 +101,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the connectivity testing destinations for an MG network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations
+        [API documentation: updateNetworkCellularGatewayConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations)
 
         Args:
             network_id: Network ID.
@@ -133,16 +133,16 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update common DHCP settings of MGs.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp
+        [API documentation: updateNetworkCellularGatewayDhcp](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp)
 
         Args:
             network_id: Network ID.
             dhcp_lease_time: DHCP Lease time for all MG of the network. Possible values are '30
-              minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'.
+                minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'.
             dns_nameservers: DNS name servers mode for all MG of the network. Possible values are:
-              'upstream_dns', 'google_dns', 'opendns', 'custom'.
+                'upstream_dns', 'google_dns', 'opendns', 'custom'.
             dns_custom_nameservers: list of fixed IPs representing the the DNS Name servers when the
-              mode is 'custom'.
+                mode is 'custom'.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -167,13 +167,13 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the subnet pool and mask configuration for MGs in the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool
+        [API documentation: updateNetworkCellularGatewaySubnetPool](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool)
 
         Args:
             network_id: Network ID.
             mask: Mask used for the subnet of all MGs in this network.
             cidr: CIDR of the pool of subnets. Each MG in this network will automatically pick a
-              subnet from this pool.
+                subnet from this pool.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -199,7 +199,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates the uplink settings for your MG network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink
+        [API documentation: updateNetworkCellularGatewayUplink](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink)
 
         Args:
             network_id: Network ID.
@@ -226,7 +226,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Toggle the status of an eSIM.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-inventory
+        [API documentation: updateOrganizationCellularGatewayEsimsInventory](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-inventory)
 
         Args:
             organization_id: Organization ID.
@@ -260,7 +260,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a service provider account.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-service-providers-account
+        [API documentation: createOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-service-providers-account)
 
         Args:
             organization_id: Organization ID.
@@ -304,7 +304,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Edit service provider account info stored in Meraki's database.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-service-providers-account
+        [API documentation: updateOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-service-providers-account)
 
         Args:
             organization_id: Organization ID.
@@ -334,7 +334,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Remove a service provider account's integration with the Dashboard.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-cellular-gateway-esims-service-providers-account
+        [API documentation: deleteOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!delete-organization-cellular-gateway-esims-service-providers-account)
 
         Args:
             organization_id: Organization ID.
@@ -358,7 +358,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Swap which profile an eSIM uses.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap
+        [API documentation: createOrganizationCellularGatewayEsimsSwap](https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap)
 
         Args:
             organization_id: Organization ID.
@@ -383,7 +383,7 @@ class ActionBatchCellularGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Get the status of a profile swap.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap
+        [API documentation: updateOrganizationCellularGatewayEsimsSwap](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap)
 
         Args:
             id: eSIM EID.

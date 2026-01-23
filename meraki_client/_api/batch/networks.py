@@ -73,20 +73,20 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network
+        [API documentation: updateNetwork](https://developer.cisco.com/meraki/api-v1/#!update-network)
 
         Args:
             network_id: Network ID.
             name: The name of the network.
             time_zone: The timezone of the network. For a list of allowed timezones, please see the
-              'TZ' column in the table in <a target='_blank'
-              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
-              article.</a>.
+                'TZ' column in the table in <a target='_blank'
+                href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+                article.</a>.
             tags: A list of tags to be applied to the network.
             enrollment_string: A unique identifier which can be used for device enrollment or easy
-              access through the Meraki SM Registration page or the Self Service Portal.
-              Please note that changing this field may cause existing bookmarks to
-              break.
+                access through the Meraki SM Registration page or the Self Service
+                Portal. Please note that changing this field may cause existing
+                bookmarks to break.
             notes: Add any notes or additional information about this network here.
 
         """
@@ -114,7 +114,7 @@ class ActionBatchNetworks:
     def delete_network(self, network_id: str) -> CreateOrganizationActionBatchActionsItem:
         """Delete a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network
+        [API documentation: deleteNetwork](https://developer.cisco.com/meraki/api-v1/#!delete-network)
 
         Args:
             network_id: Network ID.
@@ -133,16 +133,16 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Bind a network to a template.
 
-        https://developer.cisco.com/meraki/api-v1/#!bind-network
+        [API documentation: bindNetwork](https://developer.cisco.com/meraki/api-v1/#!bind-network)
 
         Args:
             network_id: Network ID.
             config_template_id: The ID of the template to which the network should be bound.
             auto_bind: Optional boolean indicating whether the network's switches should
-              automatically bind to profiles of the same model. Defaults to false if
-              left unspecified. This option only affects switch networks and switch
-              templates. Auto-bind is not valid unless the switch template has at least
-              one profile and has at most one profile per switch model.
+                automatically bind to profiles of the same model. Defaults to false if
+                left unspecified. This option only affects switch networks and switch
+                templates. Auto-bind is not valid unless the switch template has at
+                least one profile and has at most one profile per switch model.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -173,21 +173,21 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Provisions a client with a name and policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!provision-network-clients
+        [API documentation: provisionNetworkClients](https://developer.cisco.com/meraki/api-v1/#!provision-network-clients)
 
         Args:
             network_id: Network ID.
             clients: The array of clients to provision.
             device_policy: The policy to apply to the specified client. Can be 'Group policy',
-              'Allowed', 'Blocked', 'Per connection' or 'Normal'. Required.
+                'Allowed', 'Blocked', 'Per connection' or 'Normal'. Required.
             group_policy_id: The ID of the desired group policy to apply to the client. Required if
-              'devicePolicy' is set to "Group policy". Otherwise this is ignored.
+                'devicePolicy' is set to "Group policy". Otherwise this is ignored.
             policies_by_security_appliance: An object, describing what the policy-connection
-              association is for the security appliance. (Only relevant if the security
-              appliance is actually within the network).
+                association is for the security appliance. (Only relevant if the
+                security appliance is actually within the network).
             policies_by_ssid: An object, describing the policy-connection associations for each
-              active SSID within the network. Keys should be the number of enabled
-              SSIDs, mapping to an object describing the client's policy.
+                active SSID within the network. Keys should be the number of enabled
+                SSIDs, mapping to an object describing the client's policy.
 
         """
         if device_policy is not None:
@@ -233,15 +233,15 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed).
 
-        https://developer.cisco.com/meraki/api-v1/#!claim-network-devices
+        [API documentation: claimNetworkDevices](https://developer.cisco.com/meraki/api-v1/#!claim-network-devices)
 
         Args:
             network_id: Network ID.
             add_atomically: Whether to claim devices atomically. If true, all devices will be
-              claimed or none will be claimed. Default is true.
+                claimed or none will be claimed. Default is true.
             serials: A list of serials of devices to claim.
             details_by_device: Optional details for claimed devices (currently only used for
-              Catalyst devices).
+                Catalyst devices).
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -270,12 +270,12 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Claim a vMX into a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim
+        [API documentation: vmxNetworkDevicesClaim](https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim)
 
         Args:
             network_id: Network ID.
             size: The size of the vMX you claim. It can be one of: small, medium, large, xlarge,
-              100.
+                100.
 
         """
         if size is not None:
@@ -300,7 +300,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Remove a single device.
 
-        https://developer.cisco.com/meraki/api-v1/#!remove-network-devices
+        [API documentation: removeNetworkDevices](https://developer.cisco.com/meraki/api-v1/#!remove-network-devices)
 
         Args:
             network_id: Network ID.
@@ -330,7 +330,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update firmware upgrade information for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades
+        [API documentation: updateNetworkFirmwareUpgrades](https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades)
 
         Args:
             network_id: Network ID.
@@ -367,7 +367,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Rollback a Firmware Upgrade For A Network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-rollback
+        [API documentation: createNetworkFirmwareUpgradesRollback](https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-rollback)
 
         Args:
             network_id: Network ID.
@@ -424,15 +424,15 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a Staged Upgrade Group for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-group
+        [API documentation: createNetworkFirmwareUpgradesStagedGroup](https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-group)
 
         Args:
             network_id: Network ID.
             name: Name of the Staged Upgrade Group. Length must be 1 to 255 characters.
             description: Description of the Staged Upgrade Group. Length must be 1 to 255
-              characters.
+                characters.
             is_default: Boolean indicating the default Group. Any device that does not have a group
-              explicitly assigned will upgrade with this group.
+                explicitly assigned will upgrade with this group.
             assigned_devices: The devices and Switch Stacks assigned to the Group.
 
         """
@@ -462,7 +462,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a Staged Upgrade Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-firmware-upgrades-staged-group
+        [API documentation: deleteNetworkFirmwareUpgradesStagedGroup](https://developer.cisco.com/meraki/api-v1/#!delete-network-firmware-upgrades-staged-group)
 
         Args:
             network_id: Network ID.
@@ -483,12 +483,12 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Schedule auto locate jobs for one or more floor plans in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-auto-locate-jobs
+        [API documentation: batchNetworkFloorPlansAutoLocateJobs](https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-auto-locate-jobs)
 
         Args:
             network_id: Network ID.
             jobs: The list of auto locate jobs to be scheduled. Up to 100 jobs can be provided in a
-              request.
+                request.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -509,7 +509,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Cancel a scheduled or running auto locate job.
 
-        https://developer.cisco.com/meraki/api-v1/#!cancel-network-floor-plans-auto-locate-job
+        [API documentation: cancelNetworkFloorPlansAutoLocateJob](https://developer.cisco.com/meraki/api-v1/#!cancel-network-floor-plans-auto-locate-job)
 
         Args:
             network_id: Network ID.
@@ -534,7 +534,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the status of a finished auto locate job to be published, and update device locations.
 
-        https://developer.cisco.com/meraki/api-v1/#!publish-network-floor-plans-auto-locate-job
+        [API documentation: publishNetworkFloorPlansAutoLocateJob](https://developer.cisco.com/meraki/api-v1/#!publish-network-floor-plans-auto-locate-job)
 
         Args:
             network_id: Network ID.
@@ -567,7 +567,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Trigger auto locate recalculation for a job, and optionally set anchors.
 
-        https://developer.cisco.com/meraki/api-v1/#!recalculate-network-floor-plans-auto-locate-job
+        [API documentation: recalculateNetworkFloorPlansAutoLocateJob](https://developer.cisco.com/meraki/api-v1/#!recalculate-network-floor-plans-auto-locate-job)
 
         Args:
             network_id: Network ID.
@@ -599,12 +599,12 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update floorplan assignments for a batch of devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-devices-update
+        [API documentation: batchNetworkFloorPlansDevicesUpdate](https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-devices-update)
 
         Args:
             network_id: Network ID.
             assignments: List of floorplan assignments to update. Up to 100 floor plan assignments
-              can be provided in a request.
+                can be provided in a request.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -638,35 +638,36 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a floor plan's geolocation and other meta data.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-floor-plan
+        [API documentation: updateNetworkFloorPlan](https://developer.cisco.com/meraki/api-v1/#!update-network-floor-plan)
 
         Args:
             network_id: Network ID.
             floor_plan_id: Floor plan ID.
             name: The name of your floor plan.
             center: The longitude and latitude of the center of your floor plan. If you want to
-              change the geolocation data of your floor plan, either the 'center' or two
-              adjacent corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be
-              specified. If 'center' is specified, the floor plan is placed over that
-              point with no rotation. If two adjacent corners are specified, the floor
-              plan is rotated to line up with the two specified points. The aspect ratio
-              of the floor plan's image is preserved regardless of which corners/center
-              are specified. (This means if that more than two corners are specified,
-              only two corners may be used to preserve the floor plan's aspect ratio.).
-              No two points can have the same latitude, longitude pair.
+                change the geolocation data of your floor plan, either the 'center' or
+                two adjacent corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must
+                be specified. If 'center' is specified, the floor plan is placed over
+                that point with no rotation. If two adjacent corners are specified, the
+                floor plan is rotated to line up with the two specified points. The
+                aspect ratio of the floor plan's image is preserved regardless of which
+                corners/center are specified. (This means if that more than two corners
+                are specified, only two corners may be used to preserve the floor plan's
+                aspect ratio.). No two points can have the same latitude, longitude
+                pair.
             bottom_left_corner: The longitude and latitude of the bottom left corner of your floor
-              plan.
+                plan.
             bottom_right_corner: The longitude and latitude of the bottom right corner of your floor
-              plan.
+                plan.
             top_left_corner: The longitude and latitude of the top left corner of your floor plan.
             top_right_corner: The longitude and latitude of the top right corner of your floor plan.
             floor_number: The floor number of the floors within the building.
             image_contents: The file contents (a base 64 encoded string) of your new image.
-              Supported formats are PNG, GIF, and JPG. Note that all images are saved as
-              PNG files, regardless of the format they are uploaded in. If you upload a
-              new image, and you do NOT specify any new geolocation fields ('center,
-              'topLeftCorner', etc), the floor plan will be recentered with no rotation
-              in order to maintain the aspect ratio of your new image.
+                Supported formats are PNG, GIF, and JPG. Note that all images are saved
+                as PNG files, regardless of the format they are uploaded in. If you
+                upload a new image, and you do NOT specify any new geolocation fields
+                ('center, 'topLeftCorner', etc), the floor plan will be recentered with
+                no rotation in order to maintain the aspect ratio of your new image.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -708,7 +709,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Destroy a floor plan.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan
+        [API documentation: deleteNetworkFloorPlan](https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan)
 
         Args:
             network_id: Network ID.
@@ -740,25 +741,25 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a group policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy
+        [API documentation: createNetworkGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy)
 
         Args:
             network_id: Network ID.
             name: The name for your group policy. Required.
             scheduling: The schedule for the group policy. Schedules are applied to days of the
-              week.
+                week.
             bandwidth: The bandwidth settings for clients bound to your group policy.
             firewall_and_traffic_shaping: The firewall and traffic shaping rules and settings for
-              your policy.
+                your policy.
             content_filtering: The content filtering settings for your group policy.
             splash_auth_settings: Whether clients bound to your policy will bypass splash
-              authorization or behave according to the network's rules. Can be one of
-              'network default' or 'bypass'. Only available if your network has a
-              wireless configuration.
+                authorization or behave according to the network's rules. Can be one of
+                'network default' or 'bypass'. Only available if your network has a
+                wireless configuration.
             vlan_tagging: The VLAN tagging settings for your group policy. Only available if your
-              network has a wireless configuration.
+                network has a wireless configuration.
             bonjour_forwarding: The Bonjour settings for your group policy. Only valid if your
-              network has a wireless configuration.
+                network has a wireless configuration.
 
         """
         if splash_auth_settings is not None:
@@ -817,26 +818,26 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a group policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy
+        [API documentation: updateNetworkGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy)
 
         Args:
             network_id: Network ID.
             group_policy_id: Group policy ID.
             name: The name for your group policy.
             scheduling: The schedule for the group policy. Schedules are applied to days of the
-              week.
+                week.
             bandwidth: The bandwidth settings for clients bound to your group policy.
             firewall_and_traffic_shaping: The firewall and traffic shaping rules and settings for
-              your policy.
+                your policy.
             content_filtering: The content filtering settings for your group policy.
             splash_auth_settings: Whether clients bound to your policy will bypass splash
-              authorization or behave according to the network's rules. Can be one of
-              'network default' or 'bypass'. Only available if your network has a
-              wireless configuration.
+                authorization or behave according to the network's rules. Can be one of
+                'network default' or 'bypass'. Only available if your network has a
+                wireless configuration.
             vlan_tagging: The VLAN tagging settings for your group policy. Only available if your
-              network has a wireless configuration.
+                network has a wireless configuration.
             bonjour_forwarding: The Bonjour settings for your group policy. Only valid if your
-              network has a wireless configuration.
+                network has a wireless configuration.
 
         """
         if splash_auth_settings is not None:
@@ -884,14 +885,14 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a group policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-group-policy
+        [API documentation: deleteNetworkGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-network-group-policy)
 
         Args:
             network_id: Network ID.
             group_policy_id: Group policy ID.
             force: If true, the system deletes the GP even if there are active clients using the GP.
-              After deletion, active clients that were assigned to that Group Policy
-              will be left without any policy applied. Default is false.
+                After deletion, active clients that were assigned to that Group Policy
+                will be left without any policy applied. Default is false.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -921,18 +922,18 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap).
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-meraki-auth-user
+        [API documentation: createNetworkMerakiAuthUser](https://developer.cisco.com/meraki/api-v1/#!create-network-meraki-auth-user)
 
         Args:
             network_id: Network ID.
             email: Email address of the user.
             name: Name of the user. Only required If the user is not a Dashboard administrator.
             password: The password for this user account. Only required If the user is not a
-              Dashboard administrator.
+                Dashboard administrator.
             account_type: Authorization type for user. Can be 'Guest' or '802.1X' for wireless
-              networks, or 'Client VPN' for MX networks. Defaults to '802.1X'.
+                networks, or 'Client VPN' for MX networks. Defaults to '802.1X'.
             email_password_to_user: Whether or not Meraki should email the password to user. Default
-              is false.
+                is false.
             is_admin: Whether or not the user is a Dashboard administrator.
             authorizations: Authorization zones and expiration dates for the user.
 
@@ -982,16 +983,16 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated).
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-meraki-auth-user
+        [API documentation: updateNetworkMerakiAuthUser](https://developer.cisco.com/meraki/api-v1/#!update-network-meraki-auth-user)
 
         Args:
             network_id: Network ID.
             meraki_auth_user_id: Meraki auth user ID.
             name: Name of the user. Only allowed If the user is not Dashboard administrator.
             password: The password for this user account. Only allowed If the user is not Dashboard
-              administrator.
+                administrator.
             email_password_to_user: Whether or not Meraki should email the password to user. Default
-              is false.
+                is false.
             authorizations: Authorization zones and expiration dates for the user.
 
         """
@@ -1022,15 +1023,15 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
+        [API documentation: deleteNetworkMerakiAuthUser](https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user)
 
         Args:
             network_id: Network ID.
             meraki_auth_user_id: Meraki auth user ID.
             delete: If the ID supplied is for a splash guest or client VPN user, and that user is
-              not authorized for any other networks in the organization, then also
-              delete the user. 802.1X RADIUS users are always deleted regardless of this
-              optional attribute.
+                not authorized for any other networks in the organization, then also
+                delete the user. 802.1X RADIUS users are always deleted regardless of
+                this optional attribute.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1058,7 +1059,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-mqtt-broker
+        [API documentation: createNetworkMqttBroker](https://developer.cisco.com/meraki/api-v1/#!create-network-mqtt-broker)
 
         Args:
             network_id: Network ID.
@@ -1103,7 +1104,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-mqtt-broker
+        [API documentation: updateNetworkMqttBroker](https://developer.cisco.com/meraki/api-v1/#!update-network-mqtt-broker)
 
         Args:
             network_id: Network ID.
@@ -1142,7 +1143,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker
+        [API documentation: deleteNetworkMqttBroker](https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker)
 
         Args:
             network_id: Network ID.
@@ -1170,21 +1171,22 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-settings
+        [API documentation: updateNetworkSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-settings)
 
         Args:
             network_id: Network ID.
             local_status_page_enabled: Enables / disables the local device status pages (<a
-              target='_blank' href='http://my.meraki.com/'>my.meraki.com, </a><a
-              target='_blank' href='http://ap.meraki.com/'>ap.meraki.com, </a><a
-              target='_blank' href='http://switch.meraki.com/'>switch.meraki.com, </a><a
-              target='_blank' href='http://wired.meraki.com/'>wired.meraki.com</a>).
-              Optional (defaults to false).
+                target='_blank' href='http://my.meraki.com/'>my.meraki.com, </a><a
+                target='_blank' href='http://ap.meraki.com/'>ap.meraki.com, </a><a
+                target='_blank' href='http://switch.meraki.com/'>switch.meraki.com,
+                </a><a target='_blank'
+                href='http://wired.meraki.com/'>wired.meraki.com</a>). Optional
+                (defaults to false).
             remote_status_page_enabled: Enables / disables access to the device status page (<a
-              target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set
-              if localStatusPageEnabled is set to true.
+                target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set
+                if localStatusPageEnabled is set to true.
             local_status_page: A hash of Local Status page(s)' authentication options applied to the
-              Network.
+                Network.
             secure_port: A hash of SecureConnect options applied to the Network.
             named_vlans: A hash of Named VLANs options applied to the Network.
 
@@ -1215,7 +1217,7 @@ class ActionBatchNetworks:
     def split_network(self, network_id: str) -> CreateOrganizationActionBatchActionsItem:
         """Split a combined network into individual networks for each type of device.
 
-        https://developer.cisco.com/meraki/api-v1/#!split-network
+        [API documentation: splitNetwork](https://developer.cisco.com/meraki/api-v1/#!split-network)
 
         Args:
             network_id: Network ID.
@@ -1234,12 +1236,12 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Unbind a network from a template.
 
-        https://developer.cisco.com/meraki/api-v1/#!unbind-network
+        [API documentation: unbindNetwork](https://developer.cisco.com/meraki/api-v1/#!unbind-network)
 
         Args:
             network_id: Network ID.
             retain_configs: Optional boolean to retain all the current configs given by the
-              template.
+                template.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1266,7 +1268,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a VLAN profile for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-vlan-profile
+        [API documentation: createNetworkVlanProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-vlan-profile)
 
         Args:
             network_id: Network ID.
@@ -1304,7 +1306,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a VLAN profile of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile
+        [API documentation: deleteNetworkVlanProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile)
 
         Args:
             network_id: Network ID.
@@ -1332,18 +1334,18 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a webhook payload template for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-payload-template
+        [API documentation: createNetworkWebhooksPayloadTemplate](https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-payload-template)
 
         Args:
             network_id: Network ID.
             name: The name of the new template.
             body: The liquid template used for the body of the webhook message. Either `body` or
-              `bodyFile` must be specified.
+                `bodyFile` must be specified.
             headers: The liquid template used with the webhook headers.
             body_file: A Base64 encoded file containing liquid template used for the body of the
-              webhook message. Either `body` or `bodyFile` must be specified.
+                webhook message. Either `body` or `bodyFile` must be specified.
             headers_file: A Base64 encoded file containing the liquid template used with the webhook
-              headers.
+                headers.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1382,7 +1384,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a webhook payload template for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-payload-template
+        [API documentation: updateNetworkWebhooksPayloadTemplate](https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-payload-template)
 
         Args:
             network_id: Network ID.
@@ -1423,7 +1425,7 @@ class ActionBatchNetworks:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Destroy a webhook payload template for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
+        [API documentation: deleteNetworkWebhooksPayloadTemplate](https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template)
 
         Args:
             network_id: Network ID.

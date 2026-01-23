@@ -31,7 +31,7 @@ class ActionBatchCamera:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update custom analytics settings for a camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics
+        [API documentation: updateDeviceCameraCustomAnalytics](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics)
 
         Args:
             serial: Serial.
@@ -73,28 +73,28 @@ class ActionBatchCamera:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update quality and retention settings for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention
+        [API documentation: updateDeviceCameraQualityAndRetention](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention)
 
         Args:
             serial: Serial.
             profile_id: The ID of a quality and retention profile to assign to the camera. The
-              profile's settings will override all of the per-camera quality and
-              retention settings. If the value of this parameter is null, any existing
-              profile will be unassigned from the camera.
+                profile's settings will override all of the per-camera quality and
+                retention settings. If the value of this parameter is null, any existing
+                profile will be unassigned from the camera.
             motion_based_retention_enabled: Boolean indicating if motion-based retention is
-              enabled(true) or disabled(false) on the camera.
+                enabled(true) or disabled(false) on the camera.
             audio_recording_enabled: Boolean indicating if audio recording is enabled(true) or
-              disabled(false) on the camera.
+                disabled(false) on the camera.
             restricted_bandwidth_mode_enabled: Boolean indicating if restricted bandwidth is
-              enabled(true) or disabled(false) on the camera. This setting does not
-              apply to MV2 cameras.
+                enabled(true) or disabled(false) on the camera. This setting does not
+                apply to MV2 cameras.
             quality: Quality of the camera. Can be one of 'Standard', 'High', 'Enhanced' or 'Ultra'.
-              Not all qualities are supported by every camera model.
+                Not all qualities are supported by every camera model.
             resolution: Resolution of the camera. Can be one of '1280x720', '1920x1080',
-              '1080x1080', '2112x2112', '2880x2880', '2688x1512' or '3840x2160'.Not all
-              resolutions are supported by every camera model.
+                '1080x1080', '2112x2112', '2880x2880', '2688x1512' or '3840x2160'.Not
+                all resolutions are supported by every camera model.
             motion_detector_version: The version of the motion detector that will be used by the
-              camera. Only applies to Gen 2 cameras. Defaults to v2.
+                camera. Only applies to Gen 2 cameras. Defaults to v2.
 
         """
         if quality is not None:
@@ -157,14 +157,14 @@ class ActionBatchCamera:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update sense settings for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense
+        [API documentation: updateDeviceCameraSense](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense)
 
         Args:
             serial: Serial.
             sense_enabled: Boolean indicating if sense(license) is enabled(true) or disabled(false)
-              on the camera.
+                on the camera.
             mqtt_broker_id: The ID of the MQTT broker to be enabled on the camera. A value of null
-              will disable MQTT on the camera.
+                will disable MQTT on the camera.
             audio_detection: The details of the audio detection config.
             detection_model_id: The ID of the object detection model.
 
@@ -193,7 +193,7 @@ class ActionBatchCamera:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update video settings for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings
+        [API documentation: updateDeviceCameraVideoSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings)
 
         Args:
             serial: Serial.
@@ -218,7 +218,7 @@ class ActionBatchCamera:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Assign wireless profiles to the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles
+        [API documentation: updateDeviceCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles)
 
         Args:
             serial: Serial.

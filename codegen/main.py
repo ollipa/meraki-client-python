@@ -11,6 +11,7 @@ import sys
 import textwrap
 import time
 import tomllib
+from collections.abc import KeysView
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -58,6 +59,15 @@ REVERSE_PAGINATION = ["getNetworkEvents", "getOrganizationConfigurationChanges"]
 INDENT_WIDTH = 12
 DOCSTRING_LINE_WIDTH = 100 - INDENT_WIDTH
 
+DOCS_DIR = "docs/api_reference"
+MODULE_DISPLAY_TITLES: dict[str, str] = {
+    "campusGateway": "Campus Gateway",
+    "cellularGateway": "Cellular Gateway",
+    "nac": "NAC",
+    "sm": "Systems Manager",
+    "wirelessController": "Wireless Controller",
+}
+
 
 @dataclass
 class BodyParam:
@@ -97,6 +107,7 @@ class ModuleInfo:
 class Templates:
     """Jinja templates."""
 
+    api_reference_template: jinja2.Template
     batch_class_template: jinja2.Template
     batch_function_template: jinja2.Template
     batch_init_template: jinja2.Template
@@ -343,6 +354,11 @@ def generate_library(  # noqa: PLR0915
     elapsed = time.perf_counter() - t_start
     log.info(f"Generated tests in {elapsed:.2f}s")
 
+    t_start = time.perf_counter()
+    generate_api_reference_docs(scopes.keys(), templates)
+    elapsed = time.perf_counter() - t_start
+    log.info(f"Generated API reference docs in {elapsed:.2f}s")
+
 
 def generate_module(  # noqa: PLR0915
     *,
@@ -461,8 +477,12 @@ def generate_module(  # noqa: PLR0915
                 for bp in function_definition.body_params
             ]
 
+            return_description, response_example = get_response_info(endpoint)
+            use_raw_docstring = response_example is not None and "\\" in response_example
+
             common_params = {
-                "operation": to_snake_case(operation_id),
+                "function_name": to_snake_case(operation_id),
+                "operation_id": operation_id,
                 "function_definition": definition,
                 "description": description,
                 "doc_url": docs_url(operation_id),
@@ -474,6 +494,9 @@ def generate_module(  # noqa: PLR0915
                 "path_params": function_definition.path_params,
                 "response_schema_name": response_schema_name,
                 "item_schema_name": item_schema_name,
+                "return_description": return_description,
+                "response_example": response_example,
+                "use_raw_docstring": use_raw_docstring,
             }
 
             output.write(
@@ -481,7 +504,6 @@ def generate_module(  # noqa: PLR0915
                     **common_params,
                     method=method,
                     scope=scope,
-                    operation_id=operation_id,
                     return_type=get_return_type(
                         method=method,
                         is_paginated=is_paginated,
@@ -499,7 +521,6 @@ def generate_module(  # noqa: PLR0915
                     **common_params,
                     method=method,
                     scope=scope,
-                    operation_id=operation_id,
                     return_type=get_return_type(
                         method=method,
                         is_paginated=is_paginated,
@@ -519,7 +540,8 @@ def generate_module(  # noqa: PLR0915
 
                 batch_content.append(
                     templates.batch_function_template.render(
-                        operation=to_snake_case(operation_id),
+                        operation_id=operation_id,
+                        function_name=to_snake_case(operation_id),
                         function_definition=definition,
                         description=description,
                         doc_url=docs_url(operation_id),
@@ -538,6 +560,25 @@ def generate_module(  # noqa: PLR0915
             class_name=class_name, schemas_used=sorted(set(batch_schemas_used))
         ) + "".join(batch_content)
     return None
+
+
+def generate_api_reference_docs(
+    scopes: list[str] | KeysView[str],
+    templates: Templates,
+) -> None:
+    """Generate API reference markdown docs for mkdocs."""
+    os.makedirs(DOCS_DIR, exist_ok=True)
+
+    # Generate module docs
+    for scope in scopes:
+        module_name = to_snake_case(scope)
+        title = MODULE_DISPLAY_TITLES.get(scope, capitalize_first(scope))
+        content = templates.api_reference_template.render(
+            title=title,
+            module_path=f"meraki_client._api.{module_name}.{capitalize_first(scope)}",
+        )
+        with open(f"{DOCS_DIR}/{module_name}.md", "w") as f:
+            f.write(content)
 
 
 def build_function_definition(required_args: list[str], optional_args: list[str]) -> str:
@@ -603,6 +644,7 @@ def init_templates() -> Templates:
     """Initialize the templates."""
     jinja_env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True)  # noqa: S701
     return Templates(
+        api_reference_template=read_template("api_reference_template.md", jinja_env),
         batch_class_template=read_template("batch_class_template.py", jinja_env),
         batch_function_template=read_template("batch_function_template.py", jinja_env),
         batch_init_template=read_template("batch_init_template.py", jinja_env),
@@ -791,7 +833,7 @@ def check_force_paginated(
 
 def collect_pagination_params(operation_id: str, function_definition: FunctionDefinition) -> None:
     """Collect pagination parameters."""
-    function_definition.optional_args.append("total_pages: int | Literal['all'] = 1")
+    function_definition.optional_args.append('total_pages: int | Literal["all"] = "all"')
 
     function_definition.param_descriptions.append(
         format_param_description(
@@ -851,6 +893,29 @@ def get_return_type(
     return "None"
 
 
+def get_response_info(endpoint: Operation) -> tuple[str | None, str | None]:
+    """Get the return description and example from the OpenAPI response."""
+    responses = endpoint.responses or {}
+    for status_code, response in responses.items():
+        if not status_code.startswith("2"):
+            continue
+        if isinstance(response, Reference):
+            continue
+
+        description = sanitize_text(response.description) if response.description else None
+
+        example = None
+        content = response.content
+        if content:
+            json_content = content.get("application/json")
+            if json_content and json_content.example:
+                example = json.dumps(json_content.example, indent=2)
+
+        return description, example
+
+    return None, None
+
+
 def format_param_description(name: str, description: str) -> str:
     """Format a parameter description for Google-style docstring with line wrapping."""
     first_line = f"{name}: {sanitize_text(description)}"
@@ -860,7 +925,7 @@ def format_param_description(name: str, description: str) -> str:
     wrapper = textwrap.TextWrapper(
         width=DOCSTRING_LINE_WIDTH,
         initial_indent="",
-        subsequent_indent=" " * (INDENT_WIDTH + 2),
+        subsequent_indent=" " * (INDENT_WIDTH + 4),
     )
     return wrapper.fill(first_line)
 

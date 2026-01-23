@@ -1,7 +1,7 @@
-    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> CreateOrganizationActionBatchActionsItem:
+    def {{ function_name }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> CreateOrganizationActionBatchActionsItem:
         """{{ description }}
 
-        {{ doc_url }}
+        [API documentation: {{ operation_id }}]({{ doc_url }})
         {% if descriptions|length > 0 %}
 
         Args:

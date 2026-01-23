@@ -29,13 +29,34 @@ class Nac:
     ) -> CreateOrganizationNacCertificatesAuthoritiesCrlResponse | None:
         """Create a new CRL (either base or delta) for an existing CA.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl
+        [API documentation: createOrganizationNacCertificatesAuthoritiesCrl](https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl)
 
         Args:
             organization_id: Organization ID.
             ca_id: ID of the CRL issuer.
             content: CRL content in PEM format.
             is_delta: Whether it's a delta CRL or not.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "crlId": "1234",
+              "data": [
+                {
+                  "serial": "121B0A22949BAD8B639B6987DC10326E",
+                  "revocationDate": "2022-08-28T07:34:01Z",
+                  "reason": "Key Compromise"
+                }
+              ],
+              "isDelta": false,
+              "caId": "12345",
+              "createdAt": "2021-09-19T19:34:10Z",
+              "lastUpdatedAt": "2021-09-26T20:34:10Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

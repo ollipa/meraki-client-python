@@ -58,10 +58,36 @@ class CellularGateway:
     ) -> GetDeviceCellularGatewayLanResponse | None:
         """Show the LAN Settings of a MG.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-lan
+        [API documentation: getDeviceCellularGatewayLan](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-lan)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "deviceName": "name of the MG",
+              "deviceLanIp": "192.168.0.33",
+              "deviceSubnet": "192.168.0.32/27",
+              "fixedIpAssignments": [
+                {
+                  "name": "server 1",
+                  "ip": "192.168.0.10",
+                  "mac": "0b:00:00:00:00:ac"
+                }
+              ],
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.0",
+                  "end": "192.168.1.1",
+                  "comment": "A reserved IP range"
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -84,12 +110,38 @@ class CellularGateway:
     ) -> UpdateDeviceCellularGatewayLanResponse | None:
         """Update the LAN Settings for a single MG.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan
+        [API documentation: updateDeviceCellularGatewayLan](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan)
 
         Args:
             serial: Serial.
             reserved_ip_ranges: list of all reserved IP ranges for a single MG.
             fixed_ip_assignments: list of all fixed IP assignments for a single MG.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "deviceName": "name of the MG",
+              "deviceLanIp": "192.168.0.33",
+              "deviceSubnet": "192.168.0.32/27",
+              "fixedIpAssignments": [
+                {
+                  "name": "server 1",
+                  "ip": "192.168.0.10",
+                  "mac": "0b:00:00:00:00:ac"
+                }
+              ],
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.0",
+                  "end": "192.168.1.1",
+                  "comment": "A reserved IP range"
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -118,10 +170,33 @@ class CellularGateway:
     ) -> GetDeviceCellularGatewayPortForwardingRulesResponse | None:
         """Returns the port forwarding rules for a single MG.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-port-forwarding-rules
+        [API documentation: getDeviceCellularGatewayPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-port-forwarding-rules)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "name": "test",
+                  "lanIp": "172.31.128.5",
+                  "publicPort": "11-12",
+                  "localPort": "4",
+                  "allowedIps": [
+                    "10.10.10.10",
+                    "10.10.10.11"
+                  ],
+                  "protocol": "tcp",
+                  "access": "any"
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -142,11 +217,34 @@ class CellularGateway:
     ) -> UpdateDeviceCellularGatewayPortForwardingRulesResponse | None:
         """Updates the port forwarding rules for a single MG.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules
+        [API documentation: updateDeviceCellularGatewayPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules)
 
         Args:
             serial: Serial.
             rules: An array of port forwarding params.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "name": "test",
+                  "lanIp": "172.31.128.5",
+                  "publicPort": "11-12",
+                  "localPort": "4",
+                  "allowedIps": [
+                    "10.10.10.10",
+                    "10.10.10.11"
+                  ],
+                  "protocol": "tcp",
+                  "access": "any"
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -169,10 +267,26 @@ class CellularGateway:
     ) -> GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse | None:
         """Return the connectivity testing destinations for an MG network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-connectivity-monitoring-destinations
+        [API documentation: getNetworkCellularGatewayConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-connectivity-monitoring-destinations)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "destinations": [
+                {
+                  "ip": "1.2.3.4",
+                  "description": "Google",
+                  "default": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -196,11 +310,27 @@ class CellularGateway:
     ) -> UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse | None:
         """Update the connectivity testing destinations for an MG network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations
+        [API documentation: updateNetworkCellularGatewayConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations)
 
         Args:
             network_id: Network ID.
             destinations: The list of connectivity monitoring destinations.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "destinations": [
+                {
+                  "ip": "1.2.3.4",
+                  "description": "Google",
+                  "default": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -225,10 +355,25 @@ class CellularGateway:
     ) -> GetNetworkCellularGatewayDhcpResponse | None:
         """List common DHCP settings of MGs.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-dhcp
+        [API documentation: getNetworkCellularGatewayDhcp](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-dhcp)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "dhcpLeaseTime": "1 hour",
+              "dnsNameservers": "custom",
+              "dnsCustomNameservers": [
+                "172.16.2.111",
+                "172.16.2.30"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -251,16 +396,31 @@ class CellularGateway:
     ) -> UpdateNetworkCellularGatewayDhcpResponse | None:
         """Update common DHCP settings of MGs.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp
+        [API documentation: updateNetworkCellularGatewayDhcp](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp)
 
         Args:
             network_id: Network ID.
             dhcp_lease_time: DHCP Lease time for all MG of the network. Possible values are '30
-              minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'.
+                minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'.
             dns_nameservers: DNS name servers mode for all MG of the network. Possible values are:
-              'upstream_dns', 'google_dns', 'opendns', 'custom'.
+                'upstream_dns', 'google_dns', 'opendns', 'custom'.
             dns_custom_nameservers: list of fixed IPs representing the the DNS Name servers when the
-              mode is 'custom'.
+                mode is 'custom'.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "dhcpLeaseTime": "1 hour",
+              "dnsNameservers": "custom",
+              "dnsCustomNameservers": [
+                "172.16.2.111",
+                "172.16.2.30"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -287,10 +447,30 @@ class CellularGateway:
     ) -> GetNetworkCellularGatewaySubnetPoolResponse | None:
         """Return the subnet pool and mask configured for MGs in the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-subnet-pool
+        [API documentation: getNetworkCellularGatewaySubnetPool](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-subnet-pool)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "deploymentMode": "routed",
+              "cidr": "192.168.0.0/16",
+              "mask": 24,
+              "subnets": [
+                {
+                  "serial": "AAAA-AAAA-AAAA",
+                  "name": "my first MG",
+                  "applianceIp": "192.168.0.1",
+                  "subnet": "192.168.0.0/24"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -308,13 +488,33 @@ class CellularGateway:
     ) -> UpdateNetworkCellularGatewaySubnetPoolResponse | None:
         """Update the subnet pool and mask configuration for MGs in the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool
+        [API documentation: updateNetworkCellularGatewaySubnetPool](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool)
 
         Args:
             network_id: Network ID.
             mask: Mask used for the subnet of all MGs in this network.
             cidr: CIDR of the pool of subnets. Each MG in this network will automatically pick a
-              subnet from this pool.
+                subnet from this pool.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "deploymentMode": "routed",
+              "cidr": "192.168.0.0/16",
+              "mask": 24,
+              "subnets": [
+                {
+                  "serial": "AAAA-AAAA-AAAA",
+                  "name": "my first MG",
+                  "applianceIp": "192.168.0.1",
+                  "subnet": "192.168.0.0/24"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -339,10 +539,23 @@ class CellularGateway:
     ) -> GetNetworkCellularGatewayUplinkResponse | None:
         """Returns the uplink settings for your MG network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-uplink
+        [API documentation: getNetworkCellularGatewayUplink](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-uplink)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "bandwidthLimits": {
+                "limitUp": 51200,
+                "limitDown": 51200
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -363,11 +576,24 @@ class CellularGateway:
     ) -> UpdateNetworkCellularGatewayUplinkResponse | None:
         """Updates the uplink settings for your MG network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink
+        [API documentation: updateNetworkCellularGatewayUplink](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink)
 
         Args:
             network_id: Network ID.
             bandwidth_limits: The bandwidth settings for the 'cellular' uplink.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "bandwidthLimits": {
+                "limitUp": 51200,
+                "limitDown": 51200
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -392,11 +618,63 @@ class CellularGateway:
     ) -> GetOrganizationCellularGatewayEsimsInventoryResponse | None:
         """The eSIM inventory of a given organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-inventory
+        [API documentation: getOrganizationCellularGatewayEsimsInventory](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-inventory)
 
         Args:
             organization_id: Organization ID.
             eids: Optional parameter to filter the results by EID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "device": {
+                    "name": "My cellular gateway",
+                    "model": "mg52",
+                    "serial": "Q234-ABCD-5678",
+                    "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
+                    "status": "online"
+                  },
+                  "active": true,
+                  "eid": "89000000000000000000000000000000",
+                  "lastUpdatedAt": "2023-02-01T00:00:00Z",
+                  "network": {
+                    "id": "N_24329156"
+                  },
+                  "profiles": [
+                    {
+                      "customApns": [
+                        "internet"
+                      ],
+                      "iccid": "8900000000000000000",
+                      "status": "activated",
+                      "serviceProvider": {
+                        "name": "ATT",
+                        "plans": [
+                          {
+                            "name": "1 Cisco IoT SDO AT&T eSIM Test Plan downloadable",
+                            "type": "communication"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -419,12 +697,52 @@ class CellularGateway:
     ) -> UpdateOrganizationCellularGatewayEsimsInventoryResponse | None:
         """Toggle the status of an eSIM.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-inventory
+        [API documentation: updateOrganizationCellularGatewayEsimsInventory](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-inventory)
 
         Args:
             organization_id: Organization ID.
             id: ID.
             status: Status the eSIM will be updated to.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "device": {
+                "name": "My cellular gateway",
+                "model": "mg52",
+                "serial": "Q234-ABCD-5678",
+                "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
+                "status": "online"
+              },
+              "active": true,
+              "eid": "89000000000000000000000000000000",
+              "lastUpdatedAt": "2023-02-01T00:00:00Z",
+              "network": {
+                "id": "N_24329156"
+              },
+              "profiles": [
+                {
+                  "customApns": [
+                    "internet"
+                  ],
+                  "iccid": "8900000000000000000",
+                  "status": "activated",
+                  "serviceProvider": {
+                    "name": "ATT",
+                    "plans": [
+                      {
+                        "name": "1 Cisco IoT SDO AT&T eSIM Test Plan downloadable",
+                        "type": "communication"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -448,10 +766,40 @@ class CellularGateway:
     ) -> GetOrganizationCellularGatewayEsimsServiceProvidersResponse | None:
         """Service providers customers can add accounts for.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers
+        [API documentation: getOrganizationCellularGatewayEsimsServiceProviders](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "name": "AT&T",
+                  "logo": {
+                    "url": "Logo URL"
+                  },
+                  "isBootstrap": false,
+                  "terms": {
+                    "content": "Legal jargon",
+                    "name": "AT&T Terms and Conditions"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 42,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -469,19 +817,52 @@ class CellularGateway:
         organization_id: str,
         *,
         account_ids: list[int] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem]:
         """Inventory of service provider accounts tied to the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts
+        [API documentation: getOrganizationCellularGatewayEsimsServiceProvidersAccounts](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts)
 
         Args:
             organization_id: Organization ID.
             account_ids: Optional parameter to filter the results by service provider account IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "items": [
+                  {
+                    "accountId": "0987654321",
+                    "lastUpdatedAt": "2023-08-21T00:00:00Z",
+                    "serviceProvider": {
+                      "name": "ATT",
+                      "logo": {
+                        "url": "serviceproviderlogo.url"
+                      }
+                    },
+                    "title": "My AT&T account",
+                    "username": "MerakiUser"
+                  }
+                ],
+                "meta": {
+                  "counts": {
+                    "items": {
+                      "total": 1,
+                      "remaining": 0
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -513,7 +894,7 @@ class CellularGateway:
     ) -> CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse | None:
         """Add a service provider account.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-service-providers-account
+        [API documentation: createOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-service-providers-account)
 
         Args:
             organization_id: Organization ID.
@@ -522,6 +903,25 @@ class CellularGateway:
             service_provider: Service Provider information.
             title: Service provider account name.
             username: Service provider account username.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "accountId": "0987654321",
+              "lastUpdatedAt": "2023-08-21T00:00:00Z",
+              "serviceProvider": {
+                "name": "ATT",
+                "logo": {
+                  "url": "serviceproviderlogo.url"
+                }
+              },
+              "title": "My AT&T account",
+              "username": "MerakiUser"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -556,11 +956,39 @@ class CellularGateway:
     ):
         """The communication plans available for a given provider.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts-communication-plans
+        [API documentation: getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts-communication-plans)
 
         Args:
             organization_id: Organization ID.
             account_ids: Account IDs that communication plans will be fetched for.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "accountId": "some account ID",
+                  "apns": [
+                    {
+                      "name": "Some APN"
+                    }
+                  ],
+                  "name": "A communication plan"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 2,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -583,11 +1011,34 @@ class CellularGateway:
     ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse | None:
         """The rate plans available for a given provider.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts-rate-plans
+        [API documentation: getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts-rate-plans)
 
         Args:
             organization_id: Organization ID.
             account_ids: Account IDs that rate plans will be fetched for.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "accountId": "account ID",
+                  "name": "A rate plan"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 2,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -615,13 +1066,32 @@ class CellularGateway:
     ) -> UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse | None:
         """Edit service provider account info stored in Meraki's database.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-service-providers-account
+        [API documentation: updateOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-service-providers-account)
 
         Args:
             organization_id: Organization ID.
             account_id: Account ID.
             title: Service provider account name used on the Meraki UI.
             api_key: Service provider account API key.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "accountId": "0987654321",
+              "lastUpdatedAt": "2023-08-21T00:00:00Z",
+              "serviceProvider": {
+                "name": "ATT",
+                "logo": {
+                  "url": "serviceproviderlogo.url"
+                }
+              },
+              "title": "My AT&T account",
+              "username": "MerakiUser"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -647,11 +1117,14 @@ class CellularGateway:
     ) -> None:
         """Remove a service provider account's integration with the Dashboard.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-cellular-gateway-esims-service-providers-account
+        [API documentation: deleteOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!delete-organization-cellular-gateway-esims-service-providers-account)
 
         Args:
             organization_id: Organization ID.
             account_id: Account ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -672,11 +1145,23 @@ class CellularGateway:
     ) -> CreateOrganizationCellularGatewayEsimsSwapResponse | None:
         """Swap which profile an eSIM uses.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap
+        [API documentation: createOrganizationCellularGatewayEsimsSwap](https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap)
 
         Args:
             organization_id: Organization ID.
             swaps: Each object represents a swap for one eSIM.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "eid": "1234567890",
+              "iccid": "9876543210",
+              "status": "Completed"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -699,11 +1184,23 @@ class CellularGateway:
     ) -> UpdateOrganizationCellularGatewayEsimsSwapResponse | None:
         """Get the status of a profile swap.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap
+        [API documentation: updateOrganizationCellularGatewayEsimsSwap](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap)
 
         Args:
             id: eSIM EID.
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "eid": "1234567890",
+              "iccid": "9876543210",
+              "status": "Completed"
+            }
+            ```
 
         """
         id = urllib.parse.quote(str(id), safe="")
@@ -727,34 +1224,78 @@ class CellularGateway:
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         iccids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationCellularGatewayUplinkStatusesResponseItem]:
         """List the uplink status of every Meraki MG cellular gateway in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-uplink-statuses
+        [API documentation: getOrganizationCellularGatewayUplinkStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-uplink-statuses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: A list of network IDs. The returned devices will be filtered to only
-              include these networks.
+                include these networks.
             serials: A list of serial numbers. The returned devices will be filtered to only include
-              these serials.
+                these serials.
             iccids: A list of ICCIDs. The returned devices will be filtered to only include these
-              ICCIDs.
+                ICCIDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "serial": "Q234-ABCD-5678",
+                "model": "MG21",
+                "lastReportedAt": "2018-02-11T00:00:00Z",
+                "uplinks": [
+                  {
+                    "interface": "cellular",
+                    "status": "ready",
+                    "ip": "1.2.3.4",
+                    "provider": "at&t",
+                    "publicIp": "123.123.123.1",
+                    "model": "integrated",
+                    "signalStat": {
+                      "rsrp": "-120",
+                      "rsrq": "-13"
+                    },
+                    "mcc": "123",
+                    "mnc": "123",
+                    "roaming": {
+                      "status": "home"
+                    },
+                    "connectionType": "4g",
+                    "apn": "internet",
+                    "gateway": "100.100.100.100",
+                    "dns1": "111.111.111.111",
+                    "dns2": "222.222.222.222",
+                    "signalType": "4G",
+                    "mtu": 1500,
+                    "iccid": "123456789",
+                    "imsi": "123456789012345",
+                    "msisdn": "123456789012345"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

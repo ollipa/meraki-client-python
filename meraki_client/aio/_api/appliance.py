@@ -195,10 +195,25 @@ class Appliance:
     ) -> GetDeviceApplianceDhcpSubnetsResponse | None:
         """Return the DHCP subnet information for an appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-dhcp-subnets
+        [API documentation: getDeviceApplianceDhcpSubnets](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-dhcp-subnets)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "subnet": "192.168.1.0/24",
+                "vlanId": 100,
+                "usedCount": 2,
+                "freeCount": 251
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -221,17 +236,27 @@ class Appliance:
     ) -> GetDeviceAppliancePerformanceResponse | None:
         """Return the performance score for a single MX.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-performance
+        [API documentation: getDeviceAppliancePerformance](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-performance)
 
         Args:
             serial: Serial.
             t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 30 minutes and be less than or
-              equal to 14 days. The default is 30 minutes.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 30 minutes and be less than or
+                equal to 14 days. The default is 30 minutes.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "perfScore": 10.0
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -258,10 +283,33 @@ class Appliance:
     ) -> GetDeviceAppliancePrefixesDelegatedResponse | None:
         """Return current delegated IPv6 prefixes on an appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated
+        [API documentation: getDeviceAppliancePrefixesDelegated](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "origin": {
+                  "interface": "wan1"
+                },
+                "prefix": "2001:db8:3c4d:15::/64",
+                "counts": {
+                  "assigned": 2,
+                  "available": 253
+                },
+                "method": "auto",
+                "description": "My ISP provider",
+                "isPreferred": true,
+                "expiresAt": "2018-05-12T00:00:00Z"
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -279,10 +327,40 @@ class Appliance:
     ) -> GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse | None:
         """Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated-vlan-assignments
+        [API documentation: getDeviceAppliancePrefixesDelegatedVlanAssignments](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated-vlan-assignments)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "vlan": {
+                  "id": 100,
+                  "name": "My VLAN"
+                },
+                "origin": {
+                  "interface": "wan1",
+                  "prefix": "2001:db8:3c4d:15::/64"
+                },
+                "status": "Active",
+                "ipv6": {
+                  "prefix": "2001:db8:3c4d:15::/64",
+                  "address": "2001:db8:3c4d:15::1",
+                  "linkLocal": {
+                    "address": "2001:db8:3c4d:15::1"
+                  },
+                  "solicitedNodeMulticast": {
+                    "address": "2001:db8:3c4d:15::1"
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -300,10 +378,30 @@ class Appliance:
     ) -> GetDeviceApplianceRadioSettingsResponse | None:
         """Return the radio settings of an appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-radio-settings
+        [API documentation: getDeviceApplianceRadioSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-radio-settings)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serial": "Q234-ABCD-5678",
+              "rfProfileId": "1234",
+              "twoFourGhzSettings": {
+                "channel": 11,
+                "targetPower": 21
+              },
+              "fiveGhzSettings": {
+                "channel": 149,
+                "channelWidth": 20,
+                "targetPower": 15
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -326,17 +424,37 @@ class Appliance:
     ) -> UpdateDeviceApplianceRadioSettingsResponse | None:
         """Update the radio settings of an appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings
+        [API documentation: updateDeviceApplianceRadioSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings)
 
         Args:
             serial: Serial.
             rf_profile_id: The ID of an RF profile to assign to the device. If the value of this
-              parameter is null, the appropriate basic RF profile (indoor or outdoor)
-              will be assigned to the device. Assigning an RF profile will clear ALL
-              manually configured overrides on the device (channel width, channel,
-              power).
+                parameter is null, the appropriate basic RF profile (indoor or outdoor)
+                will be assigned to the device. Assigning an RF profile will clear ALL
+                manually configured overrides on the device (channel width, channel,
+                power).
             two_four_ghz_settings: Manual radio settings for 2.4 GHz.
             five_ghz_settings: Manual radio settings for 5 GHz.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serial": "Q234-ABCD-5678",
+              "rfProfileId": "1234",
+              "twoFourGhzSettings": {
+                "channel": 11,
+                "targetPower": 21
+              },
+              "fiveGhzSettings": {
+                "channel": 149,
+                "channelWidth": 20,
+                "targetPower": 15
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -367,10 +485,95 @@ class Appliance:
     ) -> GetDeviceApplianceUplinksSettingsResponse | None:
         """Return the uplink settings for an MX appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-uplinks-settings
+        [API documentation: getDeviceApplianceUplinksSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-uplinks-settings)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaces": {
+                "wan1": {
+                  "enabled": true,
+                  "vlanTagging": {
+                    "enabled": true,
+                    "vlanId": 1
+                  },
+                  "svis": {
+                    "ipv4": {
+                      "assignmentMode": "static",
+                      "address": "9.10.11.10/16",
+                      "gateway": "13.14.15.16",
+                      "nameservers": {
+                        "addresses": [
+                          "1.2.3.4"
+                        ]
+                      }
+                    },
+                    "ipv6": {
+                      "assignmentMode": "static",
+                      "address": "1:2:3::4",
+                      "gateway": "1:2:3::5",
+                      "nameservers": {
+                        "addresses": [
+                          "1001:4860:4860::8888",
+                          "1001:4860:4860::8844"
+                        ]
+                      }
+                    }
+                  },
+                  "pppoe": {
+                    "enabled": true,
+                    "authentication": {
+                      "enabled": true,
+                      "username": "username"
+                    }
+                  }
+                },
+                "wan2": {
+                  "enabled": true,
+                  "vlanTagging": {
+                    "enabled": true,
+                    "vlanId": 1
+                  },
+                  "svis": {
+                    "ipv4": {
+                      "assignmentMode": "static",
+                      "address": "9.10.11.10/16",
+                      "gateway": "13.14.15.16",
+                      "nameservers": {
+                        "addresses": [
+                          "1.2.3.4"
+                        ]
+                      }
+                    },
+                    "ipv6": {
+                      "assignmentMode": "static",
+                      "address": "1:2:3::4",
+                      "gateway": "1:2:3::5",
+                      "nameservers": {
+                        "addresses": [
+                          "1001:4860:4860::8888",
+                          "1001:4860:4860::8844"
+                        ]
+                      }
+                    }
+                  },
+                  "pppoe": {
+                    "enabled": true,
+                    "authentication": {
+                      "enabled": true,
+                      "username": "username"
+                    }
+                  }
+                }
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -388,11 +591,96 @@ class Appliance:
     ) -> UpdateDeviceApplianceUplinksSettingsResponse | None:
         """Update the uplink settings for an MX appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings
+        [API documentation: updateDeviceApplianceUplinksSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings)
 
         Args:
             serial: Serial.
             interfaces: Interface settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaces": {
+                "wan1": {
+                  "enabled": true,
+                  "vlanTagging": {
+                    "enabled": true,
+                    "vlanId": 1
+                  },
+                  "svis": {
+                    "ipv4": {
+                      "assignmentMode": "static",
+                      "address": "9.10.11.10/16",
+                      "gateway": "13.14.15.16",
+                      "nameservers": {
+                        "addresses": [
+                          "1.2.3.4"
+                        ]
+                      }
+                    },
+                    "ipv6": {
+                      "assignmentMode": "static",
+                      "address": "1:2:3::4",
+                      "gateway": "1:2:3::5",
+                      "nameservers": {
+                        "addresses": [
+                          "1001:4860:4860::8888",
+                          "1001:4860:4860::8844"
+                        ]
+                      }
+                    }
+                  },
+                  "pppoe": {
+                    "enabled": true,
+                    "authentication": {
+                      "enabled": true,
+                      "username": "username"
+                    }
+                  }
+                },
+                "wan2": {
+                  "enabled": true,
+                  "vlanTagging": {
+                    "enabled": true,
+                    "vlanId": 1
+                  },
+                  "svis": {
+                    "ipv4": {
+                      "assignmentMode": "static",
+                      "address": "9.10.11.10/16",
+                      "gateway": "13.14.15.16",
+                      "nameservers": {
+                        "addresses": [
+                          "1.2.3.4"
+                        ]
+                      }
+                    },
+                    "ipv6": {
+                      "assignmentMode": "static",
+                      "address": "1:2:3::4",
+                      "gateway": "1:2:3::5",
+                      "nameservers": {
+                        "addresses": [
+                          "1001:4860:4860::8888",
+                          "1001:4860:4860::8844"
+                        ]
+                      }
+                    }
+                  },
+                  "pppoe": {
+                    "enabled": true,
+                    "authentication": {
+                      "enabled": true,
+                      "username": "username"
+                    }
+                  }
+                }
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -415,10 +703,21 @@ class Appliance:
     ) -> CreateDeviceApplianceVmxAuthenticationTokenResponse | None:
         """Generate a new vMX authentication token.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
+        [API documentation: createDeviceApplianceVmxAuthenticationToken](https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "token": "ffc0b7b578b61be5bd1d172132c78044/9af03bd84d474",
+              "expiresAt": "2021-06-18T12:40:10Z"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -443,37 +742,80 @@ class Appliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         sort_order: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkApplianceClientSecurityEventsResponse]:
         """List the security events for a client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events
+        [API documentation: getNetworkApplianceClientSecurityEvents](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
             t0: The beginning of the timespan for the data. Data is gathered after the specified t0
-              value. The maximum lookback period is 791 days from today.
+                value. The maximum lookback period is 791 days from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 791 days. The default is 31 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 791 days. The default is 31 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of security events based on event detection time. Order options
-              are 'ascending' or 'descending'. Default is ascending order.
+                are 'ascending' or 'descending'. Default is ascending order.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "File Scanned",
+                "clientName": "COMPUTER-M-V78J",
+                "clientMac": "10:dd:b1:eb:88:f8",
+                "clientIp": "192.168.128.2",
+                "srcIp": "192.168.128.2",
+                "destIp": "119.192.233.48",
+                "protocol": "http",
+                "uri": "http://www.favorite-icons.com/program/FavoriteIconsUninstall.exe",
+                "canonicalName": "PUA.Win.Dropper.Kraddare::1201",
+                "destinationPort": 80,
+                "fileHash": "3ec1b9a95fe62aa25fc959643a0f227b76d253094681934daaf628d3574b3463",
+                "fileType": "MS_EXE",
+                "fileSizeBytes": 193688,
+                "disposition": "Malicious",
+                "action": "Blocked"
+              },
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "IDS Alert",
+                "deviceMac": "00:18:0a:01:02:03",
+                "clientMac": "A1:B2:C3:D4:E5:F6",
+                "srcIp": "1.2.3.4:34195",
+                "destIp": "10.20.30.40:80",
+                "protocol": "tcp/ip",
+                "priority": "2",
+                "classification": "4",
+                "blocked": true,
+                "message": "SERVER-WEBAPP JBoss JMX console access attempt",
+                "signature": "1:21516:9",
+                "sigSource": "",
+                "ruleId": "meraki:intrusion/snort/GID/1/SID/26267"
+              }
+            ]
+            ```
 
         """
         if sort_order is not None:
@@ -517,10 +859,26 @@ class Appliance:
     ) -> GetNetworkApplianceConnectivityMonitoringDestinationsResponse | None:
         """Return the connectivity testing destinations for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-connectivity-monitoring-destinations
+        [API documentation: getNetworkApplianceConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-connectivity-monitoring-destinations)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "destinations": [
+                {
+                  "ip": "1.2.3.4",
+                  "description": "Google",
+                  "default": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -542,11 +900,27 @@ class Appliance:
     ) -> UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse | None:
         """Update the connectivity testing destinations for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
+        [API documentation: updateNetworkApplianceConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations)
 
         Args:
             network_id: Network ID.
             destinations: The list of connectivity monitoring destinations.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "destinations": [
+                {
+                  "ip": "1.2.3.4",
+                  "description": "Google",
+                  "default": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -571,10 +945,34 @@ class Appliance:
     ) -> GetNetworkApplianceContentFilteringResponse | None:
         """Return the content filtering settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering
+        [API documentation: getNetworkApplianceContentFiltering](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "allowedUrlPatterns": [
+                "http://www.example.org",
+                "http://help.com.au"
+              ],
+              "blockedUrlPatterns": [
+                "http://www.example.com",
+                "http://www.betting.com"
+              ],
+              "blockedUrlCategories": [
+                {
+                  "id": "meraki:contentFiltering/category/1",
+                  "name": "Real Estate"
+                }
+              ],
+              "urlCategoryListSize": "topSites"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -598,7 +996,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceContentFilteringResponse | None:
         """Update the content filtering settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-content-filtering
+        [API documentation: updateNetworkApplianceContentFiltering](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-content-filtering)
 
         Args:
             network_id: Network ID.
@@ -606,6 +1004,30 @@ class Appliance:
             blocked_url_patterns: A list of URL patterns that are blocked.
             blocked_url_categories: A list of URL categories to block.
             url_category_list_size: URL category list size which is either 'topSites' or 'fullList'.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "allowedUrlPatterns": [
+                "http://www.example.org",
+                "http://help.com.au"
+              ],
+              "blockedUrlPatterns": [
+                "http://www.example.com",
+                "http://www.betting.com"
+              ],
+              "blockedUrlCategories": [
+                {
+                  "id": "meraki:contentFiltering/category/1",
+                  "name": "Real Estate"
+                }
+              ],
+              "urlCategoryListSize": "topSites"
+            }
+            ```
 
         """
         if url_category_list_size is not None:
@@ -640,10 +1062,34 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """List all available content filtering categories for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering-categories
+        [API documentation: getNetworkApplianceContentFilteringCategories](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering-categories)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "categories": [
+                {
+                  "id": "meraki:contentFiltering/category/1",
+                  "name": "Real Estate"
+                },
+                {
+                  "id": "meraki:contentFiltering/category/3",
+                  "name": "Financial Services"
+                },
+                "...",
+                {
+                  "id": "meraki:contentFiltering/category/11",
+                  "name": "Adult and Pornography"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -660,10 +1106,31 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Return the cellular firewall rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-cellular-firewall-rules
+        [API documentation: getNetworkApplianceFirewallCellularFirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-cellular-firewall-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "syslogEnabled": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -683,11 +1150,32 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update the cellular firewall rules of an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-cellular-firewall-rules
+        [API documentation: updateNetworkApplianceFirewallCellularFirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-cellular-firewall-rules)
 
         Args:
             network_id: Network ID.
             rules: An ordered array of the firewall rules (not including the default rule).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "syslogEnabled": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -709,10 +1197,26 @@ class Appliance:
     ) -> GetNetworkApplianceFirewallFirewalledServicesResponse | None:
         """List the appliance services and their accessibility rules.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-services
+        [API documentation: getNetworkApplianceFirewallFirewalledServices](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-services)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "service": "web",
+                "access": "restricted",
+                "allowedIps": [
+                  "123.123.123.1"
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -730,11 +1234,25 @@ class Appliance:
     ) -> GetNetworkApplianceFirewallFirewalledServiceResponse | None:
         """Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP').
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-service
+        [API documentation: getNetworkApplianceFirewallFirewalledService](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-service)
 
         Args:
             network_id: Network ID.
             service: Service.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "service": "web",
+              "access": "restricted",
+              "allowedIps": [
+                "123.123.123.1"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -753,19 +1271,33 @@ class Appliance:
     ) -> UpdateNetworkApplianceFirewallFirewalledServiceResponse | None:
         """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP').
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-firewalled-service
+        [API documentation: updateNetworkApplianceFirewallFirewalledService](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-firewalled-service)
 
         Args:
             network_id: Network ID.
             service: Service.
             access: A string indicating the rule for which IPs are allowed to use the specified
-              service. Acceptable values are "blocked" (no remote IPs can access the
-              service), "restricted" (only allowed IPs can access the service), and
-              "unrestriced" (any remote IP can access the service). This field is
-              required.
+                service. Acceptable values are "blocked" (no remote IPs can access the
+                service), "restricted" (only allowed IPs can access the service), and
+                "unrestriced" (any remote IP can access the service). This field is
+                required.
             allowed_ips: An array of allowed CIDRs that can access the service. This field is
-              required if "access" is set to "restricted". Otherwise this field is
-              ignored.
+                required if "access" is set to "restricted". Otherwise this field is
+                ignored.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "service": "web",
+              "access": "restricted",
+              "allowedIps": [
+                "123.123.123.1"
+              ]
+            }
+            ```
 
         """
         if access is not None:
@@ -797,10 +1329,31 @@ class Appliance:
     ) -> GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse | None:
         """Return the inbound cellular firewall rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-cellular-firewall-rules
+        [API documentation: getNetworkApplianceFirewallInboundCellularFirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-cellular-firewall-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "syslogEnabled": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -822,11 +1375,32 @@ class Appliance:
     ) -> UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse | None:
         """Update the inbound cellular firewall rules of an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-cellular-firewall-rules
+        [API documentation: updateNetworkApplianceFirewallInboundCellularFirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-cellular-firewall-rules)
 
         Args:
             network_id: Network ID.
             rules: An ordered array of the firewall rules (not including the default rule).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "syslogEnabled": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -849,10 +1423,32 @@ class Appliance:
     ) -> GetNetworkApplianceFirewallInboundFirewallRulesResponse | None:
         """Return the inbound firewall rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-firewall-rules
+        [API documentation: getNetworkApplianceFirewallInboundFirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-firewall-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "syslogEnabled": false
+                }
+              ],
+              "syslogDefaultRule": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -874,13 +1470,35 @@ class Appliance:
     ) -> UpdateNetworkApplianceFirewallInboundFirewallRulesResponse | None:
         """Update the inbound firewall rules of an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-firewall-rules
+        [API documentation: updateNetworkApplianceFirewallInboundFirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-firewall-rules)
 
         Args:
             network_id: Network ID.
             rules: An ordered array of the firewall rules (not including the default rule).
             syslog_default_rule: Log the special default rule (boolean value - enable only if you've
-              configured a syslog server) (optional).
+                configured a syslog server) (optional).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "syslogEnabled": false
+                }
+              ],
+              "syslogDefaultRule": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -905,10 +1523,31 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-3-firewall-rules
+        [API documentation: getNetworkApplianceFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "syslogEnabled": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -927,13 +1566,34 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update the L3 firewall rules of an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-3-firewall-rules
+        [API documentation: updateNetworkApplianceFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
             rules: An ordered array of the firewall rules (not including the default rule).
             syslog_default_rule: Log the special default rule (boolean value - enable only if you've
-              configured a syslog server) (optional).
+                configured a syslog server) (optional).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "syslogEnabled": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -957,10 +1617,41 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """List the MX L7 firewall rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules
+        [API documentation: getNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "policy": "deny",
+                  "type": "host",
+                  "value": "google.com"
+                },
+                {
+                  "policy": "deny",
+                  "type": "port",
+                  "value": "23"
+                },
+                {
+                  "policy": "deny",
+                  "type": "ipRange",
+                  "value": "10.11.12.00/24"
+                },
+                {
+                  "policy": "deny",
+                  "type": "ipRange",
+                  "value": "10.11.12.00/24:5555"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -978,11 +1669,42 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update the MX L7 firewall rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
+        [API documentation: updateNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
             rules: An ordered array of the MX L7 firewall rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "policy": "deny",
+                  "type": "host",
+                  "value": "google.com"
+                },
+                {
+                  "policy": "deny",
+                  "type": "port",
+                  "value": "23"
+                },
+                {
+                  "policy": "deny",
+                  "type": "ipRange",
+                  "value": "10.11.12.00/24"
+                },
+                {
+                  "policy": "deny",
+                  "type": "ipRange",
+                  "value": "10.11.12.00/24:5555"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1004,10 +1726,31 @@ class Appliance:
     ) -> GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse | None:
         """Return the L7 firewall application categories and their associated applications for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules-application-categories
+        [API documentation: getNetworkApplianceFirewallL7FirewallRulesApplicationCategories](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules-application-categories)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "applicationCategories": [
+                {
+                  "id": "meraki:layer7/category/24",
+                  "name": "Advertising",
+                  "applications": [
+                    {
+                      "id": "meraki:layer7/application/5",
+                      "name": "Advertising.com"
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1028,11 +1771,33 @@ class Appliance:
     ) -> UpdateNetworkApplianceFirewallMulticastForwardingResponse | None:
         """Update static multicast forward rules for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
+        [API documentation: updateNetworkApplianceFirewallMulticastForwarding](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding)
 
         Args:
             network_id: Network ID.
             rules: Static multicast forwarding rules. Pass an empty array to clear all rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_24329156",
+                "name": "Main Office"
+              },
+              "rules": [
+                {
+                  "description": "test",
+                  "address": "224.0.0.1",
+                  "vlanIds": [
+                    "1"
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1055,10 +1820,48 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Return the 1:Many NAT mapping rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-many-nat-rules
+        [API documentation: getNetworkApplianceFirewallOneToManyNatRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-many-nat-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "publicIp": "146.11.11.13",
+                  "uplink": "internet1",
+                  "portRules": [
+                    {
+                      "name": "Rule 1",
+                      "protocol": "tcp",
+                      "publicPort": "9443",
+                      "localIp": "192.168.128.1",
+                      "localPort": "443",
+                      "allowedIps": [
+                        "any"
+                      ]
+                    },
+                    {
+                      "name": "Rule 2",
+                      "protocol": "tcp",
+                      "publicPort": "8080",
+                      "localIp": "192.168.128.1",
+                      "localPort": "80",
+                      "allowedIps": [
+                        "10.82.110.0/24",
+                        "10.82.111.0/24"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1078,11 +1881,49 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Set the 1:Many NAT mapping rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-many-nat-rules
+        [API documentation: updateNetworkApplianceFirewallOneToManyNatRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-many-nat-rules)
 
         Args:
             network_id: Network ID.
             rules: An array of 1:Many nat rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "publicIp": "146.11.11.13",
+                  "uplink": "internet1",
+                  "portRules": [
+                    {
+                      "name": "Rule 1",
+                      "protocol": "tcp",
+                      "publicPort": "9443",
+                      "localIp": "192.168.128.1",
+                      "localPort": "443",
+                      "allowedIps": [
+                        "any"
+                      ]
+                    },
+                    {
+                      "name": "Rule 2",
+                      "protocol": "tcp",
+                      "publicPort": "8080",
+                      "localIp": "192.168.128.1",
+                      "localPort": "80",
+                      "allowedIps": [
+                        "10.82.110.0/24",
+                        "10.82.111.0/24"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1104,10 +1945,49 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Return the 1:1 NAT mapping rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-one-nat-rules
+        [API documentation: getNetworkApplianceFirewallOneToOneNatRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-one-nat-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "name": "Service behind NAT",
+                  "lanIp": "192.168.128.22",
+                  "publicIp": "146.12.3.33",
+                  "uplink": "internet1",
+                  "allowedInbound": [
+                    {
+                      "protocol": "tcp",
+                      "destinationPorts": [
+                        "80"
+                      ],
+                      "allowedIps": [
+                        "10.82.112.0/24",
+                        "10.82.0.0/16"
+                      ]
+                    },
+                    {
+                      "protocol": "udp",
+                      "destinationPorts": [
+                        "8080"
+                      ],
+                      "allowedIps": [
+                        "10.81.110.5",
+                        "10.81.0.0/16"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1125,11 +2005,50 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Set the 1:1 NAT mapping rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-one-nat-rules
+        [API documentation: updateNetworkApplianceFirewallOneToOneNatRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-one-nat-rules)
 
         Args:
             network_id: Network ID.
             rules: An array of 1:1 nat rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "name": "Service behind NAT",
+                  "lanIp": "192.168.128.22",
+                  "publicIp": "146.12.3.33",
+                  "uplink": "internet1",
+                  "allowedInbound": [
+                    {
+                      "protocol": "tcp",
+                      "destinationPorts": [
+                        "80"
+                      ],
+                      "allowedIps": [
+                        "10.82.112.0/24",
+                        "10.82.0.0/16"
+                      ]
+                    },
+                    {
+                      "protocol": "udp",
+                      "destinationPorts": [
+                        "8080"
+                      ],
+                      "allowedIps": [
+                        "10.81.110.5",
+                        "10.81.0.0/16"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1151,10 +2070,32 @@ class Appliance:
     ) -> GetNetworkApplianceFirewallPortForwardingRulesResponse | None:
         """Return the port forwarding rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-port-forwarding-rules
+        [API documentation: getNetworkApplianceFirewallPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-port-forwarding-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "lanIp": "192.168.128.1",
+                  "allowedIps": [
+                    "any"
+                  ],
+                  "name": "Description of Port Forwarding Rule",
+                  "protocol": "tcp",
+                  "publicPort": "8100-8101",
+                  "localPort": "442-443",
+                  "uplink": "both"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1175,11 +2116,33 @@ class Appliance:
     ) -> UpdateNetworkApplianceFirewallPortForwardingRulesResponse | None:
         """Update the port forwarding rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-port-forwarding-rules
+        [API documentation: updateNetworkApplianceFirewallPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-port-forwarding-rules)
 
         Args:
             network_id: Network ID.
             rules: An array of port forwarding params.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "lanIp": "192.168.128.1",
+                  "allowedIps": [
+                    "any"
+                  ],
+                  "name": "Description of Port Forwarding Rule",
+                  "protocol": "tcp",
+                  "publicPort": "8100-8101",
+                  "localPort": "442-443",
+                  "uplink": "both"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1202,10 +2165,24 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Return the firewall settings for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-settings
+        [API documentation: getNetworkApplianceFirewallSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-settings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "spoofingProtection": {
+                "ipSourceGuard": {
+                  "mode": "block"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1223,11 +2200,25 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update the firewall settings for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-settings
+        [API documentation: updateNetworkApplianceFirewallSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-settings)
 
         Args:
             network_id: Network ID.
             spoofing_protection: Spoofing protection settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "spoofingProtection": {
+                "ipSourceGuard": {
+                  "mode": "block"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1251,10 +2242,28 @@ class Appliance:
     ) -> GetNetworkAppliancePortsResponse | None:
         """List per-port VLAN settings for all ports of a MX.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports
+        [API documentation: getNetworkAppliancePorts](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "number": 1,
+                "enabled": true,
+                "type": "access",
+                "dropUntaggedTraffic": false,
+                "vlan": 3,
+                "allowedVlans": "all",
+                "accessPolicy": "open"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1272,11 +2281,27 @@ class Appliance:
     ) -> GetNetworkAppliancePortResponse | None:
         """Return per-port VLAN settings for a single MX port.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port
+        [API documentation: getNetworkAppliancePort](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port)
 
         Args:
             network_id: Network ID.
             port_id: Port ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "number": 1,
+              "enabled": true,
+              "type": "access",
+              "dropUntaggedTraffic": false,
+              "vlan": 3,
+              "allowedVlans": "all",
+              "accessPolicy": "open"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1304,24 +2329,40 @@ class Appliance:
     ) -> UpdateNetworkAppliancePortResponse | None:
         """Update the per-port VLAN settings for a single MX port.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
+        [API documentation: updateNetworkAppliancePort](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port)
 
         Args:
             network_id: Network ID.
             port_id: Port ID.
             enabled: The status of the port.
             drop_untagged_traffic: Trunk port can Drop all Untagged traffic. When true, no VLAN is
-              required. Access ports cannot have dropUntaggedTraffic set to true.
+                required. Access ports cannot have dropUntaggedTraffic set to true.
             type_: The type of the port: 'access' or 'trunk'.
             vlan: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access
-              mode.
+                mode.
             allowed_vlans: Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to
-              permit all VLAN's on the port.
+                permit all VLAN's on the port.
             access_policy: The name of the policy. Only applicable to Access ports. Valid values
-              are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or Z3
-              or any MX supporting the per port authentication feature. Otherwise,
-              'open' is the only valid value and 'open' is the default value if the
-              field is missing.
+                are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or
+                Z3 or any MX supporting the per port authentication feature. Otherwise,
+                'open' is the only valid value and 'open' is the default value if the
+                field is missing.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "number": 1,
+              "enabled": true,
+              "type": "access",
+              "dropUntaggedTraffic": false,
+              "vlan": 3,
+              "allowedVlans": "all",
+              "accessPolicy": "open"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1355,10 +2396,32 @@ class Appliance:
     ) -> GetNetworkAppliancePrefixesDelegatedStaticsResponse | None:
         """List static delegated prefixes for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-statics
+        [API documentation: getNetworkAppliancePrefixesDelegatedStatics](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-statics)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "staticDelegatedPrefixId": "1284392014819",
+                "prefix": "2001:db8:3c4d:15::/64",
+                "origin": {
+                  "type": "internet",
+                  "interfaces": [
+                    "wan1"
+                  ]
+                },
+                "description": "Prefix on WAN 1 of Long Island Office network",
+                "createdAt": "2018-05-12T00:00:00Z",
+                "updatedAt": "2018-05-12T00:00:00Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1381,13 +2444,33 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Add a static delegated prefix from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
+        [API documentation: createNetworkAppliancePrefixesDelegatedStatic](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static)
 
         Args:
             network_id: Network ID.
             prefix: A static IPv6 prefix.
             origin: The origin of the prefix.
             description: A name or description for the prefix.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticDelegatedPrefixId": "1284392014819",
+              "prefix": "2001:db8:3c4d:15::/64",
+              "origin": {
+                "type": "internet",
+                "interfaces": [
+                  "wan1"
+                ]
+              },
+              "description": "Prefix on WAN 1 of Long Island Office network",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1413,11 +2496,31 @@ class Appliance:
     ) -> GetNetworkAppliancePrefixesDelegatedStaticResponse | None:
         """Return a static delegated prefix from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-static
+        [API documentation: getNetworkAppliancePrefixesDelegatedStatic](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-static)
 
         Args:
             network_id: Network ID.
             static_delegated_prefix_id: Static delegated prefix ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticDelegatedPrefixId": "1284392014819",
+              "prefix": "2001:db8:3c4d:15::/64",
+              "origin": {
+                "type": "internet",
+                "interfaces": [
+                  "wan1"
+                ]
+              },
+              "description": "Prefix on WAN 1 of Long Island Office network",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1442,7 +2545,7 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update a static delegated prefix from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
+        [API documentation: updateNetworkAppliancePrefixesDelegatedStatic](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static)
 
         Args:
             network_id: Network ID.
@@ -1450,6 +2553,26 @@ class Appliance:
             prefix: A static IPv6 prefix.
             origin: The origin of the prefix.
             description: A name or description for the prefix.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticDelegatedPrefixId": "1284392014819",
+              "prefix": "2001:db8:3c4d:15::/64",
+              "origin": {
+                "type": "internet",
+                "interfaces": [
+                  "wan1"
+                ]
+              },
+              "description": "Prefix on WAN 1 of Long Island Office network",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1476,11 +2599,14 @@ class Appliance:
     ) -> None:
         """Delete a static delegated prefix from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
+        [API documentation: deleteNetworkAppliancePrefixesDelegatedStatic](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static)
 
         Args:
             network_id: Network ID.
             static_delegated_prefix_id: Static delegated prefix ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1498,10 +2624,52 @@ class Appliance:
     ) -> GetNetworkApplianceRfProfilesResponse | None:
         """List the RF profiles for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profiles
+        [API documentation: getNetworkApplianceRfProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profiles)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "assigned": [
+                {
+                  "id": "1234",
+                  "networkId": "N_24329156",
+                  "name": "Some Custom RF Profile",
+                  "twoFourGhzSettings": {
+                    "minBitrate": 11.0,
+                    "axEnabled": true
+                  },
+                  "fiveGhzSettings": {
+                    "minBitrate": 12,
+                    "axEnabled": true
+                  },
+                  "perSsidSettings": {
+                    "1": {
+                      "bandOperationMode": "dual",
+                      "bandSteeringEnabled": true
+                    },
+                    "2": {
+                      "bandOperationMode": "dual",
+                      "bandSteeringEnabled": true
+                    },
+                    "3": {
+                      "bandOperationMode": "dual",
+                      "bandSteeringEnabled": true
+                    },
+                    "4": {
+                      "bandOperationMode": "dual",
+                      "bandSteeringEnabled": true
+                    }
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1525,7 +2693,7 @@ class Appliance:
     ) -> CreateNetworkApplianceRfProfileResponse | None:
         """Creates new RF profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
+        [API documentation: createNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile)
 
         Args:
             network_id: Network ID.
@@ -1533,6 +2701,44 @@ class Appliance:
             two_four_ghz_settings: Settings related to 2.4Ghz band.
             five_ghz_settings: Settings related to 5Ghz band.
             per_ssid_settings: Per-SSID radio settings by number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Some Custom RF Profile",
+              "twoFourGhzSettings": {
+                "minBitrate": 11.0,
+                "axEnabled": true
+              },
+              "fiveGhzSettings": {
+                "minBitrate": 12,
+                "axEnabled": true
+              },
+              "perSsidSettings": {
+                "1": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "2": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "3": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "4": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1567,11 +2773,49 @@ class Appliance:
     ) -> GetNetworkApplianceRfProfileResponse | None:
         """Return a RF profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profile
+        [API documentation: getNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profile)
 
         Args:
             network_id: Network ID.
             rf_profile_id: Rf profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Some Custom RF Profile",
+              "twoFourGhzSettings": {
+                "minBitrate": 11.0,
+                "axEnabled": true
+              },
+              "fiveGhzSettings": {
+                "minBitrate": 12,
+                "axEnabled": true
+              },
+              "perSsidSettings": {
+                "1": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "2": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "3": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "4": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1597,7 +2841,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceRfProfileResponse | None:
         """Updates specified RF profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
+        [API documentation: updateNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile)
 
         Args:
             network_id: Network ID.
@@ -1606,6 +2850,44 @@ class Appliance:
             two_four_ghz_settings: Settings related to 2.4Ghz band.
             five_ghz_settings: Settings related to 5Ghz band.
             per_ssid_settings: Per-SSID radio settings by number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Some Custom RF Profile",
+              "twoFourGhzSettings": {
+                "minBitrate": 11.0,
+                "axEnabled": true
+              },
+              "fiveGhzSettings": {
+                "minBitrate": 12,
+                "axEnabled": true
+              },
+              "perSsidSettings": {
+                "1": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "2": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "3": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                },
+                "4": {
+                  "bandOperationMode": "dual",
+                  "bandSteeringEnabled": true
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1641,11 +2923,14 @@ class Appliance:
     ) -> None:
         """Delete a RF Profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
+        [API documentation: deleteNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile)
 
         Args:
             network_id: Network ID.
             rf_profile_id: Rf profile ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1667,12 +2952,57 @@ class Appliance:
     ) -> UpdateNetworkApplianceSdwanInternetPoliciesResponse | None:
         """Update SDWAN internet traffic preferences for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
+        [API documentation: updateNetworkApplianceSdwanInternetPolicies](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies)
 
         Args:
             network_id: Network ID.
             wan_traffic_uplink_preferences: policies with respective traffic filters for an MX
-              network.
+                network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "wanTrafficUplinkPreferences": [
+                {
+                  "preferredUplink": "wan1",
+                  "failOverCriterion": "poorPerformance",
+                  "performanceClass": {
+                    "type": "custom",
+                    "builtinPerformanceClassName": "VoIP",
+                    "customPerformanceClassId": "123456"
+                  },
+                  "trafficFilters": [
+                    {
+                      "type": "custom",
+                      "value": {
+                        "protocol": "tcp",
+                        "source": {
+                          "port": "1-1024",
+                          "cidr": "192.168.1.0/24",
+                          "vlan": 10,
+                          "host": 254
+                        },
+                        "destination": {
+                          "port": "any",
+                          "cidr": "any",
+                          "applications": [
+                            {
+                              "id": "meraki:layer7/application/3",
+                              "name": "DNS",
+                              "type": "major"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1704,36 +3034,79 @@ class Appliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         sort_order: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkApplianceSecurityEventsResponse]:
         """List the security events for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events
+        [API documentation: getNetworkApplianceSecurityEvents](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. Data is gathered after the specified t0
-              value. The maximum lookback period is 365 days from today.
+                value. The maximum lookback period is 365 days from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 365 days. The default is 31 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 365 days. The default is 31 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of security events based on event detection time. Order options
-              are 'ascending' or 'descending'. Default is ascending order.
+                are 'ascending' or 'descending'. Default is ascending order.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "File Scanned",
+                "clientName": "COMPUTER-M-V78J",
+                "clientMac": "10:dd:b1:eb:88:f8",
+                "clientIp": "192.168.128.2",
+                "srcIp": "192.168.128.2",
+                "destIp": "119.192.233.48",
+                "protocol": "http",
+                "uri": "http://www.favorite-icons.com/program/FavoriteIconsUninstall.exe",
+                "canonicalName": "PUA.Win.Dropper.Kraddare::1201",
+                "destinationPort": 80,
+                "fileHash": "3ec1b9a95fe62aa25fc959643a0f227b76d253094681934daaf628d3574b3463",
+                "fileType": "MS_EXE",
+                "fileSizeBytes": 193688,
+                "disposition": "Malicious",
+                "action": "Blocked"
+              },
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "IDS Alert",
+                "deviceMac": "00:18:0a:01:02:03",
+                "clientMac": "A1:B2:C3:D4:E5:F6",
+                "srcIp": "1.2.3.4:34195",
+                "destIp": "10.20.30.40:80",
+                "protocol": "tcp/ip",
+                "priority": "2",
+                "classification": "4",
+                "blocked": true,
+                "message": "SERVER-WEBAPP JBoss JMX console access attempt",
+                "signature": "1:21516:9",
+                "sigSource": "",
+                "ruleId": "meraki:intrusion/snort/GID/1/SID/26267"
+              }
+            ]
+            ```
 
         """
         if sort_order is not None:
@@ -1776,10 +3149,34 @@ class Appliance:
     ) -> GetNetworkApplianceSecurityIntrusionResponse | None:
         """Returns all supported intrusion settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion
+        [API documentation: getNetworkApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mode": "prevention",
+              "idsRulesets": "balanced",
+              "protectedNetworks": {
+                "useDefault": false,
+                "includedCidr": [
+                  "10.0.0.0/8",
+                  "127.0.0.0/8",
+                  "169.254.0.0/16",
+                  "172.16.0.0/12"
+                ],
+                "excludedCidr": [
+                  "10.0.0.0/8",
+                  "127.0.0.0/8"
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1802,18 +3199,42 @@ class Appliance:
     ) -> UpdateNetworkApplianceSecurityIntrusionResponse | None:
         """Set the supported intrusion settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-intrusion
+        [API documentation: updateNetworkApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-intrusion)
 
         Args:
             network_id: Network ID.
             mode: Set mode to 'disabled'/'detection'/'prevention' (optional - omitting will leave
-              current config unchanged).
+                current config unchanged).
             ids_rulesets: Set the detection ruleset 'connectivity'/'balanced'/'security' (optional -
-              omitting will leave current config unchanged). Default value is 'balanced'
-              if none currently saved.
+                omitting will leave current config unchanged). Default value is
+                'balanced' if none currently saved.
             protected_networks: Set the included/excluded networks from the intrusion engine
-              (optional - omitting will leave current config unchanged). This is
-              available only in 'passthrough' mode.
+                (optional - omitting will leave current config unchanged). This is
+                available only in 'passthrough' mode.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mode": "prevention",
+              "idsRulesets": "balanced",
+              "protectedNetworks": {
+                "useDefault": false,
+                "includedCidr": [
+                  "10.0.0.0/8",
+                  "127.0.0.0/8",
+                  "169.254.0.0/16",
+                  "172.16.0.0/12"
+                ],
+                "excludedCidr": [
+                  "10.0.0.0/8",
+                  "127.0.0.0/8"
+                ]
+              }
+            }
+            ```
 
         """
         if mode is not None:
@@ -1851,10 +3272,32 @@ class Appliance:
     ) -> GetNetworkApplianceSecurityMalwareResponse | None:
         """Returns all supported malware settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-malware
+        [API documentation: getNetworkApplianceSecurityMalware](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-malware)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mode": "enabled",
+              "allowedUrls": [
+                {
+                  "url": "help.com.au",
+                  "comment": "allow help.com.au"
+                }
+              ],
+              "allowedFiles": [
+                {
+                  "sha256": "e82c5f7d75004727e1f3b94426b9a11c8bc4c312a9170ac9a73abace40aef503",
+                  "comment": "allow ZIP file"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1877,17 +3320,39 @@ class Appliance:
     ) -> UpdateNetworkApplianceSecurityMalwareResponse | None:
         """Set the supported malware settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-malware
+        [API documentation: updateNetworkApplianceSecurityMalware](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-malware)
 
         Args:
             network_id: Network ID.
             mode: Set mode to 'enabled' to enable malware prevention, otherwise 'disabled'.
             allowed_urls: The urls that should be permitted by the malware detection engine. If
-              omitted, the current config will remain unchanged. This is available only
-              if your network supports AMP allow listing.
+                omitted, the current config will remain unchanged. This is available
+                only if your network supports AMP allow listing.
             allowed_files: The sha256 digests of files that should be permitted by the malware
-              detection engine. If omitted, the current config will remain unchanged.
-              This is available only if your network supports AMP allow listing.
+                detection engine. If omitted, the current config will remain unchanged.
+                This is available only if your network supports AMP allow listing.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mode": "enabled",
+              "allowedUrls": [
+                {
+                  "url": "help.com.au",
+                  "comment": "allow help.com.au"
+                }
+              ],
+              "allowedFiles": [
+                {
+                  "sha256": "e82c5f7d75004727e1f3b94426b9a11c8bc4c312a9170ac9a73abace40aef503",
+                  "comment": "allow ZIP file"
+                }
+              ]
+            }
+            ```
 
         """
         if mode is not None:
@@ -1922,10 +3387,26 @@ class Appliance:
     ) -> GetNetworkApplianceSettingsResponse | None:
         """Return the appliance settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-settings
+        [API documentation: getNetworkApplianceSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-settings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "clientTrackingMethod": "MAC address",
+              "deploymentMode": "routed",
+              "dynamicDns": {
+                "enabled": true,
+                "prefix": "test",
+                "url": "test-adfgnnhjea.meraki.com"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1948,13 +3429,29 @@ class Appliance:
     ) -> UpdateNetworkApplianceSettingsResponse | None:
         """Update the appliance settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
+        [API documentation: updateNetworkApplianceSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings)
 
         Args:
             network_id: Network ID.
             client_tracking_method: Client tracking method of a network.
             deployment_mode: Deployment mode of a network.
             dynamic_dns: Dynamic DNS settings for a network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "clientTrackingMethod": "MAC address",
+              "deploymentMode": "routed",
+              "dynamicDns": {
+                "enabled": true,
+                "prefix": "test",
+                "url": "test-adfgnnhjea.meraki.com"
+              }
+            }
+            ```
 
         """
         if client_tracking_method is not None:
@@ -1992,10 +3489,40 @@ class Appliance:
     ) -> GetNetworkApplianceSingleLanResponse | None:
         """Return single LAN configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-single-lan
+        [API documentation: getNetworkApplianceSingleLan](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-single-lan)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "subnet": "192.168.1.0/24",
+              "applianceIp": "192.168.1.2",
+              "mandatoryDhcp": {
+                "enabled": true
+              },
+              "ipv6": {
+                "enabled": true,
+                "prefixAssignments": [
+                  {
+                    "autonomous": false,
+                    "staticPrefix": "2001:db8:3c4d:15::/64",
+                    "staticApplianceIp6": "2001:db8:3c4d:15::1",
+                    "origin": {
+                      "type": "internet",
+                      "interfaces": [
+                        "wan0"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2019,7 +3546,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceSingleLanResponse | None:
         """Update single LAN configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
+        [API documentation: updateNetworkApplianceSingleLan](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan)
 
         Args:
             network_id: Network ID.
@@ -2027,9 +3554,39 @@ class Appliance:
             appliance_ip: The appliance IP address of the single LAN.
             ipv6: IPv6 configuration on the VLAN.
             mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this LAN must use
-              the IP address assigned by the DHCP server. Clients who use a static IP
-              address won't be able to associate. Only available on firmware versions
-              17.0 and above.
+                the IP address assigned by the DHCP server. Clients who use a static IP
+                address won't be able to associate. Only available on firmware versions
+                17.0 and above.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "subnet": "192.168.1.0/24",
+              "applianceIp": "192.168.1.2",
+              "mandatoryDhcp": {
+                "enabled": true
+              },
+              "ipv6": {
+                "enabled": true,
+                "prefixAssignments": [
+                  {
+                    "autonomous": false,
+                    "staticPrefix": "2001:db8:3c4d:15::/64",
+                    "staticApplianceIp6": "2001:db8:3c4d:15::1",
+                    "origin": {
+                      "type": "internet",
+                      "interfaces": [
+                        "wan0"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2058,10 +3615,35 @@ class Appliance:
     ) -> GetNetworkApplianceSsidsResponse | None:
         """List the MX SSIDs in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids
+        [API documentation: getNetworkApplianceSsids](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "number": 1,
+                "name": "My SSID",
+                "enabled": true,
+                "defaultVlanId": 1,
+                "authMode": "8021x-radius",
+                "radiusServers": [
+                  {
+                    "host": "0.0.0.0",
+                    "port": 1000
+                  }
+                ],
+                "encryptionMode": "wpa",
+                "wpaEncryptionMode": "WPA2 only",
+                "visible": true
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2079,11 +3661,34 @@ class Appliance:
     ) -> GetNetworkApplianceSsidResponse | None:
         """Return a single MX SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssid
+        [API documentation: getNetworkApplianceSsid](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssid)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "number": 1,
+              "name": "My SSID",
+              "enabled": true,
+              "defaultVlanId": 1,
+              "authMode": "8021x-radius",
+              "radiusServers": [
+                {
+                  "host": "0.0.0.0",
+                  "port": 1000
+                }
+              ],
+              "encryptionMode": "wpa",
+              "wpaEncryptionMode": "WPA2 only",
+              "visible": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2117,7 +3722,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceSsidResponse | None:
         """Update the attributes of an MX SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
+        [API documentation: updateNetworkApplianceSsid](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid)
 
         Args:
             network_id: Network ID.
@@ -2125,24 +3730,47 @@ class Appliance:
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
             default_vlan_id: The VLAN ID of the VLAN associated to this SSID. This parameter is only
-              valid if the network is in routed mode.
+                valid if the network is in routed mode.
             auth_mode: The association control method for the SSID ('open', 'psk', '8021x-meraki' or
-              '8021x-radius').
+                '8021x-radius').
             psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
             radius_servers: The RADIUS 802.1x servers to be used for authentication. This param is
-              only valid if the authMode is '8021x-radius'.
+                only valid if the authMode is '8021x-radius'.
             encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
-              only valid if the authMode is 'psk'.
+                only valid if the authMode is 'psk'.
             wpa_encryption_mode: The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3
-              Transition Mode' or 'WPA3 only'). This param is only valid if (1) the
-              authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is
-              '8021x-meraki' OR (3) the authMode is '8021x-radius'.
+                Transition Mode' or 'WPA3 only'). This param is only valid if (1) the
+                authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is
+                '8021x-meraki' OR (3) the authMode is '8021x-radius'.
             visible: Boolean indicating whether the MX should advertise or hide this SSID.
             dhcp_enforced_deauthentication: DHCP Enforced Deauthentication enables the
-              disassociation of wireless clients in addition to Mandatory DHCP. This
-              param is only valid on firmware versions >= MX 17.0 where the associated
-              LAN has Mandatory DHCP Enabled.
+                disassociation of wireless clients in addition to Mandatory DHCP. This
+                param is only valid on firmware versions >= MX 17.0 where the associated
+                LAN has Mandatory DHCP Enabled.
             dot11w: The current setting for Protected Management Frames (802.11w).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "number": 1,
+              "name": "My SSID",
+              "enabled": true,
+              "defaultVlanId": 1,
+              "authMode": "8021x-radius",
+              "radiusServers": [
+                {
+                  "host": "0.0.0.0",
+                  "port": 1000
+                }
+              ],
+              "encryptionMode": "wpa",
+              "wpaEncryptionMode": "WPA2 only",
+              "visible": true
+            }
+            ```
 
         """
         if auth_mode is not None:
@@ -2206,10 +3834,42 @@ class Appliance:
     ) -> GetNetworkApplianceStaticRoutesResponse | None:
         """List the static routes for an MX or teleworker network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes
+        [API documentation: getNetworkApplianceStaticRoutes](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "d7fa4948-7921-4dfa-af6b-ae8b16c20c39",
+                "ipVersion": 4,
+                "networkId": "N_24329156",
+                "enabled": true,
+                "name": "My route",
+                "subnet": "192.168.1.0/24",
+                "gatewayIp": "1.2.3.5",
+                "fixedIpAssignments": {
+                  "22:33:44:55:66:77": {
+                    "ip": "1.2.3.4",
+                    "name": "Some client name"
+                  }
+                },
+                "reservedIpRanges": [
+                  {
+                    "start": "192.168.1.0",
+                    "end": "192.168.1.1",
+                    "comment": "A reserved IP range"
+                  }
+                ],
+                "gatewayVlanId": 100
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2233,7 +3893,7 @@ class Appliance:
     ) -> CreateNetworkApplianceStaticRouteResponse | None:
         """Add a static route for an MX or teleworker network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-static-route
+        [API documentation: createNetworkApplianceStaticRoute](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-static-route)
 
         Args:
             network_id: Network ID.
@@ -2241,6 +3901,36 @@ class Appliance:
             subnet: Subnet of the route.
             gateway_ip: Gateway IP address (next hop).
             gateway_vlan_id: Gateway VLAN ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "d7fa4948-7921-4dfa-af6b-ae8b16c20c39",
+              "ipVersion": 4,
+              "networkId": "N_24329156",
+              "enabled": true,
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "gatewayIp": "1.2.3.5",
+              "fixedIpAssignments": {
+                "22:33:44:55:66:77": {
+                  "ip": "1.2.3.4",
+                  "name": "Some client name"
+                }
+              },
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.0",
+                  "end": "192.168.1.1",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "gatewayVlanId": 100
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2269,11 +3959,41 @@ class Appliance:
     ) -> GetNetworkApplianceStaticRouteResponse | None:
         """Return a static route for an MX or teleworker network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-route
+        [API documentation: getNetworkApplianceStaticRoute](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-route)
 
         Args:
             network_id: Network ID.
             static_route_id: Static route ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "d7fa4948-7921-4dfa-af6b-ae8b16c20c39",
+              "ipVersion": 4,
+              "networkId": "N_24329156",
+              "enabled": true,
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "gatewayIp": "1.2.3.5",
+              "fixedIpAssignments": {
+                "22:33:44:55:66:77": {
+                  "ip": "1.2.3.4",
+                  "name": "Some client name"
+                }
+              },
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.0",
+                  "end": "192.168.1.1",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "gatewayVlanId": 100
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2304,7 +4024,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceStaticRouteResponse | None:
         """Update a static route for an MX or teleworker network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-static-route
+        [API documentation: updateNetworkApplianceStaticRoute](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-static-route)
 
         Args:
             network_id: Network ID.
@@ -2316,6 +4036,36 @@ class Appliance:
             enabled: Whether the route should be enabled or not.
             fixed_ip_assignments: Fixed DHCP IP assignments on the route.
             reserved_ip_ranges: DHCP reserved IP ranges.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "d7fa4948-7921-4dfa-af6b-ae8b16c20c39",
+              "ipVersion": 4,
+              "networkId": "N_24329156",
+              "enabled": true,
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "gatewayIp": "1.2.3.5",
+              "fixedIpAssignments": {
+                "22:33:44:55:66:77": {
+                  "ip": "1.2.3.4",
+                  "name": "Some client name"
+                }
+              },
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.0",
+                  "end": "192.168.1.1",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "gatewayVlanId": 100
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2356,11 +4106,14 @@ class Appliance:
     ) -> None:
         """Delete a static route from an MX or teleworker network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-static-route
+        [API documentation: deleteNetworkApplianceStaticRoute](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-static-route)
 
         Args:
             network_id: Network ID.
             static_route_id: Static route ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2374,10 +4127,23 @@ class Appliance:
     async def get_network_appliance_traffic_shaping(self, network_id: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping
+        [API documentation: getNetworkApplianceTrafficShaping](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "globalBandwidthLimits": {
+                "limitUp": 2048,
+                "limitDown": 5120
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2396,11 +4162,24 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update the traffic shaping settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping
+        [API documentation: updateNetworkApplianceTrafficShaping](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping)
 
         Args:
             network_id: Network ID.
             global_bandwidth_limits: Global per-client bandwidth limit.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "globalBandwidthLimits": {
+                "limitUp": 2048,
+                "limitDown": 5120
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2424,10 +4203,26 @@ class Appliance:
     ) -> GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponse | None:
         """List all custom performance classes for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-classes
+        [API documentation: getNetworkApplianceTrafficShapingCustomPerformanceClasses](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-classes)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "myCustomPerformanceClass",
+                "customPerformanceClassId": "123",
+                "maxLatency": 100,
+                "maxJitter": 100,
+                "maxLossPercentage": 5
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2451,7 +4246,7 @@ class Appliance:
     ) -> CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse | None:
         """Add a custom performance class for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
+        [API documentation: createNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class)
 
         Args:
             network_id: Network ID.
@@ -2459,6 +4254,20 @@ class Appliance:
             max_latency: Maximum latency in milliseconds.
             max_jitter: Maximum jitter in milliseconds.
             max_loss_percentage: Maximum percentage of packet loss.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "myCustomPerformanceClass",
+              "customPerformanceClassId": "123",
+              "maxLatency": 100,
+              "maxJitter": 100,
+              "maxLossPercentage": 5
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2487,11 +4296,25 @@ class Appliance:
     ) -> GetNetworkApplianceTrafficShapingCustomPerformanceClassResponse | None:
         """Return a custom performance class for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-class
+        [API documentation: getNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-class)
 
         Args:
             network_id: Network ID.
             custom_performance_class_id: Custom performance class ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "myCustomPerformanceClass",
+              "customPerformanceClassId": "123",
+              "maxLatency": 100,
+              "maxJitter": 100,
+              "maxLossPercentage": 5
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2517,7 +4340,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse | None:
         """Update a custom performance class for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
+        [API documentation: updateNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class)
 
         Args:
             network_id: Network ID.
@@ -2526,6 +4349,20 @@ class Appliance:
             max_latency: Maximum latency in milliseconds.
             max_jitter: Maximum jitter in milliseconds.
             max_loss_percentage: Maximum percentage of packet loss.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "myCustomPerformanceClass",
+              "customPerformanceClassId": "123",
+              "maxLatency": 100,
+              "maxJitter": 100,
+              "maxLossPercentage": 5
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2555,11 +4392,14 @@ class Appliance:
     ) -> None:
         """Delete a custom performance class from an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
+        [API documentation: deleteNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class)
 
         Args:
             network_id: Network ID.
             custom_performance_class_id: Custom performance class ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2577,10 +4417,59 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Display the traffic shaping settings rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules
+        [API documentation: getNetworkApplianceTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "defaultRulesEnabled": true,
+              "rules": [
+                {
+                  "definitions": [
+                    {
+                      "type": "host",
+                      "value": "google.com"
+                    },
+                    {
+                      "type": "port",
+                      "value": "9090"
+                    },
+                    {
+                      "type": "ipRange",
+                      "value": "192.1.0.0"
+                    },
+                    {
+                      "type": "ipRange",
+                      "value": "192.1.0.0/16"
+                    },
+                    {
+                      "type": "ipRange",
+                      "value": "10.1.0.0/16:80"
+                    },
+                    {
+                      "type": "localNet",
+                      "value": "192.168.0.0/16"
+                    }
+                  ],
+                  "perClientBandwidthLimits": {
+                    "settings": "custom",
+                    "bandwidthLimits": {
+                      "limitUp": 1000000,
+                      "limitDown": 1000000
+                    }
+                  },
+                  "dscpTagValue": 0,
+                  "priority": "normal"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2599,17 +4488,66 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update the traffic shaping settings rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
+        [API documentation: updateNetworkApplianceTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules)
 
         Args:
             network_id: Network ID.
             default_rules_enabled: Whether default traffic shaping rules are enabled (true) or
-              disabled (false). There are 4 default rules, which can be seen on your
-              network's traffic shaping page. Note that default rules count against the
-              rule limit of 8.
+                disabled (false). There are 4 default rules, which can be seen on your
+                network's traffic shaping page. Note that default rules count against
+                the rule limit of 8.
             rules: An array of traffic shaping rules. Rules are applied in the order that they are
-              specified in. An empty list (or null) means no rules. Note that you are
-              allowed a maximum of 8 rules.
+                specified in. An empty list (or null) means no rules. Note that you are
+                allowed a maximum of 8 rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "defaultRulesEnabled": true,
+              "rules": [
+                {
+                  "definitions": [
+                    {
+                      "type": "host",
+                      "value": "google.com"
+                    },
+                    {
+                      "type": "port",
+                      "value": "9090"
+                    },
+                    {
+                      "type": "ipRange",
+                      "value": "192.1.0.0"
+                    },
+                    {
+                      "type": "ipRange",
+                      "value": "192.1.0.0/16"
+                    },
+                    {
+                      "type": "ipRange",
+                      "value": "10.1.0.0/16:80"
+                    },
+                    {
+                      "type": "localNet",
+                      "value": "192.168.0.0/16"
+                    }
+                  ],
+                  "perClientBandwidthLimits": {
+                    "settings": "custom",
+                    "bandwidthLimits": {
+                      "limitUp": 1000000,
+                      "limitDown": 1000000
+                    }
+                  },
+                  "dscpTagValue": 0,
+                  "priority": "normal"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2633,10 +4571,33 @@ class Appliance:
     ) -> GetNetworkApplianceTrafficShapingUplinkBandwidthResponse | None:
         """Returns the uplink bandwidth limits for your MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-bandwidth
+        [API documentation: getNetworkApplianceTrafficShapingUplinkBandwidth](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-bandwidth)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "bandwidthLimits": {
+                "wan1": {
+                  "limitUp": 1000000,
+                  "limitDown": 1000000
+                },
+                "wan2": {
+                  "limitUp": 1000000,
+                  "limitDown": 1000000
+                },
+                "cellular": {
+                  "limitUp": 51200,
+                  "limitDown": 51200
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2658,12 +4619,35 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Updates the uplink bandwidth settings for your MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
+        [API documentation: updateNetworkApplianceTrafficShapingUplinkBandwidth](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth)
 
         Args:
             network_id: Network ID.
             bandwidth_limits: A mapping of uplinks to their bandwidth settings (be sure to check
-              which uplinks are supported for your network).
+                which uplinks are supported for your network).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "bandwidthLimits": {
+                "wan1": {
+                  "limitUp": 1000000,
+                  "limitDown": 1000000
+                },
+                "wan2": {
+                  "limitUp": 1000000,
+                  "limitDown": 1000000
+                },
+                "cellular": {
+                  "limitUp": 51200,
+                  "limitDown": 51200
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2687,10 +4671,92 @@ class Appliance:
     ) -> GetNetworkApplianceTrafficShapingUplinkSelectionResponse | None:
         """Show uplink selection settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-selection
+        [API documentation: getNetworkApplianceTrafficShapingUplinkSelection](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-selection)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "activeActiveAutoVpnEnabled": true,
+              "defaultUplink": "wan1",
+              "loadBalancingEnabled": true,
+              "failoverAndFailback": {
+                "immediate": {
+                  "enabled": true
+                }
+              },
+              "wanTrafficUplinkPreferences": [
+                {
+                  "trafficFilters": [
+                    {
+                      "type": "custom",
+                      "value": {
+                        "protocol": "tcp",
+                        "source": {
+                          "port": "1-1024",
+                          "cidr": "192.168.1.0/24",
+                          "vlan": 10,
+                          "host": 254
+                        },
+                        "destination": {
+                          "port": "any",
+                          "cidr": "any",
+                          "applications": [
+                            {
+                              "id": "meraki:layer7/application/3",
+                              "name": "DNS",
+                              "type": "major"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "preferredUplink": "wan1"
+                }
+              ],
+              "vpnTrafficUplinkPreferences": [
+                {
+                  "trafficFilters": [
+                    {
+                      "type": "applicationCategory",
+                      "value": {
+                        "id": "meraki:layer7/category/1",
+                        "protocol": "tcp",
+                        "source": {
+                          "port": "any",
+                          "cidr": "192.168.1.0/24",
+                          "network": "L_23456789",
+                          "vlan": 20,
+                          "host": 200
+                        },
+                        "destination": {
+                          "port": "1-1024",
+                          "cidr": "any",
+                          "network": "L_12345678",
+                          "vlan": 10,
+                          "host": 254,
+                          "fqdn": "www.google.com"
+                        }
+                      }
+                    }
+                  ],
+                  "preferredUplink": "bestForVoIP",
+                  "failOverCriterion": "poorPerformance",
+                  "performanceClass": {
+                    "type": "custom",
+                    "builtinPerformanceClassName": "VoIP",
+                    "customPerformanceClassId": "123456"
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2723,7 +4789,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse | None:
         """Update uplink selection settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
+        [API documentation: updateNetworkApplianceTrafficShapingUplinkSelection](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection)
 
         Args:
             network_id: Network ID.
@@ -2733,6 +4799,88 @@ class Appliance:
             failover_and_failback: WAN failover and failback behavior.
             wan_traffic_uplink_preferences: Array of uplink preference rules for WAN traffic.
             vpn_traffic_uplink_preferences: Array of uplink preference rules for VPN traffic.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "activeActiveAutoVpnEnabled": true,
+              "defaultUplink": "wan1",
+              "loadBalancingEnabled": true,
+              "failoverAndFailback": {
+                "immediate": {
+                  "enabled": true
+                }
+              },
+              "wanTrafficUplinkPreferences": [
+                {
+                  "trafficFilters": [
+                    {
+                      "type": "custom",
+                      "value": {
+                        "protocol": "tcp",
+                        "source": {
+                          "port": "1-1024",
+                          "cidr": "192.168.1.0/24",
+                          "vlan": 10,
+                          "host": 254
+                        },
+                        "destination": {
+                          "port": "any",
+                          "cidr": "any",
+                          "applications": [
+                            {
+                              "id": "meraki:layer7/application/3",
+                              "name": "DNS",
+                              "type": "major"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "preferredUplink": "wan1"
+                }
+              ],
+              "vpnTrafficUplinkPreferences": [
+                {
+                  "trafficFilters": [
+                    {
+                      "type": "applicationCategory",
+                      "value": {
+                        "id": "meraki:layer7/category/1",
+                        "protocol": "tcp",
+                        "source": {
+                          "port": "any",
+                          "cidr": "192.168.1.0/24",
+                          "network": "L_23456789",
+                          "vlan": 20,
+                          "host": 200
+                        },
+                        "destination": {
+                          "port": "1-1024",
+                          "cidr": "any",
+                          "network": "L_12345678",
+                          "vlan": 10,
+                          "host": 254,
+                          "fqdn": "www.google.com"
+                        }
+                      }
+                    }
+                  ],
+                  "preferredUplink": "bestForVoIP",
+                  "failOverCriterion": "poorPerformance",
+                  "performanceClass": {
+                    "type": "custom",
+                    "builtinPerformanceClassName": "VoIP",
+                    "customPerformanceClassId": "123456"
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2780,13 +4928,37 @@ class Appliance:
     ) -> UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse | None:
         """Update VPN exclusion rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
+        [API documentation: updateNetworkApplianceTrafficShapingVpnExclusions](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions)
 
         Args:
             network_id: Network ID.
             custom: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
             major_applications: Major Application based VPN exclusion rules. Pass an empty array to
-              clear existing rules.
+                clear existing rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "networkId": "N_24329156",
+              "networkName": "Main Office",
+              "custom": [
+                {
+                  "protocol": "tcp",
+                  "destination": "192.168.3.0/24",
+                  "port": "8000"
+                }
+              ],
+              "majorApplications": [
+                {
+                  "id": "meraki:vpnExclusion/application/2",
+                  "name": "Office 365 Sharepoint"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2821,18 +4993,38 @@ class Appliance:
     ) -> GetNetworkApplianceUplinksUsageHistoryResponse | None:
         """Get the sent and received bytes for each uplink of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-uplinks-usage-history
+        [API documentation: getNetworkApplianceUplinksUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-uplinks-usage-history)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 10 minutes.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 10 minutes.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              60, 300, 600, 1800, 3600, 86400. The default is 60.
+                60, 300, 600, 1800, 3600, 86400. The default is 60.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTime": "2021-07-22T02:00:00Z",
+                "endTime": "2021-07-22T03:00:00Z",
+                "byInterface": [
+                  {
+                    "interface": "wan1",
+                    "sent": 1562063,
+                    "received": 9528787
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2861,10 +5053,80 @@ class Appliance:
     ) -> GetNetworkApplianceVlansResponse | None:
         """List the VLANs for a Cisco Secure Router network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans
+        [API documentation: getNetworkApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "interfaceId": "1284392014819",
+                "name": "My VLAN",
+                "subnet": "192.168.1.0/24",
+                "applianceIp": "192.168.1.2",
+                "groupPolicyId": "101",
+                "templateVlanType": "same",
+                "cidr": "192.168.1.0/24",
+                "mask": 28,
+                "dhcpRelayServerIps": [
+                  "192.168.1.0",
+                  "192.168.128.0"
+                ],
+                "dhcpHandling": "Run a DHCP server",
+                "dhcpLeaseTime": "1 day",
+                "dhcpBootOptionsEnabled": false,
+                "dhcpBootNextServer": "1.2.3.4",
+                "dhcpBootFilename": "sample.file",
+                "fixedIpAssignments": {
+                  "00:11:22:33:44:55": {
+                    "ip": "1.2.3.4",
+                    "name": "My favorite IP"
+                  }
+                },
+                "reservedIpRanges": [
+                  {
+                    "start": "192.168.1.0",
+                    "end": "192.168.1.1",
+                    "comment": "A reserved IP range"
+                  }
+                ],
+                "dnsNameservers": "google_dns",
+                "dhcpOptions": [
+                  {
+                    "code": "5",
+                    "type": "text",
+                    "value": "five"
+                  }
+                ],
+                "vpnNatSubnet": "192.168.1.0/24",
+                "mandatoryDhcp": {
+                  "enabled": true
+                },
+                "ipv6": {
+                  "enabled": true,
+                  "prefixAssignments": [
+                    {
+                      "autonomous": false,
+                      "staticPrefix": "2001:db8:3c4d:15::/64",
+                      "staticApplianceIp6": "2001:db8:3c4d:15::1",
+                      "origin": {
+                        "type": "internet",
+                        "interfaces": [
+                          "wan0"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2901,7 +5163,7 @@ class Appliance:
     ) -> CreateNetworkApplianceVlanResponse | None:
         """Add a VLAN.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
+        [API documentation: createNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan)
 
         Args:
             network_id: Network ID.
@@ -2911,31 +5173,68 @@ class Appliance:
             appliance_ip: The local IP of the appliance on the VLAN.
             group_policy_id: The id of the desired group policy to apply to the VLAN.
             template_vlan_type: Type of subnetting of the VLAN. Applicable only for template
-              network.
+                network.
             cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
-              bound to the template will automatically pick a subnet from this pool to
-              build its own VLAN.
+                bound to the template will automatically pick a subnet from this pool to
+                build its own VLAN.
             mask: Mask used for the subnet of all bound to the template networks. Applicable only
-              for template network.
+                for template network.
             ipv6: IPv6 configuration on the VLAN.
             dhcp_handling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
-              DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
-              requests'.
+                DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
+                requests'.
             dhcp_relay_server_ips: The IPs (IPv4) of the DHCP servers that DHCP requests should be
-              relayed to. CIDR/subnet notation and hostnames are not supported.
+                relayed to. CIDR/subnet notation and hostnames are not supported.
             dhcp_lease_time: The term of DHCP leases if the appliance is running a DHCP server on
-              this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day'
-              or '1 week'.
+                this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1
+                day' or '1 week'.
             mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must
-              use the IP address assigned by the DHCP server. Clients who use a static
-              IP address won't be able to associate. Only available on firmware versions
-              17.0 and above.
+                use the IP address assigned by the DHCP server. Clients who use a static
+                IP address won't be able to associate. Only available on firmware
+                versions 17.0 and above.
             dhcp_boot_options_enabled: Use DHCP boot options specified in other properties.
             dhcp_boot_next_server: DHCP boot option to direct boot clients to the server to load the
-              boot file from.
+                boot file from.
             dhcp_boot_filename: DHCP boot option for boot filename.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
-              object in the list should have "code", "type", and "value" properties.
+                object in the list should have "code", "type", and "value" properties.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "interfaceId": "1284392014819",
+              "name": "My VLAN",
+              "subnet": "192.168.1.0/24",
+              "applianceIp": "192.168.1.2",
+              "groupPolicyId": "101",
+              "templateVlanType": "same",
+              "cidr": "192.168.1.0/24",
+              "mask": 28,
+              "mandatoryDhcp": {
+                "enabled": true
+              },
+              "ipv6": {
+                "enabled": true,
+                "prefixAssignments": [
+                  {
+                    "autonomous": false,
+                    "staticPrefix": "2001:db8:3c4d:15::/64",
+                    "staticApplianceIp6": "2001:db8:3c4d:15::1",
+                    "origin": {
+                      "type": "internet",
+                      "interfaces": [
+                        "wan0"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         if template_vlan_type is not None:
@@ -3012,10 +5311,20 @@ class Appliance:
     ) -> GetNetworkApplianceVlansSettingsResponse | None:
         """Returns the enabled status of VLANs for the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans-settings
+        [API documentation: getNetworkApplianceVlansSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans-settings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "vlansEnabled": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3033,12 +5342,22 @@ class Appliance:
     ) -> UpdateNetworkApplianceVlansSettingsResponse | None:
         """Enable/Disable VLANs for the given network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
+        [API documentation: updateNetworkApplianceVlansSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings)
 
         Args:
             network_id: Network ID.
             vlans_enabled: Boolean indicating whether to enable (true) or disable (false) VLANs for
-              the network.
+                the network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "vlansEnabled": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3061,11 +5380,79 @@ class Appliance:
     ) -> GetNetworkApplianceVlanResponse | None:
         """Return a VLAN.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlan
+        [API documentation: getNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlan)
 
         Args:
             network_id: Network ID.
             vlan_id: Vlan ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "interfaceId": "1284392014819",
+              "name": "My VLAN",
+              "subnet": "192.168.1.0/24",
+              "applianceIp": "192.168.1.2",
+              "groupPolicyId": "101",
+              "templateVlanType": "same",
+              "cidr": "192.168.1.0/24",
+              "mask": 28,
+              "dhcpRelayServerIps": [
+                "192.168.1.0",
+                "192.168.128.0"
+              ],
+              "dhcpHandling": "Run a DHCP server",
+              "dhcpLeaseTime": "1 day",
+              "dhcpBootOptionsEnabled": false,
+              "dhcpBootNextServer": "1.2.3.4",
+              "dhcpBootFilename": "sample.file",
+              "fixedIpAssignments": {
+                "00:11:22:33:44:55": {
+                  "ip": "1.2.3.4",
+                  "name": "My favorite IP"
+                }
+              },
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.0",
+                  "end": "192.168.1.1",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "dnsNameservers": "google_dns",
+              "dhcpOptions": [
+                {
+                  "code": "5",
+                  "type": "text",
+                  "value": "five"
+                }
+              ],
+              "vpnNatSubnet": "192.168.1.0/24",
+              "mandatoryDhcp": {
+                "enabled": true
+              },
+              "ipv6": {
+                "enabled": true,
+                "prefixAssignments": [
+                  {
+                    "autonomous": false,
+                    "staticPrefix": "2001:db8:3c4d:15::/64",
+                    "staticApplianceIp6": "2001:db8:3c4d:15::1",
+                    "origin": {
+                      "type": "internet",
+                      "interfaces": [
+                        "wan0"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3107,7 +5494,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceVlanResponse | None:
         """Update a VLAN.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
+        [API documentation: updateNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan)
 
         Args:
             network_id: Network ID.
@@ -3117,41 +5504,109 @@ class Appliance:
             appliance_ip: The local IP of the appliance on the VLAN.
             group_policy_id: The id of the desired group policy to apply to the VLAN.
             vpn_nat_subnet: The translated VPN subnet if VPN and VPN subnet translation are enabled
-              on the VLAN.
+                on the VLAN.
             dhcp_handling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
-              DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
-              requests'.
+                DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
+                requests'.
             dhcp_relay_server_ips: The IPs (IPv4) of the DHCP servers that DHCP requests should be
-              relayed to. CIDR/subnet notation and hostnames are not supported.
+                relayed to. CIDR/subnet notation and hostnames are not supported.
             dhcp_lease_time: The term of DHCP leases if the appliance is running a DHCP server on
-              this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day'
-              or '1 week'.
+                this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1
+                day' or '1 week'.
             dhcp_boot_options_enabled: Use DHCP boot options specified in other properties.
             dhcp_boot_next_server: DHCP boot option to direct boot clients to the server to load the
-              boot file from.
+                boot file from.
             dhcp_boot_filename: DHCP boot option for boot filename.
             fixed_ip_assignments: The DHCP fixed IP assignments on the VLAN. This should be an
-              object that contains mappings from MAC addresses to objects that
-              themselves each contain "ip" and "name" string fields. See the sample
-              request/response for more details.
+                object that contains mappings from MAC addresses to objects that
+                themselves each contain "ip" and "name" string fields. See the sample
+                request/response for more details.
             reserved_ip_ranges: The DHCP reserved IP ranges on the VLAN.
             dns_nameservers: The DNS nameservers used for DHCP responses, either "upstream_dns",
-              "google_dns", "opendns", or a newline seperated string of IP addresses or
-              domain names.
+                "google_dns", "opendns", or a newline seperated string of IP addresses
+                or domain names.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
-              object in the list should have "code", "type", and "value" properties.
+                object in the list should have "code", "type", and "value" properties.
             template_vlan_type: Type of subnetting of the VLAN. Applicable only for template
-              network.
+                network.
             cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
-              bound to the template will automatically pick a subnet from this pool to
-              build its own VLAN.
+                bound to the template will automatically pick a subnet from this pool to
+                build its own VLAN.
             mask: Mask used for the subnet of all bound to the template networks. Applicable only
-              for template network.
+                for template network.
             ipv6: IPv6 configuration on the VLAN.
             mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must
-              use the IP address assigned by the DHCP server. Clients who use a static
-              IP address won't be able to associate. Only available on firmware versions
-              17.0 and above.
+                use the IP address assigned by the DHCP server. Clients who use a static
+                IP address won't be able to associate. Only available on firmware
+                versions 17.0 and above.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "interfaceId": "1284392014819",
+              "name": "My VLAN",
+              "subnet": "192.168.1.0/24",
+              "applianceIp": "192.168.1.2",
+              "groupPolicyId": "101",
+              "templateVlanType": "same",
+              "cidr": "192.168.1.0/24",
+              "mask": 28,
+              "dhcpRelayServerIps": [
+                "192.168.1.0",
+                "192.168.128.0"
+              ],
+              "dhcpHandling": "Run a DHCP server",
+              "dhcpLeaseTime": "1 day",
+              "dhcpBootOptionsEnabled": false,
+              "dhcpBootNextServer": "1.2.3.4",
+              "dhcpBootFilename": "sample.file",
+              "fixedIpAssignments": {
+                "00:11:22:33:44:55": {
+                  "ip": "1.2.3.4",
+                  "name": "My favorite IP"
+                }
+              },
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.0",
+                  "end": "192.168.1.1",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "dnsNameservers": "google_dns",
+              "dhcpOptions": [
+                {
+                  "code": "5",
+                  "type": "text",
+                  "value": "five"
+                }
+              ],
+              "vpnNatSubnet": "192.168.1.0/24",
+              "mandatoryDhcp": {
+                "enabled": true
+              },
+              "ipv6": {
+                "enabled": true,
+                "prefixAssignments": [
+                  {
+                    "autonomous": false,
+                    "staticPrefix": "2001:db8:3c4d:15::/64",
+                    "staticApplianceIp6": "2001:db8:3c4d:15::1",
+                    "origin": {
+                      "type": "internet",
+                      "interfaces": [
+                        "wan0"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         if dhcp_handling is not None:
@@ -3235,11 +5690,14 @@ class Appliance:
     async def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> None:
         """Delete a VLAN from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
+        [API documentation: deleteNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan)
 
         Args:
             network_id: Network ID.
             vlan_id: Vlan ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3255,10 +5713,49 @@ class Appliance:
     ) -> GetNetworkApplianceVpnBgpResponse | None:
         """Return a Hub BGP Configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-bgp
+        [API documentation: getNetworkApplianceVpnBgp](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-bgp)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "asNumber": 64515,
+              "ibgpHoldTimer": 120,
+              "neighbors": [
+                {
+                  "ip": "10.10.10.22",
+                  "ipv6": {
+                    "address": "2002::1234:abcd:ffff:c0a8:101"
+                  },
+                  "remoteAsNumber": 64343,
+                  "receiveLimit": 120,
+                  "allowTransit": true,
+                  "ebgpHoldTimer": 180,
+                  "ebgpMultihop": 2,
+                  "sourceInterface": "wan1",
+                  "nextHopIp": "1.2.3.4",
+                  "ttlSecurity": {
+                    "enabled": false
+                  },
+                  "authentication": {
+                    "password": "abc123"
+                  },
+                  "multiExitDiscriminator": 2,
+                  "pathPrepend": [
+                    1,
+                    2
+                  ],
+                  "weight": 10
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3282,24 +5779,63 @@ class Appliance:
     ) -> UpdateNetworkApplianceVpnBgpResponse | None:
         """Update a Hub BGP Configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
+        [API documentation: updateNetworkApplianceVpnBgp](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp)
 
         Args:
             network_id: Network ID.
             enabled: Boolean value to enable or disable the BGP configuration. When BGP is enabled,
-              the asNumber (ASN) will be autopopulated with the preconfigured ASN at
-              other Hubs or a default value if there is no ASN configured.
+                the asNumber (ASN) will be autopopulated with the preconfigured ASN at
+                other Hubs or a default value if there is no ASN configured.
             as_number: An Autonomous System Number (ASN) is required if you are to run BGP and peer
-              with another BGP Speaker outside of the Auto VPN domain. This ASN will be
-              applied to the entire Auto VPN domain. The entire 4-byte ASN range is
-              supported. So, the ASN must be an integer between 1 and 4294967295. When
-              absent, this field is not updated. If no value exists then it defaults to
-              64512.
+                with another BGP Speaker outside of the Auto VPN domain. This ASN will
+                be applied to the entire Auto VPN domain. The entire 4-byte ASN range is
+                supported. So, the ASN must be an integer between 1 and 4294967295. When
+                absent, this field is not updated. If no value exists then it defaults
+                to 64512.
             ibgp_hold_timer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
-              between 12 and 240. When absent, this field is not updated. If no value
-              exists then it defaults to 240.
+                between 12 and 240. When absent, this field is not updated. If no value
+                exists then it defaults to 240.
             neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
-              absent, this field is not updated.
+                absent, this field is not updated.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "asNumber": 64515,
+              "ibgpHoldTimer": 120,
+              "neighbors": [
+                {
+                  "ip": "10.10.10.22",
+                  "ipv6": {
+                    "address": "2002::1234:abcd:ffff:c0a8:101"
+                  },
+                  "remoteAsNumber": 64343,
+                  "receiveLimit": 120,
+                  "allowTransit": true,
+                  "ebgpHoldTimer": 180,
+                  "ebgpMultihop": 2,
+                  "sourceInterface": "wan1",
+                  "nextHopIp": "1.2.3.4",
+                  "ttlSecurity": {
+                    "enabled": false
+                  },
+                  "authentication": {
+                    "password": "abc123"
+                  },
+                  "multiExitDiscriminator": 2,
+                  "pathPrepend": [
+                    1,
+                    2
+                  ],
+                  "weight": 10
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3330,10 +5866,41 @@ class Appliance:
     ) -> GetNetworkApplianceVpnSiteToSiteVpnResponse | None:
         """Return the site-to-site VPN settings of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-site-to-site-vpn
+        [API documentation: getNetworkApplianceVpnSiteToSiteVpn](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-site-to-site-vpn)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mode": "spoke",
+              "hubs": [
+                {
+                  "hubId": "N_4901849",
+                  "useDefaultRoute": true
+                }
+              ],
+              "subnets": [
+                {
+                  "localSubnet": "192.168.1.0/24",
+                  "useVpn": true,
+                  "nat": {
+                    "enabled": true,
+                    "remoteSubnet": "192.168.2.0/24"
+                  }
+                }
+              ],
+              "subnet": {
+                "nat": {
+                  "isAllowed": true
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3357,15 +5924,46 @@ class Appliance:
     ) -> UpdateNetworkApplianceVpnSiteToSiteVpnResponse | None:
         """Update the site-to-site VPN settings of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
+        [API documentation: updateNetworkApplianceVpnSiteToSiteVpn](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn)
 
         Args:
             network_id: Network ID.
             mode: The site-to-site VPN mode. Can be one of 'none', 'spoke' or 'hub'.
             hubs: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is
-              required.
+                required.
             subnets: The list of subnets and their VPN presence.
             subnet: Configuration of subnet features.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mode": "spoke",
+              "hubs": [
+                {
+                  "hubId": "N_4901849",
+                  "useDefaultRoute": true
+                }
+              ],
+              "subnets": [
+                {
+                  "localSubnet": "192.168.1.0/24",
+                  "useVpn": true,
+                  "nat": {
+                    "enabled": true,
+                    "remoteSubnet": "192.168.2.0/24"
+                  }
+                }
+              ],
+              "subnet": {
+                "nat": {
+                  "isAllowed": true
+                }
+              }
+            }
+            ```
 
         """
         if mode is not None:
@@ -3400,10 +5998,31 @@ class Appliance:
     ) -> GetNetworkApplianceWarmSpareResponse | None:
         """Return MX warm spare settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-warm-spare
+        [API documentation: getNetworkApplianceWarmSpare](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-warm-spare)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "primarySerial": "Q234-ABCD-5678",
+              "spareSerial": "Q234-ABCD-5678",
+              "uplinkMode": "virtual",
+              "wan1": {
+                "ip": "1.2.3.4",
+                "subnet": "192.168.1.0/24"
+              },
+              "wan2": {
+                "ip": "1.2.3.4",
+                "subnet": "192.168.1.0/24"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3428,7 +6047,7 @@ class Appliance:
     ) -> UpdateNetworkApplianceWarmSpareResponse | None:
         """Update MX warm spare settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
+        [API documentation: updateNetworkApplianceWarmSpare](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare)
 
         Args:
             network_id: Network ID.
@@ -3437,6 +6056,27 @@ class Appliance:
             uplink_mode: Uplink mode, either virtual or public.
             virtual_ip1: The WAN 1 shared IP.
             virtual_ip2: The WAN 2 shared IP.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "primarySerial": "Q234-ABCD-5678",
+              "spareSerial": "Q234-ABCD-5678",
+              "uplinkMode": "virtual",
+              "wan1": {
+                "ip": "1.2.3.4",
+                "subnet": "192.168.1.0/24"
+              },
+              "wan2": {
+                "ip": "1.2.3.4",
+                "subnet": "192.168.1.0/24"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3467,10 +6107,31 @@ class Appliance:
     ) -> SwapNetworkApplianceWarmSpareResponse | None:
         """Swap MX primary and warm spare appliances.
 
-        https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
+        [API documentation: swapNetworkApplianceWarmSpare](https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "primarySerial": "Q234-ABCD-5678",
+              "spareSerial": "Q234-ABCD-5678",
+              "uplinkMode": "virtual",
+              "wan1": {
+                "ip": "1.2.3.4",
+                "subnet": "192.168.1.0/24"
+              },
+              "wan2": {
+                "ip": "1.2.3.4",
+                "subnet": "192.168.1.0/24"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3488,19 +6149,32 @@ class Appliance:
         organization_id: str,
         *,
         profile_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceDnsLocalProfilesResponseItem]:
         """Fetch the local DNS profiles used in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles
+        [API documentation: getOrganizationApplianceDnsLocalProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles)
 
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "profileId": "123456",
+                "name": "Default profile"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3525,11 +6199,22 @@ class Appliance:
     ) -> CreateOrganizationApplianceDnsLocalProfileResponse | None:
         """Create a new local DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
+        [API documentation: createOrganizationApplianceDnsLocalProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile)
 
         Args:
             organization_id: Organization ID.
             name: Name of profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "123456",
+              "name": "Default profile"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3556,12 +6241,40 @@ class Appliance:
     ) -> GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse | None:
         """Fetch the local DNS profile assignments in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles-assignments
+        [API documentation: getOrganizationApplianceDnsLocalProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles-assignments)
 
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
             network_ids: Optional parameter to filter the results by network IDs.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123456",
+                  "network": {
+                    "id": "N_123456"
+                  },
+                  "profile": {
+                    "id": "1234"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3589,11 +6302,31 @@ class Appliance:
     ) -> BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse | None:
         """Assign the local DNS profile to networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
+        [API documentation: bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create)
 
         Args:
             organization_id: Organization ID.
             items: List containing the network ID and Profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123456",
+                  "network": {
+                    "id": "N_123456"
+                  },
+                  "profile": {
+                    "id": "1234"
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3621,11 +6354,31 @@ class Appliance:
     ) -> CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse | None:
         """Unassign the local DNS profile to networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
+        [API documentation: createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete)
 
         Args:
             organization_id: Organization ID.
             items: List containing the assignment ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123456",
+                  "network": {
+                    "id": "N_123456"
+                  },
+                  "profile": {
+                    "id": "1234"
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3650,12 +6403,23 @@ class Appliance:
     ) -> UpdateOrganizationApplianceDnsLocalProfileResponse | None:
         """Update a local DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
+        [API documentation: updateOrganizationApplianceDnsLocalProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile)
 
         Args:
             organization_id: Organization ID.
             profile_id: Profile ID.
             name: Name of profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "123456",
+              "name": "Default profile"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3679,11 +6443,14 @@ class Appliance:
     ) -> None:
         """Deletes a local DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
+        [API documentation: deleteOrganizationApplianceDnsLocalProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile)
 
         Args:
             organization_id: Organization ID.
             profile_id: Profile ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3699,19 +6466,36 @@ class Appliance:
         organization_id: str,
         *,
         profile_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceDnsLocalRecordsResponseItem]:
         """Fetch the DNS records used in local DNS profiles.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-records
+        [API documentation: getOrganizationApplianceDnsLocalRecords](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-records)
 
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "recordId": "12345",
+                "hostname": "www.test.com",
+                "address": "10.1.1.0",
+                "profile": {
+                  "id": "1"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3741,13 +6525,30 @@ class Appliance:
     ) -> CreateOrganizationApplianceDnsLocalRecordResponse | None:
         """Create a new local DNS record.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
+        [API documentation: createOrganizationApplianceDnsLocalRecord](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record)
 
         Args:
             organization_id: Organization ID.
             hostname: Hostname for the DNS record.
             address: IP for the DNS record.
             profile: The profile the DNS record is associated with.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "recordId": "12345",
+                "hostname": "www.test.com",
+                "address": "10.1.1.0",
+                "profile": {
+                  "id": "1"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3780,7 +6581,7 @@ class Appliance:
     ) -> UpdateOrganizationApplianceDnsLocalRecordResponse | None:
         """Updates a local DNS record.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
+        [API documentation: updateOrganizationApplianceDnsLocalRecord](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record)
 
         Args:
             organization_id: Organization ID.
@@ -3788,6 +6589,21 @@ class Appliance:
             hostname: Hostname for the DNS record.
             address: IP for the DNS record.
             profile: The profile the DNS record is associated with.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "recordId": "12345",
+              "hostname": "www.test.com",
+              "address": "10.1.1.0",
+              "profile": {
+                "id": "1"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3815,11 +6631,14 @@ class Appliance:
     ) -> None:
         """Deletes a local DNS record.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
+        [API documentation: deleteOrganizationApplianceDnsLocalRecord](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record)
 
         Args:
             organization_id: Organization ID.
             record_id: Record ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3835,19 +6654,41 @@ class Appliance:
         organization_id: str,
         *,
         profile_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceDnsSplitProfilesResponseItem]:
         """Fetch the split DNS profiles used in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles
+        [API documentation: getOrganizationApplianceDnsSplitProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles)
 
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "profileId": "123456",
+                "name": "Default profile",
+                "hostnames": [
+                  "*.test1.com",
+                  "*.test2.com"
+                ],
+                "nameservers": {
+                  "addresses": [
+                    "12.1.10.1"
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3877,14 +6718,34 @@ class Appliance:
     ) -> CreateOrganizationApplianceDnsSplitProfileResponse | None:
         """Create a new split DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
+        [API documentation: createOrganizationApplianceDnsSplitProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile)
 
         Args:
             organization_id: Organization ID.
             name: Name of profile.
             hostnames: The hostname patterns to match for redirection. For more information on Split
-              DNS hostname pattern formatting, please consult the Split DNS KB.
+                DNS hostname pattern formatting, please consult the Split DNS KB.
             nameservers: Contains the nameserver information for redirection.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "123456",
+              "name": "Default profile",
+              "hostnames": [
+                "*.test1.com",
+                "*.test2.com"
+              ],
+              "nameservers": {
+                "addresses": [
+                  "12.1.10.1"
+                ]
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3915,12 +6776,40 @@ class Appliance:
     ) -> GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse | None:
         """Fetch the split DNS profile assignments in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles-assignments
+        [API documentation: getOrganizationApplianceDnsSplitProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles-assignments)
 
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
             network_ids: Optional parameter to filter the results by network IDs.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123456",
+                  "network": {
+                    "id": "N_123456"
+                  },
+                  "profile": {
+                    "id": "1234"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3948,11 +6837,31 @@ class Appliance:
     ) -> CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse | None:
         """Assign the split DNS profile to networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
+        [API documentation: createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create)
 
         Args:
             organization_id: Organization ID.
             items: List containing the network ID and Profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123456",
+                  "network": {
+                    "id": "N_123456"
+                  },
+                  "profile": {
+                    "id": "1234"
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3980,11 +6889,31 @@ class Appliance:
     ) -> CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse | None:
         """Unassign the split DNS profile to networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
+        [API documentation: createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete)
 
         Args:
             organization_id: Organization ID.
             items: List containing the assignment ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123456",
+                  "network": {
+                    "id": "N_123456"
+                  },
+                  "profile": {
+                    "id": "1234"
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4015,15 +6944,35 @@ class Appliance:
     ) -> UpdateOrganizationApplianceDnsSplitProfileResponse | None:
         """Update a split DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
+        [API documentation: updateOrganizationApplianceDnsSplitProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile)
 
         Args:
             organization_id: Organization ID.
             profile_id: Profile ID.
             name: Name of profile.
             hostnames: The hostname patterns to match for redirection. For more information on Split
-              DNS hostname pattern formatting, please consult the Split DNS KB.
+                DNS hostname pattern formatting, please consult the Split DNS KB.
             nameservers: Contains the nameserver information for redirection.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "123456",
+              "name": "Default profile",
+              "hostnames": [
+                "*.test1.com",
+                "*.test2.com"
+              ],
+              "nameservers": {
+                "addresses": [
+                  "12.1.10.1"
+                ]
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4051,11 +7000,14 @@ class Appliance:
     ) -> None:
         """Deletes a split DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
+        [API documentation: deleteOrganizationApplianceDnsSplitProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile)
 
         Args:
             organization_id: Organization ID.
             profile_id: Profile ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4074,31 +7026,65 @@ class Appliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem
     ]:
         """List Static Multicasting forwarding settings for MX networks.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network
+        [API documentation: getOrganizationApplianceFirewallMulticastForwardingByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter the results by network IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office"
+                  },
+                  "rules": [
+                    {
+                      "description": "test",
+                      "address": "224.0.0.1",
+                      "vlanIds": [
+                        "1"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4135,36 +7121,79 @@ class Appliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         sort_order: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceSecurityEventsResponse]:
         """List the security events for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events
+        [API documentation: getOrganizationApplianceSecurityEvents](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. Data is gathered after the specified t0
-              value. The maximum lookback period is 365 days from today.
+                value. The maximum lookback period is 365 days from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 365 days. The default is 31 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 365 days. The default is 31 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of security events based on event detection time. Order options
-              are 'ascending' or 'descending'. Default is ascending order.
+                are 'ascending' or 'descending'. Default is ascending order.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "File Scanned",
+                "clientName": "COMPUTER-M-V78J",
+                "clientMac": "10:dd:b1:eb:88:f8",
+                "clientIp": "192.168.128.2",
+                "srcIp": "192.168.128.2",
+                "destIp": "119.192.233.48",
+                "protocol": "http",
+                "uri": "http://www.favorite-icons.com/program/FavoriteIconsUninstall.exe",
+                "canonicalName": "PUA.Win.Dropper.Kraddare::1201",
+                "destinationPort": 80,
+                "fileHash": "3ec1b9a95fe62aa25fc959643a0f227b76d253094681934daaf628d3574b3463",
+                "fileType": "MS_EXE",
+                "fileSizeBytes": 193688,
+                "disposition": "Malicious",
+                "action": "Blocked"
+              },
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "IDS Alert",
+                "deviceMac": "00:18:0a:01:02:03",
+                "clientMac": "A1:B2:C3:D4:E5:F6",
+                "srcIp": "1.2.3.4:34195",
+                "destIp": "10.20.30.40:80",
+                "protocol": "tcp/ip",
+                "priority": "2",
+                "classification": "4",
+                "blocked": true,
+                "message": "SERVER-WEBAPP JBoss JMX console access attempt",
+                "signature": "1:21516:9",
+                "sigSource": "",
+                "ruleId": "meraki:intrusion/snort/GID/1/SID/26267"
+              }
+            ]
+            ```
 
         """
         if sort_order is not None:
@@ -4207,10 +7236,29 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion
+        [API documentation: getOrganizationApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "allowedRules": [
+                {
+                  "ruleId": "meraki:intrusion/snort/GID/01/SID/688",
+                  "message": "SQL sa login failed"
+                },
+                {
+                  "ruleId": "meraki:intrusion/snort/GID/01/SID/5805",
+                  "message": "MALWARE-OTHER Trackware myway speedbar runtime detection - switch engines"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4228,11 +7276,30 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Sets supported intrusion settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion
+        [API documentation: updateOrganizationApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion)
 
         Args:
             organization_id: Organization ID.
             allowed_rules: Sets a list of specific SNORT signatures to allow.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "allowedRules": [
+                {
+                  "ruleId": "meraki:intrusion/snort/GID/01/SID/688",
+                  "message": "SQL sa login failed"
+                },
+                {
+                  "ruleId": "meraki:intrusion/snort/GID/01/SID/5805",
+                  "message": "MALWARE-OTHER Trackware myway speedbar runtime detection - switch engines"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4259,31 +7326,59 @@ class Appliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem
     ]:
         """Display VPN exclusion rules for MX networks.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network
+        [API documentation: getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter the results by network IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "N_24329156",
+                  "networkName": "Main Office",
+                  "custom": [
+                    {
+                      "protocol": "tcp",
+                      "destination": "192.168.3.0/24",
+                      "port": "8000"
+                    }
+                  ],
+                  "majorApplications": [
+                    {
+                      "id": "meraki:vpnExclusion/application/2",
+                      "name": "Office 365 Sharepoint"
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4319,34 +7414,65 @@ class Appliance:
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         iccids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceUplinkStatusesResponseItem]:
         """List the uplink status of every Meraki MX and Z series appliances in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses
+        [API documentation: getOrganizationApplianceUplinkStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: A list of network IDs. The returned devices will be filtered to only
-              include these networks.
+                include these networks.
             serials: A list of serial numbers. The returned devices will be filtered to only include
-              these serials.
+                these serials.
             iccids: A list of ICCIDs. The returned devices will be filtered to only include these
-              ICCIDs.
+                ICCIDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "serial": "Q234-ABCD-5678",
+                "model": "MX68C",
+                "lastReportedAt": "2018-02-11T00:00:00Z",
+                "highAvailability": {
+                  "enabled": true,
+                  "role": "primary"
+                },
+                "uplinks": [
+                  {
+                    "interface": "wan1",
+                    "status": "active",
+                    "ip": "1.2.3.4",
+                    "gateway": "1.2.3.5",
+                    "publicIp": "123.123.123.1",
+                    "primaryDns": "8.8.8.8",
+                    "secondaryDns": "8.8.4.4",
+                    "ipAssignedBy": "static"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4381,12 +7507,30 @@ class Appliance:
     ) -> GetOrganizationApplianceUplinksStatusesOverviewResponse | None:
         """Returns an overview of uplink statuses.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-statuses-overview
+        [API documentation: getOrganizationApplianceUplinksStatusesOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-statuses-overview)
 
         Args:
             organization_id: Organization ID.
             network_ids: A list of network IDs. The returned devices will be filtered to only
-              include these networks.
+                include these networks.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": {
+                "byStatus": {
+                  "active": 5,
+                  "ready": 5,
+                  "failed": 4,
+                  "connecting": 2,
+                  "notConnected": 1
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4414,16 +7558,37 @@ class Appliance:
     ) -> GetOrganizationApplianceUplinksUsageByNetworkResponse | None:
         """Get the sent and received bytes for each uplink of all MX and Z networks within an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-usage-by-network
+        [API documentation: getOrganizationApplianceUplinksUsageByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-usage-by-network)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 14 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 14 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "name": "Main Office",
+                "byUplink": [
+                  {
+                    "serial": "Q234-ABCD-5678",
+                    "interface": "wan1",
+                    "sent": 200,
+                    "received": 400
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4450,10 +7615,40 @@ class Appliance:
     ) -> GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse | None:
         """Get the list of available IPsec SLA policies for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-site-to-site-ipsec-peers-slas
+        [API documentation: getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-site-to-site-ipsec-peers-slas)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "id": "12345",
+                  "name": "sla policy",
+                  "uri": "http://checkthisendpoint.com",
+                  "ipsec": {
+                    "peerIds": [
+                      "1010",
+                      "1011"
+                    ]
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4474,11 +7669,41 @@ class Appliance:
     ) -> UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse | None:
         """Update the IPsec SLA policies for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
+        [API documentation: updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas)
 
         Args:
             organization_id: Organization ID.
             items: List of IPsec SLA policies.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "id": "12345",
+                  "name": "sla policy",
+                  "uri": "http://checkthisendpoint.com",
+                  "ipsec": {
+                    "peerIds": [
+                      "1010",
+                      "1011"
+                    ]
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4507,36 +7732,95 @@ class Appliance:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceVpnStatsResponseItem]:
         """Show VPN history stat for networks in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats
+        [API documentation: getOrganizationApplianceVpnStats](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 300. Default
-              is 300.
+                is 300.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: A list of Meraki network IDs to filter results to contain only specified
-              networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
+                networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "networkName": "Main Office",
+                "merakiVpnPeers": [
+                  {
+                    "networkId": "N_12345678",
+                    "networkName": "San Francisco Office",
+                    "usageSummary": {
+                      "receivedInKilobytes": 1234567,
+                      "sentInKilobytes": 2345678
+                    },
+                    "latencySummaries": [
+                      {
+                        "senderUplink": "wan1",
+                        "receiverUplink": "wan1",
+                        "avgLatencyMs": 15,
+                        "minLatencyMs": 10,
+                        "maxLatencyMs": 30
+                      }
+                    ],
+                    "lossPercentageSummaries": [
+                      {
+                        "senderUplink": "wan1",
+                        "receiverUplink": "wan1",
+                        "avgLossPercentage": 0.0,
+                        "minLossPercentage": 0.0,
+                        "maxLossPercentage": 0.1
+                      }
+                    ],
+                    "jitterSummaries": [
+                      {
+                        "senderUplink": "wan1",
+                        "receiverUplink": "wan1",
+                        "avgJitter": 0.01,
+                        "minJitter": 0.0,
+                        "maxJitter": 0.25
+                      }
+                    ],
+                    "mosSummaries": [
+                      {
+                        "senderUplink": "wan1",
+                        "receiverUplink": "wan1",
+                        "avgMos": 4.1,
+                        "minMos": 4.0,
+                        "maxMos": 4.2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4576,30 +7860,72 @@ class Appliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceVpnStatusesResponseItem]:
         """Show VPN status for networks in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-statuses
+        [API documentation: getOrganizationApplianceVpnStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-statuses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 300. Default
-              is 300.
+                is 300.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: A list of Meraki network IDs to filter results to contain only specified
-              networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
+                networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_12345678",
+                "networkName": "San Francisco Office",
+                "deviceSerial": "Q234-ABCD-1234",
+                "deviceStatus": "online",
+                "uplinks": [
+                  {
+                    "interface": "wan1",
+                    "publicIp": "1.2.3.4"
+                  }
+                ],
+                "vpnMode": "hub",
+                "exportedSubnets": [
+                  {
+                    "subnet": "192.168.0.0/24",
+                    "name": "sales-vlan"
+                  }
+                ],
+                "merakiVpnPeers": [
+                  {
+                    "networkId": "L_1234",
+                    "networkName": "New York Office",
+                    "reachability": "reachable"
+                  }
+                ],
+                "thirdPartyVpnPeers": [
+                  {
+                    "name": "Tokyo Office",
+                    "publicIp": "222.111.222.111",
+                    "reachability": "reachable"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4630,10 +7956,102 @@ class Appliance:
     ) -> GetOrganizationApplianceVpnThirdPartyVPNPeersResponse | None:
         """Return the third party VPN peers for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-third-party-v-p-n-peers
+        [API documentation: getOrganizationApplianceVpnThirdPartyVPNPeers](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-third-party-v-p-n-peers)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "peers": [
+                {
+                  "peerId": "1234",
+                  "name": "Peer Name",
+                  "publicIp": "123.123.123.1",
+                  "remoteId": "miles@meraki.com",
+                  "localId": "myMXId@meraki.com",
+                  "secret": "secret",
+                  "privateSubnets": [
+                    "192.168.1.0/24",
+                    "192.168.128.0/24"
+                  ],
+                  "ipsecPolicies": {
+                    "ikeCipherAlgo": [
+                      "tripledes"
+                    ],
+                    "ikeAuthAlgo": [
+                      "sha1"
+                    ],
+                    "ikePrfAlgo": [
+                      "prfsha1"
+                    ],
+                    "ikeDiffieHellmanGroup": [
+                      "group2"
+                    ],
+                    "ikeLifetime": 28800,
+                    "childCipherAlgo": [
+                      "aes128"
+                    ],
+                    "childAuthAlgo": [
+                      "sha1"
+                    ],
+                    "childPfsGroup": [
+                      "disabled"
+                    ],
+                    "childLifetime": 28800
+                  },
+                  "slaPolicy": {
+                    "id": "1234"
+                  },
+                  "ipsecPoliciesPreset": "custom",
+                  "ikeVersion": "1",
+                  "networkTags": [
+                    "all"
+                  ],
+                  "network": {
+                    "names": [
+                      "Network 1",
+                      "Location 2",
+                      "Network 3"
+                    ],
+                    "ids": [
+                      "N_1",
+                      "L_2",
+                      "N_3"
+                    ]
+                  },
+                  "isRouteBased": true,
+                  "ebgpNeighbor": {
+                    "neighborId": 1234,
+                    "neighborIp": "10.10.10.22",
+                    "ipVersion": 4,
+                    "remoteAsNumber": 64343,
+                    "ebgpHoldTimer": 180,
+                    "ebgpMultihop": 2,
+                    "sourceIp": "10.10.10.22",
+                    "pathPrepend": [
+                      1,
+                      2
+                    ],
+                    "multiExitDiscriminator": 1,
+                    "weight": 10
+                  },
+                  "priorityInGroup": 1,
+                  "group": {
+                    "number": 1,
+                    "failover": {
+                      "directToInternet": true
+                    },
+                    "activeActiveTunnel": true
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4654,11 +8072,103 @@ class Appliance:
     ) -> UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse | None:
         """Update the third party VPN peers for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
+        [API documentation: updateOrganizationApplianceVpnThirdPartyVPNPeers](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers)
 
         Args:
             organization_id: Organization ID.
             peers: The list of VPN peers.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "peers": [
+                {
+                  "peerId": "1234",
+                  "name": "Peer Name",
+                  "publicIp": "123.123.123.1",
+                  "remoteId": "miles@meraki.com",
+                  "localId": "myMXId@meraki.com",
+                  "secret": "secret",
+                  "privateSubnets": [
+                    "192.168.1.0/24",
+                    "192.168.128.0/24"
+                  ],
+                  "ipsecPolicies": {
+                    "ikeCipherAlgo": [
+                      "tripledes"
+                    ],
+                    "ikeAuthAlgo": [
+                      "sha1"
+                    ],
+                    "ikePrfAlgo": [
+                      "prfsha1"
+                    ],
+                    "ikeDiffieHellmanGroup": [
+                      "group2"
+                    ],
+                    "ikeLifetime": 28800,
+                    "childCipherAlgo": [
+                      "aes128"
+                    ],
+                    "childAuthAlgo": [
+                      "sha1"
+                    ],
+                    "childPfsGroup": [
+                      "disabled"
+                    ],
+                    "childLifetime": 28800
+                  },
+                  "slaPolicy": {
+                    "id": "1234"
+                  },
+                  "ipsecPoliciesPreset": "custom",
+                  "ikeVersion": "1",
+                  "networkTags": [
+                    "all"
+                  ],
+                  "network": {
+                    "names": [
+                      "Network 1",
+                      "Location 2",
+                      "Network 3"
+                    ],
+                    "ids": [
+                      "N_1",
+                      "L_2",
+                      "N_3"
+                    ]
+                  },
+                  "isRouteBased": true,
+                  "ebgpNeighbor": {
+                    "neighborId": 1234,
+                    "neighborIp": "10.10.10.22",
+                    "ipVersion": 4,
+                    "remoteAsNumber": 64343,
+                    "ebgpHoldTimer": 180,
+                    "ebgpMultihop": 2,
+                    "sourceIp": "10.10.10.22",
+                    "pathPrepend": [
+                      1,
+                      2
+                    ],
+                    "multiExitDiscriminator": 1,
+                    "weight": 10
+                  },
+                  "priorityInGroup": 1,
+                  "group": {
+                    "number": 1,
+                    "failover": {
+                      "directToInternet": true
+                    },
+                    "activeActiveTunnel": true
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4681,10 +8191,31 @@ class Appliance:
     ) -> GetOrganizationApplianceVpnVpnFirewallRulesResponse | None:
         """Return the firewall rules for an organization's site-to-site VPN.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-vpn-firewall-rules
+        [API documentation: getOrganizationApplianceVpnVpnFirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-vpn-firewall-rules)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "syslogEnabled": false
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4706,13 +8237,34 @@ class Appliance:
     ) -> UpdateOrganizationApplianceVpnVpnFirewallRulesResponse | None:
         """Update the firewall rules of an organization's site-to-site VPN.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-vpn-firewall-rules
+        [API documentation: updateOrganizationApplianceVpnVpnFirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-vpn-firewall-rules)
 
         Args:
             organization_id: Organization ID.
             rules: An ordered array of the firewall rules (not including the default rule).
             syslog_default_rule: Log the special default rule (boolean value - enable only if you've
-              configured a syslog server) (optional).
+                configured a syslog server) (optional).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "protocol": "tcp",
+                  "srcPort": "Any",
+                  "srcCidr": "Any",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24",
+                  "syslogEnabled": false
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

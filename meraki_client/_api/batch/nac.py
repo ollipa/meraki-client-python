@@ -23,7 +23,7 @@ class ActionBatchNac:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a new CRL (either base or delta) for an existing CA.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl
+        [API documentation: createOrganizationNacCertificatesAuthoritiesCrl](https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl)
 
         Args:
             organization_id: Organization ID.

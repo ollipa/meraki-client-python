@@ -68,10 +68,45 @@ class Devices:
     async def get_device(self, serial: str) -> GetDeviceResponse | None:
         """Return a single device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device
+        [API documentation: getDevice](https://developer.cisco.com/meraki/api-v1/#!get-device)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "My AP",
+              "lat": 37.4180951010362,
+              "lng": -122.098531723022,
+              "address": "1600 Pennsylvania Ave",
+              "notes": "My AP's note",
+              "tags": [
+                " recently-added "
+              ],
+              "networkId": "N_24329156",
+              "serial": "Q234-ABCD-5678",
+              "model": "MR34",
+              "mac": "00:11:22:33:44:55",
+              "lanIp": "1.2.3.4",
+              "firmware": "wireless-25-14",
+              "floorPlanId": "g_2176982374",
+              "details": [
+                {
+                  "name": "Catalyst serial",
+                  "value": "123ABC"
+                }
+              ],
+              "beaconIdParams": {
+                "uuid": "00000000-0000-0000-0000-000000000000",
+                "major": 5,
+                "minor": 3
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -97,7 +132,7 @@ class Devices:
     ) -> UpdateDeviceResponse | None:
         """Update the attributes of a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device
+        [API documentation: updateDevice](https://developer.cisco.com/meraki/api-v1/#!update-device)
 
         Args:
             serial: Serial.
@@ -108,14 +143,49 @@ class Devices:
             address: The address of a device.
             notes: The notes for the device. String. Limited to 255 characters.
             move_map_marker: Whether or not to set the latitude and longitude of a device based on
-              the new address. Only applies when lat and lng are not specified.
+                the new address. Only applies when lat and lng are not specified.
             switch_profile_id: The ID of a switch template to bind to the device (for available
-              switch templates, see the 'Switch Templates' endpoint). Use null to unbind
-              the switch device from the current profile. For a device to be bindable to
-              a switch template, it must (1) be a switch, and (2) belong to a network
-              that is bound to a configuration template.
+                switch templates, see the 'Switch Templates' endpoint). Use null to
+                unbind the switch device from the current profile. For a device to be
+                bindable to a switch template, it must (1) be a switch, and (2) belong
+                to a network that is bound to a configuration template.
             floor_plan_id: The floor plan to associate to this device. null disassociates the device
-              from the floorplan.
+                from the floorplan.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "My AP",
+              "lat": 37.4180951010362,
+              "lng": -122.098531723022,
+              "address": "1600 Pennsylvania Ave",
+              "notes": "My AP's note",
+              "tags": [
+                " recently-added "
+              ],
+              "networkId": "N_24329156",
+              "serial": "Q234-ABCD-5678",
+              "model": "MR34",
+              "mac": "00:11:22:33:44:55",
+              "lanIp": "1.2.3.4",
+              "firmware": "wireless-25-14",
+              "floorPlanId": "g_2176982374",
+              "details": [
+                {
+                  "name": "Catalyst serial",
+                  "value": "123ABC"
+                }
+              ],
+              "beaconIdParams": {
+                "uuid": "00000000-0000-0000-0000-000000000000",
+                "major": 5,
+                "minor": 3
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -159,14 +229,26 @@ class Devices:
     ) -> BlinkDeviceLedsResponse | None:
         """Blink the LEDs on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!blink-device-leds
+        [API documentation: blinkDeviceLeds](https://developer.cisco.com/meraki/api-v1/#!blink-device-leds)
 
         Args:
             serial: Serial.
             duration: The duration in seconds. Must be between 5 and 120. Default is 20 seconds.
             period: The period in milliseconds. Must be between 100 and 1000. Default is 160
-              milliseconds.
+                milliseconds.
             duty: The duty cycle as the percent active. Must be between 10 and 90. Default is 50.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "duration": 20,
+              "period": 160,
+              "duty": 50
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -191,10 +273,52 @@ class Devices:
     async def get_device_cellular_sims(self, serial: str) -> GetDeviceCellularSimsResponse | None:
         """Return the SIM and APN configurations for a cellular device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims
+        [API documentation: getDeviceCellularSims](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "sims": [
+                {
+                  "slot": "sim1",
+                  "iccid": "123456789",
+                  "imsi": "123456789012345",
+                  "msisdn": "123456789012345",
+                  "isPrimary": false,
+                  "status": "inserted",
+                  "apns": [
+                    {
+                      "name": "internet",
+                      "allowedIpTypes": [
+                        "ipv4",
+                        "ipv6"
+                      ],
+                      "authentication": {
+                        "type": "pap",
+                        "username": "milesmeraki",
+                        "password": "secret"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "simOrdering": [
+                "sim1",
+                "sim2",
+                "sim3"
+              ],
+              "simFailover": {
+                "enabled": true,
+                "timeout": 300
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -217,18 +341,60 @@ class Devices:
     ) -> UpdateDeviceCellularSimsResponse | None:
         """Updates the SIM and APN configurations for a cellular device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-sims
+        [API documentation: updateDeviceCellularSims](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-sims)
 
         Args:
             serial: Serial.
             sims: List of SIMs. If a SIM was previously configured and not specified in this
-              request, it will remain unchanged.
+                request, it will remain unchanged.
             sim_ordering: Specifies the ordering of all SIMs for an MG: primary, secondary, and not-
-              in-use (when applicable). It's required for devices with 3 or more SIMs
-              and can be used in place of 'isPrimary' for dual-SIM devices. To indicate
-              eSIM, use 'sim3'. Sim failover will occur only between primary and
-              secondary sim slots.
+                in-use (when applicable). It's required for devices with 3 or more SIMs
+                and can be used in place of 'isPrimary' for dual-SIM devices. To
+                indicate eSIM, use 'sim3'. Sim failover will occur only between primary
+                and secondary sim slots.
             sim_failover: SIM Failover settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "sims": [
+                {
+                  "slot": "sim1",
+                  "iccid": "123456789",
+                  "imsi": "123456789012345",
+                  "msisdn": "123456789012345",
+                  "isPrimary": false,
+                  "status": "inserted",
+                  "apns": [
+                    {
+                      "name": "internet",
+                      "allowedIpTypes": [
+                        "ipv4",
+                        "ipv6"
+                      ],
+                      "authentication": {
+                        "type": "pap",
+                        "username": "milesmeraki",
+                        "password": "secret"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "simOrdering": [
+                "sim1",
+                "sim2",
+                "sim3"
+              ],
+              "simFailover": {
+                "enabled": true,
+                "timeout": 300
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -255,15 +421,41 @@ class Devices:
     ) -> GetDeviceClientsResponse | None:
         """List the clients of a device, up to a maximum of a month ago.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-clients
+        [API documentation: getDeviceClients](https://developer.cisco.com/meraki/api-v1/#!get-device-clients)
 
         Args:
             serial: Serial.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "k74272e",
+                "mac": "22:33:44:55:66:77",
+                "description": "Miles's phone",
+                "mdnsName": "Miles's phone",
+                "dhcpHostname": "MilesPhone",
+                "user": "milesmeraki",
+                "ip": "1.2.3.4",
+                "vlan": "100",
+                "namedVlan": "My VLAN",
+                "switchport": "My switch port",
+                "adaptivePolicyGroup": "101",
+                "usage": {
+                  "sent": 138.0,
+                  "recv": 61.0
+                }
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -288,12 +480,32 @@ class Devices:
     ) -> CreateDeviceLiveToolsArpTableResponse | None:
         """Enqueue a job to perform a ARP table request for the device.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-arp-table
+        [API documentation: createDeviceLiveToolsArpTable](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-arp-table)
 
         Args:
             serial: Serial.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "arpTableId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/arpTable/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -316,11 +528,36 @@ class Devices:
     ) -> GetDeviceLiveToolsArpTableResponse | None:
         """Return an ARP table live tool job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-arp-table
+        [API documentation: getDeviceLiveToolsArpTable](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-arp-table)
 
         Args:
             serial: Serial.
             arp_table_id: Arp table ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "arpTableId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/arpTable/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "entries": [
+                {
+                  "ip": "10.0.0.0/24",
+                  "mac": "00:11:22:33:44:55",
+                  "vlanId": 100,
+                  "interface": "Vlan100",
+                  "lastUpdatedAt": "2018-02-11T00:00:00.090210Z"
+                }
+              ],
+              "error": "The device is unreachable."
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -343,15 +580,39 @@ class Devices:
     ) -> CreateDeviceLiveToolsCableTestResponse | None:
         """Enqueue a job to perform a cable test for the device on the specified ports.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-cable-test
+        [API documentation: createDeviceLiveToolsCableTest](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-cable-test)
 
         Args:
             serial: Serial.
             ports: A list of ports for which to perform the cable test. For Catalyst switches, IOS
-              interface names are also supported, such as "GigabitEthernet1/0/8",
-              "Gi1/0/8", or even "1/0/8".
+                interface names are also supported, such as "GigabitEthernet1/0/8",
+                "Gi1/0/8", or even "1/0/8".
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "cableTestId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/cableTest/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "ports": [
+                  "2",
+                  "8"
+                ]
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -376,11 +637,46 @@ class Devices:
     ) -> GetDeviceLiveToolsCableTestResponse | None:
         """Return a cable test live tool job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-cable-test
+        [API documentation: getDeviceLiveToolsCableTest](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-cable-test)
 
         Args:
             serial: Serial.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "cableTestId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/cableTest/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "ports": [
+                  "2",
+                  "8"
+                ]
+              },
+              "status": "complete",
+              "results": [
+                {
+                  "port": "2",
+                  "status": "up",
+                  "speedMbps": 10000,
+                  "error": "An unexpected error occurred during the execution of the cable test.",
+                  "pairs": [
+                    {
+                      "index": 0,
+                      "status": "ok",
+                      "lengthMeters": 1
+                    }
+                  ]
+                }
+              ],
+              "error": "The device is unreachable."
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -403,13 +699,35 @@ class Devices:
     ) -> CreateDeviceLiveToolsLedsBlinkResponse | None:
         """Enqueue a job to blink LEDs on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink
+        [API documentation: createDeviceLiveToolsLedsBlink](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink)
 
         Args:
             serial: Serial.
             duration: The duration in seconds to blink LEDs.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ledsBlinkId": "123",
+              "url": "/devices/QXXX-YYYY-ZZZZ/liveTools/leds/blink/1738",
+              "status": "complete",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "duration": 30
+              },
+              "error": "error description",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -434,11 +752,28 @@ class Devices:
     ) -> GetDeviceLiveToolsLedsBlinkResponse | None:
         """Return a blink LEDs job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-leds-blink
+        [API documentation: getDeviceLiveToolsLedsBlink](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-leds-blink)
 
         Args:
             serial: Serial.
             leds_blink_id: Leds blink ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ledsBlinkId": "123",
+              "url": "/devices/QXXX-YYYY-ZZZZ/liveTools/leds/blink/1738",
+              "status": "complete",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "duration": 30
+              },
+              "error": "error description"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -457,12 +792,32 @@ class Devices:
     ) -> CreateDeviceLiveToolsMacTableResponse | None:
         """Enqueue a job to request the MAC table from the device.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-mac-table
+        [API documentation: createDeviceLiveToolsMacTable](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-mac-table)
 
         Args:
             serial: Serial.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "macTableId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/macTable/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -485,11 +840,34 @@ class Devices:
     ) -> GetDeviceLiveToolsMacTableResponse | None:
         """Return a MAC table live tool job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-mac-table
+        [API documentation: getDeviceLiveToolsMacTable](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-mac-table)
 
         Args:
             serial: Serial.
             mac_table_id: Mac table ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "macTableId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/macTable/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "entries": [
+                {
+                  "mac": "00:11:22:33:44:55",
+                  "port": "Tw1/0/9",
+                  "vlanId": 100
+                }
+              ],
+              "error": "The device is unreachable."
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -508,12 +886,32 @@ class Devices:
     ) -> CreateDeviceLiveToolsMulticastRoutingResponse | None:
         """Enqueue a job to perform a Multicast routing request for the device.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-multicast-routing
+        [API documentation: createDeviceLiveToolsMulticastRouting](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-multicast-routing)
 
         Args:
             serial: Serial.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "multicastRoutingId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/multicastRouting/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -536,11 +934,55 @@ class Devices:
     ) -> GetDeviceLiveToolsMulticastRoutingResponse | None:
         """Return a Multicast routing live tool job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-multicast-routing
+        [API documentation: getDeviceLiveToolsMulticastRouting](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-multicast-routing)
 
         Args:
             serial: Serial.
             multicast_routing_id: Multicast routing ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "multicastRoutingId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/multicastRouting/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "interfaces": [
+                {
+                  "ip": "1.2.3.4",
+                  "name": "Vlan20",
+                  "subnet": "192.168.1.0/24",
+                  "flags": [
+                    "PIM"
+                  ],
+                  "neighbors": [
+                    "123.123.123.1"
+                  ]
+                }
+              ],
+              "routes": [
+                {
+                  "source": "1.2.3.4",
+                  "group": "1.2.3.5",
+                  "rendezvousPoint": "10.0.0.0/24",
+                  "incomingInterfaceName": "Vlan100",
+                  "outgoingInterfaceNames": [
+                    "Vlan20",
+                    "Vlan50"
+                  ],
+                  "flags": [
+                    "SPT"
+                  ]
+                }
+              ],
+              "error": "The device is unreachable."
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -564,14 +1006,36 @@ class Devices:
     ) -> CreateDeviceLiveToolsPingResponse | None:
         """Enqueue a job to ping a target host from the device.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping
+        [API documentation: createDeviceLiveToolsPing](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping)
 
         Args:
             serial: Serial.
             target: FQDN, IPv4 or IPv6 address.
             count: Count parameter to pass to ping. [1..5], default 5.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "pingId": "1284392014819",
+              "url": "/devices/SERIAL/liveTools/ping/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "target": "75.75.75.75",
+                "count": 2
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -598,11 +1062,47 @@ class Devices:
     ) -> GetDeviceLiveToolsPingResponse | None:
         """Return a ping job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping
+        [API documentation: getDeviceLiveToolsPing](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping)
 
         Args:
             serial: Serial.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "pingId": "1284392014819",
+              "url": "/devices/SERIAL/liveTools/ping/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "target": "75.75.75.75",
+                "count": 2
+              },
+              "status": "complete",
+              "results": {
+                "sent": 5,
+                "received": 5,
+                "loss": {
+                  "percentage": 0.0
+                },
+                "latencies": {
+                  "minimum": 15.8,
+                  "average": 15.8,
+                  "maximum": 15.9
+                },
+                "replies": [
+                  {
+                    "sequenceId": 1,
+                    "size": 84,
+                    "latency": 15.7
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -625,13 +1125,34 @@ class Devices:
     ) -> CreateDeviceLiveToolsPingDeviceResponse | None:
         """Enqueue a job to check connectivity status to the device.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping-device
+        [API documentation: createDeviceLiveToolsPingDevice](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping-device)
 
         Args:
             serial: Serial.
             count: Count parameter to pass to ping. [1..5], default 5.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "pingId": "1284392014819",
+              "url": "/devices/SERIAL/liveTools/pingDevice/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "count": 2
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -656,11 +1177,51 @@ class Devices:
     ) -> GetDeviceLiveToolsPingDeviceResponse | None:
         """Return a ping device job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping-device
+        [API documentation: getDeviceLiveToolsPingDevice](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping-device)
 
         Args:
             serial: Serial.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "pingId": "1284392014819",
+              "url": "/devices/SERIAL/liveTools/pingDevice/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "count": 2
+              },
+              "status": "complete",
+              "results": {
+                "sent": 5,
+                "received": 5,
+                "loss": {
+                  "percentage": 0.0
+                },
+                "latencies": {
+                  "minimum": 15.8,
+                  "average": 15.8,
+                  "maximum": 15.9
+                },
+                "replies": [
+                  {
+                    "sequenceId": 1,
+                    "size": 84,
+                    "latency": 15.7
+                  }
+                ]
+              },
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -679,12 +1240,38 @@ class Devices:
     ) -> CreateDeviceLiveToolsThroughputTestResponse | None:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test
+        [API documentation: createDeviceLiveToolsThroughputTest](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test)
 
         Args:
             serial: Serial.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "throughputTestId": "123",
+              "url": "/devices/QXXX-YYYY-ZZZZ/liveTools/throughputTest/123",
+              "status": "complete",
+              "result": {
+                "speeds": {
+                  "downstream": 123.456789
+                }
+              },
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "error": "error description",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -707,11 +1294,32 @@ class Devices:
     ) -> GetDeviceLiveToolsThroughputTestResponse | None:
         """Return a throughput test job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-throughput-test
+        [API documentation: getDeviceLiveToolsThroughputTest](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-throughput-test)
 
         Args:
             serial: Serial.
             throughput_test_id: Throughput test ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "throughputTestId": "123",
+              "url": "/devices/QXXX-YYYY-ZZZZ/liveTools/throughputTest/123",
+              "status": "complete",
+              "result": {
+                "speeds": {
+                  "downstream": 123.456789
+                }
+              },
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "error": "error description"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -735,14 +1343,37 @@ class Devices:
     ) -> CreateDeviceLiveToolsWakeOnLanResponse | None:
         """Enqueue a job to send a Wake-on-LAN packet from the device.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-wake-on-lan
+        [API documentation: createDeviceLiveToolsWakeOnLan](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-wake-on-lan)
 
         Args:
             serial: Serial.
             vlan_id: The target's VLAN (1 to 4094).
             mac: The target's MAC address.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "wakeOnLanId": "123",
+              "url": "/devices/QXXX-YYYY-ZZZZ/liveTools/wakeOnLan/1738",
+              "status": "complete",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "vlanId": 12,
+                "mac": "00:11:22:33:44:55"
+              },
+              "error": "The device is unreachable.",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -769,11 +1400,29 @@ class Devices:
     ) -> GetDeviceLiveToolsWakeOnLanResponse | None:
         """Return a Wake-on-LAN job.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-wake-on-lan
+        [API documentation: getDeviceLiveToolsWakeOnLan](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-wake-on-lan)
 
         Args:
             serial: Serial.
             wake_on_lan_id: Wake on lan ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "wakeOnLanId": "123",
+              "url": "/devices/QXXX-YYYY-ZZZZ/liveTools/wakeOnLan/1738",
+              "status": "complete",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "vlanId": 12,
+                "mac": "00:11:22:33:44:55"
+              },
+              "error": "The device is unreachable."
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -790,10 +1439,52 @@ class Devices:
     async def get_device_lldp_cdp(self, serial: str) -> GetDeviceLldpCdpResponse | None:
         """List LLDP and CDP information for a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-lldp-cdp
+        [API documentation: getDeviceLldpCdp](https://developer.cisco.com/meraki/api-v1/#!get-device-lldp-cdp)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "sourceMac": "00:11:22:33:44:55",
+              "ports": {
+                "22": {
+                  "lldp": {
+                    "systemName": "Meraki MS350-24X - Phineas",
+                    "systemDescription": "Meraki MX64 Cloud Managed Router",
+                    "portId": "11",
+                    "chassisId": "88:15:44:c8:5d:58",
+                    "managementVlan": 60,
+                    "portVlan": 500,
+                    "managementAddress": "192.168.1.128",
+                    "portDescription": "12",
+                    "systemCapabilities": "S-VLAN Component of a VLAN Bridge",
+                    "sourcePort": "12"
+                  },
+                  "cdp": {
+                    "platform": "MS350-24X",
+                    "deviceId": "e0553d8cdf53",
+                    "model": "cisco C9300-24P",
+                    "version": "Catalyst L3 Switch Software (CAT9K_IOSXE), Experimental Version 17.6.20210422:140402",
+                    "portId": "Port 10",
+                    "nativeVlan": 1,
+                    "vtpManagementDomain": "cisco",
+                    "capabilities": "Switch",
+                    "address": "192.168.1.128",
+                    "sourcePort": "9"
+                  },
+                  "deviceMac": "00:11:22:33:44:55",
+                  "device": {
+                    "url": "https://dashboard.meraki.com/Wireless-Testing/n/scPLfd/manage/nodes/new_list/194114551275232"
+                  }
+                }
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -819,21 +1510,38 @@ class Devices:
     ) -> GetDeviceLossAndLatencyHistoryResponse | None:
         """Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per second for MX, MG and Z devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-loss-and-latency-history
+        [API documentation: getDeviceLossAndLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-device-loss-and-latency-history)
 
         Args:
             serial: Serial.
             t0: The beginning of the timespan for the data. The maximum lookback period is 60 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              60, 600, 3600, 86400. The default is 60.
+                60, 600, 3600, 86400. The default is 60.
             uplink: The WAN uplink used to obtain the requested stats. Valid uplinks are wan1, wan2,
-              wan3, cellular. The default is wan1.
+                wan3, cellular. The default is wan1.
             ip: The destination IP used to obtain the requested stats. This is required.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTime": "2018-10-09T22:18:27Z",
+                "endTime": "2018-10-09T22:19:27Z",
+                "lossPercent": 5.23,
+                "latencyMs": 324.12,
+                "goodput": 1493,
+                "jitter": 11.2
+              }
+            ]
+            ```
 
         """
         if uplink is not None:
@@ -872,10 +1580,54 @@ class Devices:
     ) -> GetDeviceManagementInterfaceResponse | None:
         """Return the management interface settings for a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-management-interface
+        [API documentation: getDeviceManagementInterface](https://developer.cisco.com/meraki/api-v1/#!get-device-management-interface)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ddnsHostnames": {
+                "activeDdnsHostname": "mx1-sample.dynamic-m.com",
+                "ddnsHostnameWan1": "mx1-sample-1.dynamic-m.com",
+                "ddnsHostnameWan2": "mx1-sample-2.dynamic-m.com"
+              },
+              "wan1": {
+                "wanEnabled": "not configured",
+                "usingStaticIp": true,
+                "staticIp": "1.2.3.4",
+                "staticSubnetMask": "255.255.255.0",
+                "staticGatewayIp": "1.2.3.1",
+                "staticDns": [
+                  "1.2.3.2",
+                  "1.2.3.3"
+                ],
+                "vlan": 7,
+                "vrf": {
+                  "name": "Mgmt-vrf"
+                }
+              },
+              "wan2": {
+                "wanEnabled": "enabled",
+                "usingStaticIp": false,
+                "staticIp": "1.2.3.4",
+                "staticSubnetMask": "255.255.255.0",
+                "staticGatewayIp": "1.2.3.1",
+                "staticDns": [
+                  "1.2.3.2",
+                  "1.2.3.3"
+                ],
+                "vlan": 2,
+                "vrf": {
+                  "name": "Mgmt-vrf"
+                }
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -897,12 +1649,56 @@ class Devices:
     ) -> UpdateDeviceManagementInterfaceResponse | None:
         """Update the management interface settings for a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface
+        [API documentation: updateDeviceManagementInterface](https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface)
 
         Args:
             serial: Serial.
             wan1: WAN 1 settings.
             wan2: WAN 2 settings (only for MX devices).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ddnsHostnames": {
+                "activeDdnsHostname": "mx1-sample.dynamic-m.com",
+                "ddnsHostnameWan1": "mx1-sample-1.dynamic-m.com",
+                "ddnsHostnameWan2": "mx1-sample-2.dynamic-m.com"
+              },
+              "wan1": {
+                "wanEnabled": "not configured",
+                "usingStaticIp": true,
+                "staticIp": "1.2.3.4",
+                "staticSubnetMask": "255.255.255.0",
+                "staticGatewayIp": "1.2.3.1",
+                "staticDns": [
+                  "1.2.3.2",
+                  "1.2.3.3"
+                ],
+                "vlan": 7,
+                "vrf": {
+                  "name": "Mgmt-vrf"
+                }
+              },
+              "wan2": {
+                "wanEnabled": "enabled",
+                "usingStaticIp": false,
+                "staticIp": "1.2.3.4",
+                "staticSubnetMask": "255.255.255.0",
+                "staticGatewayIp": "1.2.3.1",
+                "staticDns": [
+                  "1.2.3.2",
+                  "1.2.3.3"
+                ],
+                "vlan": 2,
+                "vrf": {
+                  "name": "Mgmt-vrf"
+                }
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -925,10 +1721,20 @@ class Devices:
     async def reboot_device(self, serial: str) -> RebootDeviceResponse | None:
         """Reboot a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!reboot-device
+        [API documentation: rebootDevice](https://developer.cisco.com/meraki/api-v1/#!reboot-device)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")

@@ -23,7 +23,7 @@ class ActionBatchSpaces:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Remove the Spaces integration from Meraki.
 
-        https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration
+        [API documentation: removeOrganizationSpacesIntegration](https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration)
 
         Args:
             organization_id: Organization ID.

@@ -78,15 +78,15 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the radio settings of an appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings
+        [API documentation: updateDeviceApplianceRadioSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings)
 
         Args:
             serial: Serial.
             rf_profile_id: The ID of an RF profile to assign to the device. If the value of this
-              parameter is null, the appropriate basic RF profile (indoor or outdoor)
-              will be assigned to the device. Assigning an RF profile will clear ALL
-              manually configured overrides on the device (channel width, channel,
-              power).
+                parameter is null, the appropriate basic RF profile (indoor or outdoor)
+                will be assigned to the device. Assigning an RF profile will clear ALL
+                manually configured overrides on the device (channel width, channel,
+                power).
             two_four_ghz_settings: Manual radio settings for 2.4 GHz.
             five_ghz_settings: Manual radio settings for 5 GHz.
 
@@ -117,7 +117,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the uplink settings for an MX appliance.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings
+        [API documentation: updateDeviceApplianceUplinksSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings)
 
         Args:
             serial: Serial.
@@ -142,7 +142,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Generate a new vMX authentication token.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
+        [API documentation: createDeviceApplianceVmxAuthenticationToken](https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token)
 
         Args:
             serial: Serial.
@@ -165,7 +165,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the connectivity testing destinations for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
+        [API documentation: updateNetworkApplianceConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations)
 
         Args:
             network_id: Network ID.
@@ -195,7 +195,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the MX L7 firewall rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
+        [API documentation: updateNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -223,7 +223,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update static multicast forward rules for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
+        [API documentation: updateNetworkApplianceFirewallMulticastForwarding](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding)
 
         Args:
             network_id: Network ID.
@@ -257,24 +257,24 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the per-port VLAN settings for a single MX port.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
+        [API documentation: updateNetworkAppliancePort](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port)
 
         Args:
             network_id: Network ID.
             port_id: Port ID.
             enabled: The status of the port.
             drop_untagged_traffic: Trunk port can Drop all Untagged traffic. When true, no VLAN is
-              required. Access ports cannot have dropUntaggedTraffic set to true.
+                required. Access ports cannot have dropUntaggedTraffic set to true.
             type_: The type of the port: 'access' or 'trunk'.
             vlan: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access
-              mode.
+                mode.
             allowed_vlans: Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to
-              permit all VLAN's on the port.
+                permit all VLAN's on the port.
             access_policy: The name of the policy. Only applicable to Access ports. Valid values
-              are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or Z3
-              or any MX supporting the per port authentication feature. Otherwise,
-              'open' is the only valid value and 'open' is the default value if the
-              field is missing.
+                are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or
+                Z3 or any MX supporting the per port authentication feature. Otherwise,
+                'open' is the only valid value and 'open' is the default value if the
+                field is missing.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -311,7 +311,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a static delegated prefix from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
+        [API documentation: createNetworkAppliancePrefixesDelegatedStatic](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static)
 
         Args:
             network_id: Network ID.
@@ -348,7 +348,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a static delegated prefix from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
+        [API documentation: updateNetworkAppliancePrefixesDelegatedStatic](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static)
 
         Args:
             network_id: Network ID.
@@ -381,7 +381,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a static delegated prefix from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
+        [API documentation: deleteNetworkAppliancePrefixesDelegatedStatic](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static)
 
         Args:
             network_id: Network ID.
@@ -408,7 +408,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates new RF profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
+        [API documentation: createNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile)
 
         Args:
             network_id: Network ID.
@@ -455,7 +455,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates specified RF profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
+        [API documentation: updateNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile)
 
         Args:
             network_id: Network ID.
@@ -497,7 +497,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a RF Profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
+        [API documentation: deleteNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile)
 
         Args:
             network_id: Network ID.
@@ -524,12 +524,12 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update SDWAN internet traffic preferences for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
+        [API documentation: updateNetworkApplianceSdwanInternetPolicies](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies)
 
         Args:
             network_id: Network ID.
             wan_traffic_uplink_preferences: policies with respective traffic filters for an MX
-              network.
+                network.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -558,7 +558,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the appliance settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
+        [API documentation: updateNetworkApplianceSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings)
 
         Args:
             network_id: Network ID.
@@ -606,7 +606,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update single LAN configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
+        [API documentation: updateNetworkApplianceSingleLan](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan)
 
         Args:
             network_id: Network ID.
@@ -614,9 +614,9 @@ class ActionBatchAppliance:
             appliance_ip: The appliance IP address of the single LAN.
             ipv6: IPv6 configuration on the VLAN.
             mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this LAN must use
-              the IP address assigned by the DHCP server. Clients who use a static IP
-              address won't be able to associate. Only available on firmware versions
-              17.0 and above.
+                the IP address assigned by the DHCP server. Clients who use a static IP
+                address won't be able to associate. Only available on firmware versions
+                17.0 and above.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -658,7 +658,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the attributes of an MX SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
+        [API documentation: updateNetworkApplianceSsid](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid)
 
         Args:
             network_id: Network ID.
@@ -666,23 +666,23 @@ class ActionBatchAppliance:
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
             default_vlan_id: The VLAN ID of the VLAN associated to this SSID. This parameter is only
-              valid if the network is in routed mode.
+                valid if the network is in routed mode.
             auth_mode: The association control method for the SSID ('open', 'psk', '8021x-meraki' or
-              '8021x-radius').
+                '8021x-radius').
             psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
             radius_servers: The RADIUS 802.1x servers to be used for authentication. This param is
-              only valid if the authMode is '8021x-radius'.
+                only valid if the authMode is '8021x-radius'.
             encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
-              only valid if the authMode is 'psk'.
+                only valid if the authMode is 'psk'.
             wpa_encryption_mode: The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3
-              Transition Mode' or 'WPA3 only'). This param is only valid if (1) the
-              authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is
-              '8021x-meraki' OR (3) the authMode is '8021x-radius'.
+                Transition Mode' or 'WPA3 only'). This param is only valid if (1) the
+                authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is
+                '8021x-meraki' OR (3) the authMode is '8021x-radius'.
             visible: Boolean indicating whether the MX should advertise or hide this SSID.
             dhcp_enforced_deauthentication: DHCP Enforced Deauthentication enables the
-              disassociation of wireless clients in addition to Mandatory DHCP. This
-              param is only valid on firmware versions >= MX 17.0 where the associated
-              LAN has Mandatory DHCP Enabled.
+                disassociation of wireless clients in addition to Mandatory DHCP. This
+                param is only valid on firmware versions >= MX 17.0 where the associated
+                LAN has Mandatory DHCP Enabled.
             dot11w: The current setting for Protected Management Frames (802.11w).
 
         """
@@ -751,7 +751,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a custom performance class for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
+        [API documentation: createNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class)
 
         Args:
             network_id: Network ID.
@@ -792,7 +792,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a custom performance class for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
+        [API documentation: updateNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class)
 
         Args:
             network_id: Network ID.
@@ -828,7 +828,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a custom performance class from an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
+        [API documentation: deleteNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class)
 
         Args:
             network_id: Network ID.
@@ -853,17 +853,17 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the traffic shaping settings rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
+        [API documentation: updateNetworkApplianceTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules)
 
         Args:
             network_id: Network ID.
             default_rules_enabled: Whether default traffic shaping rules are enabled (true) or
-              disabled (false). There are 4 default rules, which can be seen on your
-              network's traffic shaping page. Note that default rules count against the
-              rule limit of 8.
+                disabled (false). There are 4 default rules, which can be seen on your
+                network's traffic shaping page. Note that default rules count against
+                the rule limit of 8.
             rules: An array of traffic shaping rules. Rules are applied in the order that they are
-              specified in. An empty list (or null) means no rules. Note that you are
-              allowed a maximum of 8 rules.
+                specified in. An empty list (or null) means no rules. Note that you are
+                allowed a maximum of 8 rules.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -890,12 +890,12 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates the uplink bandwidth settings for your MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
+        [API documentation: updateNetworkApplianceTrafficShapingUplinkBandwidth](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth)
 
         Args:
             network_id: Network ID.
             bandwidth_limits: A mapping of uplinks to their bandwidth settings (be sure to check
-              which uplinks are supported for your network).
+                which uplinks are supported for your network).
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -933,7 +933,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update uplink selection settings for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
+        [API documentation: updateNetworkApplianceTrafficShapingUplinkSelection](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection)
 
         Args:
             network_id: Network ID.
@@ -988,13 +988,13 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update VPN exclusion rules for an MX network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
+        [API documentation: updateNetworkApplianceTrafficShapingVpnExclusions](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions)
 
         Args:
             network_id: Network ID.
             custom: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
             major_applications: Major Application based VPN exclusion rules. Pass an empty array to
-              clear existing rules.
+                clear existing rules.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1040,7 +1040,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a VLAN.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
+        [API documentation: createNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan)
 
         Args:
             network_id: Network ID.
@@ -1050,31 +1050,31 @@ class ActionBatchAppliance:
             appliance_ip: The local IP of the appliance on the VLAN.
             group_policy_id: The id of the desired group policy to apply to the VLAN.
             template_vlan_type: Type of subnetting of the VLAN. Applicable only for template
-              network.
+                network.
             cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
-              bound to the template will automatically pick a subnet from this pool to
-              build its own VLAN.
+                bound to the template will automatically pick a subnet from this pool to
+                build its own VLAN.
             mask: Mask used for the subnet of all bound to the template networks. Applicable only
-              for template network.
+                for template network.
             ipv6: IPv6 configuration on the VLAN.
             dhcp_handling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
-              DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
-              requests'.
+                DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
+                requests'.
             dhcp_relay_server_ips: The IPs (IPv4) of the DHCP servers that DHCP requests should be
-              relayed to. CIDR/subnet notation and hostnames are not supported.
+                relayed to. CIDR/subnet notation and hostnames are not supported.
             dhcp_lease_time: The term of DHCP leases if the appliance is running a DHCP server on
-              this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day'
-              or '1 week'.
+                this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1
+                day' or '1 week'.
             mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must
-              use the IP address assigned by the DHCP server. Clients who use a static
-              IP address won't be able to associate. Only available on firmware versions
-              17.0 and above.
+                use the IP address assigned by the DHCP server. Clients who use a static
+                IP address won't be able to associate. Only available on firmware
+                versions 17.0 and above.
             dhcp_boot_options_enabled: Use DHCP boot options specified in other properties.
             dhcp_boot_next_server: DHCP boot option to direct boot clients to the server to load the
-              boot file from.
+                boot file from.
             dhcp_boot_filename: DHCP boot option for boot filename.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
-              object in the list should have "code", "type", and "value" properties.
+                object in the list should have "code", "type", and "value" properties.
 
         """
         if template_vlan_type is not None:
@@ -1149,12 +1149,12 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Enable/Disable VLANs for the given network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
+        [API documentation: updateNetworkApplianceVlansSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings)
 
         Args:
             network_id: Network ID.
             vlans_enabled: Boolean indicating whether to enable (true) or disable (false) VLANs for
-              the network.
+                the network.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1198,7 +1198,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a VLAN.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
+        [API documentation: updateNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan)
 
         Args:
             network_id: Network ID.
@@ -1208,41 +1208,41 @@ class ActionBatchAppliance:
             appliance_ip: The local IP of the appliance on the VLAN.
             group_policy_id: The id of the desired group policy to apply to the VLAN.
             vpn_nat_subnet: The translated VPN subnet if VPN and VPN subnet translation are enabled
-              on the VLAN.
+                on the VLAN.
             dhcp_handling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
-              DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
-              requests'.
+                DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
+                requests'.
             dhcp_relay_server_ips: The IPs (IPv4) of the DHCP servers that DHCP requests should be
-              relayed to. CIDR/subnet notation and hostnames are not supported.
+                relayed to. CIDR/subnet notation and hostnames are not supported.
             dhcp_lease_time: The term of DHCP leases if the appliance is running a DHCP server on
-              this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day'
-              or '1 week'.
+                this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1
+                day' or '1 week'.
             dhcp_boot_options_enabled: Use DHCP boot options specified in other properties.
             dhcp_boot_next_server: DHCP boot option to direct boot clients to the server to load the
-              boot file from.
+                boot file from.
             dhcp_boot_filename: DHCP boot option for boot filename.
             fixed_ip_assignments: The DHCP fixed IP assignments on the VLAN. This should be an
-              object that contains mappings from MAC addresses to objects that
-              themselves each contain "ip" and "name" string fields. See the sample
-              request/response for more details.
+                object that contains mappings from MAC addresses to objects that
+                themselves each contain "ip" and "name" string fields. See the sample
+                request/response for more details.
             reserved_ip_ranges: The DHCP reserved IP ranges on the VLAN.
             dns_nameservers: The DNS nameservers used for DHCP responses, either "upstream_dns",
-              "google_dns", "opendns", or a newline seperated string of IP addresses or
-              domain names.
+                "google_dns", "opendns", or a newline seperated string of IP addresses
+                or domain names.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
-              object in the list should have "code", "type", and "value" properties.
+                object in the list should have "code", "type", and "value" properties.
             template_vlan_type: Type of subnetting of the VLAN. Applicable only for template
-              network.
+                network.
             cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
-              bound to the template will automatically pick a subnet from this pool to
-              build its own VLAN.
+                bound to the template will automatically pick a subnet from this pool to
+                build its own VLAN.
             mask: Mask used for the subnet of all bound to the template networks. Applicable only
-              for template network.
+                for template network.
             ipv6: IPv6 configuration on the VLAN.
             mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must
-              use the IP address assigned by the DHCP server. Clients who use a static
-              IP address won't be able to associate. Only available on firmware versions
-              17.0 and above.
+                use the IP address assigned by the DHCP server. Clients who use a static
+                IP address won't be able to associate. Only available on firmware
+                versions 17.0 and above.
 
         """
         if dhcp_handling is not None:
@@ -1326,7 +1326,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a VLAN from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
+        [API documentation: deleteNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan)
 
         Args:
             network_id: Network ID.
@@ -1353,24 +1353,24 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a Hub BGP Configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
+        [API documentation: updateNetworkApplianceVpnBgp](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp)
 
         Args:
             network_id: Network ID.
             enabled: Boolean value to enable or disable the BGP configuration. When BGP is enabled,
-              the asNumber (ASN) will be autopopulated with the preconfigured ASN at
-              other Hubs or a default value if there is no ASN configured.
+                the asNumber (ASN) will be autopopulated with the preconfigured ASN at
+                other Hubs or a default value if there is no ASN configured.
             as_number: An Autonomous System Number (ASN) is required if you are to run BGP and peer
-              with another BGP Speaker outside of the Auto VPN domain. This ASN will be
-              applied to the entire Auto VPN domain. The entire 4-byte ASN range is
-              supported. So, the ASN must be an integer between 1 and 4294967295. When
-              absent, this field is not updated. If no value exists then it defaults to
-              64512.
+                with another BGP Speaker outside of the Auto VPN domain. This ASN will
+                be applied to the entire Auto VPN domain. The entire 4-byte ASN range is
+                supported. So, the ASN must be an integer between 1 and 4294967295. When
+                absent, this field is not updated. If no value exists then it defaults
+                to 64512.
             ibgp_hold_timer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
-              between 12 and 240. When absent, this field is not updated. If no value
-              exists then it defaults to 240.
+                between 12 and 240. When absent, this field is not updated. If no value
+                exists then it defaults to 240.
             neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
-              absent, this field is not updated.
+                absent, this field is not updated.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1405,13 +1405,13 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the site-to-site VPN settings of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
+        [API documentation: updateNetworkApplianceVpnSiteToSiteVpn](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn)
 
         Args:
             network_id: Network ID.
             mode: The site-to-site VPN mode. Can be one of 'none', 'spoke' or 'hub'.
             hubs: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is
-              required.
+                required.
             subnets: The list of subnets and their VPN presence.
             subnet: Configuration of subnet features.
 
@@ -1453,7 +1453,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update MX warm spare settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
+        [API documentation: updateNetworkApplianceWarmSpare](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare)
 
         Args:
             network_id: Network ID.
@@ -1490,7 +1490,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Swap MX primary and warm spare appliances.
 
-        https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
+        [API documentation: swapNetworkApplianceWarmSpare](https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare)
 
         Args:
             network_id: Network ID.
@@ -1509,7 +1509,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a new local DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
+        [API documentation: createOrganizationApplianceDnsLocalProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile)
 
         Args:
             organization_id: Organization ID.
@@ -1537,7 +1537,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Assign the local DNS profile to networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
+        [API documentation: bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create)
 
         Args:
             organization_id: Organization ID.
@@ -1567,7 +1567,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Unassign the local DNS profile to networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
+        [API documentation: createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete)
 
         Args:
             organization_id: Organization ID.
@@ -1594,7 +1594,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a local DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
+        [API documentation: updateOrganizationApplianceDnsLocalProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile)
 
         Args:
             organization_id: Organization ID.
@@ -1621,7 +1621,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a local DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
+        [API documentation: deleteOrganizationApplianceDnsLocalProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile)
 
         Args:
             organization_id: Organization ID.
@@ -1647,7 +1647,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a new local DNS record.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
+        [API documentation: createOrganizationApplianceDnsLocalRecord](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record)
 
         Args:
             organization_id: Organization ID.
@@ -1684,7 +1684,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates a local DNS record.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
+        [API documentation: updateOrganizationApplianceDnsLocalRecord](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record)
 
         Args:
             organization_id: Organization ID.
@@ -1717,7 +1717,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a local DNS record.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
+        [API documentation: deleteOrganizationApplianceDnsLocalRecord](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record)
 
         Args:
             organization_id: Organization ID.
@@ -1743,13 +1743,13 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a new split DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
+        [API documentation: createOrganizationApplianceDnsSplitProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile)
 
         Args:
             organization_id: Organization ID.
             name: Name of profile.
             hostnames: The hostname patterns to match for redirection. For more information on Split
-              DNS hostname pattern formatting, please consult the Split DNS KB.
+                DNS hostname pattern formatting, please consult the Split DNS KB.
             nameservers: Contains the nameserver information for redirection.
 
         """
@@ -1778,7 +1778,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Assign the split DNS profile to networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
+        [API documentation: createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create)
 
         Args:
             organization_id: Organization ID.
@@ -1808,7 +1808,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Unassign the split DNS profile to networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
+        [API documentation: createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete)
 
         Args:
             organization_id: Organization ID.
@@ -1841,14 +1841,14 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a split DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
+        [API documentation: updateOrganizationApplianceDnsSplitProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile)
 
         Args:
             organization_id: Organization ID.
             profile_id: Profile ID.
             name: Name of profile.
             hostnames: The hostname patterns to match for redirection. For more information on Split
-              DNS hostname pattern formatting, please consult the Split DNS KB.
+                DNS hostname pattern formatting, please consult the Split DNS KB.
             nameservers: Contains the nameserver information for redirection.
 
         """
@@ -1875,7 +1875,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a split DNS profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
+        [API documentation: deleteOrganizationApplianceDnsSplitProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile)
 
         Args:
             organization_id: Organization ID.
@@ -1899,7 +1899,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the IPsec SLA policies for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
+        [API documentation: updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas)
 
         Args:
             organization_id: Organization ID.
@@ -1927,7 +1927,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the third party VPN peers for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
+        [API documentation: updateOrganizationApplianceVpnThirdPartyVPNPeers](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers)
 
         Args:
             organization_id: Organization ID.

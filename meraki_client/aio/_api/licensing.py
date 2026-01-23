@@ -38,10 +38,26 @@ class Licensing:
     ) -> GetAdministeredLicensingSubscriptionEntitlementsResponse | None:
         """Retrieve the list of purchasable entitlements.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-entitlements
+        [API documentation: getAdministeredLicensingSubscriptionEntitlements](https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-entitlements)
 
         Args:
             skus: Filter to entitlements with the specified SKUs.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "sku": "LIC-MR-A",
+              "name": "MR",
+              "productType": "wireless",
+              "productClass": "MR",
+              "featureTier": "advantage",
+              "isAddOn": false,
+              "isFree": false
+            }
+            ```
 
         """
         path = f"/administered/licensing/subscription/entitlements"
@@ -72,40 +88,96 @@ class Licensing:
         name: str | None = None,
         start_date: str | None = None,
         end_date: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetAdministeredLicensingSubscriptionSubscriptionsResponseItem]:
         """List available subscriptions.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions
+        [API documentation: getAdministeredLicensingSubscriptionSubscriptions](https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions)
 
         Args:
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             subscription_ids: List of subscription ids to fetch.
             organization_ids: Organizations to get associated subscriptions for.
             statuses: List of statuses that returned subscriptions can have.
             product_types: List of product types that returned subscriptions need to have
-              entitlements for.
+                entitlements for.
             skus: List of SKUs that returned subscriptions need to have entitlements for.
             name: Search for subscription name.
             start_date: Filter subscriptions by start date, ISO 8601 format. To filter with a range
-              of dates, use 'startDate[<option>]=?' in the request. Accepted options
-              include lt, gt, lte, gte.
+                of dates, use 'startDate[<option>]=?' in the request. Accepted options
+                include lt, gt, lte, gte.
             end_date: Filter subscriptions by end date, ISO 8601 format. To filter with a range of
-              dates, use 'endDate[<option>]=?' in the request. Accepted options include
-              lt, gt, lte, gte.
+                dates, use 'endDate[<option>]=?' in the request. Accepted options
+                include lt, gt, lte, gte.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "subscriptionId": "2345",
+                "name": "Corporate subscription",
+                "description": "A description",
+                "status": "active",
+                "startDate": "2027-06-30T00:00:00Z",
+                "endDate": "2028-06-30T00:00:00Z",
+                "lastUpdatedAt": "2027-09-21T00:00:00Z",
+                "webOrderId": "55598764",
+                "type": "termed",
+                "smartAccount": {
+                  "status": "active",
+                  "account": {
+                    "id": "99995678",
+                    "name": "Corporate Smart Account",
+                    "domain": "smart_account_domain"
+                  }
+                },
+                "renewalRequested": false,
+                "productTypes": [
+                  "wireless"
+                ],
+                "entitlements": [
+                  {
+                    "sku": "LIC-MS-400-L-A",
+                    "seats": {
+                      "assigned": 10,
+                      "available": 15,
+                      "limit": 25
+                    }
+                  }
+                ],
+                "counts": {
+                  "seats": {
+                    "assigned": 10,
+                    "available": 15,
+                    "limit": 25
+                  },
+                  "networks": 1,
+                  "organizations": 1
+                },
+                "enterpriseAgreement": {
+                  "suites": [
+                    "networking"
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         path = f"/administered/licensing/subscription/subscriptions"
@@ -155,15 +227,69 @@ class Licensing:
     ) -> ClaimAdministeredLicensingSubscriptionSubscriptionsResponse | None:
         """Claim a subscription into an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!claim-administered-licensing-subscription-subscriptions
+        [API documentation: claimAdministeredLicensingSubscriptionSubscriptions](https://developer.cisco.com/meraki/api-v1/#!claim-administered-licensing-subscription-subscriptions)
 
         Args:
             validate: Check if the provided claim key is valid and can be claimed into the
-              organization.
+                organization.
             claim_key: The subscription's claim key.
             organization_id: The id of the organization claiming the subscription.
             name: Friendly name to identify the subscription.
             description: Extra details or notes about the subscription.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "subscriptionId": "2345",
+              "name": "Corporate subscription",
+              "description": "A description",
+              "status": "active",
+              "startDate": "2027-06-30T00:00:00Z",
+              "endDate": "2028-06-30T00:00:00Z",
+              "lastUpdatedAt": "2027-09-21T00:00:00Z",
+              "webOrderId": "55598764",
+              "type": "termed",
+              "smartAccount": {
+                "status": "active",
+                "account": {
+                  "id": "99995678",
+                  "name": "Corporate Smart Account",
+                  "domain": "smart_account_domain"
+                }
+              },
+              "renewalRequested": false,
+              "productTypes": [
+                "wireless"
+              ],
+              "entitlements": [
+                {
+                  "sku": "LIC-MS-400-L-A",
+                  "seats": {
+                    "assigned": 10,
+                    "available": 15,
+                    "limit": 25
+                  }
+                }
+              ],
+              "counts": {
+                "seats": {
+                  "assigned": 10,
+                  "available": 15,
+                  "limit": 25
+                },
+                "networks": 1,
+                "organizations": 1
+              },
+              "enterpriseAgreement": {
+                "suites": [
+                  "networking"
+                ]
+              }
+            }
+            ```
 
         """
         path = f"/administered/licensing/subscription/subscriptions/claim"
@@ -195,10 +321,64 @@ class Licensing:
     ) -> ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse | None:
         """Find a subscription by claim key.
 
-        https://developer.cisco.com/meraki/api-v1/#!validate-administered-licensing-subscription-subscriptions-claim-key
+        [API documentation: validateAdministeredLicensingSubscriptionSubscriptionsClaimKey](https://developer.cisco.com/meraki/api-v1/#!validate-administered-licensing-subscription-subscriptions-claim-key)
 
         Args:
             claim_key: The subscription's claim key.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "subscriptionId": "2345",
+              "name": "Corporate subscription",
+              "description": "A description",
+              "status": "active",
+              "startDate": "2027-06-30T00:00:00Z",
+              "endDate": "2028-06-30T00:00:00Z",
+              "lastUpdatedAt": "2027-09-21T00:00:00Z",
+              "webOrderId": "55598764",
+              "type": "termed",
+              "smartAccount": {
+                "status": "active",
+                "account": {
+                  "id": "99995678",
+                  "name": "Corporate Smart Account",
+                  "domain": "smart_account_domain"
+                }
+              },
+              "renewalRequested": false,
+              "productTypes": [
+                "wireless"
+              ],
+              "entitlements": [
+                {
+                  "sku": "LIC-MS-400-L-A",
+                  "seats": {
+                    "assigned": 10,
+                    "available": 15,
+                    "limit": 25
+                  }
+                }
+              ],
+              "counts": {
+                "seats": {
+                  "assigned": 10,
+                  "available": 15,
+                  "limit": 25
+                },
+                "networks": 1,
+                "organizations": 1
+              },
+              "enterpriseAgreement": {
+                "suites": [
+                  "networking"
+                ]
+              }
+            }
+            ```
 
         """
         path = f"/administered/licensing/subscription/subscriptions/claimKey/validate"
@@ -220,11 +400,43 @@ class Licensing:
     ) -> GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse | None:
         """Get compliance status for requested subscriptions.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions-compliance-statuses
+        [API documentation: getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses](https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions-compliance-statuses)
 
         Args:
             organization_ids: Organizations to get subscription compliance information for.
             subscription_ids: Subscription ids.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "subscription": {
+                  "id": "12345",
+                  "name": "Corporate Subscription",
+                  "status": "active"
+                },
+                "violations": {
+                  "byProductClass": [
+                    {
+                      "productClass": "MS 100 Small",
+                      "gracePeriodEndsAt": "2023-12-07T00:00:00Z",
+                      "missing": {
+                        "entitlements": [
+                          {
+                            "sku": "LIC-MS-100-S-E",
+                            "quantity": 11
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         path = f"/administered/licensing/subscription/subscriptions/compliance/statuses"
@@ -252,13 +464,38 @@ class Licensing:
     ) -> BindAdministeredLicensingSubscriptionSubscriptionResponse | None:
         """Bind networks to a subscription.
 
-        https://developer.cisco.com/meraki/api-v1/#!bind-administered-licensing-subscription-subscription
+        [API documentation: bindAdministeredLicensingSubscriptionSubscription](https://developer.cisco.com/meraki/api-v1/#!bind-administered-licensing-subscription-subscription)
 
         Args:
             subscription_id: Subscription ID.
             validate: Check if the provided networks can be bound to the subscription. Returns any
-              licensing problems and does not commit the results.
+                licensing problems and does not commit the results.
             network_ids: List of network ids to bind to the subscription.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "subscriptionId": "XY1234567",
+              "networks": [
+                {
+                  "id": "L_1234",
+                  "name": "Corporate network"
+                }
+              ],
+              "errors": [
+                "Insufficient licenses"
+              ],
+              "insufficientEntitlements": [
+                {
+                  "sku": "LIC-MS-400-L-A",
+                  "quantity": 5
+                }
+              ]
+            }
+            ```
 
         """
         subscription_id = urllib.parse.quote(str(subscription_id), safe="")
@@ -289,30 +526,62 @@ class Licensing:
         ending_before: str | None = None,
         invalidated: bool | None = None,
         expired: bool | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationLicensingCotermLicensesResponseItem]:
         """List the licenses in a coterm organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-licensing-coterm-licenses
+        [API documentation: getOrganizationLicensingCotermLicenses](https://developer.cisco.com/meraki/api-v1/#!get-organization-licensing-coterm-licenses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             invalidated: Filter for licenses that are invalidated.
             expired: Filter for licenses that are expired.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "key": "Z2AA-BBBB-CCCC",
+                "organizationId": "123456",
+                "duration": 365,
+                "mode": "addDevices",
+                "startedAt": "2022-05-02T10:52:00Z",
+                "claimedAt": "2022-07-04T16:23:00Z",
+                "invalidated": true,
+                "invalidatedAt": "2022-07-04T16:23:00Z",
+                "expired": false,
+                "editions": [
+                  {
+                    "edition": "Enterprise",
+                    "productType": "appliance"
+                  }
+                ],
+                "counts": [
+                  {
+                    "model": "MR Enterprise",
+                    "count": 2
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -349,12 +618,71 @@ class Licensing:
     ) -> MoveOrganizationLicensingCotermLicensesResponse | None:
         """Moves a license to a different organization (coterm only).
 
-        https://developer.cisco.com/meraki/api-v1/#!move-organization-licensing-coterm-licenses
+        [API documentation: moveOrganizationLicensingCotermLicenses](https://developer.cisco.com/meraki/api-v1/#!move-organization-licensing-coterm-licenses)
 
         Args:
             organization_id: Organization ID.
             destination: Destination data for the license move.
             licenses: The list of licenses to move.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "remainderLicenses": [
+                {
+                  "key": "Z2AA-BBBB-CCCC",
+                  "organizationId": "123456",
+                  "duration": 365,
+                  "mode": "addDevices",
+                  "startedAt": "2022-05-02T10:52:00Z",
+                  "claimedAt": "2022-07-04T16:23:00Z",
+                  "invalidated": true,
+                  "invalidatedAt": "2022-07-04T16:23:00Z",
+                  "expired": false,
+                  "editions": [
+                    {
+                      "edition": "Enterprise",
+                      "productType": "appliance"
+                    }
+                  ],
+                  "counts": [
+                    {
+                      "model": "MR Enterprise",
+                      "count": 2
+                    }
+                  ]
+                }
+              ],
+              "movedLicenses": [
+                {
+                  "key": "Z2AA-BBBB-CCCC",
+                  "organizationId": "123456",
+                  "duration": 365,
+                  "mode": "addDevices",
+                  "startedAt": "2022-05-02T10:52:00Z",
+                  "claimedAt": "2022-07-04T16:23:00Z",
+                  "invalidated": true,
+                  "invalidatedAt": "2022-07-04T16:23:00Z",
+                  "expired": false,
+                  "editions": [
+                    {
+                      "edition": "Enterprise",
+                      "productType": "appliance"
+                    }
+                  ],
+                  "counts": [
+                    {
+                      "model": "MR Enterprise",
+                      "count": 2
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

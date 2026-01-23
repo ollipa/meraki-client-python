@@ -1,8 +1,9 @@
 {% set await_ = "await " if is_async and not is_paginated else "" %}
-    {{ "async " if is_async and not is_paginated else "" }}def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> {{ return_type }}:
-        """{{ description }}
+{% set docstring_prefix = 'r"""' if use_raw_docstring else '"""' %}
+    {{ "async " if is_async and not is_paginated else "" }}def {{ function_name }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> {{ return_type }}:
+        {{ docstring_prefix }}{{ description }}
 
-        {{ doc_url }}
+        [API documentation: {{ operation_id }}]({{ doc_url }})
         {% if descriptions|length > 0 %}
 
         Args:
@@ -11,6 +12,18 @@
         {% endfor %}
         {% endif %}
 
+        {% if return_description %}
+        Returns:
+            {{ return_description }}
+
+        {% endif %}
+        {% if response_example %}
+        Example API response:
+            ```json
+{{ response_example | indent(12, first=True) }}
+            ```
+
+        {% endif %}
         """
         {% if assert_blocks|length > 0 %}
         {% for param, values in assert_blocks %}

@@ -71,11 +71,23 @@ class Sm:
     ) -> dict[str, Any] | None:
         """Bypass activation lock attempt.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-sm-bypass-activation-lock-attempt
+        [API documentation: createNetworkSmBypassActivationLockAttempt](https://developer.cisco.com/meraki/api-v1/#!create-network-sm-bypass-activation-lock-attempt)
 
         Args:
             network_id: Network ID.
             ids: The ids of the devices to attempt activation lock bypass.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "status": "pending",
+              "data": {}
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -97,11 +109,33 @@ class Sm:
     ) -> dict[str, Any] | None:
         """Bypass activation lock attempt status.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-bypass-activation-lock-attempt
+        [API documentation: getNetworkSmBypassActivationLockAttempt](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-bypass-activation-lock-attempt)
 
         Args:
             network_id: Network ID.
             attempt_id: Attempt ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "status": "complete",
+              "data": {
+                "38290139892": {
+                  "success": true
+                },
+                "2090938209": {
+                  "success": false,
+                  "errors": [
+                    "Activation lock bypass code not known for this device"
+                  ]
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -126,48 +160,74 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkSmDevicesResponseItem]:
         """List the devices enrolled in an SM network with various specified fields and filters.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-devices
+        [API documentation: getNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-devices)
 
         Args:
             network_id: Network ID.
             fields: Additional fields that will be displayed for each device. The default fields
-              are: id, name, tags, ssid, wifiMac, osName, systemModel, uuid, and
-              serialNumber. The additional fields are: ip, systemType,
-              availableDeviceCapacity, kioskAppName, biosVersion, lastConnected,
-              missingAppsCount, userSuppliedAddress, location, lastUser, ownerEmail,
-              ownerUsername, osBuild, publicIp, phoneNumber, diskInfoJson,
-              deviceCapacity, isManaged, hadMdm, isSupervised, meid, imei, iccid,
-              simCarrierNetwork, cellularDataUsed, isHotspotEnabled, createdAt,
-              batteryEstCharge, quarantined, avName, avRunning, asName, fwName,
-              isRooted, loginRequired, screenLockEnabled, screenLockDelay,
-              autoLoginDisabled, autoTags, hasMdm, hasDesktopAgent,
-              diskEncryptionEnabled, hardwareEncryptionCaps, passCodeLock,
-              usesHardwareKeystore, androidSecurityPatchVersion, cellular, and url.
+                are: id, name, tags, ssid, wifiMac, osName, systemModel, uuid, and
+                serialNumber. The additional fields are: ip, systemType,
+                availableDeviceCapacity, kioskAppName, biosVersion, lastConnected,
+                missingAppsCount, userSuppliedAddress, location, lastUser, ownerEmail,
+                ownerUsername, osBuild, publicIp, phoneNumber, diskInfoJson,
+                deviceCapacity, isManaged, hadMdm, isSupervised, meid, imei, iccid,
+                simCarrierNetwork, cellularDataUsed, isHotspotEnabled, createdAt,
+                batteryEstCharge, quarantined, avName, avRunning, asName, fwName,
+                isRooted, loginRequired, screenLockEnabled, screenLockDelay,
+                autoLoginDisabled, autoTags, hasMdm, hasDesktopAgent,
+                diskEncryptionEnabled, hardwareEncryptionCaps, passCodeLock,
+                usesHardwareKeystore, androidSecurityPatchVersion, cellular, and url.
             wifi_macs: Filter devices by wifi mac(s).
             serials: Filter devices by serial(s).
             ids: Filter devices by id(s).
             uuids: Filter devices by uuid(s).
             system_types: Filter devices by system type(s).
             scope: Specify a scope (one of all, none, withAny, withAll, withoutAny, or withoutAll)
-              and a set of tags.
+                and a set of tags.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "name": "Miles's phone",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "ssid": "My SSID",
+                "wifiMac": "00:11:22:33:44:55",
+                "osName": "iOS 9.3.5",
+                "systemModel": "iPhone",
+                "uuid": "3d990628ede4c628d52",
+                "serialNumber": "F5XKHEBX",
+                "serial": "F5XKHEBX",
+                "ip": "1.2.3.4",
+                "notes": "Here's some info about my device"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -216,7 +276,7 @@ class Sm:
     ) -> CheckinNetworkSmDevicesResponse | None:
         """Force check-in a set of devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!checkin-network-sm-devices
+        [API documentation: checkinNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!checkin-network-sm-devices)
 
         Args:
             network_id: Network ID.
@@ -224,7 +284,20 @@ class Sm:
             ids: The ids of the devices to be checked-in.
             serials: The serials of the devices to be checked-in.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
-              set of tags of the devices to be checked-in.
+                set of tags of the devices to be checked-in.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ids": [
+                "1284392014819",
+                "2983092129865"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -259,7 +332,7 @@ class Sm:
     ) -> UpdateNetworkSmDevicesFieldsResponse | None:
         """Modify the fields of a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-sm-devices-fields
+        [API documentation: updateNetworkSmDevicesFields](https://developer.cisco.com/meraki/api-v1/#!update-network-sm-devices-fields)
 
         Args:
             network_id: Network ID.
@@ -267,6 +340,22 @@ class Sm:
             id: The id of the device to be modified.
             serial: The serial of the device to be modified.
             device_fields: The new fields of the device. Each field of this object is optional.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "name": "Miles's phone",
+                "wifiMac": "00:11:22:33:44:55",
+                "serial": "F5XKHEBX",
+                "notes": "Here's some info about my device"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -302,7 +391,7 @@ class Sm:
     ) -> LockNetworkSmDevicesResponse | None:
         """Lock a set of devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!lock-network-sm-devices
+        [API documentation: lockNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!lock-network-sm-devices)
 
         Args:
             network_id: Network ID.
@@ -310,9 +399,22 @@ class Sm:
             ids: The ids of the devices to be locked.
             serials: The serials of the devices to be locked.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
-              set of tags of the devices to be locked.
+                set of tags of the devices to be locked.
             pin: The pin number for locking macOS devices (a six digit number). Required only for
-              macOS devices.
+                macOS devices.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ids": [
+                "1284392014819",
+                "2983092129865"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -351,7 +453,7 @@ class Sm:
     ) -> ModifyNetworkSmDevicesTagsResponse | None:
         """Add, delete, or update the tags of a set of devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!modify-network-sm-devices-tags
+        [API documentation: modifyNetworkSmDevicesTags](https://developer.cisco.com/meraki/api-v1/#!modify-network-sm-devices-tags)
 
         Args:
             network_id: Network ID.
@@ -359,10 +461,28 @@ class Sm:
             ids: The ids of the devices to be modified.
             serials: The serials of the devices to be modified.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
-              set of tags of the devices to be modified.
+                set of tags of the devices to be modified.
             tags: The tags to be added, deleted, or updated.
             update_action: One of add, delete, or update. Only devices that have been modified will
-              be returned.
+                be returned.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "wifiMac": "00:11:22:33:44:55",
+                "serial": "F5XKHEBX"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -402,7 +522,7 @@ class Sm:
     ) -> MoveNetworkSmDevicesResponse | None:
         """Move a set of devices to a new network.
 
-        https://developer.cisco.com/meraki/api-v1/#!move-network-sm-devices
+        [API documentation: moveNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!move-network-sm-devices)
 
         Args:
             network_id: Network ID.
@@ -410,8 +530,22 @@ class Sm:
             ids: The ids of the devices to be moved.
             serials: The serials of the devices to be moved.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
-              set of tags of the devices to be moved.
+                set of tags of the devices to be moved.
             new_network: The new network to which the devices will be moved.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ids": [
+                "1284392014819",
+                "2983092129865"
+              ],
+              "newNetwork": "1284392014819"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -452,7 +586,7 @@ class Sm:
     ) -> RebootNetworkSmDevicesResponse | None:
         """Reboot a set of endpoints.
 
-        https://developer.cisco.com/meraki/api-v1/#!reboot-network-sm-devices
+        [API documentation: rebootNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!reboot-network-sm-devices)
 
         Args:
             network_id: Network ID.
@@ -460,14 +594,27 @@ class Sm:
             ids: The ids of the endpoints to be rebooted.
             serials: The serials of the endpoints to be rebooted.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
-              set of tags of the endpoints to be rebooted.
+                set of tags of the endpoints to be rebooted.
             kext_paths: The KextPaths of the endpoints to be rebooted. Available for macOS 11+.
             notify_user: Whether or not to notify the user before rebooting the endpoint. Available
-              for macOS 11.3+.
+                for macOS 11.3+.
             rebuild_kernel_cache: Whether or not to rebuild the kernel cache when rebooting the
-              endpoint. Available for macOS 11+.
+                endpoint. Available for macOS 11+.
             request_requires_network_tether: Whether or not the request requires network tethering.
-              Available for macOS and supervised iOS or tvOS.
+                Available for macOS and supervised iOS or tvOS.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ids": [
+                "1284392014819",
+                "2983092129865"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -510,7 +657,7 @@ class Sm:
     ) -> ShutdownNetworkSmDevicesResponse | None:
         """Shutdown a set of endpoints.
 
-        https://developer.cisco.com/meraki/api-v1/#!shutdown-network-sm-devices
+        [API documentation: shutdownNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!shutdown-network-sm-devices)
 
         Args:
             network_id: Network ID.
@@ -518,7 +665,20 @@ class Sm:
             ids: The ids of the endpoints to be shutdown.
             serials: The serials of the endpoints to be shutdown.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
-              set of tags of the endpoints to be shutdown.
+                set of tags of the endpoints to be shutdown.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ids": [
+                "1284392014819",
+                "2983092129865"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -553,7 +713,7 @@ class Sm:
     ) -> WipeNetworkSmDevicesResponse | None:
         """Wipe a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!wipe-network-sm-devices
+        [API documentation: wipeNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!wipe-network-sm-devices)
 
         Args:
             network_id: Network ID.
@@ -561,7 +721,17 @@ class Sm:
             id: The id of the device to be wiped.
             serial: The serial of the device to be wiped.
             pin: The pin number (a six digit value) for wiping a macOS device. Required only for
-              macOS devices.
+                macOS devices.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -590,11 +760,25 @@ class Sm:
     ) -> GetNetworkSmDeviceCellularUsageHistoryResponse | None:
         """Return the client's daily cellular data usage history.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-cellular-usage-history
+        [API documentation: getNetworkSmDeviceCellularUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-cellular-usage-history)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "received": 61.0,
+                "sent": 138.0,
+                "ts": "2018-05-12T00:00:00Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -611,13 +795,32 @@ class Sm:
     def get_network_sm_device_certs(
         self, *, network_id: str, device_id: str
     ) -> GetNetworkSmDeviceCertsResponse | None:
-        """List the certs on a device.
+        r"""List the certs on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-certs
+        [API documentation: getNetworkSmDeviceCerts](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-certs)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My Cert",
+                "notValidAfter": "2018-05-12T00:00:00Z",
+                "notValidBefore": "2018-02-11T00:00:00Z",
+                "certPem": "-----BEGIN CERTIFICATE-----\n-----END CERTIFICATE-----\n",
+                "deviceId": "1234",
+                "issuer": "",
+                "subject": "",
+                "id": "15"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -639,29 +842,42 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkSmDeviceConnectivityResponseItem]:
         """Returns historical connectivity data (whether a device is regularly checking in to Dashboard).
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-connectivity
+        [API documentation: getNetworkSmDeviceConnectivity](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-connectivity)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "firstSeenAt": "2018-02-11T00:00:00Z",
+                "lastSeenAt": "2018-05-12T00:00:00Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -694,29 +910,58 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkSmDeviceDesktopLogsResponseItem]:
         """Return historical records of various Systems Manager network connection details for desktop devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-desktop-logs
+        [API documentation: getNetworkSmDeviceDesktopLogs](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-desktop-logs)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "measuredAt": "2018-05-12T00:00:00Z",
+                "user": "milesmeraki",
+                "networkDevice": "NIC",
+                "networkDriver": "Driver",
+                "wifiChannel": "11",
+                "wifiAuth": "wpa-psk",
+                "wifiBssid": "00:11:22:33:44:55",
+                "wifiSsid": "ssid",
+                "wifiRssi": "-11",
+                "wifiNoise": "-99",
+                "dhcpServer": "1.2.3.4",
+                "ip": "1.2.3.4",
+                "networkMTU": "1500",
+                "subnet": "192.168.1.0/24",
+                "gateway": "1.2.3.5",
+                "publicIP": "123.123.123.1",
+                "dnsServer": "8",
+                "ts": "2018-05-12T00:00:00Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -749,29 +994,45 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkSmDeviceDeviceCommandLogsResponseItem]:
         """Return historical records of commands sent to Systems Manager devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-command-logs
+        [API documentation: getNetworkSmDeviceDeviceCommandLogs](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-command-logs)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "action": "UpdateProfile",
+                "name": "My profile",
+                "details": "{}",
+                "dashboardUser": "Miles Meraki",
+                "ts": "2018-05-12T00:00:00Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -801,11 +1062,30 @@ class Sm:
     ) -> GetNetworkSmDeviceDeviceProfilesResponse | None:
         """Get the installed profiles associated with a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-profiles
+        [API documentation: getNetworkSmDeviceDeviceProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-profiles)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "deviceId": "1234",
+                "id": "1284392014819",
+                "isEncrypted": true,
+                "isManaged": true,
+                "profileData": "{}",
+                "profileIdentifier": "com.test.app",
+                "name": "My profile",
+                "version": "0.0.1"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -824,15 +1104,18 @@ class Sm:
     ) -> dict[str, Any] | None:
         """Install applications on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!install-network-sm-device-apps
+        [API documentation: installNetworkSmDeviceApps](https://developer.cisco.com/meraki/api-v1/#!install-network-sm-device-apps)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
             app_ids: ids of applications to be installed.
             force: By default, installation of an app which is believed to already be present on the
-              device will be skipped. If you'd like to force the installation of the
-              app, set this parameter to true.
+                device will be skipped. If you'd like to force the installation of the
+                app, set this parameter to true.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -854,11 +1137,30 @@ class Sm:
     ) -> GetNetworkSmDeviceNetworkAdaptersResponse | None:
         """List the network adapters of a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-network-adapters
+        [API documentation: getNetworkSmDeviceNetworkAdapters](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-network-adapters)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "dhcpServer": "123.123.123.1",
+                "dnsServer": "8.8.8.8, 8.8.4.4",
+                "gateway": "1.2.3.5",
+                "id": "1284392014819",
+                "ip": "1.2.3.4",
+                "mac": "00:11:22:33:44:55",
+                "name": "en0",
+                "subnet": "255.255.255.0"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -880,29 +1182,55 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkSmDevicePerformanceHistoryResponseItem]:
         """Return historical records of various Systems Manager client metrics for desktop devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-performance-history
+        [API documentation: getNetworkSmDevicePerformanceHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-performance-history)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "cpuPercentUsed": 0.95,
+                "memFree": 1024,
+                "memWired": 4096,
+                "memActive": 1024,
+                "memInactive": 2048,
+                "networkSent": 512,
+                "networkReceived": 512,
+                "swapUsed": 768,
+                "diskUsage": {
+                  "c": {
+                    "used": 2048,
+                    "space": 9096
+                  }
+                },
+                "ts": "2018-05-12T00:00:00Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -932,11 +1260,14 @@ class Sm:
     ) -> dict[str, Any] | None:
         """Refresh the details of a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!refresh-network-sm-device-details
+        [API documentation: refreshNetworkSmDeviceDetails](https://developer.cisco.com/meraki/api-v1/#!refresh-network-sm-device-details)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -952,11 +1283,25 @@ class Sm:
     ) -> GetNetworkSmDeviceRestrictionsResponse | None:
         """List the restrictions on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-restrictions
+        [API documentation: getNetworkSmDeviceRestrictions](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-restrictions)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "restrictions": [
+                {
+                  "profile": "com.test.app"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -975,11 +1320,32 @@ class Sm:
     ) -> GetNetworkSmDeviceSecurityCentersResponse | None:
         """List the security centers on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-security-centers
+        [API documentation: getNetworkSmDeviceSecurityCenters](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-security-centers)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "isRooted": true,
+                "hasAntiVirus": true,
+                "antiVirusName": "meraki_av",
+                "isFireWallEnabled": true,
+                "hasFireWallInstalled": true,
+                "fireWallName": "meraki_fw",
+                "isDiskEncrypted": true,
+                "isAutoLoginDisabled": true,
+                "id": "1284392014819",
+                "runningProcs": "/software,/software_2"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -998,11 +1364,45 @@ class Sm:
     ) -> GetNetworkSmDeviceSoftwaresResponse | None:
         """Get a list of softwares associated with a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-softwares
+        [API documentation: getNetworkSmDeviceSoftwares](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-softwares)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "appId": "1234",
+                "bundleSize": 1024,
+                "createdAt": "2018-02-11T00:00:00Z",
+                "deviceId": "1234",
+                "dynamicSize": 2048,
+                "id": "1284392014819",
+                "identifier": "com.test.app",
+                "installedAt": "2018-05-12T00:00:00Z",
+                "toInstall": true,
+                "iosRedemptionCode": false,
+                "isManaged": true,
+                "itunesId": "1234",
+                "licenseKey": "Z21234567890",
+                "name": "My app",
+                "path": "/Path/to/app.app",
+                "redemptionCode": 1234,
+                "shortVersion": "1.1",
+                "status": "Managed",
+                "toUninstall": false,
+                "uninstalledAt": "2018-02-11T00:00:00Z",
+                "updatedAt": "2018-05-12T00:00:00Z",
+                "vendor": "Apple",
+                "version": "0.1"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1021,11 +1421,21 @@ class Sm:
     ) -> UnenrollNetworkSmDeviceResponse | None:
         """Unenroll a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!unenroll-network-sm-device
+        [API documentation: unenrollNetworkSmDevice](https://developer.cisco.com/meraki/api-v1/#!unenroll-network-sm-device)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1044,12 +1454,15 @@ class Sm:
     ) -> dict[str, Any] | None:
         """Uninstall applications on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!uninstall-network-sm-device-apps
+        [API documentation: uninstallNetworkSmDeviceApps](https://developer.cisco.com/meraki/api-v1/#!uninstall-network-sm-device-apps)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
             app_ids: ids of applications to be uninstalled.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1069,11 +1482,25 @@ class Sm:
     ) -> GetNetworkSmDeviceWlanListsResponse | None:
         """List the saved SSID names on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-wlan-lists
+        [API documentation: getNetworkSmDeviceWlanLists](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-wlan-lists)
 
         Args:
             network_id: Network ID.
             device_id: Device ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "createdAt": "2018-02-11T00:00:00Z",
+                "id": "1284392014819",
+                "xml": "Preferred networks on en0:"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1092,11 +1519,34 @@ class Sm:
     ) -> GetNetworkSmProfilesResponse | None:
         """List all profiles in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-profiles
+        [API documentation: getNetworkSmProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-profiles)
 
         Args:
             network_id: Network ID.
             payload_types: Filter by payload types.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "name": "My profile",
+                "description": "Some profile description",
+                "scope": "withAny",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "payloadTypes": [
+                  "Vpn",
+                  "ManagedSettings"
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1119,12 +1569,30 @@ class Sm:
     ) -> GetNetworkSmTargetGroupsResponse | None:
         """List the target groups in this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-groups
+        [API documentation: getNetworkSmTargetGroups](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-groups)
 
         Args:
             network_id: Network ID.
             with_details: Boolean indicating if the the ids of the devices or users scoped by the
-              target group should be included in the response.
+                target group should be included in the response.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "name": "Target group name",
+                "scope": "withAny",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1147,14 +1615,30 @@ class Sm:
     ) -> CreateNetworkSmTargetGroupResponse | None:
         """Add a target group.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-sm-target-group
+        [API documentation: createNetworkSmTargetGroup](https://developer.cisco.com/meraki/api-v1/#!create-network-sm-target-group)
 
         Args:
             network_id: Network ID.
             name: The name of this target group.
             scope: The scope and tag options of the target group. Comma separated values beginning
-              with one of withAny, withAll, withoutAny, withoutAll, all, none, followed
-              by tags. Default to none if empty.
+                with one of withAny, withAll, withoutAny, withoutAll, all, none,
+                followed by tags. Default to none if empty.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "name": "Target group name",
+              "scope": "withAny",
+              "tags": [
+                "tag1",
+                "tag2"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1179,13 +1663,29 @@ class Sm:
     ) -> GetNetworkSmTargetGroupResponse | None:
         """Return a target group.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-group
+        [API documentation: getNetworkSmTargetGroup](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-group)
 
         Args:
             network_id: Network ID.
             target_group_id: Target group ID.
             with_details: Boolean indicating if the the ids of the devices or users scoped by the
-              target group should be included in the response.
+                target group should be included in the response.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "name": "Target group name",
+              "scope": "withAny",
+              "tags": [
+                "tag1",
+                "tag2"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1214,15 +1714,31 @@ class Sm:
     ) -> UpdateNetworkSmTargetGroupResponse | None:
         """Update a target group.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-sm-target-group
+        [API documentation: updateNetworkSmTargetGroup](https://developer.cisco.com/meraki/api-v1/#!update-network-sm-target-group)
 
         Args:
             network_id: Network ID.
             target_group_id: Target group ID.
             name: The name of this target group.
             scope: The scope and tag options of the target group. Comma separated values beginning
-              with one of withAny, withAll, withoutAny, withoutAll, all, none, followed
-              by tags. Default to none if empty.
+                with one of withAny, withAll, withoutAny, withoutAll, all, none,
+                followed by tags. Default to none if empty.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "name": "Target group name",
+              "scope": "withAny",
+              "tags": [
+                "tag1",
+                "tag2"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1246,11 +1762,14 @@ class Sm:
     def delete_network_sm_target_group(self, *, network_id: str, target_group_id: str) -> None:
         """Delete a target group from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-target-group
+        [API documentation: deleteNetworkSmTargetGroup](https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-target-group)
 
         Args:
             network_id: Network ID.
             target_group_id: Target group ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1268,28 +1787,53 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkSmTrustedAccessConfigsResponseItem]:
         """List Trusted Access Configs.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-trusted-access-configs
+        [API documentation: getNetworkSmTrustedAccessConfigs](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-trusted-access-configs)
 
         Args:
             network_id: Network ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "ssidName": "My SSID",
+                "name": "Cisco Meraki valued client",
+                "scope": "withAny",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "timeboundType": "static",
+                "sendExpirationEmails": true,
+                "notifyTimeBeforeAccessEnds": 50000,
+                "additionalEmailText": "test",
+                "accessStartAt": "2018-02-11T00:00:00Z",
+                "accessEndAt": "2018-05-12T00:00:00Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1320,28 +1864,57 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkSmUserAccessDevicesResponseItem]:
         """List User Access Devices and its Trusted Access Connections.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-access-devices
+        [API documentation: getNetworkSmUserAccessDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-access-devices)
 
         Args:
             network_id: Network ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "name": "Cisco Meraki valued client",
+                "systemType": "ios",
+                "mac": "00:11:22:33:44:55",
+                "username": "milesmeraki",
+                "email": "miles@meraki.com",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "trustedAccessConnections": [
+                  {
+                    "trustedAccessConfigId": "1234",
+                    "downloadedAt": "2018-02-11T00:00:00Z",
+                    "scepCompletedAt": "2018-05-12T00:00:00Z",
+                    "lastConnectedAt": "2018-05-12T00:00:00Z"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1370,11 +1943,14 @@ class Sm:
     ) -> None:
         """Delete a User Access Device.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device
+        [API documentation: deleteNetworkSmUserAccessDevice](https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device)
 
         Args:
             network_id: Network ID.
             user_access_device_id: User access device ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1396,7 +1972,7 @@ class Sm:
     ) -> GetNetworkSmUsersResponse | None:
         """List the owners in an SM network with various specified fields and filters.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-users
+        [API documentation: getNetworkSmUsers](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-users)
 
         Args:
             network_id: Network ID.
@@ -1404,7 +1980,32 @@ class Sm:
             usernames: Filter users by username(s).
             emails: Filter users by email(s).
             scope: Specifiy a scope (one of all, none, withAny, withAll, withoutAny, withoutAll) and
-              a set of tags.
+                a set of tags.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "email": "miles@meraki.com",
+                "fullName": "Miles Meraki",
+                "username": "",
+                "hasPassword": false,
+                "tags": " tag1 tag2 ",
+                "adGroups": [],
+                "azureAdGroups": [],
+                "samlGroups": [],
+                "asmGroups": [],
+                "isExternal": false,
+                "displayName": "Miles Meraki <miles@meraki.com>",
+                "hasIdentityCertificate": false,
+                "userThumbnail": "https://s3.amazonaws.com/image.extension"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1433,11 +2034,30 @@ class Sm:
     ) -> GetNetworkSmUserDeviceProfilesResponse | None:
         """Get the profiles associated with a user.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-device-profiles
+        [API documentation: getNetworkSmUserDeviceProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-device-profiles)
 
         Args:
             network_id: Network ID.
             user_id: User ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "deviceId": "1234",
+                "id": "1284392014819",
+                "isEncrypted": true,
+                "isManaged": true,
+                "profileData": "{}",
+                "profileIdentifier": "com.test.app",
+                "name": "My profile",
+                "version": "0.0.1"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1456,11 +2076,45 @@ class Sm:
     ) -> GetNetworkSmUserSoftwaresResponse | None:
         """Get a list of softwares associated with a user.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-softwares
+        [API documentation: getNetworkSmUserSoftwares](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-softwares)
 
         Args:
             network_id: Network ID.
             user_id: User ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "appId": "1234",
+                "bundleSize": 1024,
+                "createdAt": "2018-02-11T00:00:00Z",
+                "deviceId": "1234",
+                "dynamicSize": 2048,
+                "id": "1284392014819",
+                "identifier": "com.test.app",
+                "installedAt": "2018-05-12T00:00:00Z",
+                "toInstall": true,
+                "iosRedemptionCode": false,
+                "isManaged": true,
+                "itunesId": "1234",
+                "licenseKey": "Z21234567890",
+                "name": "My app",
+                "path": "/Path/to/app.app",
+                "redemptionCode": 1234,
+                "shortVersion": "1.1",
+                "status": "Managed",
+                "toUninstall": false,
+                "uninstalledAt": "2018-02-11T00:00:00Z",
+                "updatedAt": "2018-05-12T00:00:00Z",
+                "vendor": "Apple",
+                "version": "0.1"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1481,28 +2135,55 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationSmAdminsRolesResponseItemsItem]:
         """List the Limited Access Roles for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-roles
+        [API documentation: getOrganizationSmAdminsRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-roles)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "roleId": "1284392014819",
+                  "name": "sample name",
+                  "scope": "all_tags",
+                  "tags": [
+                    "tag"
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1536,13 +2217,28 @@ class Sm:
     ) -> CreateOrganizationSmAdminsRoleResponse | None:
         """Create a Limited Access Role.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role
+        [API documentation: createOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role)
 
         Args:
             organization_id: Organization ID.
             name: The name of the Limited Access Role.
             scope: The scope of the Limited Access Role.
             tags: The tags of the Limited Access Role.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "roleId": "1284392014819",
+              "name": "sample name",
+              "scope": "all_tags",
+              "tags": [
+                "tag"
+              ]
+            }
+            ```
 
         """
         if scope is not None:
@@ -1575,11 +2271,26 @@ class Sm:
     ) -> GetOrganizationSmAdminsRoleResponse | None:
         """Return a Limited Access Role.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-role
+        [API documentation: getOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-role)
 
         Args:
             organization_id: Organization ID.
             role_id: Role ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "roleId": "1284392014819",
+              "name": "sample name",
+              "scope": "all_tags",
+              "tags": [
+                "tag"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1604,7 +2315,7 @@ class Sm:
     ) -> UpdateOrganizationSmAdminsRoleResponse | None:
         """Update a Limited Access Role.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role
+        [API documentation: updateOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role)
 
         Args:
             organization_id: Organization ID.
@@ -1612,6 +2323,21 @@ class Sm:
             name: The name of the Limited Access Role.
             scope: The scope of the Limited Access Role.
             tags: The tags of the Limited Access Role.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "roleId": "1284392014819",
+              "name": "sample name",
+              "scope": "all_tags",
+              "tags": [
+                "tag"
+              ]
+            }
+            ```
 
         """
         if scope is not None:
@@ -1643,11 +2369,14 @@ class Sm:
     def delete_organization_sm_admins_role(self, *, organization_id: str, role_id: str) -> None:
         """Delete a Limited Access Role.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
+        [API documentation: deleteOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role)
 
         Args:
             organization_id: Organization ID.
             role_id: Role ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1661,12 +2390,22 @@ class Sm:
     def get_organization_sm_apns_cert(
         self, organization_id: str
     ) -> GetOrganizationSmApnsCertResponse | None:
-        """Get the organization's APNS certificate.
+        r"""Get the organization's APNS certificate.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-apns-cert
+        [API documentation: getOrganizationSmApnsCert](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-apns-cert)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "certificate": "          -----BEGIN CERTIFICATE-----\n          MIIFdjCCBF6gAwIBAgIIM/hhf5ww8MwwDQYJKoZIhvcNAQELBQAwgYwxQDA+BgNV\n          BAMMN0FwcGxlIEFwcGxpY2F0aW9uIEludGVncmF0aW9uIDIgQ2VydGlmaWNhdGlv\n          biBBdXRob3JpdHkxJjAkBgNVBAsMHUFwcGxlIENlcnRpZmljYXRpb24gQXV0aG9y\n          aXR5MRMwEQYDVQQKDApBcHBsZSBJbmMuMQswCQYDVQQGEwJVUzAeFw0yMDAyMjYx\n          ODIzNDJaFw0yMTAyMjUxODIzNDJaMIGPMUwwSgYKCZImiZPyLGQBAQw8Y29tLmFw\n          cGxlLm1nbXQuRXh0ZXJuYWwuOTA3NDJhYmYtZDhhZC00MTc2LTllZmQtMGNiMzg1\n          MTM1MGM0MTIwMAYDVQQDDClBUFNQOjkwNzQyYWJmLWQ4YWQtNDE3Ni05ZWZkLTBj\n          YjM4NTEzNTBjNDELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw\n          ggEKAoIBAQDANdpo62hfxkP1IpMPXuO1+xKekUkY+iYae6cRaP886bodUaH1OwCj\n          Qd011u9Vng6m8I9rcLdIOS+IkFGKcTAHRYY3noqfEQUPyi5TN6yM1/mVYVoWZUnY\n          TrNWqDN/HfRagdYfZyQ7kAtOY2K8TF78HLLqQm7ez2+r4qibumoSli9+qCzKwDW/\n          hbx7JTeMlbYkhLTFgBkRxlp+usKymsLKm8D7kdbxtct4mx6p9z1FiNu4U1Hi/PgK\n          I/V3zHD4Ww7SzTICiLdCPeAmt042JvXAMQi0qhzrEdDiapmWwUC9xiiORN0BTIRA\n          T+DddTx8Xcly4wj9vQFdGUGLrJnzB3xZAgMBAAGjggHVMIIB0TAJBgNVHRMEAjAA\n          MB8GA1UdIwQYMBaAFPe+fCFgkds9G3vYOjKBad+ebH+bMIIBHAYDVR0gBIIBEzCC\n          AQ8wggELBgkqhkiG92NkBQEwgf0wgcMGCCsGAQUFBwICMIG2DIGzUmVsaWFuY2Ug\n          b24gdGhpcyBjZXJ0aWZpY2F0ZSBieSBhbnkgcGFydHkgYXNzdW1lcyBhY2NlcHRh\n          bmNlIG9mIHRoZSB0aGVuIGFwcGxpY2FibGUgc3RhbmRhcmQgdGVybXMgYW5kIGNv\n          bmRpdGlvbnMgb2YgdXNlLCBjZXJ0aWZpY2F0ZSBwb2xpY3kgYW5kIGNlcnRpZmlj\n          YXRpb24gcHJhY3RpY2Ugc3RhdGVtZW50cy4wNQYIKwYBBQUHAgEWKWh0dHA6Ly93\n          d3cuYXBwbGUuY29tL2NlcnRpZmljYXRlYXV0aG9yaXR5MBMGA1UdJQQMMAoGCCsG\n          AQUFBwMCMDAGA1UdHwQpMCcwJaAjoCGGH2h0dHA6Ly9jcmwuYXBwbGUuY29tL2Fh\n          aTJjYS5jcmwwHQYDVR0OBBYEFDj4Jizt9bQX7dn3ypIanvaNIy8fMAsGA1UdDwQE\n          AwIHgDAQBgoqhkiG92NkBgMCBAIFADANBgkqhkiG9w0BAQsFAAOCAQEARmLmy4Mh\n          80hTBHMj2whrC2LR0dIe2ngAUwYGSocyPZOzlGZYntUvpsNGwflbWSPNxFpVF15z\n          exEcLPKM4f9KGdM27s/m/x1Es2us9Vve+wS+N0C84zMC++FJBIxj3yAINXqSpYJv\n          bA5wccHlzP9F9Ks7sVNQB8y0mibYahtxVV959gC4522t5SRaEEsd82oTCtXE2Ljg\n          fQ1IAmWi4MuMSPwp26oDSwun8Wxyx+sfi/it9YWxD36Ga9mrfIjK1WIHyhge0HHr\n          olnvMfxgwI9E5gGV/4bQzPlmsHdz+/pLupWMkALaAxI9D7ajUG7iyyjJBCOpsr1s\n          FjDvo6WUkaqMHA==\n          -----END CERTIFICATE-----\n"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1687,11 +2426,42 @@ class Sm:
     ) -> UpdateOrganizationSmSentryPoliciesAssignmentsResponse | None:
         """Update an Organizations Sentry Policies using the provided list.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments
+        [API documentation: updateOrganizationSmSentryPoliciesAssignments](https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments)
 
         Args:
             organization_id: Organization ID.
             items: Sentry Group Policies for the Organization keyed by Network Id.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "N_24329156",
+                  "policies": [
+                    {
+                      "policyId": "1284392014819",
+                      "networkId": "N_24329156",
+                      "smNetworkId": "N_24329156",
+                      "tags": [
+                        "tag1",
+                        "tag2"
+                      ],
+                      "scope": "withAny",
+                      "groupNumber": "1234",
+                      "groupPolicyId": "1284392014819",
+                      "priority": "1",
+                      "createdAt": "2018-05-12T00:00:00Z",
+                      "lastUpdatedAt": "2018-05-12T00:00:00Z"
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1717,29 +2487,70 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem]:
         """List the Sentry Policies for an organization ordered in ascending order of priority.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-sentry-policies-assignments-by-network
+        [API documentation: getOrganizationSmSentryPoliciesAssignmentsByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-sentry-policies-assignments-by-network)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter Sentry Policies by Network Id.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "items": [
+                  {
+                    "networkId": "N_24329156",
+                    "policies": [
+                      {
+                        "policyId": "1284392014819",
+                        "networkId": "N_24329156",
+                        "smNetworkId": "N_24329156",
+                        "tags": [
+                          "tag1",
+                          "tag2"
+                        ],
+                        "scope": "withAny",
+                        "groupNumber": "1234",
+                        "groupPolicyId": "1284392014819",
+                        "priority": "1",
+                        "createdAt": "2018-05-12T00:00:00Z",
+                        "lastUpdatedAt": "2018-05-12T00:00:00Z"
+                      }
+                    ]
+                  }
+                ],
+                "meta": {
+                  "counts": {
+                    "items": {
+                      "total": 10,
+                      "remaining": 0
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1770,10 +2581,42 @@ class Sm:
     ) -> GetOrganizationSmVppAccountsResponse | None:
         """List the VPP accounts in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts
+        [API documentation: getOrganizationSmVppAccounts](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "vppAccountId": "1284392014819",
+                "contentToken": "eyJleHBEYXRlIjoiMzAyMy0xMC0yMVQxMjowOTo0NSswMDAwIiwidG9rZW4iOiIvVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlQiLCJvcmdOYW1lIjoiTWVyYWtpICsgREVWRUxPUEVSIn0=",
+                "email": "email@example.com",
+                "name": "VPP Account name",
+                "allowedAdmins": "Network",
+                "networkIdAdmins": "N_24329156",
+                "assignableNetworks": "Some",
+                "assignableNetworkIds": [
+                  "N_24329156"
+                ],
+                "vppLocationId": "22222222222",
+                "vppLocationName": "LocationName",
+                "lastSyncedAt": "2021-02-25T16:59:23Z",
+                "lastForceSyncedAt": "2021-02-25T16:59:23Z",
+                "parsedToken": {
+                  "orgName": "My organization",
+                  "hashedToken": "f572d396fae9206628714fb2ce00f72e94f2258f",
+                  "expiresAt": "2023-10-21T12:09:45Z"
+                },
+                "id": "1284392014819",
+                "vppServiceToken": "eyJleHBEYXRlIjoiMzAyMy0xMC0yMVQxMjowOTo0NSswMDAwIiwidG9rZW4iOiIvVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlQiLCJvcmdOYW1lIjoiTWVyYWtpICsgREVWRUxPUEVSIn0="
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1791,11 +2634,41 @@ class Sm:
     ) -> GetOrganizationSmVppAccountResponse | None:
         """Get a hash containing the unparsed token of the VPP account with the given ID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-account
+        [API documentation: getOrganizationSmVppAccount](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-account)
 
         Args:
             organization_id: Organization ID.
             vpp_account_id: Vpp account ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "vppAccountId": "1284392014819",
+              "contentToken": "eyJleHBEYXRlIjoiMzAyMy0xMC0yMVQxMjowOTo0NSswMDAwIiwidG9rZW4iOiIvVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlQiLCJvcmdOYW1lIjoiTWVyYWtpICsgREVWRUxPUEVSIn0=",
+              "email": "email@example.com",
+              "name": "VPP Account name",
+              "allowedAdmins": "Network",
+              "networkIdAdmins": "N_24329156",
+              "assignableNetworks": "Some",
+              "assignableNetworkIds": [
+                "N_24329156"
+              ],
+              "vppLocationId": "22222222222",
+              "vppLocationName": "LocationName",
+              "lastSyncedAt": "2021-02-25T16:59:23Z",
+              "lastForceSyncedAt": "2021-02-25T16:59:23Z",
+              "parsedToken": {
+                "orgName": "My organization",
+                "hashedToken": "f572d396fae9206628714fb2ce00f72e94f2258f",
+                "expiresAt": "2023-10-21T12:09:45Z"
+              },
+              "id": "1284392014819",
+              "vppServiceToken": "eyJleHBEYXRlIjoiMzAyMy0xMC0yMVQxMjowOTo0NSswMDAwIiwidG9rZW4iOiIvVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlRPS0VOVE9LRU5UT0tFTlQiLCJvcmdOYW1lIjoiTWVyYWtpICsgREVWRUxPUEVSIn0="
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

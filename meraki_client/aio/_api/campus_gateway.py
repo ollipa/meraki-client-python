@@ -51,18 +51,103 @@ class CampusGateway:
     ) -> CreateNetworkCampusGatewayClusterResponse | None:
         """Create a cluster and add campus gateways to it.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster
+        [API documentation: createNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster)
 
         Args:
             network_id: Network ID.
             name: Name of the new cluster.
             uplinks: Uplink interface settings of the cluster.
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
-              interface.
+                interface.
             nameservers: Nameservers of the cluster.
             port_channels: Port channel settings of the cluster.
             devices: Devices to be added to the cluster.
             notes: Notes about cluster with max size of 511 characters allowed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "clusterId": "1284392014818",
+              "name": "North Campus",
+              "uplinks": [
+                {
+                  "interface": "man1",
+                  "vlan": 5,
+                  "addresses": [
+                    {
+                      "assignmentMode": "static",
+                      "protocol": "ipv4",
+                      "gateway": "1.2.3.5",
+                      "subnetMask": "255.255.255.0"
+                    }
+                  ]
+                }
+              ],
+              "tunnels": [
+                {
+                  "uplink": {
+                    "interface": "man1"
+                  },
+                  "interface": "tun1",
+                  "vlan": 6,
+                  "addresses": [
+                    {
+                      "protocol": "ipv4",
+                      "gateway": "2.3.5.6",
+                      "subnetMask": "255.255.255.0"
+                    }
+                  ]
+                }
+              ],
+              "nameservers": {
+                "addresses": [
+                  "8.8.8.8",
+                  "8.8.4.4"
+                ]
+              },
+              "portChannels": [
+                {
+                  "id": "1284392014830",
+                  "name": "Port-channel1",
+                  "vlan": 25,
+                  "allowedVlans": "10-20"
+                }
+              ],
+              "devices": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "memberId": "1",
+                  "uplinks": [
+                    {
+                      "interface": "man1",
+                      "addresses": [
+                        {
+                          "protocol": "ipv4",
+                          "address": "5.1.2.3"
+                        }
+                      ]
+                    }
+                  ],
+                  "tunnels": [
+                    {
+                      "interface": "tun1",
+                      "addresses": [
+                        {
+                          "protocol": "ipv4",
+                          "address": "6.2.6.7"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "notes": "This cluster is for New York Office",
+              "url": "https://n123.meraki.com/networkName/n/abc123/manage/campus_gateways/clusters"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -115,7 +200,7 @@ class CampusGateway:
     ) -> UpdateNetworkCampusGatewayClusterResponse | None:
         """Update a cluster and add/remove campus gateways to/from it.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster
+        [API documentation: updateNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster)
 
         Args:
             network_id: Network ID.
@@ -123,11 +208,96 @@ class CampusGateway:
             name: Name of the cluster.
             uplinks: Uplink interface settings of the cluster.
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
-              interface.
+                interface.
             nameservers: Nameservers of the cluster.
             port_channels: Port channel settings of the cluster.
             devices: Devices in the cluster.
             notes: Notes about cluster with max size of 511 characters allowed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "clusterId": "1284392014818",
+              "name": "North Campus",
+              "uplinks": [
+                {
+                  "interface": "man1",
+                  "vlan": 5,
+                  "addresses": [
+                    {
+                      "assignmentMode": "static",
+                      "protocol": "ipv4",
+                      "gateway": "1.2.3.5",
+                      "subnetMask": "255.255.255.0"
+                    }
+                  ]
+                }
+              ],
+              "tunnels": [
+                {
+                  "uplink": {
+                    "interface": "man1"
+                  },
+                  "interface": "tun1",
+                  "vlan": 6,
+                  "addresses": [
+                    {
+                      "protocol": "ipv4",
+                      "gateway": "2.3.5.6",
+                      "subnetMask": "255.255.255.0"
+                    }
+                  ]
+                }
+              ],
+              "nameservers": {
+                "addresses": [
+                  "8.8.8.8",
+                  "8.8.4.4"
+                ]
+              },
+              "portChannels": [
+                {
+                  "id": "1284392014830",
+                  "name": "Port-channel1",
+                  "vlan": 25,
+                  "allowedVlans": "10-20"
+                }
+              ],
+              "devices": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "memberId": "1",
+                  "uplinks": [
+                    {
+                      "interface": "man1",
+                      "addresses": [
+                        {
+                          "protocol": "ipv4",
+                          "address": "5.1.2.3"
+                        }
+                      ]
+                    }
+                  ],
+                  "tunnels": [
+                    {
+                      "interface": "tun1",
+                      "addresses": [
+                        {
+                          "protocol": "ipv4",
+                          "address": "6.2.6.7"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "notes": "This cluster is for New York Office",
+              "url": "https://n123.meraki.com/networkName/n/abc123/manage/campus_gateways/clusters"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -174,29 +344,129 @@ class CampusGateway:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationCampusGatewayClustersResponseItemsItem]:
         """Get the details of campus gateway clusters.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters
+        [API documentation: getOrganizationCampusGatewayClusters](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters)
 
         Args:
             organization_id: Organization ID.
             network_ids: Networks for which information should be gathered.
             per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_2313"
+                  },
+                  "clusterId": "1284392014818",
+                  "name": "North Campus",
+                  "uplinks": [
+                    {
+                      "interface": "man1",
+                      "vlan": 5,
+                      "addresses": [
+                        {
+                          "assignmentMode": "static",
+                          "protocol": "ipv4",
+                          "gateway": "1.2.3.5",
+                          "subnetMask": "255.255.255.0"
+                        }
+                      ]
+                    }
+                  ],
+                  "tunnels": [
+                    {
+                      "uplink": {
+                        "interface": "man1"
+                      },
+                      "interface": "tun1",
+                      "vlan": 6,
+                      "addresses": [
+                        {
+                          "protocol": "ipv4",
+                          "gateway": "2.3.5.6",
+                          "subnetMask": "255.255.255.0"
+                        }
+                      ]
+                    }
+                  ],
+                  "nameservers": {
+                    "addresses": [
+                      "8.8.8.8",
+                      "8.8.4.4"
+                    ]
+                  },
+                  "portChannels": [
+                    {
+                      "id": "1284392014830",
+                      "name": "Port-channel1",
+                      "vlan": 25,
+                      "allowedVlans": "10-20"
+                    }
+                  ],
+                  "devices": [
+                    {
+                      "serial": "Q234-ABCD-0001",
+                      "memberId": "1",
+                      "uplinks": [
+                        {
+                          "interface": "man1",
+                          "addresses": [
+                            {
+                              "protocol": "ipv4",
+                              "address": "5.1.2.3"
+                            }
+                          ]
+                        }
+                      ],
+                      "tunnels": [
+                        {
+                          "interface": "tun1",
+                          "addresses": [
+                            {
+                              "protocol": "ipv4",
+                              "address": "6.2.6.7"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "notes": "This cluster is for New York Office",
+                  "url": "https://n123.meraki.com/networkName/n/abc123/manage/campus_gateways/clusters"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 2,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -230,30 +500,72 @@ class CampusGateway:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[CampusGatewayItemsItem]:
         """Uplink overrides configured locally on Campus Gateway devices in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-devices-uplinks-local-overrides-by-device
+        [API documentation: getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-devices-uplinks-local-overrides-by-device)
 
         Args:
             organization_id: Organization ID.
             serials: A list of serial numbers. The returned devices will be filtered to only include
-              these serials.
+                these serials.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "uplink": {
+                    "interface": "man1",
+                    "vlan": 5,
+                    "addresses": [
+                      {
+                        "assignmentMode": "static",
+                        "protocol": "ipv4",
+                        "gateway": "1.2.3.5",
+                        "subnetMask": "255.255.255.0",
+                        "address": "121.12.12.1"
+                      }
+                    ]
+                  },
+                  "nameservers": {
+                    "addresses": [
+                      "8.8.8.8",
+                      "8.8.4.4"
+                    ]
+                  },
+                  "sgt": 300
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

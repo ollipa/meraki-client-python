@@ -84,7 +84,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Cycle a set of switch ports.
 
-        https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports
+        [API documentation: cycleDeviceSwitchPorts](https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports)
 
         Args:
             serial: Serial.
@@ -141,7 +141,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a switch port.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-port
+        [API documentation: updateDeviceSwitchPort](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-port)
 
         Args:
             serial: Serial.
@@ -151,48 +151,50 @@ class ActionBatchSwitch:
             enabled: The status of the switch port.
             poe_enabled: The PoE status of the switch port.
             type_: The type of the switch port ('access', 'trunk', 'stack', 'routed', 'svl' or
-              'dad').
+                'dad').
             vlan: The VLAN of the switch port. For a trunk port, this is the native VLAN. A null
-              value will clear the value set for trunk ports.
+                value will clear the value set for trunk ports.
             voice_vlan: The voice VLAN of the switch port. Only applicable to access ports.
             allowed_vlans: The VLANs allowed on the switch port. Only applicable to trunk ports.
             isolation_enabled: The isolation status of the switch port.
             rstp_enabled: The rapid spanning tree protocol status.
             stp_guard: The state of the STP guard ('disabled', 'root guard', 'bpdu guard' or 'loop
-              guard').
+                guard').
             stp_port_fast_trunk: The state of STP PortFast Trunk on the switch port.
             link_negotiation: The link speed for the switch port.
             port_schedule_id: The ID of the port schedule. A value of null will clear the port
-              schedule.
+                schedule.
             udld: The action to take when Unidirectional Link is detected (Alert only, Enforce).
-              Default configuration is Alert only.
+                Default configuration is Alert only.
             access_policy_type: The type of the access policy of the switch port. Only applicable to
-              access ports. Can be one of 'Open', 'Custom access policy', 'MAC allow
-              list' or 'Sticky MAC allow list'.
+                access ports. Can be one of 'Open', 'Custom access policy', 'MAC allow
+                list' or 'Sticky MAC allow list'.
             access_policy_number: The number of a custom access policy to configure on the switch
-              port. Only applicable when 'accessPolicyType' is 'Custom access policy'.
+                port. Only applicable when 'accessPolicyType' is 'Custom access policy'.
             mac_allow_list: Only devices with MAC addresses specified in this list will have access
-              to this port. Up to 20 MAC addresses can be defined. Only applicable when
-              'accessPolicyType' is 'MAC allow list'.
+                to this port. Up to 20 MAC addresses can be defined. Only applicable
+                when 'accessPolicyType' is 'MAC allow list'.
             mac_whitelist_limit: The maximum number of MAC addresses for regular MAC allow list.
-              Only applicable when 'accessPolicyType' is 'MAC allow list'. Note: Config
-              only supported on verions greater than ms18 only for classic switches.
+                Only applicable when 'accessPolicyType' is 'MAC allow list'. Note:
+                Config only supported on verions greater than ms18 only for classic
+                switches.
             sticky_mac_allow_list: The initial list of MAC addresses for sticky Mac allow list. Only
-              applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
+                applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
             sticky_mac_allow_list_limit: The maximum number of MAC addresses for sticky MAC allow
-              list. Only applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
+                list. Only applicable when 'accessPolicyType' is 'Sticky MAC allow
+                list'.
             storm_control_enabled: The storm control status of the switch port.
             adaptive_policy_group_id: The adaptive policy group ID that will be used to tag traffic
-              through this switch port. This ID must pre-exist during the configuration,
-              else needs to be created using adaptivePolicy/groups API. Cannot be
-              applied to a port on a switch bound to profile.
+                through this switch port. This ID must pre-exist during the
+                configuration, else needs to be created using adaptivePolicy/groups API.
+                Cannot be applied to a port on a switch bound to profile.
             peer_sgt_capable: If true, Peer SGT is enabled for traffic through this switch port.
-              Applicable to trunk port only, not access port. Cannot be applied to a
-              port on a switch bound to profile.
+                Applicable to trunk port only, not access port. Cannot be applied to a
+                port on a switch bound to profile.
             flexible_stacking_enabled: For supported switches (e.g. MS420/MS425), whether or not the
-              port has flexible stacking enabled.
+                port has flexible stacking enabled.
             dai_trusted: If true, ARP packets for this port will be considered trusted, and Dynamic
-              ARP Inspection will allow the traffic.
+                ARP Inspection will allow the traffic.
             profile: Profile attributes.
             dot3az: dot3az settings for the port.
             high_speed: High speed port enablement settings for C9500-32QC.
@@ -306,25 +308,25 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 interface for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-interface
+        [API documentation: createDeviceSwitchRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-interface)
 
         Args:
             serial: Serial.
             name: A friendly name or description for the interface or VLAN (max length 128
-              characters).
+                characters).
             mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback'. Default is 'vlan'.
-              CS 17.18 or higher is required for 'routed' mode.
+                CS 17.18 or higher is required for 'routed' mode.
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
-              subnet. This cannot be the same as the device management IP.
+                subnet. This cannot be the same as the device management IP.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
-              required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
-              Default is 'disabled'.
+                required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
+                Default is 'disabled'.
             vlan_id: The VLAN this L3 interface is on. VLAN must be between 1 and 4094.
             default_gateway: The next hop for any traffic that isn't going to a directly connected
-              subnet or over a static route. This IP address must exist in a subnet with
-              a L3 interface. Required if this is the first IPv4 interface.
+                subnet or over a static route. This IP address must exist in a subnet
+                with a L3 interface. Required if this is the first IPv4 interface.
             ospf_settings: The OSPF routing settings of the interface.
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
@@ -394,24 +396,24 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface
+        [API documentation: updateDeviceSwitchRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface)
 
         Args:
             serial: Serial.
             interface_id: Interface ID.
             name: A friendly name or description for the interface or VLAN (max length 128
-              characters).
+                characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
-              subnet. This cannot be the same as the device management IP.
+                subnet. This cannot be the same as the device management IP.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
-              required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
-              Default is 'disabled'.
+                required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
+                Default is 'disabled'.
             vlan_id: The VLAN this L3 interface is on. VLAN must be between 1 and 4094.
             default_gateway: The next hop for any traffic that isn't going to a directly connected
-              subnet or over a static route. This IP address must exist in a subnet with
-              a L3 interface. Required if this is the first IPv4 interface.
+                subnet or over a static route. This IP address must exist in a subnet
+                with a L3 interface. Required if this is the first IPv4 interface.
             ospf_settings: The OSPF routing settings of the interface.
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
@@ -463,7 +465,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a layer 3 interface from the switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface
+        [API documentation: deleteDeviceSwitchRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface)
 
         Args:
             serial: Serial.
@@ -500,34 +502,34 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface DHCP configuration for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface-dhcp
+        [API documentation: updateDeviceSwitchRoutingInterfaceDhcp](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface-dhcp)
 
         Args:
             serial: Serial.
             interface_id: Interface ID.
             dhcp_mode: The DHCP mode options for the switch interface ('dhcpDisabled', 'dhcpRelay'
-              or 'dhcpServer').
+                or 'dhcpServer').
             dhcp_relay_server_ips: The DHCP relay server IPs to which DHCP packets would get relayed
-              for the switch interface.
+                for the switch interface.
             dhcp_lease_time: The DHCP lease time config for the dhcp server running on switch
-              interface ('30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
-              week').
+                interface ('30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
+                week').
             dns_nameservers_option: The DHCP name server option for the dhcp server running on the
-              switch interface ('googlePublicDns', 'openDns' or 'custom').
+                switch interface ('googlePublicDns', 'openDns' or 'custom').
             dns_custom_nameservers: The DHCP name server IPs when DHCP name server option is
-              'custom'.
+                'custom'.
             boot_options_enabled: Enable DHCP boot options to provide PXE boot options configs for
-              the dhcp server running on the switch interface.
+                the dhcp server running on the switch interface.
             boot_next_server: The PXE boot server IP for the DHCP server running on the switch
-              interface.
+                interface.
             boot_file_name: The PXE boot server filename for the DHCP server running on the switch
-              interface.
+                interface.
             dhcp_options: Array of DHCP options consisting of code, type and value for the DHCP
-              server running on the switch interface.
+                server running on the switch interface.
             reserved_ip_ranges: Array of DHCP reserved IP assignments for the DHCP server running on
-              the switch interface.
+                the switch interface.
             fixed_ip_assignments: Array of DHCP fixed IP assignments for the DHCP server running on
-              the switch interface.
+                the switch interface.
 
         """
         if dhcp_mode is not None:
@@ -599,15 +601,15 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 static route for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-static-route
+        [API documentation: createDeviceSwitchRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-static-route)
 
         Args:
             serial: Serial.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
-              notation (ex. 1.2.3.0/24).
+                notation (ex. 1.2.3.0/24).
             next_hop_ip: IP address of the next hop device to which the device sends its traffic for
-              the subnet.
+                the subnet.
             advertise_via_ospf_enabled: Option to advertise static route via OSPF.
             prefer_over_ospf_routes_enabled: Option to prefer static route over OSPF routes.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
@@ -651,16 +653,16 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 static route for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-static-route
+        [API documentation: updateDeviceSwitchRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-static-route)
 
         Args:
             serial: Serial.
             static_route_id: Static route ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
-              notation (ex. 1.2.3.0/24).
+                notation (ex. 1.2.3.0/24).
             next_hop_ip: IP address of the next hop device to which the device sends its traffic for
-              the subnet.
+                the subnet.
             management_next_hop: Optional fallback IP address for management traffic.
             advertise_via_ospf_enabled: Option to advertise static route via OSPF.
             prefer_over_ospf_routes_enabled: Option to prefer static route over OSPF routes.
@@ -698,7 +700,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a layer 3 static route for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-static-route
+        [API documentation: deleteDeviceSwitchRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-static-route)
 
         Args:
             serial: Serial.
@@ -719,7 +721,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update warm spare configuration for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-warm-spare
+        [API documentation: updateDeviceSwitchWarmSpare](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-warm-spare)
 
         Args:
             serial: Serial.
@@ -769,42 +771,42 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create an access policy for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-access-policy
+        [API documentation: createNetworkSwitchAccessPolicy](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-access-policy)
 
         Args:
             network_id: Network ID.
             name: Name of the access policy(max length 255).
             radius_servers: List of RADIUS servers to require connecting devices to authenticate
-              against before granting network access.
+                against before granting network access.
             radius: Object for RADIUS Settings.
             guest_port_bouncing: If enabled, Meraki devices will periodically send access-request
-              messages to these RADIUS servers.
+                messages to these RADIUS servers.
             radius_testing_enabled: If enabled, Meraki devices will periodically send access-request
-              messages to these RADIUS servers.
+                messages to these RADIUS servers.
             radius_coa_support_enabled: Change of authentication for RADIUS re-authentication and
-              disconnection.
+                disconnection.
             radius_accounting_enabled: Enable to send start, interim-update and stop messages to a
-              configured RADIUS accounting server for tracking connected clients.
+                configured RADIUS accounting server for tracking connected clients.
             radius_accounting_servers: List of RADIUS accounting servers to require connecting
-              devices to authenticate against before granting network access.
+                devices to authenticate against before granting network access.
             radius_group_attribute: Acceptable values are `""` for None, or `"11"` for Group
-              Policies ACL.
+                Policies ACL.
             host_mode: Choose the Host Mode for the access policy.
             access_policy_type: Access Type of the policy. Automatically 'Hybrid authentication'
-              when hostMode is 'Multi-Domain'.
+                when hostMode is 'Multi-Domain'.
             increase_access_speed: Enabling this option will make switches execute 802.1X and MAC-
-              bypass authentication simultaneously so that clients authenticate faster.
-              Only required when accessPolicyType is 'Hybrid Authentication.
+                bypass authentication simultaneously so that clients authenticate
+                faster. Only required when accessPolicyType is 'Hybrid Authentication.
             guest_vlan_id: ID for the guest VLAN allow unauthorized devices access to limited
-              network resources.
+                network resources.
             dot1x: 802.1x Settings.
             voice_vlan_clients: CDP/LLDP capable voice clients will be able to use this VLAN.
-              Automatically true when hostMode is 'Multi-Domain'.
+                Automatically true when hostMode is 'Multi-Domain'.
             url_redirect_walled_garden_enabled: Enable to restrict access for clients to a specific
-              set of IP addresses or hostnames prior to authentication.
+                set of IP addresses or hostnames prior to authentication.
             url_redirect_walled_garden_ranges: IP address ranges, in CIDR notation, to restrict
-              access for clients to a specific set of IP addresses or hostnames prior to
-              authentication.
+                access for clients to a specific set of IP addresses or hostnames prior
+                to authentication.
             guest_group_policy_id: Group policy Number for guest group policy.
             guest_sgt_id: Security Group Tag ID for guest group policy.
 
@@ -902,43 +904,43 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update an access policy for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-policy
+        [API documentation: updateNetworkSwitchAccessPolicy](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-policy)
 
         Args:
             network_id: Network ID.
             access_policy_number: Access policy number.
             name: Name of the access policy(max length 255).
             radius_servers: List of RADIUS servers to require connecting devices to authenticate
-              against before granting network access.
+                against before granting network access.
             radius: Object for RADIUS Settings.
             guest_port_bouncing: If enabled, Meraki devices will periodically send access-request
-              messages to these RADIUS servers.
+                messages to these RADIUS servers.
             radius_testing_enabled: If enabled, Meraki devices will periodically send access-request
-              messages to these RADIUS servers.
+                messages to these RADIUS servers.
             radius_coa_support_enabled: Change of authentication for RADIUS re-authentication and
-              disconnection.
+                disconnection.
             radius_accounting_enabled: Enable to send start, interim-update and stop messages to a
-              configured RADIUS accounting server for tracking connected clients.
+                configured RADIUS accounting server for tracking connected clients.
             radius_accounting_servers: List of RADIUS accounting servers to require connecting
-              devices to authenticate against before granting network access.
+                devices to authenticate against before granting network access.
             radius_group_attribute: Acceptable values are `""` for None, or `"11"` for Group
-              Policies ACL.
+                Policies ACL.
             host_mode: Choose the Host Mode for the access policy.
             access_policy_type: Access Type of the policy. Automatically 'Hybrid authentication'
-              when hostMode is 'Multi-Domain'.
+                when hostMode is 'Multi-Domain'.
             increase_access_speed: Enabling this option will make switches execute 802.1X and MAC-
-              bypass authentication simultaneously so that clients authenticate faster.
-              Only required when accessPolicyType is 'Hybrid Authentication.
+                bypass authentication simultaneously so that clients authenticate
+                faster. Only required when accessPolicyType is 'Hybrid Authentication.
             guest_vlan_id: ID for the guest VLAN allow unauthorized devices access to limited
-              network resources.
+                network resources.
             dot1x: 802.1x Settings.
             voice_vlan_clients: CDP/LLDP capable voice clients will be able to use this VLAN.
-              Automatically true when hostMode is 'Multi-Domain'.
+                Automatically true when hostMode is 'Multi-Domain'.
             url_redirect_walled_garden_enabled: Enable to restrict access for clients to a specific
-              set of IP addresses or hostnames prior to authentication.
+                set of IP addresses or hostnames prior to authentication.
             url_redirect_walled_garden_ranges: IP address ranges, in CIDR notation, to restrict
-              access for clients to a specific set of IP addresses or hostnames prior to
-              authentication.
+                access for clients to a specific set of IP addresses or hostnames prior
+                to authentication.
             guest_group_policy_id: Group policy Number for guest group policy.
             guest_sgt_id: Security Group Tag ID for guest group policy.
 
@@ -1014,7 +1016,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an access policy for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-access-policy
+        [API documentation: deleteNetworkSwitchAccessPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-access-policy)
 
         Args:
             network_id: Network ID.
@@ -1041,19 +1043,19 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the switch alternate management interface for the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-alternate-management-interface
+        [API documentation: updateNetworkSwitchAlternateManagementInterface](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-alternate-management-interface)
 
         Args:
             network_id: Network ID.
             enabled: Boolean value to enable or disable AMI configuration. If enabled, VLAN and
-              protocols must be set.
+                protocols must be set.
             vlan_id: Alternate management VLAN, must be between 1 and 4094.
             protocols: Can be one or more of the following values: 'radius', 'snmp' or 'syslog'.
             switches: Array of switch serial number and IP assignment. If parameter is present, it
-              cannot have empty body. Note: switches parameter is not applicable for
-              template networks, in other words, do not put 'switches' in the body when
-              updating template networks. Also, an empty 'switches' array will remove
-              all previous assignments.
+                cannot have empty body. Note: switches parameter is not applicable for
+                template networks, in other words, do not put 'switches' in the body
+                when updating template networks. Also, an empty 'switches' array will
+                remove all previous assignments.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1089,16 +1091,16 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the DHCP server settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy
+        [API documentation: updateNetworkSwitchDhcpServerPolicy](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy)
 
         Args:
             network_id: Network ID.
             alerts: Alert settings for DHCP servers.
             default_policy: 'allow' or 'block' new DHCP servers. Default value is 'allow'.
             allowed_servers: List the MAC addresses of DHCP servers to permit on the network when
-              defaultPolicy is set to block. An empty array will clear the entries.
+                defaultPolicy is set to block. An empty array will clear the entries.
             blocked_servers: List the MAC addresses of DHCP servers to block on the network when
-              defaultPolicy is set to allow. An empty array will clear the entries.
+                defaultPolicy is set to allow. An empty array will clear the entries.
             arp_inspection: Dynamic ARP Inspection settings.
 
         """
@@ -1139,7 +1141,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a server to be trusted by Dynamic ARP Inspection on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-dhcp-server-policy-arp-inspection-trusted-server
+        [API documentation: createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-dhcp-server-policy-arp-inspection-trusted-server)
 
         Args:
             network_id: Network ID.
@@ -1176,7 +1178,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a server that is trusted by Dynamic ARP Inspection on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy-arp-inspection-trusted-server
+        [API documentation: updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy-arp-inspection-trusted-server)
 
         Args:
             network_id: Network ID.
@@ -1209,7 +1211,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Remove a server from being trusted by Dynamic ARP Inspection on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-dhcp-server-policy-arp-inspection-trusted-server
+        [API documentation: deleteNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-dhcp-server-policy-arp-inspection-trusted-server)
 
         Args:
             network_id: Network ID.
@@ -1230,12 +1232,12 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the DSCP to CoS mappings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dscp-to-cos-mappings
+        [API documentation: updateNetworkSwitchDscpToCosMappings](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dscp-to-cos-mappings)
 
         Args:
             network_id: Network ID.
             mappings: An array of DSCP to CoS mappings. An empty array will reset the mappings to
-              default.
+                default.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1263,14 +1265,14 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a link aggregation group.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-link-aggregation
+        [API documentation: createNetworkSwitchLinkAggregation](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-link-aggregation)
 
         Args:
             network_id: Network ID.
             switch_ports: Array of switch or stack ports for creating aggregation group. Minimum 2
-              and maximum 8 ports are supported.
+                and maximum 8 ports are supported.
             switch_profile_ports: Array of switch profile ports for creating aggregation group.
-              Minimum 2 and maximum 8 ports are supported.
+                Minimum 2 and maximum 8 ports are supported.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1303,15 +1305,15 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a link aggregation group.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-link-aggregation
+        [API documentation: updateNetworkSwitchLinkAggregation](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-link-aggregation)
 
         Args:
             network_id: Network ID.
             link_aggregation_id: Link aggregation ID.
             switch_ports: Array of switch or stack ports for updating aggregation group. Minimum 2
-              and maximum 8 ports are supported.
+                and maximum 8 ports are supported.
             switch_profile_ports: Array of switch profile ports for updating aggregation group.
-              Minimum 2 and maximum 8 ports are supported.
+                Minimum 2 and maximum 8 ports are supported.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1339,7 +1341,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Split a link aggregation group into separate ports.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-link-aggregation
+        [API documentation: deleteNetworkSwitchLinkAggregation](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-link-aggregation)
 
         Args:
             network_id: Network ID.
@@ -1364,13 +1366,13 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the MTU configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-mtu
+        [API documentation: updateNetworkSwitchMtu](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-mtu)
 
         Args:
             network_id: Network ID.
             default_mtu_size: MTU size for the entire network. Default value is 9578.
             overrides: Override MTU size for individual switches or switch templates. An empty array
-              will clear overrides.
+                will clear overrides.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1400,16 +1402,16 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a switch port schedule.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-port-schedule
+        [API documentation: updateNetworkSwitchPortSchedule](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-port-schedule)
 
         Args:
             network_id: Network ID.
             port_schedule_id: Port schedule ID.
             name: The name for your port schedule.
             port_schedule: The schedule for switch port scheduling. Schedules are applied to days of
-              the week. When it's empty, default schedule with all days of a week are
-              configured. Any unspecified day in the schedule is added as a default
-              schedule configuration of the day.
+                the week. When it's empty, default schedule with all days of a week are
+                configured. Any unspecified day in the schedule is added as a default
+                schedule configuration of the day.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1442,22 +1444,22 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a quality of service rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-qos-rule
+        [API documentation: createNetworkSwitchQosRule](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-qos-rule)
 
         Args:
             network_id: Network ID.
             vlan: The VLAN of the incoming packet. A null value will match any VLAN.
             protocol: The protocol of the incoming packet. Default value is "ANY".
             src_port: The source port of the incoming packet. Applicable only if protocol is TCP or
-              UDP.
+                UDP.
             src_port_range: The source port range of the incoming packet. Applicable only if
-              protocol is set to TCP or UDP.
+                protocol is set to TCP or UDP.
             dst_port: The destination port of the incoming packet. Applicable only if protocol is
-              TCP or UDP.
+                TCP or UDP.
             dst_port_range: The destination port range of the incoming packet. Applicable only if
-              protocol is set to TCP or UDP.
+                protocol is set to TCP or UDP.
             dscp: DSCP tag for the incoming packet. Set this to -1 to trust incoming DSCP. Default
-              value is 0.
+                value is 0.
 
         """
         if protocol is not None:
@@ -1496,12 +1498,12 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the order in which the rules should be processed by the switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rules-order
+        [API documentation: updateNetworkSwitchQosRulesOrder](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rules-order)
 
         Args:
             network_id: Network ID.
             rule_ids: A list of quality of service rule IDs arranged in order in which they should
-              be processed by the switch.
+                be processed by the switch.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1532,7 +1534,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a quality of service rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rule
+        [API documentation: updateNetworkSwitchQosRule](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rule)
 
         Args:
             network_id: Network ID.
@@ -1540,15 +1542,15 @@ class ActionBatchSwitch:
             vlan: The VLAN of the incoming packet. A null value will match any VLAN.
             protocol: The protocol of the incoming packet. Default value is "ANY".
             src_port: The source port of the incoming packet. Applicable only if protocol is TCP or
-              UDP.
+                UDP.
             src_port_range: The source port range of the incoming packet. Applicable only if
-              protocol is set to TCP or UDP.
+                protocol is set to TCP or UDP.
             dst_port: The destination port of the incoming packet. Applicable only if protocol is
-              TCP or UDP.
+                TCP or UDP.
             dst_port_range: The destination port range of the incoming packet. Applicable only if
-              protocol is set to TCP or UDP.
+                protocol is set to TCP or UDP.
             dscp: DSCP tag that should be assigned to incoming packet. Set this to -1 to trust
-              incoming DSCP. Default value is 0.
+                incoming DSCP. Default value is 0.
 
         """
         if protocol is not None:
@@ -1588,7 +1590,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a quality of service rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
+        [API documentation: deleteNetworkSwitchQosRule](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule)
 
         Args:
             network_id: Network ID.
@@ -1613,14 +1615,14 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update multicast settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast
+        [API documentation: updateNetworkSwitchRoutingMulticast](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast)
 
         Args:
             network_id: Network ID.
             default_settings: Default multicast setting for entire network. IGMP snooping and Flood
-              unknown multicast traffic settings are enabled by default.
+                unknown multicast traffic settings are enabled by default.
             overrides: Array of paired switches/stacks/profiles and corresponding multicast
-              settings. An empty array will clear the multicast settings.
+                settings. An empty array will clear the multicast settings.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1652,7 +1654,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a multicast rendezvous point.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-routing-multicast-rendezvous-point
+        [API documentation: createNetworkSwitchRoutingMulticastRendezvousPoint](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-routing-multicast-rendezvous-point)
 
         Args:
             network_id: Network ID.
@@ -1689,7 +1691,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a multicast rendezvous point.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast-rendezvous-point
+        [API documentation: updateNetworkSwitchRoutingMulticastRendezvousPoint](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast-rendezvous-point)
 
         Args:
             network_id: Network ID.
@@ -1722,7 +1724,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a multicast rendezvous point.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
+        [API documentation: deleteNetworkSwitchRoutingMulticastRendezvousPoint](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point)
 
         Args:
             network_id: Network ID.
@@ -1753,25 +1755,25 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update layer 3 OSPF routing configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-ospf
+        [API documentation: updateNetworkSwitchRoutingOspf](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-ospf)
 
         Args:
             network_id: Network ID.
             vrf: The VRF to return the OSPF routing configuration for. When not provided, the
-              default VRF is used. Requires IOS XE 17.18 or higher.
+                default VRF is used. Requires IOS XE 17.18 or higher.
             enabled: Boolean value to enable or disable OSPF routing. OSPF routing is disabled by
-              default.
+                default.
             hello_timer_in_seconds: Time interval in seconds at which hello packet will be sent to
-              OSPF neighbors to maintain connectivity. Value must be between 1 and 255.
-              Default is 10 seconds.
+                OSPF neighbors to maintain connectivity. Value must be between 1 and
+                255. Default is 10 seconds.
             dead_timer_in_seconds: Time interval to determine when the peer will be declared
-              inactive/dead. Value must be between 1 and 65535.
+                inactive/dead. Value must be between 1 and 65535.
             areas: OSPF areas.
             v3: OSPF v3 configuration.
             md5_authentication_enabled: Boolean value to enable or disable MD5 authentication. MD5
-              authentication is disabled by default.
+                authentication is disabled by default.
             md5_authentication_key: MD5 authentication credentials. This param is only relevant if
-              md5AuthenticationEnabled is true.
+                md5AuthenticationEnabled is true.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1818,13 +1820,13 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update switch network settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-settings
+        [API documentation: updateNetworkSwitchSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-settings)
 
         Args:
             network_id: Network ID.
             vlan: Management VLAN.
             use_combined_power: The use Combined Power as the default behavior of secondary power
-              supplies on supported devices.
+                supplies on supported devices.
             power_exceptions: Exceptions on a per switch basis to "useCombinedPower".
             uplink_client_sampling: Uplink client sampling.
             mac_blocklist: MAC blocklist.
@@ -1880,26 +1882,26 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 interface for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-interface
+        [API documentation: createNetworkSwitchStackRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-interface)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             name: A friendly name or description for the interface or VLAN (max length 128
-              characters).
+                characters).
             mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback'. Default is 'vlan'.
-              CS 17.18 or higher is required for 'routed' mode.
+                CS 17.18 or higher is required for 'routed' mode.
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
-              subnet. This cannot be the same as the device management IP.
+                subnet. This cannot be the same as the device management IP.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
-              required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
-              Default is 'disabled'.
+                required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
+                Default is 'disabled'.
             vlan_id: The VLAN this L3 interface is on. VLAN must be between 1 and 4094.
             default_gateway: The next hop for any traffic that isn't going to a directly connected
-              subnet or over a static route. This IP address must exist in a subnet with
-              a L3 interface. Required if this is the first IPv4 interface.
+                subnet or over a static route. This IP address must exist in a subnet
+                with a L3 interface. Required if this is the first IPv4 interface.
             ospf_settings: The OSPF routing settings of the interface.
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
@@ -1971,25 +1973,25 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface
+        [API documentation: updateNetworkSwitchStackRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             interface_id: Interface ID.
             name: A friendly name or description for the interface or VLAN (max length 128
-              characters).
+                characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
-              subnet. This cannot be the same as the device management IP.
+                subnet. This cannot be the same as the device management IP.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
-              required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
-              Default is 'disabled'.
+                required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
+                Default is 'disabled'.
             vlan_id: The VLAN this L3 interface is on. VLAN must be between 1 and 4094.
             default_gateway: The next hop for any traffic that isn't going to a directly connected
-              subnet or over a static route. This IP address must exist in a subnet with
-              a L3 interface. Required if this is the first IPv4 interface.
+                subnet or over a static route. This IP address must exist in a subnet
+                with a L3 interface. Required if this is the first IPv4 interface.
             ospf_settings: The OSPF routing settings of the interface.
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
@@ -2042,7 +2044,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a layer 3 interface from a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-interface
+        [API documentation: deleteNetworkSwitchStackRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-interface)
 
         Args:
             network_id: Network ID.
@@ -2085,35 +2087,35 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface DHCP configuration for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface-dhcp
+        [API documentation: updateNetworkSwitchStackRoutingInterfaceDhcp](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface-dhcp)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             interface_id: Interface ID.
             dhcp_mode: The DHCP mode options for the switch stack interface ('dhcpDisabled',
-              'dhcpRelay' or 'dhcpServer').
+                'dhcpRelay' or 'dhcpServer').
             dhcp_relay_server_ips: The DHCP relay server IPs to which DHCP packets would get relayed
-              for the switch stack interface.
+                for the switch stack interface.
             dhcp_lease_time: The DHCP lease time config for the dhcp server running on switch stack
-              interface ('30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
-              week').
+                interface ('30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
+                week').
             dns_nameservers_option: The DHCP name server option for the dhcp server running on the
-              switch stack interface ('googlePublicDns', 'openDns' or 'custom').
+                switch stack interface ('googlePublicDns', 'openDns' or 'custom').
             dns_custom_nameservers: The DHCP name server IPs when DHCP name server option is '
-              custom'.
+                custom'.
             boot_options_enabled: Enable DHCP boot options to provide PXE boot options configs for
-              the dhcp server running on the switch stack interface.
+                the dhcp server running on the switch stack interface.
             boot_next_server: The PXE boot server IP for the DHCP server running on the switch stack
-              interface.
+                interface.
             boot_file_name: The PXE boot server file name for the DHCP server running on the switch
-              stack interface.
+                stack interface.
             dhcp_options: Array of DHCP options consisting of code, type and value for the DHCP
-              server running on the switch stack interface.
+                server running on the switch stack interface.
             reserved_ip_ranges: Array of DHCP reserved IP assignments for the DHCP server running on
-              the switch stack interface.
+                the switch stack interface.
             fixed_ip_assignments: Array of DHCP fixed IP assignments for the DHCP server running on
-              the switch stack interface.
+                the switch stack interface.
 
         """
         if dhcp_mode is not None:
@@ -2187,16 +2189,16 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 static route for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-static-route
+        [API documentation: createNetworkSwitchStackRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-static-route)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
-              notation (ex. 1.2.3.0/24).
+                notation (ex. 1.2.3.0/24).
             next_hop_ip: IP address of the next hop device to which the device sends its traffic for
-              the subnet.
+                the subnet.
             advertise_via_ospf_enabled: Option to advertise static route via OSPF.
             prefer_over_ospf_routes_enabled: Option to prefer static route over OSPF routes.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
@@ -2242,7 +2244,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 static route for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-static-route
+        [API documentation: updateNetworkSwitchStackRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-static-route)
 
         Args:
             network_id: Network ID.
@@ -2250,9 +2252,9 @@ class ActionBatchSwitch:
             static_route_id: Static route ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
-              notation (ex. 1.2.3.0/24).
+                notation (ex. 1.2.3.0/24).
             next_hop_ip: IP address of the next hop device to which the device sends its traffic for
-              the subnet.
+                the subnet.
             management_next_hop: Optional fallback IP address for management traffic.
             advertise_via_ospf_enabled: Option to advertise static route via OSPF.
             prefer_over_ospf_routes_enabled: Option to prefer static route over OSPF routes.
@@ -2291,7 +2293,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a layer 3 static route for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-static-route
+        [API documentation: deleteNetworkSwitchStackRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-static-route)
 
         Args:
             network_id: Network ID.
@@ -2320,19 +2322,19 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the storm control configuration for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-storm-control
+        [API documentation: updateNetworkSwitchStormControl](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-storm-control)
 
         Args:
             network_id: Network ID.
             broadcast_threshold: Percentage (1 to 99) of total available port bandwidth for
-              broadcast traffic type. Default value 100 percent rate is to clear the
-              configuration.
+                broadcast traffic type. Default value 100 percent rate is to clear the
+                configuration.
             multicast_threshold: Percentage (1 to 99) of total available port bandwidth for
-              multicast traffic type. Default value 100 percent rate is to clear the
-              configuration.
+                multicast traffic type. Default value 100 percent rate is to clear the
+                configuration.
             unknown_unicast_threshold: Percentage (1 to 99) of total available port bandwidth for
-              unknown unicast (dlf-destination lookup failure) traffic type. Default
-              value 100 percent rate is to clear the configuration.
+                unknown unicast (dlf-destination lookup failure) traffic type. Default
+                value 100 percent rate is to clear the configuration.
             treat_these_traffic_types_as_one_threshold: Grouped traffic types.
 
         """
@@ -2366,13 +2368,13 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates STP settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stp
+        [API documentation: updateNetworkSwitchStp](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stp)
 
         Args:
             network_id: Network ID.
             rstp_enabled: The spanning tree protocol status in network.
             stp_bridge_priority: STP bridge priority for switches/stacks or switch templates. An
-              empty array will clear the STP bridge priority settings.
+                empty array will clear the STP bridge priority settings.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2429,7 +2431,7 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a switch template port.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template-switch-profile-port
+        [API documentation: updateOrganizationConfigTemplateSwitchProfilePort](https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template-switch-profile-port)
 
         Args:
             organization_id: Organization ID.
@@ -2441,43 +2443,45 @@ class ActionBatchSwitch:
             enabled: The status of the switch template port.
             poe_enabled: The PoE status of the switch template port.
             type_: The type of the switch template port ('access', 'trunk', 'stack', 'routed', 'svl'
-              or 'dad').
+                or 'dad').
             vlan: The VLAN of the switch template port. For a trunk port, this is the native VLAN. A
-              null value will clear the value set for trunk ports.
+                null value will clear the value set for trunk ports.
             voice_vlan: The voice VLAN of the switch template port. Only applicable to access ports.
             allowed_vlans: The VLANs allowed on the switch template port. Only applicable to trunk
-              ports.
+                ports.
             isolation_enabled: The isolation status of the switch template port.
             rstp_enabled: The rapid spanning tree protocol status.
             stp_guard: The state of the STP guard ('disabled', 'root guard', 'bpdu guard' or 'loop
-              guard').
+                guard').
             stp_port_fast_trunk: The state of STP PortFast Trunk on the switch template port.
             link_negotiation: The link speed for the switch template port.
             port_schedule_id: The ID of the port schedule. A value of null will clear the port
-              schedule.
+                schedule.
             udld: The action to take when Unidirectional Link is detected (Alert only, Enforce).
-              Default configuration is Alert only.
+                Default configuration is Alert only.
             access_policy_type: The type of the access policy of the switch template port. Only
-              applicable to access ports. Can be one of 'Open', 'Custom access policy',
-              'MAC allow list' or 'Sticky MAC allow list'.
+                applicable to access ports. Can be one of 'Open', 'Custom access
+                policy', 'MAC allow list' or 'Sticky MAC allow list'.
             access_policy_number: The number of a custom access policy to configure on the switch
-              template port. Only applicable when 'accessPolicyType' is 'Custom access
-              policy'.
+                template port. Only applicable when 'accessPolicyType' is 'Custom access
+                policy'.
             mac_allow_list: Only devices with MAC addresses specified in this list will have access
-              to this port. Up to 20 MAC addresses can be defined. Only applicable when
-              'accessPolicyType' is 'MAC allow list'.
+                to this port. Up to 20 MAC addresses can be defined. Only applicable
+                when 'accessPolicyType' is 'MAC allow list'.
             mac_whitelist_limit: The maximum number of MAC addresses for regular MAC allow list.
-              Only applicable when 'accessPolicyType' is 'MAC allow list'. Note: Config
-              only supported on verions greater than ms18 only for classic switches.
+                Only applicable when 'accessPolicyType' is 'MAC allow list'. Note:
+                Config only supported on verions greater than ms18 only for classic
+                switches.
             sticky_mac_allow_list: The initial list of MAC addresses for sticky Mac allow list. Only
-              applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
+                applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
             sticky_mac_allow_list_limit: The maximum number of MAC addresses for sticky MAC allow
-              list. Only applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
+                list. Only applicable when 'accessPolicyType' is 'Sticky MAC allow
+                list'.
             storm_control_enabled: The storm control status of the switch template port.
             flexible_stacking_enabled: For supported switches (e.g. MS420/MS425), whether or not the
-              port has flexible stacking enabled.
+                port has flexible stacking enabled.
             dai_trusted: If true, ARP packets for this port will be considered trusted, and Dynamic
-              ARP Inspection will allow the traffic.
+                ARP Inspection will allow the traffic.
             profile: Profile attributes.
             dot3az: dot3az settings for the port.
             high_speed: High speed port enablement settings for C9500-32QC.
@@ -2575,14 +2579,14 @@ class ActionBatchSwitch:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.
 
-        https://developer.cisco.com/meraki/api-v1/#!clone-organization-switch-devices
+        [API documentation: cloneOrganizationSwitchDevices](https://developer.cisco.com/meraki/api-v1/#!clone-organization-switch-devices)
 
         Args:
             organization_id: Organization ID.
             source_serial: Serial number of the source switch (must be on a network not bound to a
-              template).
+                template).
             target_serials: Array of serial numbers of one or more target switches (must be on a
-              network not bound to a template).
+                network not bound to a template).
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

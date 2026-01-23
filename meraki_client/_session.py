@@ -158,7 +158,7 @@ class Session:
         """Close the HTTP client."""
         self._client.close()
 
-    def __enter__(self) -> "Session":
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, *args: object) -> None:

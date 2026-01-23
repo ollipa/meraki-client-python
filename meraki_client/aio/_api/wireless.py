@@ -227,11 +227,35 @@ class Wireless:
     ) -> UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response | None:
         """Update alternate management interface IPv6 address.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6
+        [API documentation: updateDeviceWirelessAlternateManagementInterfaceIpv6](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6)
 
         Args:
             serial: Serial.
             addresses: configured alternate management interface addresses.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "addresses": [
+                {
+                  "protocol": "ipv6",
+                  "assignmentMode": "static",
+                  "address": "2001:db8:3c4d:15::1",
+                  "gateway": "fe80:db8:c15:c0:d0c::10ca:1d02",
+                  "prefix": "2001:db8:3c4d:15::/64",
+                  "nameservers": {
+                    "addresses": [
+                      "2001:db8:3c4d:15::1",
+                      "2001:db8:3c4d:15::1"
+                    ]
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -256,10 +280,22 @@ class Wireless:
     ) -> GetDeviceWirelessBluetoothSettingsResponse | None:
         """Return the bluetooth settings for a wireless device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-bluetooth-settings
+        [API documentation: getDeviceWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-bluetooth-settings)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "uuid": "00000000-0000-0000-000-000000000000",
+              "major": 13,
+              "minor": 125
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -282,16 +318,28 @@ class Wireless:
     ) -> UpdateDeviceWirelessBluetoothSettingsResponse | None:
         """Update the bluetooth settings for a wireless device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings
+        [API documentation: updateDeviceWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings)
 
         Args:
             serial: Serial.
             uuid: Desired UUID of the beacon. If the value is set to null it will reset to
-              Dashboard's automatically generated value.
+                Dashboard's automatically generated value.
             major: Desired major value of the beacon. If the value is set to null it will reset to
-              Dashboard's automatically generated value.
+                Dashboard's automatically generated value.
             minor: Desired minor value of the beacon. If the value is set to null it will reset to
-              Dashboard's automatically generated value.
+                Dashboard's automatically generated value.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "uuid": "00000000-0000-0000-000-000000000000",
+              "major": 13,
+              "minor": 125
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -326,20 +374,37 @@ class Wireless:
     ) -> GetDeviceWirelessConnectionStatsResponse | None:
         """Aggregated connectivity info for a given AP on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-connection-stats
+        [API documentation: getDeviceWirelessConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-connection-stats)
 
         Args:
             serial: Serial.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serial": "Q234-ABCD-5678",
+              "connectionStats": {
+                "assoc": 0,
+                "auth": 1,
+                "dhcp": 0,
+                "dns": 0,
+                "success": 43
+              }
+            }
+            ```
 
         """
         if band is not None:
@@ -376,10 +441,26 @@ class Wireless:
     ) -> GetDeviceWirelessElectronicShelfLabelResponse | None:
         """Return the ESL settings of a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-electronic-shelf-label
+        [API documentation: getDeviceWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-electronic-shelf-label)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "apEslId": 16777216,
+              "serial": "Q234-ABCD-5678",
+              "channel": "1",
+              "enabled": true,
+              "networkId": "N_24329156",
+              "hostname": "localhost:700",
+              "provider": "imagotag"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -397,13 +478,29 @@ class Wireless:
     ) -> UpdateDeviceWirelessElectronicShelfLabelResponse | None:
         """Update the ESL settings of a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label
+        [API documentation: updateDeviceWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label)
 
         Args:
             serial: Serial.
             channel: Desired ESL channel for the device, or 'Auto' (case insensitive) to use the
-              recommended channel.
+                recommended channel.
             enabled: Turn ESL features on and off for this device.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "apEslId": 16777216,
+              "serial": "Q234-ABCD-5678",
+              "channel": "1",
+              "enabled": true,
+              "networkId": "N_24329156",
+              "hostname": "localhost:700",
+              "provider": "imagotag"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -438,24 +535,57 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """Aggregated latency info for a given AP on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-latency-stats
+        [API documentation: getDeviceWirelessLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-latency-stats)
 
         Args:
             serial: Serial.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
             vlan: Filter results by VLAN.
             fields: Partial selection: If present, this call will return only the selected fields of
-              ["rawDistribution", "avg"]. All fields will be returned by default.
-              Selected fields must be entered as a comma separated string.
+                ["rawDistribution", "avg"]. All fields will be returned by default.
+                Selected fields must be entered as a comma separated string.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serial": "Q2JC-2MJM-FHRD",
+              "latencyStats": {
+                "backgroundTraffic": {
+                  "rawDistribution": {
+                    "0": 1234,
+                    "1": 2345,
+                    "2": 3456,
+                    "4": 4567,
+                    "8": 5678,
+                    "16": 6789,
+                    "32": 7890,
+                    "64": 8901,
+                    "128": 9012,
+                    "256": 83,
+                    "512": 1234,
+                    "1024": 2345,
+                    "2048": 9999
+                  },
+                  "avg": 606.52
+                },
+                "bestEffortTraffic": "same shape as backgroundTraffic",
+                "videoTraffic": "same shape as backgroundTraffic",
+                "voiceTraffic": "same shape as backgroundTraffic"
+              }
+            }
+            ```
 
         """
         if band is not None:
@@ -492,10 +622,30 @@ class Wireless:
     ) -> GetDeviceWirelessRadioSettingsResponse | None:
         """Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-radio-settings
+        [API documentation: getDeviceWirelessRadioSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-radio-settings)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serial": "Q234-ABCD-5678",
+              "rfProfileId": "1234",
+              "twoFourGhzSettings": {
+                "channel": 11,
+                "targetPower": 21
+              },
+              "fiveGhzSettings": {
+                "channel": 149,
+                "channelWidth": 20,
+                "targetPower": 15
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -518,17 +668,37 @@ class Wireless:
     ) -> UpdateDeviceWirelessRadioSettingsResponse | None:
         """Update the radio settings overrides of a device, which take precedence over RF profiles.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings
+        [API documentation: updateDeviceWirelessRadioSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings)
 
         Args:
             serial: Serial.
             rf_profile_id: The ID of an RF profile to assign to the device. If the value of this
-              parameter is null, the appropriate basic RF profile (indoor or outdoor)
-              will be assigned to the device. Assigning an RF profile will clear ALL
-              manually configured overrides on the device (channel width, channel,
-              power).
+                parameter is null, the appropriate basic RF profile (indoor or outdoor)
+                will be assigned to the device. Assigning an RF profile will clear ALL
+                manually configured overrides on the device (channel width, channel,
+                power).
             two_four_ghz_settings: Manual radio settings for 2.4 GHz.
             five_ghz_settings: Manual radio settings for 5 GHz.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serial": "Q234-ABCD-5678",
+              "rfProfileId": "1234",
+              "twoFourGhzSettings": {
+                "channel": 11,
+                "targetPower": 21
+              },
+              "fiveGhzSettings": {
+                "channel": 149,
+                "channelWidth": 20,
+                "targetPower": 15
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -559,10 +729,33 @@ class Wireless:
     ) -> GetDeviceWirelessStatusResponse | None:
         """Return the SSID statuses of an access point.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-status
+        [API documentation: getDeviceWirelessStatus](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-status)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "basicServiceSets": [
+                {
+                  "ssidName": "My SSID",
+                  "ssidNumber": 0,
+                  "enabled": true,
+                  "band": "2.4 GHz",
+                  "bssid": "8A:15:04:00:00:00",
+                  "channel": 11,
+                  "channelWidth": "20 MHz",
+                  "power": "18 dBm",
+                  "visible": true,
+                  "broadcasting": true
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -580,10 +773,25 @@ class Wireless:
     ) -> CreateDeviceWirelessZigbeeEnrollmentResponse | None:
         """Enqueue a job to start enrolling door locks on zigbee configured wireless devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-wireless-zigbee-enrollment
+        [API documentation: createDeviceWirelessZigbeeEnrollment](https://developer.cisco.com/meraki/api-v1/#!create-device-wireless-zigbee-enrollment)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enrollmentId": "1234",
+              "url": "/devices/SERIAL/wireless/zigbee/enrollments/1234",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -601,11 +809,48 @@ class Wireless:
     ) -> GetDeviceWirelessZigbeeEnrollmentResponse | None:
         """Return an enrollment.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-zigbee-enrollment
+        [API documentation: getDeviceWirelessZigbeeEnrollment](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-zigbee-enrollment)
 
         Args:
             serial: Serial.
             enrollment_id: Enrollment ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enrollmentId": "1234",
+              "url": "/devices/SERIAL/wireless/zigbee/enrollments/1234",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "enrollmentStartedAt": "complete",
+              "doorLocks": [
+                {
+                  "doorLockId": "1",
+                  "name": "Door Lock 123",
+                  "shortId": "ABE123",
+                  "lqi": "1",
+                  "rssi": "1",
+                  "status": "online",
+                  "eui64": "DL403",
+                  "enrolledAt": "2023-08-14T19:57:06Z",
+                  "lastSeenAt": "2023-08-14T19:59:01Z",
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office"
+                  },
+                  "gateway": {
+                    "name": "My AP",
+                    "serial": "Q234-ABCD-5678"
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -624,15 +869,53 @@ class Wireless:
     ) -> GetNetworkWirelessAirMarshalResponse | None:
         """List Air Marshal scan results from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-air-marshal
+        [API documentation: getNetworkWirelessAirMarshal](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-air-marshal)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 7 days.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ssid": "linksys",
+                "bssids": [
+                  {
+                    "bssid": "00:11:22:33:44:55",
+                    "contained": false,
+                    "detectedBy": [
+                      {
+                        "device": "Q234-ABCD-5678",
+                        "rssi": 17
+                      }
+                    ]
+                  }
+                ],
+                "channels": [
+                  36,
+                  40
+                ],
+                "firstSeen": 1518365681,
+                "lastSeen": 1526087474,
+                "wiredMacs": [
+                  "00:11:22:33:44:55"
+                ],
+                "wiredVlans": [
+                  0,
+                  108
+                ],
+                "wiredLastSeen": 1526087474
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -657,12 +940,33 @@ class Wireless:
     ) -> CreateNetworkWirelessAirMarshalRuleResponse | None:
         """Creates a new rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule
+        [API documentation: createNetworkWirelessAirMarshalRule](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule)
 
         Args:
             network_id: Network ID.
             type_: Indicates if this rule will allow, block, or alert.
             match: Object describing the rule specification.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_12345",
+                "name": "Network 1"
+              },
+              "ruleId": "5239",
+              "type": "allow",
+              "updatedAt": "2023-05-23 12:02:46.298",
+              "createdAt": "2023-05-23 12:02:46.298",
+              "match": {
+                "string": "ipsum",
+                "type": "contains"
+              }
+            }
+            ```
 
         """
         if type_ is not None:
@@ -698,13 +1002,34 @@ class Wireless:
     ) -> UpdateNetworkWirelessAirMarshalRuleResponse | None:
         """Update a rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule
+        [API documentation: updateNetworkWirelessAirMarshalRule](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule)
 
         Args:
             network_id: Network ID.
             rule_id: Rule ID.
             type_: Indicates if this rule will allow, block, or alert.
             match: Object describing the rule specification.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_12345",
+                "name": "Network 1"
+              },
+              "ruleId": "5239",
+              "type": "allow",
+              "updatedAt": "2023-05-23 12:02:46.298",
+              "createdAt": "2023-05-23 12:02:46.298",
+              "match": {
+                "string": "ipsum",
+                "type": "contains"
+              }
+            }
+            ```
 
         """
         if type_ is not None:
@@ -736,11 +1061,14 @@ class Wireless:
     ) -> None:
         """Delete an Air Marshal rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule
+        [API documentation: deleteNetworkWirelessAirMarshalRule](https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule)
 
         Args:
             network_id: Network ID.
             rule_id: Rule ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -756,11 +1084,22 @@ class Wireless:
     ) -> UpdateNetworkWirelessAirMarshalSettingsResponse | None:
         """Updates Air Marshal settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings
+        [API documentation: updateNetworkWirelessAirMarshalSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings)
 
         Args:
             network_id: Network ID.
             default_policy: Allows clients to access rogue networks. Blocked by default.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "networkId": "N_12345",
+              "defaultPolicy": "allow"
+            }
+            ```
 
         """
         if default_policy is not None:
@@ -789,10 +1128,37 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """Return alternate management interface and devices with IP assigned.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-alternate-management-interface
+        [API documentation: getNetworkWirelessAlternateManagementInterface](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-alternate-management-interface)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "vlanId": 100,
+              "protocols": [
+                "radius",
+                "snmp",
+                "syslog",
+                "ldap"
+              ],
+              "accessPoints": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "alternateManagementIp": "1.2.3.4",
+                  "subnetMask": "255.255.255.0",
+                  "gateway": "1.2.3.5",
+                  "dns1": "8.8.8.8",
+                  "dns2": "8.8.4.4"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -816,19 +1182,46 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """Update alternate management interface and device static IP.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface
+        [API documentation: updateNetworkWirelessAlternateManagementInterface](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface)
 
         Args:
             network_id: Network ID.
             enabled: Boolean value to enable or disable alternate management interface.
             vlan_id: Alternate management interface VLAN, must be between 1 and 4094.
             protocols: Can be one or more of the following values: 'radius', 'snmp', 'syslog' or
-              'ldap'.
+                'ldap'.
             access_points: Array of access point serial number and IP assignment. Note: accessPoints
-              IP assignment is not applicable for template networks, in other words, do
-              not put 'accessPoints' in the body when updating template networks. Also,
-              an empty 'accessPoints' array will remove all previous static IP
-              assignments.
+                IP assignment is not applicable for template networks, in other words,
+                do not put 'accessPoints' in the body when updating template networks.
+                Also, an empty 'accessPoints' array will remove all previous static IP
+                assignments.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "vlanId": 100,
+              "protocols": [
+                "radius",
+                "snmp",
+                "syslog",
+                "ldap"
+              ],
+              "accessPoints": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "alternateManagementIp": "1.2.3.4",
+                  "subnetMask": "255.255.255.0",
+                  "gateway": "1.2.3.5",
+                  "dns1": "8.8.8.8",
+                  "dns2": "8.8.4.4"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -858,10 +1251,31 @@ class Wireless:
     ) -> GetNetworkWirelessBillingResponse | None:
         """Return the billing settings of this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-billing
+        [API documentation: getNetworkWirelessBilling](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-billing)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "currency": "USD",
+              "plans": [
+                {
+                  "id": "1",
+                  "price": 5.0,
+                  "bandwidthLimits": {
+                    "limitUp": 1000,
+                    "limitDown": 1000
+                  },
+                  "timeLimit": "1 hour"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -883,12 +1297,33 @@ class Wireless:
     ) -> UpdateNetworkWirelessBillingResponse | None:
         """Update the billing settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing
+        [API documentation: updateNetworkWirelessBilling](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing)
 
         Args:
             network_id: Network ID.
             currency: The currency code of this node group's billing plans.
             plans: Array of billing plans in the node group. (Can configure a maximum of 5).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "currency": "USD",
+              "plans": [
+                {
+                  "id": "1",
+                  "price": 5.0,
+                  "bandwidthLimits": {
+                    "limitUp": 1000,
+                    "limitDown": 1000
+                  },
+                  "timeLimit": "1 hour"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -913,10 +1348,26 @@ class Wireless:
     ) -> GetNetworkWirelessBluetoothSettingsResponse | None:
         """Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-bluetooth-settings
+        [API documentation: getNetworkWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-bluetooth-settings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "scanningEnabled": true,
+              "advertisingEnabled": true,
+              "uuid": "00000000-0000-0000-000-000000000000",
+              "majorMinorAssignmentMode": "Non-unique",
+              "major": 1,
+              "minor": 1,
+              "eslEnabled": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -942,7 +1393,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessBluetoothSettingsResponse | None:
         """Update the Bluetooth settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-bluetooth-settings
+        [API documentation: updateNetworkWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-bluetooth-settings)
 
         Args:
             network_id: Network ID.
@@ -950,11 +1401,27 @@ class Wireless:
             advertising_enabled: Whether APs will advertise beacons.
             uuid: The UUID to be used in the beacon identifier.
             major_minor_assignment_mode: The way major and minor number should be assigned to nodes
-              in the network. ('Unique', 'Non-unique').
+                in the network. ('Unique', 'Non-unique').
             major: The major number to be used in the beacon identifier. Only valid in 'Non-unique'
-              mode.
+                mode.
             minor: The minor number to be used in the beacon identifier. Only valid in 'Non-unique'
-              mode.
+                mode.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "scanningEnabled": true,
+              "advertisingEnabled": true,
+              "uuid": "00000000-0000-0000-000-000000000000",
+              "majorMinorAssignmentMode": "Non-unique",
+              "major": 1,
+              "minor": 1,
+              "eslEnabled": true
+            }
+            ```
 
         """
         if major_minor_assignment_mode is not None:
@@ -1004,30 +1471,46 @@ class Wireless:
     ) -> GetNetworkWirelessChannelUtilizationHistoryResponse | None:
         """Return AP channel utilization over time for a device or network client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-channel-utilization-history
+        [API documentation: getNetworkWirelessChannelUtilizationHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-channel-utilization-history)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              600, 1200, 3600, 14400, 86400. The default is 86400.
+                600, 1200, 3600, 14400, 86400. The default is 86400.
             auto_resolution: Automatically select a data resolution based on the given timespan;
-              this overrides the value specified by the 'resolution' parameter. The
-              default setting is false.
+                this overrides the value specified by the 'resolution' parameter. The
+                default setting is false.
             client_id: Filter results by network client to return per-device, per-band AP channel
-              utilization metrics inner joined by the queried client's connection
-              history.
+                utilization metrics inner joined by the queried client's connection
+                history.
             device_serial: Filter results by device to return AP channel utilization metrics for the
-              queried device; either :band or :clientId must be jointly specified.
+                queried device; either :band or :clientId must be jointly specified.
             ap_tag: Filter results by AP tag to return AP channel utilization metrics for devices
-              labeled with the given tag; either :clientId or :deviceSerial must be
-              jointly specified.
+                labeled with the given tag; either :clientId or :deviceSerial must be
+                jointly specified.
             band: Filter results by band (either '2.4', '5' or '6').
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2020-01-01T00:00:00Z",
+                "endTs": "2020-01-01T01:00:00Z",
+                "utilizationTotal": 9.89,
+                "utilization80211": 7.22,
+                "utilizationNon80211": 2.67
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -1082,27 +1565,41 @@ class Wireless:
     ) -> GetNetworkWirelessClientCountHistoryResponse | None:
         """Return wireless client counts over time for a network, device, or network client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-count-history
+        [API documentation: getNetworkWirelessClientCountHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-count-history)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+                300, 600, 1200, 3600, 14400, 86400. The default is 86400.
             auto_resolution: Automatically select a data resolution based on the given timespan;
-              this overrides the value specified by the 'resolution' parameter. The
-              default setting is false.
+                this overrides the value specified by the 'resolution' parameter. The
+                default setting is false.
             client_id: Filter results by network client to return per-device client counts over time
-              inner joined by the queried client's connection history.
+                inner joined by the queried client's connection history.
             device_serial: Filter results by device.
             ap_tag: Filter results by AP tag.
             band: Filter results by band (either '2.4', '5' or '6').
             ssid: Filter results by SSID number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2020-01-01T00:00:00Z",
+                "endTs": "2020-01-01T01:00:00Z",
+                "clientCount": 14
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -1155,20 +1652,59 @@ class Wireless:
     ) -> GetNetworkWirelessClientsConnectionStatsResponse | None:
         """Aggregated connectivity info for this network, grouped by clients.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-connection-stats
+        [API documentation: getNetworkWirelessClientsConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-connection-stats)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mac": "00:61:71:c8:51:27",
+                "connectionStats": {
+                  "assoc": 0,
+                  "auth": 4,
+                  "dhcp": 0,
+                  "dns": 0,
+                  "success": 10
+                }
+              },
+              {
+                "mac": "1c:4d:70:7f:5e:5e",
+                "connectionStats": {
+                  "assoc": 0,
+                  "auth": 1,
+                  "dhcp": 0,
+                  "dns": 0,
+                  "success": 24
+                }
+              },
+              {
+                "mac": "1c:4d:70:81:8d:0a",
+                "connectionStats": {
+                  "assoc": 1,
+                  "auth": 0,
+                  "dhcp": 0,
+                  "dns": 0,
+                  "success": 16
+                }
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -1215,24 +1751,111 @@ class Wireless:
     ) -> GetNetworkWirelessClientsLatencyStatsResponse | None:
         """Aggregated latency info for this network, grouped by clients.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats
+        [API documentation: getNetworkWirelessClientsLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
             vlan: Filter results by VLAN.
             fields: Partial selection: If present, this call will return only the selected fields of
-              ["rawDistribution", "avg"]. All fields will be returned by default.
-              Selected fields must be entered as a comma separated string.
+                ["rawDistribution", "avg"]. All fields will be returned by default.
+                Selected fields must be entered as a comma separated string.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mac": "00:61:71:c8:51:27",
+                "latencyStats": {
+                  "backgroundTraffic": {
+                    "rawDistribution": {
+                      "0": 1234,
+                      "1": 2345,
+                      "2": 3456,
+                      "4": 4567,
+                      "8": 5678,
+                      "16": 6789,
+                      "32": 7890,
+                      "64": 8901,
+                      "128": 9012,
+                      "256": 83,
+                      "512": 1234,
+                      "1024": 2345,
+                      "2048": 9999
+                    },
+                    "avg": 606.52
+                  },
+                  "bestEffortTraffic": "same shape as backgroundTraffic",
+                  "videoTraffic": "same shape as backgroundTraffic",
+                  "voiceTraffic": "same shape as backgroundTraffic"
+                }
+              },
+              {
+                "mac": "1c:4d:70:7f:5e:5e",
+                "latencyStats": {
+                  "backgroundTraffic": {
+                    "rawDistribution": {
+                      "0": 1234,
+                      "1": 2345,
+                      "2": 3456,
+                      "4": 4567,
+                      "8": 5678,
+                      "16": 6789,
+                      "32": 7890,
+                      "64": 8901,
+                      "128": 9012,
+                      "256": 83,
+                      "512": 1234,
+                      "1024": 2345,
+                      "2048": 9999
+                    },
+                    "avg": 606.52
+                  },
+                  "bestEffortTraffic": "same shape as backgroundTraffic",
+                  "videoTraffic": "same shape as backgroundTraffic",
+                  "voiceTraffic": "same shape as backgroundTraffic"
+                }
+              },
+              {
+                "mac": "1c:4d:70:81:8d:0a",
+                "latencyStats": {
+                  "backgroundTraffic": {
+                    "rawDistribution": {
+                      "0": 1234,
+                      "1": 2345,
+                      "2": 3456,
+                      "4": 4567,
+                      "8": 5678,
+                      "16": 6789,
+                      "32": 7890,
+                      "64": 8901,
+                      "128": 9012,
+                      "256": 83,
+                      "512": 1234,
+                      "1024": 2345,
+                      "2048": 9999
+                    },
+                    "avg": 606.52
+                  },
+                  "bestEffortTraffic": "same shape as backgroundTraffic",
+                  "videoTraffic": "same shape as backgroundTraffic",
+                  "voiceTraffic": "same shape as backgroundTraffic"
+                }
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -1282,21 +1905,37 @@ class Wireless:
     ) -> GetNetworkWirelessClientConnectionStatsResponse | None:
         """Aggregated connectivity info for a given client on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connection-stats
+        [API documentation: getNetworkWirelessClientConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connection-stats)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mac": "00:11:22:33:44:55",
+              "connectionStats": {
+                "assoc": 3,
+                "auth": 4,
+                "dhcp": 4,
+                "success": 5
+              }
+            }
+            ```
 
         """
         if band is not None:
@@ -1346,46 +1985,68 @@ class Wireless:
         ssid_number: int | None = None,
         included_severities: list[str] | None = None,
         device_serial: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkWirelessClientConnectivityEventsResponseItem]:
         """List the wireless connectivity events for a client within a network in the timespan.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connectivity-events
+        [API documentation: getNetworkWirelessClientConnectivityEvents](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connectivity-events)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
-              Default is 'ascending'.
+                Default is 'ascending'.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             types: A list of event types to include. If not specified, events of all types will be
-              returned. Valid types are 'assoc', 'disassoc', 'auth', 'deauth', 'dns',
-              'dhcp', 'roam', 'connection' and/or 'sticky'.
+                returned. Valid types are 'assoc', 'disassoc', 'auth', 'deauth', 'dns',
+                'dhcp', 'roam', 'connection' and/or 'sticky'.
             band: Filter results by band. Valid bands are '2.4', '5' or '6'.
             ssid_number: Filter results by SSID. If not specified, events for all SSIDs will be
-              returned.
+                returned.
             included_severities: A list of severities to include. If not specified, events of all
-              severities will be returned. Valid severities are 'good', 'info', 'warn'
-              and/or 'bad'.
+                severities will be returned. Valid severities are 'good', 'info', 'warn'
+                and/or 'bad'.
             device_serial: Filter results by an AP's serial number.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "occurredAt": "2018-02-11T00:00:00.090210Z",
+                "band": "5",
+                "ssidNumber": 1,
+                "type": "auth",
+                "subtype": "success",
+                "severity": "bad",
+                "durationMs": 100,
+                "channel": 44,
+                "rssi": 80,
+                "deviceSerial": "Q234-ABCD-5678",
+                "captureId": "123456"
+              }
+            ]
+            ```
 
         """
         if sort_order is not None:
@@ -1454,19 +2115,94 @@ class Wireless:
     ) -> GetNetworkWirelessClientLatencyHistoryResponse | None:
         """Return the latency history for a client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-history
+        [API documentation: getNetworkWirelessClientLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-history)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 791 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 791 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 791 days. The default is 1 day.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              86400. The default is 86400.
+                86400. The default is 86400.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "t0": 1550534400,
+                "t1": 1550620800,
+                "latencyBinsByCategory": {
+                  "backgroundTraffic": {
+                    "0.5": 41750,
+                    "1.0": 21552,
+                    "2.0": 59940,
+                    "4.0": 146622,
+                    "8.0": 57354,
+                    "16.0": 0,
+                    "32.0": 9954,
+                    "64.0": 0,
+                    "128.0": 0,
+                    "256.0": 1896,
+                    "512.0": 0,
+                    "1024.0": 0,
+                    "2048.0": 0
+                  },
+                  "bestEffortTraffic": {
+                    "0.5": 1840899,
+                    "1.0": 1644506,
+                    "2.0": 629958,
+                    "4.0": 449564,
+                    "8.0": 2009658,
+                    "16.0": 1329568,
+                    "32.0": 282168,
+                    "64.0": 97573,
+                    "128.0": 191977,
+                    "256.0": 30560,
+                    "512.0": 26032,
+                    "1024.0": 4943,
+                    "2048.0": 12072
+                  },
+                  "videoTraffic": {
+                    "0.5": 0,
+                    "1.0": 0,
+                    "2.0": 0,
+                    "4.0": 0,
+                    "8.0": 0,
+                    "16.0": 0,
+                    "32.0": 0,
+                    "64.0": 0,
+                    "128.0": 0,
+                    "256.0": 0,
+                    "512.0": 0,
+                    "1024.0": 0,
+                    "2048.0": 0
+                  },
+                  "voiceTraffic": {
+                    "0.5": 716,
+                    "1.0": 948,
+                    "2.0": 474,
+                    "4.0": 78,
+                    "8.0": 0,
+                    "16.0": 0,
+                    "32.0": 0,
+                    "64.0": 0,
+                    "128.0": 0,
+                    "256.0": 0,
+                    "512.0": 0,
+                    "1024.0": 0,
+                    "2048.0": 0
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1507,25 +2243,58 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """Aggregated latency info for a given client on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-stats
+        [API documentation: getNetworkWirelessClientLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-stats)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
             vlan: Filter results by VLAN.
             fields: Partial selection: If present, this call will return only the selected fields of
-              ["rawDistribution", "avg"]. All fields will be returned by default.
-              Selected fields must be entered as a comma separated string.
+                ["rawDistribution", "avg"]. All fields will be returned by default.
+                Selected fields must be entered as a comma separated string.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mac": "00:61:71:c8:51:27",
+              "latencyStats": {
+                "backgroundTraffic": {
+                  "rawDistribution": {
+                    "0": 1234,
+                    "1": 2345,
+                    "2": 3456,
+                    "4": 4567,
+                    "8": 5678,
+                    "16": 6789,
+                    "32": 7890,
+                    "64": 8901,
+                    "128": 9012,
+                    "256": 83,
+                    "512": 1234,
+                    "1024": 2345,
+                    "2048": 9999
+                  },
+                  "avg": 606.52
+                },
+                "bestEffortTraffic": "same shape as backgroundTraffic",
+                "videoTraffic": "same shape as backgroundTraffic",
+                "voiceTraffic": "same shape as backgroundTraffic"
+              }
+            }
+            ```
 
         """
         if band is not None:
@@ -1574,20 +2343,34 @@ class Wireless:
     ) -> GetNetworkWirelessConnectionStatsResponse | None:
         """Aggregated connectivity info for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-connection-stats
+        [API documentation: getNetworkWirelessConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-connection-stats)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "assoc": 1,
+              "auth": 5,
+              "dhcp": 0,
+              "dns": 0,
+              "success": 51
+            }
+            ```
 
         """
         if band is not None:
@@ -1636,26 +2419,42 @@ class Wireless:
     ) -> GetNetworkWirelessDataRateHistoryResponse | None:
         """Return PHY data rates over time for a network, device, or network client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-data-rate-history
+        [API documentation: getNetworkWirelessDataRateHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-data-rate-history)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+                300, 600, 1200, 3600, 14400, 86400. The default is 86400.
             auto_resolution: Automatically select a data resolution based on the given timespan;
-              this overrides the value specified by the 'resolution' parameter. The
-              default setting is false.
+                this overrides the value specified by the 'resolution' parameter. The
+                default setting is false.
             client_id: Filter results by network client.
             device_serial: Filter results by device.
             ap_tag: Filter results by AP tag.
             band: Filter results by band (either '2.4', '5' or '6').
             ssid: Filter results by SSID number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2020-01-01T00:00:00Z",
+                "endTs": "2020-01-01T01:00:00Z",
+                "averageKbps": 151806,
+                "downloadKbps": 144839,
+                "uploadKbps": 158837
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -1708,20 +2507,39 @@ class Wireless:
     ) -> GetNetworkWirelessDevicesConnectionStatsResponse | None:
         """Aggregated connectivity info for this network, grouped by node.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-connection-stats
+        [API documentation: getNetworkWirelessDevicesConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-connection-stats)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-5678",
+                "connectionStats": {
+                  "assoc": 0,
+                  "auth": 1,
+                  "dhcp": 0,
+                  "dns": 0,
+                  "success": 43
+                }
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -1768,24 +2586,85 @@ class Wireless:
     ) -> GetNetworkWirelessDevicesLatencyStatsResponse | None:
         """Aggregated latency info for this network, grouped by node.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats
+        [API documentation: getNetworkWirelessDevicesLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
             vlan: Filter results by VLAN.
             fields: Partial selection: If present, this call will return only the selected fields of
-              ["rawDistribution", "avg"]. All fields will be returned by default.
-              Selected fields must be entered as a comma separated string.
+                ["rawDistribution", "avg"]. All fields will be returned by default.
+                Selected fields must be entered as a comma separated string.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q2JC-2MJM-FHRD",
+                "latencyStats": {
+                  "backgroundTraffic": {
+                    "rawDistribution": {
+                      "0": 1234,
+                      "1": 2345,
+                      "2": 3456,
+                      "4": 4567,
+                      "8": 5678,
+                      "16": 6789,
+                      "32": 7890,
+                      "64": 8901,
+                      "128": 9012,
+                      "256": 83,
+                      "512": 1234,
+                      "1024": 2345,
+                      "2048": 9999
+                    },
+                    "avg": 606.52
+                  },
+                  "bestEffortTraffic": "same shape as backgroundTraffic",
+                  "videoTraffic": "same shape as backgroundTraffic",
+                  "voiceTraffic": "same shape as backgroundTraffic"
+                }
+              },
+              {
+                "serial": "Q2FJ-3SHB-Y2K2",
+                "latencyStats": {
+                  "backgroundTraffic": {
+                    "rawDistribution": {
+                      "0": 1234,
+                      "1": 2345,
+                      "2": 3456,
+                      "4": 4567,
+                      "8": 5678,
+                      "16": 6789,
+                      "32": 7890,
+                      "64": 8901,
+                      "128": 9012,
+                      "256": 83,
+                      "512": 1234,
+                      "1024": 2345,
+                      "2048": 9999
+                    },
+                    "avg": 606.52
+                  },
+                  "bestEffortTraffic": "same shape as backgroundTraffic",
+                  "videoTraffic": "same shape as backgroundTraffic",
+                  "voiceTraffic": "same shape as backgroundTraffic"
+                }
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -1826,10 +2705,22 @@ class Wireless:
     ) -> GetNetworkWirelessElectronicShelfLabelResponse | None:
         """Return the ESL settings of a wireless network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label
+        [API documentation: getNetworkWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "hostname": "example.com",
+              "enabled": true,
+              "mode": "high frequency"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1852,14 +2743,26 @@ class Wireless:
     ) -> UpdateNetworkWirelessElectronicShelfLabelResponse | None:
         """Update the ESL settings of a wireless network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label
+        [API documentation: updateNetworkWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label)
 
         Args:
             network_id: Network ID.
             hostname: Desired ESL hostname of the network.
             enabled: Turn ESL features on and off for this network.
             mode: Electronic shelf label mode of the network. Valid options are 'Bluetooth', 'high
-              frequency'.
+                frequency'.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "hostname": "example.com",
+              "enabled": true,
+              "mode": "high frequency"
+            }
+            ```
 
         """
         if mode is not None:
@@ -1890,10 +2793,24 @@ class Wireless:
     ) -> GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse | None:
         """Get a list of all ESL eligible devices of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label-configured-devices
+        [API documentation: getNetworkWirelessElectronicShelfLabelConfiguredDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label-configured-devices)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "hostname": "example.com",
+                "enabled": true,
+                "mode": "high frequency"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1911,10 +2828,40 @@ class Wireless:
     ) -> GetNetworkWirelessEthernetPortsProfilesResponse | None:
         """List the AP port profiles for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profiles
+        [API documentation: getNetworkWirelessEthernetPortsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profiles)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "profileId": "1001",
+                "name": "Ap Port Profile Name",
+                "isDefault": false,
+                "ports": [
+                  {
+                    "name": "port 1",
+                    "number": 1,
+                    "enabled": true,
+                    "ssid": 1,
+                    "pskGroupId": "100"
+                  }
+                ],
+                "usbPorts": [
+                  {
+                    "name": "usb port",
+                    "enabled": true,
+                    "ssid": 5
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1937,13 +2884,41 @@ class Wireless:
     ) -> CreateNetworkWirelessEthernetPortsProfileResponse | None:
         """Create an AP port profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile
+        [API documentation: createNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile)
 
         Args:
             network_id: Network ID.
             name: AP port profile name.
             ports: AP ports configuration.
             usb_ports: AP usb ports configuration.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "1001",
+              "name": "Ap Port Profile Name",
+              "isDefault": false,
+              "ports": [
+                {
+                  "name": "port 1",
+                  "number": 1,
+                  "enabled": true,
+                  "ssid": 1,
+                  "pskGroupId": "100"
+                }
+              ],
+              "usbPorts": [
+                {
+                  "name": "usb port",
+                  "enabled": true,
+                  "ssid": 5
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1972,12 +2947,27 @@ class Wireless:
     ) -> AssignNetworkWirelessEthernetPortsProfilesResponse | None:
         """Assign AP port profile to list of APs.
 
-        https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles
+        [API documentation: assignNetworkWirelessEthernetPortsProfiles](https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles)
 
         Args:
             network_id: Network ID.
             serials: List of AP serials.
             profile_id: AP profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serials": [
+                "Q234-ABCD-0001",
+                "Q234-ABCD-0002",
+                "Q234-ABCD-0003"
+              ],
+              "profileId": "1001"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2002,11 +2992,21 @@ class Wireless:
     ) -> SetNetworkWirelessEthernetPortsProfilesDefaultResponse | None:
         """Set the AP port profile to be default for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default
+        [API documentation: setNetworkWirelessEthernetPortsProfilesDefault](https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default)
 
         Args:
             network_id: Network ID.
             profile_id: AP profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "1001"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2029,11 +3029,39 @@ class Wireless:
     ) -> GetNetworkWirelessEthernetPortsProfileResponse | None:
         """Show the AP port profile by ID for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profile
+        [API documentation: getNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profile)
 
         Args:
             network_id: Network ID.
             profile_id: Profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "1001",
+              "name": "Ap Port Profile Name",
+              "isDefault": false,
+              "ports": [
+                {
+                  "name": "port 1",
+                  "number": 1,
+                  "enabled": true,
+                  "ssid": 1,
+                  "pskGroupId": "100"
+                }
+              ],
+              "usbPorts": [
+                {
+                  "name": "usb port",
+                  "enabled": true,
+                  "ssid": 5
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2058,7 +3086,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessEthernetPortsProfileResponse | None:
         """Update the AP port profile by ID for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile
+        [API documentation: updateNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile)
 
         Args:
             network_id: Network ID.
@@ -2066,6 +3094,34 @@ class Wireless:
             name: AP port profile name.
             ports: AP ports configuration.
             usb_ports: AP usb ports configuration.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "1001",
+              "name": "Ap Port Profile Name",
+              "isDefault": false,
+              "ports": [
+                {
+                  "name": "port 1",
+                  "number": 1,
+                  "enabled": true,
+                  "ssid": 1,
+                  "pskGroupId": "100"
+                }
+              ],
+              "usbPorts": [
+                {
+                  "name": "usb port",
+                  "enabled": true,
+                  "ssid": 5
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2095,11 +3151,14 @@ class Wireless:
     ) -> None:
         """Delete an AP port profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile
+        [API documentation: deleteNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile)
 
         Args:
             network_id: Network ID.
             profile_id: Profile ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2125,22 +3184,41 @@ class Wireless:
     ) -> GetNetworkWirelessFailedConnectionsResponse | None:
         """List of all failed client connection events on this network in a given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-failed-connections
+        [API documentation: getNetworkWirelessFailedConnections](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-failed-connections)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
             serial: Filter by AP.
             client_id: Filter by client MAC.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ssidNumber": 1,
+                "vlan": 100,
+                "clientMac": "22:33:44:55:66:77",
+                "serial": "Q234-ABCD-5678",
+                "radio": 0,
+                "failureStep": "dns",
+                "type": "802.1X auth fail",
+                "ts": "2018-02-11T00:00:00.090210Z"
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -2194,27 +3272,41 @@ class Wireless:
     ) -> GetNetworkWirelessLatencyHistoryResponse | None:
         """Return average wireless latency over time for a network, device, or network client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-history
+        [API documentation: getNetworkWirelessLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-history)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+                300, 600, 1200, 3600, 14400, 86400. The default is 86400.
             auto_resolution: Automatically select a data resolution based on the given timespan;
-              this overrides the value specified by the 'resolution' parameter. The
-              default setting is false.
+                this overrides the value specified by the 'resolution' parameter. The
+                default setting is false.
             client_id: Filter results by network client.
             device_serial: Filter results by device.
             ap_tag: Filter results by AP tag.
             band: Filter results by band (either '2.4', '5' or '6').
             ssid: Filter results by SSID number.
             access_category: Filter by access category.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2020-01-01T00:00:00Z",
+                "endTs": "2020-01-01T01:00:00Z",
+                "avgLatencyMs": 29
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -2276,24 +3368,54 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """Aggregated latency info for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-stats
+        [API documentation: getNetworkWirelessLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-stats)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days.
             band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
-              February 2020 will not have band information.
+                February 2020 will not have band information.
             ssid: Filter results by SSID.
             ap_tag: Filter results by AP Tag.
             vlan: Filter results by VLAN.
             fields: Partial selection: If present, this call will return only the selected fields of
-              ["rawDistribution", "avg"]. All fields will be returned by default.
-              Selected fields must be entered as a comma separated string.
+                ["rawDistribution", "avg"]. All fields will be returned by default.
+                Selected fields must be entered as a comma separated string.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "backgroundTraffic": {
+                "rawDistribution": {
+                  "0": 1234,
+                  "1": 2345,
+                  "2": 3456,
+                  "4": 4567,
+                  "8": 5678,
+                  "16": 6789,
+                  "32": 7890,
+                  "64": 8901,
+                  "128": 9012,
+                  "256": 83,
+                  "512": 1234,
+                  "1024": 2345,
+                  "2048": 9999
+                },
+                "avg": 606.52
+              },
+              "bestEffortTraffic": "same shape as backgroundTraffic",
+              "videoTraffic": "same shape as backgroundTraffic",
+              "voiceTraffic": "same shape as backgroundTraffic"
+            }
+            ```
 
         """
         if band is not None:
@@ -2337,12 +3459,28 @@ class Wireless:
     ) -> UpdateNetworkWirelessLocationScanningResponse | None:
         """Change scanning API settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning
+        [API documentation: updateNetworkWirelessLocationScanning](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning)
 
         Args:
             network_id: Network ID.
             enabled: Collect location and scanning analytics.
             api: Enable push API for scanning events, analytics must be enabled.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "api": {
+                "enabled": true,
+                "validator": {
+                  "string": "sample_validator"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2369,28 +3507,50 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkWirelessMeshStatusesResponseItem]:
         """List wireless mesh statuses for repeaters.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-mesh-statuses
+        [API documentation: getNetworkWirelessMeshStatuses](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-mesh-statuses)
 
         Args:
             network_id: Network ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 500. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-5678",
+                "meshRoute": [
+                  "Q234-ABCD-5678",
+                  "QWEY-SKTD-ST01",
+                  "QWEY-SKTD-ST02"
+                ],
+                "latestMeshPerformance": {
+                  "mbps": 43,
+                  "metric": 12345,
+                  "usagePercentage": "100%"
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2419,22 +3579,348 @@ class Wireless:
         network_id: str,
         *,
         include_template_profiles: bool | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkWirelessRfProfilesResponse]:
         """List RF profiles for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profiles
+        [API documentation: getNetworkWirelessRfProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profiles)
 
         Args:
             network_id: Network ID.
             include_template_profiles: If the network is bound to a template, this parameter
-              controls whether or not the non-basic RF profiles defined on the template
-              should be included in the response alongside the non-basic profiles
-              defined on the bound network. Defaults to false.
+                controls whether or not the non-basic RF profiles defined on the
+                template should be included in the response alongside the non-basic
+                profiles defined on the bound network. Defaults to false.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Main Office",
+              "clientBalancingEnabled": true,
+              "minBitrateType": "band",
+              "bandSelectionType": "ap",
+              "apBandSettings": {
+                "bandOperationMode": "dual",
+                "bands": {
+                  "enabled": [
+                    "2.4",
+                    "5"
+                  ]
+                },
+                "bandSteeringEnabled": true
+              },
+              "twoFourGhzSettings": {
+                "maxPower": 30,
+                "minPower": 5,
+                "minBitrate": 11.0,
+                "validAutoChannels": [
+                  1,
+                  6,
+                  11
+                ],
+                "axEnabled": true,
+                "rxsop": -95
+              },
+              "fiveGhzSettings": {
+                "maxPower": 30,
+                "minPower": 8,
+                "minBitrate": 12,
+                "validAutoChannels": [
+                  36,
+                  40,
+                  44,
+                  48,
+                  52,
+                  56,
+                  60,
+                  64,
+                  100,
+                  104,
+                  108,
+                  112,
+                  116,
+                  120,
+                  124,
+                  128,
+                  132,
+                  136,
+                  140,
+                  144,
+                  149,
+                  153,
+                  157,
+                  161,
+                  165
+                ],
+                "channelWidth": "auto",
+                "rxsop": -95
+              },
+              "sixGhzSettings": {
+                "maxPower": 30,
+                "minPower": 8,
+                "minBitrate": 12,
+                "validAutoChannels": [
+                  1,
+                  5,
+                  9,
+                  13,
+                  17,
+                  21,
+                  25,
+                  29,
+                  33,
+                  37,
+                  41,
+                  45,
+                  49,
+                  53,
+                  57,
+                  61,
+                  65,
+                  69,
+                  73,
+                  77,
+                  81,
+                  85,
+                  89,
+                  93,
+                  97,
+                  101,
+                  105,
+                  109,
+                  113,
+                  117,
+                  121,
+                  125,
+                  129,
+                  133,
+                  137,
+                  141,
+                  145,
+                  149,
+                  153,
+                  157,
+                  161,
+                  165,
+                  169,
+                  173,
+                  177,
+                  181,
+                  185,
+                  189,
+                  193,
+                  197,
+                  201,
+                  205,
+                  209,
+                  213,
+                  217,
+                  221,
+                  225,
+                  229,
+                  233
+                ],
+                "channelWidth": "auto",
+                "rxsop": -95
+              },
+              "transmission": {
+                "enabled": true
+              },
+              "perSsidSettings": {
+                "0": {
+                  "name": "SSID 0",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "1": {
+                  "name": "SSID 1",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "2": {
+                  "name": "SSID 2",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "3": {
+                  "name": "SSID 3",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "4": {
+                  "name": "SSID 4",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "5": {
+                  "name": "SSID 5",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "6": {
+                  "name": "SSID 6",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "7": {
+                  "name": "SSID 7",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "8": {
+                  "name": "SSID 8",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "9": {
+                  "name": "SSID 9",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "10": {
+                  "name": "SSID 10",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "11": {
+                  "name": "SSID 11",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "12": {
+                  "name": "SSID 12",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "13": {
+                  "name": "SSID 13",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "14": {
+                  "name": "SSID 14",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                }
+              },
+              "isIndoorDefault": false,
+              "isOutdoorDefault": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2472,25 +3958,351 @@ class Wireless:
     ) -> CreateNetworkWirelessRfProfileResponse | None:
         """Creates new RF profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile
+        [API documentation: createNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile)
 
         Args:
             network_id: Network ID.
             name: The name of the new profile. Must be unique. This param is required on creation.
             client_balancing_enabled: Steers client to best available access point. Can be either
-              true or false. Defaults to true.
+                true or false. Defaults to true.
             min_bitrate_type: Minimum bitrate can be set to either 'band' or 'ssid'. Defaults to
-              band.
+                band.
             band_selection_type: Band selection can be set to either 'ssid' or 'ap'. This param is
-              required on creation.
+                required on creation.
             ap_band_settings: Settings that will be enabled if selectionType is set to 'ap'.
             two_four_ghz_settings: Settings related to 2.4Ghz band.
             five_ghz_settings: Settings related to 5Ghz band.
             six_ghz_settings: Settings related to 6Ghz band. Only applicable to networks with 6Ghz
-              capable APs.
+                capable APs.
             transmission: Settings related to radio transmission.
             per_ssid_settings: Per-SSID radio settings by number.
             flex_radios: Flex radio settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Main Office",
+              "clientBalancingEnabled": true,
+              "minBitrateType": "band",
+              "bandSelectionType": "ap",
+              "apBandSettings": {
+                "bandOperationMode": "dual",
+                "bands": {
+                  "enabled": [
+                    "2.4",
+                    "5"
+                  ]
+                },
+                "bandSteeringEnabled": true
+              },
+              "twoFourGhzSettings": {
+                "maxPower": 30,
+                "minPower": 5,
+                "minBitrate": 11.0,
+                "validAutoChannels": [
+                  1,
+                  6,
+                  11
+                ],
+                "axEnabled": true,
+                "rxsop": -95
+              },
+              "fiveGhzSettings": {
+                "maxPower": 30,
+                "minPower": 8,
+                "minBitrate": 12,
+                "validAutoChannels": [
+                  36,
+                  40,
+                  44,
+                  48,
+                  52,
+                  56,
+                  60,
+                  64,
+                  100,
+                  104,
+                  108,
+                  112,
+                  116,
+                  120,
+                  124,
+                  128,
+                  132,
+                  136,
+                  140,
+                  144,
+                  149,
+                  153,
+                  157,
+                  161,
+                  165
+                ],
+                "channelWidth": "auto",
+                "rxsop": -95
+              },
+              "sixGhzSettings": {
+                "maxPower": 30,
+                "minPower": 8,
+                "minBitrate": 12,
+                "validAutoChannels": [
+                  1,
+                  5,
+                  9,
+                  13,
+                  17,
+                  21,
+                  25,
+                  29,
+                  33,
+                  37,
+                  41,
+                  45,
+                  49,
+                  53,
+                  57,
+                  61,
+                  65,
+                  69,
+                  73,
+                  77,
+                  81,
+                  85,
+                  89,
+                  93,
+                  97,
+                  101,
+                  105,
+                  109,
+                  113,
+                  117,
+                  121,
+                  125,
+                  129,
+                  133,
+                  137,
+                  141,
+                  145,
+                  149,
+                  153,
+                  157,
+                  161,
+                  165,
+                  169,
+                  173,
+                  177,
+                  181,
+                  185,
+                  189,
+                  193,
+                  197,
+                  201,
+                  205,
+                  209,
+                  213,
+                  217,
+                  221,
+                  225,
+                  229,
+                  233
+                ],
+                "channelWidth": "auto",
+                "rxsop": -95
+              },
+              "transmission": {
+                "enabled": true
+              },
+              "perSsidSettings": {
+                "0": {
+                  "name": "SSID 0",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "1": {
+                  "name": "SSID 1",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "2": {
+                  "name": "SSID 2",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "3": {
+                  "name": "SSID 3",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "4": {
+                  "name": "SSID 4",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "5": {
+                  "name": "SSID 5",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "6": {
+                  "name": "SSID 6",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "7": {
+                  "name": "SSID 7",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "8": {
+                  "name": "SSID 8",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "9": {
+                  "name": "SSID 9",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "10": {
+                  "name": "SSID 10",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "11": {
+                  "name": "SSID 11",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "12": {
+                  "name": "SSID 12",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "13": {
+                  "name": "SSID 13",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "14": {
+                  "name": "SSID 14",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                }
+              },
+              "isIndoorDefault": false,
+              "isOutdoorDefault": false
+            }
+            ```
 
         """
         if min_bitrate_type is not None:
@@ -2554,11 +4366,337 @@ class Wireless:
     ) -> GetNetworkWirelessRfProfileResponse | None:
         """Return a RF profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profile
+        [API documentation: getNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profile)
 
         Args:
             network_id: Network ID.
             rf_profile_id: Rf profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Main Office",
+              "clientBalancingEnabled": true,
+              "minBitrateType": "band",
+              "bandSelectionType": "ap",
+              "apBandSettings": {
+                "bandOperationMode": "dual",
+                "bands": {
+                  "enabled": [
+                    "2.4",
+                    "5"
+                  ]
+                },
+                "bandSteeringEnabled": true
+              },
+              "twoFourGhzSettings": {
+                "maxPower": 30,
+                "minPower": 5,
+                "minBitrate": 11.0,
+                "validAutoChannels": [
+                  1,
+                  6,
+                  11
+                ],
+                "axEnabled": true,
+                "rxsop": -95
+              },
+              "fiveGhzSettings": {
+                "maxPower": 30,
+                "minPower": 8,
+                "minBitrate": 12,
+                "validAutoChannels": [
+                  36,
+                  40,
+                  44,
+                  48,
+                  52,
+                  56,
+                  60,
+                  64,
+                  100,
+                  104,
+                  108,
+                  112,
+                  116,
+                  120,
+                  124,
+                  128,
+                  132,
+                  136,
+                  140,
+                  144,
+                  149,
+                  153,
+                  157,
+                  161,
+                  165
+                ],
+                "channelWidth": "auto",
+                "rxsop": -95
+              },
+              "sixGhzSettings": {
+                "maxPower": 30,
+                "minPower": 8,
+                "minBitrate": 12,
+                "validAutoChannels": [
+                  1,
+                  5,
+                  9,
+                  13,
+                  17,
+                  21,
+                  25,
+                  29,
+                  33,
+                  37,
+                  41,
+                  45,
+                  49,
+                  53,
+                  57,
+                  61,
+                  65,
+                  69,
+                  73,
+                  77,
+                  81,
+                  85,
+                  89,
+                  93,
+                  97,
+                  101,
+                  105,
+                  109,
+                  113,
+                  117,
+                  121,
+                  125,
+                  129,
+                  133,
+                  137,
+                  141,
+                  145,
+                  149,
+                  153,
+                  157,
+                  161,
+                  165,
+                  169,
+                  173,
+                  177,
+                  181,
+                  185,
+                  189,
+                  193,
+                  197,
+                  201,
+                  205,
+                  209,
+                  213,
+                  217,
+                  221,
+                  225,
+                  229,
+                  233
+                ],
+                "channelWidth": "auto",
+                "rxsop": -95
+              },
+              "transmission": {
+                "enabled": true
+              },
+              "perSsidSettings": {
+                "0": {
+                  "name": "SSID 0",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "1": {
+                  "name": "SSID 1",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "2": {
+                  "name": "SSID 2",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "3": {
+                  "name": "SSID 3",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "4": {
+                  "name": "SSID 4",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "5": {
+                  "name": "SSID 5",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "6": {
+                  "name": "SSID 6",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "7": {
+                  "name": "SSID 7",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "8": {
+                  "name": "SSID 8",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "9": {
+                  "name": "SSID 9",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "10": {
+                  "name": "SSID 10",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "11": {
+                  "name": "SSID 11",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "12": {
+                  "name": "SSID 12",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "13": {
+                  "name": "SSID 13",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "14": {
+                  "name": "SSID 14",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                }
+              },
+              "isIndoorDefault": false,
+              "isOutdoorDefault": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2593,30 +4731,356 @@ class Wireless:
     ) -> UpdateNetworkWirelessRfProfileResponse | None:
         """Updates specified RF profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile
+        [API documentation: updateNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile)
 
         Args:
             network_id: Network ID.
             rf_profile_id: Rf profile ID.
             name: The name of the new profile. Must be unique.
             is_indoor_default: Set this profile as the default indoor rf profile. If the profile ID
-              is one of 'indoor' or 'outdoor', then a new profile will be created from
-              the respective ID and set as the default.
+                is one of 'indoor' or 'outdoor', then a new profile will be created from
+                the respective ID and set as the default.
             is_outdoor_default: Set this profile as the default outdoor rf profile. If the profile
-              ID is one of 'indoor' or 'outdoor', then a new profile will be created
-              from the respective ID and set as the default.
+                ID is one of 'indoor' or 'outdoor', then a new profile will be created
+                from the respective ID and set as the default.
             client_balancing_enabled: Steers client to best available access point. Can be either
-              true or false.
+                true or false.
             min_bitrate_type: Minimum bitrate can be set to either 'band' or 'ssid'.
             band_selection_type: Band selection can be set to either 'ssid' or 'ap'.
             ap_band_settings: Settings that will be enabled if selectionType is set to 'ap'.
             two_four_ghz_settings: Settings related to 2.4Ghz band.
             five_ghz_settings: Settings related to 5Ghz band.
             six_ghz_settings: Settings related to 6Ghz band. Only applicable to networks with 6Ghz
-              capable APs.
+                capable APs.
             transmission: Settings related to radio transmission.
             per_ssid_settings: Per-SSID radio settings by number.
             flex_radios: Flex radio settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Main Office",
+              "clientBalancingEnabled": true,
+              "minBitrateType": "band",
+              "bandSelectionType": "ap",
+              "apBandSettings": {
+                "bandOperationMode": "dual",
+                "bands": {
+                  "enabled": [
+                    "2.4",
+                    "5"
+                  ]
+                },
+                "bandSteeringEnabled": true
+              },
+              "twoFourGhzSettings": {
+                "maxPower": 30,
+                "minPower": 5,
+                "minBitrate": 11.0,
+                "validAutoChannels": [
+                  1,
+                  6,
+                  11
+                ],
+                "axEnabled": true,
+                "rxsop": -95
+              },
+              "fiveGhzSettings": {
+                "maxPower": 30,
+                "minPower": 8,
+                "minBitrate": 12,
+                "validAutoChannels": [
+                  36,
+                  40,
+                  44,
+                  48,
+                  52,
+                  56,
+                  60,
+                  64,
+                  100,
+                  104,
+                  108,
+                  112,
+                  116,
+                  120,
+                  124,
+                  128,
+                  132,
+                  136,
+                  140,
+                  144,
+                  149,
+                  153,
+                  157,
+                  161,
+                  165
+                ],
+                "channelWidth": "auto",
+                "rxsop": -95
+              },
+              "sixGhzSettings": {
+                "maxPower": 30,
+                "minPower": 8,
+                "minBitrate": 12,
+                "validAutoChannels": [
+                  1,
+                  5,
+                  9,
+                  13,
+                  17,
+                  21,
+                  25,
+                  29,
+                  33,
+                  37,
+                  41,
+                  45,
+                  49,
+                  53,
+                  57,
+                  61,
+                  65,
+                  69,
+                  73,
+                  77,
+                  81,
+                  85,
+                  89,
+                  93,
+                  97,
+                  101,
+                  105,
+                  109,
+                  113,
+                  117,
+                  121,
+                  125,
+                  129,
+                  133,
+                  137,
+                  141,
+                  145,
+                  149,
+                  153,
+                  157,
+                  161,
+                  165,
+                  169,
+                  173,
+                  177,
+                  181,
+                  185,
+                  189,
+                  193,
+                  197,
+                  201,
+                  205,
+                  209,
+                  213,
+                  217,
+                  221,
+                  225,
+                  229,
+                  233
+                ],
+                "channelWidth": "auto",
+                "rxsop": -95
+              },
+              "transmission": {
+                "enabled": true
+              },
+              "perSsidSettings": {
+                "0": {
+                  "name": "SSID 0",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "1": {
+                  "name": "SSID 1",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "2": {
+                  "name": "SSID 2",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "3": {
+                  "name": "SSID 3",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "4": {
+                  "name": "SSID 4",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "5": {
+                  "name": "SSID 5",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "6": {
+                  "name": "SSID 6",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "7": {
+                  "name": "SSID 7",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "8": {
+                  "name": "SSID 8",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "9": {
+                  "name": "SSID 9",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "10": {
+                  "name": "SSID 10",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "11": {
+                  "name": "SSID 11",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "12": {
+                  "name": "SSID 12",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "13": {
+                  "name": "SSID 13",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                },
+                "14": {
+                  "name": "SSID 14",
+                  "minBitrate": 11,
+                  "bandOperationMode": "dual",
+                  "bands": {
+                    "enabled": [
+                      "2.4",
+                      "5"
+                    ]
+                  },
+                  "bandSteeringEnabled": true
+                }
+              },
+              "isIndoorDefault": false,
+              "isOutdoorDefault": false
+            }
+            ```
 
         """
         if min_bitrate_type is not None:
@@ -2685,11 +5149,14 @@ class Wireless:
     ) -> None:
         """Delete a RF Profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile
+        [API documentation: deleteNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile)
 
         Args:
             network_id: Network ID.
             rf_profile_id: Rf profile ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2705,10 +5172,35 @@ class Wireless:
     ) -> GetNetworkWirelessSettingsResponse | None:
         """Return the wireless settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-settings
+        [API documentation: getNetworkWirelessSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-settings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "meshingEnabled": true,
+              "ipv6BridgeEnabled": false,
+              "locationAnalyticsEnabled": false,
+              "upgradeStrategy": "minimizeUpgradeTime",
+              "ledLightsOn": false,
+              "namedVlans": {
+                "poolDhcpMonitoring": {
+                  "enabled": true,
+                  "duration": 5
+                }
+              },
+              "regulatoryDomain": {
+                "name": "FCC",
+                "countryCode": "US",
+                "permits6e": true
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2734,20 +5226,45 @@ class Wireless:
     ) -> UpdateNetworkWirelessSettingsResponse | None:
         """Update the wireless settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings
+        [API documentation: updateNetworkWirelessSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings)
 
         Args:
             network_id: Network ID.
             meshing_enabled: Toggle for enabling or disabling meshing in a network.
             ipv6_bridge_enabled: Toggle for enabling or disabling IPv6 bridging in a network (Note:
-              if enabled, SSIDs must also be configured to use bridge mode).
+                if enabled, SSIDs must also be configured to use bridge mode).
             location_analytics_enabled: Toggle for enabling or disabling location analytics for your
-              network.
+                network.
             upgrade_strategy: The default strategy that network devices will use to perform an
-              upgrade. Requires firmware version MR 26.8 or higher.
+                upgrade. Requires firmware version MR 26.8 or higher.
             led_lights_on: Toggle for enabling or disabling LED lights on all APs in the network
-              (making them run dark).
+                (making them run dark).
             named_vlans: Named VLAN settings for wireless networks.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "meshingEnabled": true,
+              "ipv6BridgeEnabled": false,
+              "locationAnalyticsEnabled": false,
+              "upgradeStrategy": "minimizeUpgradeTime",
+              "ledLightsOn": false,
+              "namedVlans": {
+                "poolDhcpMonitoring": {
+                  "enabled": true,
+                  "duration": 5
+                }
+              },
+              "regulatoryDomain": {
+                "name": "FCC",
+                "countryCode": "US",
+                "permits6e": true
+              }
+            }
+            ```
 
         """
         if upgrade_strategy is not None:
@@ -2798,27 +5315,42 @@ class Wireless:
     ) -> GetNetworkWirelessSignalQualityHistoryResponse | None:
         """Return signal quality (SNR/RSSI) over time for a device or network client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-signal-quality-history
+        [API documentation: getNetworkWirelessSignalQualityHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-signal-quality-history)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+                300, 600, 1200, 3600, 14400, 86400. The default is 86400.
             auto_resolution: Automatically select a data resolution based on the given timespan;
-              this overrides the value specified by the 'resolution' parameter. The
-              default setting is false.
+                this overrides the value specified by the 'resolution' parameter. The
+                default setting is false.
             client_id: Filter results by network client.
             device_serial: Filter results by device.
             ap_tag: Filter results by AP tag; either :clientId or :deviceSerial must be jointly
-              specified.
+                specified.
             band: Filter results by band (either '2.4', '5' or '6').
             ssid: Filter results by SSID number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2020-01-01T00:00:00Z",
+                "endTs": "2020-01-01T01:00:00Z",
+                "snr": 27,
+                "rssi": -77
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -2861,12 +5393,74 @@ class Wireless:
     async def get_network_wireless_ssids(
         self, network_id: str
     ) -> GetNetworkWirelessSsidsResponse | None:
-        """List the MR SSIDs in a network.
+        r"""List the MR SSIDs in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids
+        [API documentation: getNetworkWirelessSsids](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "number": 0,
+                "name": "My SSID",
+                "enabled": true,
+                "splashPage": "Click-through splash page",
+                "ssidAdminAccessible": false,
+                "localAuth": false,
+                "authMode": "8021x-radius",
+                "encryptionMode": "wpa",
+                "wpaEncryptionMode": "WPA2 only",
+                "radiusServers": [
+                  {
+                    "host": "0.0.0.0",
+                    "port": 3000,
+                    "openRoamingCertificateId": 2,
+                    "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                  }
+                ],
+                "radiusAccountingServers": [
+                  {
+                    "host": "0.0.0.0",
+                    "port": 3000,
+                    "openRoamingCertificateId": 2,
+                    "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                  }
+                ],
+                "radiusAccountingEnabled": false,
+                "radiusEnabled": true,
+                "radiusAttributeForGroupPolicies": "Filter-Id",
+                "radiusFailoverPolicy": "Deny access",
+                "radiusLoadBalancingPolicy": "Round robin",
+                "ipAssignmentMode": "NAT mode",
+                "adminSplashUrl": "http://example.com",
+                "splashTimeout": "30 minutes",
+                "walledGardenEnabled": true,
+                "walledGardenRanges": [
+                  "example.com",
+                  "1.1.1.1/32"
+                ],
+                "minBitrate": 11,
+                "bandSelection": "5 GHz band only",
+                "perClientBandwidthLimitUp": 0,
+                "perClientBandwidthLimitDown": 0,
+                "visible": true,
+                "availableOnAllAps": false,
+                "availabilityTags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "perSsidBandwidthLimitUp": 0,
+                "perSsidBandwidthLimitDown": 0,
+                "mandatoryDhcpEnabled": false
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2882,13 +5476,73 @@ class Wireless:
     async def get_network_wireless_ssid(
         self, *, network_id: str, number: str
     ) -> GetNetworkWirelessSsidResponse | None:
-        """Return a single MR SSID.
+        r"""Return a single MR SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid
+        [API documentation: getNetworkWirelessSsid](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "number": 0,
+              "name": "My SSID",
+              "enabled": true,
+              "splashPage": "Click-through splash page",
+              "ssidAdminAccessible": false,
+              "localAuth": false,
+              "authMode": "8021x-radius",
+              "encryptionMode": "wpa",
+              "wpaEncryptionMode": "WPA2 only",
+              "radiusServers": [
+                {
+                  "host": "0.0.0.0",
+                  "port": 3000,
+                  "openRoamingCertificateId": 2,
+                  "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                }
+              ],
+              "radiusAccountingServers": [
+                {
+                  "host": "0.0.0.0",
+                  "port": 3000,
+                  "openRoamingCertificateId": 2,
+                  "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                }
+              ],
+              "radiusAccountingEnabled": false,
+              "radiusEnabled": true,
+              "radiusAttributeForGroupPolicies": "Filter-Id",
+              "radiusFailoverPolicy": "Deny access",
+              "radiusLoadBalancingPolicy": "Round robin",
+              "ipAssignmentMode": "NAT mode",
+              "adminSplashUrl": "http://example.com",
+              "splashTimeout": "30 minutes",
+              "walledGardenEnabled": true,
+              "walledGardenRanges": [
+                "example.com",
+                "1.1.1.1/32"
+              ],
+              "minBitrate": 11,
+              "bandSelection": "5 GHz band only",
+              "perClientBandwidthLimitUp": 0,
+              "perClientBandwidthLimitDown": 0,
+              "visible": true,
+              "availableOnAllAps": false,
+              "availabilityTags": [
+                "tag1",
+                "tag2"
+              ],
+              "perSsidBandwidthLimitUp": 0,
+              "perSsidBandwidthLimitDown": 0,
+              "mandatoryDhcpEnabled": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2972,9 +5626,9 @@ class Wireless:
         local_auth_fallback: UpdateNetworkWirelessSsidLocalAuthFallback | None = None,
         radius_accounting_start_delay: int | None = None,
     ) -> UpdateNetworkWirelessSsidResponse | None:
-        """Update the attributes of an MR SSID.
+        r"""Update the attributes of an MR SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid
+        [API documentation: updateNetworkWirelessSsid](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid)
 
         Args:
             network_id: Network ID.
@@ -2982,151 +5636,212 @@ class Wireless:
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
             auth_mode: The association control method for the SSID ('open', 'open-enhanced', 'psk',
-              'open-with-radius', 'open-with-nac', '8021x-meraki', '8021x-nac',
-              '8021x-radius', '8021x-google', '8021x-entra', '8021x-localradius', 'ipsk-
-              with-radius', 'ipsk-without-radius', 'ipsk-with-nac' or 'ipsk-with-radius-
-              easy-psk').
+                'open-with-radius', 'open-with-nac', '8021x-meraki', '8021x-nac',
+                '8021x-radius', '8021x-google', '8021x-entra', '8021x-localradius',
+                'ipsk-with-radius', 'ipsk-without-radius', 'ipsk-with-nac' or 'ipsk-
+                with-radius-easy-psk').
             enterprise_admin_access: Whether or not an SSID is accessible by 'enterprise'
-              administrators ('access disabled' or 'access enabled').
+                administrators ('access disabled' or 'access enabled').
             encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
-              only valid if the authMode is 'psk'.
+                only valid if the authMode is 'psk'.
             psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
             wpa_encryption_mode: The types of WPA encryption. ('WPA1 only', 'WPA1 and WPA2', 'WPA2
-              only', 'WPA3 Transition Mode', 'WPA3 only' or 'WPA3 192-bit Security').
+                only', 'WPA3 Transition Mode', 'WPA3 only' or 'WPA3 192-bit Security').
             dot11w: The current setting for Protected Management Frames (802.11w).
             dot11r: The current setting for 802.11r.
             splash_page: The type of splash page for the SSID ('None', 'Click-through splash page',
-              'Billing', 'Password-protected with Meraki RADIUS', 'Password-protected
-              with custom RADIUS', 'Password-protected with Active Directory',
-              'Password-protected with LDAP', 'SMS authentication', 'Systems Manager
-              Sentry', 'Facebook Wi-Fi', 'Google OAuth', 'Microsoft Entra ID',
-              'Sponsored guest', 'Cisco ISE' or 'Google Apps domain').This attribute is
-              not supported for template children.
+                'Billing', 'Password-protected with Meraki RADIUS', 'Password-protected
+                with custom RADIUS', 'Password-protected with Active Directory',
+                'Password-protected with LDAP', 'SMS authentication', 'Systems Manager
+                Sentry', 'Facebook Wi-Fi', 'Google OAuth', 'Microsoft Entra ID',
+                'Sponsored guest', 'Cisco ISE' or 'Google Apps domain').This attribute
+                is not supported for template children.
             splash_guest_sponsor_domains: Array of valid sponsor email domains for sponsored guest
-              splash type.
+                splash type.
             oauth: The OAuth settings of this SSID. Only valid if splashPage is 'Google OAuth'.
             local_radius: The current setting for Local Authentication, a built-in RADIUS server on
-              the access point. Only valid if authMode is '8021x-localradius'.
+                the access point. Only valid if authMode is '8021x-localradius'.
             ldap: The current setting for LDAP. Only valid if splashPage is 'Password-protected with
-              LDAP'.
+                LDAP'.
             active_directory: The current setting for Active Directory. Only valid if splashPage is
-              'Password-protected with Active Directory'.
+                'Password-protected with Active Directory'.
             radius_servers: The RADIUS 802.1X servers to be used for authentication. This param is
-              only valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-
-              with-radius'.
+                only valid if the authMode is 'open-with-radius', '8021x-radius' or
+                'ipsk-with-radius'.
             radius_proxy_enabled: If true, Meraki devices will proxy RADIUS messages through the
-              Meraki cloud to the configured RADIUS auth and accounting servers.
+                Meraki cloud to the configured RADIUS auth and accounting servers.
             radius_testing_enabled: If true, Meraki devices will periodically send Access-Request
-              messages to configured RADIUS servers using identity 'meraki_8021x_test'
-              to ensure that the RADIUS servers are reachable.
+                messages to configured RADIUS servers using identity 'meraki_8021x_test'
+                to ensure that the RADIUS servers are reachable.
             radius_called_station_id: The template of the called station identifier to be used for
-              RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
+                RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
             radius_authentication_nas_id: The template of the NAS identifier to be used for RADIUS
-              authentication (ex. $NODE_MAC$:$VAP_NUM$).
+                authentication (ex. $NODE_MAC$:$VAP_NUM$).
             radius_server_timeout: The amount of time for which a RADIUS client waits for a reply
-              from the RADIUS server (must be between 1-10 seconds).
+                from the RADIUS server (must be between 1-10 seconds).
             radius_server_attempts_limit: The maximum number of transmit attempts after which a
-              RADIUS server is failed over (must be between 1-5).
+                RADIUS server is failed over (must be between 1-5).
             radius_fallback_enabled: Whether or not higher priority RADIUS servers should be retried
-              after 60 seconds.
+                after 60 seconds.
             radius_radsec: The current settings for RADIUS RADSec.
             radius_coa_enabled: If true, Meraki devices will act as a RADIUS Dynamic Authorization
-              Server and will respond to RADIUS Change-of-Authorization and Disconnect
-              messages sent by the RADIUS server.
+                Server and will respond to RADIUS Change-of-Authorization and Disconnect
+                messages sent by the RADIUS server.
             radius_failover_policy: This policy determines how authentication requests should be
-              handled in the event that all of the configured RADIUS servers are
-              unreachable ('Deny access' or 'Allow access').
+                handled in the event that all of the configured RADIUS servers are
+                unreachable ('Deny access' or 'Allow access').
             radius_load_balancing_policy: This policy determines which RADIUS server will be
-              contacted first in an authentication attempt and the ordering of any
-              necessary retry attempts ('Strict priority order' or 'Round robin').
+                contacted first in an authentication attempt and the ordering of any
+                necessary retry attempts ('Strict priority order' or 'Round robin').
             radius_accounting_enabled: Whether or not RADIUS accounting is enabled. This param is
-              only valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-
-              with-radius'.
+                only valid if the authMode is 'open-with-radius', '8021x-radius' or
+                'ipsk-with-radius'.
             radius_accounting_servers: The RADIUS accounting 802.1X servers to be used for
-              authentication. This param is only valid if the authMode is 'open-with-
-              radius', '8021x-radius' or 'ipsk-with-radius' and radiusAccountingEnabled
-              is 'true'.
+                authentication. This param is only valid if the authMode is 'open-with-
+                radius', '8021x-radius' or 'ipsk-with-radius' and
+                radiusAccountingEnabled is 'true'.
             radius_accounting_interim_interval: The interval (in seconds) in which accounting
-              information is updated and sent to the RADIUS accounting server.
+                information is updated and sent to the RADIUS accounting server.
             radius_attribute_for_group_policies: Specify the RADIUS attribute used to look up group
-              policies ('Filter-Id', 'Reply-Message', 'Airespace-ACL-Name' or 'Aruba-
-              User-Role'). Access points must receive this attribute in the RADIUS
-              Access-Accept message.
+                policies ('Filter-Id', 'Reply-Message', 'Airespace-ACL-Name' or 'Aruba-
+                User-Role'). Access points must receive this attribute in the RADIUS
+                Access-Accept message.
             ip_assignment_mode: The client IP assignment mode ('NAT mode', 'Bridge mode', 'Layer 3
-              roaming', 'Ethernet over GRE', 'Layer 3 roaming with a concentrator',
-              'VPN' or 'Campus Gateway').
+                roaming', 'Ethernet over GRE', 'Layer 3 roaming with a concentrator',
+                'VPN' or 'Campus Gateway').
             use_vlan_tagging: Whether or not traffic should be directed to use specific VLANs. This
-              param is only valid if the ipAssignmentMode is 'Bridge mode' or 'Layer 3
-              roaming'.
+                param is only valid if the ipAssignmentMode is 'Bridge mode' or 'Layer 3
+                roaming'.
             concentrator_network_id: The concentrator to use when the ipAssignmentMode is 'Layer 3
-              roaming with a concentrator' or 'VPN'.
+                roaming with a concentrator' or 'VPN'.
             secondary_concentrator_network_id: The secondary concentrator to use when the
-              ipAssignmentMode is 'VPN'. If configured, the APs will switch to using
-              this concentrator if the primary concentrator is unreachable. This param
-              is optional. ('disabled' represents no secondary concentrator.).
+                ipAssignmentMode is 'VPN'. If configured, the APs will switch to using
+                this concentrator if the primary concentrator is unreachable. This param
+                is optional. ('disabled' represents no secondary concentrator.).
             disassociate_clients_on_vpn_failover: Disassociate clients when 'VPN' concentrator
-              failover occurs in order to trigger clients to re-associate and generate
-              new DHCP requests. This param is only valid if ipAssignmentMode is 'VPN'.
+                failover occurs in order to trigger clients to re-associate and generate
+                new DHCP requests. This param is only valid if ipAssignmentMode is
+                'VPN'.
             vlan_id: The VLAN ID used for VLAN tagging. This param is only valid when the
-              ipAssignmentMode is 'Layer 3 roaming with a concentrator' or 'VPN'.
+                ipAssignmentMode is 'Layer 3 roaming with a concentrator' or 'VPN'.
             default_vlan_id: The default VLAN ID used for 'all other APs'. This param is only valid
-              when the ipAssignmentMode is 'Bridge mode' or 'Layer 3 roaming'.
+                when the ipAssignmentMode is 'Bridge mode' or 'Layer 3 roaming'.
             ap_tags_and_vlan_ids: The list of tags and VLAN IDs used for VLAN tagging. This param is
-              only valid when the ipAssignmentMode is 'Bridge mode' or 'Layer 3
-              roaming'.
+                only valid when the ipAssignmentMode is 'Bridge mode' or 'Layer 3
+                roaming'.
             walled_garden_enabled: Allow access to a configurable list of IP ranges, which users may
-              access prior to sign-on.
+                access prior to sign-on.
             walled_garden_ranges: Specify your walled garden by entering an array of addresses,
-              ranges using CIDR notation, domain names, and domain wildcards (e.g.
-              '192.168.1.1/24', '192.168.37.10/32', 'www.yahoo.com', '*.google.com']).
-              Meraki's splash page is automatically included in your walled garden.
+                ranges using CIDR notation, domain names, and domain wildcards (e.g.
+                '192.168.1.1/24', '192.168.37.10/32', 'www.yahoo.com', '*.google.com']).
+                Meraki's splash page is automatically included in your walled garden.
             gre: Ethernet over GRE settings.
             radius_override: If true, the RADIUS response can override VLAN tag. This is not valid
-              when ipAssignmentMode is 'NAT mode'.
+                when ipAssignmentMode is 'NAT mode'.
             radius_guest_vlan_enabled: Whether or not RADIUS Guest VLAN is enabled. This param is
-              only valid if the authMode is 'open-with-radius' and addressing mode is
-              not set to 'isolated' or 'nat' mode.
+                only valid if the authMode is 'open-with-radius' and addressing mode is
+                not set to 'isolated' or 'nat' mode.
             radius_guest_vlan_id: VLAN ID of the RADIUS Guest VLAN. This param is only valid if the
-              authMode is 'open-with-radius' and addressing mode is not set to
-              'isolated' or 'nat' mode.
+                authMode is 'open-with-radius' and addressing mode is not set to
+                'isolated' or 'nat' mode.
             min_bitrate: The minimum bitrate in Mbps of this SSID in the default indoor RF profile.
-              ('1', '2', '5.5', '6', '9', '11', '12', '18', '24', '36', '48' or '54').
+                ('1', '2', '5.5', '6', '9', '11', '12', '18', '24', '36', '48' or '54').
             band_selection: The client-serving radio frequencies of this SSID in the default indoor
-              RF profile. ('Dual band operation', '5 GHz band only' or 'Dual band
-              operation with Band Steering').
+                RF profile. ('Dual band operation', '5 GHz band only' or 'Dual band
+                operation with Band Steering').
             per_client_bandwidth_limit_up: The upload bandwidth limit in Kbps. (0 represents no
-              limit.).
+                limit.).
             per_client_bandwidth_limit_down: The download bandwidth limit in Kbps. (0 represents no
-              limit.).
+                limit.).
             per_ssid_bandwidth_limit_up: The total upload bandwidth limit in Kbps. (0 represents no
-              limit.).
+                limit.).
             per_ssid_bandwidth_limit_down: The total download bandwidth limit in Kbps. (0 represents
-              no limit.).
+                no limit.).
             lan_isolation_enabled: Boolean indicating whether Layer 2 LAN isolation should be
-              enabled or disabled. Only configurable when ipAssignmentMode is 'Bridge
-              mode'.
+                enabled or disabled. Only configurable when ipAssignmentMode is 'Bridge
+                mode'.
             visible: Boolean indicating whether APs should advertise or hide this SSID. APs will
-              only broadcast this SSID if set to true.
+                only broadcast this SSID if set to true.
             available_on_all_aps: Boolean indicating whether all APs should broadcast the SSID or if
-              it should be restricted to APs matching any availability tags. Can only be
-              false if the SSID has availability tags.
+                it should be restricted to APs matching any availability tags. Can only
+                be false if the SSID has availability tags.
             availability_tags: Accepts a list of tags for this SSID. If availableOnAllAps is false,
-              then the SSID will only be broadcast by APs with tags matching any of the
-              tags in this list.
+                then the SSID will only be broadcast by APs with tags matching any of
+                the tags in this list.
             adaptive_policy_group_id: Adaptive policy group ID this SSID is assigned to.
             mandatory_dhcp_enabled: If true, Mandatory DHCP will enforce that clients connecting to
-              this SSID must use the IP address assigned by the DHCP server. Clients who
-              use a static IP address won't be able to associate.
+                this SSID must use the IP address assigned by the DHCP server. Clients
+                who use a static IP address won't be able to associate.
             adult_content_filtering_enabled: Boolean indicating whether or not adult content will be
-              blocked.
+                blocked.
             dns_rewrite: DNS servers rewrite settings.
             speed_burst: The SpeedBurst setting for this SSID'.
             named_vlans: Named VLAN settings.
             local_auth_fallback: The current configuration for Local Authentication Fallback.
-              Enables the Access Point (AP) to store client authentication data for a
-              specified duration that can be adjusted as needed.
+                Enables the Access Point (AP) to store client authentication data for a
+                specified duration that can be adjusted as needed.
             radius_accounting_start_delay: The delay (in seconds) before sending the first RADIUS
-              accounting start message. Must be between 0 and 60 seconds.
+                accounting start message. Must be between 0 and 60 seconds.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "number": 0,
+              "name": "My SSID",
+              "enabled": true,
+              "splashPage": "Click-through splash page",
+              "ssidAdminAccessible": false,
+              "localAuth": false,
+              "authMode": "8021x-radius",
+              "encryptionMode": "wpa",
+              "wpaEncryptionMode": "WPA2 only",
+              "radiusServers": [
+                {
+                  "host": "0.0.0.0",
+                  "port": 3000,
+                  "openRoamingCertificateId": 2,
+                  "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                }
+              ],
+              "radiusAccountingServers": [
+                {
+                  "host": "0.0.0.0",
+                  "port": 3000,
+                  "openRoamingCertificateId": 2,
+                  "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                }
+              ],
+              "radiusAccountingEnabled": false,
+              "radiusEnabled": true,
+              "radiusAttributeForGroupPolicies": "Filter-Id",
+              "radiusFailoverPolicy": "Deny access",
+              "radiusLoadBalancingPolicy": "Round robin",
+              "ipAssignmentMode": "NAT mode",
+              "adminSplashUrl": "http://example.com",
+              "splashTimeout": "30 minutes",
+              "walledGardenEnabled": true,
+              "walledGardenRanges": [
+                "example.com",
+                "1.1.1.1/32"
+              ],
+              "minBitrate": 11,
+              "bandSelection": "5 GHz band only",
+              "perClientBandwidthLimitUp": 0,
+              "perClientBandwidthLimitDown": 0,
+              "visible": true,
+              "availableOnAllAps": false,
+              "availabilityTags": [
+                "tag1",
+                "tag2"
+              ],
+              "perSsidBandwidthLimitUp": 0,
+              "perSsidBandwidthLimitDown": 0,
+              "mandatoryDhcpEnabled": false
+            }
+            ```
 
         """
         if auth_mode is not None:
@@ -3365,11 +6080,33 @@ class Wireless:
     ) -> GetNetworkWirelessSsidBonjourForwardingResponse | None:
         """List the Bonjour forwarding setting and rules for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-bonjour-forwarding
+        [API documentation: getNetworkWirelessSsidBonjourForwarding](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-bonjour-forwarding)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "exception": {
+                "enabled": true
+              },
+              "rules": [
+                {
+                  "description": "A simple bonjour rule",
+                  "vlanId": "1",
+                  "services": [
+                    "All Services"
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3394,7 +6131,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidBonjourForwardingResponse | None:
         """Update the bonjour forwarding setting and rules for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding
+        [API documentation: updateNetworkWirelessSsidBonjourForwarding](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding)
 
         Args:
             network_id: Network ID.
@@ -3402,6 +6139,28 @@ class Wireless:
             enabled: If true, Bonjour forwarding is enabled on this SSID.
             rules: List of bonjour forwarding rules.
             exception: Bonjour forwarding exception.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "exception": {
+                "enabled": true
+              },
+              "rules": [
+                {
+                  "description": "A simple bonjour rule",
+                  "vlanId": "1",
+                  "services": [
+                    "All Services"
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3429,11 +6188,32 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """List the device type group policies for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-device-type-group-policies
+        [API documentation: getNetworkWirelessSsidDeviceTypeGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-device-type-group-policies)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "deviceTypePolicies": [
+                {
+                  "deviceType": "Android",
+                  "devicePolicy": "Allowed"
+                },
+                {
+                  "deviceType": "iPhone",
+                  "devicePolicy": "Group policy",
+                  "groupPolicyId": 101
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3459,13 +6239,34 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """Update the device type group policies for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies
+        [API documentation: updateNetworkWirelessSsidDeviceTypeGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies)
 
         Args:
             network_id: Network ID.
             number: Number.
             enabled: If true, the SSID device type group policies are enabled.
             device_type_policies: List of device type policies.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "deviceTypePolicies": [
+                {
+                  "deviceType": "Android",
+                  "devicePolicy": "Allowed"
+                },
+                {
+                  "deviceType": "iPhone",
+                  "devicePolicy": "Group policy",
+                  "groupPolicyId": 101
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3492,11 +6293,30 @@ class Wireless:
     ) -> GetNetworkWirelessSsidEapOverrideResponse | None:
         """Return the EAP overridden parameters for an SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-eap-override
+        [API documentation: getNetworkWirelessSsidEapOverride](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-eap-override)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "timeout": 50,
+              "maxRetries": 5,
+              "identity": {
+                "retries": 5,
+                "timeout": 50
+              },
+              "eapolKey": {
+                "retries": 50,
+                "timeoutInMs": 5000
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3522,7 +6342,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidEapOverrideResponse | None:
         """Update the EAP overridden parameters for an SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override
+        [API documentation: updateNetworkWirelessSsidEapOverride](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override)
 
         Args:
             network_id: Network ID.
@@ -3531,6 +6351,25 @@ class Wireless:
             identity: EAP settings for identity requests.
             max_retries: Maximum number of general EAP retries.
             eapol_key: EAPOL Key settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "timeout": 50,
+              "maxRetries": 5,
+              "identity": {
+                "retries": 5,
+                "timeout": 50
+              },
+              "eapolKey": {
+                "retries": 50,
+                "timeoutInMs": 5000
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3560,11 +6399,31 @@ class Wireless:
     ) -> GetNetworkWirelessSsidFirewallL3FirewallRulesResponse | None:
         """Return the L3 firewall rules for an SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-3-firewall-rules
+        [API documentation: getNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "ipVer": "both",
+                  "protocol": "tcp",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24"
+                }
+              ],
+              "allowLanAccess": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3588,14 +6447,34 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse | None:
         """Update the L3 firewall rules of an SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules
+        [API documentation: updateNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
             rules: An ordered array of the firewall rules for this SSID.
             allow_lan_access: Allow wireless client access to local LAN (boolean value - true allows
-              access and false denies access) (optional).
+                access and false denies access) (optional).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                  "policy": "allow",
+                  "ipVer": "both",
+                  "protocol": "tcp",
+                  "destPort": "443",
+                  "destCidr": "192.168.1.0/24"
+                }
+              ],
+              "allowLanAccess": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3621,11 +6500,27 @@ class Wireless:
     ) -> GetNetworkWirelessSsidFirewallL7FirewallRulesResponse | None:
         """Return the L7 firewall rules for an SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-7-firewall-rules
+        [API documentation: getNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "policy": "deny",
+                  "type": "host",
+                  "value": "google.com"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3648,14 +6543,30 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse | None:
         """Update the L7 firewall rules of an SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules
+        [API documentation: updateNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
             rules: An array of L7 firewall rules for this SSID. Rules will get applied in the same
-              order user has specified in request. Empty array will clear the L7
-              firewall rule configuration.
+                order user has specified in request. Empty array will clear the L7
+                firewall rule configuration.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "policy": "deny",
+                  "type": "host",
+                  "value": "google.com"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3679,11 +6590,64 @@ class Wireless:
     ) -> GetNetworkWirelessSsidHotspot20Response | None:
         """Return the Hotspot 2.0 settings for an SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-hotspot-2-0
+        [API documentation: getNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-hotspot-2-0)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "operator": {
+                "name": "Meraki Product Management"
+              },
+              "venue": {
+                "name": "SF Branch",
+                "type": "Unspecified Assembly"
+              },
+              "networkAccessType": "Private network",
+              "domains": [
+                "meraki.local",
+                "domain2.com"
+              ],
+              "roamConsortOis": [
+                "ABC123",
+                "456EFG"
+              ],
+              "mccMncs": [
+                {
+                  "mcc": "123",
+                  "mnc": "456"
+                }
+              ],
+              "naiRealms": [
+                {
+                  "format": "1",
+                  "name": "Realm 1",
+                  "methods": [
+                    {
+                      "id": "1",
+                      "authenticationTypes": {
+                        "nonEapInnerAuthentication": [
+                          "MSCHAP"
+                        ],
+                        "eapInnerAuthentication": [
+                          "EAP-TTLS with MSCHAPv2"
+                        ],
+                        "credentials": [],
+                        "tunneledEapMethodCredentials": []
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3713,7 +6677,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidHotspot20Response | None:
         """Update the Hotspot 2.0 settings of an SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0
+        [API documentation: updateNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0)
 
         Args:
             network_id: Network ID.
@@ -3722,14 +6686,67 @@ class Wireless:
             operator: Operator settings for this SSID.
             venue: Venue settings for this SSID.
             network_access_type: The network type of this SSID ('Private network', 'Private network
-              with guest access', 'Chargeable public network', 'Free public network',
-              'Personal device network', 'Emergency services only network', 'Test or
-              experimental', 'Wildcard').
+                with guest access', 'Chargeable public network', 'Free public network',
+                'Personal device network', 'Emergency services only network', 'Test or
+                experimental', 'Wildcard').
             domains: An array of domain names.
             roam_consort_ois: An array of roaming consortium OIs (hexadecimal number 3-5 octets in
-              length).
+                length).
             mcc_mncs: An array of MCC/MNC pairs.
             nai_realms: An array of NAI realms.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "operator": {
+                "name": "Meraki Product Management"
+              },
+              "venue": {
+                "name": "SF Branch",
+                "type": "Unspecified Assembly"
+              },
+              "networkAccessType": "Private network",
+              "domains": [
+                "meraki.local",
+                "domain2.com"
+              ],
+              "roamConsortOis": [
+                "ABC123",
+                "456EFG"
+              ],
+              "mccMncs": [
+                {
+                  "mcc": "123",
+                  "mnc": "456"
+                }
+              ],
+              "naiRealms": [
+                {
+                  "format": "1",
+                  "name": "Realm 1",
+                  "methods": [
+                    {
+                      "id": "1",
+                      "authenticationTypes": {
+                        "nonEapInnerAuthentication": [
+                          "MSCHAP"
+                        ],
+                        "eapInnerAuthentication": [
+                          "EAP-TTLS with MSCHAPv2"
+                        ],
+                        "credentials": [],
+                        "tunneledEapMethodCredentials": []
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         if network_access_type is not None:
@@ -3786,11 +6803,29 @@ class Wireless:
     ) -> GetNetworkWirelessSsidIdentityPsksResponse | None:
         """List all Identity PSKs in a wireless network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psks
+        [API documentation: getNetworkWirelessSsidIdentityPsks](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psks)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "Sample Identity PSK",
+                "id": "1284392014819",
+                "groupPolicyId": "101",
+                "passphrase": "secret",
+                "wifiPersonalNetworkId": "1284392014819",
+                "email": "miles@meraki.com",
+                "expiresAt": "2018-02-11T00:00:00.090210Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3816,16 +6851,32 @@ class Wireless:
     ) -> CreateNetworkWirelessSsidIdentityPskResponse | None:
         """Create an Identity PSK.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk
+        [API documentation: createNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk)
 
         Args:
             network_id: Network ID.
             number: Number.
             name: The name of the Identity PSK.
             passphrase: The passphrase for client authentication. If left blank, one will be auto-
-              generated.
+                generated.
             group_policy_id: The group policy to be applied to clients.
             expires_at: Timestamp for when the Identity PSK expires. Will not expire if left blank.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "Sample Identity PSK",
+              "id": "1284392014819",
+              "groupPolicyId": "101",
+              "passphrase": "secret",
+              "wifiPersonalNetworkId": "1284392014819",
+              "email": "miles@meraki.com",
+              "expiresAt": "2018-02-11T00:00:00.090210Z"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3855,12 +6906,28 @@ class Wireless:
     ) -> GetNetworkWirelessSsidIdentityPskResponse | None:
         """Return an Identity PSK.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psk
+        [API documentation: getNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psk)
 
         Args:
             network_id: Network ID.
             number: Number.
             identity_psk_id: Identity psk ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "Sample Identity PSK",
+              "id": "1284392014819",
+              "groupPolicyId": "101",
+              "passphrase": "secret",
+              "wifiPersonalNetworkId": "1284392014819",
+              "email": "miles@meraki.com",
+              "expiresAt": "2018-02-11T00:00:00.090210Z"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3888,7 +6955,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidIdentityPskResponse | None:
         """Update an Identity PSK.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk
+        [API documentation: updateNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk)
 
         Args:
             network_id: Network ID.
@@ -3898,6 +6965,22 @@ class Wireless:
             passphrase: The passphrase for client authentication.
             group_policy_id: The group policy to be applied to clients.
             expires_at: Timestamp for when the Identity PSK expires, or 'null' to never expire.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "Sample Identity PSK",
+              "id": "1284392014819",
+              "groupPolicyId": "101",
+              "passphrase": "secret",
+              "wifiPersonalNetworkId": "1284392014819",
+              "email": "miles@meraki.com",
+              "expiresAt": "2018-02-11T00:00:00.090210Z"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3928,12 +7011,15 @@ class Wireless:
     ) -> None:
         """Delete an Identity PSK.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk
+        [API documentation: deleteNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk)
 
         Args:
             network_id: Network ID.
             number: Number.
             identity_psk_id: Identity psk ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3955,13 +7041,24 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidOpenRoamingResponse | None:
         """Update the OpenRoaming setting for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming
+        [API documentation: updateNetworkWirelessSsidOpenRoaming](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming)
 
         Args:
             network_id: Network ID.
             number: Number.
             enabled: If true, OpenRoaming is enabled on this SSID.
             tenant_id: The OpenRoaming DNA Spaces tenant ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "tenantId": "123-456"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3987,11 +7084,35 @@ class Wireless:
     ) -> GetNetworkWirelessSsidSchedulesResponse | None:
         """List the outage schedule for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-schedules
+        [API documentation: getNetworkWirelessSsidSchedules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-schedules)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "ranges": [
+                {
+                  "startDay": "Tuesday",
+                  "startTime": "01:00",
+                  "endDay": "Tuesday",
+                  "endTime": "05:00"
+                }
+              ],
+              "rangesInSeconds": [
+                {
+                  "start": 604800,
+                  "end": 0
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4017,18 +7138,42 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidSchedulesResponse | None:
         """Update the outage schedule for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules
+        [API documentation: updateNetworkWirelessSsidSchedules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules)
 
         Args:
             network_id: Network ID.
             number: Number.
             enabled: If true, the SSID outage schedule is enabled.
             ranges: List of outage ranges. Has a start date and time, and end date and time. If this
-              parameter is passed in along with rangesInSeconds parameter, this will
-              take precedence.
+                parameter is passed in along with rangesInSeconds parameter, this will
+                take precedence.
             ranges_in_seconds: List of outage ranges in seconds since Sunday at Midnight. Has a
-              start and end. If this parameter is passed in along with the ranges
-              parameter, ranges will take precedence.
+                start and end. If this parameter is passed in along with the ranges
+                parameter, ranges will take precedence.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "ranges": [
+                {
+                  "startDay": "Tuesday",
+                  "startTime": "01:00",
+                  "endDay": "Tuesday",
+                  "endTime": "05:00"
+                }
+              ],
+              "rangesInSeconds": [
+                {
+                  "start": 604800,
+                  "end": 0
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4060,11 +7205,69 @@ class Wireless:
     ) -> GetNetworkWirelessSsidSplashSettingsResponse | None:
         """Display the splash page settings for the given SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-splash-settings
+        [API documentation: getNetworkWirelessSsidSplashSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-splash-settings)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ssidNumber": 0,
+              "splashPage": "Click-through splash page",
+              "useSplashUrl": true,
+              "splashUrl": "https://www.custom_splash_url.com",
+              "splashTimeout": 1440,
+              "redirectUrl": "https://example.com",
+              "useRedirectUrl": true,
+              "welcomeMessage": "Welcome!",
+              "themeId": "c3ddcb4f16785ee747ab5ffc10867d6c8ea704be",
+              "splashLogo": {
+                "md5": "abcd1234",
+                "extension": "jpg"
+              },
+              "splashImage": {
+                "md5": "542cccac8d7dedee0f185311d154d194",
+                "extension": "jpg"
+              },
+              "splashPrepaidFront": {
+                "md5": "542cccac8d7dedee0f185311d154d194",
+                "extension": "jpg"
+              },
+              "guestSponsorship": {
+                "durationInMinutes": 30,
+                "guestCanRequestTimeframe": false
+              },
+              "blockAllTrafficBeforeSignOn": false,
+              "controllerDisconnectionBehavior": "default",
+              "allowSimultaneousLogins": false,
+              "billing": {
+                "freeAccess": {
+                  "enabled": true,
+                  "durationInMinutes": 120
+                },
+                "prepaidAccessFastLoginEnabled": true,
+                "replyToEmailAddress": "user@email.com"
+              },
+              "sentryEnrollment": {
+                "systemsManagerNetwork": {
+                  "id": "N_1234"
+                },
+                "strength": "focused",
+                "enforcedSystems": [
+                  "iOS"
+                ]
+              },
+              "selfRegistration": {
+                "enabled": true,
+                "authorizationType": "admin"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4104,42 +7307,100 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidSplashSettingsResponse | None:
         """Modify the splash page settings for the given SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings
+        [API documentation: updateNetworkWirelessSsidSplashSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings)
 
         Args:
             network_id: Network ID.
             number: Number.
             splash_url: [optional] The custom splash URL of the click-through splash page. Note that
-              the URL can be configured without necessarily being used. In order to
-              enable the custom URL, see 'useSplashUrl'.
+                the URL can be configured without necessarily being used. In order to
+                enable the custom URL, see 'useSplashUrl'.
             use_splash_url: [optional] Boolean indicating whether the users will be redirected to
-              the custom splash url. A custom splash URL must be set if this is true.
-              Note that depending on your SSID's access control settings, it may not be
-              possible to use the custom splash URL.
+                the custom splash url. A custom splash URL must be set if this is true.
+                Note that depending on your SSID's access control settings, it may not
+                be possible to use the custom splash URL.
             splash_timeout: Splash timeout in minutes. This will determine how often users will see
-              the splash page.
+                the splash page.
             redirect_url: The custom redirect URL where the users will go after the splash page.
             use_redirect_url: The Boolean indicating whether the the user will be redirected to the
-              custom redirect URL after the splash page. A custom redirect URL must be
-              set if this is true.
+                custom redirect URL after the splash page. A custom redirect URL must be
+                set if this is true.
             welcome_message: The welcome message for the users on the splash page.
             theme_id: The id of the selected splash theme.
             splash_logo: The logo used in the splash page.
             splash_image: The image used in the splash page.
             splash_prepaid_front: The prepaid front image used in the splash page.
             block_all_traffic_before_sign_on: How restricted allowing traffic should be. If true,
-              all traffic types are blocked until the splash page is acknowledged. If
-              false, all non-HTTP traffic is allowed before the splash page is
-              acknowledged.
+                all traffic types are blocked until the splash page is acknowledged. If
+                false, all non-HTTP traffic is allowed before the splash page is
+                acknowledged.
             controller_disconnection_behavior: How login attempts should be handled when the
-              controller is unreachable. Can be either 'open', 'restricted', or
-              'default'.
+                controller is unreachable. Can be either 'open', 'restricted', or
+                'default'.
             allow_simultaneous_logins: Whether or not to allow simultaneous logins from different
-              devices.
+                devices.
             guest_sponsorship: Details associated with guest sponsored splash.
             billing: Details associated with billing splash.
             sentry_enrollment: Systems Manager sentry enrollment splash settings.
             self_registration: Self-registration settings for splash with Meraki authentication.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ssidNumber": 0,
+              "splashPage": "Click-through splash page",
+              "useSplashUrl": true,
+              "splashUrl": "https://www.custom_splash_url.com",
+              "splashTimeout": 1440,
+              "redirectUrl": "https://example.com",
+              "useRedirectUrl": true,
+              "welcomeMessage": "Welcome!",
+              "themeId": "c3ddcb4f16785ee747ab5ffc10867d6c8ea704be",
+              "splashLogo": {
+                "md5": "abcd1234",
+                "extension": "jpg"
+              },
+              "splashImage": {
+                "md5": "542cccac8d7dedee0f185311d154d194",
+                "extension": "jpg"
+              },
+              "splashPrepaidFront": {
+                "md5": "542cccac8d7dedee0f185311d154d194",
+                "extension": "jpg"
+              },
+              "guestSponsorship": {
+                "durationInMinutes": 30,
+                "guestCanRequestTimeframe": false
+              },
+              "blockAllTrafficBeforeSignOn": false,
+              "controllerDisconnectionBehavior": "default",
+              "allowSimultaneousLogins": false,
+              "billing": {
+                "freeAccess": {
+                  "enabled": true,
+                  "durationInMinutes": 120
+                },
+                "prepaidAccessFastLoginEnabled": true,
+                "replyToEmailAddress": "user@email.com"
+              },
+              "sentryEnrollment": {
+                "systemsManagerNetwork": {
+                  "id": "N_1234"
+                },
+                "strength": "focused",
+                "enforcedSystems": [
+                  "iOS"
+                ]
+              },
+              "selfRegistration": {
+                "enabled": true,
+                "authorizationType": "admin"
+              }
+            }
+            ```
 
         """
         if splash_timeout is not None:
@@ -4231,11 +7492,41 @@ class Wireless:
     ) -> GetNetworkWirelessSsidTrafficShapingRulesResponse | None:
         """Display the traffic shaping settings for a SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-traffic-shaping-rules
+        [API documentation: getNetworkWirelessSsidTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-traffic-shaping-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "trafficShapingEnabled": true,
+              "defaultRulesEnabled": true,
+              "rules": [
+                {
+                  "definitions": [
+                    {
+                      "type": "host",
+                      "value": "google.com"
+                    }
+                  ],
+                  "perClientBandwidthLimits": {
+                    "settings": "custom",
+                    "bandwidthLimits": {
+                      "limitUp": 1000000,
+                      "limitDown": 1000000
+                    }
+                  },
+                  "dscpTagValue": 0,
+                  "pcpTagValue": 0
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4260,20 +7551,50 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidTrafficShapingRulesResponse | None:
         """Update the traffic shaping rules for an SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules
+        [API documentation: updateNetworkWirelessSsidTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
             traffic_shaping_enabled: Whether traffic shaping rules are applied to clients on your
-              SSID.
+                SSID.
             default_rules_enabled: Whether default traffic shaping rules are enabled (true) or
-              disabled (false). There are 4 default rules, which can be seen on your
-              network's traffic shaping page. Note that default rules count against the
-              rule limit of 8.
+                disabled (false). There are 4 default rules, which can be seen on your
+                network's traffic shaping page. Note that default rules count against
+                the rule limit of 8.
             rules: An array of traffic shaping rules. Rules are applied in the order that they are
-              specified in. An empty list (or null) means no rules. Note that you are
-              allowed a maximum of 8 rules.
+                specified in. An empty list (or null) means no rules. Note that you are
+                allowed a maximum of 8 rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "trafficShapingEnabled": true,
+              "defaultRulesEnabled": true,
+              "rules": [
+                {
+                  "definitions": [
+                    {
+                      "type": "host",
+                      "value": "google.com"
+                    }
+                  ],
+                  "perClientBandwidthLimits": {
+                    "settings": "custom",
+                    "bandwidthLimits": {
+                      "limitUp": 1000000,
+                      "limitDown": 1000000
+                    }
+                  },
+                  "dscpTagValue": 0,
+                  "pcpTagValue": 0
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4301,11 +7622,48 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """List the VPN settings for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-vpn
+        [API documentation: getNetworkWirelessSsidVpn](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-vpn)
 
         Args:
             network_id: Network ID.
             number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "concentrator": {
+                "networkId": "N_123",
+                "vlanId": 44,
+                "name": "some concentrator name"
+              },
+              "failover": {
+                "requestIp": "1.1.1.1",
+                "heartbeatInterval": 10,
+                "idleTimeout": 30
+              },
+              "splitTunnel": {
+                "enabled": true,
+                "rules": [
+                  {
+                    "protocol": "Any",
+                    "destCidr": "1.1.1.1/32",
+                    "destPort": "any",
+                    "policy": "allow",
+                    "comment": "split tunnel rule 1"
+                  },
+                  {
+                    "destCidr": "foo.com",
+                    "destPort": "any",
+                    "policy": "deny",
+                    "comment": "split tunnel rule 2"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4327,7 +7685,7 @@ class Wireless:
     ) -> dict[str, Any] | None:
         """Update the VPN settings for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn
+        [API documentation: updateNetworkWirelessSsidVpn](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn)
 
         Args:
             network_id: Network ID.
@@ -4335,7 +7693,44 @@ class Wireless:
             concentrator: The VPN concentrator settings for this SSID.
             split_tunnel: The VPN split tunnel settings for this SSID.
             failover: Secondary VPN concentrator settings. This is only used when two VPN
-              concentrators are configured on the SSID.
+                concentrators are configured on the SSID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "concentrator": {
+                "networkId": "N_123",
+                "vlanId": 44,
+                "name": "some concentrator name"
+              },
+              "failover": {
+                "requestIp": "1.1.1.1",
+                "heartbeatInterval": 10,
+                "idleTimeout": 30
+              },
+              "splitTunnel": {
+                "enabled": true,
+                "rules": [
+                  {
+                    "protocol": "Any",
+                    "destCidr": "1.1.1.1/32",
+                    "destPort": "any",
+                    "policy": "allow",
+                    "comment": "split tunnel rule 1"
+                  },
+                  {
+                    "destCidr": "foo.com",
+                    "destPort": "any",
+                    "policy": "deny",
+                    "comment": "split tunnel rule 2"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4371,28 +7766,44 @@ class Wireless:
     ) -> GetNetworkWirelessUsageHistoryResponse | None:
         """Return AP usage over time for a device or network client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-usage-history
+        [API documentation: getNetworkWirelessUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-usage-history)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+                300, 600, 1200, 3600, 14400, 86400. The default is 86400.
             auto_resolution: Automatically select a data resolution based on the given timespan;
-              this overrides the value specified by the 'resolution' parameter. The
-              default setting is false.
+                this overrides the value specified by the 'resolution' parameter. The
+                default setting is false.
             client_id: Filter results by network client to return per-device AP usage over time
-              inner joined by the queried client's connection history.
+                inner joined by the queried client's connection history.
             device_serial: Filter results by device. Requires :band.
             ap_tag: Filter results by AP tag; either :clientId or :deviceSerial must be jointly
-              specified.
+                specified.
             band: Filter results by band (either '2.4', '5' or '6').
             ssid: Filter results by SSID number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2020-01-01T00:00:00Z",
+                "endTs": "2020-01-01T01:00:00Z",
+                "totalKbps": 2590,
+                "sentKbps": 159,
+                "receivedKbps": 2431
+              }
+            ]
+            ```
 
         """
         if band is not None:
@@ -4443,7 +7854,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessZigbeeResponse | None:
         """Update Zigbee Configs for specified network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee
+        [API documentation: updateNetworkWirelessZigbee](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee)
 
         Args:
             network_id: Network ID.
@@ -4451,6 +7862,34 @@ class Wireless:
             iot_controller: Zigbee's IoT controller details.
             lock_management: Login Credentials of on-premises lock management.
             defaults: Default Settings for Zigbee Devices.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_24329156"
+              },
+              "enabled": true,
+              "iotController": {
+                "name": "My AP",
+                "mac": "e4:55:a8:38:f2:06",
+                "serial": "Q234-ABCD-5678",
+                "status": "online"
+              },
+              "lockManagement": {
+                "address": "10.100.100.200",
+                "username": "user",
+                "status": "offline"
+              },
+              "defaults": {
+                "transmitPowerLevel": 10,
+                "channel": "25"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4482,29 +7921,61 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessAirMarshalRulesResponseItemsItem]:
         """Returns the current Air Marshal rules for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-rules
+        [API documentation: getOrganizationWirelessAirMarshalRules](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-rules)
 
         Args:
             organization_id: Organization ID.
             network_ids: (optional) The set of network IDs to include.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_12345",
+                    "name": "Network 1"
+                  },
+                  "ruleId": "5239",
+                  "type": "allow",
+                  "updatedAt": "2023-05-23 12:02:46.298",
+                  "createdAt": "2023-05-23 12:02:46.298",
+                  "match": {
+                    "string": "ipsum",
+                    "type": "contains"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4538,31 +8009,54 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem
     ]:
         """Returns the current Air Marshal settings for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-settings-by-network
+        [API documentation: getOrganizationWirelessAirMarshalSettingsByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-settings-by-network)
 
         Args:
             organization_id: Organization ID.
             network_ids: The network IDs to include in the result set.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "N_12345",
+                  "defaultPolicy": "allow"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4598,34 +8092,64 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem]:
         """List access point client count at the moment in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-overview-by-device
+        [API documentation: getOrganizationWirelessClientsOverviewByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-overview-by-device)
 
         Args:
             organization_id: Organization ID.
             network_ids: Optional parameter to filter access points client counts by network ID.
-              This filter uses multiple exact matches.
+                This filter uses multiple exact matches.
             serials: Optional parameter to filter access points client counts by its serial numbers.
-              This filter uses multiple exact matches.
+                This filter uses multiple exact matches.
             campus_gateway_cluster_ids: Optional parameter to filter access points client counts by
-              MCG cluster IDs. This filter uses multiple exact matches.
+                MCG cluster IDs. This filter uses multiple exact matches.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_24329156"
+                  },
+                  "serial": "Q234-ABCD-5678",
+                  "counts": {
+                    "byStatus": {
+                      "online": 1
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4668,40 +8192,70 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem
     ]:
         """Get average channel utilization for all bands in a network, split by AP.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-device
+        [API documentation: getOrganizationWirelessDevicesChannelUtilizationByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-device)
 
         Args:
             organization_id: Organization ID.
             network_ids: Filter results by network.
             serials: Filter results by device.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 90 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 90 days. The default is 7 days.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
-              600, 3600, 7200, 14400, 21600. The default is 3600.
+                600, 3600, 7200, 14400, 21600. The default is 3600.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-5678",
+                "mac": "00:11:22:33:44:55",
+                "network": {
+                  "id": "N_24329156"
+                },
+                "byBand": [
+                  {
+                    "band": "5",
+                    "wifi": {
+                      "percentage": 33.12
+                    },
+                    "nonWifi": {
+                      "percentage": 1.84
+                    },
+                    "total": {
+                      "percentage": 34.96
+                    }
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4750,40 +8304,68 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem
     ]:
         """Get average channel utilization across all bands for all networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-network
+        [API documentation: getOrganizationWirelessDevicesChannelUtilizationByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-network)
 
         Args:
             organization_id: Organization ID.
             network_ids: Filter results by network.
             serials: Filter results by device.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 90 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 90 days. The default is 7 days.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
-              600, 3600, 7200, 14400, 21600. The default is 3600.
+                600, 3600, 7200, 14400, 21600. The default is 3600.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "network": {
+                  "id": "N_24329156"
+                },
+                "byBand": [
+                  {
+                    "band": "5",
+                    "wifi": {
+                      "percentage": 33.12
+                    },
+                    "nonWifi": {
+                      "percentage": 1.84
+                    },
+                    "total": {
+                      "percentage": 34.96
+                    }
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4832,40 +8414,72 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalResponseItem
     ]:
         """Get a time-series of average channel utilization for all bands, segmented by device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-device-by-interval
+        [API documentation: getOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-device-by-interval)
 
         Args:
             organization_id: Organization ID.
             network_ids: Filter results by network.
             serials: Filter results by device.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
-              600, 3600, 7200, 14400, 21600. The default is 3600.
+                600, 3600, 7200, 14400, 21600. The default is 3600.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2018-02-11T00:00:00Z",
+                "endTs": "2018-05-12T00:00:00Z",
+                "serial": "Q234-ABCD-5678",
+                "mac": "00:11:22:33:44:55",
+                "network": {
+                  "id": "N_24329156"
+                },
+                "byBand": [
+                  {
+                    "band": "5",
+                    "wifi": {
+                      "percentage": 33.12
+                    },
+                    "nonWifi": {
+                      "percentage": 1.84
+                    },
+                    "total": {
+                      "percentage": 34.96
+                    }
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4914,40 +8528,70 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByIntervalResponseItem
     ]:
         """Get a time-series of average channel utilization for all bands.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-network-by-interval
+        [API documentation: getOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-network-by-interval)
 
         Args:
             organization_id: Organization ID.
             network_ids: Filter results by network.
             serials: Filter results by device.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
-              600, 3600, 7200, 14400, 21600. The default is 3600.
+                600, 3600, 7200, 14400, 21600. The default is 3600.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2018-02-11T00:00:00Z",
+                "endTs": "2018-05-12T00:00:00Z",
+                "network": {
+                  "id": "N_24329156"
+                },
+                "byBand": [
+                  {
+                    "band": "5",
+                    "wifi": {
+                      "percentage": 33.12
+                    },
+                    "nonWifi": {
+                      "percentage": 1.84
+                    },
+                    "total": {
+                      "percentage": 34.96
+                    }
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4991,30 +8635,71 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessDevicesEthernetStatusesResponseItem]:
         """List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-ethernet-statuses
+        [API documentation: getOrganizationWirelessDevicesEthernetStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-ethernet-statuses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: A list of Meraki network IDs to filter results to contain only specified
-              networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
+                networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-5678",
+                "name": "My appliance",
+                "network": {
+                  "id": "N_24329156"
+                },
+                "power": {
+                  "mode": "full",
+                  "ac": {
+                    "isConnected": false
+                  },
+                  "poe": {
+                    "isConnected": true
+                  }
+                },
+                "ports": [
+                  {
+                    "name": "Ethernet 0",
+                    "poe": {
+                      "standard": "802.3at"
+                    },
+                    "linkNegotiation": {
+                      "duplex": "full",
+                      "speed": 5000
+                    }
+                  }
+                ],
+                "aggregation": {
+                  "enabled": true,
+                  "speed": 10000
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5054,12 +8739,12 @@ class Wireless:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessDevicesPacketLossByClientResponseItem]:
         """Get average packet loss for the given timespan for all clients in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-client
+        [API documentation: getOrganizationWirelessDevicesPacketLossByClient](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-client)
 
         Args:
             organization_id: Organization ID.
@@ -5068,25 +8753,54 @@ class Wireless:
             bands: Filter results by band. Valid bands are: 2.4, 5, and 6.
             macs: Filter results by client mac address(es).
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 5 minutes and be less than or
-              equal to 90 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 5 minutes and be less than or
+                equal to 90 days. The default is 7 days.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "downstream": {
+                  "total": 1000,
+                  "lost": 10,
+                  "lossPercentage": 1.0
+                },
+                "upstream": {
+                  "total": 1200,
+                  "lost": 15,
+                  "lossPercentage": 1.3
+                },
+                "client": {
+                  "id": "k74272e",
+                  "mac": "22:33:44:55:66:77"
+                },
+                "network": {
+                  "id": "N_24329156",
+                  "name": "Main Office"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5138,12 +8852,12 @@ class Wireless:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessDevicesPacketLossByDeviceResponseItem]:
         """Get average packet loss for the given timespan for all devices in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-device
+        [API documentation: getOrganizationWirelessDevicesPacketLossByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-device)
 
         Args:
             organization_id: Organization ID.
@@ -5152,25 +8866,55 @@ class Wireless:
             ssids: Filter results by SSID number.
             bands: Filter results by band. Valid bands are: 2.4, 5, and 6.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 5 minutes and be less than or
-              equal to 90 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 5 minutes and be less than or
+                equal to 90 days. The default is 7 days.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "downstream": {
+                  "total": 1000,
+                  "lost": 10,
+                  "lossPercentage": 1.0
+                },
+                "upstream": {
+                  "total": 1200,
+                  "lost": 15,
+                  "lossPercentage": 1.3
+                },
+                "network": {
+                  "id": "N_24329156",
+                  "name": "Main Office"
+                },
+                "device": {
+                  "name": "My AP",
+                  "serial": "Q234-ABCD-5678",
+                  "mac": "00:11:22:33:44:55"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5222,12 +8966,12 @@ class Wireless:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem]:
         """Get average packet loss for the given timespan for all networks in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-network
+        [API documentation: getOrganizationWirelessDevicesPacketLossByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-network)
 
         Args:
             organization_id: Organization ID.
@@ -5236,25 +8980,50 @@ class Wireless:
             ssids: Filter results by SSID number.
             bands: Filter results by band. Valid bands are: 2.4, 5, and 6.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 5 minutes and be less than or
-              equal to 90 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 5 minutes and be less than or
+                equal to 90 days. The default is 7 days.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "downstream": {
+                  "total": 1000,
+                  "lost": 10,
+                  "lossPercentage": 1.0
+                },
+                "upstream": {
+                  "total": 1200,
+                  "lost": 15,
+                  "lossPercentage": 1.3
+                },
+                "network": {
+                  "id": "N_24329156",
+                  "name": "Main Office"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5304,38 +9073,73 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem]:
         """Return a record of power mode changes for wireless devices in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-power-mode-history
+        [API documentation: getOrganizationWirelessDevicesPowerModeHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-power-mode-history)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 1 day
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 1 day after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 1 day. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 1 day. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 20. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter the result set by the included set of network
-              IDs.
+                IDs.
             serials: Optional parameter to filter device availabilities history by device serial
-              numbers.
+                numbers.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "model": "MR",
+                  "name": "My AP",
+                  "mac": "00:11:22:33:44:55",
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ],
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ]
+                  },
+                  "events": [
+                    {
+                      "ts": "2018-02-11T00:00:00.090210Z",
+                      "powerMode": "full power"
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5372,14 +9176,40 @@ class Wireless:
     async def get_organization_wireless_devices_radsec_certificates_authorities(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse | None:
-        """Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
+        r"""Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities
+        [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthorities](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities)
 
         Args:
             organization_id: Organization ID.
             certificate_authority_ids: Optional parameter to filter CAs by one or more CA IDs. All
-              returned CAs will have an ID that is an exact match.
+                returned CAs will have an ID that is an exact match.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "items": [
+                  {
+                    "certificateAuthorityId": "1234",
+                    "status": "trusted",
+                    "contents": "-----BEGIN CERTIFICATE-----\nMIIDzDCCAragAwIBAgIUOd0ukLcjH43TfTHFG9qE0FtlMVgwCwYJKoZIhvcNAQEL\n...\numkqeYeO30g1uYvDuWLXVA==\n-----END CERTIFICATE-----\n"
+                  }
+                ],
+                "meta": {
+                  "counts": {
+                    "items": {
+                      "total": 2,
+                      "remaining": 0
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5404,15 +9234,27 @@ class Wireless:
         status: str | None = None,
         certificate_authority_id: str | None = None,
     ) -> UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse | None:
-        """Update an organization's RADSEC device Certificate Authority (CA) state.
+        r"""Update an organization's RADSEC device Certificate Authority (CA) state.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-devices-radsec-certificates-authorities
+        [API documentation: updateOrganizationWirelessDevicesRadsecCertificatesAuthorities](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-devices-radsec-certificates-authorities)
 
         Args:
             organization_id: Organization ID.
             status: The "status" to update the Certificate Authority to. Only valid option is
-              "trusted".
+                "trusted".
             certificate_authority_id: The ID of the Certificate Authority to update.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "certificateAuthorityId": "1234",
+              "status": "trusted",
+              "contents": "-----BEGIN CERTIFICATE-----\nMIIDzDCCAragAwIBAgIUOd0ukLcjH43TfTHFG9qE0FtlMVgwCwYJKoZIhvcNAQEL\n...\numkqeYeO30g1uYvDuWLXVA==\n-----END CERTIFICATE-----\n"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5435,12 +9277,24 @@ class Wireless:
     async def create_organization_wireless_devices_radsec_certificates_authority(
         self, organization_id: str
     ) -> CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse | None:
-        """Create an organization's RADSEC device Certificate Authority (CA).
+        r"""Create an organization's RADSEC device Certificate Authority (CA).
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-radsec-certificates-authority
+        [API documentation: createOrganizationWirelessDevicesRadsecCertificatesAuthority](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-radsec-certificates-authority)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "certificateAuthorityId": "1234",
+              "status": "trusted",
+              "contents": "-----BEGIN CERTIFICATE-----\nMIIDzDCCAragAwIBAgIUOd0ukLcjH43TfTHFG9qE0FtlMVgwCwYJKoZIhvcNAQEL\n...\numkqeYeO30g1uYvDuWLXVA==\n-----END CERTIFICATE-----\n"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5456,14 +9310,37 @@ class Wireless:
     async def get_organization_wireless_devices_radsec_certificates_authorities_crls(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse | None:
-        """Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
+        r"""Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls
+        [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls)
 
         Args:
             organization_id: Organization ID.
             certificate_authority_ids: Optional parameter to filter CAs by one or more CA IDs. All
-              returned CAs will have an ID that is an exact match.
+                returned CAs will have an ID that is an exact match.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "certificateAuthorityId": "1234",
+                  "crl": "-----BEGIN X509 CRL-----\nMIICVjCCAj8CAQEwQQD\n...\n-----END X509 CRL-----\n"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 2,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5484,14 +9361,37 @@ class Wireless:
     async def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse | None:
-        """Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
+        r"""Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls-deltas
+        [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls-deltas)
 
         Args:
             organization_id: Organization ID.
             certificate_authority_ids: Parameter to filter CAs by one or more CA IDs. All returned
-              CAs will have an ID that is an exact match.
+                CAs will have an ID that is an exact match.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "certificateAuthorityId": "1234",
+                  "crl": "-----BEGIN X509 CRL-----\nMIICVjCCAj8CAQEwQQD\n...\n-----END X509 CRL-----\n"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 2,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5521,40 +9421,76 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem
     ]:
         """Return the CPU Load history for a list of wireless devices in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-system-cpu-load-history
+        [API documentation: getOrganizationWirelessDevicesSystemCpuLoadHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-system-cpu-load-history)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 1 day
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 1 day after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 1 day. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 1 day. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 20. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter the result set by the included set of network
-              IDs.
+                IDs.
             serials: Optional parameter to filter device availabilities history by device serial
-              numbers.
+                numbers.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "model": "MR",
+                  "name": "My AP",
+                  "mac": "00:11:22:33:44:55",
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ],
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ]
+                  },
+                  "cpuCount": 4,
+                  "series": [
+                    {
+                      "ts": "2018-02-11T00:00:00.090210Z",
+                      "cpuLoad5": 1000
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5598,36 +9534,81 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem
     ]:
         """List of Catalyst access points information.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-wireless-controllers-by-device
+        [API documentation: getOrganizationWirelessDevicesWirelessControllersByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-wireless-controllers-by-device)
 
         Args:
             organization_id: Organization ID.
             network_ids: Optional parameter to filter access points by network ID. This filter uses
-              multiple exact matches.
+                multiple exact matches.
             serials: Optional parameter to filter access points by its cloud ID. This filter uses
-              multiple exact matches.
+                multiple exact matches.
             controller_serials: Optional parameter to filter access points by its wireless LAN
-              controller cloud ID. This filter uses multiple exact matches.
+                controller cloud ID. This filter uses multiple exact matches.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_24329156"
+                  },
+                  "serial": "Q234-ABCD-5678",
+                  "controller": {
+                    "serial": "Q234-ABCD-5678"
+                  },
+                  "joinedAt": "2020-01-01T00:00:00Z",
+                  "model": "C9115AXI-H",
+                  "tags": [
+                    {
+                      "policy": "4F",
+                      "site": "default-site-tag",
+                      "rf": "default-rf-tag"
+                    }
+                  ],
+                  "mode": "local",
+                  "countryCode": "CA",
+                  "details": [
+                    {
+                      "name": "catalyst serial",
+                      "value": "FGL2446L7QQ"
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5665,29 +9646,59 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem]:
         """Return scanning API settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-by-network
+        [API documentation: getOrganizationWirelessLocationScanningByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-by-network)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 250. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter scanning settings by network ID.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "L_1234",
+                  "name": "My Network",
+                  "enabled": true,
+                  "api": {
+                    "enabled": true,
+                    "validator": {
+                      "string": "sample_validator"
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5721,29 +9732,60 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessLocationScanningReceiversResponseItemsItem]:
         """Return scanning API receivers.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-receivers
+        [API documentation: getOrganizationWirelessLocationScanningReceivers](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-receivers)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 250. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter scanning API receivers by network ID.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "L_1234",
+                    "name": "My Network"
+                  },
+                  "receiverId": "1234567",
+                  "url": "https://www.myreceiver.com",
+                  "version": "3",
+                  "radio": {
+                    "type": "Wi-Fi"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5781,7 +9823,7 @@ class Wireless:
     ) -> CreateOrganizationWirelessLocationScanningReceiverResponse | None:
         """Add new receiver for scanning API.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver
+        [API documentation: createOrganizationWirelessLocationScanningReceiver](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver)
 
         Args:
             organization_id: Organization ID.
@@ -5790,6 +9832,25 @@ class Wireless:
             version: Scanning API Version.
             radio: Add scanning API Radio.
             shared_secret: Secret Value for Receiver.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "L_1234",
+                "name": "My Network"
+              },
+              "receiverId": "1234567",
+              "url": "https://www.myreceiver.com",
+              "version": "3",
+              "radio": {
+                "type": "Wi-Fi"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5826,7 +9887,7 @@ class Wireless:
     ) -> UpdateOrganizationWirelessLocationScanningReceiverResponse | None:
         """Change scanning API receiver settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver
+        [API documentation: updateOrganizationWirelessLocationScanningReceiver](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver)
 
         Args:
             organization_id: Organization ID.
@@ -5834,6 +9895,25 @@ class Wireless:
             url: Receiver Url.
             version: Scanning API Version.
             radio: Add scanning API Radio.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "L_1234",
+                "name": "My Network"
+              },
+              "receiverId": "1234567",
+              "url": "https://www.myreceiver.com",
+              "version": "3",
+              "radio": {
+                "type": "Wi-Fi"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5863,11 +9943,14 @@ class Wireless:
     ) -> None:
         """Delete a scanning API receiver.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver
+        [API documentation: deleteOrganizationWirelessLocationScanningReceiver](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver)
 
         Args:
             organization_id: Organization ID.
             receiver_id: Receiver ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5890,29 +9973,112 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessMqttSettingsResponseItemsItem]:
         """Return MQTT Settings for networks.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-mqtt-settings
+        [API documentation: getOrganizationWirelessMqttSettings](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-mqtt-settings)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 250. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter mqtt settings by network ID.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "L_1234",
+                    "name": "My Network"
+                  },
+                  "mqtt": {
+                    "settingsId": "1234567",
+                    "enabled": true,
+                    "topic": "Test Topic",
+                    "messageFields": [
+                      "RSSI",
+                      "AP MAC address",
+                      "Client MAC address",
+                      "Timestamp",
+                      "Radio",
+                      "Network ID",
+                      "Beacon type",
+                      "Raw payload",
+                      "Client UUID",
+                      "Client major value",
+                      "Client minor value",
+                      "Signal power",
+                      "Band",
+                      "Slot ID"
+                    ],
+                    "publishing": {
+                      "frequency": 1,
+                      "qos": 1
+                    },
+                    "broker": {
+                      "id": "1234",
+                      "name": "My Broker"
+                    }
+                  },
+                  "ble": {
+                    "enabled": false,
+                    "type": "ibeacon",
+                    "flush": {
+                      "frequency": 60
+                    },
+                    "allowLists": {
+                      "uuids": [],
+                      "macs": []
+                    },
+                    "hysteresis": {
+                      "enabled": true,
+                      "threshold": 1
+                    }
+                  },
+                  "wifi": {
+                    "enabled": false,
+                    "type": "associated",
+                    "flush": {
+                      "frequency": 60
+                    },
+                    "allowLists": {
+                      "macs": []
+                    },
+                    "hysteresis": {
+                      "enabled": false,
+                      "threshold": 1
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5949,7 +10115,7 @@ class Wireless:
     ) -> UpdateOrganizationWirelessMqttSettingsResponse | None:
         """Add new broker config for wireless MQTT.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings
+        [API documentation: updateOrganizationWirelessMqttSettings](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings)
 
         Args:
             organization_id: Organization ID.
@@ -5957,6 +10123,77 @@ class Wireless:
             mqtt: MQTT Settings for network.
             ble: MQTT BLE Settings for network.
             wifi: MQTT Wi-Fi Settings for network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "L_1234",
+                "name": "My Network"
+              },
+              "mqtt": {
+                "settingsId": "1234567",
+                "enabled": true,
+                "topic": "Test Topic",
+                "messageFields": [
+                  "RSSI",
+                  "AP MAC address",
+                  "Client MAC address",
+                  "Timestamp",
+                  "Radio",
+                  "Network ID",
+                  "Beacon type",
+                  "Raw payload",
+                  "Client UUID",
+                  "Client major value",
+                  "Client minor value",
+                  "Signal power",
+                  "Band",
+                  "Slot ID"
+                ],
+                "publishing": {
+                  "frequency": 1,
+                  "qos": 1
+                },
+                "broker": {
+                  "id": "1234",
+                  "name": "My Broker"
+                }
+              },
+              "ble": {
+                "enabled": false,
+                "type": "ibeacon",
+                "flush": {
+                  "frequency": 60
+                },
+                "allowLists": {
+                  "uuids": [],
+                  "macs": []
+                },
+                "hysteresis": {
+                  "enabled": true,
+                  "threshold": 1
+                }
+              },
+              "wifi": {
+                "enabled": false,
+                "type": "associated",
+                "flush": {
+                  "frequency": 60
+                },
+                "allowLists": {
+                  "macs": []
+                },
+                "hysteresis": {
+                  "enabled": false,
+                  "threshold": 1
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5985,11 +10222,21 @@ class Wireless:
     ) -> RecalculateOrganizationWirelessRadioAutoRfChannelsResponse | None:
         """Recalculates automatically assigned channels for every AP within specified the specified network(s).
 
-        https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels
+        [API documentation: recalculateOrganizationWirelessRadioAutoRfChannels](https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels)
 
         Args:
             organization_id: Organization ID.
             network_ids: A list of network ids (limit: 15).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "estimatedCompletedAt": "2019-01-01T00:00:00Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6023,48 +10270,83 @@ class Wireless:
         macs: list[str] | None = None,
         serials: list[str] | None = None,
         models: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem]:
         """List the RF profiles of an organization by device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-rf-profiles-assignments-by-device
+        [API documentation: getOrganizationWirelessRfProfilesAssignmentsByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-rf-profiles-assignments-by-device)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter devices by network.
             product_types: Optional parameter to filter devices by product type. Valid types are
-              wireless, appliance, switch, systemsManager, camera, cellularGateway,
-              sensor, wirelessController, campusGateway, and secureConnect.
+                wireless, appliance, switch, systemsManager, camera, cellularGateway,
+                sensor, wirelessController, campusGateway, and secureConnect.
             name: Optional parameter to filter RF profiles by device name. All returned devices will
-              have a name that contains the search term or is an exact match.
+                have a name that contains the search term or is an exact match.
             mac: Optional parameter to filter RF profiles by device MAC address. All returned
-              devices will have a MAC address that contains the search term or is an
-              exact match.
+                devices will have a MAC address that contains the search term or is an
+                exact match.
             serial: Optional parameter to filter RF profiles by device serial number. All returned
-              devices will have a serial number that contains the search term or is an
-              exact match.
+                devices will have a serial number that contains the search term or is an
+                exact match.
             model: Optional parameter to filter RF profiles by device model. All returned devices
-              will have a model that contains the search term or is an exact match.
+                will have a model that contains the search term or is an exact match.
             macs: Optional parameter to filter RF profiles by one or more device MAC addresses. All
-              returned devices will have a MAC address that is an exact match.
+                returned devices will have a MAC address that is an exact match.
             serials: Optional parameter to filter RF profiles by one or more device serial numbers.
-              All returned devices will have a serial number that is an exact match.
+                All returned devices will have a serial number that is an exact match.
             models: Optional parameter to filter RF profiles by one or more device models. All
-              returned devices will have a model that is an exact match.
+                returned devices will have a model that is an exact match.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "items": [
+                  {
+                    "network": {
+                      "id": "1234"
+                    },
+                    "name": "Device_name",
+                    "serial": "Q234-ABCD-0001",
+                    "model": "MR34",
+                    "rfProfile": {
+                      "id": "123456",
+                      "name": "Basic Outdoor Profile",
+                      "isIndoorDefault": false,
+                      "isOutdoorDefault": true
+                    }
+                  }
+                ],
+                "meta": {
+                  "counts": {
+                    "items": {
+                      "total": 1200,
+                      "remaining": 200
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6115,32 +10397,69 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
         ssids: list[int] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem
     ]:
         """List the L2 isolation allow list MAC entry in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-firewall-isolation-allowlist-entries
+        [API documentation: getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-firewall-isolation-allowlist-entries)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: networkIds array to filter out results.
             ssids: ssids number array to filter out results.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "entryId": "1",
+                  "createdAt": "2024-11-11T07:16:38Z",
+                  "lastUpdatedAt": "2024-11-11T07:16:38Z",
+                  "description": "Example mac address",
+                  "client": {
+                    "mac": "A1:B2:C3:D4:E5:F6"
+                  },
+                  "ssid": {
+                    "id": "5",
+                    "name": "Test SSID",
+                    "number": 2
+                  },
+                  "network": {
+                    "id": "N_123",
+                    "name": "Test network"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6181,7 +10500,7 @@ class Wireless:
     ) -> CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse | None:
         """Create isolation allow list MAC entry for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry
+        [API documentation: createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry)
 
         Args:
             organization_id: Organization ID.
@@ -6189,6 +10508,31 @@ class Wireless:
             client: The client of allowlist.
             ssid: The SSID that allowlist belongs to.
             network: The Network that allowlist belongs to.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "entryId": "1",
+              "createdAt": "2024-11-11T07:16:38Z",
+              "lastUpdatedAt": "2024-11-11T07:16:38Z",
+              "description": "Example mac address",
+              "client": {
+                "mac": "A1:B2:C3:D4:E5:F6"
+              },
+              "ssid": {
+                "id": "5",
+                "name": "Test SSID",
+                "number": 2
+              },
+              "network": {
+                "id": "N_123",
+                "name": "Test network"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6224,13 +10568,38 @@ class Wireless:
     ) -> UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse | None:
         """Update isolation allow list MAC entry info.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry
+        [API documentation: updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry)
 
         Args:
             organization_id: Organization ID.
             entry_id: Entry ID.
             description: The description of mac address.
             client: The client of allowlist.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "entryId": "1",
+              "createdAt": "2024-11-11T07:16:38Z",
+              "lastUpdatedAt": "2024-11-11T07:16:38Z",
+              "description": "Example mac address",
+              "client": {
+                "mac": "A1:B2:C3:D4:E5:F6"
+              },
+              "ssid": {
+                "id": "5",
+                "name": "Test SSID",
+                "number": 2
+              },
+              "network": {
+                "id": "N_123",
+                "name": "Test network"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6256,11 +10625,14 @@ class Wireless:
     ) -> None:
         """Destroy isolation allow list MAC entry for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
+        [API documentation: deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry)
 
         Args:
             organization_id: Organization ID.
             entry_id: Entry ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6282,31 +10654,65 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
         include_disabled_ssids: bool | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem]:
         """Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-open-roaming-by-network
+        [API documentation: getOrganizationWirelessSsidsOpenRoamingByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-open-roaming-by-network)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter OpenRoaming configuration by Network Id.
             include_disabled_ssids: Optional parameter to include OpenRoaming configuration for
-              disabled ssids.
+                disabled ssids.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "N_1234",
+                  "networkName": "MR wireless 1",
+                  "ssid": [
+                    {
+                      "name": "SSID 0",
+                      "number": 0,
+                      "enabled": true,
+                      "openRoaming": {
+                        "enabled": true,
+                        "tenantId": "12345"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 105,
+                    "remaining": 25
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6345,36 +10751,82 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem]:
         """List status information of all BSSIDs in your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-statuses-by-device
+        [API documentation: getOrganizationWirelessSsidsStatusesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-statuses-by-device)
 
         Args:
             organization_id: Organization ID.
             network_ids: Optional parameter to filter the result set by the included set of network
-              IDs.
+                IDs.
             serials: A list of serial numbers. The returned devices will be filtered to only include
-              these serials.
+                these serials.
             bssids: A list of BSSIDs. The returned devices will be filtered to only include these
-              BSSIDs.
+                BSSIDs.
             hide_disabled: If true, the returned devices will not include disabled SSIDs. (default:
-              true).
+                true).
             per_page: The number of entries per page returned. Acceptable range is 3 - 500. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "QQ3A-QHWY-DQ2Z",
+                  "name": "My AP",
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office"
+                  },
+                  "basicServiceSets": [
+                    {
+                      "bssid": "8A:15:04:00:00:00",
+                      "ssid": {
+                        "name": "My SSID",
+                        "number": 0,
+                        "enabled": true,
+                        "advertised": true
+                      },
+                      "radio": {
+                        "band": "2.4",
+                        "channel": 11,
+                        "channelWidth": 20,
+                        "power": 18,
+                        "isBroadcasting": true,
+                        "index": "0"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1738,
+                    "remaining": 1238
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6414,29 +10866,59 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessZigbeeByNetworkResponseItem]:
         """Return list of Zigbee configs.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-by-network
+        [API documentation: getOrganizationWirelessZigbeeByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-by-network)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Filter by specified Network IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "network": {
+                  "id": "N_24329156"
+                },
+                "enabled": true,
+                "iotController": {
+                  "name": "My AP",
+                  "mac": "e4:55:a8:38:f2:06",
+                  "serial": "Q234-ABCD-5678",
+                  "status": "online"
+                },
+                "lockManagement": {
+                  "address": "10.100.100.200",
+                  "username": "user",
+                  "status": "offline"
+                },
+                "defaults": {
+                  "transmitPowerLevel": 10,
+                  "channel": "25"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6472,32 +10954,70 @@ class Wireless:
         network_ids: list[str] | None = None,
         is_enrolled: bool | None = None,
         search: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessZigbeeDevicesResponseItem]:
         """List the Zigbee wireless devices for an organization or the supplied network(s).
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-devices
+        [API documentation: getOrganizationWirelessZigbeeDevices](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-devices)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Parameter of networks you want the zigbee devices for. E.g.:
-              networkIds[]=N_12345678&networkIds[]=N_3456.
+                networkIds[]=N_12345678&networkIds[]=N_3456.
             is_enrolled: Filter devices based on if they are enrolled or not.
             search: Filter devices by their name, tag or serial.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "network": {
+                  "id": "N_1234",
+                  "name": "Main office"
+                },
+                "panId": "0x0100",
+                "channel": "auto",
+                "transmitPowerLevel": 12,
+                "enrolled": true,
+                "status": "online",
+                "gateway": {
+                  "name": "Wireless gateway",
+                  "mac": "e4:55:a8:38:f2:06",
+                  "serial": "1234-4567-5678",
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ]
+                },
+                "counts": {
+                  "doorLocks": {
+                    "byStatus": {
+                      "online": 5,
+                      "offline": 2,
+                      "dormant": 0
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6532,13 +11052,49 @@ class Wireless:
     ) -> UpdateOrganizationWirelessZigbeeDeviceResponse | None:
         """Endpoint to update zigbee gateways.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device
+        [API documentation: updateOrganizationWirelessZigbeeDevice](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device)
 
         Args:
             organization_id: Organization ID.
             id: ID.
             enrolled: Parameter to enroll or unenroll the zigbee devices.
             channel: The new channel for the zigbee device.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_1234",
+                "name": "Main office"
+              },
+              "panId": "0x0100",
+              "channel": "auto",
+              "transmitPowerLevel": 12,
+              "enrolled": true,
+              "status": "online",
+              "gateway": {
+                "name": "Wireless gateway",
+                "mac": "e4:55:a8:38:f2:06",
+                "serial": "1234-4567-5678",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ]
+              },
+              "counts": {
+                "doorLocks": {
+                  "byStatus": {
+                    "online": 5,
+                    "offline": 2,
+                    "dormant": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6564,11 +11120,28 @@ class Wireless:
     ) -> CreateOrganizationWirelessZigbeeDisenrollmentResponse | None:
         """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-zigbee-disenrollment
+        [API documentation: createOrganizationWirelessZigbeeDisenrollment](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-zigbee-disenrollment)
 
         Args:
             organization_id: Organization ID.
             door_lock_ids: A list of Meraki door lock ids to disenroll from the device.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "disenrollmentId": "1234",
+              "url": "/organization/{organizationId}/wireless/zigbee/disenrollments/1234",
+              "request": {
+                "doorLockIds": [
+                  "1234"
+                ]
+              },
+              "status": "complete"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6591,11 +11164,34 @@ class Wireless:
     ) -> GetOrganizationWirelessZigbeeDisenrollmentResponse | None:
         """Return a disenrollment.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-disenrollment
+        [API documentation: getOrganizationWirelessZigbeeDisenrollment](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-disenrollment)
 
         Args:
             organization_id: Organization ID.
             disenrollment_id: Disenrollment ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "disenrollmentId": "1234",
+              "url": "/organization/{organizationId}/wireless/zigbee/disenrollments/1234",
+              "request": {
+                "doorLockIds": [
+                  "1234"
+                ]
+              },
+              "status": "complete",
+              "doorLocks": [
+                {
+                  "doorLockId": "1234",
+                  "status": "success"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6618,30 +11214,58 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationWirelessZigbeeDoorLocksResponseItem]:
         """Return the list of door locks for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-door-locks
+        [API documentation: getOrganizationWirelessZigbeeDoorLocks](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-door-locks)
 
         Args:
             organization_id: Organization ID.
             network_ids: Filter by specified Network IDs.
             serial: Filter by device serial.
             per_page: The number of entries per page returned. Acceptable range is 3 - 500. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "doorLockId": "1",
+                "name": "Door Lock 123",
+                "shortId": "ABE123",
+                "lqi": "1",
+                "rssi": "1",
+                "status": "online",
+                "eui64": "DL403",
+                "enrolledAt": "2023-08-14T19:57:06Z",
+                "lastSeenAt": "2023-08-14T19:59:01Z",
+                "network": {
+                  "id": "N_24329156",
+                  "name": "Main Office"
+                },
+                "gateway": {
+                  "name": "My AP",
+                  "serial": "Q234-ABCD-5678"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6674,12 +11298,38 @@ class Wireless:
     ) -> UpdateOrganizationWirelessZigbeeDoorLockResponse | None:
         """Endpoint to batch update door locks params.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock
+        [API documentation: updateOrganizationWirelessZigbeeDoorLock](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock)
 
         Args:
             organization_id: Organization ID.
             door_lock_id: Door lock ID.
             name: Door lock name to update.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "doorLockId": "1",
+              "name": "Door Lock 123",
+              "shortId": "ABE123",
+              "lqi": "1",
+              "rssi": "1",
+              "status": "online",
+              "eui64": "DL403",
+              "enrolledAt": "2023-08-14T19:57:06Z",
+              "lastSeenAt": "2023-08-14T19:59:01Z",
+              "network": {
+                "id": "N_24329156",
+                "name": "Main Office"
+              },
+              "gateway": {
+                "name": "My AP",
+                "serial": "Q234-ABCD-5678"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

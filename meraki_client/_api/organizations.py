@@ -237,27 +237,63 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationsResponseItem]:
         """List the organizations that the user has privileges on.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organizations
+        [API documentation: getOrganizations](https://developer.cisco.com/meraki/api-v1/#!get-organizations)
 
         Args:
             per_page: The number of entries per page returned. Acceptable range is 3 - 9000. Default
-              is 9000.
+                is 9000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "2930418",
+                "name": "My organization",
+                "url": "https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview",
+                "api": {
+                  "enabled": true
+                },
+                "licensing": {
+                  "model": "co-term"
+                },
+                "cloud": {
+                  "region": {
+                    "name": "North America",
+                    "host": {
+                      "name": "United States"
+                    }
+                  }
+                },
+                "management": {
+                  "details": [
+                    {
+                      "name": "MSP ID",
+                      "value": "123456"
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         path = f"/organizations"
@@ -285,11 +321,45 @@ class Organizations:
     ) -> CreateOrganizationResponse | None:
         """Create a new organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization
+        [API documentation: createOrganization](https://developer.cisco.com/meraki/api-v1/#!create-organization)
 
         Args:
             name: The name of the organization.
             management: Information about the organization's management system.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "2930418",
+              "name": "My organization",
+              "url": "https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview",
+              "api": {
+                "enabled": true
+              },
+              "licensing": {
+                "model": "co-term"
+              },
+              "cloud": {
+                "region": {
+                  "name": "North America",
+                  "host": {
+                    "name": "United States"
+                  }
+                }
+              },
+              "management": {
+                "details": [
+                  {
+                    "name": "MSP ID",
+                    "value": "123456"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         path = f"/organizations"
@@ -311,10 +381,44 @@ class Organizations:
     def get_organization(self, organization_id: str) -> GetOrganizationResponse | None:
         """Return an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization
+        [API documentation: getOrganization](https://developer.cisco.com/meraki/api-v1/#!get-organization)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "2930418",
+              "name": "My organization",
+              "url": "https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview",
+              "api": {
+                "enabled": true
+              },
+              "licensing": {
+                "model": "co-term"
+              },
+              "cloud": {
+                "region": {
+                  "name": "North America",
+                  "host": {
+                    "name": "United States"
+                  }
+                }
+              },
+              "management": {
+                "details": [
+                  {
+                    "name": "MSP ID",
+                    "value": "123456"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -337,13 +441,47 @@ class Organizations:
     ) -> UpdateOrganizationResponse | None:
         """Update an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization
+        [API documentation: updateOrganization](https://developer.cisco.com/meraki/api-v1/#!update-organization)
 
         Args:
             organization_id: Organization ID.
             name: The name of the organization.
             management: Information about the organization's management system.
             api: API-specific settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "2930418",
+              "name": "My organization",
+              "url": "https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview",
+              "api": {
+                "enabled": true
+              },
+              "licensing": {
+                "model": "co-term"
+              },
+              "cloud": {
+                "region": {
+                  "name": "North America",
+                  "host": {
+                    "name": "United States"
+                  }
+                }
+              },
+              "management": {
+                "details": [
+                  {
+                    "name": "MSP ID",
+                    "value": "123456"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -368,10 +506,13 @@ class Organizations:
     def delete_organization(self, organization_id: str) -> None:
         """Delete an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization
+        [API documentation: deleteOrganization](https://developer.cisco.com/meraki/api-v1/#!delete-organization)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -386,11 +527,43 @@ class Organizations:
     ) -> GetOrganizationActionBatchesResponse | None:
         """Return the list of action batches in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches
+        [API documentation: getOrganizationActionBatches](https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches)
 
         Args:
             organization_id: Organization ID.
             status: Filter batches by status. Valid types are pending, completed, and failed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "organizationId": "2930418",
+                "confirmed": true,
+                "synchronous": false,
+                "status": {
+                  "completed": true,
+                  "failed": false,
+                  "errors": [],
+                  "createdResources": [
+                    {
+                      "id": "1284392014819",
+                      "uri": "/networks/L_XXXXX/groupPolicies/100"
+                    }
+                  ]
+                },
+                "actions": [
+                  {
+                    "resource": "/devices/QXXX-XXXX-XXXX/switch/ports/3",
+                    "operation": "update"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if status is not None:
@@ -425,20 +598,55 @@ class Organizations:
     ) -> CreateOrganizationActionBatchResponse | None:
         """Create an action batch.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-action-batch
+        [API documentation: createOrganizationActionBatch](https://developer.cisco.com/meraki/api-v1/#!create-organization-action-batch)
 
         Args:
             organization_id: Organization ID.
             confirmed: Set to true for immediate execution. Set to false if the action should be
-              previewed before executing. This property cannot be unset once it is true.
-              Defaults to false.
+                previewed before executing. This property cannot be unset once it is
+                true. Defaults to false.
             synchronous: Set to true to force the batch to run synchronous. There can be at most 20
-              actions in synchronous batch. Defaults to false.
+                actions in synchronous batch. Defaults to false.
             actions: A set of changes to make as part of this action (<a
-              href='https://developer.cisco.com/meraki/api/#/rest/guides/action-
-              batches/'>more details</a>).
+                href='https://developer.cisco.com/meraki/api/#/rest/guides/action-
+                batches/'>more details</a>).
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "organizationId": "2930418",
+              "confirmed": true,
+              "synchronous": false,
+              "status": {
+                "completed": true,
+                "failed": false,
+                "errors": [],
+                "createdResources": [
+                  {
+                    "id": "1284392014819",
+                    "uri": "/networks/L_XXXXX/groupPolicies/100"
+                  }
+                ]
+              },
+              "actions": [
+                {
+                  "resource": "/devices/QXXX-XXXX-XXXX/switch/ports/3",
+                  "operation": "update"
+                }
+              ],
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -469,11 +677,46 @@ class Organizations:
     ) -> GetOrganizationActionBatchResponse | None:
         """Return an action batch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batch
+        [API documentation: getOrganizationActionBatch](https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batch)
 
         Args:
             organization_id: Organization ID.
             action_batch_id: Action batch ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "organizationId": "2930418",
+              "confirmed": true,
+              "synchronous": false,
+              "status": {
+                "completed": true,
+                "failed": false,
+                "errors": [],
+                "createdResources": [
+                  {
+                    "id": "1284392014819",
+                    "uri": "/networks/L_XXXXX/groupPolicies/100"
+                  }
+                ]
+              },
+              "actions": [
+                {
+                  "resource": "/devices/QXXX-XXXX-XXXX/switch/ports/3",
+                  "operation": "update"
+                }
+              ],
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -497,15 +740,45 @@ class Organizations:
     ) -> UpdateOrganizationActionBatchResponse | None:
         """Update an action batch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-action-batch
+        [API documentation: updateOrganizationActionBatch](https://developer.cisco.com/meraki/api-v1/#!update-organization-action-batch)
 
         Args:
             organization_id: Organization ID.
             action_batch_id: Action batch ID.
             confirmed: A boolean representing whether or not the batch has been confirmed. This
-              property cannot be unset once it is true.
+                property cannot be unset once it is true.
             synchronous: Set to true to force the batch to run synchronous. There can be at most 20
-              actions in synchronous batch.
+                actions in synchronous batch.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "organizationId": "2930418",
+              "confirmed": true,
+              "synchronous": false,
+              "status": {
+                "completed": true,
+                "failed": false,
+                "errors": [],
+                "createdResources": [
+                  {
+                    "id": "1284392014819",
+                    "uri": "/networks/L_XXXXX/groupPolicies/100"
+                  }
+                ]
+              },
+              "actions": [
+                {
+                  "resource": "/devices/QXXX-XXXX-XXXX/switch/ports/3",
+                  "operation": "update"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -531,11 +804,14 @@ class Organizations:
     ) -> None:
         """Delete an action batch.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-action-batch
+        [API documentation: deleteOrganizationActionBatch](https://developer.cisco.com/meraki/api-v1/#!delete-organization-action-batch)
 
         Args:
             organization_id: Organization ID.
             action_batch_id: Action batch ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -551,10 +827,37 @@ class Organizations:
     ) -> GetOrganizationAdaptivePolicyAclsResponse | None:
         """List adaptive policy ACLs in a organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acls
+        [API documentation: getOrganizationAdaptivePolicyAcls](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acls)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "aclId": "12345678",
+                "name": "Block sensitive web traffic",
+                "description": "Blocks sensitive web traffic",
+                "ipVersion": "ipv6",
+                "rules": [
+                  {
+                    "policy": "deny",
+                    "protocol": "tcp",
+                    "srcPort": "1,33",
+                    "dstPort": "22-30",
+                    "log": true,
+                    "tcpEstablished": true
+                  }
+                ],
+                "createdAt": "2021-05-19T17:08:25Z",
+                "updatedAt": "2021-05-19T17:11:54Z"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -578,7 +881,7 @@ class Organizations:
     ) -> CreateOrganizationAdaptivePolicyAclResponse | None:
         """Creates new adaptive policy ACL.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl
+        [API documentation: createOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl)
 
         Args:
             organization_id: Organization ID.
@@ -586,6 +889,31 @@ class Organizations:
             description: Description of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules.
             ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "aclId": "12345678",
+              "name": "Block sensitive web traffic",
+              "description": "Blocks sensitive web traffic",
+              "ipVersion": "ipv6",
+              "rules": [
+                {
+                  "policy": "deny",
+                  "protocol": "tcp",
+                  "srcPort": "1,33",
+                  "dstPort": "22-30",
+                  "log": true,
+                  "tcpEstablished": true
+                }
+              ],
+              "createdAt": "2021-05-19T17:08:25Z",
+              "updatedAt": "2021-05-19T17:11:54Z"
+            }
+            ```
 
         """
         if ip_version is not None:
@@ -620,11 +948,36 @@ class Organizations:
     ) -> GetOrganizationAdaptivePolicyAclResponse | None:
         """Returns the adaptive policy ACL information.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acl
+        [API documentation: getOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acl)
 
         Args:
             organization_id: Organization ID.
             acl_id: Acl ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "aclId": "12345678",
+              "name": "Block sensitive web traffic",
+              "description": "Blocks sensitive web traffic",
+              "ipVersion": "ipv6",
+              "rules": [
+                {
+                  "policy": "deny",
+                  "protocol": "tcp",
+                  "srcPort": "1,33",
+                  "dstPort": "22-30",
+                  "log": true,
+                  "tcpEstablished": true
+                }
+              ],
+              "createdAt": "2021-05-19T17:08:25Z",
+              "updatedAt": "2021-05-19T17:11:54Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -650,7 +1003,7 @@ class Organizations:
     ) -> UpdateOrganizationAdaptivePolicyAclResponse | None:
         """Updates an adaptive policy ACL.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl
+        [API documentation: updateOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl)
 
         Args:
             organization_id: Organization ID.
@@ -658,8 +1011,33 @@ class Organizations:
             name: Name of the adaptive policy ACL.
             description: Description of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules. An empty array will clear the
-              rules.
+                rules.
             ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "aclId": "12345678",
+              "name": "Block sensitive web traffic",
+              "description": "Blocks sensitive web traffic",
+              "ipVersion": "ipv6",
+              "rules": [
+                {
+                  "policy": "deny",
+                  "protocol": "tcp",
+                  "srcPort": "1,33",
+                  "dstPort": "22-30",
+                  "log": true,
+                  "tcpEstablished": true
+                }
+              ],
+              "createdAt": "2021-05-19T17:08:25Z",
+              "updatedAt": "2021-05-19T17:11:54Z"
+            }
+            ```
 
         """
         if ip_version is not None:
@@ -693,11 +1071,14 @@ class Organizations:
     def delete_organization_adaptive_policy_acl(self, *, organization_id: str, acl_id: str) -> None:
         """Deletes the specified adaptive policy ACL.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
+        [API documentation: deleteOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl)
 
         Args:
             organization_id: Organization ID.
             acl_id: Acl ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -713,10 +1094,35 @@ class Organizations:
     ) -> GetOrganizationAdaptivePolicyGroupsResponse | None:
         """List adaptive policy groups in a organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-groups
+        [API documentation: getOrganizationAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-groups)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "groupId": "1234",
+                "name": "Employee Group",
+                "sgt": 1000,
+                "description": "Group of XYZ Corp Employees",
+                "policyObjects": [
+                  {
+                    "id": "2345",
+                    "name": "Example Policy Object"
+                  }
+                ],
+                "isDefaultGroup": false,
+                "requiredIpMappings": [],
+                "createdAt": "2019-06-27T21:34:25.253480Z",
+                "updatedAt": "2019-06-27T21:34:25.253480Z"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -740,7 +1146,7 @@ class Organizations:
     ) -> CreateOrganizationAdaptivePolicyGroupResponse | None:
         """Creates a new adaptive policy group.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group
+        [API documentation: createOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group)
 
         Args:
             organization_id: Organization ID.
@@ -748,9 +1154,32 @@ class Organizations:
             sgt: SGT value of the group.
             description: Description of the group (default: "").
             policy_objects: The policy objects that belong to this group; traffic from addresses
-              specified by these policy objects will be tagged with this group's SGT
-              value if no other tagging scheme is being used (each requires one unique
-              attribute) (default: []).
+                specified by these policy objects will be tagged with this group's SGT
+                value if no other tagging scheme is being used (each requires one unique
+                attribute) (default: []).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupId": "1234",
+              "name": "Employee Group",
+              "sgt": 1000,
+              "description": "Group of XYZ Corp Employees",
+              "policyObjects": [
+                {
+                  "id": "2345",
+                  "name": "Example Policy Object"
+                }
+              ],
+              "isDefaultGroup": false,
+              "requiredIpMappings": [],
+              "createdAt": "2019-06-27T21:34:25.253480Z",
+              "updatedAt": "2019-06-27T21:34:25.253480Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -781,11 +1210,34 @@ class Organizations:
     ) -> GetOrganizationAdaptivePolicyGroupResponse | None:
         """Returns an adaptive policy group.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-group
+        [API documentation: getOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-group)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupId": "1234",
+              "name": "Employee Group",
+              "sgt": 1000,
+              "description": "Group of XYZ Corp Employees",
+              "policyObjects": [
+                {
+                  "id": "2345",
+                  "name": "Example Policy Object"
+                }
+              ],
+              "isDefaultGroup": false,
+              "requiredIpMappings": [],
+              "createdAt": "2019-06-27T21:34:25.253480Z",
+              "updatedAt": "2019-06-27T21:34:25.253480Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -811,7 +1263,7 @@ class Organizations:
     ) -> UpdateOrganizationAdaptivePolicyGroupResponse | None:
         """Updates an adaptive policy group.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group
+        [API documentation: updateOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group)
 
         Args:
             organization_id: Organization ID.
@@ -820,9 +1272,32 @@ class Organizations:
             sgt: SGT value of the group.
             description: Description of the group.
             policy_objects: The policy objects that belong to this group; traffic from addresses
-              specified by these policy objects will be tagged with this group's SGT
-              value if no other tagging scheme is being used (each requires one unique
-              attribute).
+                specified by these policy objects will be tagged with this group's SGT
+                value if no other tagging scheme is being used (each requires one unique
+                attribute).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupId": "1234",
+              "name": "Employee Group",
+              "sgt": 1000,
+              "description": "Group of XYZ Corp Employees",
+              "policyObjects": [
+                {
+                  "id": "2345",
+                  "name": "Example Policy Object"
+                }
+              ],
+              "isDefaultGroup": false,
+              "requiredIpMappings": [],
+              "createdAt": "2019-06-27T21:34:25.253480Z",
+              "updatedAt": "2019-06-27T21:34:25.253480Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -852,11 +1327,14 @@ class Organizations:
     def delete_organization_adaptive_policy_group(self, *, organization_id: str, id: str) -> None:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
+        [API documentation: deleteOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -872,10 +1350,34 @@ class Organizations:
     ) -> GetOrganizationAdaptivePolicyOverviewResponse | None:
         """Returns adaptive policy aggregate statistics for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-overview
+        [API documentation: getOrganizationAdaptivePolicyOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-overview)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": {
+                "groups": 10,
+                "customGroups": 8,
+                "customAcls": 12,
+                "policies": 100,
+                "denyPolicies": 30,
+                "allowPolicies": 70,
+                "policyObjects": 13
+              },
+              "limits": {
+                "customGroups": 60,
+                "rulesInAnAcl": 16,
+                "aclsInAPolicy": 7,
+                "policyObjects": 8000
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -893,10 +1395,41 @@ class Organizations:
     ) -> GetOrganizationAdaptivePolicyPoliciesResponse | None:
         """List adaptive policies in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policies
+        [API documentation: getOrganizationAdaptivePolicyPolicies](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policies)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "adaptivePolicyId": "111",
+                "sourceGroup": {
+                  "id": "222",
+                  "name": "IoT Devices",
+                  "sgt": 50
+                },
+                "destinationGroup": {
+                  "id": "333",
+                  "name": "IoT Servers",
+                  "sgt": 51
+                },
+                "acls": [
+                  {
+                    "id": "444",
+                    "name": "Block web"
+                  }
+                ],
+                "lastEntryRule": "allow",
+                "createdAt": "2019-06-27T21:34:25.253480Z",
+                "updatedAt": "2019-06-27T21:34:25.253480Z"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -920,16 +1453,45 @@ class Organizations:
     ) -> CreateOrganizationAdaptivePolicyPolicyResponse | None:
         """Add an Adaptive Policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy
+        [API documentation: createOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy)
 
         Args:
             organization_id: Organization ID.
             source_group: The source adaptive policy group (requires one unique attribute).
             destination_group: The destination adaptive policy group (requires one unique
-              attribute).
+                attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
-              apply to this policy (default: []).
+                apply to this policy (default: []).
             last_entry_rule: The rule to apply if there is no matching ACL (default: "default").
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "adaptivePolicyId": "111",
+              "sourceGroup": {
+                "id": "222",
+                "name": "IoT Devices",
+                "sgt": 50
+              },
+              "destinationGroup": {
+                "id": "333",
+                "name": "IoT Servers",
+                "sgt": 51
+              },
+              "acls": [
+                {
+                  "id": "444",
+                  "name": "Block web"
+                }
+              ],
+              "lastEntryRule": "allow",
+              "createdAt": "2019-06-27T21:34:25.253480Z",
+              "updatedAt": "2019-06-27T21:34:25.253480Z"
+            }
+            ```
 
         """
         if last_entry_rule is not None:
@@ -966,11 +1528,40 @@ class Organizations:
     ) -> GetOrganizationAdaptivePolicyPolicyResponse | None:
         """Return an adaptive policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policy
+        [API documentation: getOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policy)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "adaptivePolicyId": "111",
+              "sourceGroup": {
+                "id": "222",
+                "name": "IoT Devices",
+                "sgt": 50
+              },
+              "destinationGroup": {
+                "id": "333",
+                "name": "IoT Servers",
+                "sgt": 51
+              },
+              "acls": [
+                {
+                  "id": "444",
+                  "name": "Block web"
+                }
+              ],
+              "lastEntryRule": "allow",
+              "createdAt": "2019-06-27T21:34:25.253480Z",
+              "updatedAt": "2019-06-27T21:34:25.253480Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -996,17 +1587,46 @@ class Organizations:
     ) -> UpdateOrganizationAdaptivePolicyPolicyResponse | None:
         """Update an Adaptive Policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy
+        [API documentation: updateOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy)
 
         Args:
             organization_id: Organization ID.
             id: ID.
             source_group: The source adaptive policy group (requires one unique attribute).
             destination_group: The destination adaptive policy group (requires one unique
-              attribute).
+                attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
-              apply to this policy.
+                apply to this policy.
             last_entry_rule: The rule to apply if there is no matching ACL.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "adaptivePolicyId": "111",
+              "sourceGroup": {
+                "id": "222",
+                "name": "IoT Devices",
+                "sgt": 50
+              },
+              "destinationGroup": {
+                "id": "333",
+                "name": "IoT Servers",
+                "sgt": 51
+              },
+              "acls": [
+                {
+                  "id": "444",
+                  "name": "Block web"
+                }
+              ],
+              "lastEntryRule": "allow",
+              "createdAt": "2019-06-27T21:34:25.253480Z",
+              "updatedAt": "2019-06-27T21:34:25.253480Z"
+            }
+            ```
 
         """
         if last_entry_rule is not None:
@@ -1042,11 +1662,14 @@ class Organizations:
     def delete_organization_adaptive_policy_policy(self, *, organization_id: str, id: str) -> None:
         """Delete an Adaptive Policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
+        [API documentation: deleteOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1062,10 +1685,25 @@ class Organizations:
     ) -> GetOrganizationAdaptivePolicySettingsResponse | None:
         """Returns global adaptive policy settings in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-settings
+        [API documentation: getOrganizationAdaptivePolicySettings](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-settings)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabledNetworks": [
+                "L_11111111",
+                "L_22222222",
+                "N_33333333",
+                "L_44444444"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1083,11 +1721,26 @@ class Organizations:
     ) -> UpdateOrganizationAdaptivePolicySettingsResponse | None:
         """Update global adaptive policy settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings
+        [API documentation: updateOrganizationAdaptivePolicySettings](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings)
 
         Args:
             organization_id: Organization ID.
             enabled_networks: List of network IDs with adaptive policy enabled.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabledNetworks": [
+                "L_11111111",
+                "L_22222222",
+                "N_33333333",
+                "L_44444444"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1110,12 +1763,44 @@ class Organizations:
     ) -> GetOrganizationAdminsResponse | None:
         """List the dashboard administrators in this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-admins
+        [API documentation: getOrganizationAdmins](https://developer.cisco.com/meraki/api-v1/#!get-organization-admins)
 
         Args:
             organization_id: Organization ID.
             network_ids: Optional parameter to filter the result set by the included set of network
-              IDs.
+                IDs.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "212406",
+                "name": "Miles Meraki",
+                "email": "miles@meraki.com",
+                "orgAccess": "none",
+                "accountStatus": "ok",
+                "twoFactorAuthEnabled": false,
+                "hasApiKey": true,
+                "lastActive": "2018-02-11T00:00:00Z",
+                "tags": [
+                  {
+                    "tag": "west",
+                    "access": "read-only"
+                  }
+                ],
+                "networks": [
+                  {
+                    "id": "N_24329156",
+                    "access": "full"
+                  }
+                ],
+                "authenticationMethod": "Email"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1146,18 +1831,48 @@ class Organizations:
     ) -> CreateOrganizationAdminResponse | None:
         """Create a new dashboard administrator.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-admin
+        [API documentation: createOrganizationAdmin](https://developer.cisco.com/meraki/api-v1/#!create-organization-admin)
 
         Args:
             organization_id: Organization ID.
             email: The email of the dashboard administrator. This attribute can not be updated.
             name: The name of the dashboard administrator.
             org_access: The privilege of the dashboard administrator on the organization. Can be one
-              of 'full', 'read-only', 'enterprise' or 'none'.
+                of 'full', 'read-only', 'enterprise' or 'none'.
             tags: The list of tags that the dashboard administrator has privileges on.
             networks: The list of networks that the dashboard administrator has privileges on.
             authentication_method: No longer used as of Cisco SecureX end-of-life. Can be one of
-              'Email'. The default is Email authentication.
+                'Email'. The default is Email authentication.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "212406",
+              "name": "Miles Meraki",
+              "email": "miles@meraki.com",
+              "orgAccess": "none",
+              "accountStatus": "ok",
+              "twoFactorAuthEnabled": false,
+              "hasApiKey": true,
+              "lastActive": "2018-02-11T00:00:00Z",
+              "tags": [
+                {
+                  "tag": "west",
+                  "access": "read-only"
+                }
+              ],
+              "networks": [
+                {
+                  "id": "N_24329156",
+                  "access": "full"
+                }
+              ],
+              "authenticationMethod": "Email"
+            }
+            ```
 
         """
         if org_access is not None:
@@ -1210,16 +1925,46 @@ class Organizations:
     ) -> UpdateOrganizationAdminResponse | None:
         """Update an administrator.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-admin
+        [API documentation: updateOrganizationAdmin](https://developer.cisco.com/meraki/api-v1/#!update-organization-admin)
 
         Args:
             organization_id: Organization ID.
             admin_id: Admin ID.
             name: The name of the dashboard administrator.
             org_access: The privilege of the dashboard administrator on the organization. Can be one
-              of 'full', 'read-only', 'enterprise' or 'none'.
+                of 'full', 'read-only', 'enterprise' or 'none'.
             tags: The list of tags that the dashboard administrator has privileges on.
             networks: The list of networks that the dashboard administrator has privileges on.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "212406",
+              "name": "Miles Meraki",
+              "email": "miles@meraki.com",
+              "orgAccess": "none",
+              "accountStatus": "ok",
+              "twoFactorAuthEnabled": false,
+              "hasApiKey": true,
+              "lastActive": "2018-02-11T00:00:00Z",
+              "tags": [
+                {
+                  "tag": "west",
+                  "access": "read-only"
+                }
+              ],
+              "networks": [
+                {
+                  "id": "N_24329156",
+                  "access": "full"
+                }
+              ],
+              "authenticationMethod": "Email"
+            }
+            ```
 
         """
         if org_access is not None:
@@ -1255,11 +2000,14 @@ class Organizations:
     def delete_organization_admin(self, *, organization_id: str, admin_id: str) -> None:
         """Revoke all access for a dashboard administrator within this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-admin
+        [API documentation: deleteOrganizationAdmin](https://developer.cisco.com/meraki/api-v1/#!delete-organization-admin)
 
         Args:
             organization_id: Organization ID.
             admin_id: Admin ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1275,10 +2023,43 @@ class Organizations:
     ) -> GetOrganizationAlertsProfilesResponse | None:
         """List all organization-wide alert configurations.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-alerts-profiles
+        [API documentation: getOrganizationAlertsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-alerts-profiles)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "type": "wanUtilization",
+                "enabled": true,
+                "alertCondition": {
+                  "duration": 60,
+                  "window": 600,
+                  "bit_rate_bps": 10000,
+                  "interface": "wan1"
+                },
+                "recipients": {
+                  "emails": [
+                    "admin@example.org"
+                  ],
+                  "httpServerIds": [
+                    "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vcGF0aA=="
+                  ]
+                },
+                "networkTags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "description": "WAN 1 high utilization"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1303,7 +2084,7 @@ class Organizations:
     ) -> CreateOrganizationAlertsProfileResponse | None:
         """Create an organization-wide alert configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile
+        [API documentation: createOrganizationAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile)
 
         Args:
             organization_id: Organization ID.
@@ -1312,6 +2093,37 @@ class Organizations:
             recipients: List of recipients that will recieve the alert.
             network_tags: Networks with these tags will be monitored for the alert.
             description: User supplied description of the alert.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "type": "wanUtilization",
+              "enabled": true,
+              "alertCondition": {
+                "duration": 60,
+                "window": 600,
+                "bit_rate_bps": 10000,
+                "interface": "wan1"
+              },
+              "recipients": {
+                "emails": [
+                  "admin@example.org"
+                ],
+                "httpServerIds": [
+                  "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vcGF0aA=="
+                ]
+              },
+              "networkTags": [
+                "tag1",
+                "tag2"
+              ],
+              "description": "WAN 1 high utilization"
+            }
+            ```
 
         """
         if type_ is not None:
@@ -1366,7 +2178,7 @@ class Organizations:
     ) -> UpdateOrganizationAlertsProfileResponse | None:
         """Update an organization-wide alert config.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile
+        [API documentation: updateOrganizationAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile)
 
         Args:
             organization_id: Organization ID.
@@ -1377,6 +2189,37 @@ class Organizations:
             recipients: List of recipients that will recieve the alert.
             network_tags: Networks with these tags will be monitored for the alert.
             description: User supplied description of the alert.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "type": "wanUtilization",
+              "enabled": true,
+              "alertCondition": {
+                "duration": 60,
+                "window": 600,
+                "bit_rate_bps": 10000,
+                "interface": "wan1"
+              },
+              "recipients": {
+                "emails": [
+                  "admin@example.org"
+                ],
+                "httpServerIds": [
+                  "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vcGF0aA=="
+                ]
+              },
+              "networkTags": [
+                "tag1",
+                "tag2"
+              ],
+              "description": "WAN 1 high utilization"
+            }
+            ```
 
         """
         if type_ is not None:
@@ -1425,11 +2268,14 @@ class Organizations:
     ) -> None:
         """Removes an organization-wide alert config.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile
+        [API documentation: deleteOrganizationAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile)
 
         Args:
             organization_id: Organization ID.
             alert_config_id: Alert config ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1458,43 +2304,69 @@ class Organizations:
         user_agent: str | None = None,
         version: int | None = None,
         operation_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationApiRequestsResponseItem]:
         """List the API requests made by an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests
+        [API documentation: getOrganizationApiRequests](https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 31 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 31 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             admin_id: Filter the results by the ID of the admin who made the API requests.
             path: Filter the results by the path of the API requests.
             method: Filter the results by the method of the API requests (must be 'GET', 'PUT',
-              'POST' or 'DELETE').
+                'POST' or 'DELETE').
             response_code: Filter the results by the response code of the API requests.
             source_ip: Filter the results by the IP address of the originating API request.
             user_agent: Filter the results by the user agent string of the API request.
             version: Filter the results by the API version of the API request.
             operation_ids: Filter the results by one or more operation IDs for the API request.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "adminId": "212406",
+                "method": "GET",
+                "host": "server.example.com",
+                "path": "/api/v1/organizations/12345/apiRequests",
+                "queryString": "timespan=604800",
+                "userAgent": "PostmanRuntime/7.6.0",
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "responseCode": 200,
+                "sourceIp": "123.123.123.1",
+                "version": 1,
+                "operationId": "getOrganizationApiRequests",
+                "client": {
+                  "id": "0hoXjtjX6C-Nk4Nr6kEbCJJFRmIgycaG1HBE572hlIc",
+                  "type": "oauth"
+                }
+              }
+            ]
+            ```
 
         """
         if method is not None:
@@ -1561,16 +2433,75 @@ class Organizations:
     ) -> GetOrganizationApiRequestsOverviewResponse | None:
         """Return an aggregated overview of API requests data.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview
+        [API documentation: getOrganizationApiRequestsOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 31 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 31 days.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "responseCodeCounts": {
+                "200": 500,
+                "201": 100,
+                "202": 20,
+                "203": 50,
+                "204": 75,
+                "205": 0,
+                "206": 0,
+                "207": 0,
+                "208": 0,
+                "226": 0,
+                "300": 0,
+                "301": 60,
+                "302": 0,
+                "303": 0,
+                "304": 0,
+                "305": 0,
+                "306": 0,
+                "307": 0,
+                "308": 0,
+                "400": 20,
+                "401": 0,
+                "402": 32,
+                "403": 0,
+                "404": 55,
+                "405": 0,
+                "406": 0,
+                "407": 0,
+                "408": 0,
+                "409": 0,
+                "410": 0,
+                "411": 0,
+                "412": 0,
+                "413": 0,
+                "414": 0,
+                "415": 0,
+                "416": 0,
+                "417": 0,
+                "421": 0,
+                "422": 0,
+                "423": 0,
+                "424": 0,
+                "425": 0,
+                "426": 0,
+                "428": 0,
+                "429": 0,
+                "431": 0,
+                "451": 0,
+                "500": 3
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1608,26 +2539,45 @@ class Organizations:
     ) -> GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponse | None:
         """Tracks organizations' API requests by response code across a given time period.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview-response-codes-by-interval
+        [API documentation: getOrganizationApiRequestsOverviewResponseCodesByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview-response-codes-by-interval)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 31 days. If
-              interval is provided, the timespan will be autocalculated.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 31 days. If
+                interval is provided, the timespan will be autocalculated.
             interval: The time interval in seconds for returned data. The valid intervals are: 120,
-              3600, 14400, 21600. The default is 21600. Interval is calculated if time
-              params are provided.
+                3600, 14400, 21600. The default is 21600. Interval is calculated if time
+                params are provided.
             version: Filter by API version of the endpoint. Allowable values are: [0, 1].
             operation_ids: Filter by operation ID of the endpoint.
             source_ips: Filter by source IP that made the API request.
             admin_ids: Filter by admin ID of user that made the API request.
             user_agent: Filter by user agent string for API request. This will filter by a complete
-              or partial match.
+                or partial match.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2018-02-11T00:00:00Z",
+                "endTs": "2018-05-12T00:00:00Z",
+                "counts": [
+                  {
+                    "code": 200,
+                    "count": 198938
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if version is not None:
@@ -1689,27 +2639,27 @@ class Organizations:
         dismissed: bool | None = None,
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationAssuranceAlertsResponseItem]:
         """Return all health alerts for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts
+        [API documentation: getOrganizationAssuranceAlerts](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 4 - 300. Default
-              is 30.
+                is 30.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
-              Default is 'ascending'.
+                Default is 'ascending'.
             network_id: Optional parameter to filter alerts by network ids.
             severity: Optional parameter to filter by severity type.
             types: Optional parameter to filter by alert type.
@@ -1724,13 +2674,54 @@ class Organizations:
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
             suppress_alerts_for_offline_nodes: When set to true the api will only return
-              connectivity alerts for a given device if that device is in an offline
-              state. This only applies to devices. This is ignored when resolved is
-              true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
-              the Unreachable alert will be returned. Defaults to false.
+                connectivity alerts for a given device if that device is in an offline
+                state. This only applies to devices. This is ignored when resolved is
+                true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
+                the Unreachable alert will be returned. Defaults to false.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "categoryType": "connectivity",
+                "network": {
+                  "name": "Network 2",
+                  "id": "L_1020981"
+                },
+                "startedAt": "2022-04-01T15:48:57Z",
+                "resolvedAt": "2022-04-02T15:48:57Z",
+                "dismissedAt": "2022-04-02T15:48:57Z",
+                "deviceType": "MS",
+                "type": "crc_errors_error",
+                "title": "CRC errors detected",
+                "description": "Very high proportion of CRC errors on port id",
+                "severity": "warning",
+                "scope": {
+                  "devices": [
+                    {
+                      "url": "https://n237.meraki.com/MS-PM-First-Floo/n/_5kUKaTd/manage/nodes/new_list/7911238",
+                      "name": "Device 1",
+                      "order": 0,
+                      "productType": "switch",
+                      "serial": "Q2QP-5VYM-YM8H",
+                      "mac": "aa:bb:cd:dd",
+                      "imei": "353593090031649",
+                      "lldp": {
+                        "port": "33"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         if sort_order is not None:
@@ -1805,11 +2796,14 @@ class Organizations:
     ) -> None:
         """Dismiss health alerts.
 
-        https://developer.cisco.com/meraki/api-v1/#!dismiss-organization-assurance-alerts
+        [API documentation: dismissOrganizationAssuranceAlerts](https://developer.cisco.com/meraki/api-v1/#!dismiss-organization-assurance-alerts)
 
         Args:
             organization_id: Organization ID.
             alert_ids: Array of alert IDs to dismiss.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1846,7 +2840,7 @@ class Organizations:
     ) -> GetOrganizationAssuranceAlertsOverviewResponse | None:
         """Return overview of active health alerts for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview
+        [API documentation: getOrganizationAssuranceAlertsOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview)
 
         Args:
             organization_id: Organization ID.
@@ -1863,10 +2857,28 @@ class Organizations:
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
             suppress_alerts_for_offline_nodes: When set to true the api will only return
-              connectivity alerts for a given device if that device is in an offline
-              state. This only applies to devices. This is ignored when resolved is
-              true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
-              the Unreachable alert will be returned. Defaults to false.
+                connectivity alerts for a given device if that device is in an offline
+                state. This only applies to devices. This is ignored when resolved is
+                true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
+                the Unreachable alert will be returned. Defaults to false.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": {
+                "total": 14,
+                "bySeverity": [
+                  {
+                    "type": "critical",
+                    "count": 1
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         if category is not None:
@@ -1935,27 +2947,27 @@ class Organizations:
         dismissed: bool | None = None,
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem]:
         """Return a Summary of Alerts grouped by network and severity.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-network
+        [API documentation: getOrganizationAssuranceAlertsOverviewByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-network)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
-              Default is 'ascending'.
+                Default is 'ascending'.
             network_id: Optional parameter to filter alerts overview by network id.
             severity: Optional parameter to filter alerts overview by severity type.
             types: Optional parameter to filter by alert type.
@@ -1969,13 +2981,40 @@ class Organizations:
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
             suppress_alerts_for_offline_nodes: When set to true the api will only return
-              connectivity alerts for a given device if that device is in an offline
-              state. This only applies to devices. This is ignored when resolved is
-              true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
-              the Unreachable alert will be returned. Defaults to false.
+                connectivity alerts for a given device if that device is in an offline
+                state. This only applies to devices. This is ignored when resolved is
+                true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
+                the Unreachable alert will be returned. Defaults to false.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "L_30618",
+                  "networkName": "s01797.us",
+                  "alertCount": 3,
+                  "severityCounts": [
+                    {
+                      "type": "warning",
+                      "count": 3
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": 2
+                }
+              }
+            }
+            ```
 
         """
         if sort_order is not None:
@@ -2060,27 +3099,27 @@ class Organizations:
         dismissed: bool | None = None,
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem]:
         """Return a Summary of Alerts grouped by type and severity.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-type
+        [API documentation: getOrganizationAssuranceAlertsOverviewByType](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-type)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
-              Default is 'ascending'.
+                Default is 'ascending'.
             network_id: Optional parameter to filter alerts overview by network ids.
             severity: Optional parameter to filter alerts overview by severity type.
             types: Optional parameter to filter by alert type.
@@ -2095,13 +3134,34 @@ class Organizations:
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
             suppress_alerts_for_offline_nodes: When set to true the api will only return
-              connectivity alerts for a given device if that device is in an offline
-              state. This only applies to devices. This is ignored when resolved is
-              true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
-              the Unreachable alert will be returned. Defaults to false.
+                connectivity alerts for a given device if that device is in an offline
+                state. This only applies to devices. This is ignored when resolved is
+                true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
+                the Unreachable alert will be returned. Defaults to false.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "type": "vlan_mismatch",
+                  "lastResolvedAt": "2022-04-01T16:48:57Z",
+                  "count": 3
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": 4
+                }
+              }
+            }
+            ```
 
         """
         if sort_order is not None:
@@ -2187,7 +3247,7 @@ class Organizations:
     ) -> GetOrganizationAssuranceAlertsOverviewHistoricalResponse | None:
         """Returns historical health alert overviews.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-historical
+        [API documentation: getOrganizationAssuranceAlertsOverviewHistorical](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-historical)
 
         Args:
             organization_id: Organization ID.
@@ -2200,6 +3260,38 @@ class Organizations:
             category: Optional parameter to filter by category.
             serials: Optional parameter to filter by primary device serial.
             device_types: Optional parameter to filter by device types.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "segmentStart": "2018-02-11T00:00:00Z",
+                  "totals": {
+                    "informational": 1,
+                    "warning": 1,
+                    "critical": 1
+                  },
+                  "byAlertType": [
+                    {
+                      "type": "vlan_mismatch",
+                      "informational": 1,
+                      "warning": 1,
+                      "critical": 1
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": 4
+                }
+              }
+            }
+            ```
 
         """
         if category is not None:
@@ -2244,11 +3336,14 @@ class Organizations:
     ) -> None:
         """Restore health alerts from dismissed.
 
-        https://developer.cisco.com/meraki/api-v1/#!restore-organization-assurance-alerts
+        [API documentation: restoreOrganizationAssuranceAlerts](https://developer.cisco.com/meraki/api-v1/#!restore-organization-assurance-alerts)
 
         Args:
             organization_id: Organization ID.
             alert_ids: Array of alert IDs to restore.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2270,10 +3365,23 @@ class Organizations:
     ) -> GetOrganizationAssuranceAlertsTaxonomyCategoriesResponse | None:
         """Return a list of Category Types.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-categories
+        [API documentation: getOrganizationAssuranceAlertsTaxonomyCategories](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-categories)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "type": "connectivity",
+                "title": "Connectivity"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2291,10 +3399,43 @@ class Organizations:
     ) -> GetOrganizationAssuranceAlertsTaxonomyTypesResponse | None:
         """Return a list of alert types.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-types
+        [API documentation: getOrganizationAssuranceAlertsTaxonomyTypes](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-types)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "type": "unreachable",
+                "title": "Unreachable device",
+                "categoryType": "connectivity",
+                "severities": [
+                  {
+                    "type": "critical"
+                  }
+                ],
+                "deviceTypes": [
+                  "Campus Gateway",
+                  "Catalyst AP",
+                  "Catalyst Controller",
+                  "Catalyst Switch",
+                  "MG",
+                  "MR",
+                  "MS",
+                  "MT",
+                  "MV",
+                  "MX",
+                  "VMX",
+                  "Z"
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2312,11 +3453,50 @@ class Organizations:
     ) -> GetOrganizationAssuranceAlertResponse | None:
         """Return a singular Health Alert by its id.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alert
+        [API documentation: getOrganizationAssuranceAlert](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alert)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "categoryType": "connectivity",
+              "network": {
+                "name": "Network 2",
+                "id": "L_1020981"
+              },
+              "startedAt": "2022-04-01T15:48:57Z",
+              "resolvedAt": "2022-04-02T15:48:57Z",
+              "dismissedAt": "2022-04-02T15:48:57Z",
+              "deviceType": "MS",
+              "type": "crc_errors_error",
+              "title": "CRC errors detected",
+              "description": "Very high proportion of CRC errors on port id",
+              "severity": "warning",
+              "scope": {
+                "devices": [
+                  {
+                    "url": "https://n237.meraki.com/MS-PM-First-Floo/n/_5kUKaTd/manage/nodes/new_list/7911238",
+                    "name": "Device 1",
+                    "order": 0,
+                    "productType": "switch",
+                    "serial": "Q2QP-5VYM-YM8H",
+                    "mac": "aa:bb:cd:dd",
+                    "imei": "353593090031649",
+                    "lldp": {
+                      "port": "33"
+                    }
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2335,10 +3515,56 @@ class Organizations:
     ) -> GetOrganizationBrandingPoliciesResponse | None:
         """List the branding policies of an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies
+        [API documentation: getOrganizationBrandingPolicies](https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My Branding Policy",
+                "enabled": true,
+                "adminSettings": {
+                  "appliesTo": "All admins of networks...",
+                  "values": [
+                    "N_1234",
+                    "L_5678"
+                  ]
+                },
+                "helpSettings": {
+                  "helpTab": "show",
+                  "getHelpSubtab": "default or inherit",
+                  "communitySubtab": "show",
+                  "casesSubtab": "hide",
+                  "dataProtectionRequestsSubtab": "default or inherit",
+                  "getHelpSubtabKnowledgeBaseSearch": "<h1>Some custom HTML content</h1>",
+                  "universalSearchKnowledgeBaseSearch": "hide",
+                  "ciscoMerakiProductDocumentation": "show",
+                  "supportContactInfo": "show",
+                  "newFeaturesSubtab": "show",
+                  "firewallInfoSubtab": "hide",
+                  "apiDocsSubtab": "default or inherit",
+                  "hardwareReplacementsSubtab": "hide",
+                  "smForums": "hide",
+                  "helpWidget": "hide"
+                },
+                "customLogo": {
+                  "enabled": true,
+                  "image": {
+                    "preview": {
+                      "url": "https://meraki-na.s3.amazonaws.com/org-assets/my-image.png",
+                      "expiresAt": "2022-04-06T06:19:27-07:00"
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2363,7 +3589,7 @@ class Organizations:
     ) -> CreateOrganizationBrandingPolicyResponse | None:
         """Add a new branding policy to an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
+        [API documentation: createOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy)
 
         Args:
             organization_id: Organization ID.
@@ -2371,13 +3597,57 @@ class Organizations:
             enabled: Boolean indicating whether this policy is enabled.
             admin_settings: Settings for describing which kinds of admins this policy applies to.
             help_settings: Settings for describing the modifications to various Help page features.
-              Each property in this object accepts one of 'default or inherit' (do not
-              modify functionality), 'hide' (remove the section from Dashboard), or
-              'show' (always show the section on Dashboard). Some properties in this
-              object also accept custom HTML used to replace the section on Dashboard;
-              see the documentation for each property to see the allowed values. Each
-              property defaults to 'default or inherit' when not provided.
+                Each property in this object accepts one of 'default or inherit' (do not
+                modify functionality), 'hide' (remove the section from Dashboard), or
+                'show' (always show the section on Dashboard). Some properties in this
+                object also accept custom HTML used to replace the section on Dashboard;
+                see the documentation for each property to see the allowed values. Each
+                property defaults to 'default or inherit' when not provided.
             custom_logo: Properties describing the custom logo attached to the branding policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "My Branding Policy",
+              "enabled": true,
+              "adminSettings": {
+                "appliesTo": "All admins of networks...",
+                "values": [
+                  "N_1234",
+                  "L_5678"
+                ]
+              },
+              "helpSettings": {
+                "helpTab": "show",
+                "getHelpSubtab": "default or inherit",
+                "communitySubtab": "show",
+                "casesSubtab": "hide",
+                "dataProtectionRequestsSubtab": "default or inherit",
+                "getHelpSubtabKnowledgeBaseSearch": "<h1>Some custom HTML content</h1>",
+                "universalSearchKnowledgeBaseSearch": "hide",
+                "ciscoMerakiProductDocumentation": "show",
+                "supportContactInfo": "show",
+                "newFeaturesSubtab": "show",
+                "firewallInfoSubtab": "hide",
+                "apiDocsSubtab": "default or inherit",
+                "hardwareReplacementsSubtab": "hide",
+                "smForums": "hide",
+                "helpWidget": "hide"
+              },
+              "customLogo": {
+                "enabled": true,
+                "image": {
+                  "preview": {
+                    "url": "https://meraki-na.s3.amazonaws.com/org-assets/my-image.png",
+                    "expiresAt": "2022-04-06T06:19:27-07:00"
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2408,10 +3678,24 @@ class Organizations:
     ) -> GetOrganizationBrandingPoliciesPrioritiesResponse | None:
         """Return the branding policy IDs of an organization in priority order.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies-priorities
+        [API documentation: getOrganizationBrandingPoliciesPriorities](https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies-priorities)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "brandingPolicyIds": [
+                "123",
+                "456",
+                "789"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2429,12 +3713,26 @@ class Organizations:
     ) -> UpdateOrganizationBrandingPoliciesPrioritiesResponse | None:
         """Update the priority ordering of an organization's branding policies.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities
+        [API documentation: updateOrganizationBrandingPoliciesPriorities](https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities)
 
         Args:
             organization_id: Organization ID.
             branding_policy_ids: An ordered list of branding policy IDs that determines the priority
-              order of how to apply the policies.
+                order of how to apply the policies.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "brandingPolicyIds": [
+                "123",
+                "456",
+                "789"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2457,11 +3755,55 @@ class Organizations:
     ) -> GetOrganizationBrandingPolicyResponse | None:
         """Return a branding policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policy
+        [API documentation: getOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policy)
 
         Args:
             organization_id: Organization ID.
             branding_policy_id: Branding policy ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "My Branding Policy",
+              "enabled": true,
+              "adminSettings": {
+                "appliesTo": "All admins of networks...",
+                "values": [
+                  "N_1234",
+                  "L_5678"
+                ]
+              },
+              "helpSettings": {
+                "helpTab": "show",
+                "getHelpSubtab": "default or inherit",
+                "communitySubtab": "show",
+                "casesSubtab": "hide",
+                "dataProtectionRequestsSubtab": "default or inherit",
+                "getHelpSubtabKnowledgeBaseSearch": "<h1>Some custom HTML content</h1>",
+                "universalSearchKnowledgeBaseSearch": "hide",
+                "ciscoMerakiProductDocumentation": "show",
+                "supportContactInfo": "show",
+                "newFeaturesSubtab": "show",
+                "firewallInfoSubtab": "hide",
+                "apiDocsSubtab": "default or inherit",
+                "hardwareReplacementsSubtab": "hide",
+                "smForums": "hide",
+                "helpWidget": "hide"
+              },
+              "customLogo": {
+                "enabled": true,
+                "image": {
+                  "preview": {
+                    "url": "https://meraki-na.s3.amazonaws.com/org-assets/my-image.png",
+                    "expiresAt": "2022-04-06T06:19:27-07:00"
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2488,7 +3830,7 @@ class Organizations:
     ) -> UpdateOrganizationBrandingPolicyResponse | None:
         """Update a branding policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
+        [API documentation: updateOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy)
 
         Args:
             organization_id: Organization ID.
@@ -2497,12 +3839,56 @@ class Organizations:
             enabled: Boolean indicating whether this policy is enabled.
             admin_settings: Settings for describing which kinds of admins this policy applies to.
             help_settings: Settings for describing the modifications to various Help page features.
-              Each property in this object accepts one of 'default or inherit' (do not
-              modify functionality), 'hide' (remove the section from Dashboard), or
-              'show' (always show the section on Dashboard). Some properties in this
-              object also accept custom HTML used to replace the section on Dashboard;
-              see the documentation for each property to see the allowed values.
+                Each property in this object accepts one of 'default or inherit' (do not
+                modify functionality), 'hide' (remove the section from Dashboard), or
+                'show' (always show the section on Dashboard). Some properties in this
+                object also accept custom HTML used to replace the section on Dashboard;
+                see the documentation for each property to see the allowed values.
             custom_logo: Properties describing the custom logo attached to the branding policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "My Branding Policy",
+              "enabled": true,
+              "adminSettings": {
+                "appliesTo": "All admins of networks...",
+                "values": [
+                  "N_1234",
+                  "L_5678"
+                ]
+              },
+              "helpSettings": {
+                "helpTab": "show",
+                "getHelpSubtab": "default or inherit",
+                "communitySubtab": "show",
+                "casesSubtab": "hide",
+                "dataProtectionRequestsSubtab": "default or inherit",
+                "getHelpSubtabKnowledgeBaseSearch": "<h1>Some custom HTML content</h1>",
+                "universalSearchKnowledgeBaseSearch": "hide",
+                "ciscoMerakiProductDocumentation": "show",
+                "supportContactInfo": "show",
+                "newFeaturesSubtab": "show",
+                "firewallInfoSubtab": "hide",
+                "apiDocsSubtab": "default or inherit",
+                "hardwareReplacementsSubtab": "hide",
+                "smForums": "hide",
+                "helpWidget": "hide"
+              },
+              "customLogo": {
+                "enabled": true,
+                "image": {
+                  "preview": {
+                    "url": "https://meraki-na.s3.amazonaws.com/org-assets/my-image.png",
+                    "expiresAt": "2022-04-06T06:19:27-07:00"
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2534,11 +3920,14 @@ class Organizations:
     ) -> None:
         """Delete a branding policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy
+        [API documentation: deleteOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy)
 
         Args:
             organization_id: Organization ID.
             branding_policy_id: Branding policy ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2559,13 +3948,34 @@ class Organizations:
     ) -> ClaimIntoOrganizationResponse | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
-        https://developer.cisco.com/meraki/api-v1/#!claim-into-organization
+        [API documentation: claimIntoOrganization](https://developer.cisco.com/meraki/api-v1/#!claim-into-organization)
 
         Args:
             organization_id: Organization ID.
             orders: The numbers of the orders that should be claimed.
             serials: The serials of the devices that should be claimed.
             licenses: The licenses that should be claimed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "orders": [
+                "4CXXXXXXX"
+              ],
+              "serials": [
+                "Q234-ABCD-5678"
+              ],
+              "licenses": [
+                {
+                  "key": "Z2XXXXXXXXXX",
+                  "mode": "addDevices"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2603,7 +4013,7 @@ class Organizations:
     ) -> GetOrganizationClientsBandwidthUsageHistoryResponse | None:
         """Return data usage (in megabits per second) over time for all clients in the given organization within a given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-bandwidth-usage-history
+        [API documentation: getOrganizationClientsBandwidthUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-bandwidth-usage-history)
 
         Args:
             organization_id: Organization ID.
@@ -2614,8 +4024,23 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2021-06-20T01:00:00.000Z",
+                "total": 345,
+                "upstream": 60,
+                "downstream": 285
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2655,15 +4080,35 @@ class Organizations:
     ) -> GetOrganizationClientsOverviewResponse | None:
         """Return summary information around client data usage (in kb) across the given organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-overview
+        [API documentation: getOrganizationClientsOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-overview)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "usage": {
+                "overall": {
+                  "total": 18000.0,
+                  "downstream": 10000.0,
+                  "upstream": 8000.0
+                },
+                "average": 1.37
+              },
+              "counts": {
+                "total": 20
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2693,29 +4138,137 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationClientsSearchResponseRecordsItem]:
         """Return the client details in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-search
+        [API documentation: getOrganizationClientsSearch](https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-search)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 5. Default is
-              5.
+                5.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             mac: The MAC address of the client. Required.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "clientId": "k74272e",
+              "mac": "22:33:44:55:66:77",
+              "manufacturer": "Apple",
+              "records": [
+                {
+                  "network": {
+                    "id": "N_24329156",
+                    "organizationId": "2930418",
+                    "name": "Main Office",
+                    "productTypes": [
+                      "appliance",
+                      "switch",
+                      "wireless"
+                    ],
+                    "timeZone": "America/Los_Angeles",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "enrollmentString": "my-enrollment-string",
+                    "url": "https://n1.meraki.com//n//manage/nodes/list",
+                    "notes": "Additional description of the network",
+                    "isBoundToConfigTemplate": false
+                  },
+                  "ip": "1.2.3.4",
+                  "ip6": "2001:db8:3c4d:15::1",
+                  "description": "Miles's phone",
+                  "firstSeen": 1518365681,
+                  "lastSeen": 1526087474,
+                  "os": "iOS",
+                  "user": "milesmeraki",
+                  "vlan": "100",
+                  "ssid": "My SSID",
+                  "switchport": "My switch port",
+                  "wirelessCapabilities": "802.11b - 2.4 GHz",
+                  "smInstalled": true,
+                  "recentDeviceMac": "22:33:44:55:66:77",
+                  "clientVpnConnections": [
+                    {
+                      "remoteIp": "1.2.3.4",
+                      "connectedAt": 1522613355,
+                      "disconnectedAt": 1522613360
+                    }
+                  ],
+                  "lldp": [
+                    [
+                      "System name",
+                      "Some system name"
+                    ],
+                    [
+                      "System description",
+                      "Some system description"
+                    ],
+                    [
+                      "Port ID",
+                      "1"
+                    ],
+                    [
+                      "Chassis ID",
+                      "00:18:0a:00:00:00"
+                    ],
+                    [
+                      "Port description",
+                      "eth0"
+                    ],
+                    [
+                      "System capabilities",
+                      "Two-port MAC Relay"
+                    ]
+                  ],
+                  "cdp": [
+                    [
+                      "System name",
+                      "Some system name"
+                    ],
+                    [
+                      "System description",
+                      "Some system description"
+                    ],
+                    [
+                      "Port ID",
+                      "1"
+                    ],
+                    [
+                      "Chassis ID",
+                      "00:18:0a:00:00:00"
+                    ],
+                    [
+                      "Port description",
+                      "eth0"
+                    ],
+                    [
+                      "System capabilities",
+                      "Two-port MAC Relay"
+                    ]
+                  ],
+                  "status": "Online"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2746,11 +4299,45 @@ class Organizations:
     ) -> CloneOrganizationResponse | None:
         """Create a new organization by cloning the addressed organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!clone-organization
+        [API documentation: cloneOrganization](https://developer.cisco.com/meraki/api-v1/#!clone-organization)
 
         Args:
             organization_id: Organization ID.
             name: The name of the new organization.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "2930418",
+              "name": "My organization",
+              "url": "https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview",
+              "api": {
+                "enabled": true
+              },
+              "licensing": {
+                "model": "co-term"
+              },
+              "cloud": {
+                "region": {
+                  "name": "North America",
+                  "host": {
+                    "name": "United States"
+                  }
+                }
+              },
+              "management": {
+                "details": [
+                  {
+                    "name": "MSP ID",
+                    "value": "123456"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2773,10 +4360,29 @@ class Organizations:
     ) -> GetOrganizationConfigTemplatesResponse | None:
         """List the configuration templates for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-config-templates
+        [API documentation: getOrganizationConfigTemplates](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-templates)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "N_24329156",
+                "name": "My config template",
+                "productTypes": [
+                  "appliance",
+                  "switch",
+                  "wireless"
+                ],
+                "timeZone": "America/Los_Angeles"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2799,17 +4405,35 @@ class Organizations:
     ) -> CreateOrganizationConfigTemplateResponse | None:
         """Create a new configuration template.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template
+        [API documentation: createOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template)
 
         Args:
             organization_id: Organization ID.
             name: The name of the configuration template.
             time_zone: The timezone of the configuration template. For a list of allowed timezones,
-              please see the 'TZ' column in the table in <a target='_blank'
-              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
-              article</a>. Not applicable if copying from existing network or template.
+                please see the 'TZ' column in the table in <a target='_blank'
+                href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+                article</a>. Not applicable if copying from existing network or
+                template.
             copy_from_network_id: The ID of the network or config template to copy configuration
-              from.
+                from.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "N_24329156",
+              "name": "My config template",
+              "productTypes": [
+                "appliance",
+                "switch",
+                "wireless"
+              ],
+              "timeZone": "America/Los_Angeles"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2836,11 +4460,28 @@ class Organizations:
     ) -> GetOrganizationConfigTemplateResponse | None:
         """Return a single configuration template.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template
+        [API documentation: getOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template)
 
         Args:
             organization_id: Organization ID.
             config_template_id: Config template ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "N_24329156",
+              "name": "My config template",
+              "productTypes": [
+                "appliance",
+                "switch",
+                "wireless"
+              ],
+              "timeZone": "America/Los_Angeles"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2864,16 +4505,33 @@ class Organizations:
     ) -> UpdateOrganizationConfigTemplateResponse | None:
         """Update a configuration template.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template
+        [API documentation: updateOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template)
 
         Args:
             organization_id: Organization ID.
             config_template_id: Config template ID.
             name: The name of the configuration template.
             time_zone: The timezone of the configuration template. For a list of allowed timezones,
-              please see the 'TZ' column in the table in <a target='_blank'
-              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
-              article.</a>.
+                please see the 'TZ' column in the table in <a target='_blank'
+                href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+                article.</a>.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "N_24329156",
+              "name": "My config template",
+              "productTypes": [
+                "appliance",
+                "switch",
+                "wireless"
+              ],
+              "timeZone": "America/Los_Angeles"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2899,11 +4557,14 @@ class Organizations:
     ) -> None:
         """Remove a configuration template.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-config-template
+        [API documentation: deleteOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!delete-organization-config-template)
 
         Args:
             organization_id: Organization ID.
             config_template_id: Config template ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2926,36 +4587,64 @@ class Organizations:
         ending_before: str | None = None,
         network_id: str | None = None,
         admin_id: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "prev",
     ) -> PaginatedResponse[GetOrganizationConfigurationChangesResponseItem]:
-        """View the Change Log for your organization.
+        r"""View the Change Log for your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-configuration-changes
+        [API documentation: getOrganizationConfigurationChanges](https://developer.cisco.com/meraki/api-v1/#!get-organization-configuration-changes)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 365 days. The default is 365 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 365 days. The default is 365 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 5000. Default
-              is 5000.
+                is 5000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_id: Filters on the given network.
             admin_id: Filters on the given Admin.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" or "prev" (default) page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "adminName": "Miles Meraki",
+                "adminEmail": "miles@meraki.com",
+                "adminId": "212406",
+                "networkName": "Main Office",
+                "networkId": "N_24329156",
+                "networkUrl": "https://n1.meraki.com//n//manage/nodes/list",
+                "ssidName": "My SSID",
+                "ssidNumber": 1,
+                "page": "via API",
+                "label": "PUT /api/v1/organizations/2930418",
+                "oldValue": "{\"id\":\"2930418\",\"name\":\"My organization\",\"url\":\"https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview\"}",
+                "newValue": "{\"id\":\"2930418\",\"name\":\"My organization changed\",\"url\":\"https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview\"}",
+                "client": {
+                  "id": "0hoXjtjX6C-Nk4Nr6kEbCJJFRmIgycaG1HBE572hlIc",
+                  "type": "oauth"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3010,56 +4699,89 @@ class Organizations:
         sensor_metrics: list[str] | None = None,
         sensor_alert_profile_ids: list[str] | None = None,
         models: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesResponseItem]:
         """List the devices in an organization that have been assigned to a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices
+        [API documentation: getOrganizationDevices](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 5000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             configuration_updated_after: Filter results by whether or not the device's configuration
-              has been updated after the given timestamp.
+                has been updated after the given timestamp.
             network_ids: Optional parameter to filter devices by network.
             product_types: Optional parameter to filter devices by product type. Valid types are
-              wireless, appliance, switch, systemsManager, camera, cellularGateway,
-              sensor, wirelessController, campusGateway, and secureConnect.
+                wireless, appliance, switch, systemsManager, camera, cellularGateway,
+                sensor, wirelessController, campusGateway, and secureConnect.
             tags: Optional parameter to filter devices by tags.
             tags_filter_type: Optional parameter of value 'withAnyTags' or 'withAllTags' to indicate
-              whether to return networks which contain ANY or ALL of the included tags.
-              If no type is included, 'withAnyTags' will be selected.
+                whether to return networks which contain ANY or ALL of the included
+                tags. If no type is included, 'withAnyTags' will be selected.
             name: Optional parameter to filter devices by name. All returned devices will have a
-              name that contains the search term or is an exact match.
+                name that contains the search term or is an exact match.
             mac: Optional parameter to filter devices by MAC address. All returned devices will have
-              a MAC address that contains the search term or is an exact match.
+                a MAC address that contains the search term or is an exact match.
             serial: Optional parameter to filter devices by serial number. All returned devices will
-              have a serial number that contains the search term or is an exact match.
+                have a serial number that contains the search term or is an exact match.
             model: Optional parameter to filter devices by model. All returned devices will have a
-              model that contains the search term or is an exact match.
+                model that contains the search term or is an exact match.
             macs: Optional parameter to filter devices by one or more MAC addresses. All returned
-              devices will have a MAC address that is an exact match.
+                devices will have a MAC address that is an exact match.
             serials: Optional parameter to filter devices by one or more serial numbers. All
-              returned devices will have a serial number that is an exact match.
+                returned devices will have a serial number that is an exact match.
             sensor_metrics: Optional parameter to filter devices by the metrics that they provide.
-              Only applies to sensor devices.
+                Only applies to sensor devices.
             sensor_alert_profile_ids: Optional parameter to filter devices by the alert profiles
-              that are bound to them. Only applies to sensor devices.
+                that are bound to them. Only applies to sensor devices.
             models: Optional parameter to filter devices by one or more models. All returned devices
-              will have a model that is an exact match.
+                will have a model that is an exact match.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My AP",
+                "lat": 37.4180951010362,
+                "lng": -122.098531723022,
+                "address": "1600 Pennsylvania Ave",
+                "notes": "My AP's note",
+                "tags": [
+                  "recently-added"
+                ],
+                "networkId": "N_24329156",
+                "serial": "Q234-ABCD-5678",
+                "model": "MR34",
+                "imei": "123456789000000",
+                "mac": "00:11:22:33:44:55",
+                "lanIp": "1.2.3.4",
+                "firmware": "wireless-25-14",
+                "productType": "wireless",
+                "details": [
+                  {
+                    "name": "Catalyst serial",
+                    "value": "123ABC"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if tags_filter_type is not None:
@@ -3130,44 +4852,67 @@ class Organizations:
         tags: list[str] | None = None,
         tags_filter_type: str | None = None,
         statuses: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesAvailabilitiesResponseItem]:
         """List the availability information for devices in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities
+        [API documentation: getOrganizationDevicesAvailabilities](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter device availabilities by network ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             product_types: Optional parameter to filter device availabilities by device product
-              types. This filter uses multiple exact matches. Valid types are wireless,
-              appliance, switch, camera, cellularGateway, sensor, wirelessController,
-              and campusGateway.
+                types. This filter uses multiple exact matches. Valid types are
+                wireless, appliance, switch, camera, cellularGateway, sensor,
+                wirelessController, and campusGateway.
             serials: Optional parameter to filter device availabilities by device serial numbers.
-              This filter uses multiple exact matches.
+                This filter uses multiple exact matches.
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
-              If tags are included, 'tagsFilterType' should also be included (see
-              below). This filter uses multiple exact matches.
+                If tags are included, 'tagsFilterType' should also be included (see
+                below). This filter uses multiple exact matches.
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
-              indicate whether to return devices which contain ANY or ALL of the
-              included tags. If no type is included, 'withAnyTags' will be selected.
+                indicate whether to return devices which contain ANY or ALL of the
+                included tags. If no type is included, 'withAnyTags' will be selected.
             statuses: Optional parameter to filter device availabilities by device status. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mac": "00:11:22:33:44:55",
+                "name": "My AP",
+                "network": {
+                  "id": "N_24329156"
+                },
+                "productType": "switch",
+                "serial": "Q234-ABCD-5678",
+                "status": "online",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ]
+              }
+            ]
+            ```
 
         """
         if tags_filter_type is not None:
@@ -3223,40 +4968,81 @@ class Organizations:
         product_types: list[str] | None = None,
         network_ids: list[str] | None = None,
         statuses: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem]:
         """List the availability history information for devices in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities-change-history
+        [API documentation: getOrganizationDevicesAvailabilitiesChangeHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities-change-history)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             serials: Optional parameter to filter device availabilities history by device serial
-              numbers.
+                numbers.
             product_types: Optional parameter to filter device availabilities history by device
-              product types.
+                product types.
             network_ids: Optional parameter to filter device availabilities history by network IDs.
             statuses: Optional parameter to filter device availabilities history by device statuses.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "device": {
+                  "serial": "Q234-ABCD-5678",
+                  "name": "My AP",
+                  "productType": "wireless",
+                  "model": "MR34"
+                },
+                "details": {
+                  "old": [
+                    {
+                      "name": "status",
+                      "value": "online"
+                    }
+                  ],
+                  "new": [
+                    {
+                      "name": "status",
+                      "value": "offline"
+                    }
+                  ]
+                },
+                "network": {
+                  "id": "N_24329156",
+                  "name": "Main Office",
+                  "url": "https://n1.meraki.com//n//manage/nodes/list",
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3304,12 +5090,12 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesControllerMigrationsResponseItemsItem]:
         """Retrieve device migration statuses in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-controller-migrations
+        [API documentation: getOrganizationDevicesControllerMigrations](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-controller-migrations)
 
         Args:
             organization_id: Organization ID.
@@ -3317,18 +5103,43 @@ class Organizations:
             network_ids: Filter device migrations by network IDs.
             target: Filter device migrations by target destination.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "QXYZ-DEFG-HIJK",
+                  "target": "wirelessController",
+                  "createdAt": "2020-10-21T02:00:00Z",
+                  "migratedAt": "2020-10-21T03:00:00Z"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         if target is not None:
@@ -3369,12 +5180,27 @@ class Organizations:
     ) -> CreateOrganizationDevicesControllerMigrationResponse | None:
         """Migrate devices to another controller or management mode.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
+        [API documentation: createOrganizationDevicesControllerMigration](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration)
 
         Args:
             organization_id: Organization ID.
             serials: A list of Meraki Serials to migrate.
             target: The controller or management mode to which the devices will be migrated.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "QXYZ-DEFG-HIJK",
+                "target": "wirelessController",
+                "createdAt": "2020-10-21T02:00:00Z",
+                "migratedAt": "2020-10-21T03:00:00Z"
+              }
+            ]
+            ```
 
         """
         if target is not None:
@@ -3409,12 +5235,26 @@ class Organizations:
     ) -> BulkUpdateOrganizationDevicesDetailsResponse | None:
         """Updating device details (currently only used for Catalyst devices).
 
-        https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details
+        [API documentation: bulkUpdateOrganizationDevicesDetails](https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details)
 
         Args:
             organization_id: Organization ID.
             serials: A list of serials of devices to update.
             details: An array of details.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serials": [
+                "Q234-ABCD-0001",
+                "Q234-ABCD-0002",
+                "Q234-ABCD-0003"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3446,15 +5286,30 @@ class Organizations:
     ) -> GetOrganizationDevicesOverviewByModelResponse | None:
         """Lists the count for each device model.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-overview-by-model
+        [API documentation: getOrganizationDevicesOverviewByModel](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-overview-by-model)
 
         Args:
             organization_id: Organization ID.
             models: Optional parameter to filter devices by one or more models. All returned devices
-              will have a model that is an exact match.
+                will have a model that is an exact match.
             network_ids: Optional parameter to filter devices by networkId.
             product_types: Optional parameter to filter device by device product types. This filter
-              uses multiple exact matches.
+                uses multiple exact matches.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": [
+                {
+                  "model": "MR34",
+                  "total": 1
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3497,12 +5352,12 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         sort_order: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem]:
         """List Packet Captures.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-captures
+        [API documentation: getOrganizationDevicesPacketCaptureCaptures](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-captures)
 
         Args:
             organization_id: Organization ID.
@@ -3517,26 +5372,89 @@ class Organizations:
             device_name: Return the packet captures matching the specified device name.
             admin_name: Return the packet captures matching the admin name.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 365 days. The default is 365 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 365 days. The default is 365 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
-              Default is 'descending'.
+                Default is 'descending'.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "captureId": "1234",
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office"
+                  },
+                  "device": {
+                    "name": "My AP",
+                    "serial": "Q234-ABCD-5678"
+                  },
+                  "admin": {
+                    "id": "1234",
+                    "name": "Miles Meraki"
+                  },
+                  "client": {
+                    "id": "k74272e",
+                    "mac": "22:33:44:55:66:77"
+                  },
+                  "details": [
+                    {
+                      "name": "reason",
+                      "value": "bad_password",
+                      "productType": "wireless"
+                    }
+                  ],
+                  "name": "file_name",
+                  "startTs": "2018-02-11T00:00:00.090210Z",
+                  "ports": "1, 2",
+                  "status": "new",
+                  "errorMessage": "Some error message",
+                  "destination": "upload_to_cloud",
+                  "process": "manual",
+                  "file": {
+                    "size": 1066
+                  },
+                  "duration": 60,
+                  "filterExpression": "(icmp)",
+                  "counts": {
+                    "packets": {
+                      "total": 10
+                    }
+                  },
+                  "interface": "wired"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 100
+                  }
+                }
+              }
+            }
+            ```
 
         """
         if sort_order is not None:
@@ -3611,14 +5529,14 @@ class Organizations:
     ) -> CreateOrganizationDevicesPacketCaptureCaptureResponse | None:
         """Perform a packet capture on a device and store in Meraki Cloud.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-capture
+        [API documentation: createOrganizationDevicesPacketCaptureCapture](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-capture)
 
         Args:
             organization_id: Organization ID.
             serials: The serial(s) of the device(s).
             name: Name of packet capture file.
             output_type: Output type of packet capture file. Possible values: text, pcap,
-              cloudshark, or upload_to_cloud.
+                cloudshark, or upload_to_cloud.
             destination: Destination of packet capture file. Possible values: [upload_to_cloud].
             ports: Ports of packet capture file, comma-separated.
             notes: Reason for taking the packet capture.
@@ -3626,7 +5544,58 @@ class Organizations:
             filter_expression: Filter expression for packet capture.
             interface: Interface of the device.
             advanced: Advanced filters for IOSXE devices (supported for Campus Gateway devices
-              only).
+                only).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "captureId": "1234",
+              "network": {
+                "id": "N_24329156",
+                "name": "Main Office"
+              },
+              "device": {
+                "name": "My AP",
+                "serial": "Q234-ABCD-5678"
+              },
+              "admin": {
+                "id": "1234",
+                "name": "Miles Meraki"
+              },
+              "client": {
+                "id": "k74272e",
+                "mac": "22:33:44:55:66:77"
+              },
+              "details": [
+                {
+                  "name": "reason",
+                  "value": "bad_password",
+                  "productType": "wireless"
+                }
+              ],
+              "name": "file_name",
+              "startTs": "2018-02-11T00:00:00.090210Z",
+              "ports": "1, 2",
+              "status": "new",
+              "errorMessage": "Some error message",
+              "destination": "upload_to_cloud",
+              "process": "manual",
+              "file": {
+                "size": 1066
+              },
+              "duration": 60,
+              "filterExpression": "(icmp)",
+              "counts": {
+                "packets": {
+                  "total": 10
+                }
+              },
+              "interface": "wired"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3675,7 +5644,7 @@ class Organizations:
     ) -> BulkOrganizationDevicesPacketCaptureCapturesCreateResponse | None:
         """Perform a packet capture on multiple devices and store in Meraki Cloud.
 
-        https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-create
+        [API documentation: bulkOrganizationDevicesPacketCaptureCapturesCreate](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-create)
 
         Args:
             organization_id: Organization ID.
@@ -3685,6 +5654,61 @@ class Organizations:
             filter_expression: Filter expression for the capture.
             name: Name of packet capture file.
             advanced: Advanced capture options (optional).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "captureId": "1234",
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office"
+                  },
+                  "device": {
+                    "name": "My AP",
+                    "serial": "Q234-ABCD-5678"
+                  },
+                  "admin": {
+                    "id": "1234",
+                    "name": "Miles Meraki"
+                  },
+                  "client": {
+                    "id": "k74272e",
+                    "mac": "22:33:44:55:66:77"
+                  },
+                  "details": [
+                    {
+                      "name": "reason",
+                      "value": "bad_password",
+                      "productType": "wireless"
+                    }
+                  ],
+                  "name": "file_name",
+                  "startTs": "2018-02-11T00:00:00.090210Z",
+                  "ports": "1, 2",
+                  "status": "new",
+                  "errorMessage": "Some error message",
+                  "destination": "upload_to_cloud",
+                  "process": "manual",
+                  "file": {
+                    "size": 1066
+                  },
+                  "duration": 60,
+                  "filterExpression": "(icmp)",
+                  "counts": {
+                    "packets": {
+                      "total": 10
+                    }
+                  },
+                  "interface": "wired"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3719,11 +5743,14 @@ class Organizations:
     ) -> None:
         """BulkDelete packet captures from cloud.
 
-        https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete
+        [API documentation: bulkOrganizationDevicesPacketCaptureCapturesDelete](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete)
 
         Args:
             organization_id: Organization ID.
             capture_ids: Delete the packet captures of the specified capture ids.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3745,11 +5772,14 @@ class Organizations:
     ) -> None:
         """Delete a single packet capture from cloud using captureId.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture
+        [API documentation: deleteOrganizationDevicesPacketCaptureCapture](https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture)
 
         Args:
             organization_id: Organization ID.
             capture_id: Capture ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3767,11 +5797,23 @@ class Organizations:
     ) -> GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse | None:
         """Get presigned download URL for given packet capture id.
 
-        https://developer.cisco.com/meraki/api-v1/#!generate-organization-devices-packet-capture-capture-download-url
+        [API documentation: generateOrganizationDevicesPacketCaptureCaptureDownloadUrl](https://developer.cisco.com/meraki/api-v1/#!generate-organization-devices-packet-capture-capture-download-url)
 
         Args:
             organization_id: Organization ID.
             capture_id: Capture ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "captureId": "1234",
+              "downloadUrl": "example.com",
+              "url": "example.com"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3790,12 +5832,63 @@ class Organizations:
     ) -> StopOrganizationDevicesPacketCaptureCaptureResponse | None:
         """Stop a specific packet capture (not supported for Catalyst devices).
 
-        https://developer.cisco.com/meraki/api-v1/#!stop-organization-devices-packet-capture-capture
+        [API documentation: stopOrganizationDevicesPacketCaptureCapture](https://developer.cisco.com/meraki/api-v1/#!stop-organization-devices-packet-capture-capture)
 
         Args:
             organization_id: Organization ID.
             capture_id: Capture ID.
             serials: The serial(s) of the device(s) to stop the capture on.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "captureId": "1234",
+              "network": {
+                "id": "N_24329156",
+                "name": "Main Office"
+              },
+              "device": {
+                "name": "My AP",
+                "serial": "Q234-ABCD-5678"
+              },
+              "admin": {
+                "id": "1234",
+                "name": "Miles Meraki"
+              },
+              "client": {
+                "id": "k74272e",
+                "mac": "22:33:44:55:66:77"
+              },
+              "details": [
+                {
+                  "name": "reason",
+                  "value": "bad_password",
+                  "productType": "wireless"
+                }
+              ],
+              "name": "file_name",
+              "startTs": "2018-02-11T00:00:00.090210Z",
+              "ports": "1, 2",
+              "status": "new",
+              "errorMessage": "Some error message",
+              "destination": "upload_to_cloud",
+              "process": "manual",
+              "file": {
+                "size": 1066
+              },
+              "duration": 60,
+              "filterExpression": "(icmp)",
+              "counts": {
+                "packets": {
+                  "total": 10
+                }
+              },
+              "interface": "wired"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3824,14 +5917,73 @@ class Organizations:
     ) -> GetOrganizationDevicesPacketCaptureSchedulesResponse | None:
         """List the Packet Capture Schedules.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-schedules
+        [API documentation: getOrganizationDevicesPacketCaptureSchedules](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-schedules)
 
         Args:
             organization_id: Organization ID.
             schedule_ids: Return the packet captures schedules of the specified packet capture
-              schedule ids.
+                schedule ids.
             network_ids: Return the scheduled packet captures of the specified network(s).
             device_ids: Return the scheduled packet captures of the specified device(s).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "scheduleId": "1234",
+                  "devices": [
+                    {
+                      "device": {
+                        "serial": "Q234-ABCD-5678",
+                        "switchports": "1-3, 9",
+                        "interface": "GigabitEthernet1/0/1"
+                      }
+                    }
+                  ],
+                  "name": "pcap_file_name",
+                  "admin": {
+                    "id": "1234",
+                    "name": "Miles Meraki"
+                  },
+                  "notes": "capture reason",
+                  "duration": 60,
+                  "filterExpression": "(icmp)",
+                  "createdAt": "2018-02-11T00:00:00.090210Z",
+                  "updatedAt": "2018-02-11T00:00:00.090210Z",
+                  "captureCount": 2,
+                  "lastCaptureId": "1234",
+                  "enabled": true,
+                  "priority": 1,
+                  "schedule": {
+                    "name": "schedule_name",
+                    "startTs": "2018-02-11T00:00:00.090210Z",
+                    "endTs": "2018-02-11T00:00:00.090210Z",
+                    "frequency": "hour",
+                    "weekdays": [
+                      "Monday",
+                      "Tuesday"
+                    ],
+                    "recurrence": 1,
+                    "nextCaptureTs": "2018-02-11T00:00:00.090210Z"
+                  },
+                  "warnings": [
+                    "This schedule conflicts with the schedule Test Schedule at the time 2025-01-28T18:25:06Z"
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3867,7 +6019,7 @@ class Organizations:
     ) -> CreateOrganizationDevicesPacketCaptureScheduleResponse | None:
         """Create a schedule for packet capture.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule
+        [API documentation: createOrganizationDevicesPacketCaptureSchedule](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule)
 
         Args:
             organization_id: Organization ID.
@@ -3878,6 +6030,54 @@ class Organizations:
             filter_expression: Filter expression for the capture.
             enabled: Enable or disable the schedule.
             schedule: Schedule details.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "scheduleId": "1234",
+              "devices": [
+                {
+                  "device": {
+                    "serial": "Q234-ABCD-5678",
+                    "switchports": "1-3, 9",
+                    "interface": "GigabitEthernet1/0/1"
+                  }
+                }
+              ],
+              "name": "pcap_file_name",
+              "admin": {
+                "id": "1234",
+                "name": "Miles Meraki"
+              },
+              "notes": "capture reason",
+              "duration": 60,
+              "filterExpression": "(icmp)",
+              "createdAt": "2018-02-11T00:00:00.090210Z",
+              "updatedAt": "2018-02-11T00:00:00.090210Z",
+              "captureCount": 2,
+              "lastCaptureId": "1234",
+              "enabled": true,
+              "priority": 1,
+              "schedule": {
+                "name": "schedule_name",
+                "startTs": "2018-02-11T00:00:00.090210Z",
+                "endTs": "2018-02-11T00:00:00.090210Z",
+                "frequency": "hour",
+                "weekdays": [
+                  "Monday",
+                  "Tuesday"
+                ],
+                "recurrence": 1,
+                "nextCaptureTs": "2018-02-11T00:00:00.090210Z"
+              },
+              "warnings": [
+                "This schedule conflicts with the schedule Test Schedule at the time 2025-01-28T18:25:06Z"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3917,11 +6117,26 @@ class Organizations:
     ) -> ReorderOrganizationDevicesPacketCaptureSchedulesResponse | None:
         """Bulk update priorities of pcap schedules.
 
-        https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules
+        [API documentation: reorderOrganizationDevicesPacketCaptureSchedules](https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules)
 
         Args:
             organization_id: Organization ID.
             order: Array of schedule IDs and their priorities to reorder.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "updatedPriorities": [
+                {
+                  "scheduleId": "1234",
+                  "priority": 1
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3954,7 +6169,7 @@ class Organizations:
     ) -> UpdateOrganizationDevicesPacketCaptureScheduleResponse | None:
         """Update a schedule for packet capture.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule
+        [API documentation: updateOrganizationDevicesPacketCaptureSchedule](https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule)
 
         Args:
             organization_id: Organization ID.
@@ -3966,6 +6181,54 @@ class Organizations:
             filter_expression: Filter expression for the capture.
             enabled: Enable or disable the schedule.
             schedule: Schedule details.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "scheduleId": "1234",
+              "devices": [
+                {
+                  "device": {
+                    "serial": "Q234-ABCD-5678",
+                    "switchports": "1-3, 9",
+                    "interface": "GigabitEthernet1/0/1"
+                  }
+                }
+              ],
+              "name": "pcap_file_name",
+              "admin": {
+                "id": "1234",
+                "name": "Miles Meraki"
+              },
+              "notes": "capture reason",
+              "duration": 60,
+              "filterExpression": "(icmp)",
+              "createdAt": "2018-02-11T00:00:00.090210Z",
+              "updatedAt": "2018-02-11T00:00:00.090210Z",
+              "captureCount": 2,
+              "lastCaptureId": "1234",
+              "enabled": true,
+              "priority": 1,
+              "schedule": {
+                "name": "schedule_name",
+                "startTs": "2018-02-11T00:00:00.090210Z",
+                "endTs": "2018-02-11T00:00:00.090210Z",
+                "frequency": "hour",
+                "weekdays": [
+                  "Monday",
+                  "Tuesday"
+                ],
+                "recurrence": 1,
+                "nextCaptureTs": "2018-02-11T00:00:00.090210Z"
+              },
+              "warnings": [
+                "This schedule conflicts with the schedule Test Schedule at the time 2025-01-28T18:25:06Z"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4003,11 +6266,14 @@ class Organizations:
     ) -> None:
         """Delete schedule from cloud.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule
+        [API documentation: deleteOrganizationDevicesPacketCaptureSchedule](https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule)
 
         Args:
             organization_id: Organization ID.
             schedule_id: Schedule ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4036,40 +6302,70 @@ class Organizations:
         serials: list[str] | None = None,
         tags: list[str] | None = None,
         tags_filter_type: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem]:
         """List the most recent status information for power modules in rackmount MX and MS devices that support them.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-power-modules-statuses-by-device
+        [API documentation: getOrganizationDevicesPowerModulesStatusesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-power-modules-statuses-by-device)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter device availabilities by network ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             product_types: Optional parameter to filter device availabilities by device product
-              types. This filter uses multiple exact matches.
+                types. This filter uses multiple exact matches.
             serials: Optional parameter to filter device availabilities by device serial numbers.
-              This filter uses multiple exact matches.
+                This filter uses multiple exact matches.
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
-              If tags are included, 'tagsFilterType' should also be included (see
-              below). This filter uses multiple exact matches.
+                If tags are included, 'tagsFilterType' should also be included (see
+                below). This filter uses multiple exact matches.
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
-              indicate whether to return devices which contain ANY or ALL of the
-              included tags. If no type is included, 'withAnyTags' will be selected.
+                indicate whether to return devices which contain ANY or ALL of the
+                included tags. If no type is included, 'withAnyTags' will be selected.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mac": "00:11:22:33:44:55",
+                "name": "My AP",
+                "network": {
+                  "id": "N_24329156"
+                },
+                "productType": "switch",
+                "serial": "Q234-ABCD-5678",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "slots": [
+                  {
+                    "number": 1,
+                    "serial": "Q234-ABCD-5678",
+                    "model": "PWR-C5-125WAC",
+                    "status": "not connected"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if tags_filter_type is not None:
@@ -4122,42 +6418,65 @@ class Organizations:
         status: str | None = None,
         tags: list[str] | None = None,
         tags_filter_type: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesProvisioningStatusesResponseItem]:
         """List the provisioning statuses information for devices in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-provisioning-statuses
+        [API documentation: getOrganizationDevicesProvisioningStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-provisioning-statuses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter device by network ID. This filter uses
-              multiple exact matches.
+                multiple exact matches.
             product_types: Optional parameter to filter device by device product types. This filter
-              uses multiple exact matches.
+                uses multiple exact matches.
             serials: Optional parameter to filter device by device serial numbers. This filter uses
-              multiple exact matches.
+                multiple exact matches.
             status: An optional parameter to filter devices by the provisioning status. Accepted
-              statuses: unprovisioned, incomplete, complete.
+                statuses: unprovisioned, incomplete, complete.
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
-              If tags are included, 'tagsFilterType' should also be included (see
-              below). This filter uses multiple exact matches.
+                If tags are included, 'tagsFilterType' should also be included (see
+                below). This filter uses multiple exact matches.
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
-              indicate whether to return devices which contain ANY or ALL of the
-              included tags. If no type is included, 'withAnyTags' will be selected.
+                indicate whether to return devices which contain ANY or ALL of the
+                included tags. If no type is included, 'withAnyTags' will be selected.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mac": "00:11:22:33:44:55",
+                "name": "My AP",
+                "network": {
+                  "id": "N_24329156"
+                },
+                "productType": "switch",
+                "serial": "Q234-ABCD-5678",
+                "status": "complete",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ]
+              }
+            ]
+            ```
 
         """
         if status is not None:
@@ -4218,43 +6537,86 @@ class Organizations:
         models: list[str] | None = None,
         tags: list[str] | None = None,
         tags_filter_type: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesStatusesResponseItem]:
         """List the status of every Meraki device in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses
+        [API documentation: getOrganizationDevicesStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter devices by network ids.
             serials: Optional parameter to filter devices by serials.
             statuses: Optional parameter to filter devices by statuses. Valid statuses are
-              ["online", "alerting", "offline", "dormant"].
+                ["online", "alerting", "offline", "dormant"].
             product_types: An optional parameter to filter device statuses by product type. Valid
-              types are wireless, appliance, switch, systemsManager, camera,
-              cellularGateway, sensor, wirelessController, campusGateway, and
-              secureConnect.
+                types are wireless, appliance, switch, systemsManager, camera,
+                cellularGateway, sensor, wirelessController, campusGateway, and
+                secureConnect.
             models: Optional parameter to filter devices by models.
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
-              If tags are included, 'tagsFilterType' should also be included (see
-              below).
+                If tags are included, 'tagsFilterType' should also be included (see
+                below).
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
-              indicate whether to return devices which contain ANY or ALL of the
-              included tags. If no type is included, 'withAnyTags' will be selected.
+                indicate whether to return devices which contain ANY or ALL of the
+                included tags. If no type is included, 'withAnyTags' will be selected.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My AP",
+                "serial": "Q234-ABCD-5678",
+                "mac": "00:11:22:33:44:55",
+                "publicIp": "123.123.123.1",
+                "networkId": "N_24329156",
+                "status": "online",
+                "lastReportedAt": "2018-02-11T00:00:00.090210Z",
+                "lanIp": "1.2.3.4",
+                "gateway": "1.2.3.5",
+                "ipType": "dhcp",
+                "primaryDns": "8.8.8.8",
+                "secondaryDns": "8.8.4.4",
+                "productType": "wireless",
+                "components": {
+                  "powerSupplies": [
+                    {
+                      "slot": 1,
+                      "serial": "QABC-1234-5678",
+                      "model": "PWR-MS320-1025WAC",
+                      "status": "powering",
+                      "poe": {
+                        "unit": "watts",
+                        "maximum": 740
+                      }
+                    }
+                  ]
+                },
+                "model": "MR34",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ]
+              }
+            ]
+            ```
 
         """
         if tags_filter_type is not None:
@@ -4307,15 +6669,32 @@ class Organizations:
     ) -> GetOrganizationDevicesStatusesOverviewResponse | None:
         """Return an overview of current device statuses.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses-overview
+        [API documentation: getOrganizationDevicesStatusesOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses-overview)
 
         Args:
             organization_id: Organization ID.
             product_types: An optional parameter to filter device statuses by product type. Valid
-              types are wireless, appliance, switch, systemsManager, camera,
-              cellularGateway, sensor, wirelessController, campusGateway, and
-              secureConnect.
+                types are wireless, appliance, switch, systemsManager, camera,
+                cellularGateway, sensor, wirelessController, campusGateway, and
+                secureConnect.
             network_ids: An optional parameter to filter device statuses by network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": {
+                "byStatus": {
+                  "online": 5,
+                  "alerting": 4,
+                  "offline": 2,
+                  "dormant": 1
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4349,47 +6728,113 @@ class Organizations:
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         product_types: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
         GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem
     ]:
         """Return the memory utilization history in kB for devices in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-system-memory-usage-history-by-interval
+        [API documentation: getOrganizationDevicesSystemMemoryUsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-system-memory-usage-history-by-interval)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 20. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 2 hours. If
-              interval is provided, the timespan will be autocalculated.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 2 hours. If
+                interval is provided, the timespan will be autocalculated.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
-              1200, 3600, 14400. The default is 300. Interval is calculated if time
-              params are provided.
+                1200, 3600, 14400. The default is 300. Interval is calculated if time
+                params are provided.
             network_ids: Optional parameter to filter the result set by the included set of network
-              IDs.
+                IDs.
             serials: Optional parameter to filter device availabilities history by device serial
-              numbers.
+                numbers.
             product_types: Optional parameter to filter device statuses by product type. Valid types
-              are wireless, appliance, switch, systemsManager, camera, cellularGateway,
-              sensor, wirelessController, campusGateway, and secureConnect.
+                are wireless, appliance, switch, systemsManager, camera,
+                cellularGateway, sensor, wirelessController, campusGateway, and
+                secureConnect.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "model": "MS",
+                  "name": "My switch",
+                  "mac": "00:11:22:33:44:55",
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ],
+                  "provisioned": 300,
+                  "used": {
+                    "median": 100
+                  },
+                  "free": {
+                    "median": 150
+                  },
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ]
+                  },
+                  "intervals": [
+                    {
+                      "startTs": "2018-02-11T00:00:00.090210Z",
+                      "endTs": "2018-02-11T00:00:00.090210Z",
+                      "memory": {
+                        "used": {
+                          "minimum": 50,
+                          "maximum": 150,
+                          "median": 100,
+                          "percentages": {
+                            "maximum": 60
+                          }
+                        },
+                        "free": {
+                          "minimum": 100,
+                          "maximum": 200,
+                          "median": 150
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 4,
+                    "remaining": 2
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4439,40 +6884,86 @@ class Organizations:
         serials: list[str] | None = None,
         tags: list[str] | None = None,
         tags_filter_type: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesUplinksAddressesByDeviceResponseItem]:
         """List the current uplink addresses for devices in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-addresses-by-device
+        [API documentation: getOrganizationDevicesUplinksAddressesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-addresses-by-device)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter device uplinks by network ID. This filter uses
-              multiple exact matches.
+                multiple exact matches.
             product_types: Optional parameter to filter device uplinks by device product types. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             serials: Optional parameter to filter device availabilities by device serial numbers.
-              This filter uses multiple exact matches.
+                This filter uses multiple exact matches.
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
-              If tags are included, 'tagsFilterType' should also be included (see
-              below). This filter uses multiple exact matches.
+                If tags are included, 'tagsFilterType' should also be included (see
+                below). This filter uses multiple exact matches.
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
-              indicate whether to return devices which contain ANY or ALL of the
-              included tags. If no type is included, 'withAnyTags' will be selected.
+                indicate whether to return devices which contain ANY or ALL of the
+                included tags. If no type is included, 'withAnyTags' will be selected.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mac": "00:11:22:33:44:55",
+                "name": "My AP",
+                "network": {
+                  "id": "N_24329156"
+                },
+                "productType": "switch",
+                "serial": "Q234-ABCD-5678",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "uplinks": [
+                  {
+                    "interface": "wan1",
+                    "addresses": [
+                      {
+                        "protocol": "ipv6",
+                        "assignmentMode": "static",
+                        "address": "2001:db8:c15:c0:d0c::101:ca75",
+                        "gateway": "fe80:db8:c15:c0:d0c::10ca:1d02",
+                        "nameservers": {
+                          "addresses": [
+                            "8.8.8.8"
+                          ]
+                        },
+                        "public": {
+                          "address": "2001:db8:c15:c0:d0c:15e:15e:bab1"
+                        },
+                        "vlan": {
+                          "id": "1"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if tags_filter_type is not None:
@@ -4524,21 +7015,44 @@ class Organizations:
     ) -> GetOrganizationDevicesUplinksLossAndLatencyResponse | None:
         """Return the uplink loss and latency for every MX in the organization from at latest 2 minutes ago.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-loss-and-latency
+        [API documentation: getOrganizationDevicesUplinksLossAndLatency](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-loss-and-latency)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 60 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 5 minutes after t0. The
-              latest possible time that t1 can be is 2 minutes into the past.
+                latest possible time that t1 can be is 2 minutes into the past.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 5 minutes. The default is 5 minutes.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 5 minutes. The default is 5
+                minutes.
             uplink: Optional filter for a specific WAN uplink. Valid uplinks are wan1, wan2, wan3,
-              cellular. Default will return all uplinks.
+                cellular. Default will return all uplinks.
             ip: Optional filter for a specific destination IP. Default will return all destination
-              IPs.
+                IPs.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "serial": "Q234-ABCD-5678",
+                "uplink": "wan1",
+                "ip": "1.2.3.4",
+                "timeSeries": [
+                  {
+                    "ts": "2019-01-31T18:46:13Z",
+                    "lossPercent": 5.3,
+                    "latencyMs": 194.9
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if uplink is not None:
@@ -4575,10 +7089,32 @@ class Organizations:
     ) -> GetOrganizationEarlyAccessFeaturesResponse | None:
         """List the available early access features for organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features
+        [API documentation: getOrganizationEarlyAccessFeatures](https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "shortName": "has_new_feature",
+                "name": "New Feature Beta",
+                "descriptions": {
+                  "short": "New Feature Beta",
+                  "long": "New Feature Beta long description. consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                },
+                "topic": "Dashboard",
+                "isOrgScopedOnly": true,
+                "documentationLink": "https://documentation.meraki.com/",
+                "supportLink": "https://community.meraki.com/",
+                "privacyLink": "https://meraki.com/privacy"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4595,18 +7131,44 @@ class Organizations:
         self,
         organization_id: str,
         *,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[OrganizationsPolicyObjectsItem]:
         """List the early access feature opt-ins for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-ins
+        [API documentation: getOrganizationEarlyAccessFeaturesOptIns](https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-ins)
 
         Args:
             organization_id: Organization ID.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1",
+              "shortName": "has_new_feature",
+              "limitScopeToNetworks": [
+                {
+                  "id": "L_1234",
+                  "name": "My Network"
+                }
+              ],
+              "optOutEligibility": {
+                "eligible": false,
+                "reason": "Please remove devices of type XYZ from your organization",
+                "help": {
+                  "label": "Read more",
+                  "url": "http://meraki.com/my_help"
+                }
+              },
+              "createdAt": "2022-05-01T04:07:15Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4633,12 +7195,38 @@ class Organizations:
     ) -> CreateOrganizationEarlyAccessFeaturesOptInResponse | None:
         """Create a new early access feature opt-in for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-early-access-features-opt-in
+        [API documentation: createOrganizationEarlyAccessFeaturesOptIn](https://developer.cisco.com/meraki/api-v1/#!create-organization-early-access-features-opt-in)
 
         Args:
             organization_id: Organization ID.
             short_name: Short name of the early access feature.
             limit_scope_to_networks: A list of network IDs to apply the opt-in to.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1",
+              "shortName": "has_new_feature",
+              "limitScopeToNetworks": [
+                {
+                  "id": "L_1234",
+                  "name": "My Network"
+                }
+              ],
+              "optOutEligibility": {
+                "eligible": false,
+                "reason": "Please remove devices of type XYZ from your organization",
+                "help": {
+                  "label": "Read more",
+                  "url": "http://meraki.com/my_help"
+                }
+              },
+              "createdAt": "2022-05-01T04:07:15Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4663,11 +7251,37 @@ class Organizations:
     ) -> GetOrganizationEarlyAccessFeaturesOptInResponse | None:
         """Show an early access feature opt-in for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-in
+        [API documentation: getOrganizationEarlyAccessFeaturesOptIn](https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-in)
 
         Args:
             organization_id: Organization ID.
             opt_in_id: Opt in ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1",
+              "shortName": "has_new_feature",
+              "limitScopeToNetworks": [
+                {
+                  "id": "L_1234",
+                  "name": "My Network"
+                }
+              ],
+              "optOutEligibility": {
+                "eligible": false,
+                "reason": "Please remove devices of type XYZ from your organization",
+                "help": {
+                  "label": "Read more",
+                  "url": "http://meraki.com/my_help"
+                }
+              },
+              "createdAt": "2022-05-01T04:07:15Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4690,12 +7304,38 @@ class Organizations:
     ) -> UpdateOrganizationEarlyAccessFeaturesOptInResponse | None:
         """Update an early access feature opt-in for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in
+        [API documentation: updateOrganizationEarlyAccessFeaturesOptIn](https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in)
 
         Args:
             organization_id: Organization ID.
             opt_in_id: Opt in ID.
             limit_scope_to_networks: A list of network IDs to apply the opt-in to.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1",
+              "shortName": "has_new_feature",
+              "limitScopeToNetworks": [
+                {
+                  "id": "L_1234",
+                  "name": "My Network"
+                }
+              ],
+              "optOutEligibility": {
+                "eligible": false,
+                "reason": "Please remove devices of type XYZ from your organization",
+                "help": {
+                  "label": "Read more",
+                  "url": "http://meraki.com/my_help"
+                }
+              },
+              "createdAt": "2022-05-01T04:07:15Z"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4719,11 +7359,14 @@ class Organizations:
     ) -> None:
         """Delete an early access feature opt-in.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-early-access-features-opt-in
+        [API documentation: deleteOrganizationEarlyAccessFeaturesOptIn](https://developer.cisco.com/meraki/api-v1/#!delete-organization-early-access-features-opt-in)
 
         Args:
             organization_id: Organization ID.
             opt_in_id: Opt in ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4745,30 +7388,65 @@ class Organizations:
         ending_before: str | None = None,
         status: list[str] | None = None,
         product_types: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationFirmwareUpgradesResponseItem]:
         """Get firmware upgrade information for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades
+        [API documentation: getOrganizationFirmwareUpgrades](https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             status: Optional parameter to filter the upgrade by status.
             product_types: Optional parameter to filter the upgrade by product type.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "upgradeId": "1234",
+                "upgradeBatchId": "5678",
+                "network": {
+                  "id": "L_1738",
+                  "name": "Minions"
+                },
+                "status": "Completed",
+                "time": "2022-11-01T00:00:00Z",
+                "completedAt": "2020-11-05 15:50:05 UTC",
+                "productTypes": "wireless",
+                "toVersion": {
+                  "id": "2888",
+                  "shortName": "MR 11.2.1",
+                  "firmware": "wireless-11-2-1",
+                  "releaseType": "stable",
+                  "releaseDate": "2022-03-17T17:22:52Z"
+                },
+                "fromVersion": {
+                  "id": "2887",
+                  "shortName": "MR 11.2.1",
+                  "firmware": "wireless-11-2-1",
+                  "releaseType": "stable",
+                  "releaseDate": "2022-03-17T17:22:52Z"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4810,39 +7488,86 @@ class Organizations:
         upgrade_statuses: list[str] | None = None,
         current_upgrades_only: bool | None = None,
         limit_per_device: int | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationFirmwareUpgradesByDeviceResponseItem]:
         """Get firmware upgrade status for the filtered devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades-by-device
+        [API documentation: getOrganizationFirmwareUpgradesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades-by-device)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter by network.
             serials: Optional parameter to filter by serial number. All returned devices will have a
-              serial number that is an exact match.
+                serial number that is an exact match.
             macs: Optional parameter to filter by one or more MAC addresses belonging to devices.
-              All devices returned belong to MAC addresses that are an exact match.
+                All devices returned belong to MAC addresses that are an exact match.
             firmware_upgrade_batch_ids: Optional parameter to filter by firmware upgrade batch ids.
             upgrade_statuses: Optional parameter to filter by firmware upgrade statuses.
             current_upgrades_only: Optional parameter to filter to only current or pending upgrade
-              statuses.
+                statuses.
             limit_per_device: Optional parameter to limit the number of upgrade statuses returned
-              per device. If omitted, a value of 5 is used.
+                per device. If omitted, a value of 5 is used.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-5678",
+                "name": "My switch",
+                "deviceStatus": "completed",
+                "checkinFinishedAt": "2025-06-26T13:22:52Z",
+                "checkinStartedAt": "2025-06-26T12:22:52Z",
+                "detailedStatus": "upgrade-complete",
+                "downloadFinishedAt": "2025-06-26T15:22:52Z",
+                "downloadStartedAt": "2025-06-26T14:22:52Z",
+                "downloadStatus": "complete",
+                "installFinishedAt": "2025-06-26T17:22:52Z",
+                "installStartedAt": "2025-06-26T16:22:52Z",
+                "installStatus": "complete",
+                "verifyFinishedAt": "2025-06-26T19:22:52Z",
+                "verifyStartedAt": "2025-06-26T18:22:52Z",
+                "verifyStatus": "complete",
+                "upgrade": {
+                  "time": "2018-02-11T00:00:00.090210Z",
+                  "fromVersion": {
+                    "id": "1234",
+                    "shortName": "MS 16.7",
+                    "releaseDate": "2018-02-11T00:00:00.090210Z"
+                  },
+                  "toVersion": {
+                    "id": "1234",
+                    "shortName": "MS 16.7.1",
+                    "releaseDate": "2018-02-11T00:00:00.090210Z"
+                  },
+                  "status": "Completed",
+                  "id": "1234",
+                  "upgradeBatchId": "1234",
+                  "staged": {
+                    "group": {
+                      "id": "1234"
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4889,30 +7614,77 @@ class Organizations:
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
         floor_plan_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationFloorPlansAutoLocateDevicesResponseItem]:
         """List auto locate details for each device in your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-devices
+        [API documentation: getOrganizationFloorPlansAutoLocateDevices](https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-devices)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 10000.
-              Default is 1000.
+                Default is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter devices by one or more network IDs.
             floor_plan_ids: Optional parameter to filter devices by one or more floorplan IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "items": [
+                  {
+                    "name": "My AP",
+                    "serial": "Q234-ABCD-5678",
+                    "mac": "00:11:22:33:44:55",
+                    "model": "MR34",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "status": "online",
+                    "network": {
+                      "id": "N_24329156"
+                    },
+                    "floorPlan": {
+                      "id": "g_2176982374",
+                      "status": "My floor plan"
+                    },
+                    "lat": 37.4180951010362,
+                    "lng": -122.098531723022,
+                    "autoLocate": {
+                      "lat": 13.23454243,
+                      "lng": 18.12938123
+                    },
+                    "type": "user",
+                    "isAnchor": true
+                  }
+                ],
+                "meta": {
+                  "counts": {
+                    "items": {
+                      "total": 50,
+                      "remaining": 100
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4949,30 +7721,91 @@ class Organizations:
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
         floor_plan_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationFloorPlansAutoLocateStatusesResponseItem]:
         """List the status of auto locate for each floorplan in your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-statuses
+        [API documentation: getOrganizationFloorPlansAutoLocateStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-statuses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 10000.
-              Default is 1000.
+                Default is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter floorplans by one or more network IDs.
             floor_plan_ids: Optional parameter to filter floorplans by one or more floorplan IDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "items": [
+                  {
+                    "network": {
+                      "id": "N_24329156"
+                    },
+                    "floorPlanId": "g_2176982374",
+                    "name": "My Floorplan",
+                    "counts": {
+                      "devices": {
+                        "total": 120
+                      }
+                    },
+                    "jobs": [
+                      {
+                        "id": "1234",
+                        "status": "error",
+                        "scheduledAt": "2018-02-11T00:00:00Z",
+                        "completed": {
+                          "percentage": 50
+                        },
+                        "ranging": {
+                          "status": "in progress",
+                          "completed": {
+                            "percentage": 24
+                          }
+                        },
+                        "gnss": {
+                          "status": "in progress",
+                          "completed": {
+                            "percentage": 4
+                          }
+                        },
+                        "errors": [
+                          {
+                            "source": "ranging",
+                            "type": "missing anchors"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "meta": {
+                  "counts": {
+                    "items": {
+                      "total": 50,
+                      "remaining": 100
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5008,29 +7841,57 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationIntegrationsXdrNetworksResponseItemsItem]:
         """Returns the networks in the organization that have XDR enabled.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-integrations-xdr-networks
+        [API documentation: getOrganizationIntegrationsXdrNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-integrations-xdr-networks)
 
         Args:
             organization_id: Organization ID.
             network_ids: Optional parameter to filter the results by network IDs.
             per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
-              is 20.
+                is 20.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "N_1234567",
+                  "productTypes": [
+                    "appliance"
+                  ],
+                  "name": "Test network",
+                  "enabled": true,
+                  "isEligible": true
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5064,11 +7925,31 @@ class Organizations:
     ) -> DisableOrganizationIntegrationsXdrNetworksResponse | None:
         """Disable XDR on networks.
 
-        https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks
+        [API documentation: disableOrganizationIntegrationsXdrNetworks](https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks)
 
         Args:
             organization_id: Organization ID.
             networks: List containing the network ID and the product type to disable XDR on.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "networks": [
+                {
+                  "networkId": "N_1234567",
+                  "productTypes": [
+                    "appliance"
+                  ],
+                  "name": "Test network",
+                  "enabled": false,
+                  "isEligible": true
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5096,11 +7977,31 @@ class Organizations:
     ) -> EnableOrganizationIntegrationsXdrNetworksResponse | None:
         """Enable XDR on networks.
 
-        https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks
+        [API documentation: enableOrganizationIntegrationsXdrNetworks](https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks)
 
         Args:
             organization_id: Organization ID.
             networks: List containing the network ID and the product type to enable XDR on.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "networks": [
+                {
+                  "networkId": "N_1234567",
+                  "productTypes": [
+                    "appliance"
+                  ],
+                  "name": "Test network",
+                  "enabled": true,
+                  "isEligible": true
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5130,13 +8031,34 @@ class Organizations:
     ) -> ClaimIntoOrganizationInventoryResponse | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
-        https://developer.cisco.com/meraki/api-v1/#!claim-into-organization-inventory
+        [API documentation: claimIntoOrganizationInventory](https://developer.cisco.com/meraki/api-v1/#!claim-into-organization-inventory)
 
         Args:
             organization_id: Organization ID.
             orders: The numbers of the orders that should be claimed.
             serials: The serials of the devices that should be claimed.
             licenses: The licenses that should be claimed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "orders": [
+                "4CXXXXXXX"
+              ],
+              "serials": [
+                "Q234-ABCD-5678"
+              ],
+              "licenses": [
+                {
+                  "key": "Z2XXXXXXXXXX",
+                  "mode": "addDevices"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5177,45 +8099,76 @@ class Organizations:
         tags: list[str] | None = None,
         tags_filter_type: str | None = None,
         product_types: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationInventoryDevicesResponseItem]:
         """Return the device inventory for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices
+        [API documentation: getOrganizationInventoryDevices](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             used_state: Filter results by used or unused inventory. Accepted values are 'used' or
-              'unused'.
+                'unused'.
             search: Search for devices in inventory based on serial number, mac address, or model.
             macs: Search for devices in inventory based on mac addresses.
             network_ids: Search for devices in inventory based on network ids. Use explicit 'null'
-              value to get available devices only.
+                value to get available devices only.
             serials: Search for devices in inventory based on serials.
             models: Search for devices in inventory based on model.
             order_numbers: Search for devices in inventory based on order numbers.
             tags: Filter devices by tags. The filtering is case-sensitive. If tags are included,
-              'tagsFilterType' should also be included (see below).
+                'tagsFilterType' should also be included (see below).
             tags_filter_type: To use with 'tags' parameter, to filter devices which contain ANY or
-              ALL given tags. Accepted values are 'withAnyTags' or 'withAllTags',
-              default is 'withAnyTags'.
+                ALL given tags. Accepted values are 'withAnyTags' or 'withAllTags',
+                default is 'withAnyTags'.
             product_types: Filter devices by product type. Accepted values are appliance, camera,
-              campusGateway, cellularGateway, secureConnect, sensor, switch,
-              systemsManager, wireless, and wirelessController.
+                campusGateway, cellularGateway, secureConnect, sensor, switch,
+                systemsManager, wireless, and wirelessController.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mac": "00:11:22:33:44:55",
+                "serial": "Q234-ABCD-5678",
+                "name": "My AP",
+                "model": "MR34",
+                "networkId": "N_24329156",
+                "orderNumber": "4C1234567",
+                "claimedAt": "2018-02-11T00:00:00.090210Z",
+                "licenseExpirationDate": "2020-05-02T10:52:44.012345Z",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "productType": "wireless",
+                "countryCode": "US",
+                "details": [
+                  {
+                    "name": "Catalyst serial",
+                    "value": "FOC2234432B"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if used_state is not None:
@@ -5278,11 +8231,45 @@ class Organizations:
     ) -> CreateOrganizationInventoryDevicesSwapsBulkResponse | None:
         """Swap the devices identified by devices.old with a devices.new, then perform the :afterAction on the devices.old.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-devices-swaps-bulk
+        [API documentation: createOrganizationInventoryDevicesSwapsBulk](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-devices-swaps-bulk)
 
         Args:
             organization_id: Organization ID.
             swaps: List of replacments to perform.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "jobId": "1284392014819",
+              "swaps": [
+                {
+                  "id": "1284392014819",
+                  "devices": {
+                    "old": {
+                      "mac": "00:11:22:33:44:55",
+                      "serial": "Q234-ABCD-5678",
+                      "model": "MR34",
+                      "name": "My AP"
+                    },
+                    "new": {
+                      "mac": "00:11:22:33:44:55",
+                      "serial": "Q234-ABCD-5678",
+                      "model": "MR34",
+                      "name": "My AP"
+                    }
+                  },
+                  "status": "complete",
+                  "afterAction": "remove from network",
+                  "createdAt": "2023-04-24T12:40:11Z",
+                  "completedAt": "2023-04-24T12:40:12Z",
+                  "errors": []
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5305,11 +8292,45 @@ class Organizations:
     ) -> GetOrganizationInventoryDevicesSwapsBulkResponse | None:
         """List of device swaps for a given request ID ({id}).
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices-swaps-bulk
+        [API documentation: getOrganizationInventoryDevicesSwapsBulk](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices-swaps-bulk)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "jobId": "1284392014819",
+              "swaps": [
+                {
+                  "id": "1284392014819",
+                  "devices": {
+                    "old": {
+                      "mac": "00:11:22:33:44:55",
+                      "serial": "Q234-ABCD-5678",
+                      "model": "MR34",
+                      "name": "My AP"
+                    },
+                    "new": {
+                      "mac": "00:11:22:33:44:55",
+                      "serial": "Q234-ABCD-5678",
+                      "model": "MR34",
+                      "name": "My AP"
+                    }
+                  },
+                  "status": "complete",
+                  "afterAction": "remove from network",
+                  "createdAt": "2023-04-24T12:40:11Z",
+                  "completedAt": "2023-04-24T12:40:12Z",
+                  "errors": []
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5328,11 +8349,40 @@ class Organizations:
     ) -> GetOrganizationInventoryDeviceResponse | None:
         """Return a single device from the inventory of an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-device
+        [API documentation: getOrganizationInventoryDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-device)
 
         Args:
             organization_id: Organization ID.
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mac": "00:11:22:33:44:55",
+              "serial": "Q234-ABCD-5678",
+              "name": "My AP",
+              "model": "MR34",
+              "networkId": "N_24329156",
+              "orderNumber": "4C1234567",
+              "claimedAt": "2018-02-11T00:00:00.090210Z",
+              "licenseExpirationDate": "2020-05-02T10:52:44.012345Z",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "productType": "wireless",
+              "countryCode": "US",
+              "details": [
+                {
+                  "name": "Catalyst serial",
+                  "value": "FOC2234432B"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5357,7 +8407,7 @@ class Organizations:
     ) -> dict[str, Any] | None:
         """Imports event logs related to the onboarding app into elastisearch.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-export-event
+        [API documentation: createOrganizationInventoryOnboardingCloudMonitoringExportEvent](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-export-event)
 
         Args:
             organization_id: Organization ID.
@@ -5365,7 +8415,10 @@ class Organizations:
             timestamp: A JavaScript UTC datetime stamp for when the even occurred.
             target_o_s: The name of the onboarding distro being downloaded.
             request: Used to describe if this event was the result of a redirect. E.g. a query param
-              if an info banner is being used.
+                if an info banner is being used.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5393,11 +8446,28 @@ class Organizations:
     ) -> GetOrganizationInventoryOnboardingCloudMonitoringImportsResponse | None:
         """Check the status of a committed Import operation.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-imports
+        [API documentation: getOrganizationInventoryOnboardingCloudMonitoringImports](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-imports)
 
         Args:
             organization_id: Organization ID.
             import_ids: import ids from an imports.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "importId": "0000000000000000",
+                "device": {
+                  "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
+                  "created": true,
+                  "status": "SUCCESS"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5423,11 +8493,25 @@ class Organizations:
     ) -> CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse | None:
         """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import
+        [API documentation: createOrganizationInventoryOnboardingCloudMonitoringImport](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import)
 
         Args:
             organization_id: Organization ID.
             devices: A set of device imports to commit.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "status": "IMPORT JOB SUCCESS",
+                "importId": "1234",
+                "message": "Import Started"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5456,30 +8540,58 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem]:
         """Returns list of networks eligible for adding cloud monitored device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-networks
+        [API documentation: getOrganizationInventoryOnboardingCloudMonitoringNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-networks)
 
         Args:
             organization_id: Organization ID.
             device_type: Device Type switch or wireless controller.
             search: Optional parameter to search on network name.
             per_page: The number of entries per page returned. Acceptable range is 3 - 100000.
-              Default is 1000.
+                Default is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "N_24329156",
+                "organizationId": "2930418",
+                "name": "Main Office",
+                "productTypes": [
+                  "appliance",
+                  "switch",
+                  "wireless"
+                ],
+                "timeZone": "America/Los_Angeles",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "enrollmentString": "my-enrollment-string",
+                "url": "https://n1.meraki.com//n//manage/nodes/list",
+                "notes": "Additional description of the network",
+                "isBoundToConfigTemplate": false
+              }
+            ]
+            ```
 
         """
         if device_type is not None:
@@ -5522,12 +8634,47 @@ class Organizations:
     ) -> CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse | None:
         """Initiates or updates an import session.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-prepare
+        [API documentation: createOrganizationInventoryOnboardingCloudMonitoringPrepare](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-prepare)
 
         Args:
             organization_id: Organization ID.
             devices: A set of devices to import (or update).
             options: Additional options for the import.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "message": "Existing import found",
+                "udi": "PID:C9200L-24P-4G SN:JAE25220R2K",
+                "deviceId": "161b2602-a713-4aac-b1eb-d9b55205353d",
+                "status": "SUCCESS",
+                "configParams": {
+                  "tunnel": {
+                    "mode": "443",
+                    "port": "443",
+                    "host": "secgw-int3.ciscocloudoffer.com",
+                    "name": "MERAKI-PRIMARY",
+                    "rootCertificate": {
+                      "content": "",
+                      "name": "MERAKI_TLSGW_CA"
+                    }
+                  },
+                  "cloudStaticIp": "1.2.3.4",
+                  "user": {
+                    "publicKey": "",
+                    "username": "MERAKI_USER",
+                    "secret": {
+                      "hash": ""
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5558,12 +8705,41 @@ class Organizations:
     ) -> ClaimOrganizationInventoryOrdersResponse | None:
         """Claim an order by the secure unique order claim number, the order claim id.
 
-        https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders
+        [API documentation: claimOrganizationInventoryOrders](https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders)
 
         Args:
             organization_id: Organization ID.
             claim_id: The unique order claim id.
             subscriptions: The individual subscriptions to claim.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "claimId": "ABCDEFG12345",
+              "number": "97001888",
+              "serials": [
+                "1234-ABCD-4567"
+              ],
+              "subscriptions": [
+                {
+                  "subscriptionId": "1234",
+                  "name": "My UNX Subscription",
+                  "description": "Wireless Networking Subscription",
+                  "startDate": "2020-06-30T00:00:00Z",
+                  "endDate": "2025-06-30T00:00:00Z",
+                  "isClaimed": false,
+                  "counts": {
+                    "seats": {
+                      "limit": 1
+                    }
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5590,11 +8766,61 @@ class Organizations:
     ) -> PreviewOrganizationInventoryOrdersResponse | None:
         """Preview the results and status of an order claim by the secure order id.
 
-        https://developer.cisco.com/meraki/api-v1/#!preview-organization-inventory-orders
+        [API documentation: previewOrganizationInventoryOrders](https://developer.cisco.com/meraki/api-v1/#!preview-organization-inventory-orders)
 
         Args:
             organization_id: Organization ID.
             claim_id: The unique order claim id.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "claimId": "ABCD1EFGH4IJ",
+              "number": "97001888",
+              "shipping": {
+                "shipments": [
+                  {
+                    "shippedAt": "2024-06-30T00:00:00Z",
+                    "number": 1,
+                    "devices": [
+                      {
+                        "quantity": 5,
+                        "sku": "MR70-HW",
+                        "description": "Meraki MR70 Cloud Managed AP"
+                      }
+                    ]
+                  }
+                ],
+                "pending": {
+                  "devices": [
+                    {
+                      "quantity": 1,
+                      "sku": "MR70-HW",
+                      "description": "Meraki MX90 Cloud Managed Security Appliance"
+                    }
+                  ]
+                }
+              },
+              "subscriptions": [
+                {
+                  "subscriptionId": "1234",
+                  "name": "My UNX Subscription",
+                  "description": "Wireless Networking Subscription",
+                  "startDate": "2020-06-30T00:00:00Z",
+                  "endDate": "2025-06-30T00:00:00Z",
+                  "isClaimed": false,
+                  "counts": {
+                    "seats": {
+                      "limit": 1
+                    }
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5617,11 +8843,23 @@ class Organizations:
     ) -> ReleaseFromOrganizationInventoryResponse | None:
         """Release a list of claimed devices from an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!release-from-organization-inventory
+        [API documentation: releaseFromOrganizationInventory](https://developer.cisco.com/meraki/api-v1/#!release-from-organization-inventory)
 
         Args:
             organization_id: Organization ID.
             serials: Serials of the devices that should be released.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serials": [
+                "Q234-ABCD-5678"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5649,33 +8887,67 @@ class Organizations:
         device_serial: str | None = None,
         network_id: str | None = None,
         state: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationLicensesResponseItem]:
         """List the licenses for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses
+        [API documentation: getOrganizationLicenses](https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             device_serial: Filter the licenses to those assigned to a particular device. Returned in
-              the same order that they are queued to the device.
+                the same order that they are queued to the device.
             network_id: Filter the licenses to those assigned in a particular network.
             state: Filter the licenses to those in a particular state. Can be one of 'active',
-              'expired', 'expiring', 'recentlyQueued', 'unused' or 'unusedActive'.
+                'expired', 'expiring', 'recentlyQueued', 'unused' or 'unusedActive'.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "licenseType": "MX64-ENT",
+                "licenseKey": "Z21234567890",
+                "orderNumber": "4C1234567",
+                "deviceSerial": "Q234-ABCD-5678",
+                "networkId": "N_24329156",
+                "state": "active",
+                "seatCount": 25,
+                "totalDurationInDays": 425,
+                "durationInDays": 365,
+                "permanentlyQueuedLicenses": [
+                  {
+                    "id": "1234",
+                    "licenseType": "MX64-ENT",
+                    "licenseKey": "Z21234567890",
+                    "orderNumber": "4C1234567",
+                    "durationInDays": 60
+                  }
+                ],
+                "claimDate": "2019-08-29T12:40:10Z",
+                "activationDate": "2019-09-01T15:01:46Z",
+                "expirationDate": "2020-10-30T15:01:46Z",
+                "headLicenseId": "1234"
+              }
+            ]
+            ```
 
         """
         if state is not None:
@@ -5716,14 +8988,50 @@ class Organizations:
     ) -> AssignOrganizationLicensesSeatsResponse | None:
         """Assign SM seats to a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats
+        [API documentation: assignOrganizationLicensesSeats](https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats)
 
         Args:
             organization_id: Organization ID.
             license_id: The ID of the SM license to assign seats from.
             network_id: The ID of the SM network to assign the seats to.
             seat_count: The number of seats to assign to the SM network. Must be less than or equal
-              to the total number of seats of the license.
+                to the total number of seats of the license.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "resultingLicenses": [
+                {
+                  "id": "1234",
+                  "licenseType": "SME",
+                  "licenseKey": "Z21234567890",
+                  "orderNumber": "4C1234567",
+                  "deviceSerial": "Q234-ABCD-5678",
+                  "networkId": "N_24329156",
+                  "state": "active",
+                  "seatCount": 25,
+                  "totalDurationInDays": 425,
+                  "durationInDays": 365,
+                  "permanentlyQueuedLicenses": [
+                    {
+                      "id": "1234",
+                      "licenseType": "SME",
+                      "licenseKey": "Z21234567890",
+                      "orderNumber": "4C1234567",
+                      "durationInDays": 60
+                    }
+                  ],
+                  "claimDate": "2019-08-29T12:40:10Z",
+                  "activationDate": "2019-09-01T15:01:46Z",
+                  "expirationDate": "2020-10-30T15:01:46Z",
+                  "headLicenseId": "1234"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5750,12 +9058,26 @@ class Organizations:
     ) -> MoveOrganizationLicensesResponse | None:
         """Move licenses to another organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses
+        [API documentation: moveOrganizationLicenses](https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses)
 
         Args:
             organization_id: Organization ID.
             dest_organization_id: The ID of the organization to move the licenses to.
             license_ids: A list of IDs of licenses to move to the new organization.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "destOrganizationId": "2930418",
+              "licenseIds": [
+                "123",
+                "456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5780,14 +9102,26 @@ class Organizations:
     ) -> MoveOrganizationLicensesSeatsResponse | None:
         """Move SM seats to another organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats
+        [API documentation: moveOrganizationLicensesSeats](https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats)
 
         Args:
             organization_id: Organization ID.
             dest_organization_id: The ID of the organization to move the SM seats to.
             license_id: The ID of the SM license to move the seats from.
             seat_count: The number of seats to move to the new organization. Must be less than or
-              equal to the total number of seats of the license.
+                equal to the total number of seats of the license.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "destOrganizationId": "2930418",
+              "licenseId": "1234",
+              "seatCount": 20
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5814,10 +9148,77 @@ class Organizations:
     ) -> GetOrganizationLicensesOverviewResponse | None:
         """Return an overview of the license state for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses-overview
+        [API documentation: getOrganizationLicensesOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses-overview)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "status": "OK",
+              "expirationDate": "Feb 8, 2020 UTC",
+              "licensedDeviceCounts": {
+                "MS": 100
+              },
+              "licenseCount": 20,
+              "states": {
+                "active": {
+                  "count": 10
+                },
+                "expired": {
+                  "count": 2
+                },
+                "expiring": {
+                  "count": 3,
+                  "critical": {
+                    "thresholdInDays": 14,
+                    "expiringCount": 1
+                  },
+                  "warning": {
+                    "thresholdInDays": 90,
+                    "expiringCount": 2
+                  }
+                },
+                "recentlyQueued": {
+                  "count": 0
+                },
+                "unused": {
+                  "count": 2,
+                  "soonestActivation": {
+                    "activationDate": "2020-10-30",
+                    "toActivateCount": 1
+                  }
+                },
+                "unusedActive": {
+                  "count": 3,
+                  "oldestActivation": {
+                    "activationDate": "2019-09-01",
+                    "activeCount": 2
+                  }
+                }
+              },
+              "licenseTypes": [
+                {
+                  "licenseType": "ENT",
+                  "counts": {
+                    "unassigned": 2
+                  }
+                }
+              ],
+              "systemsManager": {
+                "counts": {
+                  "totalSeats": 50,
+                  "activeSeats": 10,
+                  "unassignedSeats": 20,
+                  "orgwideEnrolledDevices": 10
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5835,15 +9236,51 @@ class Organizations:
     ) -> RenewOrganizationLicensesSeatsResponse | None:
         """Renew SM seats of a license.
 
-        https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats
+        [API documentation: renewOrganizationLicensesSeats](https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats)
 
         Args:
             organization_id: Organization ID.
             license_id_to_renew: The ID of the SM license to renew. This license must already be
-              assigned to an SM network.
+                assigned to an SM network.
             unused_license_id: The SM license to use to renew the seats on 'licenseIdToRenew'. This
-              license must have at least as many seats available as there are seats on
-              'licenseIdToRenew'.
+                license must have at least as many seats available as there are seats on
+                'licenseIdToRenew'.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "resultingLicenses": [
+                {
+                  "id": "1234",
+                  "licenseType": "SME",
+                  "licenseKey": "Z21234567890",
+                  "orderNumber": "4C1234567",
+                  "deviceSerial": "Q234-ABCD-5678",
+                  "networkId": "N_24329156",
+                  "state": "active",
+                  "seatCount": 25,
+                  "totalDurationInDays": 425,
+                  "durationInDays": 365,
+                  "permanentlyQueuedLicenses": [
+                    {
+                      "id": "1234",
+                      "licenseType": "SME",
+                      "licenseKey": "Z21234567890",
+                      "orderNumber": "4C1234567",
+                      "durationInDays": 60
+                    }
+                  ],
+                  "claimDate": "2019-08-29T12:40:10Z",
+                  "activationDate": "2019-09-01T15:01:46Z",
+                  "expirationDate": "2020-10-30T15:01:46Z",
+                  "headLicenseId": "1234"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5868,11 +9305,43 @@ class Organizations:
     ) -> GetOrganizationLicenseResponse | None:
         """Display a license.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-license
+        [API documentation: getOrganizationLicense](https://developer.cisco.com/meraki/api-v1/#!get-organization-license)
 
         Args:
             organization_id: Organization ID.
             license_id: License ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "licenseType": "MX64-ENT",
+              "licenseKey": "Z21234567890",
+              "orderNumber": "4C1234567",
+              "deviceSerial": "Q234-ABCD-5678",
+              "networkId": "N_24329156",
+              "state": "active",
+              "seatCount": 25,
+              "totalDurationInDays": 425,
+              "durationInDays": 365,
+              "permanentlyQueuedLicenses": [
+                {
+                  "id": "1234",
+                  "licenseType": "MX64-ENT",
+                  "licenseKey": "Z21234567890",
+                  "orderNumber": "4C1234567",
+                  "durationInDays": 60
+                }
+              ],
+              "claimDate": "2019-08-29T12:40:10Z",
+              "activationDate": "2019-09-01T15:01:46Z",
+              "expirationDate": "2020-10-30T15:01:46Z",
+              "headLicenseId": "1234"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5891,14 +9360,47 @@ class Organizations:
     ) -> UpdateOrganizationLicenseResponse | None:
         """Update a license.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-license
+        [API documentation: updateOrganizationLicense](https://developer.cisco.com/meraki/api-v1/#!update-organization-license)
 
         Args:
             organization_id: Organization ID.
             license_id: License ID.
             device_serial: The serial number of the device to assign this license to. Set this to
-              null to unassign the license. If a different license is already active on
-              the device, this parameter will control queueing/dequeuing this license.
+                null to unassign the license. If a different license is already active
+                on the device, this parameter will control queueing/dequeuing this
+                license.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "licenseType": "MX64-ENT",
+              "licenseKey": "Z21234567890",
+              "orderNumber": "4C1234567",
+              "deviceSerial": "Q234-ABCD-5678",
+              "networkId": "N_24329156",
+              "state": "active",
+              "seatCount": 25,
+              "totalDurationInDays": 425,
+              "durationInDays": 365,
+              "permanentlyQueuedLicenses": [
+                {
+                  "id": "1234",
+                  "licenseType": "MX64-ENT",
+                  "licenseKey": "Z21234567890",
+                  "orderNumber": "4C1234567",
+                  "durationInDays": 60
+                }
+              ],
+              "claimDate": "2019-08-29T12:40:10Z",
+              "activationDate": "2019-09-01T15:01:46Z",
+              "expirationDate": "2020-10-30T15:01:46Z",
+              "headLicenseId": "1234"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5922,10 +9424,44 @@ class Organizations:
     ) -> GetOrganizationLoginSecurityResponse | None:
         """Returns the login security settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-login-security
+        [API documentation: getOrganizationLoginSecurity](https://developer.cisco.com/meraki/api-v1/#!get-organization-login-security)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enforcePasswordExpiration": true,
+              "passwordExpirationDays": 90,
+              "enforceDifferentPasswords": true,
+              "numDifferentPasswords": 3,
+              "enforceStrongPasswords": true,
+              "minimumPasswordLength": 12,
+              "enforceAccountLockout": true,
+              "accountLockoutAttempts": 3,
+              "enforceIdleTimeout": true,
+              "idleTimeoutMinutes": 30,
+              "enforceTwoFactorAuth": true,
+              "enforceLoginIpRanges": true,
+              "loginIpRanges": [
+                "192.195.83.1",
+                "192.195.83.255"
+              ],
+              "apiAuthentication": {
+                "ipRestrictionsForKeys": {
+                  "enabled": true,
+                  "ranges": [
+                    "192.195.83.1",
+                    "192.168.33.33"
+                  ]
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -5959,39 +9495,74 @@ class Organizations:
     ) -> UpdateOrganizationLoginSecurityResponse | None:
         """Update the login security settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security
+        [API documentation: updateOrganizationLoginSecurity](https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security)
 
         Args:
             organization_id: Organization ID.
             enforce_password_expiration: Boolean indicating whether users are forced to change their
-              password every X number of days.
+                password every X number of days.
             password_expiration_days: Number of days after which users will be forced to change
-              their password.
+                their password.
             enforce_different_passwords: Boolean indicating whether users, when setting a new
-              password, are forced to choose a new password that is different from any
-              past passwords.
+                password, are forced to choose a new password that is different from any
+                past passwords.
             num_different_passwords: Number of recent passwords that new password must be distinct
-              from.
+                from.
             enforce_strong_passwords: Deprecated. Values of 'false' are always ignored.
             minimum_password_length: Minimum number of characters required in admins' passwords.
             enforce_account_lockout: Boolean indicating whether users' Dashboard accounts will be
-              locked out after a specified number of consecutive failed login attempts.
+                locked out after a specified number of consecutive failed login
+                attempts.
             account_lockout_attempts: Number of consecutive failed login attempts after which users'
-              accounts will be locked.
+                accounts will be locked.
             enforce_idle_timeout: Boolean indicating whether users will be logged out after being
-              idle for the specified number of minutes.
+                idle for the specified number of minutes.
             idle_timeout_minutes: Number of minutes users can remain idle before being logged out of
-              their accounts.
+                their accounts.
             enforce_two_factor_auth: Boolean indicating whether users in this organization will be
-              required to use an extra verification code when logging in to Dashboard.
-              This code will be sent to their mobile phone via SMS, or can be generated
-              by the authenticator application.
+                required to use an extra verification code when logging in to Dashboard.
+                This code will be sent to their mobile phone via SMS, or can be
+                generated by the authenticator application.
             enforce_login_ip_ranges: Boolean indicating whether organization will restrict access to
-              Dashboard (including the API) from certain IP addresses.
+                Dashboard (including the API) from certain IP addresses.
             login_ip_ranges: List of acceptable IP ranges. Entries can be single IP addresses, IP
-              address ranges, and CIDR subnets.
+                address ranges, and CIDR subnets.
             api_authentication: Details for indicating whether organization will restrict access to
-              API (but not Dashboard) to certain IP addresses.
+                API (but not Dashboard) to certain IP addresses.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enforcePasswordExpiration": true,
+              "passwordExpirationDays": 90,
+              "enforceDifferentPasswords": true,
+              "numDifferentPasswords": 3,
+              "enforceStrongPasswords": true,
+              "minimumPasswordLength": 12,
+              "enforceAccountLockout": true,
+              "accountLockoutAttempts": 3,
+              "enforceIdleTimeout": true,
+              "idleTimeoutMinutes": 30,
+              "enforceTwoFactorAuth": true,
+              "enforceLoginIpRanges": true,
+              "loginIpRanges": [
+                "192.195.83.1",
+                "192.195.83.255"
+              ],
+              "apiAuthentication": {
+                "ipRestrictionsForKeys": {
+                  "enabled": true,
+                  "ranges": [
+                    "192.195.83.1",
+                    "192.168.33.33"
+                  ]
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6049,40 +9620,68 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationNetworksResponseItem]:
         """List the networks that the user has privileges on in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-networks
+        [API documentation: getOrganizationNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-networks)
 
         Args:
             organization_id: Organization ID.
             config_template_id: An optional parameter that is the ID of a config template. Will
-              return all networks bound to that template.
+                return all networks bound to that template.
             is_bound_to_config_template: An optional parameter to filter config template bound
-              networks. If configTemplateId is set, this cannot be false.
+                networks. If configTemplateId is set, this cannot be false.
             tags: An optional parameter to filter networks by tags. The filtering is case-sensitive.
-              If tags are included, 'tagsFilterType' should also be included (see
-              below).
+                If tags are included, 'tagsFilterType' should also be included (see
+                below).
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
-              indicate whether to return networks which contain ANY or ALL of the
-              included tags. If no type is included, 'withAnyTags' will be selected.
+                indicate whether to return networks which contain ANY or ALL of the
+                included tags. If no type is included, 'withAnyTags' will be selected.
             product_types: An optional parameter to filter networks by product type. Results will
-              have at least one of the included product types.
+                have at least one of the included product types.
             per_page: The number of entries per page returned. Acceptable range is 3 - 100000.
-              Default is 1000.
+                Default is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "N_24329156",
+                "organizationId": "2930418",
+                "name": "Main Office",
+                "productTypes": [
+                  "appliance",
+                  "switch",
+                  "wireless"
+                ],
+                "timeZone": "America/Los_Angeles",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "enrollmentString": "my-enrollment-string",
+                "url": "https://n1.meraki.com//n//manage/nodes/list",
+                "notes": "Additional description of the network",
+                "isBoundToConfigTemplate": false
+              }
+            ]
+            ```
 
         """
         if tags_filter_type is not None:
@@ -6135,22 +9734,48 @@ class Organizations:
     ) -> CreateOrganizationNetworkResponse | None:
         """Create a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-network
+        [API documentation: createOrganizationNetwork](https://developer.cisco.com/meraki/api-v1/#!create-organization-network)
 
         Args:
             organization_id: Organization ID.
             name: The name of the new network.
             product_types: The product type(s) of the new network. If more than one type is
-              included, the network will be a combined network.
+                included, the network will be a combined network.
             tags: A list of tags to be applied to the network.
             time_zone: The timezone of the network. For a list of allowed timezones, please see the
-              'TZ' column in the table in <a target='_blank'
-              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
-              article.</a>.
+                'TZ' column in the table in <a target='_blank'
+                href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+                article.</a>.
             copy_from_network_id: The ID of the network to copy configuration from. Other provided
-              parameters will override the copied configuration, except type which must
-              match this network's type exactly.
+                parameters will override the copied configuration, except type which
+                must match this network's type exactly.
             notes: Add any notes or additional information about this network here.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "N_24329156",
+              "organizationId": "2930418",
+              "name": "Main Office",
+              "productTypes": [
+                "appliance",
+                "switch",
+                "wireless"
+              ],
+              "timeZone": "America/Los_Angeles",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enrollmentString": "my-enrollment-string",
+              "url": "https://n1.meraki.com//n//manage/nodes/list",
+              "notes": "Additional description of the network",
+              "isBoundToConfigTemplate": false
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6188,20 +9813,48 @@ class Organizations:
     ) -> CombineOrganizationNetworksResponse | None:
         """Combine multiple networks into a single network.
 
-        https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks
+        [API documentation: combineOrganizationNetworks](https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks)
 
         Args:
             organization_id: Organization ID.
             name: The name of the combined network.
             network_ids: A list of the network IDs that will be combined. If an ID of a combined
-              network is included in this list, the other networks in the list will be
-              grouped into that network.
+                network is included in this list, the other networks in the list will be
+                grouped into that network.
             enrollment_string: A unique identifier which can be used for device enrollment or easy
-              access through the Meraki SM Registration page or the Self Service Portal.
-              Please note that changing this field may cause existing bookmarks to
-              break. All networks that are part of this combined network will have their
-              enrollment string appended by '-network_type'. If left empty, all exisitng
-              enrollment strings will be deleted.
+                access through the Meraki SM Registration page or the Self Service
+                Portal. Please note that changing this field may cause existing
+                bookmarks to break. All networks that are part of this combined network
+                will have their enrollment string appended by '-network_type'. If left
+                empty, all exisitng enrollment strings will be deleted.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "resultingNetwork": {
+                "id": "N_24329156",
+                "organizationId": "2930418",
+                "name": "Main Office",
+                "productTypes": [
+                  "appliance",
+                  "switch",
+                  "wireless"
+                ],
+                "timeZone": "America/Los_Angeles",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "enrollmentString": "my-enrollment-string",
+                "url": "https://n1.meraki.com//n//manage/nodes/list",
+                "notes": "Additional description of the network",
+                "isBoundToConfigTemplate": false
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6228,11 +9881,47 @@ class Organizations:
     ) -> dict[str, Any] | None:
         """Return the OpenAPI Specification of the organization's API documentation in JSON.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-openapi-spec
+        [API documentation: getOrganizationOpenapiSpec](https://developer.cisco.com/meraki/api-v1/#!get-organization-openapi-spec)
 
         Args:
             organization_id: Organization ID.
             version: OpenAPI Specification version to return. Default is 2.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "openapi": "3.0.1",
+              "info": {
+                "version": "v1",
+                "title": "Meraki Dashboard API",
+                "description": "This collection of API calls provides an easy way to manage and monitor Cisco Meraki networks at scale"
+              },
+              "paths": {
+                "/organizations": {
+                  "get": {
+                    "description": "List the organizations that the user has privileges on",
+                    "operationId": "getOrganizations",
+                    "responses": {
+                      "200": {
+                        "description": "Successful operation",
+                        "examples": {
+                          "application/json": [
+                            {
+                              "id": "2930418",
+                              "name": "My organization"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            ```
 
         """
         if version is not None:
@@ -6266,36 +9955,68 @@ class Organizations:
         t0: str | None = None,
         timespan: float | None = None,
         include_undetected_clients: bool | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationPoliciesAssignmentsByClientResponseItem]:
         """Get policies for all clients with policies.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-assignments-by-client
+        [API documentation: getOrganizationPoliciesAssignmentsByClient](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-assignments-by-client)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 1 day.
             include_undetected_clients: Include provisioned clients that have not associated to the
-              network. Default: false.
+                network. Default: false.
             network_ids: Network Ids (minimum: 1, maximum: 30).
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "Miles's phone",
+                "clientId": "k74272e",
+                "mac": "22:33:44:55:66:77",
+                "networkId": "N_24329156",
+                "assigned": [
+                  {
+                    "name": "My group policy",
+                    "type": "Group",
+                    "id": "102",
+                    "limitTo": [
+                      {
+                        "appliance": false,
+                        "ssids": [
+                          {
+                            "number": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6334,28 +10055,51 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationPolicyObjectsResponse]:
         """Lists Policy Objects belonging to the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects
+        [API documentation: getOrganizationPolicyObjects](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 10 - 5000.
-              Default is 5000.
+                Default is 5000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "network",
+              "type": "cidr",
+              "cidr": "10.0.0.0/24",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "groupIds": [
+                "8"
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6394,12 +10138,12 @@ class Organizations:
     ) -> CreateOrganizationPolicyObjectResponse | None:
         """Creates a new Policy Object.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object
+        [API documentation: createOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object)
 
         Args:
             organization_id: Organization ID.
             name: Name of a policy object, unique within the organization (alphanumeric, space,
-              dash, or underscore characters only).
+                dash, or underscore characters only).
             category: Category of a policy object (one of: adaptivePolicy, network).
             type_: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
@@ -6407,6 +10151,29 @@ class Organizations:
             mask: Mask of a policy object (e.g. "255.255.0.0").
             ip: IP Address of a policy object (e.g. "1.2.3.4").
             group_ids: The IDs of policy object groups the policy object belongs to.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "network",
+              "type": "cidr",
+              "cidr": "10.0.0.0/24",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "groupIds": [
+                "8"
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6445,28 +10212,49 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationPolicyObjectsGroupsResponse]:
         """Lists Policy Object Groups belonging to the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-groups
+        [API documentation: getOrganizationPolicyObjectsGroups](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-groups)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 10 - 1000.
-              Default is 1000.
+                Default is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "NetworkObjectGroup",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "objectIds": [
+                100
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6500,17 +10288,38 @@ class Organizations:
     ) -> CreateOrganizationPolicyObjectsGroupResponse | None:
         """Creates a new Policy Object Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group
+        [API documentation: createOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group)
 
         Args:
             organization_id: Organization ID.
             name: A name for the group of network addresses, unique within the organization
-              (alphanumeric, space, dash, or underscore characters only).
+                (alphanumeric, space, dash, or underscore characters only).
             category: Category of a policy object group (one of: NetworkObjectGroup,
-              GeoLocationGroup, PortObjectGroup, ApplicationGroup).
+                GeoLocationGroup, PortObjectGroup, ApplicationGroup).
             object_ids: A list of Policy Object ID's that this NetworkObjectGroup should be
-              associated to (note: these ID's will replace the existing associated
-              Policy Objects).
+                associated to (note: these ID's will replace the existing associated
+                Policy Objects).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "NetworkObjectGroup",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "objectIds": [
+                100
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6537,11 +10346,32 @@ class Organizations:
     ) -> GetOrganizationPolicyObjectsGroupResponse | None:
         """Shows details of a Policy Object Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-group
+        [API documentation: getOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-group)
 
         Args:
             organization_id: Organization ID.
             policy_object_group_id: Policy object group ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "NetworkObjectGroup",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "objectIds": [
+                100
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6565,16 +10395,37 @@ class Organizations:
     ) -> UpdateOrganizationPolicyObjectsGroupResponse | None:
         """Updates a Policy Object Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group
+        [API documentation: updateOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group)
 
         Args:
             organization_id: Organization ID.
             policy_object_group_id: Policy object group ID.
             name: A name for the group of network addresses, unique within the organization
-              (alphanumeric, space, dash, or underscore characters only).
+                (alphanumeric, space, dash, or underscore characters only).
             object_ids: A list of Policy Object ID's that this NetworkObjectGroup should be
-              associated to (note: these ID's will replace the existing associated
-              Policy Objects).
+                associated to (note: these ID's will replace the existing associated
+                Policy Objects).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "NetworkObjectGroup",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "objectIds": [
+                100
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6600,11 +10451,14 @@ class Organizations:
     ) -> None:
         """Deletes a Policy Object Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group
+        [API documentation: deleteOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group)
 
         Args:
             organization_id: Organization ID.
             policy_object_group_id: Policy object group ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6620,11 +10474,34 @@ class Organizations:
     ) -> GetOrganizationPolicyObjectResponse | None:
         """Shows details of a Policy Object.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-object
+        [API documentation: getOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-object)
 
         Args:
             organization_id: Organization ID.
             policy_object_id: Policy object ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "network",
+              "type": "cidr",
+              "cidr": "10.0.0.0/24",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "groupIds": [
+                "8"
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6652,18 +10529,41 @@ class Organizations:
     ) -> UpdateOrganizationPolicyObjectResponse | None:
         """Updates a Policy Object.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object
+        [API documentation: updateOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object)
 
         Args:
             organization_id: Organization ID.
             policy_object_id: Policy object ID.
             name: Name of a policy object, unique within the organization (alphanumeric, space,
-              dash, or underscore characters only).
+                dash, or underscore characters only).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
             mask: Mask of a policy object (e.g. "255.255.0.0").
             ip: IP Address of a policy object (e.g. "1.2.3.4").
             group_ids: The IDs of policy object groups the policy object belongs to.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "network",
+              "type": "cidr",
+              "cidr": "10.0.0.0/24",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "groupIds": [
+                "8"
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6697,11 +10597,14 @@ class Organizations:
     ) -> None:
         """Deletes a Policy Object.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object
+        [API documentation: deleteOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object)
 
         Args:
             organization_id: Organization ID.
             policy_object_id: Policy object ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6715,10 +10618,24 @@ class Organizations:
     def get_organization_saml(self, organization_id: str) -> GetOrganizationSamlResponse | None:
         """Returns the SAML SSO enabled settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-saml
+        [API documentation: getOrganizationSaml](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "spInitiated": {
+                "subdomain": "example_subdomain",
+                "idpId": "uu3H_bx28Nnd"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6740,12 +10657,26 @@ class Organizations:
     ) -> UpdateOrganizationSamlResponse | None:
         """Updates the SAML SSO enabled settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-saml
+        [API documentation: updateOrganizationSaml](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml)
 
         Args:
             organization_id: Organization ID.
             enabled: Boolean for updating SAML SSO enabled settings.
             sp_initiated: SP-Initiated SSO settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "spInitiated": {
+                "subdomain": "example_subdomain",
+                "idpId": "uu3H_bx28Nnd"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6770,10 +10701,27 @@ class Organizations:
     ) -> GetOrganizationSamlIdpsResponse | None:
         """List the SAML IdPs in your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps
+        [API documentation: getOrganizationSamlIdps](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "idpId": "1284392014819",
+                "consumerUrl": "https://n7.meraki.com/saml/login/XXX",
+                "visionConsumerUrl": "https://n7.meraki.com/saml/login/XXX?appTarget=MerakiVision",
+                "x509certSha1Fingerprint": "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:99",
+                "ssoLoginUrl": "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b",
+                "sloLogoutUrl": "https://onelogin.com/trust/saml2/http-redirect/slo/4155000"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6796,15 +10744,32 @@ class Organizations:
     ) -> CreateOrganizationSamlIdpResponse | None:
         """Create a SAML IdP for your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp
+        [API documentation: createOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp)
 
         Args:
             organization_id: Organization ID.
             x509cert_sha1_fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
-              Identity Provider (IdP). This will be used for encryption / validation.
+                Identity Provider (IdP). This will be used for encryption / validation.
             sso_login_url: Dashboard will redirect users to this URL to log in again when their
-              sessions expire.
+                sessions expire.
             slo_logout_url: Dashboard will redirect users to this URL when they sign out.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "idpId": "1284392014819",
+                "consumerUrl": "https://n7.meraki.com/saml/login/XXX",
+                "visionConsumerUrl": "https://n7.meraki.com/saml/login/XXX?appTarget=MerakiVision",
+                "x509certSha1Fingerprint": "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:99",
+                "ssoLoginUrl": "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b",
+                "sloLogoutUrl": "https://onelogin.com/trust/saml2/http-redirect/slo/4155000"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6831,11 +10796,26 @@ class Organizations:
     ) -> GetOrganizationSamlIdpResponse | None:
         """Get a SAML IdP from your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp
+        [API documentation: getOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp)
 
         Args:
             organization_id: Organization ID.
             idp_id: Idp ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "idpId": "1284392014819",
+              "consumerUrl": "https://n7.meraki.com/saml/login/XXX",
+              "visionConsumerUrl": "https://n7.meraki.com/saml/login/XXX?appTarget=MerakiVision",
+              "x509certSha1Fingerprint": "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:99",
+              "ssoLoginUrl": "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b",
+              "sloLogoutUrl": "https://onelogin.com/trust/saml2/http-redirect/slo/4155000"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6860,16 +10840,33 @@ class Organizations:
     ) -> UpdateOrganizationSamlIdpResponse | None:
         """Update a SAML IdP in your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp
+        [API documentation: updateOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp)
 
         Args:
             organization_id: Organization ID.
             idp_id: Idp ID.
             x509cert_sha1_fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
-              Identity Provider (IdP). This will be used for encryption / validation.
+                Identity Provider (IdP). This will be used for encryption / validation.
             sso_login_url: Dashboard will redirect users to this URL to log in again when their
-              sessions expire.
+                sessions expire.
             slo_logout_url: Dashboard will redirect users to this URL when they sign out.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "idpId": "1284392014819",
+                "consumerUrl": "https://n7.meraki.com/saml/login/XXX",
+                "visionConsumerUrl": "https://n7.meraki.com/saml/login/XXX?appTarget=MerakiVision",
+                "x509certSha1Fingerprint": "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:99",
+                "ssoLoginUrl": "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b",
+                "sloLogoutUrl": "https://onelogin.com/trust/saml2/http-redirect/slo/4155000"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6895,11 +10892,14 @@ class Organizations:
     def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> None:
         """Remove a SAML IdP in your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
+        [API documentation: deleteOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp)
 
         Args:
             organization_id: Organization ID.
             idp_id: Idp ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6915,10 +10915,42 @@ class Organizations:
     ) -> GetOrganizationSamlRolesResponse | None:
         """List the SAML roles for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-roles
+        [API documentation: getOrganizationSamlRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-roles)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "role": "myrole",
+                "orgAccess": "none",
+                "networks": [
+                  {
+                    "id": "N_24329156",
+                    "access": "full"
+                  }
+                ],
+                "tags": [
+                  {
+                    "tag": "west",
+                    "access": "read-only"
+                  }
+                ],
+                "camera": [
+                  {
+                    "orgWide": true,
+                    "access": "viewAndExport"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6942,16 +10974,46 @@ class Organizations:
     ) -> CreateOrganizationSamlRoleResponse | None:
         """Create a SAML role.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-role
+        [API documentation: createOrganizationSamlRole](https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-role)
 
         Args:
             organization_id: Organization ID.
             role: The role of the SAML administrator.
             org_access: The privilege of the SAML administrator on the organization. Can be one of
-              'none', 'read-only', 'full' or 'enterprise' or a custom role in the format
-              custom-role:ID:NAME.
+                'none', 'read-only', 'full' or 'enterprise' or a custom role in the
+                format custom-role:ID:NAME.
             tags: The list of tags that the SAML administrator has privileges on.
             networks: The list of networks that the SAML administrator has privileges on.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "role": "myrole",
+              "orgAccess": "none",
+              "networks": [
+                {
+                  "id": "N_24329156",
+                  "access": "full"
+                }
+              ],
+              "tags": [
+                {
+                  "tag": "west",
+                  "access": "read-only"
+                }
+              ],
+              "camera": [
+                {
+                  "orgWide": true,
+                  "access": "viewAndExport"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -6982,11 +11044,41 @@ class Organizations:
     ) -> GetOrganizationSamlRoleResponse | None:
         """Return a SAML role.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-role
+        [API documentation: getOrganizationSamlRole](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-role)
 
         Args:
             organization_id: Organization ID.
             saml_role_id: Saml role ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "role": "myrole",
+              "orgAccess": "none",
+              "networks": [
+                {
+                  "id": "N_24329156",
+                  "access": "full"
+                }
+              ],
+              "tags": [
+                {
+                  "tag": "west",
+                  "access": "read-only"
+                }
+              ],
+              "camera": [
+                {
+                  "orgWide": true,
+                  "access": "viewAndExport"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7012,17 +11104,47 @@ class Organizations:
     ) -> UpdateOrganizationSamlRoleResponse | None:
         """Update a SAML role.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-role
+        [API documentation: updateOrganizationSamlRole](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-role)
 
         Args:
             organization_id: Organization ID.
             saml_role_id: Saml role ID.
             role: The role of the SAML administrator.
             org_access: The privilege of the SAML administrator on the organization. Can be one of
-              'none', 'read-only', 'full' or 'enterprise' or a custom role in the format
-              custom-role:ID:NAME.
+                'none', 'read-only', 'full' or 'enterprise' or a custom role in the
+                format custom-role:ID:NAME.
             tags: The list of tags that the SAML administrator has privileges on.
             networks: The list of networks that the SAML administrator has privileges on.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "role": "myrole",
+              "orgAccess": "none",
+              "networks": [
+                {
+                  "id": "N_24329156",
+                  "access": "full"
+                }
+              ],
+              "tags": [
+                {
+                  "tag": "west",
+                  "access": "read-only"
+                }
+              ],
+              "camera": [
+                {
+                  "orgWide": true,
+                  "access": "viewAndExport"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7052,11 +11174,14 @@ class Organizations:
     def delete_organization_saml_role(self, *, organization_id: str, saml_role_id: str) -> None:
         """Remove a SAML role.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-role
+        [API documentation: deleteOrganizationSamlRole](https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-role)
 
         Args:
             organization_id: Organization ID.
             saml_role_id: Saml role ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7070,10 +11195,30 @@ class Organizations:
     def get_organization_snmp(self, organization_id: str) -> GetOrganizationSnmpResponse | None:
         """Return the SNMP settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-snmp
+        [API documentation: getOrganizationSnmp](https://developer.cisco.com/meraki/api-v1/#!get-organization-snmp)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "v2cEnabled": false,
+              "v2CommunityString": "o/ABCDEF",
+              "v3Enabled": true,
+              "v3User": "o/ABCDEF",
+              "v3AuthMode": "SHA",
+              "v3PrivMode": "AES128",
+              "peerIps": [
+                "123.123.123.1"
+              ],
+              "hostname": "snmp.meraki.com",
+              "port": 443
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7100,7 +11245,7 @@ class Organizations:
     ) -> UpdateOrganizationSnmpResponse | None:
         """Update the SNMP settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-snmp
+        [API documentation: updateOrganizationSnmp](https://developer.cisco.com/meraki/api-v1/#!update-organization-snmp)
 
         Args:
             organization_id: Organization ID.
@@ -7108,11 +11253,31 @@ class Organizations:
             v3_enabled: Boolean indicating whether SNMP version 3 is enabled for the organization.
             v3_auth_mode: The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
             v3_auth_pass: The SNMP version 3 authentication password. Must be at least 8 characters
-              if specified.
+                if specified.
             v3_priv_mode: The SNMP version 3 privacy mode. Can be either 'DES' or 'AES128'.
             v3_priv_pass: The SNMP version 3 privacy password. Must be at least 8 characters if
-              specified.
+                specified.
             peer_ips: The list of IPv4 addresses that are allowed to access the SNMP server.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "v2cEnabled": false,
+              "v2CommunityString": "o/ABCDEF",
+              "v3Enabled": true,
+              "v3User": "o/ABCDEF",
+              "v3AuthMode": "SHA",
+              "v3PrivMode": "AES128",
+              "peerIps": [
+                "123.123.123.1"
+              ],
+              "hostname": "snmp.meraki.com",
+              "port": 443
+            }
+            ```
 
         """
         if v3_auth_mode is not None:
@@ -7156,13 +11321,25 @@ class Organizations:
     def get_organization_splash_asset(
         self, *, organization_id: str, id: str
     ) -> GetOrganizationSplashAssetResponse | None:
-        """Get a Splash Theme Asset.
+        r"""Get a Splash Theme Asset.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-asset
+        [API documentation: getOrganizationSplashAsset](https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-asset)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "name": "continue.html",
+              "fileData": "PGh0bWw+PC9odG1sPg==\n"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7179,11 +11356,14 @@ class Organizations:
     def delete_organization_splash_asset(self, *, organization_id: str, id: str) -> None:
         """Delete a Splash Theme Asset.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
+        [API documentation: deleteOrganizationSplashAsset](https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7199,10 +11379,29 @@ class Organizations:
     ) -> GetOrganizationSplashThemesResponse | None:
         """List Splash Themes.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-themes
+        [API documentation: getOrganizationSplashThemes](https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-themes)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "482367494044dbbb1d2cc8579d967cef5b4ce59f",
+                "name": "My Custom Splash Theme",
+                "themeAssets": [
+                  {
+                    "id": "1284392014819",
+                    "name": "continue.html"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7220,12 +11419,29 @@ class Organizations:
     ) -> CreateOrganizationSplashThemeResponse | None:
         """Create a Splash Theme.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme
+        [API documentation: createOrganizationSplashTheme](https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme)
 
         Args:
             organization_id: Organization ID.
             name: theme name.
             base_theme: base theme id.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "482367494044dbbb1d2cc8579d967cef5b4ce59f",
+              "name": "My Custom Splash Theme",
+              "themeAssets": [
+                {
+                  "id": "1284392014819",
+                  "name": "continue.html"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7248,11 +11464,14 @@ class Organizations:
     def delete_organization_splash_theme(self, *, organization_id: str, id: str) -> None:
         """Delete a Splash Theme.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
+        [API documentation: deleteOrganizationSplashTheme](https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme)
 
         Args:
             organization_id: Organization ID.
             id: ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7271,15 +11490,27 @@ class Organizations:
         name: str | None = None,
         content: str | None = None,
     ) -> CreateOrganizationSplashThemeAssetResponse | None:
-        """Create a Splash Theme Asset.
+        r"""Create a Splash Theme Asset.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset
+        [API documentation: createOrganizationSplashThemeAsset](https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset)
 
         Args:
             organization_id: Organization ID.
             theme_identifier: Theme identifier.
             name: File name. Will overwrite files with same name.
             content: a file containing the asset content.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "name": "continue.html",
+              "fileData": "PGh0bWw+PC9odG1sPg==\n"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7315,7 +11546,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopAppliancesByUtilizationResponse | None:
         """Return the top 10 appliances sorted by utilization over given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-appliances-by-utilization
+        [API documentation: getOrganizationSummaryTopAppliancesByUtilization](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-appliances-by-utilization)
 
         Args:
             organization_id: Organization ID.
@@ -7327,9 +11558,33 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 25 minutes and be less than or
-              equal to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 25 minutes and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "network": {
+                  "name": "Main Office",
+                  "id": "N_24329156"
+                },
+                "name": "My appliance",
+                "mac": "00:11:22:33:44:55",
+                "serial": "Q234-ABCD-5678",
+                "model": "MX",
+                "utilization": {
+                  "average": {
+                    "percentage": 7.3
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7377,7 +11632,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopApplicationsByUsageResponse | None:
         """Return the top applications sorted by data usage over given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-by-usage
+        [API documentation: getOrganizationSummaryTopApplicationsByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-by-usage)
 
         Args:
             organization_id: Organization ID.
@@ -7390,9 +11645,25 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 25 minutes and be less than or
-              equal to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 25 minutes and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "application": "sample name",
+                "total": 18000.0,
+                "downstream": 10000.0,
+                "upstream": 8000.0,
+                "percentage": 80.223456789
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7442,7 +11713,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopApplicationsCategoriesByUsageResponse | None:
         """Return the top application categories sorted by data usage over given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-categories-by-usage
+        [API documentation: getOrganizationSummaryTopApplicationsCategoriesByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-categories-by-usage)
 
         Args:
             organization_id: Organization ID.
@@ -7455,9 +11726,25 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 25 minutes and be less than or
-              equal to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 25 minutes and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "category": "other",
+                "total": 18000.0,
+                "downstream": 10000.0,
+                "upstream": 8000.0,
+                "percentage": 80.223456789
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7506,7 +11793,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopClientsByUsageResponse | None:
         """Return metrics for organization's top 10 clients by data usage (in mb) over given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-by-usage
+        [API documentation: getOrganizationSummaryTopClientsByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-by-usage)
 
         Args:
             organization_id: Organization ID.
@@ -7518,9 +11805,33 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 8 hours and be less than or equal
-              to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 8 hours and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "Office Switch",
+                "mac": "22:33:44:55:66:77",
+                "id": "k74272e",
+                "network": {
+                  "name": "Main Office",
+                  "id": "N_24329156"
+                },
+                "usage": {
+                  "total": 18000.0,
+                  "upstream": 8000.0,
+                  "downstream": 10000.0,
+                  "percentage": 80.2
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7567,7 +11878,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopClientsManufacturersByUsageResponse | None:
         """Return metrics for organization's top clients by data usage (in mb) over given time range, grouped by manufacturer.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-manufacturers-by-usage
+        [API documentation: getOrganizationSummaryTopClientsManufacturersByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-manufacturers-by-usage)
 
         Args:
             organization_id: Organization ID.
@@ -7579,8 +11890,30 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "Manufacturer Name",
+                "clients": {
+                  "counts": {
+                    "total": 3
+                  }
+                },
+                "usage": {
+                  "total": 9000.0,
+                  "upstream": 1000.0,
+                  "downstream": 8000.0
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7627,7 +11960,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopDevicesByUsageResponse | None:
         """Return metrics for organization's top 10 devices sorted by data usage over given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-by-usage
+        [API documentation: getOrganizationSummaryTopDevicesByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-by-usage)
 
         Args:
             organization_id: Organization ID.
@@ -7639,9 +11972,38 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 8 hours and be less than or equal
-              to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 8 hours and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My AP",
+                "model": "MR34",
+                "serial": "Q234-ABCD-5678",
+                "mac": "00:11:22:33:44:55",
+                "productType": "switch",
+                "network": {
+                  "name": "Main Office",
+                  "id": "N_24329156"
+                },
+                "usage": {
+                  "total": 18000.111,
+                  "percentage": 80.223456789
+                },
+                "clients": {
+                  "counts": {
+                    "total": 4
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7688,7 +12050,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopDevicesModelsByUsageResponse | None:
         """Return metrics for organization's top 10 device models sorted by data usage over given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-models-by-usage
+        [API documentation: getOrganizationSummaryTopDevicesModelsByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-models-by-usage)
 
         Args:
             organization_id: Organization ID.
@@ -7700,9 +12062,26 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 8 hours and be less than or equal
-              to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 8 hours and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "model": "MR34",
+                "count": 2,
+                "usage": {
+                  "total": 2000.0,
+                  "average": 1000.0
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7746,12 +12125,12 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationSummaryTopNetworksByStatusResponseItem]:
         """List the client and status overview information for the networks in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-networks-by-status
+        [API documentation: getOrganizationSummaryTopNetworksByStatus](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-networks-by-status)
 
         Args:
             organization_id: Organization ID.
@@ -7762,16 +12141,70 @@ class Organizations:
             usage_uplink: Filter results by usage uplink.
             per_page: The number of entries per page returned. Acceptable range is 3 - 5000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "name": "Main Office",
+                "url": "https://n1.meraki.com//n//manage/nodes/list",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "clients": {
+                  "counts": {
+                    "total": 72
+                  },
+                  "usage": {
+                    "upstream": 3732658.44,
+                    "downstream": 983732658.87
+                  }
+                },
+                "statuses": {
+                  "overall": "online",
+                  "byProductType": [
+                    {
+                      "productType": "wireless",
+                      "counts": {
+                        "online": 2,
+                        "offline": 1,
+                        "alerting": 0,
+                        "dormant": 3
+                      }
+                    }
+                  ]
+                },
+                "devices": {
+                  "byProductType": [
+                    {
+                      "productType": "wireless",
+                      "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000"
+                    }
+                  ]
+                },
+                "productTypes": [
+                  "appliance",
+                  "switch",
+                  "wireless"
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7820,7 +12253,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopSsidsByUsageResponse | None:
         """Return metrics for organization's top 10 ssids by data usage over given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-ssids-by-usage
+        [API documentation: getOrganizationSummaryTopSsidsByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-ssids-by-usage)
 
         Args:
             organization_id: Organization ID.
@@ -7832,9 +12265,32 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 8 hours and be less than or equal
-              to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 8 hours and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My SSID",
+                "usage": {
+                  "total": 18000.0,
+                  "downstream": 10000.0,
+                  "upstream": 8000.0,
+                  "percentage": 80.223456789
+                },
+                "clients": {
+                  "counts": {
+                    "total": 4
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7881,7 +12337,7 @@ class Organizations:
     ) -> GetOrganizationSummaryTopSwitchesByEnergyUsageResponse | None:
         """Return metrics for organization's top 10 switches by energy usage over given time range.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-switches-by-energy-usage
+        [API documentation: getOrganizationSummaryTopSwitchesByEnergyUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-switches-by-energy-usage)
 
         Args:
             organization_id: Organization ID.
@@ -7893,9 +12349,30 @@ class Organizations:
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 25 minutes and be less than or
-              equal to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 25 minutes and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "network": {
+                  "name": "Main Office",
+                  "id": "N_24329156"
+                },
+                "name": "My switch",
+                "mac": "00:11:22:33:44:55",
+                "model": "MS",
+                "usage": {
+                  "total": 800.021
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7937,34 +12414,84 @@ class Organizations:
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         iccids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationUplinksStatusesResponseItem]:
         """List the uplink status of every Meraki MX, MG and Z series devices in the organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-uplinks-statuses
+        [API documentation: getOrganizationUplinksStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-uplinks-statuses)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: A list of network IDs. The returned devices will be filtered to only
-              include these networks.
+                include these networks.
             serials: A list of serial numbers. The returned devices will be filtered to only include
-              these serials.
+                these serials.
             iccids: A list of ICCIDs. The returned devices will be filtered to only include these
-              ICCIDs.
+                ICCIDs.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "serial": "Q234-ABCD-5678",
+                "model": "MX68C",
+                "lastReportedAt": "2018-02-11T00:00:00Z",
+                "highAvailability": {
+                  "enabled": true,
+                  "role": "primary"
+                },
+                "uplinks": [
+                  {
+                    "interface": "wan1",
+                    "status": "active",
+                    "ip": "1.2.3.4",
+                    "gateway": "1.2.3.5",
+                    "publicIp": "123.123.123.1",
+                    "primaryDns": "8.8.8.8",
+                    "secondaryDns": "8.8.4.4",
+                    "ipAssignedBy": "static",
+                    "provider": "at&t",
+                    "signalStat": {
+                      "rsrp": "-120",
+                      "rsrq": "-13"
+                    },
+                    "mcc": "123",
+                    "mnc": "123",
+                    "roaming": {
+                      "status": "home"
+                    },
+                    "connectionType": "4g",
+                    "apn": "internet",
+                    "dns1": "111.111.111.111",
+                    "dns2": "222.222.222.222",
+                    "signalType": "4G",
+                    "mtu": 1500,
+                    "iccid": "123456789",
+                    "imsi": "123456789012345",
+                    "msisdn": "123456789012345"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -7999,19 +12526,61 @@ class Organizations:
         organization_id: str,
         *,
         product_type: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWebhooksAlertTypesResponse]:
         """Return a list of alert types to be used with managing webhook alerts.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-alert-types
+        [API documentation: getOrganizationWebhooksAlertTypes](https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-alert-types)
 
         Args:
             organization_id: Organization ID.
             product_type: Filter sample alerts to a specific product type.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "alertTypeId": "stopped_reporting",
+              "alertType": "APs went down",
+              "example": {
+                "version": "0.1",
+                "sharedSecret": "secret",
+                "sentAt": "2018-02-11T00:00:00.090210Z",
+                "alertId": "0000000000000000",
+                "alertLevel": "warning",
+                "occurredAt": "2018-02-11T00:00:00.090210Z",
+                "organizationId": "2930418",
+                "organizationName": "My organization",
+                "organizationUrl": "https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview",
+                "deviceSerial": "Q234-ABCD-5678",
+                "deviceMac": "00:11:22:33:44:55",
+                "deviceName": "My AP",
+                "deviceUrl": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
+                "deviceTags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "deviceModel": "MR34",
+                "networkId": "N_24329156",
+                "networkName": "Main Office",
+                "networkUrl": "https://n1.meraki.com//n//manage/nodes/list",
+                "enrollmentString": "my-enrollment-string",
+                "notes": "Additional description of the network",
+                "productTypes": [
+                  "appliance",
+                  "switch",
+                  "wireless"
+                ],
+                "encryptedId": "6GREra"
+              }
+            }
+            ```
 
         """
         if product_type is not None:
@@ -8051,11 +12620,38 @@ class Organizations:
     ) -> GetOrganizationWebhooksCallbacksStatusResponse | None:
         """Return the status of an API callback.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-callbacks-status
+        [API documentation: getOrganizationWebhooksCallbacksStatus](https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-callbacks-status)
 
         Args:
             organization_id: Organization ID.
             callback_id: Callback ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "callbackId": "1284392014819",
+              "status": "completed",
+              "errors": [
+                "Callback failed"
+              ],
+              "createdBy": {
+                "adminId": "212406"
+              },
+              "webhook": {
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "httpServer": {
+                  "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                },
+                "payloadTemplate": {
+                  "id": "wpt_2100"
+                },
+                "sentAt": "2018-02-11T00:00:00.090210Z"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -8080,35 +12676,54 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         url: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWebhooksLogsResponseItem]:
         """Return the log of webhook POSTs sent.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-logs
+        [API documentation: getOrganizationWebhooksLogs](https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-logs)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             url: The URL the webhook was sent to.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "alertType": "Settings changed",
+                "loggedAt": "2019-01-01T13:37:28.423456Z",
+                "networkId": "N_24329156",
+                "organizationId": "2930418",
+                "responseCode": 200,
+                "responseDuration": 244,
+                "sentAt": "2019-01-01T13:37:28.123456Z",
+                "url": "https://www.example.com/path"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

@@ -78,10 +78,25 @@ class Camera:
     ) -> GetDeviceCameraAnalyticsLiveResponse | None:
         """Returns live state from camera analytics zones.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-live
+        [API documentation: getDeviceCameraAnalyticsLive](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-live)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ts": "2018-08-15T18:32:38.123Z",
+              "zones": {
+                "zoneId": {
+                  "person": 0
+                }
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -105,18 +120,35 @@ class Camera:
     ) -> GetDeviceCameraAnalyticsOverviewResponse | None:
         """Returns an overview of aggregate analytics data for a timespan.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-overview
+        [API documentation: getDeviceCameraAnalyticsOverview](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-overview)
 
         Args:
             serial: Serial.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days. The default is 1 hour.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days. The default is 1 hour.
             object_type: [optional] The object type for which analytics will be retrieved. The
-              default object type is person. The available types are [person, vehicle].
+                default object type is person. The available types are [person,
+                vehicle].
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2018-08-15T18:32:38.123Z",
+                "endTs": "2018-08-15T18:33:38.123Z",
+                "zoneId": 0,
+                "entrances": 254,
+                "averageCount": 5.0
+              }
+            ]
+            ```
 
         """
         if object_type is not None:
@@ -151,12 +183,29 @@ class Camera:
     ) -> GetDeviceCameraAnalyticsRecentResponse | None:
         """Returns most recent record for analytics zones.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-recent
+        [API documentation: getDeviceCameraAnalyticsRecent](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-recent)
 
         Args:
             serial: Serial.
             object_type: [optional] The object type for which analytics will be retrieved. The
-              default object type is person. The available types are [person, vehicle].
+                default object type is person. The available types are [person,
+                vehicle].
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2018-08-15T18:32:38.123Z",
+                "endTs": "2018-08-15T18:33:38.123Z",
+                "zoneId": 0,
+                "entrances": 10,
+                "averageCount": 2.54
+              }
+            ]
+            ```
 
         """
         if object_type is not None:
@@ -185,10 +234,30 @@ class Camera:
     ) -> GetDeviceCameraAnalyticsZonesResponse | None:
         """Returns all configured analytic zones for this camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zones
+        [API documentation: getDeviceCameraAnalyticsZones](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zones)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "0",
+                "type": "occupancy",
+                "label": "Full Frame",
+                "regionOfInterest": {
+                  "x0": "0.00",
+                  "y0": "0.00",
+                  "x1": "1.00",
+                  "y1": "1.00"
+                }
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -214,21 +283,37 @@ class Camera:
     ) -> GetDeviceCameraAnalyticsZoneHistoryResponse | None:
         """Return historical records for analytic zones.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zone-history
+        [API documentation: getDeviceCameraAnalyticsZoneHistory](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zone-history)
 
         Args:
             serial: Serial.
             zone_id: Zone ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 14 hours after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 14 hours. The default is 1 hour.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 14 hours. The default is 1 hour.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              60. The default is 60.
+                60. The default is 60.
             object_type: [optional] The object type for which analytics will be retrieved. The
-              default object type is person. The available types are [person, vehicle].
+                default object type is person. The available types are [person,
+                vehicle].
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2018-08-15T18:32:38.123Z",
+                "endTs": "2018-08-15T18:33:38.123Z",
+                "entrances": 5,
+                "averageCount": 1.5
+              }
+            ]
+            ```
 
         """
         if object_type is not None:
@@ -266,10 +351,27 @@ class Camera:
     ) -> GetDeviceCameraCustomAnalyticsResponse | None:
         """Return custom analytics settings for a camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-custom-analytics
+        [API documentation: getDeviceCameraCustomAnalytics](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-custom-analytics)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "artifactId": "1",
+              "parameters": [
+                {
+                  "name": "detection_threshold",
+                  "value": 0.5
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -292,13 +394,30 @@ class Camera:
     ) -> UpdateDeviceCameraCustomAnalyticsResponse | None:
         """Update custom analytics settings for a camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics
+        [API documentation: updateDeviceCameraCustomAnalytics](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics)
 
         Args:
             serial: Serial.
             enabled: Enable custom analytics.
             artifact_id: The ID of the custom analytics artifact.
             parameters: Parameters for the custom analytics workload.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "artifactId": "1",
+              "parameters": [
+                {
+                  "name": "detection_threshold",
+                  "value": 0.5
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -327,15 +446,26 @@ class Camera:
     ) -> GenerateDeviceCameraSnapshotResponse | None:
         """Generate a snapshot of what the camera sees at the specified time and return a link to that image.
 
-        https://developer.cisco.com/meraki/api-v1/#!generate-device-camera-snapshot
+        [API documentation: generateDeviceCameraSnapshot](https://developer.cisco.com/meraki/api-v1/#!generate-device-camera-snapshot)
 
         Args:
             serial: Serial.
             timestamp: [optional] The snapshot will be taken from this time on the camera. The
-              timestamp is expected to be in ISO 8601 format. If no timestamp is
-              specified, we will assume current time.
+                timestamp is expected to be in ISO 8601 format. If no timestamp is
+                specified, we will assume current time.
             fullframe: [optional] If set to "true" the snapshot will be taken at full sensor
-              resolution. This will error if used with timestamp.
+                resolution. This will error if used with timestamp.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "url": "https://spn4.meraki.com/stream/jpeg/snapshot/b2d123asdf423qd22d2",
+              "expiry": "Access to the image will expire at 2018-12-11T03:12:39Z."
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -358,10 +488,26 @@ class Camera:
     def get_device_camera_quality_and_retention(self, serial: str) -> dict[str, Any] | None:
         """Returns quality and retention settings for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention
+        [API documentation: getDeviceCameraQualityAndRetention](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "motionBasedRetentionEnabled": false,
+              "audioRecordingEnabled": false,
+              "restrictedBandwidthModeEnabled": false,
+              "profileId": "1234",
+              "quality": "Standard",
+              "motionDetectorVersion": 2,
+              "resolution": "1280x720"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -385,28 +531,44 @@ class Camera:
     ) -> dict[str, Any] | None:
         """Update quality and retention settings for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention
+        [API documentation: updateDeviceCameraQualityAndRetention](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention)
 
         Args:
             serial: Serial.
             profile_id: The ID of a quality and retention profile to assign to the camera. The
-              profile's settings will override all of the per-camera quality and
-              retention settings. If the value of this parameter is null, any existing
-              profile will be unassigned from the camera.
+                profile's settings will override all of the per-camera quality and
+                retention settings. If the value of this parameter is null, any existing
+                profile will be unassigned from the camera.
             motion_based_retention_enabled: Boolean indicating if motion-based retention is
-              enabled(true) or disabled(false) on the camera.
+                enabled(true) or disabled(false) on the camera.
             audio_recording_enabled: Boolean indicating if audio recording is enabled(true) or
-              disabled(false) on the camera.
+                disabled(false) on the camera.
             restricted_bandwidth_mode_enabled: Boolean indicating if restricted bandwidth is
-              enabled(true) or disabled(false) on the camera. This setting does not
-              apply to MV2 cameras.
+                enabled(true) or disabled(false) on the camera. This setting does not
+                apply to MV2 cameras.
             quality: Quality of the camera. Can be one of 'Standard', 'High', 'Enhanced' or 'Ultra'.
-              Not all qualities are supported by every camera model.
+                Not all qualities are supported by every camera model.
             resolution: Resolution of the camera. Can be one of '1280x720', '1920x1080',
-              '1080x1080', '2112x2112', '2880x2880', '2688x1512' or '3840x2160'.Not all
-              resolutions are supported by every camera model.
+                '1080x1080', '2112x2112', '2880x2880', '2688x1512' or '3840x2160'.Not
+                all resolutions are supported by every camera model.
             motion_detector_version: The version of the motion detector that will be used by the
-              camera. Only applies to Gen 2 cameras. Defaults to v2.
+                camera. Only applies to Gen 2 cameras. Defaults to v2.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "motionBasedRetentionEnabled": false,
+              "audioRecordingEnabled": false,
+              "restrictedBandwidthModeEnabled": false,
+              "profileId": "1234",
+              "quality": "Standard",
+              "motionDetectorVersion": 2,
+              "resolution": "1280x720"
+            }
+            ```
 
         """
         if quality is not None:
@@ -462,10 +624,28 @@ class Camera:
     def get_device_camera_sense(self, serial: str) -> dict[str, Any] | None:
         """Returns sense settings for a given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense
+        [API documentation: getDeviceCameraSense](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "senseEnabled": true,
+              "audioDetection": {
+                "enabled": false
+              },
+              "mqttBrokerId": "1234",
+              "mqttTopics": [
+                "/merakimv/Q2AA-AAAA-1111/raw_detections",
+                "/merakimv/Q2AA-AAAA-1111/light"
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -484,16 +664,34 @@ class Camera:
     ) -> dict[str, Any] | None:
         """Update sense settings for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense
+        [API documentation: updateDeviceCameraSense](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense)
 
         Args:
             serial: Serial.
             sense_enabled: Boolean indicating if sense(license) is enabled(true) or disabled(false)
-              on the camera.
+                on the camera.
             mqtt_broker_id: The ID of the MQTT broker to be enabled on the camera. A value of null
-              will disable MQTT on the camera.
+                will disable MQTT on the camera.
             audio_detection: The details of the audio detection config.
             detection_model_id: The ID of the object detection model.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "senseEnabled": true,
+              "audioDetection": {
+                "enabled": false
+              },
+              "mqttBrokerId": "1234",
+              "mqttTopics": [
+                "/merakimv/Q2AA-AAAA-1111/raw_detections",
+                "/merakimv/Q2AA-AAAA-1111/light"
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -518,10 +716,23 @@ class Camera:
     ) -> GetDeviceCameraSenseObjectDetectionModelsResponse | None:
         """Returns the MV Sense object detection model list for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense-object-detection-models
+        [API documentation: getDeviceCameraSenseObjectDetectionModels](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense-object-detection-models)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "0",
+                "description": "Model A"
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -539,10 +750,21 @@ class Camera:
     ) -> GetDeviceCameraVideoSettingsResponse | None:
         """Returns video settings for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-settings
+        [API documentation: getDeviceCameraVideoSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-settings)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "externalRtspEnabled": true,
+              "rtspUrl": "rtsp://10.0.0.1:9000/live"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -560,11 +782,22 @@ class Camera:
     ) -> UpdateDeviceCameraVideoSettingsResponse | None:
         """Update video settings for the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings
+        [API documentation: updateDeviceCameraVideoSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings)
 
         Args:
             serial: Serial.
             external_rtsp_enabled: Boolean indicating if external rtsp stream is exposed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "externalRtspEnabled": true,
+              "rtspUrl": "rtsp://10.0.0.1:9000/live"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -587,13 +820,24 @@ class Camera:
     ) -> dict[str, Any] | None:
         """Returns video link to the specified camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-link
+        [API documentation: getDeviceCameraVideoLink](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-link)
 
         Args:
             serial: Serial.
             timestamp: [optional] The video link will start at this time. The timestamp should be a
-              string in ISO8601 format. If no timestamp is specified, we will assume
-              current time.
+                string in ISO8601 format. If no timestamp is specified, we will assume
+                current time.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "url": "https://nxx.meraki.com/office-cameras/n/bs0a1k/manage/nodes/new_list/29048243992402?timestamp=1535732570077",
+              "visionUrl": "https://vision.meraki.com/n/6482158978508419/cameras/29048243992402?ts=1535732570077"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -610,10 +854,24 @@ class Camera:
     def get_device_camera_wireless_profiles(self, serial: str) -> dict[str, Any] | None:
         """Returns wireless profile assigned to the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles
+        [API documentation: getDeviceCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ids": {
+                "primary": "3",
+                "secondary": "2",
+                "backup": "1"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -628,11 +886,25 @@ class Camera:
     ) -> dict[str, Any] | None:
         """Assign wireless profiles to the given camera.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles
+        [API documentation: updateDeviceCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles)
 
         Args:
             serial: Serial.
             ids: The ids of the wireless profile to assign to the given camera.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ids": {
+                "primary": "3",
+                "secondary": "2",
+                "backup": "1"
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -654,10 +926,40 @@ class Camera:
     ) -> GetNetworkCameraQualityRetentionProfilesResponse | None:
         """List the quality retention profiles for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profiles
+        [API documentation: getNetworkCameraQualityRetentionProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profiles)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "networkId": "N_24329156",
+                "name": "Sample quality retention profile",
+                "restrictedBandwidthModeEnabled": true,
+                "motionBasedRetentionEnabled": false,
+                "audioRecordingEnabled": false,
+                "cloudArchiveEnabled": false,
+                "maxRetentionDays": 7,
+                "scheduleId": "1234",
+                "motionDetectorVersion": 2,
+                "smartRetention": {
+                  "enabled": true
+                },
+                "videoSettings": {
+                  "MV32": {
+                    "quality": "Enhanced",
+                    "resolution": "1080x1080"
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -687,31 +989,59 @@ class Camera:
     ) -> CreateNetworkCameraQualityRetentionProfileResponse | None:
         """Creates new quality retention profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-camera-quality-retention-profile
+        [API documentation: createNetworkCameraQualityRetentionProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-camera-quality-retention-profile)
 
         Args:
             network_id: Network ID.
             name: The name of the new profile. Must be unique. This parameter is required.
             motion_based_retention_enabled: Deletes footage older than 3 days in which no motion was
-              detected. Can be either true or false. Defaults to false. This setting
-              does not apply to MV2 cameras.
+                detected. Can be either true or false. Defaults to false. This setting
+                does not apply to MV2 cameras.
             restricted_bandwidth_mode_enabled: Disable features that require additional bandwidth
-              such as Motion Recap. Can be either true or false. Defaults to false. This
-              setting does not apply to MV2 cameras.
+                such as Motion Recap. Can be either true or false. Defaults to false.
+                This setting does not apply to MV2 cameras.
             audio_recording_enabled: Whether or not to record audio. Can be either true or false.
-              Defaults to false.
+                Defaults to false.
             cloud_archive_enabled: Create redundant video backup using Cloud Archive. Can be either
-              true or false. Defaults to false.
+                true or false. Defaults to false.
             motion_detector_version: The version of the motion detector that will be used by the
-              camera. Only applies to Gen 2 cameras. Defaults to v2.
+                camera. Only applies to Gen 2 cameras. Defaults to v2.
             smart_retention: Smart Retention records footage in two qualities and intelligently
-              retains higher quality when motion, people or vehicles are detected.
+                retains higher quality when motion, people or vehicles are detected.
             schedule_id: Schedule for which this camera will record video, or 'null' to always
-              record.
+                record.
             max_retention_days: The maximum number of days for which the data will be stored, or
-              'null' to keep data until storage space runs out. If the former, it can be
-              in the range of one to ninety days.
+                'null' to keep data until storage space runs out. If the former, it can
+                be in the range of one to ninety days.
             video_settings: Video quality and resolution settings for all the camera models.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Sample quality retention profile",
+              "restrictedBandwidthModeEnabled": true,
+              "motionBasedRetentionEnabled": false,
+              "audioRecordingEnabled": false,
+              "cloudArchiveEnabled": false,
+              "maxRetentionDays": 7,
+              "scheduleId": "1234",
+              "motionDetectorVersion": 2,
+              "smartRetention": {
+                "enabled": true
+              },
+              "videoSettings": {
+                "MV32": {
+                  "quality": "Enhanced",
+                  "resolution": "1080x1080"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -752,11 +1082,39 @@ class Camera:
     ) -> GetNetworkCameraQualityRetentionProfileResponse | None:
         """Retrieve a single quality retention profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profile
+        [API documentation: getNetworkCameraQualityRetentionProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profile)
 
         Args:
             network_id: Network ID.
             quality_retention_profile_id: Quality retention profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Sample quality retention profile",
+              "restrictedBandwidthModeEnabled": true,
+              "motionBasedRetentionEnabled": false,
+              "audioRecordingEnabled": false,
+              "cloudArchiveEnabled": false,
+              "maxRetentionDays": 7,
+              "scheduleId": "1234",
+              "motionDetectorVersion": 2,
+              "smartRetention": {
+                "enabled": true
+              },
+              "videoSettings": {
+                "MV32": {
+                  "quality": "Enhanced",
+                  "resolution": "1080x1080"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -792,32 +1150,60 @@ class Camera:
     ) -> UpdateNetworkCameraQualityRetentionProfileResponse | None:
         """Update an existing quality retention profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-camera-quality-retention-profile
+        [API documentation: updateNetworkCameraQualityRetentionProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-camera-quality-retention-profile)
 
         Args:
             network_id: Network ID.
             quality_retention_profile_id: Quality retention profile ID.
             name: The name of the new profile. Must be unique.
             motion_based_retention_enabled: Deletes footage older than 3 days in which no motion was
-              detected. Can be either true or false. Defaults to false. This setting
-              does not apply to MV2 cameras.
+                detected. Can be either true or false. Defaults to false. This setting
+                does not apply to MV2 cameras.
             restricted_bandwidth_mode_enabled: Disable features that require additional bandwidth
-              such as Motion Recap. Can be either true or false. Defaults to false. This
-              setting does not apply to MV2 cameras.
+                such as Motion Recap. Can be either true or false. Defaults to false.
+                This setting does not apply to MV2 cameras.
             audio_recording_enabled: Whether or not to record audio. Can be either true or false.
-              Defaults to false.
+                Defaults to false.
             cloud_archive_enabled: Create redundant video backup using Cloud Archive. Can be either
-              true or false. Defaults to false.
+                true or false. Defaults to false.
             motion_detector_version: The version of the motion detector that will be used by the
-              camera. Only applies to Gen 2 cameras. Defaults to v2.
+                camera. Only applies to Gen 2 cameras. Defaults to v2.
             smart_retention: Smart Retention records footage in two qualities and intelligently
-              retains higher quality when motion, people or vehicles are detected.
+                retains higher quality when motion, people or vehicles are detected.
             schedule_id: Schedule for which this camera will record video, or 'null' to always
-              record.
+                record.
             max_retention_days: The maximum number of days for which the data will be stored, or
-              'null' to keep data until storage space runs out. If the former, it can be
-              in the range of one to ninety days.
+                'null' to keep data until storage space runs out. If the former, it can
+                be in the range of one to ninety days.
             video_settings: Video quality and resolution settings for all the camera models.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Sample quality retention profile",
+              "restrictedBandwidthModeEnabled": true,
+              "motionBasedRetentionEnabled": false,
+              "audioRecordingEnabled": false,
+              "cloudArchiveEnabled": false,
+              "maxRetentionDays": 7,
+              "scheduleId": "1234",
+              "motionDetectorVersion": 2,
+              "smartRetention": {
+                "enabled": true
+              },
+              "videoSettings": {
+                "MV32": {
+                  "quality": "Enhanced",
+                  "resolution": "1080x1080"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -863,11 +1249,14 @@ class Camera:
     ) -> None:
         """Delete an existing quality retention profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-quality-retention-profile
+        [API documentation: deleteNetworkCameraQualityRetentionProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-quality-retention-profile)
 
         Args:
             network_id: Network ID.
             quality_retention_profile_id: Quality retention profile ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -887,10 +1276,23 @@ class Camera:
     ) -> GetNetworkCameraSchedulesResponse | None:
         """Returns a list of all camera recording schedules.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules
+        [API documentation: getNetworkCameraSchedules](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "123",
+                "name": "Weekday schedule"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -908,10 +1310,34 @@ class Camera:
     ) -> GetNetworkCameraWirelessProfilesResponse | None:
         """List the camera wireless profiles for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles
+        [API documentation: getNetworkCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "152",
+                "name": "wireless profile A",
+                "appliedDeviceCount": 0,
+                "ssid": {
+                  "name": "ssid test",
+                  "authMode": "8021x-radius",
+                  "encryptionMode": "wpa-eap",
+                  "psk": "sampleKey"
+                },
+                "identity": {
+                  "username": "identityname",
+                  "password": "password123"
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -934,14 +1360,36 @@ class Camera:
     ) -> CreateNetworkCameraWirelessProfileResponse | None:
         """Creates a new camera wireless profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-camera-wireless-profile
+        [API documentation: createNetworkCameraWirelessProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-camera-wireless-profile)
 
         Args:
             network_id: Network ID.
             name: The name of the camera wireless profile. This parameter is required.
             ssid: The details of the SSID config.
             identity: The identity of the wireless profile. Required for creating wireless profiles
-              in 8021x-radius auth mode.
+                in 8021x-radius auth mode.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "152",
+              "name": "wireless profile A",
+              "appliedDeviceCount": 0,
+              "ssid": {
+                "name": "ssid test",
+                "authMode": "8021x-radius",
+                "encryptionMode": "wpa-eap",
+                "psk": "sampleKey"
+              },
+              "identity": {
+                "username": "identityname",
+                "password": "password123"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -968,11 +1416,33 @@ class Camera:
     ) -> GetNetworkCameraWirelessProfileResponse | None:
         """Retrieve a single camera wireless profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profile
+        [API documentation: getNetworkCameraWirelessProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profile)
 
         Args:
             network_id: Network ID.
             wireless_profile_id: Wireless profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "152",
+              "name": "wireless profile A",
+              "appliedDeviceCount": 0,
+              "ssid": {
+                "name": "ssid test",
+                "authMode": "8021x-radius",
+                "encryptionMode": "wpa-eap",
+                "psk": "sampleKey"
+              },
+              "identity": {
+                "username": "identityname",
+                "password": "password123"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -997,7 +1467,7 @@ class Camera:
     ) -> UpdateNetworkCameraWirelessProfileResponse | None:
         """Update an existing camera wireless profile in this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-camera-wireless-profile
+        [API documentation: updateNetworkCameraWirelessProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-camera-wireless-profile)
 
         Args:
             network_id: Network ID.
@@ -1005,7 +1475,29 @@ class Camera:
             name: The name of the camera wireless profile.
             ssid: The details of the SSID config.
             identity: The identity of the wireless profile. Required for creating wireless profiles
-              in 8021x-radius auth mode.
+                in 8021x-radius auth mode.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "152",
+              "name": "wireless profile A",
+              "appliedDeviceCount": 0,
+              "ssid": {
+                "name": "ssid test",
+                "authMode": "8021x-radius",
+                "encryptionMode": "wpa-eap",
+                "psk": "sampleKey"
+              },
+              "identity": {
+                "username": "identityname",
+                "password": "password123"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1033,11 +1525,14 @@ class Camera:
     ) -> None:
         """Delete an existing camera wireless profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-wireless-profile
+        [API documentation: deleteNetworkCameraWirelessProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-wireless-profile)
 
         Args:
             network_id: Network ID.
             wireless_profile_id: Wireless profile ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1053,12 +1548,36 @@ class Camera:
     ) -> GetOrganizationCameraBoundariesAreasByDeviceResponse | None:
         """Returns all configured area boundaries of cameras.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-areas-by-device
+        [API documentation: getOrganizationCameraBoundariesAreasByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-areas-by-device)
 
         Args:
             organization_id: Organization ID.
             serials: A list of serial numbers. The returned cameras will be filtered to only include
-              these serials.
+                these serials.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "serial": "Q234-ABCD-5678",
+                "boundaries": {
+                  "id": "k74272e",
+                  "type": "area",
+                  "name": "myarea",
+                  "vertices": [
+                    {
+                      "x": 0.1,
+                      "y": 0.1
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1081,12 +1600,40 @@ class Camera:
     ) -> GetOrganizationCameraBoundariesLinesByDeviceResponse | None:
         """Returns all configured crossingline boundaries of cameras.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-lines-by-device
+        [API documentation: getOrganizationCameraBoundariesLinesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-lines-by-device)
 
         Args:
             organization_id: Organization ID.
             serials: A list of serial numbers. The returned cameras will be filtered to only include
-              these serials.
+                these serials.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_24329156",
+                "serial": "Q234-ABCD-5678",
+                "boundaries": {
+                  "id": "k74272e",
+                  "type": "line",
+                  "name": "mycline",
+                  "vertices": [
+                    {
+                      "x": 0.375,
+                      "y": 0.5
+                    }
+                  ],
+                  "directionVertex": {
+                    "x": 0.5,
+                    "y": 0.54
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1109,10 +1656,28 @@ class Camera:
     ) -> GetOrganizationCameraCustomAnalyticsArtifactsResponse | None:
         """List Custom Analytics Artifacts.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifacts
+        [API documentation: getOrganizationCameraCustomAnalyticsArtifacts](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifacts)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "artifactId": "1",
+                "organizationId": "2",
+                "name": "example",
+                "status": {
+                  "type": "pending",
+                  "message": "sample message"
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1130,11 +1695,30 @@ class Camera:
     ) -> CreateOrganizationCameraCustomAnalyticsArtifactResponse | None:
         """Create custom analytics artifact.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-custom-analytics-artifact
+        [API documentation: createOrganizationCameraCustomAnalyticsArtifact](https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-custom-analytics-artifact)
 
         Args:
             organization_id: Organization ID.
             name: Unique name of the artifact.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "artifactId": "1",
+              "organizationId": "2",
+              "name": "example",
+              "status": {
+                "type": "pending",
+                "message": "sample message"
+              },
+              "uploadId": "00112233445566778899aabbccddeeff",
+              "uploadUrl": "https://meraki_custom_cv_upload_url",
+              "uploadUrlExpiry": "2022-01-23T01:23:45.123456+00:00"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1157,11 +1741,27 @@ class Camera:
     ) -> GetOrganizationCameraCustomAnalyticsArtifactResponse | None:
         """Get Custom Analytics Artifact.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifact
+        [API documentation: getOrganizationCameraCustomAnalyticsArtifact](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifact)
 
         Args:
             organization_id: Organization ID.
             artifact_id: Artifact ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "artifactId": "1",
+              "organizationId": "2",
+              "name": "example",
+              "status": {
+                "type": "pending",
+                "message": "sample message"
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1180,11 +1780,14 @@ class Camera:
     ) -> None:
         """Delete Custom Analytics Artifact.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-custom-analytics-artifact
+        [API documentation: deleteOrganizationCameraCustomAnalyticsArtifact](https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-custom-analytics-artifact)
 
         Args:
             organization_id: Organization ID.
             artifact_id: Artifact ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1206,26 +1809,46 @@ class Camera:
         duration: int | None = None,
         per_page: int | None = None,
         boundary_types: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem]:
         """Returns analytics data for timespans.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-detections-history-by-boundary-by-interval
+        [API documentation: getOrganizationCameraDetectionsHistoryByBoundaryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-detections-history-by-boundary-by-interval)
 
         Args:
             organization_id: Organization ID.
             boundary_ids: A list of boundary ids. The returned cameras will be filtered to only
-              include these ids.
+                include these ids.
             ranges: A list of time ranges with intervals.
             duration: The minimum time, in seconds, that the person or car remains in the area to be
-              counted. Defaults to boundary configuration or 60.
+                counted. Defaults to boundary configuration or 60.
             per_page: The number of entries per page returned. Acceptable range is 1 - 1000.
-              Defaults to 1000.
+                Defaults to 1000.
             boundary_types: The detection types. Defaults to 'person'.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "boundaryId": "k74272e",
+                "type": "line",
+                "results": {
+                  "startTime": "2018-02-11T00:00:00Z",
+                  "endTime": "2018-05-12T00:00:00Z",
+                  "objectType": "person",
+                  "in": 22,
+                  "out": 13
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1262,14 +1885,29 @@ class Camera:
     ) -> GetOrganizationCameraOnboardingStatusesResponse | None:
         """Fetch onboarding status of cameras.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-onboarding-statuses
+        [API documentation: getOrganizationCameraOnboardingStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-onboarding-statuses)
 
         Args:
             organization_id: Organization ID.
             serials: A list of serial numbers. The returned cameras will be filtered to only include
-              these serials.
+                these serials.
             network_ids: A list of network IDs. The returned cameras will be filtered to only
-              include these networks.
+                include these networks.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_12345",
+                "serial": "Q2AB-CDEF-GHIJ",
+                "status": "pending onboarding",
+                "updatedAt": "2021/03/24 15:23:47.101068 -0700"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1298,12 +1936,22 @@ class Camera:
     ) -> dict[str, Any] | None:
         """Notify that credential handoff to camera has completed.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-onboarding-statuses
+        [API documentation: updateOrganizationCameraOnboardingStatuses](https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-onboarding-statuses)
 
         Args:
             organization_id: Organization ID.
             serial: Serial of camera.
             wireless_credentials_sent: Note whether credentials were sent successfully.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1327,10 +1975,24 @@ class Camera:
     ) -> GetOrganizationCameraPermissionsResponse | None:
         """List the permissions scopes for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions
+        [API documentation: getOrganizationCameraPermissions](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "name": "camera_video",
+                "level": "live_video"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1348,11 +2010,23 @@ class Camera:
     ) -> GetOrganizationCameraPermissionResponse | None:
         """Retrieve a single permission scope.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permission
+        [API documentation: getOrganizationCameraPermission](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permission)
 
         Args:
             organization_id: Organization ID.
             permission_scope_id: Permission scope ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "camera_video",
+              "level": "live_video"
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1371,10 +2045,48 @@ class Camera:
     ) -> GetOrganizationCameraRolesResponse | None:
         """List all the roles in this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles
+        [API documentation: getOrganizationCameraRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "Security_Guard",
+                "appliedOnDevices": [
+                  {
+                    "tag": "reception-desk",
+                    "id": "",
+                    "permissionScopeId": "1",
+                    "permissionScope": "camera-video",
+                    "permissionLevel": "view_and_export"
+                  }
+                ],
+                "appliedOnNetworks": [
+                  {
+                    "tag": "",
+                    "id": "2568",
+                    "permissionScopeId": "2",
+                    "permissionScope": "camera-video",
+                    "permissionLevel": "view"
+                  }
+                ],
+                "appliedOrgWide": [
+                  {
+                    "tag": "building-a",
+                    "permissionScopeId": "2",
+                    "permissionScope": "camera_video",
+                    "permissionLevel": "view_live"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1398,7 +2110,7 @@ class Camera:
     ) -> CreateOrganizationCameraRoleResponse | None:
         """Creates new role for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-role
+        [API documentation: createOrganizationCameraRole](https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-role)
 
         Args:
             organization_id: Organization ID.
@@ -1406,6 +2118,42 @@ class Camera:
             applied_on_devices: Device tag on which this specified permission is applied.
             applied_on_networks: Network tag on which this specified permission is applied.
             applied_org_wide: Permissions to be applied org wide.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "Security_Guard",
+              "appliedOnDevices": [
+                {
+                  "tag": "reception-desk",
+                  "id": "",
+                  "permissionScopeId": "1",
+                  "permissionScope": "camera-video",
+                  "permissionLevel": "view_and_export"
+                }
+              ],
+              "appliedOnNetworks": [
+                {
+                  "tag": "",
+                  "id": "2568",
+                  "permissionScopeId": "2",
+                  "permissionScope": "camera-video",
+                  "permissionLevel": "view"
+                }
+              ],
+              "appliedOrgWide": [
+                {
+                  "tag": "building-a",
+                  "permissionScopeId": "2",
+                  "permissionScope": "camera_video",
+                  "permissionLevel": "view_live"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1440,11 +2188,47 @@ class Camera:
     ) -> GetOrganizationCameraRoleResponse | None:
         """Retrieve a single role.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-role
+        [API documentation: getOrganizationCameraRole](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-role)
 
         Args:
             organization_id: Organization ID.
             role_id: Role ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "Security_Guard",
+              "appliedOnDevices": [
+                {
+                  "tag": "reception-desk",
+                  "id": "",
+                  "permissionScopeId": "1",
+                  "permissionScope": "camera-video",
+                  "permissionLevel": "view_and_export"
+                }
+              ],
+              "appliedOnNetworks": [
+                {
+                  "tag": "",
+                  "id": "2568",
+                  "permissionScopeId": "2",
+                  "permissionScope": "camera-video",
+                  "permissionLevel": "view"
+                }
+              ],
+              "appliedOrgWide": [
+                {
+                  "tag": "building-a",
+                  "permissionScopeId": "2",
+                  "permissionScope": "camera_video",
+                  "permissionLevel": "view_live"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1470,7 +2254,7 @@ class Camera:
     ) -> UpdateOrganizationCameraRoleResponse | None:
         """Update an existing role in this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-role
+        [API documentation: updateOrganizationCameraRole](https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-role)
 
         Args:
             organization_id: Organization ID.
@@ -1479,6 +2263,42 @@ class Camera:
             applied_on_devices: Device tag on which this specified permission is applied.
             applied_on_networks: Network tag on which this specified permission is applied.
             applied_org_wide: Permissions to be applied org wide.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "Security_Guard",
+              "appliedOnDevices": [
+                {
+                  "tag": "reception-desk",
+                  "id": "",
+                  "permissionScopeId": "1",
+                  "permissionScope": "camera-video",
+                  "permissionLevel": "view_and_export"
+                }
+              ],
+              "appliedOnNetworks": [
+                {
+                  "tag": "",
+                  "id": "2568",
+                  "permissionScopeId": "2",
+                  "permissionScope": "camera-video",
+                  "permissionLevel": "view"
+                }
+              ],
+              "appliedOrgWide": [
+                {
+                  "tag": "building-a",
+                  "permissionScopeId": "2",
+                  "permissionScope": "camera_video",
+                  "permissionLevel": "view_live"
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1512,11 +2332,14 @@ class Camera:
     def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:
         """Delete an existing role for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role
+        [API documentation: deleteOrganizationCameraRole](https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role)
 
         Args:
             organization_id: Organization ID.
             role_id: Role ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

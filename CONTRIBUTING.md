@@ -18,7 +18,8 @@ make generate VERSION=1.66.0
 ```
 
 This command:
-1. Downloads the OpenAPI spec for the specified version (cached in `.cache/`)
+
+1. Downloads the OpenAPI spec for the specified version
 2. Generates the `meraki_client` package with sync and async clients
 3. Generates Pydantic response schemas
 4. Generates integration tests in `tests/generated/`
@@ -83,7 +84,7 @@ def test_create_network() -> None:
 ## Linting
 
 ```shell
-# Run all checks (format, lint, typecheck)
+# Run all checks (format, lint, typecheck, docs)
 make lint
 ```
 

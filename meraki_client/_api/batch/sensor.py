@@ -30,15 +30,15 @@ class ActionBatchSensor:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Sends a command to a sensor.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command
+        [API documentation: createDeviceSensorCommand](https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command)
 
         Args:
             serial: Serial.
             operation: Operation to run on the sensor. 'enableDownstreamPower',
-              'disableDownstreamPower', and 'cycleDownstreamPower' turn power on/off to
-              the device that is connected downstream of an MT40 power monitor.
-              'refreshData' causes an MT15 or MT40 device to upload its latest readings
-              so that they are immediately available in the Dashboard API.
+                'disableDownstreamPower', and 'cycleDownstreamPower' turn power on/off
+                to the device that is connected downstream of an MT40 power monitor.
+                'refreshData' causes an MT15 or MT40 device to upload its latest
+                readings so that they are immediately available in the Dashboard API.
 
         """
         if operation is not None:
@@ -70,13 +70,13 @@ class ActionBatchSensor:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Assign one or more sensor roles to a given sensor or camera device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships
+        [API documentation: updateDeviceSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships)
 
         Args:
             serial: Serial.
             livestream: A role defined between an MT sensor and an MV camera that adds the camera's
-              livestream to the sensor's details page. Snapshots from the camera will
-              also appear in alert notifications that the sensor triggers.
+                livestream to the sensor's details page. Snapshots from the camera will
+                also appear in alert notifications that the sensor triggers.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -106,7 +106,7 @@ class ActionBatchSensor:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates a sensor alert profile for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile
+        [API documentation: createNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile)
 
         Args:
             network_id: Network ID.
@@ -161,7 +161,7 @@ class ActionBatchSensor:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates a sensor alert profile for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile
+        [API documentation: updateNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile)
 
         Args:
             network_id: Network ID.
@@ -208,7 +208,7 @@ class ActionBatchSensor:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a sensor alert profile from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
+        [API documentation: deleteNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile)
 
         Args:
             network_id: Network ID.
@@ -229,7 +229,7 @@ class ActionBatchSensor:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the sensor settings of an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker
+        [API documentation: updateNetworkSensorMqttBroker](https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker)
 
         Args:
             network_id: Network ID.

@@ -161,7 +161,7 @@ class Session:
         """Close the HTTP client."""
         await self._client.aclose()
 
-    async def __aenter__(self) -> "Session":
+    async def __aenter__(self) -> Self:
         return self
 
     async def __aexit__(self, *args: object) -> None:

@@ -60,39 +60,61 @@ class Sensor:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetDeviceSensorCommandsResponseItem]:
         """Returns a historical log of all commands.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-commands
+        [API documentation: getDeviceSensorCommands](https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-commands)
 
         Args:
             serial: Serial.
             operations: Optional parameter to filter commands by operation. Allowed values are
-              disableDownstreamPower, enableDownstreamPower, cycleDownstreamPower, and
-              refreshData.
+                disableDownstreamPower, enableDownstreamPower, cycleDownstreamPower, and
+                refreshData.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
-              Default is 'descending'.
+                Default is 'descending'.
             t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 30 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 30 days. The default is 30 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 30 days. The default is 30 days.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "commandId": "1284392014819",
+                "createdAt": "2018-02-11T00:00:00Z",
+                "completedAt": "2018-05-12T00:00:00Z",
+                "createdBy": {
+                  "adminId": "212406",
+                  "name": "Miles Meraki",
+                  "email": "miles@meraki.com"
+                },
+                "operation": "disableDownstreamPower",
+                "status": "completed",
+                "errors": []
+              }
+            ]
+            ```
 
         """
         if sort_order is not None:
@@ -137,15 +159,35 @@ class Sensor:
     ) -> CreateDeviceSensorCommandResponse | None:
         """Sends a command to a sensor.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command
+        [API documentation: createDeviceSensorCommand](https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command)
 
         Args:
             serial: Serial.
             operation: Operation to run on the sensor. 'enableDownstreamPower',
-              'disableDownstreamPower', and 'cycleDownstreamPower' turn power on/off to
-              the device that is connected downstream of an MT40 power monitor.
-              'refreshData' causes an MT15 or MT40 device to upload its latest readings
-              so that they are immediately available in the Dashboard API.
+                'disableDownstreamPower', and 'cycleDownstreamPower' turn power on/off
+                to the device that is connected downstream of an MT40 power monitor.
+                'refreshData' causes an MT15 or MT40 device to upload its latest
+                readings so that they are immediately available in the Dashboard API.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "commandId": "1284392014819",
+              "createdAt": "2018-02-11T00:00:00Z",
+              "completedAt": "2018-05-12T00:00:00Z",
+              "createdBy": {
+                "adminId": "212406",
+                "name": "Miles Meraki",
+                "email": "miles@meraki.com"
+              },
+              "operation": "disableDownstreamPower",
+              "status": "completed",
+              "errors": []
+            }
+            ```
 
         """
         if operation is not None:
@@ -179,11 +221,31 @@ class Sensor:
     ) -> GetDeviceSensorCommandResponse | None:
         """Returns information about the command's execution, including the status.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-command
+        [API documentation: getDeviceSensorCommand](https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-command)
 
         Args:
             serial: Serial.
             command_id: Command ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "commandId": "1284392014819",
+              "createdAt": "2018-02-11T00:00:00Z",
+              "completedAt": "2018-05-12T00:00:00Z",
+              "createdBy": {
+                "adminId": "212406",
+                "name": "Miles Meraki",
+                "email": "miles@meraki.com"
+              },
+              "operation": "disableDownstreamPower",
+              "status": "completed",
+              "errors": []
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -202,10 +264,27 @@ class Sensor:
     ) -> GetDeviceSensorRelationshipsResponse | None:
         """List the sensor roles for a given sensor or camera device.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-relationships
+        [API documentation: getDeviceSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-relationships)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "livestream": {
+                "relatedDevices": [
+                  {
+                    "serial": "Q234-ABCD-5678",
+                    "productType": "camera"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -223,13 +302,30 @@ class Sensor:
     ) -> UpdateDeviceSensorRelationshipsResponse | None:
         """Assign one or more sensor roles to a given sensor or camera device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships
+        [API documentation: updateDeviceSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships)
 
         Args:
             serial: Serial.
             livestream: A role defined between an MT sensor and an MV camera that adds the camera's
-              livestream to the sensor's details page. Snapshots from the camera will
-              also appear in alert notifications that the sensor triggers.
+                livestream to the sensor's details page. Snapshots from the camera will
+                also appear in alert notifications that the sensor triggers.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "livestream": {
+                "relatedDevices": [
+                  {
+                    "serial": "Q234-ABCD-5678",
+                    "productType": "camera"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -252,10 +348,44 @@ class Sensor:
     ) -> GetNetworkSensorAlertsCurrentOverviewByMetricResponse | None:
         """Return an overview of currently alerting sensors by metric.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-current-overview-by-metric
+        [API documentation: getNetworkSensorAlertsCurrentOverviewByMetric](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-current-overview-by-metric)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "supportedMetrics": [
+                "temperature",
+                "humidity",
+                "door"
+              ],
+              "counts": {
+                "apparentPower": 0,
+                "co2": 0,
+                "current": 0,
+                "door": 0,
+                "frequency": 0,
+                "humidity": 1,
+                "indoorAirQuality": 0,
+                "noise": {
+                  "ambient": 0
+                },
+                "pm25": 0,
+                "powerFactor": 0,
+                "realPower": 0,
+                "temperature": 4,
+                "tvoc": 0,
+                "upstreamPower": 0,
+                "voltage": 0,
+                "water": 0
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -279,20 +409,53 @@ class Sensor:
     ) -> GetNetworkSensorAlertsOverviewByMetricResponse | None:
         """Return an overview of alert occurrences over a timespan, by metric.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-overview-by-metric
+        [API documentation: getNetworkSensorAlertsOverviewByMetric](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-overview-by-metric)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 731 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 366 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 366 days. The default is 7 days. If
-              interval is provided, the timespan will be autocalculated.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 366 days. The default is 7 days. If
+                interval is provided, the timespan will be autocalculated.
             interval: The time interval in seconds for returned data. The valid intervals are: 900,
-              3600, 86400, 604800, 2592000. The default is 604800. Interval is
-              calculated if time params are provided.
+                3600, 86400, 604800, 2592000. The default is 604800. Interval is
+                calculated if time params are provided.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2022-08-21T00:00:00Z",
+                "endTs": "2022-08-27T23:59:59Z",
+                "counts": {
+                  "apparentPower": 0,
+                  "co2": 0,
+                  "current": 0,
+                  "door": 0,
+                  "frequency": 1,
+                  "humidity": 1,
+                  "indoorAirQuality": 0,
+                  "noise": {
+                    "ambient": 2
+                  },
+                  "pm25": 0,
+                  "powerFactor": 0,
+                  "realPower": 0,
+                  "temperature": 4,
+                  "tvoc": 0,
+                  "upstreamPower": 0,
+                  "voltage": 0,
+                  "water": 0
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -321,10 +484,112 @@ class Sensor:
     ) -> GetNetworkSensorAlertsProfilesResponse | None:
         """Lists all sensor alert profiles for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles
+        [API documentation: getNetworkSensorAlertsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "profileId": "1",
+                "name": "My Sensor Alert Profile",
+                "schedule": {
+                  "id": "5",
+                  "name": "My Schedule"
+                },
+                "conditions": [
+                  {
+                    "metric": "temperature",
+                    "threshold": {
+                      "temperature": {
+                        "celsius": 20.5,
+                        "fahrenheit": 70.0,
+                        "quality": "good"
+                      },
+                      "humidity": {
+                        "relativePercentage": 65,
+                        "quality": "inadequate"
+                      },
+                      "water": {
+                        "present": true
+                      },
+                      "door": {
+                        "open": true
+                      },
+                      "tvoc": {
+                        "concentration": 400,
+                        "quality": "poor"
+                      },
+                      "co2": {
+                        "concentration": 400,
+                        "quality": "poor"
+                      },
+                      "pm25": {
+                        "concentration": 90,
+                        "quality": "fair"
+                      },
+                      "noise": {
+                        "ambient": {
+                          "level": 120,
+                          "quality": "poor"
+                        }
+                      },
+                      "indoorAirQuality": {
+                        "score": 80,
+                        "quality": "fair"
+                      },
+                      "realPower": {
+                        "draw": 14.1
+                      },
+                      "apparentPower": {
+                        "draw": 17.2
+                      },
+                      "powerFactor": {
+                        "percentage": 81
+                      },
+                      "current": {
+                        "draw": 0.14
+                      },
+                      "voltage": {
+                        "level": 119.5
+                      },
+                      "frequency": {
+                        "level": 58.8
+                      },
+                      "upstreamPower": {
+                        "outageDetected": true
+                      }
+                    },
+                    "direction": "above",
+                    "duration": 60
+                  }
+                ],
+                "recipients": {
+                  "emails": [
+                    "miles@meraki.com"
+                  ],
+                  "smsNumbers": [
+                    "+15555555555"
+                  ],
+                  "httpServerIds": [
+                    "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                  ]
+                },
+                "serials": [
+                  "Q234-ABCD-0001",
+                  "Q234-ABCD-0002",
+                  "Q234-ABCD-0003"
+                ],
+                "includeSensorUrl": true,
+                "message": "Check with Miles on what to do."
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -351,7 +616,7 @@ class Sensor:
     ) -> CreateNetworkSensorAlertsProfileResponse | None:
         """Creates a sensor alert profile for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile
+        [API documentation: createNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile)
 
         Args:
             network_id: Network ID.
@@ -362,6 +627,106 @@ class Sensor:
             serials: List of device serials assigned to this sensor alert profile.
             include_sensor_url: Include dashboard link to sensor in messages (default: true).
             message: A custom message that will appear in email and text message alerts.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "1",
+              "name": "My Sensor Alert Profile",
+              "schedule": {
+                "id": "5",
+                "name": "My Schedule"
+              },
+              "conditions": [
+                {
+                  "metric": "temperature",
+                  "threshold": {
+                    "temperature": {
+                      "celsius": 20.5,
+                      "fahrenheit": 70.0,
+                      "quality": "good"
+                    },
+                    "humidity": {
+                      "relativePercentage": 65,
+                      "quality": "inadequate"
+                    },
+                    "water": {
+                      "present": true
+                    },
+                    "door": {
+                      "open": true
+                    },
+                    "tvoc": {
+                      "concentration": 400,
+                      "quality": "poor"
+                    },
+                    "co2": {
+                      "concentration": 400,
+                      "quality": "poor"
+                    },
+                    "pm25": {
+                      "concentration": 90,
+                      "quality": "fair"
+                    },
+                    "noise": {
+                      "ambient": {
+                        "level": 120,
+                        "quality": "poor"
+                      }
+                    },
+                    "indoorAirQuality": {
+                      "score": 80,
+                      "quality": "fair"
+                    },
+                    "realPower": {
+                      "draw": 14.1
+                    },
+                    "apparentPower": {
+                      "draw": 17.2
+                    },
+                    "powerFactor": {
+                      "percentage": 81
+                    },
+                    "current": {
+                      "draw": 0.14
+                    },
+                    "voltage": {
+                      "level": 119.5
+                    },
+                    "frequency": {
+                      "level": 58.8
+                    },
+                    "upstreamPower": {
+                      "outageDetected": true
+                    }
+                  },
+                  "direction": "above",
+                  "duration": 60
+                }
+              ],
+              "recipients": {
+                "emails": [
+                  "miles@meraki.com"
+                ],
+                "smsNumbers": [
+                  "+15555555555"
+                ],
+                "httpServerIds": [
+                  "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                ]
+              },
+              "serials": [
+                "Q234-ABCD-0001",
+                "Q234-ABCD-0002",
+                "Q234-ABCD-0003"
+              ],
+              "includeSensorUrl": true,
+              "message": "Check with Miles on what to do."
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -398,11 +763,111 @@ class Sensor:
     ) -> GetNetworkSensorAlertsProfileResponse | None:
         """Show details of a sensor alert profile for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profile
+        [API documentation: getNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profile)
 
         Args:
             network_id: Network ID.
             id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "1",
+              "name": "My Sensor Alert Profile",
+              "schedule": {
+                "id": "5",
+                "name": "My Schedule"
+              },
+              "conditions": [
+                {
+                  "metric": "temperature",
+                  "threshold": {
+                    "temperature": {
+                      "celsius": 20.5,
+                      "fahrenheit": 70.0,
+                      "quality": "good"
+                    },
+                    "humidity": {
+                      "relativePercentage": 65,
+                      "quality": "inadequate"
+                    },
+                    "water": {
+                      "present": true
+                    },
+                    "door": {
+                      "open": true
+                    },
+                    "tvoc": {
+                      "concentration": 400,
+                      "quality": "poor"
+                    },
+                    "co2": {
+                      "concentration": 400,
+                      "quality": "poor"
+                    },
+                    "pm25": {
+                      "concentration": 90,
+                      "quality": "fair"
+                    },
+                    "noise": {
+                      "ambient": {
+                        "level": 120,
+                        "quality": "poor"
+                      }
+                    },
+                    "indoorAirQuality": {
+                      "score": 80,
+                      "quality": "fair"
+                    },
+                    "realPower": {
+                      "draw": 14.1
+                    },
+                    "apparentPower": {
+                      "draw": 17.2
+                    },
+                    "powerFactor": {
+                      "percentage": 81
+                    },
+                    "current": {
+                      "draw": 0.14
+                    },
+                    "voltage": {
+                      "level": 119.5
+                    },
+                    "frequency": {
+                      "level": 58.8
+                    },
+                    "upstreamPower": {
+                      "outageDetected": true
+                    }
+                  },
+                  "direction": "above",
+                  "duration": 60
+                }
+              ],
+              "recipients": {
+                "emails": [
+                  "miles@meraki.com"
+                ],
+                "smsNumbers": [
+                  "+15555555555"
+                ],
+                "httpServerIds": [
+                  "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                ]
+              },
+              "serials": [
+                "Q234-ABCD-0001",
+                "Q234-ABCD-0002",
+                "Q234-ABCD-0003"
+              ],
+              "includeSensorUrl": true,
+              "message": "Check with Miles on what to do."
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -431,7 +896,7 @@ class Sensor:
     ) -> UpdateNetworkSensorAlertsProfileResponse | None:
         """Updates a sensor alert profile for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile
+        [API documentation: updateNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile)
 
         Args:
             network_id: Network ID.
@@ -443,6 +908,106 @@ class Sensor:
             serials: List of device serials assigned to this sensor alert profile.
             include_sensor_url: Include dashboard link to sensor in messages (default: true).
             message: A custom message that will appear in email and text message alerts.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "1",
+              "name": "My Sensor Alert Profile",
+              "schedule": {
+                "id": "5",
+                "name": "My Schedule"
+              },
+              "conditions": [
+                {
+                  "metric": "temperature",
+                  "threshold": {
+                    "temperature": {
+                      "celsius": 20.5,
+                      "fahrenheit": 70.0,
+                      "quality": "good"
+                    },
+                    "humidity": {
+                      "relativePercentage": 65,
+                      "quality": "inadequate"
+                    },
+                    "water": {
+                      "present": true
+                    },
+                    "door": {
+                      "open": true
+                    },
+                    "tvoc": {
+                      "concentration": 400,
+                      "quality": "poor"
+                    },
+                    "co2": {
+                      "concentration": 400,
+                      "quality": "poor"
+                    },
+                    "pm25": {
+                      "concentration": 90,
+                      "quality": "fair"
+                    },
+                    "noise": {
+                      "ambient": {
+                        "level": 120,
+                        "quality": "poor"
+                      }
+                    },
+                    "indoorAirQuality": {
+                      "score": 80,
+                      "quality": "fair"
+                    },
+                    "realPower": {
+                      "draw": 14.1
+                    },
+                    "apparentPower": {
+                      "draw": 17.2
+                    },
+                    "powerFactor": {
+                      "percentage": 81
+                    },
+                    "current": {
+                      "draw": 0.14
+                    },
+                    "voltage": {
+                      "level": 119.5
+                    },
+                    "frequency": {
+                      "level": 58.8
+                    },
+                    "upstreamPower": {
+                      "outageDetected": true
+                    }
+                  },
+                  "direction": "above",
+                  "duration": 60
+                }
+              ],
+              "recipients": {
+                "emails": [
+                  "miles@meraki.com"
+                ],
+                "smsNumbers": [
+                  "+15555555555"
+                ],
+                "httpServerIds": [
+                  "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                ]
+              },
+              "serials": [
+                "Q234-ABCD-0001",
+                "Q234-ABCD-0002",
+                "Q234-ABCD-0003"
+              ],
+              "includeSensorUrl": true,
+              "message": "Check with Miles on what to do."
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -478,11 +1043,14 @@ class Sensor:
     async def delete_network_sensor_alerts_profile(self, *, network_id: str, id: str) -> None:
         """Deletes a sensor alert profile from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
+        [API documentation: deleteNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile)
 
         Args:
             network_id: Network ID.
             id: ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -498,10 +1066,23 @@ class Sensor:
     ) -> GetNetworkSensorMqttBrokersResponse | None:
         """List the sensor settings of all MQTT brokers for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers
+        [API documentation: getNetworkSensorMqttBrokers](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mqttBrokerId": "1234",
+                "enabled": true
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -519,11 +1100,22 @@ class Sensor:
     ) -> GetNetworkSensorMqttBrokerResponse | None:
         """Return the sensor settings of an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-broker
+        [API documentation: getNetworkSensorMqttBroker](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-broker)
 
         Args:
             network_id: Network ID.
             mqtt_broker_id: Mqtt broker ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mqttBrokerId": "1234",
+              "enabled": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -542,12 +1134,23 @@ class Sensor:
     ) -> UpdateNetworkSensorMqttBrokerResponse | None:
         """Update the sensor settings of an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker
+        [API documentation: updateNetworkSensorMqttBroker](https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker)
 
         Args:
             network_id: Network ID.
             mqtt_broker_id: Mqtt broker ID.
             enabled: Set to true to enable MQTT broker for sensor network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mqttBrokerId": "1234",
+              "enabled": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -571,10 +1174,36 @@ class Sensor:
     ) -> GetNetworkSensorRelationshipsResponse | None:
         """List the sensor roles for devices in a given network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-relationships
+        [API documentation: getNetworkSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-relationships)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "device": {
+                  "name": "My sensor",
+                  "serial": "Q234-ABCD-0001",
+                  "productType": "sensor"
+                },
+                "relationships": {
+                  "livestream": {
+                    "relatedDevices": [
+                      {
+                        "serial": "Q234-ABCD-5678",
+                        "productType": "camera"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -595,29 +1224,67 @@ class Sensor:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem]:
         """Returns latest sensor-gateway connectivity data.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-gateways-connections-latest
+        [API documentation: getOrganizationSensorGatewaysConnectionsLatest](https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-gateways-connections-latest)
 
         Args:
             organization_id: Organization ID.
             sensor_serials: List of sensor serials to filter connectivity data by sensor.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "lastReportedAt": "2024-09-04T19:29:05Z",
+                  "lastConnectedAt": "2024-09-04T19:29:05Z",
+                  "rssi": -24,
+                  "network": {
+                    "name": "My sensor",
+                    "id": "N_12345678"
+                  },
+                  "sensor": {
+                    "serial": "Q234-ABCD-0001",
+                    "name": "My sensor",
+                    "mac": "00:11:22:33:44:55"
+                  },
+                  "gateway": {
+                    "serial": "Q234-ABCD-0004",
+                    "name": "My gateway",
+                    "mac": "22:33:44:55:66:77"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 20,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -656,38 +1323,129 @@ class Sensor:
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         metrics: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSensorReadingsHistoryResponseItem]:
         """Return all reported readings from sensors in a given timespan, sorted by timestamp.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-history
+        [API documentation: getOrganizationSensorReadingsHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-history)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
-              and 6 hours from today.
+                and 6 hours from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days. The default is 2 hours.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days. The default is 2 hours.
             network_ids: Optional parameter to filter readings by network.
             serials: Optional parameter to filter readings by sensor.
             metrics: Types of sensor readings to retrieve. If no metrics are supplied, all available
-              types of readings will be retrieved.
+                types of readings will be retrieved.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-5678",
+                "network": {
+                  "id": "N_24329156",
+                  "name": "Main Office"
+                },
+                "ts": "2021-10-18T23:54:48.000000Z",
+                "metric": "temperature",
+                "apparentPower": {
+                  "draw": 15.9
+                },
+                "battery": {
+                  "percentage": 91
+                },
+                "button": {
+                  "pressType": "short"
+                },
+                "co2": {
+                  "concentration": 100
+                },
+                "current": {
+                  "draw": 0.13
+                },
+                "door": {
+                  "open": true
+                },
+                "downstreamPower": {
+                  "enabled": true
+                },
+                "frequency": {
+                  "level": 60.1
+                },
+                "humidity": {
+                  "relativePercentage": 34
+                },
+                "indoorAirQuality": {
+                  "score": 89
+                },
+                "noise": {
+                  "ambient": {
+                    "level": 45
+                  }
+                },
+                "no2": {
+                  "concentration": 25
+                },
+                "o3": {
+                  "concentration": 30
+                },
+                "pm10": {
+                  "concentration": 50
+                },
+                "pm25": {
+                  "concentration": 100
+                },
+                "powerFactor": {
+                  "percentage": 86
+                },
+                "realPower": {
+                  "draw": 13.7
+                },
+                "remoteLockoutSwitch": {
+                  "locked": false
+                },
+                "temperature": {
+                  "fahrenheit": 77.81,
+                  "celsius": 25.45
+                },
+                "tvoc": {
+                  "concentration": 100
+                },
+                "voltage": {
+                  "level": 122.4
+                },
+                "water": {
+                  "present": true
+                },
+                "rawTemperature": {
+                  "fahrenheit": 75.3,
+                  "celsius": 24.06
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -733,32 +1491,127 @@ class Sensor:
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         metrics: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSensorReadingsLatestResponseItem]:
         """Return the latest available reading for each metric from each sensor, sorted by sensor serial.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-latest
+        [API documentation: getOrganizationSensorReadingsLatest](https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-latest)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter readings by network.
             serials: Optional parameter to filter readings by sensor.
             metrics: Types of sensor readings to retrieve. If no metrics are supplied, all available
-              types of readings will be retrieved.
+                types of readings will be retrieved.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-5678",
+                "network": {
+                  "id": "N_24329156",
+                  "name": "Main Office"
+                },
+                "readings": [
+                  {
+                    "ts": "2021-10-18T23:54:48.000000Z",
+                    "metric": "temperature",
+                    "apparentPower": {
+                      "draw": 15.9
+                    },
+                    "battery": {
+                      "percentage": 91
+                    },
+                    "button": {
+                      "pressType": "short"
+                    },
+                    "co2": {
+                      "concentration": 100
+                    },
+                    "current": {
+                      "draw": 0.13
+                    },
+                    "door": {
+                      "open": true
+                    },
+                    "downstreamPower": {
+                      "enabled": true
+                    },
+                    "frequency": {
+                      "level": 60.1
+                    },
+                    "humidity": {
+                      "relativePercentage": 34
+                    },
+                    "indoorAirQuality": {
+                      "score": 89
+                    },
+                    "noise": {
+                      "ambient": {
+                        "level": 45
+                      }
+                    },
+                    "no2": {
+                      "concentration": 25
+                    },
+                    "o3": {
+                      "concentration": 30
+                    },
+                    "pm10": {
+                      "concentration": 50
+                    },
+                    "pm25": {
+                      "concentration": 100
+                    },
+                    "powerFactor": {
+                      "percentage": 86
+                    },
+                    "realPower": {
+                      "draw": 13.7
+                    },
+                    "remoteLockoutSwitch": {
+                      "locked": false
+                    },
+                    "temperature": {
+                      "fahrenheit": 77.81,
+                      "celsius": 25.45
+                    },
+                    "tvoc": {
+                      "concentration": 100
+                    },
+                    "voltage": {
+                      "level": 122.4
+                    },
+                    "water": {
+                      "present": true
+                    },
+                    "rawTemperature": {
+                      "fahrenheit": 75.3,
+                      "celsius": 24.06
+                    }
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

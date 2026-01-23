@@ -38,7 +38,7 @@ class ActionBatchDevices:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the attributes of a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device
+        [API documentation: updateDevice](https://developer.cisco.com/meraki/api-v1/#!update-device)
 
         Args:
             serial: Serial.
@@ -49,14 +49,14 @@ class ActionBatchDevices:
             address: The address of a device.
             notes: The notes for the device. String. Limited to 255 characters.
             move_map_marker: Whether or not to set the latitude and longitude of a device based on
-              the new address. Only applies when lat and lng are not specified.
+                the new address. Only applies when lat and lng are not specified.
             switch_profile_id: The ID of a switch template to bind to the device (for available
-              switch templates, see the 'Switch Templates' endpoint). Use null to unbind
-              the switch device from the current profile. For a device to be bindable to
-              a switch template, it must (1) be a switch, and (2) belong to a network
-              that is bound to a configuration template.
+                switch templates, see the 'Switch Templates' endpoint). Use null to
+                unbind the switch device from the current profile. For a device to be
+                bindable to a switch template, it must (1) be a switch, and (2) belong
+                to a network that is bound to a configuration template.
             floor_plan_id: The floor plan to associate to this device. null disassociates the device
-              from the floorplan.
+                from the floorplan.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -97,13 +97,13 @@ class ActionBatchDevices:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Enqueue a job to blink LEDs on a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink
+        [API documentation: createDeviceLiveToolsLedsBlink](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink)
 
         Args:
             serial: Serial.
             duration: The duration in seconds to blink LEDs.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -126,12 +126,12 @@ class ActionBatchDevices:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test
+        [API documentation: createDeviceLiveToolsThroughputTest](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test)
 
         Args:
             serial: Serial.
             callback: Details for the callback. Please include either an httpServerId OR url and
-              sharedSecret.
+                sharedSecret.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -156,7 +156,7 @@ class ActionBatchDevices:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the management interface settings for a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface
+        [API documentation: updateDeviceManagementInterface](https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface)
 
         Args:
             serial: Serial.

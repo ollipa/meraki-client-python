@@ -192,10 +192,36 @@ class Networks:
     def get_network(self, network_id: str) -> GetNetworkResponse | None:
         """Return a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network
+        [API documentation: getNetwork](https://developer.cisco.com/meraki/api-v1/#!get-network)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "N_24329156",
+              "organizationId": "2930418",
+              "name": "Main Office",
+              "productTypes": [
+                "appliance",
+                "switch",
+                "wireless"
+              ],
+              "timeZone": "America/Los_Angeles",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enrollmentString": "my-enrollment-string",
+              "url": "https://n1.meraki.com//n//manage/nodes/list",
+              "notes": "Additional description of the network",
+              "isBoundToConfigTemplate": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -220,21 +246,47 @@ class Networks:
     ) -> UpdateNetworkResponse | None:
         """Update a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network
+        [API documentation: updateNetwork](https://developer.cisco.com/meraki/api-v1/#!update-network)
 
         Args:
             network_id: Network ID.
             name: The name of the network.
             time_zone: The timezone of the network. For a list of allowed timezones, please see the
-              'TZ' column in the table in <a target='_blank'
-              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
-              article.</a>.
+                'TZ' column in the table in <a target='_blank'
+                href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+                article.</a>.
             tags: A list of tags to be applied to the network.
             enrollment_string: A unique identifier which can be used for device enrollment or easy
-              access through the Meraki SM Registration page or the Self Service Portal.
-              Please note that changing this field may cause existing bookmarks to
-              break.
+                access through the Meraki SM Registration page or the Self Service
+                Portal. Please note that changing this field may cause existing
+                bookmarks to break.
             notes: Add any notes or additional information about this network here.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "N_24329156",
+              "organizationId": "2930418",
+              "name": "Main Office",
+              "productTypes": [
+                "appliance",
+                "switch",
+                "wireless"
+              ],
+              "timeZone": "America/Los_Angeles",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enrollmentString": "my-enrollment-string",
+              "url": "https://n1.meraki.com//n//manage/nodes/list",
+              "notes": "Additional description of the network",
+              "isBoundToConfigTemplate": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -263,10 +315,13 @@ class Networks:
     def delete_network(self, network_id: str) -> None:
         """Delete a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network
+        [API documentation: deleteNetwork](https://developer.cisco.com/meraki/api-v1/#!delete-network)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -281,28 +336,59 @@ class Networks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkAlertsHistoryResponseItem]:
         """Return the alert history for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-history
+        [API documentation: getNetworkAlertsHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-history)
 
         Args:
             network_id: Network ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 100.
+                is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "occurredAt": "2022-07-11T22:35:34Z",
+                "alertTypeId": "settings_changed",
+                "alertType": "Settings changed",
+                "device": {
+                  "serial": "Q3CG-G6W8-BEVR"
+                },
+                "destinations": {
+                  "email": {
+                    "sentAt": "2022-07-11T22:40:34Z"
+                  },
+                  "push": {
+                    "sentAt": "2022-07-11T22:40:34Z"
+                  },
+                  "sms": {
+                    "sentAt": "2022-07-11T22:40:34Z"
+                  },
+                  "webhook": {
+                    "sentAt": "2022-07-11T22:40:34Z"
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -329,12 +415,83 @@ class Networks:
     def get_network_alerts_settings(
         self, network_id: str
     ) -> GetNetworkAlertsSettingsResponse | None:
-        """Return the alert configuration for this network.
+        r"""Return the alert configuration for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-settings
+        [API documentation: getNetworkAlertsSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-settings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "defaultDestinations": {
+                "emails": [
+                  "miles@meraki.com"
+                ],
+                "allAdmins": true,
+                "snmp": true,
+                "httpServerIds": [
+                  "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                ]
+              },
+              "alerts": [
+                {
+                  "type": "gatewayDown",
+                  "enabled": true,
+                  "alertDestinations": {
+                    "emails": [
+                      "miles@meraki.com"
+                    ],
+                    "smsNumbers": [
+                      "+15555555555"
+                    ],
+                    "allAdmins": false,
+                    "snmp": false,
+                    "httpServerIds": [
+                      "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                    ]
+                  },
+                  "filters": {
+                    "conditions": [
+                      {
+                        "type": "temperature",
+                        "unit": "celsius",
+                        "duration": 0,
+                        "direction": "+",
+                        "threshold": 72.5
+                      }
+                    ],
+                    "failureType": "802.1X auth fail",
+                    "lookbackWindow": 360,
+                    "minDuration": 60,
+                    "name": "Filter",
+                    "period": 1800,
+                    "priority": "",
+                    "regex": "[a-z]",
+                    "selector": "{\"smartSensitivity\":\"medium\",\"smartEnabled\":false,\"eventReminderPeriodSecs\":10800}",
+                    "serials": [
+                      "Q234-ABCD-0001",
+                      "Q234-ABCD-0002",
+                      "Q234-ABCD-0003"
+                    ],
+                    "ssidNum": 1,
+                    "tag": "tag1",
+                    "threshold": 30,
+                    "timeout": 60
+                  }
+                }
+              ],
+              "muting": {
+                "byPortSchedules": {
+                  "enabled": true
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -355,16 +512,87 @@ class Networks:
         alerts: list[UpdateNetworkAlertsSettingsAlertsItem] | None = None,
         muting: UpdateNetworkAlertsSettingsMuting | None = None,
     ) -> UpdateNetworkAlertsSettingsResponse | None:
-        """Update the alert configuration for this network.
+        r"""Update the alert configuration for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-alerts-settings
+        [API documentation: updateNetworkAlertsSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-alerts-settings)
 
         Args:
             network_id: Network ID.
             default_destinations: The network-wide destinations for all alerts on the network.
             alerts: Alert-specific configuration for each type. Only alerts that pertain to the
-              network can be updated.
+                network can be updated.
             muting: Mute alerts under certain conditions.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "defaultDestinations": {
+                "emails": [
+                  "miles@meraki.com"
+                ],
+                "allAdmins": true,
+                "snmp": true,
+                "httpServerIds": [
+                  "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                ]
+              },
+              "alerts": [
+                {
+                  "type": "gatewayDown",
+                  "enabled": true,
+                  "alertDestinations": {
+                    "emails": [
+                      "miles@meraki.com"
+                    ],
+                    "smsNumbers": [
+                      "+15555555555"
+                    ],
+                    "allAdmins": false,
+                    "snmp": false,
+                    "httpServerIds": [
+                      "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vd2ViaG9va3M="
+                    ]
+                  },
+                  "filters": {
+                    "conditions": [
+                      {
+                        "type": "temperature",
+                        "unit": "celsius",
+                        "duration": 0,
+                        "direction": "+",
+                        "threshold": 72.5
+                      }
+                    ],
+                    "failureType": "802.1X auth fail",
+                    "lookbackWindow": 360,
+                    "minDuration": 60,
+                    "name": "Filter",
+                    "period": 1800,
+                    "priority": "",
+                    "regex": "[a-z]",
+                    "selector": "{\"smartSensitivity\":\"medium\",\"smartEnabled\":false,\"eventReminderPeriodSecs\":10800}",
+                    "serials": [
+                      "Q234-ABCD-0001",
+                      "Q234-ABCD-0002",
+                      "Q234-ABCD-0003"
+                    ],
+                    "ssidNum": 1,
+                    "tag": "tag1",
+                    "threshold": 30,
+                    "timeout": 60
+                  }
+                }
+              ],
+              "muting": {
+                "byPortSchedules": {
+                  "enabled": true
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -395,16 +623,43 @@ class Networks:
     ) -> BindNetworkResponse | None:
         """Bind a network to a template.
 
-        https://developer.cisco.com/meraki/api-v1/#!bind-network
+        [API documentation: bindNetwork](https://developer.cisco.com/meraki/api-v1/#!bind-network)
 
         Args:
             network_id: Network ID.
             config_template_id: The ID of the template to which the network should be bound.
             auto_bind: Optional boolean indicating whether the network's switches should
-              automatically bind to profiles of the same model. Defaults to false if
-              left unspecified. This option only affects switch networks and switch
-              templates. Auto-bind is not valid unless the switch template has at least
-              one profile and has at most one profile per switch model.
+                automatically bind to profiles of the same model. Defaults to false if
+                left unspecified. This option only affects switch networks and switch
+                templates. Auto-bind is not valid unless the switch template has at
+                least one profile and has at most one profile per switch model.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "N_24329156",
+              "organizationId": "2930418",
+              "name": "Main Office",
+              "productTypes": [
+                "appliance",
+                "switch",
+                "wireless"
+              ],
+              "timeZone": "America/Los_Angeles",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enrollmentString": "my-enrollment-string",
+              "url": "https://n1.meraki.com//n//manage/nodes/list",
+              "notes": "Additional description of the network",
+              "isBoundToConfigTemplate": false,
+              "configTemplateId": "N_24329156"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -434,34 +689,59 @@ class Networks:
         starting_after: str | None = None,
         ending_before: str | None = None,
         include_connectivity_history: bool | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkBluetoothClientsResponseItem]:
         """List the Bluetooth clients seen by APs in this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-clients
+        [API documentation: getNetworkBluetoothClients](https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-clients)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 7 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 7 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 7 days. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 5 - 1000. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             include_connectivity_history: Include the connectivity history for this client.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "mac": "22:33:44:55:66:77",
+                "networkId": "N_24329156",
+                "name": "My Device",
+                "deviceName": "Bose QuietComfort 35",
+                "manufacturer": "Bose",
+                "lastSeen": 1526087474,
+                "seenByDeviceMac": "00:11:22:33:44:55",
+                "inSightAlert": false,
+                "outOfSightAlert": false,
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -501,14 +781,37 @@ class Networks:
     ) -> GetNetworkBluetoothClientResponse | None:
         """Return a Bluetooth client.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-client
+        [API documentation: getNetworkBluetoothClient](https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-client)
 
         Args:
             network_id: Network ID.
             bluetooth_client_id: Bluetooth client ID.
             include_connectivity_history: Include the connectivity history for this client.
             connectivity_history_timespan: The timespan, in seconds, for the connectivityHistory
-              data. By default 1 day, 86400, will be used.
+                data. By default 1 day, 86400, will be used.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "mac": "22:33:44:55:66:77",
+              "networkId": "N_24329156",
+              "name": "My Device",
+              "deviceName": "Bose QuietComfort 35",
+              "manufacturer": "Bose",
+              "lastSeen": 1526087474,
+              "seenByDeviceMac": "00:11:22:33:44:55",
+              "inSightAlert": false,
+              "outOfSightAlert": false,
+              "tags": [
+                "tag1",
+                "tag2"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -549,47 +852,89 @@ class Networks:
         vlan: str | None = None,
         named_vlan: str | None = None,
         recent_device_connections: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkClientsResponseItem]:
         """List the clients that have used this network in the timespan.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-clients
+        [API documentation: getNetworkClients](https://developer.cisco.com/meraki/api-v1/#!get-network-clients)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 5000. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             statuses: Filters clients based on status. Can be one of 'Online' or 'Offline'.
             ip: Filters clients based on a partial or full match for the ip address field.
             ip6: Filters clients based on a partial or full match for the ip6 address field.
             ip6_local: Filters clients based on a partial or full match for the ip6Local address
-              field.
+                field.
             mac: Filters clients based on a partial or full match for the mac address field.
             os: Filters clients based on a partial or full match for the os (operating system)
-              field.
+                field.
             psk_group: Filters clients based on partial or full match for the iPSK name field.
             description: Filters clients based on a partial or full match for the description field.
             vlan: Filters clients based on the full match for the VLAN field.
             named_vlan: Filters clients based on the partial or full match for the named VLAN field.
             recent_device_connections: Filters clients based on recent connection type. Can be one
-              of 'Wired' or 'Wireless'.
+                of 'Wired' or 'Wireless'.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "k74272e",
+                "mac": "22:33:44:55:66:77",
+                "ip": "1.2.3.4",
+                "ip6": "2001:db8:3c4d:15::1",
+                "description": "Miles's phone",
+                "firstSeen": 1518365681,
+                "lastSeen": 1526087474,
+                "manufacturer": "Apple",
+                "os": "iOS",
+                "user": "milesmeraki",
+                "vlan": "100",
+                "ssid": "My SSID",
+                "switchport": "My switch port",
+                "wirelessCapabilities": "802.11b - 2.4 GHz",
+                "smInstalled": true,
+                "recentDeviceMac": "22:33:44:55:66:77",
+                "status": "Online",
+                "usage": {
+                  "sent": 138.0,
+                  "recv": 61.0
+                },
+                "namedVlan": "My VLAN",
+                "adaptivePolicyGroup": "2: Infrastructure",
+                "deviceTypePrediction": "iPhone SE, iOS9.3.5",
+                "recentDeviceSerial": "Q234-ABCD-5678",
+                "recentDeviceName": "00:11:22:33:44:55",
+                "recentDeviceConnection": "Wired",
+                "notes": "My AP's note",
+                "ip6Local": "fe80:0:0:0:1430:aac1:6826:75ab",
+                "groupPolicy8021x": "Student_Access",
+                "pskGroup": "Group 1"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -651,36 +996,57 @@ class Networks:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkClientsApplicationUsageResponseItem]:
         """Return the application usage data for clients.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-clients-application-usage
+        [API documentation: getNetworkClientsApplicationUsage](https://developer.cisco.com/meraki/api-v1/#!get-network-clients-application-usage)
 
         Args:
             network_id: Network ID.
             clients: A list of client keys, MACs or IPs separated by comma.
             ssid_number: An SSID number to include. If not specified, events for all SSIDs will be
-              returned.
+                returned.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "clientId": "k74272e",
+                "clientIp": "1.2.3.4",
+                "clientMac": "00:11:22:33:44:55",
+                "applicationUsage": [
+                  {
+                    "application": "Meraki HTTPS",
+                    "received": 61,
+                    "sent": 138
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if ssid_number is not None:
@@ -730,34 +1096,49 @@ class Networks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkClientsBandwidthUsageHistoryResponseItem]:
         """Returns a timeseries of total traffic consumption rates for all clients on a network within a given timespan, in megabits per second.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-clients-bandwidth-usage-history
+        [API documentation: getNetworkClientsBandwidthUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-clients-bandwidth-usage-history)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "total": 345.0,
+                "upstream": 200.0,
+                "downstream": 145.0
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -798,18 +1179,35 @@ class Networks:
     ) -> GetNetworkClientsOverviewResponse | None:
         """Return overview statistics for network clients.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-clients-overview
+        [API documentation: getNetworkClientsOverview](https://developer.cisco.com/meraki/api-v1/#!get-network-clients-overview)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              7200, 86400, 604800, 2592000. The default is 604800.
+                7200, 86400, 604800, 2592000. The default is 604800.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": {
+                "total": 100,
+                "withHeavyUsage": 2
+              },
+              "usages": {
+                "average": 2048,
+                "withHeavyUsageAverage": 5345
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -846,21 +1244,40 @@ class Networks:
     ) -> ProvisionNetworkClientsResponse | None:
         """Provisions a client with a name and policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!provision-network-clients
+        [API documentation: provisionNetworkClients](https://developer.cisco.com/meraki/api-v1/#!provision-network-clients)
 
         Args:
             network_id: Network ID.
             clients: The array of clients to provision.
             device_policy: The policy to apply to the specified client. Can be 'Group policy',
-              'Allowed', 'Blocked', 'Per connection' or 'Normal'. Required.
+                'Allowed', 'Blocked', 'Per connection' or 'Normal'. Required.
             group_policy_id: The ID of the desired group policy to apply to the client. Required if
-              'devicePolicy' is set to "Group policy". Otherwise this is ignored.
+                'devicePolicy' is set to "Group policy". Otherwise this is ignored.
             policies_by_security_appliance: An object, describing what the policy-connection
-              association is for the security appliance. (Only relevant if the security
-              appliance is actually within the network).
+                association is for the security appliance. (Only relevant if the
+                security appliance is actually within the network).
             policies_by_ssid: An object, describing the policy-connection associations for each
-              active SSID within the network. Keys should be the number of enabled
-              SSIDs, mapping to an object describing the client's policy.
+                active SSID within the network. Keys should be the number of enabled
+                SSIDs, mapping to an object describing the client's policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "clients": [
+                {
+                  "mac": "00:11:22:33:44:55",
+                  "clientId": "k74272e",
+                  "name": "Miles's phone",
+                  "message": "Blocked message for client"
+                }
+              ],
+              "devicePolicy": "Group policy",
+              "groupPolicyId": "101"
+            }
+            ```
 
         """
         if device_policy is not None:
@@ -910,36 +1327,57 @@ class Networks:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkClientsUsageHistoriesResponseItem]:
         """Return the usage histories for clients.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-clients-usage-histories
+        [API documentation: getNetworkClientsUsageHistories](https://developer.cisco.com/meraki/api-v1/#!get-network-clients-usage-histories)
 
         Args:
             network_id: Network ID.
             clients: A list of client keys, MACs or IPs separated by comma.
             ssid_number: An SSID number to include. If not specified, events for all SSIDs will be
-              returned.
+                returned.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "clientId": "k74272e",
+                "clientIp": "1.2.3.4",
+                "clientMac": "00:11:22:33:44:55",
+                "usageHistory": [
+                  {
+                    "received": 61.0,
+                    "sent": 138.0,
+                    "ts": "2018-02-11T00:00:00.090210Z"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         if ssid_number is not None:
@@ -984,11 +1422,103 @@ class Networks:
     ) -> GetNetworkClientResponse | None:
         """Return the client associated with the given identifier.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-client
+        [API documentation: getNetworkClient](https://developer.cisco.com/meraki/api-v1/#!get-network-client)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "k74272e",
+              "mac": "22:33:44:55:66:77",
+              "ip": "1.2.3.4",
+              "ip6": "2001:db8:3c4d:15::1",
+              "ip6Local": "fe80:0:0:0:1430:aac1:6826:75ab",
+              "description": "Miles's phone",
+              "firstSeen": 1518365681,
+              "lastSeen": 1526087474,
+              "manufacturer": "Apple",
+              "os": "iOS",
+              "user": "milesmeraki",
+              "vlan": "100",
+              "namedVlan": "100",
+              "ssid": "My SSID",
+              "switchport": "My switch port",
+              "wirelessCapabilities": "802.11b - 2.4 GHz",
+              "smInstalled": true,
+              "recentDeviceMac": "22:33:44:55:66:77",
+              "recentDeviceName": "00:11:22:33:44:55",
+              "recentDeviceSerial": "Q234-ABCD-5678",
+              "recentDeviceConnection": "Wired",
+              "clientVpnConnections": [
+                {
+                  "remoteIp": "1.2.3.4",
+                  "connectedAt": 1522613355,
+                  "disconnectedAt": 1522613360
+                }
+              ],
+              "lldp": [
+                [
+                  "System name",
+                  "Some system name"
+                ],
+                [
+                  "System description",
+                  "Some system description"
+                ],
+                [
+                  "Port ID",
+                  "1"
+                ],
+                [
+                  "Chassis ID",
+                  "00:18:0a:00:00:00"
+                ],
+                [
+                  "Port description",
+                  "eth0"
+                ],
+                [
+                  "System capabilities",
+                  "Two-port MAC Relay"
+                ]
+              ],
+              "cdp": [
+                [
+                  "System name",
+                  "Some system name"
+                ],
+                [
+                  "System description",
+                  "Some system description"
+                ],
+                [
+                  "Port ID",
+                  "1"
+                ],
+                [
+                  "Chassis ID",
+                  "00:18:0a:00:00:00"
+                ],
+                [
+                  "Port description",
+                  "eth0"
+                ],
+                [
+                  "System capabilities",
+                  "Two-port MAC Relay"
+                ]
+              ],
+              "status": "Online",
+              "notes": "My client note",
+              "deviceTypePrediction": "iPhone SE, iOS9.3.5"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1007,11 +1537,30 @@ class Networks:
     ) -> GetNetworkClientPolicyResponse | None:
         """Return the policy assigned to a client on the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-client-policy
+        [API documentation: getNetworkClientPolicy](https://developer.cisco.com/meraki/api-v1/#!get-network-client-policy)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mac": "00:11:22:33:44:55",
+              "devicePolicy": "Different policies by SSID",
+              "groupPolicyId": "101",
+              "policiesBySsid": [
+                {
+                  "ssidNumber": 2,
+                  "devicePolicy": "Group policy",
+                  "groupPolicyId": "101"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1035,15 +1584,34 @@ class Networks:
     ) -> UpdateNetworkClientPolicyResponse | None:
         """Update the policy assigned to a client on the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-client-policy
+        [API documentation: updateNetworkClientPolicy](https://developer.cisco.com/meraki/api-v1/#!update-network-client-policy)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
             device_policy: The policy to assign. Can be 'Whitelisted', 'Blocked', 'Normal' or 'Group
-              policy'. Required.
+                policy'. Required.
             group_policy_id: [Optional] If 'devicePolicy' is set to 'Group policy' this param is
-              used to specify the group policy ID.
+                used to specify the group policy ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mac": "00:11:22:33:44:55",
+              "devicePolicy": "Different policies by SSID",
+              "groupPolicyId": "101",
+              "policiesBySsid": [
+                {
+                  "ssidNumber": 2,
+                  "devicePolicy": "Group policy",
+                  "groupPolicyId": "101"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1069,11 +1637,27 @@ class Networks:
     ) -> dict[str, Any] | None:
         """Return the splash authorization for a client, for each SSID they've associated with through splash.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-client-splash-authorization-status
+        [API documentation: getNetworkClientSplashAuthorizationStatus](https://developer.cisco.com/meraki/api-v1/#!get-network-client-splash-authorization-status)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ssids": {
+                "0": {
+                  "isAuthorized": true,
+                  "authorizedAt": "2018-02-11T00:00:00Z",
+                  "expiresAt": "2018-05-12T00:00:00Z"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1093,15 +1677,34 @@ class Networks:
     ) -> dict[str, Any] | None:
         """Update a client's splash authorization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-client-splash-authorization-status
+        [API documentation: updateNetworkClientSplashAuthorizationStatus](https://developer.cisco.com/meraki/api-v1/#!update-network-client-splash-authorization-status)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
             ssids: The target SSIDs. Each SSID must be enabled and must have Click-through splash
-              enabled. For each SSID where isAuthorized is true, the expiration time
-              will automatically be set according to the SSID's splash frequency. Not
-              all networks support configuring all SSIDs.
+                enabled. For each SSID where isAuthorized is true, the expiration time
+                will automatically be set according to the SSID's splash frequency. Not
+                all networks support configuring all SSIDs.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ssids": {
+                "0": {
+                  "isAuthorized": true,
+                  "authorizedAt": "2017-07-19 16:24:13 UTC",
+                  "expiresAt": "2017-07-20 16:24:13 UTC"
+                },
+                "2": {
+                  "isAuthorized": false
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1127,28 +1730,48 @@ class Networks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkClientTrafficHistoryResponseItem]:
         """Return the client's network traffic data over time.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-client-traffic-history
+        [API documentation: getNetworkClientTrafficHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-client-traffic-history)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "application": "Google",
+                "destination": "www.google.com",
+                "protocol": "TCP",
+                "port": 443,
+                "recv": 61.0,
+                "sent": 138.0,
+                "numFlows": 5,
+                "activeSeconds": 240
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1178,11 +1801,25 @@ class Networks:
     ) -> GetNetworkClientUsageHistoryResponse | None:
         """Return the client's daily usage history.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-client-usage-history
+        [API documentation: getNetworkClientUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-client-usage-history)
 
         Args:
             network_id: Network ID.
             client_id: Client ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "received": 61.0,
+                "sent": 138.0,
+                "ts": "2018-02-11T00:00:00.090210Z"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1199,10 +1836,47 @@ class Networks:
     def get_network_devices(self, network_id: str) -> GetNetworkDevicesResponse | None:
         """List the devices in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-devices
+        [API documentation: getNetworkDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-devices)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My AP",
+                "lat": 37.4180951010362,
+                "lng": -122.098531723022,
+                "address": "1600 Pennsylvania Ave",
+                "notes": "My AP's note",
+                "tags": [
+                  " recently-added "
+                ],
+                "networkId": "N_24329156",
+                "serial": "Q234-ABCD-5678",
+                "model": "MR34",
+                "mac": "00:11:22:33:44:55",
+                "lanIp": "1.2.3.4",
+                "firmware": "wireless-25-14",
+                "floorPlanId": "g_2176982374",
+                "details": [
+                  {
+                    "name": "Catalyst serial",
+                    "value": "123ABC"
+                  }
+                ],
+                "beaconIdParams": {
+                  "uuid": "00000000-0000-0000-0000-000000000000",
+                  "major": 5,
+                  "minor": 3
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1225,15 +1899,37 @@ class Networks:
     ) -> ClaimNetworkDevicesResponse | None:
         """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed).
 
-        https://developer.cisco.com/meraki/api-v1/#!claim-network-devices
+        [API documentation: claimNetworkDevices](https://developer.cisco.com/meraki/api-v1/#!claim-network-devices)
 
         Args:
             network_id: Network ID.
             add_atomically: Whether to claim devices atomically. If true, all devices will be
-              claimed or none will be claimed. Default is true.
+                claimed or none will be claimed. Default is true.
             serials: A list of serials of devices to claim.
             details_by_device: Optional details for claimed devices (currently only used for
-              Catalyst devices).
+                Catalyst devices).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serials": [
+                "Q234-ABCD-0001",
+                "Q234-ABCD-0002",
+                "Q234-ABCD-0003"
+              ],
+              "errors": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "errors": [
+                    "Device already claimed"
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1264,12 +1960,43 @@ class Networks:
     ) -> VmxNetworkDevicesClaimResponse | None:
         """Claim a vMX into a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim
+        [API documentation: vmxNetworkDevicesClaim](https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim)
 
         Args:
             network_id: Network ID.
             size: The size of the vMX you claim. It can be one of: small, medium, large, xlarge,
-              100.
+                100.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "My AP",
+              "lat": 37.4180951010362,
+              "lng": -122.098531723022,
+              "address": "1600 Pennsylvania Ave",
+              "notes": "My AP's note",
+              "tags": [
+                "recently-added"
+              ],
+              "networkId": "N_24329156",
+              "serial": "Q234-ABCD-5678",
+              "model": "MR34",
+              "imei": "123456789000000",
+              "mac": "00:11:22:33:44:55",
+              "lanIp": "1.2.3.4",
+              "firmware": "wireless-25-14",
+              "productType": "wireless",
+              "details": [
+                {
+                  "name": "Catalyst serial",
+                  "value": "123ABC"
+                }
+              ]
+            }
+            ```
 
         """
         if size is not None:
@@ -1294,11 +2021,14 @@ class Networks:
     def remove_network_devices(self, *, network_id: str, serial: str) -> None:
         """Remove a single device.
 
-        https://developer.cisco.com/meraki/api-v1/#!remove-network-devices
+        [API documentation: removeNetworkDevices](https://developer.cisco.com/meraki/api-v1/#!remove-network-devices)
 
         Args:
             network_id: Network ID.
             serial: The serial of a device.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1333,61 +2063,97 @@ class Networks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "prev",
         event_log_end_time: str | None = None,
     ) -> PaginatedResponse[GetNetworkEventsResponseEventsItem]:
         """List the events for the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-events
+        [API documentation: getNetworkEvents](https://developer.cisco.com/meraki/api-v1/#!get-network-events)
 
         Args:
             network_id: Network ID.
             product_type: The product type to fetch events for. This parameter is required for
-              networks with multiple device types. Valid types are wireless, appliance,
-              switch, systemsManager, camera, cellularGateway, wirelessController,
-              campusGateway, and secureConnect.
+                networks with multiple device types. Valid types are wireless,
+                appliance, switch, systemsManager, camera, cellularGateway,
+                wirelessController, campusGateway, and secureConnect.
             included_event_types: A list of event types. The returned events will be filtered to
-              only include events with these types.
+                only include events with these types.
             excluded_event_types: A list of event types. The returned events will be filtered to
-              exclude events with these types.
+                exclude events with these types.
             device_mac: The MAC address of the Meraki device which the list of events will be
-              filtered with.
+                filtered with.
             device_serial: The serial of the Meraki device which the list of events will be filtered
-              with.
+                with.
             device_name: The name of the Meraki device which the list of events will be filtered
-              with.
+                with.
             client_ip: The IP of the client which the list of events will be filtered with. Only
-              supported for track-by-IP networks.
+                supported for track-by-IP networks.
             client_mac: The MAC address of the client which the list of events will be filtered
-              with. Only supported for track-by-MAC networks.
+                with. Only supported for track-by-MAC networks.
             client_name: The name, or partial name, of the client which the list of events will be
-              filtered with.
+                filtered with.
             sm_device_mac: The MAC address of the Systems Manager device which the list of events
-              will be filtered with.
+                will be filtered with.
             sm_device_name: The name of the Systems Manager device which the list of events will be
-              filtered with.
+                filtered with.
             event_details: The details of the event(Catalyst device only) which the list of events
-              will be filtered with.
+                will be filtered with.
             event_severity: The severity of the event(Catalyst device only) which the list of events
-              will be filtered with.
+                will be filtered with.
             is_catalyst: Boolean indicating that whether it is a Catalyst device. For Catalyst
-              device, eventDetails and eventSeverity can be used to filter events.
+                device, eventDetails and eventSeverity can be used to filter events.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" or "prev" (default) page.
             event_log_end_time: ISO8601 Zulu/UTC time, to use in conjunction with starting_after, to
-              retrieve events within a time window.
+                retrieve events within a time window.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "message": "Some error",
+              "pageStartAt": "2018-02-11T00:00:00.090210Z",
+              "pageEndAt": "2018-02-11T00:00:00.090210Z",
+              "events": [
+                {
+                  "occurredAt": "2018-02-11T00:00:00.090210Z",
+                  "networkId": "N_24329156",
+                  "type": "association",
+                  "description": "802.11 association",
+                  "category": "80211",
+                  "clientId": "k74272e",
+                  "clientDescription": "Miles's phone",
+                  "clientMac": "22:33:44:55:66:77",
+                  "deviceSerial": "Q234-ABCD-5678",
+                  "deviceName": "My AP",
+                  "ssidNumber": 1,
+                  "eventData": {
+                    "radio": "1",
+                    "vap": "1",
+                    "client_mac": "22:33:44:55:66:77",
+                    "client_ip": "1.2.3.4",
+                    "channel": "36",
+                    "rssi": "12",
+                    "aid": "2104009183"
+                  }
+                }
+              ]
+            }
+            ```
 
         """
         if product_type is not None:
@@ -1461,10 +2227,24 @@ class Networks:
     ) -> GetNetworkEventsEventTypesResponse | None:
         """List the event type to human-readable description.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-events-event-types
+        [API documentation: getNetworkEventsEventTypes](https://developer.cisco.com/meraki/api-v1/#!get-network-events-event-types)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "category": "802.11",
+                "type": "association",
+                "description": "802.11 association"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1482,10 +2262,402 @@ class Networks:
     ) -> GetNetworkFirmwareUpgradesResponse | None:
         """Get firmware upgrade information for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades
+        [API documentation: getNetworkFirmwareUpgrades](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "upgradeWindow": {
+                "dayOfWeek": "sun",
+                "hourOfDay": "4:00"
+              },
+              "timezone": "America/Los_Angeles",
+              "products": {
+                "wireless": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "appliance": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "switch": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "camera": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "cellularGateway": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "sensor": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "wirelessController": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "secureConnect": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1508,13 +2680,405 @@ class Networks:
     ) -> UpdateNetworkFirmwareUpgradesResponse | None:
         """Update firmware upgrade information for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades
+        [API documentation: updateNetworkFirmwareUpgrades](https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades)
 
         Args:
             network_id: Network ID.
             upgrade_window: Upgrade window for devices in network.
             timezone: The timezone for the network.
             products: Contains information about the network to update.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "upgradeWindow": {
+                "dayOfWeek": "sun",
+                "hourOfDay": "4:00"
+              },
+              "timezone": "America/Los_Angeles",
+              "products": {
+                "wireless": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "appliance": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "switch": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "camera": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "cellularGateway": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "sensor": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "wirelessController": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "secureConnect": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1547,7 +3111,7 @@ class Networks:
     ) -> CreateNetworkFirmwareUpgradesRollbackResponse | None:
         """Rollback a Firmware Upgrade For A Network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-rollback
+        [API documentation: createNetworkFirmwareUpgradesRollback](https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-rollback)
 
         Args:
             network_id: Network ID.
@@ -1555,6 +3119,32 @@ class Networks:
             time: Scheduled time for the rollback.
             reasons: Reasons for the rollback.
             to_version: Version to downgrade to (if the network has firmware flexibility).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "product": "switch",
+              "status": "pending",
+              "upgradeBatchId": "23456",
+              "time": "2020-10-21T02:00:00Z",
+              "toVersion": {
+                "id": "7857",
+                "firmware": "switch-15-5-2",
+                "shortName": "MS 25.5.2",
+                "releaseType": "stable",
+                "releaseDate": "2020-03-28T17:22:52Z"
+              },
+              "reasons": [
+                {
+                  "category": "performance",
+                  "comment": "Network was slower with the upgrade"
+                }
+              ]
+            }
+            ```
 
         """
         if product is not None:
@@ -1600,10 +3190,51 @@ class Networks:
     ) -> GetNetworkFirmwareUpgradesStagedEventsResponse | None:
         """Get the Staged Upgrade Event from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-events
+        [API documentation: getNetworkFirmwareUpgradesStagedEvents](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-events)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "products": {
+                "switch": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "1234",
+                      "shortName": "MS 15.2.1"
+                    }
+                  }
+                }
+              },
+              "stages": [
+                {
+                  "group": {
+                    "id": "1234",
+                    "name": "My Staged Upgrade Group",
+                    "description": "My Staged Upgrade Group Description"
+                  },
+                  "milestones": {
+                    "scheduledFor": "2018-02-11T00:00:00Z",
+                    "startedAt": "2018-02-11T00:00:00Z",
+                    "completedAt": "2018-02-11T00:00:00Z",
+                    "canceledAt": "2018-02-11T00:00:00Z"
+                  },
+                  "status": "Completed"
+                }
+              ],
+              "reasons": [
+                {
+                  "category": "performance",
+                  "comment": "Network was slower with the upgrade"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1621,11 +3252,52 @@ class Networks:
     ) -> UpdateNetworkFirmwareUpgradesStagedEventsResponse | None:
         """Update the Staged Upgrade Event for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-events
+        [API documentation: updateNetworkFirmwareUpgradesStagedEvents](https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-events)
 
         Args:
             network_id: Network ID.
             stages: All firmware upgrade stages in the network with their start time.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "products": {
+                "switch": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "1234",
+                      "shortName": "MS 15.2.1"
+                    }
+                  }
+                }
+              },
+              "stages": [
+                {
+                  "group": {
+                    "id": "1234",
+                    "name": "My Staged Upgrade Group",
+                    "description": "My Staged Upgrade Group Description"
+                  },
+                  "milestones": {
+                    "scheduledFor": "2018-02-11T00:00:00Z",
+                    "startedAt": "2018-02-11T00:00:00Z",
+                    "completedAt": "2018-02-11T00:00:00Z",
+                    "canceledAt": "2018-02-11T00:00:00Z"
+                  },
+                  "status": "Completed"
+                }
+              ],
+              "reasons": [
+                {
+                  "category": "performance",
+                  "comment": "Network was slower with the upgrade"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1654,12 +3326,53 @@ class Networks:
     ) -> CreateNetworkFirmwareUpgradesStagedEventResponse | None:
         """Create a Staged Upgrade Event for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-event
+        [API documentation: createNetworkFirmwareUpgradesStagedEvent](https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-event)
 
         Args:
             network_id: Network ID.
             products: Contains firmware upgrade version information.
             stages: All firmware upgrade stages in the network with their start time.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "products": {
+                "switch": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "1234",
+                      "shortName": "MS 15.2.1"
+                    }
+                  }
+                }
+              },
+              "stages": [
+                {
+                  "group": {
+                    "id": "1234",
+                    "name": "My Staged Upgrade Group",
+                    "description": "My Staged Upgrade Group Description"
+                  },
+                  "milestones": {
+                    "scheduledFor": "2018-02-11T00:00:00Z",
+                    "startedAt": "2018-02-11T00:00:00Z",
+                    "completedAt": "2018-02-11T00:00:00Z",
+                    "canceledAt": "2018-02-11T00:00:00Z"
+                  },
+                  "status": "Completed"
+                }
+              ],
+              "reasons": [
+                {
+                  "category": "performance",
+                  "comment": "Network was slower with the upgrade"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1686,10 +3399,51 @@ class Networks:
     ) -> DeferNetworkFirmwareUpgradesStagedEventsResponse | None:
         """Postpone by 1 week all pending staged upgrade stages for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!defer-network-firmware-upgrades-staged-events
+        [API documentation: deferNetworkFirmwareUpgradesStagedEvents](https://developer.cisco.com/meraki/api-v1/#!defer-network-firmware-upgrades-staged-events)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "products": {
+                "switch": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "1234",
+                      "shortName": "MS 15.2.1"
+                    }
+                  }
+                }
+              },
+              "stages": [
+                {
+                  "group": {
+                    "id": "1234",
+                    "name": "My Staged Upgrade Group",
+                    "description": "My Staged Upgrade Group Description"
+                  },
+                  "milestones": {
+                    "scheduledFor": "2018-02-11T00:00:00Z",
+                    "startedAt": "2018-02-11T00:00:00Z",
+                    "completedAt": "2018-02-11T00:00:00Z",
+                    "canceledAt": "2018-02-11T00:00:00Z"
+                  },
+                  "status": "Completed"
+                }
+              ],
+              "reasons": [
+                {
+                  "category": "performance",
+                  "comment": "Network was slower with the upgrade"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1711,13 +3465,54 @@ class Networks:
     ) -> RollbacksNetworkFirmwareUpgradesStagedEventsResponse | None:
         """Rollback a Staged Upgrade Event for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!rollbacks-network-firmware-upgrades-staged-events
+        [API documentation: rollbacksNetworkFirmwareUpgradesStagedEvents](https://developer.cisco.com/meraki/api-v1/#!rollbacks-network-firmware-upgrades-staged-events)
 
         Args:
             network_id: Network ID.
             stages: All completed or in-progress stages in the network with their new start times.
-              All pending stages will be canceled.
+                All pending stages will be canceled.
             reasons: The reason for rolling back the staged upgrade.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "products": {
+                "switch": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "1234",
+                      "shortName": "MS 15.2.1"
+                    }
+                  }
+                }
+              },
+              "stages": [
+                {
+                  "group": {
+                    "id": "1234",
+                    "name": "My Staged Upgrade Group",
+                    "description": "My Staged Upgrade Group Description"
+                  },
+                  "milestones": {
+                    "scheduledFor": "2018-02-11T00:00:00Z",
+                    "startedAt": "2018-02-11T00:00:00Z",
+                    "completedAt": "2018-02-11T00:00:00Z",
+                    "canceledAt": "2018-02-11T00:00:00Z"
+                  },
+                  "status": "Completed"
+                }
+              ],
+              "reasons": [
+                {
+                  "category": "performance",
+                  "comment": "Network was slower with the upgrade"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1746,10 +3541,39 @@ class Networks:
     ) -> GetNetworkFirmwareUpgradesStagedGroupsResponse | None:
         """List of Staged Upgrade Groups in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-groups
+        [API documentation: getNetworkFirmwareUpgradesStagedGroups](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-groups)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "groupId": "1234",
+                "name": "My Staged Upgrade Group",
+                "description": "The description of the group",
+                "isDefault": false,
+                "assignedDevices": {
+                  "devices": [
+                    {
+                      "serial": "Q234-ABCD-5678",
+                      "name": "Device Name"
+                    }
+                  ],
+                  "switchStacks": [
+                    {
+                      "id": "1234",
+                      "name": "Stack Name"
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1773,16 +3597,43 @@ class Networks:
     ) -> CreateNetworkFirmwareUpgradesStagedGroupResponse | None:
         """Create a Staged Upgrade Group for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-group
+        [API documentation: createNetworkFirmwareUpgradesStagedGroup](https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-group)
 
         Args:
             network_id: Network ID.
             name: Name of the Staged Upgrade Group. Length must be 1 to 255 characters.
             description: Description of the Staged Upgrade Group. Length must be 1 to 255
-              characters.
+                characters.
             is_default: Boolean indicating the default Group. Any device that does not have a group
-              explicitly assigned will upgrade with this group.
+                explicitly assigned will upgrade with this group.
             assigned_devices: The devices and Switch Stacks assigned to the Group.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupId": "1234",
+              "name": "My Staged Upgrade Group",
+              "description": "The description of the group",
+              "isDefault": false,
+              "assignedDevices": {
+                "devices": [
+                  {
+                    "serial": "Q234-ABCD-5678",
+                    "name": "Device Name"
+                  }
+                ],
+                "switchStacks": [
+                  {
+                    "id": "1234",
+                    "name": "Stack Name"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1813,11 +3664,38 @@ class Networks:
     ) -> GetNetworkFirmwareUpgradesStagedGroupResponse | None:
         """Get a Staged Upgrade Group from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-group
+        [API documentation: getNetworkFirmwareUpgradesStagedGroup](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-group)
 
         Args:
             network_id: Network ID.
             group_id: Group ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupId": "1234",
+              "name": "My Staged Upgrade Group",
+              "description": "The description of the group",
+              "isDefault": false,
+              "assignedDevices": {
+                "devices": [
+                  {
+                    "serial": "Q234-ABCD-5678",
+                    "name": "Device Name"
+                  }
+                ],
+                "switchStacks": [
+                  {
+                    "id": "1234",
+                    "name": "Stack Name"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1843,17 +3721,44 @@ class Networks:
     ) -> UpdateNetworkFirmwareUpgradesStagedGroupResponse | None:
         """Update a Staged Upgrade Group for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-group
+        [API documentation: updateNetworkFirmwareUpgradesStagedGroup](https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-group)
 
         Args:
             network_id: Network ID.
             group_id: Group ID.
             name: Name of the Staged Upgrade Group. Length must be 1 to 255 characters.
             description: Description of the Staged Upgrade Group. Length must be 1 to 255
-              characters.
+                characters.
             is_default: Boolean indicating the default Group. Any device that does not have a group
-              explicitly assigned will upgrade with this group.
+                explicitly assigned will upgrade with this group.
             assigned_devices: The devices and Switch Stacks assigned to the Group.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupId": "1234",
+              "name": "My Staged Upgrade Group",
+              "description": "The description of the group",
+              "isDefault": false,
+              "assignedDevices": {
+                "devices": [
+                  {
+                    "serial": "Q234-ABCD-5678",
+                    "name": "Device Name"
+                  }
+                ],
+                "switchStacks": [
+                  {
+                    "id": "1234",
+                    "name": "Stack Name"
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1885,11 +3790,14 @@ class Networks:
     ) -> None:
         """Delete a Staged Upgrade Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-firmware-upgrades-staged-group
+        [API documentation: deleteNetworkFirmwareUpgradesStagedGroup](https://developer.cisco.com/meraki/api-v1/#!delete-network-firmware-upgrades-staged-group)
 
         Args:
             network_id: Network ID.
             group_id: Group ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1905,10 +3813,26 @@ class Networks:
     ) -> GetNetworkFirmwareUpgradesStagedStagesResponse | None:
         """Order of Staged Upgrade Groups in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-stages
+        [API documentation: getNetworkFirmwareUpgradesStagedStages](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-stages)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "group": {
+                  "id": "1234",
+                  "name": "My Staged Upgrade Group",
+                  "description": "My Staged Upgrade Description"
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1929,11 +3853,27 @@ class Networks:
     ) -> UpdateNetworkFirmwareUpgradesStagedStagesResponse | None:
         """Assign Staged Upgrade Group order in the sequence.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-stages
+        [API documentation: updateNetworkFirmwareUpgradesStagedStages](https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-stages)
 
         Args:
             network_id: Network ID.
             _json: Array of Staged Upgrade Groups.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "group": {
+                  "id": "1234",
+                  "name": "My Staged Upgrade Group",
+                  "description": "My Staged Upgrade Description"
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1954,10 +3894,76 @@ class Networks:
     def get_network_floor_plans(self, network_id: str) -> GetNetworkFloorPlansResponse | None:
         """List the floor plans that belong to your network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plans
+        [API documentation: getNetworkFloorPlans](https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plans)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "floorPlanId": "g_1234567",
+                "imageUrl": "https://meraki-na.s3.amazonaws.com/assets/...",
+                "imageUrlExpiresAt": "2019-06-11 16:04:54 +00:00",
+                "imageExtension": "png",
+                "imageMd5": "2a9edd3f4ffd80130c647d13eacb59f3",
+                "name": "HQ Floor Plan",
+                "devices": [
+                  {
+                    "name": "My AP",
+                    "lat": 37.4180951010362,
+                    "lng": -122.098531723022,
+                    "address": "1600 Pennsylvania Ave",
+                    "notes": "My AP's note",
+                    "tags": [
+                      "recently-added"
+                    ],
+                    "networkId": "N_24329156",
+                    "serial": "Q234-ABCD-5678",
+                    "model": "MR34",
+                    "imei": "123456789000000",
+                    "mac": "00:11:22:33:44:55",
+                    "lanIp": "1.2.3.4",
+                    "firmware": "wireless-25-14",
+                    "productType": "wireless",
+                    "details": [
+                      {
+                        "name": "Catalyst serial",
+                        "value": "123ABC"
+                      }
+                    ]
+                  }
+                ],
+                "width": 100.0,
+                "height": 150.1,
+                "center": {
+                  "lat": 37.770040510499996,
+                  "lng": -122.38714009525
+                },
+                "bottomLeftCorner": {
+                  "lat": 37.7696461495,
+                  "lng": -122.3880815506
+                },
+                "bottomRightCorner": {
+                  "lat": 37.771524649766654,
+                  "lng": -122.38795275055205
+                },
+                "topLeftCorner": {
+                  "lat": 37.769700101836364,
+                  "lng": -122.3888684251381
+                },
+                "topRightCorner": {
+                  "lat": 37.77157860210302,
+                  "lng": -122.38873962509012
+                },
+                "floorNumber": 5.0
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1985,30 +3991,95 @@ class Networks:
     ) -> CreateNetworkFloorPlanResponse | None:
         """Upload a floor plan.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-floor-plan
+        [API documentation: createNetworkFloorPlan](https://developer.cisco.com/meraki/api-v1/#!create-network-floor-plan)
 
         Args:
             network_id: Network ID.
             name: The name of your floor plan.
             center: The longitude and latitude of the center of your floor plan. The 'center' or two
-              adjacent corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be
-              specified. If 'center' is specified, the floor plan is placed over that
-              point with no rotation. If two adjacent corners are specified, the floor
-              plan is rotated to line up with the two specified points. The aspect ratio
-              of the floor plan's image is preserved regardless of which corners/center
-              are specified. (This means if that more than two corners are specified,
-              only two corners may be used to preserve the floor plan's aspect ratio.).
-              No two points can have the same latitude, longitude pair.
+                adjacent corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be
+                specified. If 'center' is specified, the floor plan is placed over that
+                point with no rotation. If two adjacent corners are specified, the floor
+                plan is rotated to line up with the two specified points. The aspect
+                ratio of the floor plan's image is preserved regardless of which
+                corners/center are specified. (This means if that more than two corners
+                are specified, only two corners may be used to preserve the floor plan's
+                aspect ratio.). No two points can have the same latitude, longitude
+                pair.
             bottom_left_corner: The longitude and latitude of the bottom left corner of your floor
-              plan.
+                plan.
             bottom_right_corner: The longitude and latitude of the bottom right corner of your floor
-              plan.
+                plan.
             top_left_corner: The longitude and latitude of the top left corner of your floor plan.
             top_right_corner: The longitude and latitude of the top right corner of your floor plan.
             floor_number: The floor number of the floors within the building.
             image_contents: The file contents (a base 64 encoded string) of your image. Supported
-              formats are PNG, GIF, and JPG. Note that all images are saved as PNG
-              files, regardless of the format they are uploaded in.
+                formats are PNG, GIF, and JPG. Note that all images are saved as PNG
+                files, regardless of the format they are uploaded in.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "floorPlanId": "g_1234567",
+              "imageUrl": "https://meraki-na.s3.amazonaws.com/assets/...",
+              "imageUrlExpiresAt": "2019-06-11 16:04:54 +00:00",
+              "imageExtension": "png",
+              "imageMd5": "2a9edd3f4ffd80130c647d13eacb59f3",
+              "name": "HQ Floor Plan",
+              "devices": [
+                {
+                  "name": "My AP",
+                  "lat": 37.4180951010362,
+                  "lng": -122.098531723022,
+                  "address": "1600 Pennsylvania Ave",
+                  "notes": "My AP's note",
+                  "tags": [
+                    "recently-added"
+                  ],
+                  "networkId": "N_24329156",
+                  "serial": "Q234-ABCD-5678",
+                  "model": "MR34",
+                  "imei": "123456789000000",
+                  "mac": "00:11:22:33:44:55",
+                  "lanIp": "1.2.3.4",
+                  "firmware": "wireless-25-14",
+                  "productType": "wireless",
+                  "details": [
+                    {
+                      "name": "Catalyst serial",
+                      "value": "123ABC"
+                    }
+                  ]
+                }
+              ],
+              "width": 100.0,
+              "height": 150.1,
+              "center": {
+                "lat": 37.770040510499996,
+                "lng": -122.38714009525
+              },
+              "bottomLeftCorner": {
+                "lat": 37.7696461495,
+                "lng": -122.3880815506
+              },
+              "bottomRightCorner": {
+                "lat": 37.771524649766654,
+                "lng": -122.38795275055205
+              },
+              "topLeftCorner": {
+                "lat": 37.769700101836364,
+                "lng": -122.3888684251381
+              },
+              "topRightCorner": {
+                "lat": 37.77157860210302,
+                "lng": -122.38873962509012
+              },
+              "floorNumber": 5.0
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2051,12 +4122,51 @@ class Networks:
     ) -> BatchNetworkFloorPlansAutoLocateJobsResponse | None:
         """Schedule auto locate jobs for one or more floor plans in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-auto-locate-jobs
+        [API documentation: batchNetworkFloorPlansAutoLocateJobs](https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-auto-locate-jobs)
 
         Args:
             network_id: Network ID.
             jobs: The list of auto locate jobs to be scheduled. Up to 100 jobs can be provided in a
-              request.
+                request.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "jobs": [
+                {
+                  "id": "1234",
+                  "networkId": "N_24329156",
+                  "floorPlanId": "g_2176982374",
+                  "status": "error",
+                  "scheduledAt": "2018-02-11T00:00:00Z",
+                  "completed": {
+                    "percentage": 50
+                  },
+                  "ranging": {
+                    "status": "in progress",
+                    "completed": {
+                      "percentage": 24
+                    }
+                  },
+                  "gnss": {
+                    "status": "in progress",
+                    "completed": {
+                      "percentage": 4
+                    }
+                  },
+                  "errors": [
+                    {
+                      "source": "ranging",
+                      "type": "missing anchors"
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2077,11 +4187,14 @@ class Networks:
     def cancel_network_floor_plans_auto_locate_job(self, *, network_id: str, job_id: str) -> None:
         """Cancel a scheduled or running auto locate job.
 
-        https://developer.cisco.com/meraki/api-v1/#!cancel-network-floor-plans-auto-locate-job
+        [API documentation: cancelNetworkFloorPlansAutoLocateJob](https://developer.cisco.com/meraki/api-v1/#!cancel-network-floor-plans-auto-locate-job)
 
         Args:
             network_id: Network ID.
             job_id: Job ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2101,12 +4214,22 @@ class Networks:
     ) -> PublishNetworkFloorPlansAutoLocateJobResponse | None:
         """Update the status of a finished auto locate job to be published, and update device locations.
 
-        https://developer.cisco.com/meraki/api-v1/#!publish-network-floor-plans-auto-locate-job
+        [API documentation: publishNetworkFloorPlansAutoLocateJob](https://developer.cisco.com/meraki/api-v1/#!publish-network-floor-plans-auto-locate-job)
 
         Args:
             network_id: Network ID.
             job_id: Job ID.
             devices: The list of devices to publish positions for.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2136,12 +4259,22 @@ class Networks:
     ) -> RecalculateNetworkFloorPlansAutoLocateJobResponse | None:
         """Trigger auto locate recalculation for a job, and optionally set anchors.
 
-        https://developer.cisco.com/meraki/api-v1/#!recalculate-network-floor-plans-auto-locate-job
+        [API documentation: recalculateNetworkFloorPlansAutoLocateJob](https://developer.cisco.com/meraki/api-v1/#!recalculate-network-floor-plans-auto-locate-job)
 
         Args:
             network_id: Network ID.
             job_id: Job ID.
             devices: The list of devices to update anchor positions for.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2170,12 +4303,22 @@ class Networks:
     ) -> BatchNetworkFloorPlansDevicesUpdateResponse | None:
         """Update floorplan assignments for a batch of devices.
 
-        https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-devices-update
+        [API documentation: batchNetworkFloorPlansDevicesUpdate](https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-devices-update)
 
         Args:
             network_id: Network ID.
             assignments: List of floorplan assignments to update. Up to 100 floor plan assignments
-              can be provided in a request.
+                can be provided in a request.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2200,11 +4343,75 @@ class Networks:
     ) -> GetNetworkFloorPlanResponse | None:
         """Find a floor plan by ID.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plan
+        [API documentation: getNetworkFloorPlan](https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plan)
 
         Args:
             network_id: Network ID.
             floor_plan_id: Floor plan ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "floorPlanId": "g_1234567",
+              "imageUrl": "https://meraki-na.s3.amazonaws.com/assets/...",
+              "imageUrlExpiresAt": "2019-06-11 16:04:54 +00:00",
+              "imageExtension": "png",
+              "imageMd5": "2a9edd3f4ffd80130c647d13eacb59f3",
+              "name": "HQ Floor Plan",
+              "devices": [
+                {
+                  "name": "My AP",
+                  "lat": 37.4180951010362,
+                  "lng": -122.098531723022,
+                  "address": "1600 Pennsylvania Ave",
+                  "notes": "My AP's note",
+                  "tags": [
+                    "recently-added"
+                  ],
+                  "networkId": "N_24329156",
+                  "serial": "Q234-ABCD-5678",
+                  "model": "MR34",
+                  "imei": "123456789000000",
+                  "mac": "00:11:22:33:44:55",
+                  "lanIp": "1.2.3.4",
+                  "firmware": "wireless-25-14",
+                  "productType": "wireless",
+                  "details": [
+                    {
+                      "name": "Catalyst serial",
+                      "value": "123ABC"
+                    }
+                  ]
+                }
+              ],
+              "width": 100.0,
+              "height": 150.1,
+              "center": {
+                "lat": 37.770040510499996,
+                "lng": -122.38714009525
+              },
+              "bottomLeftCorner": {
+                "lat": 37.7696461495,
+                "lng": -122.3880815506
+              },
+              "bottomRightCorner": {
+                "lat": 37.771524649766654,
+                "lng": -122.38795275055205
+              },
+              "topLeftCorner": {
+                "lat": 37.769700101836364,
+                "lng": -122.3888684251381
+              },
+              "topRightCorner": {
+                "lat": 37.77157860210302,
+                "lng": -122.38873962509012
+              },
+              "floorNumber": 5.0
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2234,35 +4441,100 @@ class Networks:
     ) -> UpdateNetworkFloorPlanResponse | None:
         """Update a floor plan's geolocation and other meta data.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-floor-plan
+        [API documentation: updateNetworkFloorPlan](https://developer.cisco.com/meraki/api-v1/#!update-network-floor-plan)
 
         Args:
             network_id: Network ID.
             floor_plan_id: Floor plan ID.
             name: The name of your floor plan.
             center: The longitude and latitude of the center of your floor plan. If you want to
-              change the geolocation data of your floor plan, either the 'center' or two
-              adjacent corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be
-              specified. If 'center' is specified, the floor plan is placed over that
-              point with no rotation. If two adjacent corners are specified, the floor
-              plan is rotated to line up with the two specified points. The aspect ratio
-              of the floor plan's image is preserved regardless of which corners/center
-              are specified. (This means if that more than two corners are specified,
-              only two corners may be used to preserve the floor plan's aspect ratio.).
-              No two points can have the same latitude, longitude pair.
+                change the geolocation data of your floor plan, either the 'center' or
+                two adjacent corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must
+                be specified. If 'center' is specified, the floor plan is placed over
+                that point with no rotation. If two adjacent corners are specified, the
+                floor plan is rotated to line up with the two specified points. The
+                aspect ratio of the floor plan's image is preserved regardless of which
+                corners/center are specified. (This means if that more than two corners
+                are specified, only two corners may be used to preserve the floor plan's
+                aspect ratio.). No two points can have the same latitude, longitude
+                pair.
             bottom_left_corner: The longitude and latitude of the bottom left corner of your floor
-              plan.
+                plan.
             bottom_right_corner: The longitude and latitude of the bottom right corner of your floor
-              plan.
+                plan.
             top_left_corner: The longitude and latitude of the top left corner of your floor plan.
             top_right_corner: The longitude and latitude of the top right corner of your floor plan.
             floor_number: The floor number of the floors within the building.
             image_contents: The file contents (a base 64 encoded string) of your new image.
-              Supported formats are PNG, GIF, and JPG. Note that all images are saved as
-              PNG files, regardless of the format they are uploaded in. If you upload a
-              new image, and you do NOT specify any new geolocation fields ('center,
-              'topLeftCorner', etc), the floor plan will be recentered with no rotation
-              in order to maintain the aspect ratio of your new image.
+                Supported formats are PNG, GIF, and JPG. Note that all images are saved
+                as PNG files, regardless of the format they are uploaded in. If you
+                upload a new image, and you do NOT specify any new geolocation fields
+                ('center, 'topLeftCorner', etc), the floor plan will be recentered with
+                no rotation in order to maintain the aspect ratio of your new image.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "floorPlanId": "g_1234567",
+              "imageUrl": "https://meraki-na.s3.amazonaws.com/assets/...",
+              "imageUrlExpiresAt": "2019-06-11 16:04:54 +00:00",
+              "imageExtension": "png",
+              "imageMd5": "2a9edd3f4ffd80130c647d13eacb59f3",
+              "name": "HQ Floor Plan",
+              "devices": [
+                {
+                  "name": "My AP",
+                  "lat": 37.4180951010362,
+                  "lng": -122.098531723022,
+                  "address": "1600 Pennsylvania Ave",
+                  "notes": "My AP's note",
+                  "tags": [
+                    "recently-added"
+                  ],
+                  "networkId": "N_24329156",
+                  "serial": "Q234-ABCD-5678",
+                  "model": "MR34",
+                  "imei": "123456789000000",
+                  "mac": "00:11:22:33:44:55",
+                  "lanIp": "1.2.3.4",
+                  "firmware": "wireless-25-14",
+                  "productType": "wireless",
+                  "details": [
+                    {
+                      "name": "Catalyst serial",
+                      "value": "123ABC"
+                    }
+                  ]
+                }
+              ],
+              "width": 100.0,
+              "height": 150.1,
+              "center": {
+                "lat": 37.770040510499996,
+                "lng": -122.38714009525
+              },
+              "bottomLeftCorner": {
+                "lat": 37.7696461495,
+                "lng": -122.3880815506
+              },
+              "bottomRightCorner": {
+                "lat": 37.771524649766654,
+                "lng": -122.38795275055205
+              },
+              "topLeftCorner": {
+                "lat": 37.769700101836364,
+                "lng": -122.3888684251381
+              },
+              "topRightCorner": {
+                "lat": 37.77157860210302,
+                "lng": -122.38873962509012
+              },
+              "floorNumber": 5.0
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2304,11 +4576,75 @@ class Networks:
     def delete_network_floor_plan(self, *, network_id: str, floor_plan_id: str) -> None:
         """Destroy a floor plan.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan
+        [API documentation: deleteNetworkFloorPlan](https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan)
 
         Args:
             network_id: Network ID.
             floor_plan_id: Floor plan ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "floorPlanId": "g_1234567",
+              "imageUrl": "https://meraki-na.s3.amazonaws.com/assets/...",
+              "imageUrlExpiresAt": "2019-06-11 16:04:54 +00:00",
+              "imageExtension": "png",
+              "imageMd5": "2a9edd3f4ffd80130c647d13eacb59f3",
+              "name": "HQ Floor Plan",
+              "devices": [
+                {
+                  "name": "My AP",
+                  "lat": 37.4180951010362,
+                  "lng": -122.098531723022,
+                  "address": "1600 Pennsylvania Ave",
+                  "notes": "My AP's note",
+                  "tags": [
+                    "recently-added"
+                  ],
+                  "networkId": "N_24329156",
+                  "serial": "Q234-ABCD-5678",
+                  "model": "MR34",
+                  "imei": "123456789000000",
+                  "mac": "00:11:22:33:44:55",
+                  "lanIp": "1.2.3.4",
+                  "firmware": "wireless-25-14",
+                  "productType": "wireless",
+                  "details": [
+                    {
+                      "name": "Catalyst serial",
+                      "value": "123ABC"
+                    }
+                  ]
+                }
+              ],
+              "width": 100.0,
+              "height": 150.1,
+              "center": {
+                "lat": 37.770040510499996,
+                "lng": -122.38714009525
+              },
+              "bottomLeftCorner": {
+                "lat": 37.7696461495,
+                "lng": -122.3880815506
+              },
+              "bottomRightCorner": {
+                "lat": 37.771524649766654,
+                "lng": -122.38795275055205
+              },
+              "topLeftCorner": {
+                "lat": 37.769700101836364,
+                "lng": -122.3888684251381
+              },
+              "topRightCorner": {
+                "lat": 37.77157860210302,
+                "lng": -122.38873962509012
+              },
+              "floorNumber": 5.0
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2322,10 +4658,143 @@ class Networks:
     def get_network_group_policies(self, network_id: str) -> GetNetworkGroupPoliciesResponse | None:
         """List the group policies in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-group-policies
+        [API documentation: getNetworkGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!get-network-group-policies)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "groupPolicyId": "101",
+                "scheduling": {
+                  "enabled": true,
+                  "monday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "tuesday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "wednesday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "thursday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "friday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "saturday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "sunday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  }
+                },
+                "bandwidth": {
+                  "settings": "custom",
+                  "bandwidthLimits": {
+                    "limitUp": 1000000,
+                    "limitDown": 1000000
+                  }
+                },
+                "firewallAndTrafficShaping": {
+                  "settings": "custom",
+                  "trafficShapingRules": [
+                    {
+                      "definitions": [
+                        {
+                          "type": "host",
+                          "value": "google.com"
+                        }
+                      ],
+                      "perClientBandwidthLimits": {
+                        "settings": "custom",
+                        "bandwidthLimits": {
+                          "limitUp": 1000000,
+                          "limitDown": 1000000
+                        }
+                      },
+                      "dscpTagValue": 0,
+                      "pcpTagValue": 0,
+                      "priority": "normal"
+                    }
+                  ],
+                  "l3FirewallRules": [
+                    {
+                      "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                      "policy": "allow",
+                      "protocol": "tcp",
+                      "destPort": "443",
+                      "destCidr": "192.168.1.0/24"
+                    }
+                  ],
+                  "l7FirewallRules": [
+                    {
+                      "policy": "deny",
+                      "type": "host",
+                      "value": "google.com"
+                    }
+                  ]
+                },
+                "contentFiltering": {
+                  "allowedUrlPatterns": {
+                    "settings": "network default",
+                    "patterns": []
+                  },
+                  "blockedUrlPatterns": {
+                    "settings": "append",
+                    "patterns": [
+                      "http://www.example.com",
+                      "http://www.betting.com"
+                    ]
+                  },
+                  "blockedUrlCategories": {
+                    "settings": "override",
+                    "categories": [
+                      "meraki:contentFiltering/category/1",
+                      "meraki:contentFiltering/category/7"
+                    ]
+                  }
+                },
+                "splashAuthSettings": "bypass",
+                "vlanTagging": {
+                  "settings": "custom",
+                  "vlanId": "1"
+                },
+                "bonjourForwarding": {
+                  "settings": "custom",
+                  "rules": [
+                    {
+                      "description": "A simple bonjour rule",
+                      "vlanId": "1",
+                      "services": [
+                        "All Services"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2354,25 +4823,156 @@ class Networks:
     ) -> CreateNetworkGroupPolicyResponse | None:
         """Create a group policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy
+        [API documentation: createNetworkGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy)
 
         Args:
             network_id: Network ID.
             name: The name for your group policy. Required.
             scheduling: The schedule for the group policy. Schedules are applied to days of the
-              week.
+                week.
             bandwidth: The bandwidth settings for clients bound to your group policy.
             firewall_and_traffic_shaping: The firewall and traffic shaping rules and settings for
-              your policy.
+                your policy.
             content_filtering: The content filtering settings for your group policy.
             splash_auth_settings: Whether clients bound to your policy will bypass splash
-              authorization or behave according to the network's rules. Can be one of
-              'network default' or 'bypass'. Only available if your network has a
-              wireless configuration.
+                authorization or behave according to the network's rules. Can be one of
+                'network default' or 'bypass'. Only available if your network has a
+                wireless configuration.
             vlan_tagging: The VLAN tagging settings for your group policy. Only available if your
-              network has a wireless configuration.
+                network has a wireless configuration.
             bonjour_forwarding: The Bonjour settings for your group policy. Only valid if your
-              network has a wireless configuration.
+                network has a wireless configuration.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupPolicyId": "101",
+              "scheduling": {
+                "enabled": true,
+                "monday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "tuesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "wednesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "thursday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "friday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "saturday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "sunday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                }
+              },
+              "bandwidth": {
+                "settings": "custom",
+                "bandwidthLimits": {
+                  "limitUp": 1000000,
+                  "limitDown": 1000000
+                }
+              },
+              "firewallAndTrafficShaping": {
+                "settings": "custom",
+                "trafficShapingRules": [
+                  {
+                    "definitions": [
+                      {
+                        "type": "host",
+                        "value": "google.com"
+                      }
+                    ],
+                    "perClientBandwidthLimits": {
+                      "settings": "custom",
+                      "bandwidthLimits": {
+                        "limitUp": 1000000,
+                        "limitDown": 1000000
+                      }
+                    },
+                    "dscpTagValue": 0,
+                    "pcpTagValue": 0,
+                    "priority": "normal"
+                  }
+                ],
+                "l3FirewallRules": [
+                  {
+                    "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                    "policy": "allow",
+                    "protocol": "tcp",
+                    "destPort": "443",
+                    "destCidr": "192.168.1.0/24"
+                  }
+                ],
+                "l7FirewallRules": [
+                  {
+                    "policy": "deny",
+                    "type": "host",
+                    "value": "google.com"
+                  }
+                ]
+              },
+              "contentFiltering": {
+                "allowedUrlPatterns": {
+                  "settings": "network default",
+                  "patterns": []
+                },
+                "blockedUrlPatterns": {
+                  "settings": "append",
+                  "patterns": [
+                    "http://www.example.com",
+                    "http://www.betting.com"
+                  ]
+                },
+                "blockedUrlCategories": {
+                  "settings": "override",
+                  "categories": [
+                    "meraki:contentFiltering/category/1",
+                    "meraki:contentFiltering/category/7"
+                  ]
+                }
+              },
+              "splashAuthSettings": "bypass",
+              "vlanTagging": {
+                "settings": "custom",
+                "vlanId": "1"
+              },
+              "bonjourForwarding": {
+                "settings": "custom",
+                "rules": [
+                  {
+                    "description": "A simple bonjour rule",
+                    "vlanId": "1",
+                    "services": [
+                      "All Services"
+                    ]
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         if splash_auth_settings is not None:
@@ -2421,11 +5021,142 @@ class Networks:
     ) -> GetNetworkGroupPolicyResponse | None:
         """Display a group policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-group-policy
+        [API documentation: getNetworkGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!get-network-group-policy)
 
         Args:
             network_id: Network ID.
             group_policy_id: Group policy ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupPolicyId": "101",
+              "scheduling": {
+                "enabled": true,
+                "monday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "tuesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "wednesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "thursday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "friday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "saturday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "sunday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                }
+              },
+              "bandwidth": {
+                "settings": "custom",
+                "bandwidthLimits": {
+                  "limitUp": 1000000,
+                  "limitDown": 1000000
+                }
+              },
+              "firewallAndTrafficShaping": {
+                "settings": "custom",
+                "trafficShapingRules": [
+                  {
+                    "definitions": [
+                      {
+                        "type": "host",
+                        "value": "google.com"
+                      }
+                    ],
+                    "perClientBandwidthLimits": {
+                      "settings": "custom",
+                      "bandwidthLimits": {
+                        "limitUp": 1000000,
+                        "limitDown": 1000000
+                      }
+                    },
+                    "dscpTagValue": 0,
+                    "pcpTagValue": 0,
+                    "priority": "normal"
+                  }
+                ],
+                "l3FirewallRules": [
+                  {
+                    "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                    "policy": "allow",
+                    "protocol": "tcp",
+                    "destPort": "443",
+                    "destCidr": "192.168.1.0/24"
+                  }
+                ],
+                "l7FirewallRules": [
+                  {
+                    "policy": "deny",
+                    "type": "host",
+                    "value": "google.com"
+                  }
+                ]
+              },
+              "contentFiltering": {
+                "allowedUrlPatterns": {
+                  "settings": "network default",
+                  "patterns": []
+                },
+                "blockedUrlPatterns": {
+                  "settings": "append",
+                  "patterns": [
+                    "http://www.example.com",
+                    "http://www.betting.com"
+                  ]
+                },
+                "blockedUrlCategories": {
+                  "settings": "override",
+                  "categories": [
+                    "meraki:contentFiltering/category/1",
+                    "meraki:contentFiltering/category/7"
+                  ]
+                }
+              },
+              "splashAuthSettings": "bypass",
+              "vlanTagging": {
+                "settings": "custom",
+                "vlanId": "1"
+              },
+              "bonjourForwarding": {
+                "settings": "custom",
+                "rules": [
+                  {
+                    "description": "A simple bonjour rule",
+                    "vlanId": "1",
+                    "services": [
+                      "All Services"
+                    ]
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2456,26 +5187,157 @@ class Networks:
     ) -> UpdateNetworkGroupPolicyResponse | None:
         """Update a group policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy
+        [API documentation: updateNetworkGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy)
 
         Args:
             network_id: Network ID.
             group_policy_id: Group policy ID.
             name: The name for your group policy.
             scheduling: The schedule for the group policy. Schedules are applied to days of the
-              week.
+                week.
             bandwidth: The bandwidth settings for clients bound to your group policy.
             firewall_and_traffic_shaping: The firewall and traffic shaping rules and settings for
-              your policy.
+                your policy.
             content_filtering: The content filtering settings for your group policy.
             splash_auth_settings: Whether clients bound to your policy will bypass splash
-              authorization or behave according to the network's rules. Can be one of
-              'network default' or 'bypass'. Only available if your network has a
-              wireless configuration.
+                authorization or behave according to the network's rules. Can be one of
+                'network default' or 'bypass'. Only available if your network has a
+                wireless configuration.
             vlan_tagging: The VLAN tagging settings for your group policy. Only available if your
-              network has a wireless configuration.
+                network has a wireless configuration.
             bonjour_forwarding: The Bonjour settings for your group policy. Only valid if your
-              network has a wireless configuration.
+                network has a wireless configuration.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupPolicyId": "101",
+              "scheduling": {
+                "enabled": true,
+                "monday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "tuesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "wednesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "thursday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "friday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "saturday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "sunday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                }
+              },
+              "bandwidth": {
+                "settings": "custom",
+                "bandwidthLimits": {
+                  "limitUp": 1000000,
+                  "limitDown": 1000000
+                }
+              },
+              "firewallAndTrafficShaping": {
+                "settings": "custom",
+                "trafficShapingRules": [
+                  {
+                    "definitions": [
+                      {
+                        "type": "host",
+                        "value": "google.com"
+                      }
+                    ],
+                    "perClientBandwidthLimits": {
+                      "settings": "custom",
+                      "bandwidthLimits": {
+                        "limitUp": 1000000,
+                        "limitDown": 1000000
+                      }
+                    },
+                    "dscpTagValue": 0,
+                    "pcpTagValue": 0,
+                    "priority": "normal"
+                  }
+                ],
+                "l3FirewallRules": [
+                  {
+                    "comment": "Allow TCP traffic to subnet with HTTP servers.",
+                    "policy": "allow",
+                    "protocol": "tcp",
+                    "destPort": "443",
+                    "destCidr": "192.168.1.0/24"
+                  }
+                ],
+                "l7FirewallRules": [
+                  {
+                    "policy": "deny",
+                    "type": "host",
+                    "value": "google.com"
+                  }
+                ]
+              },
+              "contentFiltering": {
+                "allowedUrlPatterns": {
+                  "settings": "network default",
+                  "patterns": []
+                },
+                "blockedUrlPatterns": {
+                  "settings": "append",
+                  "patterns": [
+                    "http://www.example.com",
+                    "http://www.betting.com"
+                  ]
+                },
+                "blockedUrlCategories": {
+                  "settings": "override",
+                  "categories": [
+                    "meraki:contentFiltering/category/1",
+                    "meraki:contentFiltering/category/7"
+                  ]
+                }
+              },
+              "splashAuthSettings": "bypass",
+              "vlanTagging": {
+                "settings": "custom",
+                "vlanId": "1"
+              },
+              "bonjourForwarding": {
+                "settings": "custom",
+                "rules": [
+                  {
+                    "description": "A simple bonjour rule",
+                    "vlanId": "1",
+                    "services": [
+                      "All Services"
+                    ]
+                  }
+                ]
+              }
+            }
+            ```
 
         """
         if splash_auth_settings is not None:
@@ -2525,14 +5387,17 @@ class Networks:
     ) -> None:
         """Delete a group policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-group-policy
+        [API documentation: deleteNetworkGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-network-group-policy)
 
         Args:
             network_id: Network ID.
             group_policy_id: Group policy ID.
             force: If true, the system deletes the GP even if there are active clients using the GP.
-              After deletion, active clients that were assigned to that Group Policy
-              will be left without any policy applied. Default is false.
+                After deletion, active clients that were assigned to that Group Policy
+                will be left without any policy applied. Default is false.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2550,10 +5415,59 @@ class Networks:
     def get_network_health_alerts(self, network_id: str) -> GetNetworkHealthAlertsResponse | None:
         """Return all global alerts on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-health-alerts
+        [API documentation: getNetworkHealthAlerts](https://developer.cisco.com/meraki/api-v1/#!get-network-health-alerts)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "category": "Connectivity",
+                "type": "Poor connectivity to the Meraki cloud",
+                "severity": "info",
+                "scope": {
+                  "devices": [
+                    {
+                      "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
+                      "name": "My AP",
+                      "productType": "switch",
+                      "serial": "Q234-ABCD-5678",
+                      "mac": "00:11:22:33:44:55",
+                      "lldp": {
+                        "portId": "1"
+                      },
+                      "clients": [
+                        {
+                          "mac": "22:33:44:55:66:77"
+                        }
+                      ]
+                    }
+                  ],
+                  "applications": [
+                    {
+                      "url": "https://n1.meraki.com//n//manage/nodes/list",
+                      "name": "Application on application server"
+                    }
+                  ],
+                  "peers": [
+                    {
+                      "url": "https://n1.meraki.com//n//manage/nodes/list",
+                      "network": {
+                        "name": "Main Office",
+                        "id": "N_24329156"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2571,10 +5485,36 @@ class Networks:
     ) -> GetNetworkMerakiAuthUsersResponse | None:
         """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network).
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-users
+        [API documentation: getNetworkMerakiAuthUsers](https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-users)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "aGlAaGkuY29t",
+                "email": "miles@meraki.com",
+                "name": "Miles Meraki",
+                "createdAt": "2018-02-11T00:00:00.090210Z",
+                "accountType": "802.1X",
+                "isAdmin": false,
+                "authorizations": [
+                  {
+                    "ssidNumber": 1,
+                    "authorizedZone": "Store WiFi",
+                    "expiresAt": "2018-03-13T00:00:00.090210Z",
+                    "authorizedByName": "Miles Meraki",
+                    "authorizedByEmail": "miles@meraki.com"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2601,20 +5541,44 @@ class Networks:
     ) -> CreateNetworkMerakiAuthUserResponse | None:
         """Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap).
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-meraki-auth-user
+        [API documentation: createNetworkMerakiAuthUser](https://developer.cisco.com/meraki/api-v1/#!create-network-meraki-auth-user)
 
         Args:
             network_id: Network ID.
             email: Email address of the user.
             name: Name of the user. Only required If the user is not a Dashboard administrator.
             password: The password for this user account. Only required If the user is not a
-              Dashboard administrator.
+                Dashboard administrator.
             account_type: Authorization type for user. Can be 'Guest' or '802.1X' for wireless
-              networks, or 'Client VPN' for MX networks. Defaults to '802.1X'.
+                networks, or 'Client VPN' for MX networks. Defaults to '802.1X'.
             email_password_to_user: Whether or not Meraki should email the password to user. Default
-              is false.
+                is false.
             is_admin: Whether or not the user is a Dashboard administrator.
             authorizations: Authorization zones and expiration dates for the user.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "aGlAaGkuY29t",
+              "email": "miles@meraki.com",
+              "name": "Miles Meraki",
+              "createdAt": "2018-02-11T00:00:00.090210Z",
+              "accountType": "802.1X",
+              "isAdmin": false,
+              "authorizations": [
+                {
+                  "ssidNumber": 1,
+                  "authorizedZone": "Store WiFi",
+                  "expiresAt": "2018-03-13T00:00:00.090210Z",
+                  "authorizedByName": "Miles Meraki",
+                  "authorizedByEmail": "miles@meraki.com"
+                }
+              ]
+            }
+            ```
 
         """
         if account_type is not None:
@@ -2657,11 +5621,35 @@ class Networks:
     ) -> GetNetworkMerakiAuthUserResponse | None:
         """Return the Meraki Auth splash guest, RADIUS, or client VPN user.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-user
+        [API documentation: getNetworkMerakiAuthUser](https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-user)
 
         Args:
             network_id: Network ID.
             meraki_auth_user_id: Meraki auth user ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "aGlAaGkuY29t",
+              "email": "miles@meraki.com",
+              "name": "Miles Meraki",
+              "createdAt": "2018-02-11T00:00:00.090210Z",
+              "accountType": "802.1X",
+              "isAdmin": false,
+              "authorizations": [
+                {
+                  "ssidNumber": 1,
+                  "authorizedZone": "Store WiFi",
+                  "expiresAt": "2018-03-13T00:00:00.090210Z",
+                  "authorizedByName": "Miles Meraki",
+                  "authorizedByEmail": "miles@meraki.com"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2687,17 +5675,41 @@ class Networks:
     ) -> UpdateNetworkMerakiAuthUserResponse | None:
         """Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated).
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-meraki-auth-user
+        [API documentation: updateNetworkMerakiAuthUser](https://developer.cisco.com/meraki/api-v1/#!update-network-meraki-auth-user)
 
         Args:
             network_id: Network ID.
             meraki_auth_user_id: Meraki auth user ID.
             name: Name of the user. Only allowed If the user is not Dashboard administrator.
             password: The password for this user account. Only allowed If the user is not Dashboard
-              administrator.
+                administrator.
             email_password_to_user: Whether or not Meraki should email the password to user. Default
-              is false.
+                is false.
             authorizations: Authorization zones and expiration dates for the user.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "aGlAaGkuY29t",
+              "email": "miles@meraki.com",
+              "name": "Miles Meraki",
+              "createdAt": "2018-02-11T00:00:00.090210Z",
+              "accountType": "802.1X",
+              "isAdmin": false,
+              "authorizations": [
+                {
+                  "ssidNumber": 1,
+                  "authorizedZone": "Store WiFi",
+                  "expiresAt": "2018-03-13T00:00:00.090210Z",
+                  "authorizedByName": "Miles Meraki",
+                  "authorizedByEmail": "miles@meraki.com"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2729,15 +5741,18 @@ class Networks:
     ) -> None:
         """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
+        [API documentation: deleteNetworkMerakiAuthUser](https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user)
 
         Args:
             network_id: Network ID.
             meraki_auth_user_id: Meraki auth user ID.
             delete: If the ID supplied is for a splash guest or client VPN user, and that user is
-              not authorized for any other networks in the organization, then also
-              delete the user. 802.1X RADIUS users are always deleted regardless of this
-              optional attribute.
+                not authorized for any other networks in the organization, then also
+                delete the user. 802.1X RADIUS users are always deleted regardless of
+                this optional attribute.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2755,10 +5770,35 @@ class Networks:
     def get_network_mqtt_brokers(self, network_id: str) -> GetNetworkMqttBrokersResponse | None:
         """List the MQTT brokers for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-brokers
+        [API documentation: getNetworkMqttBrokers](https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-brokers)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "name": "MQTT_Broker_1",
+                "host": "1.2.3.4",
+                "port": 443,
+                "security": {
+                  "mode": "tls",
+                  "tls": {
+                    "hasCaCertificate": true,
+                    "verifyHostnames": true
+                  }
+                },
+                "authentication": {
+                  "username": "milesmeraki"
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2783,7 +5823,7 @@ class Networks:
     ) -> CreateNetworkMqttBrokerResponse | None:
         """Add an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-mqtt-broker
+        [API documentation: createNetworkMqttBroker](https://developer.cisco.com/meraki/api-v1/#!create-network-mqtt-broker)
 
         Args:
             network_id: Network ID.
@@ -2792,6 +5832,29 @@ class Networks:
             port: Host port though which the MQTT broker can be reached.
             security: Security settings of the MQTT broker.
             authentication: Authentication settings of the MQTT broker.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "MQTT_Broker_1",
+              "host": "1.2.3.4",
+              "port": 443,
+              "security": {
+                "mode": "tls",
+                "tls": {
+                  "hasCaCertificate": true,
+                  "verifyHostnames": true
+                }
+              },
+              "authentication": {
+                "username": "milesmeraki"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2822,11 +5885,34 @@ class Networks:
     ) -> GetNetworkMqttBrokerResponse | None:
         """Return an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-broker
+        [API documentation: getNetworkMqttBroker](https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-broker)
 
         Args:
             network_id: Network ID.
             mqtt_broker_id: Mqtt broker ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "MQTT_Broker_1",
+              "host": "1.2.3.4",
+              "port": 443,
+              "security": {
+                "mode": "tls",
+                "tls": {
+                  "hasCaCertificate": true,
+                  "verifyHostnames": true
+                }
+              },
+              "authentication": {
+                "username": "milesmeraki"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2853,7 +5939,7 @@ class Networks:
     ) -> UpdateNetworkMqttBrokerResponse | None:
         """Update an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-mqtt-broker
+        [API documentation: updateNetworkMqttBroker](https://developer.cisco.com/meraki/api-v1/#!update-network-mqtt-broker)
 
         Args:
             network_id: Network ID.
@@ -2863,6 +5949,29 @@ class Networks:
             port: Host port though which the MQTT broker can be reached.
             security: Security settings of the MQTT broker.
             authentication: Authentication settings of the MQTT broker.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "name": "MQTT_Broker_1",
+              "host": "1.2.3.4",
+              "port": 443,
+              "security": {
+                "mode": "tls",
+                "tls": {
+                  "hasCaCertificate": true,
+                  "verifyHostnames": true
+                }
+              },
+              "authentication": {
+                "username": "milesmeraki"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2892,11 +6001,14 @@ class Networks:
     def delete_network_mqtt_broker(self, *, network_id: str, mqtt_broker_id: str) -> None:
         """Delete an MQTT broker.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker
+        [API documentation: deleteNetworkMqttBroker](https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker)
 
         Args:
             network_id: Network ID.
             mqtt_broker_id: Mqtt broker ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2910,10 +6022,24 @@ class Networks:
     def get_network_netflow(self, network_id: str) -> GetNetworkNetflowResponse | None:
         """Return the NetFlow traffic reporting settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-netflow
+        [API documentation: getNetworkNetflow](https://developer.cisco.com/meraki/api-v1/#!get-network-netflow)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "reportingEnabled": true,
+              "collectorIp": "1.2.3.4",
+              "collectorPort": 443,
+              "etaEnabled": true,
+              "etaDstPort": 443
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2938,18 +6064,32 @@ class Networks:
     ) -> UpdateNetworkNetflowResponse | None:
         """Update the NetFlow traffic reporting settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-netflow
+        [API documentation: updateNetworkNetflow](https://developer.cisco.com/meraki/api-v1/#!update-network-netflow)
 
         Args:
             network_id: Network ID.
             reporting_enabled: Boolean indicating whether NetFlow traffic reporting is enabled
-              (true) or disabled (false).
+                (true) or disabled (false).
             collector_ip: The IPv4 address of the NetFlow collector.
             collector_port: The port that the NetFlow collector will be listening on.
             eta_enabled: Boolean indicating whether Encrypted Traffic Analytics is enabled (true) or
-              disabled (false).
+                disabled (false).
             eta_dst_port: The port that the Encrypted Traffic Analytics collector will be listening
-              on.
+                on.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "reportingEnabled": true,
+              "collectorIp": "1.2.3.4",
+              "collectorPort": 443,
+              "etaEnabled": true,
+              "etaDstPort": 443
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2986,36 +6126,68 @@ class Networks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkNetworkHealthChannelUtilizationResponseItem]:
         """Get the channel utilization over each radio for all APs in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-network-health-channel-utilization
+        [API documentation: getNetworkNetworkHealthChannelUtilization](https://developer.cisco.com/meraki/api-v1/#!get-network-network-health-channel-utilization)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              600. The default is 600.
+                600. The default is 600.
             per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-5678",
+                "model": "MR34",
+                "tags": " recently-added ",
+                "wifi0": [
+                  {
+                    "startTime": "2018-10-09T22:18:27Z",
+                    "endTime": "2018-10-09T22:19:27Z",
+                    "utilizationTotal": 33.84,
+                    "utilization80211": 32.0,
+                    "utilizationNon80211": 1.84
+                  }
+                ],
+                "wifi1": [
+                  {
+                    "startTime": "2018-10-09T22:18:27Z",
+                    "endTime": "2018-10-09T22:19:27Z",
+                    "utilizationTotal": 33.84,
+                    "utilization80211": 32.0,
+                    "utilizationNon80211": 1.84
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3060,7 +6232,7 @@ class Networks:
     ) -> GetNetworkPiiPiiKeysResponse | None:
         """List the keys required to access Personally Identifiable Information (PII) for a given identifier.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-pii-pii-keys
+        [API documentation: getNetworkPiiPiiKeys](https://developer.cisco.com/meraki/api-v1/#!get-network-pii-pii-keys)
 
         Args:
             network_id: Network ID.
@@ -3070,6 +6242,35 @@ class Networks:
             serial: The serial of a Systems Manager device.
             imei: The IMEI of a Systems Manager device.
             bluetooth_mac: The MAC of a Bluetooth client.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "N_1234": {
+                "macs": [
+                  "00:77:00:77:00:77"
+                ],
+                "emails": [
+                  "fake@example.com"
+                ],
+                "usernames": [
+                  "fakename"
+                ],
+                "serials": [
+                  "Q234-ABCD-0001"
+                ],
+                "imeis": [
+                  "990000862471854"
+                ],
+                "bluetoothMacs": [
+                  "00:77:00:77:00:77"
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3100,10 +6301,30 @@ class Networks:
     def get_network_pii_requests(self, network_id: str) -> GetNetworkPiiRequestsResponse | None:
         """List the PII requests for this network or organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-pii-requests
+        [API documentation: getNetworkPiiRequests](https://developer.cisco.com/meraki/api-v1/#!get-network-pii-requests)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "organizationWide": false,
+                "networkId": "N_1234",
+                "type": "delete",
+                "mac": "00:77:00:77:00:77",
+                "datasets": "['usage', 'events']",
+                "status": "Completed",
+                "createdAt": 1524692227,
+                "completedAt": 1524702227
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3130,27 +6351,45 @@ class Networks:
     ) -> CreateNetworkPiiRequestResponse | None:
         """Submit a new delete or restrict processing PII request.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-pii-request
+        [API documentation: createNetworkPiiRequest](https://developer.cisco.com/meraki/api-v1/#!create-network-pii-request)
 
         Args:
             network_id: Network ID.
             type_: One of "delete" or "restrict processing".
             datasets: The datasets related to the provided key that should be deleted. Only applies
-              to "delete" requests. The value "all" will be expanded to all datasets
-              applicable to this type. The datasets by applicable to each type are: mac
-              (usage, events, traffic), email (users, loginAttempts), username (users,
-              loginAttempts), bluetoothMac (client, connectivity), smDeviceId (device),
-              smUserId (user).
+                to "delete" requests. The value "all" will be expanded to all datasets
+                applicable to this type. The datasets by applicable to each type are:
+                mac (usage, events, traffic), email (users, loginAttempts), username
+                (users, loginAttempts), bluetoothMac (client, connectivity), smDeviceId
+                (device), smUserId (user).
             username: The username of a network log in. Only applies to "delete" requests.
             email: The email of a network user account. Only applies to "delete" requests.
             mac: The MAC of a network client device. Applies to both "restrict processing" and
-              "delete" requests.
+                "delete" requests.
             sm_device_id: The sm_device_id of a Systems Manager device. The only way to "restrict
-              processing" or "delete" a Systems Manager device. Must include "device" in
-              the dataset for a "delete" request to destroy the device.
+                processing" or "delete" a Systems Manager device. Must include "device"
+                in the dataset for a "delete" request to destroy the device.
             sm_user_id: The sm_user_id of a Systems Manager user. The only way to "restrict
-              processing" or "delete" a Systems Manager user. Must include "user" in the
-              dataset for a "delete" request to destroy the user.
+                processing" or "delete" a Systems Manager user. Must include "user" in
+                the dataset for a "delete" request to destroy the user.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "organizationWide": false,
+              "networkId": "N_1234",
+              "type": "delete",
+              "mac": "00:77:00:77:00:77",
+              "datasets": "['usage', 'events']",
+              "status": "Completed",
+              "createdAt": 1524692227,
+              "completedAt": 1524702227
+            }
+            ```
 
         """
         if type_ is not None:
@@ -3191,11 +6430,29 @@ class Networks:
     ) -> GetNetworkPiiRequestResponse | None:
         """Return a PII request.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-pii-request
+        [API documentation: getNetworkPiiRequest](https://developer.cisco.com/meraki/api-v1/#!get-network-pii-request)
 
         Args:
             network_id: Network ID.
             request_id: Request ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "organizationWide": false,
+              "networkId": "N_1234",
+              "type": "delete",
+              "mac": "00:77:00:77:00:77",
+              "datasets": "['usage', 'events']",
+              "status": "Completed",
+              "createdAt": 1524692227,
+              "completedAt": 1524702227
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3212,11 +6469,14 @@ class Networks:
     def delete_network_pii_request(self, *, network_id: str, request_id: str) -> None:
         """Delete a restrict processing PII request.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-pii-request
+        [API documentation: deleteNetworkPiiRequest](https://developer.cisco.com/meraki/api-v1/#!delete-network-pii-request)
 
         Args:
             network_id: Network ID.
             request_id: Request ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3240,7 +6500,7 @@ class Networks:
     ) -> GetNetworkPiiSmDevicesForKeyResponse | None:
         """Given a piece of Personally Identifiable Information (PII), return the Systems Manager device ID(s) associated with that identifier.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-pii-sm-devices-for-key
+        [API documentation: getNetworkPiiSmDevicesForKey](https://developer.cisco.com/meraki/api-v1/#!get-network-pii-sm-devices-for-key)
 
         Args:
             network_id: Network ID.
@@ -3250,6 +6510,18 @@ class Networks:
             serial: The serial of a Systems Manager device.
             imei: The IMEI of a Systems Manager device.
             bluetooth_mac: The MAC of a Bluetooth client.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "N_1234": [
+                "1099541095293"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3290,7 +6562,7 @@ class Networks:
     ) -> GetNetworkPiiSmOwnersForKeyResponse | None:
         """Given a piece of Personally Identifiable Information (PII), return the Systems Manager owner ID(s) associated with that identifier.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-pii-sm-owners-for-key
+        [API documentation: getNetworkPiiSmOwnersForKey](https://developer.cisco.com/meraki/api-v1/#!get-network-pii-sm-owners-for-key)
 
         Args:
             network_id: Network ID.
@@ -3300,6 +6572,18 @@ class Networks:
             serial: The serial of a Systems Manager device.
             imei: The IMEI of a Systems Manager device.
             bluetooth_mac: The MAC of a Bluetooth client.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "N_1234": [
+                "1099541095293"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3336,33 +6620,58 @@ class Networks:
         ending_before: str | None = None,
         t0: str | None = None,
         timespan: float | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkPoliciesByClientResponseItem]:
         """Get policies for all clients with policies.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-policies-by-client
+        [API documentation: getNetworkPoliciesByClient](https://developer.cisco.com/meraki/api-v1/#!get-network-policies-by-client)
 
         Args:
             network_id: Network ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 1 day.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "my phone",
+                "clientId": "abc",
+                "assigned": [
+                  {
+                    "name": "Allowed",
+                    "type": "ssid",
+                    "groupPolicyId": "100",
+                    "ssid": [
+                      {
+                        "ssidNumber": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3393,10 +6702,36 @@ class Networks:
     def get_network_settings(self, network_id: str) -> GetNetworkSettingsResponse | None:
         """Return the settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-settings
+        [API documentation: getNetworkSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-settings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "localStatusPageEnabled": true,
+              "remoteStatusPageEnabled": true,
+              "localStatusPage": {
+                "authentication": {
+                  "enabled": false,
+                  "username": "admin"
+                }
+              },
+              "securePort": {
+                "enabled": false
+              },
+              "fips": {
+                "enabled": true
+              },
+              "namedVlans": {
+                "enabled": true
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3421,23 +6756,50 @@ class Networks:
     ) -> UpdateNetworkSettingsResponse | None:
         """Update the settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-settings
+        [API documentation: updateNetworkSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-settings)
 
         Args:
             network_id: Network ID.
             local_status_page_enabled: Enables / disables the local device status pages (<a
-              target='_blank' href='http://my.meraki.com/'>my.meraki.com, </a><a
-              target='_blank' href='http://ap.meraki.com/'>ap.meraki.com, </a><a
-              target='_blank' href='http://switch.meraki.com/'>switch.meraki.com, </a><a
-              target='_blank' href='http://wired.meraki.com/'>wired.meraki.com</a>).
-              Optional (defaults to false).
+                target='_blank' href='http://my.meraki.com/'>my.meraki.com, </a><a
+                target='_blank' href='http://ap.meraki.com/'>ap.meraki.com, </a><a
+                target='_blank' href='http://switch.meraki.com/'>switch.meraki.com,
+                </a><a target='_blank'
+                href='http://wired.meraki.com/'>wired.meraki.com</a>). Optional
+                (defaults to false).
             remote_status_page_enabled: Enables / disables access to the device status page (<a
-              target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set
-              if localStatusPageEnabled is set to true.
+                target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set
+                if localStatusPageEnabled is set to true.
             local_status_page: A hash of Local Status page(s)' authentication options applied to the
-              Network.
+                Network.
             secure_port: A hash of SecureConnect options applied to the Network.
             named_vlans: A hash of Named VLANs options applied to the Network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "localStatusPageEnabled": true,
+              "remoteStatusPageEnabled": true,
+              "localStatusPage": {
+                "authentication": {
+                  "enabled": false,
+                  "username": "admin"
+                }
+              },
+              "securePort": {
+                "enabled": false
+              },
+              "fips": {
+                "enabled": true
+              },
+              "namedVlans": {
+                "enabled": true
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3468,10 +6830,27 @@ class Networks:
     def get_network_snmp(self, network_id: str) -> GetNetworkSnmpResponse | None:
         """Return the SNMP settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-snmp
+        [API documentation: getNetworkSnmp](https://developer.cisco.com/meraki/api-v1/#!get-network-snmp)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "access": "users",
+              "communityString": "sample",
+              "users": [
+                {
+                  "username": "AzureDiamond",
+                  "passphrase": "hunter2"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3494,15 +6873,32 @@ class Networks:
     ) -> UpdateNetworkSnmpResponse | None:
         """Update the SNMP settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-snmp
+        [API documentation: updateNetworkSnmp](https://developer.cisco.com/meraki/api-v1/#!update-network-snmp)
 
         Args:
             network_id: Network ID.
             access: The type of SNMP access. Can be one of 'none' (disabled), 'community' (V1/V2c),
-              or 'users' (V3).
+                or 'users' (V3).
             community_string: The SNMP community string. Only relevant if 'access' is set to
-              'community'.
+                'community'.
             users: The list of SNMP users. Only relevant if 'access' is set to 'users'.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "access": "users",
+              "communityString": "sample",
+              "users": [
+                {
+                  "username": "AzureDiamond",
+                  "passphrase": "hunter2"
+                }
+              ]
+            }
+            ```
 
         """
         if access is not None:
@@ -3540,14 +6936,33 @@ class Networks:
     ) -> GetNetworkSplashLoginAttemptsResponse | None:
         """List the splash login attempts for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-splash-login-attempts
+        [API documentation: getNetworkSplashLoginAttempts](https://developer.cisco.com/meraki/api-v1/#!get-network-splash-login-attempts)
 
         Args:
             network_id: Network ID.
             ssid_number: Only return the login attempts for the specified SSID.
             login_identifier: The username, email, or phone number used during login.
             timespan: The timespan, in seconds, for the login attempts. The period will be from
-              [timespan] seconds ago until now. The maximum timespan is 3 months.
+                [timespan] seconds ago until now. The maximum timespan is 3 months.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "Miles Meraki",
+                "login": "miles@meraki.com",
+                "ssid": "My SSID",
+                "loginAt": "2018-02-11T00:00:00.090210Z",
+                "gatewayDeviceMac": "00:11:22:33:44:55",
+                "clientMac": "22:33:44:55:66:77",
+                "clientId": "k74272e",
+                "authorization": "success"
+              }
+            ]
+            ```
 
         """
         if ssid_number is not None:
@@ -3578,10 +6993,38 @@ class Networks:
     def split_network(self, network_id: str) -> SplitNetworkResponse | None:
         """Split a combined network into individual networks for each type of device.
 
-        https://developer.cisco.com/meraki/api-v1/#!split-network
+        [API documentation: splitNetwork](https://developer.cisco.com/meraki/api-v1/#!split-network)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "resultingNetworks": [
+                {
+                  "id": "N_24329156",
+                  "organizationId": "2930418",
+                  "name": "Main Office - switch",
+                  "productTypes": [
+                    "switch"
+                  ],
+                  "timeZone": "America/Los_Angeles",
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ],
+                  "enrollmentString": "my-enrollment-string",
+                  "url": "https://n1.meraki.com//n//manage/nodes/list",
+                  "notes": "Additional description of the network",
+                  "isBoundToConfigTemplate": false
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3597,10 +7040,29 @@ class Networks:
     def get_network_syslog_servers(self, network_id: str) -> GetNetworkSyslogServersResponse | None:
         """List the syslog servers for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-syslog-servers
+        [API documentation: getNetworkSyslogServers](https://developer.cisco.com/meraki/api-v1/#!get-network-syslog-servers)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "servers": [
+                {
+                  "host": "1.2.3.4",
+                  "port": 443,
+                  "roles": [
+                    "Wireless event log",
+                    "URLs"
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3618,11 +7080,30 @@ class Networks:
     ) -> UpdateNetworkSyslogServersResponse | None:
         """Update the syslog servers for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-syslog-servers
+        [API documentation: updateNetworkSyslogServers](https://developer.cisco.com/meraki/api-v1/#!update-network-syslog-servers)
 
         Args:
             network_id: Network ID.
             servers: A list of the syslog servers for this network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "servers": [
+                {
+                  "host": "1.2.3.4",
+                  "port": 443,
+                  "roles": [
+                    "Wireless event log",
+                    "URLs"
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3647,10 +7128,104 @@ class Networks:
     ) -> GetNetworkTopologyLinkLayerResponse | None:
         """List the LLDP and CDP information for all discovered devices and connections in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-topology-link-layer
+        [API documentation: getNetworkTopologyLinkLayer](https://developer.cisco.com/meraki/api-v1/#!get-network-topology-link-layer)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "nodes": [
+                {
+                  "derivedId": "aabbccddeeff",
+                  "mac": "AA:BB:CC:DD:EE:FF",
+                  "type": "device",
+                  "root": true,
+                  "device": {
+                    "serial": "Q2UN-A44e-CU4L",
+                    "name": "Living Room Gateway",
+                    "model": "GX20",
+                    "productType": "appliance",
+                    "status": "online",
+                    "lastReportedAt": "2021-06-24T10:23:12z",
+                    "clients": {
+                      "counts": {
+                        "total": 8
+                      }
+                    },
+                    "uplinks": [
+                      {
+                        "vlanId": 0
+                      }
+                    ]
+                  },
+                  "discovered": {
+                    "lldp": {
+                      "chassisId": "12345",
+                      "systemName": "Non-Meraki device",
+                      "systemDescription": "Router and Switch Device",
+                      "systemCapabilities": [
+                        "router",
+                        "switch"
+                      ],
+                      "managementAddress": "10.130.105.154"
+                    },
+                    "cdp": {
+                      "platform": "Cisco IOS",
+                      "deviceId": "switch01.example.com",
+                      "address": "192.168.1.1",
+                      "capabilities": [
+                        "router",
+                        "switch"
+                      ],
+                      "managementAddress": "192.168.1.1"
+                    }
+                  },
+                  "stack": {
+                    "id": 98765,
+                    "name": "Corp Stack",
+                    "clients": {
+                      "counts": {
+                        "total": 14
+                      }
+                    }
+                  }
+                }
+              ],
+              "links": [
+                {
+                  "ends": [
+                    {
+                      "node": {
+                        "derivedId": "34564",
+                        "type": "stack"
+                      },
+                      "device": {
+                        "serial": "Q2UN-E55e-KO6L",
+                        "name": "Study Switch 2"
+                      },
+                      "discovered": {
+                        "lldp": {
+                          "portId": "Port 20",
+                          "portDescription": "eth0"
+                        },
+                        "cdp": {
+                          "portId": "Port 20",
+                          "nativeVlan": 102
+                        }
+                      }
+                    }
+                  ],
+                  "lastReportedAt": "2021-06-25T14:56:27z"
+                }
+              ],
+              "errors": []
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3673,18 +7248,38 @@ class Networks:
     ) -> GetNetworkTrafficResponse | None:
         """Return the traffic analysis data for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-traffic
+        [API documentation: getNetworkTraffic](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 30 days.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 30 days.
             device_type: Filter the data by device type: 'combined', 'wireless', 'switch' or
-              'appliance'. Defaults to 'combined'. When using 'combined', for each rule
-              the data will come from the device type with the most usage.
+                'appliance'. Defaults to 'combined'. When using 'combined', for each
+                rule the data will come from the device type with the most usage.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "application": "Gmail",
+                "destination": "2.3.4.5",
+                "protocol": "TCP",
+                "port": 443,
+                "sent": 138.0,
+                "recv": 61.0,
+                "numClients": 7,
+                "activeTime": 77000,
+                "flows": 300
+              }
+            ]
+            ```
 
         """
         if device_type is not None:
@@ -3717,10 +7312,27 @@ class Networks:
     ) -> GetNetworkTrafficAnalysisResponse | None:
         """Return the traffic analysis settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-analysis
+        [API documentation: getNetworkTrafficAnalysis](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-analysis)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mode": "disabled",
+              "customPieChartItems": [
+                {
+                  "name": "Item from hostname",
+                  "type": "host",
+                  "value": "example.com"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3743,15 +7355,32 @@ class Networks:
     ) -> UpdateNetworkTrafficAnalysisResponse | None:
         """Update the traffic analysis settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-traffic-analysis
+        [API documentation: updateNetworkTrafficAnalysis](https://developer.cisco.com/meraki/api-v1/#!update-network-traffic-analysis)
 
         Args:
             network_id: Network ID.
             mode: The traffic analysis mode for the network. Can be one of 'disabled' (do not
-              collect traffic types), 'basic' (collect generic traffic categories), or
-              'detailed' (collect destination hostnames).
+                collect traffic types), 'basic' (collect generic traffic categories), or
+                'detailed' (collect destination hostnames).
             custom_pie_chart_items: The list of items that make up the custom pie chart for traffic
-              reporting.
+                reporting.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mode": "disabled",
+              "customPieChartItems": [
+                {
+                  "name": "Item from hostname",
+                  "type": "host",
+                  "value": "example.com"
+                }
+              ]
+            }
+            ```
 
         """
         if mode is not None:
@@ -3782,10 +7411,39 @@ class Networks:
     ) -> dict[str, Any] | None:
         """Returns the application categories for traffic shaping rules.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-application-categories
+        [API documentation: getNetworkTrafficShapingApplicationCategories](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-application-categories)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "applicationCategories": [
+                {
+                  "id": "meraki:layer7/category/24",
+                  "name": "Advertising",
+                  "applications": [
+                    {
+                      "id": "meraki:layer7/application/5",
+                      "name": "Advertising.com"
+                    },
+                    {
+                      "id": "meraki:layer7/application/0",
+                      "name": "AppNexus"
+                    },
+                    {
+                      "id": "meraki:layer7/application/1",
+                      "name": "Brightroll"
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3802,10 +7460,35 @@ class Networks:
     ) -> GetNetworkTrafficShapingDscpTaggingOptionsResponse | None:
         """Returns the available DSCP tagging options for your traffic shaping rules.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-dscp-tagging-options
+        [API documentation: getNetworkTrafficShapingDscpTaggingOptions](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-dscp-tagging-options)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "dscpTagValue": 10,
+                "description": "AF11 - High Throughput, Latency Insensitive, Low Drop"
+              },
+              {
+                "dscpTagValue": 12,
+                "description": "AF12 - High Throughput, Latency Insensitive, Medium Drop"
+              },
+              {
+                "dscpTagValue": 14,
+                "description": "AF13 - High Throughput, Latency Insensitive, High Drop"
+              },
+              {
+                "dscpTagValue": 18,
+                "description": "AF21 - Low Latency Data, Low Drop"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3823,12 +7506,38 @@ class Networks:
     ) -> UnbindNetworkResponse | None:
         """Unbind a network from a template.
 
-        https://developer.cisco.com/meraki/api-v1/#!unbind-network
+        [API documentation: unbindNetwork](https://developer.cisco.com/meraki/api-v1/#!unbind-network)
 
         Args:
             network_id: Network ID.
             retain_configs: Optional boolean to retain all the current configs given by the
-              template.
+                template.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "N_24329156",
+              "organizationId": "2930418",
+              "name": "Main Office",
+              "productTypes": [
+                "appliance",
+                "switch",
+                "wireless"
+              ],
+              "timeZone": "America/Los_Angeles",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enrollmentString": "my-enrollment-string",
+              "url": "https://n1.meraki.com//n//manage/nodes/list",
+              "notes": "Additional description of the network",
+              "isBoundToConfigTemplate": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3849,10 +7558,40 @@ class Networks:
     def get_network_vlan_profiles(self, network_id: str) -> GetNetworkVlanProfilesResponse | None:
         """List VLAN profiles for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles
+        [API documentation: getNetworkVlanProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "iname": "Profile1",
+                "name": "My VLAN profile name",
+                "isDefault": false,
+                "vlanNames": [
+                  {
+                    "name": "named-1",
+                    "vlanId": "1",
+                    "adaptivePolicyGroup": {
+                      "id": "791",
+                      "name": "Infrastructure"
+                    }
+                  }
+                ],
+                "vlanGroups": [
+                  {
+                    "name": "named-group-1",
+                    "vlanIds": "2,5-7"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3876,7 +7615,7 @@ class Networks:
     ) -> CreateNetworkVlanProfileResponse | None:
         """Create a VLAN profile for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-vlan-profile
+        [API documentation: createNetworkVlanProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-vlan-profile)
 
         Args:
             network_id: Network ID.
@@ -3884,6 +7623,34 @@ class Networks:
             vlan_names: An array of named VLANs.
             vlan_groups: An array of VLAN groups.
             iname: IName of the profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "iname": "Profile1",
+              "name": "My VLAN profile name",
+              "isDefault": false,
+              "vlanNames": [
+                {
+                  "name": "named-1",
+                  "vlanId": "1",
+                  "adaptivePolicyGroup": {
+                    "id": "791",
+                    "name": "Infrastructure"
+                  }
+                }
+              ],
+              "vlanGroups": [
+                {
+                  "name": "named-group-1",
+                  "vlanIds": "2,5-7"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3921,32 +7688,55 @@ class Networks:
         serials: list[str] | None = None,
         product_types: list[str] | None = None,
         stack_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkVlanProfilesAssignmentsByDeviceResponseItem]:
         """Get the assigned VLAN Profiles for devices in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles-assignments-by-device
+        [API documentation: getNetworkVlanProfilesAssignmentsByDevice](https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles-assignments-by-device)
 
         Args:
             network_id: Network ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             serials: Optional parameter to filter devices by serials. All devices returned belong to
-              serial numbers that are an exact match.
+                serial numbers that are an exact match.
             product_types: Optional parameter to filter devices by product types.
             stack_ids: Optional parameter to filter devices by Switch Stack ids.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My switch",
+                "serial": "Q234-ABCD-5678",
+                "mac": "00:11:22:33:44:55",
+                "productType": "switch",
+                "vlanProfile": {
+                  "iname": "Profile1",
+                  "name": "My VLAN Profile",
+                  "isDefault": true
+                },
+                "stack": {
+                  "id": "1234"
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3986,13 +7776,32 @@ class Networks:
     ) -> ReassignNetworkVlanProfilesAssignmentsResponse | None:
         """Update the assigned VLAN Profile for devices in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!reassign-network-vlan-profiles-assignments
+        [API documentation: reassignNetworkVlanProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!reassign-network-vlan-profiles-assignments)
 
         Args:
             network_id: Network ID.
             vlan_profile: The VLAN Profile.
             serials: Array of Device Serials.
             stack_ids: Array of Switch Stack IDs.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "vlanProfile": {
+                "iname": "Profile1",
+                "name": "My VLAN Profile"
+              },
+              "serials": [
+                "Q234-ABCD-5678"
+              ],
+              "stackIds": [
+                "1234"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4019,11 +7828,39 @@ class Networks:
     ) -> GetNetworkVlanProfileResponse | None:
         """Get an existing VLAN profile of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profile
+        [API documentation: getNetworkVlanProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profile)
 
         Args:
             network_id: Network ID.
             iname: Iname.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "iname": "Profile1",
+              "name": "My VLAN profile name",
+              "isDefault": false,
+              "vlanNames": [
+                {
+                  "name": "named-1",
+                  "vlanId": "1",
+                  "adaptivePolicyGroup": {
+                    "id": "791",
+                    "name": "Infrastructure"
+                  }
+                }
+              ],
+              "vlanGroups": [
+                {
+                  "name": "named-group-1",
+                  "vlanIds": "2,5-7"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4048,7 +7885,7 @@ class Networks:
     ) -> UpdateNetworkVlanProfileResponse | None:
         """Update an existing VLAN profile of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-vlan-profile
+        [API documentation: updateNetworkVlanProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-vlan-profile)
 
         Args:
             network_id: Network ID.
@@ -4056,6 +7893,34 @@ class Networks:
             name: Name of the profile, string length must be from 1 to 255 characters.
             vlan_names: An array of named VLANs.
             vlan_groups: An array of VLAN groups.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "iname": "Profile1",
+              "name": "My VLAN profile name",
+              "isDefault": false,
+              "vlanNames": [
+                {
+                  "name": "named-1",
+                  "vlanId": "1",
+                  "adaptivePolicyGroup": {
+                    "id": "791",
+                    "name": "Infrastructure"
+                  }
+                }
+              ],
+              "vlanGroups": [
+                {
+                  "name": "named-group-1",
+                  "vlanIds": "2,5-7"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4085,11 +7950,14 @@ class Networks:
     def delete_network_vlan_profile(self, *, network_id: str, iname: str) -> None:
         """Delete a VLAN profile of a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile
+        [API documentation: deleteNetworkVlanProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile)
 
         Args:
             network_id: Network ID.
             iname: Iname.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4105,10 +7973,29 @@ class Networks:
     ) -> GetNetworkWebhooksHttpServersResponse | None:
         """List the HTTP servers for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-servers
+        [API documentation: getNetworkWebhooksHttpServers](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-servers)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vbXlfY3VzdG9tX3dlYmhvb2s=",
+                "name": "Example Webhook Server",
+                "url": "https://www.example.com/my_custom_webhook",
+                "networkId": "N_12345678",
+                "payloadTemplate": {
+                  "payloadTemplateId": "wpt_00001",
+                  "name": "Meraki (included)"
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4132,15 +8019,32 @@ class Networks:
     ) -> CreateNetworkWebhooksHttpServerResponse | None:
         """Add an HTTP server to a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-http-server
+        [API documentation: createNetworkWebhooksHttpServer](https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-http-server)
 
         Args:
             network_id: Network ID.
             name: A name for easy reference to the HTTP server.
             url: The URL of the HTTP server. Once set, cannot be updated.
             shared_secret: A shared secret that will be included in POSTs sent to the HTTP server.
-              This secret can be used to verify that the request was sent by Meraki.
+                This secret can be used to verify that the request was sent by Meraki.
             payload_template: The payload template to use when posting data to the HTTP server.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vbXlfY3VzdG9tX3dlYmhvb2s=",
+              "name": "Example Webhook Server",
+              "url": "https://www.example.com/my_custom_webhook",
+              "networkId": "N_12345678",
+              "payloadTemplate": {
+                "payloadTemplateId": "wpt_00001",
+                "name": "Meraki (included)"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4171,11 +8075,28 @@ class Networks:
     ) -> GetNetworkWebhooksHttpServerResponse | None:
         """Return an HTTP server for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-server
+        [API documentation: getNetworkWebhooksHttpServer](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-server)
 
         Args:
             network_id: Network ID.
             http_server_id: Http server ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vbXlfY3VzdG9tX3dlYmhvb2s=",
+              "name": "Example Webhook Server",
+              "url": "https://www.example.com/my_custom_webhook",
+              "networkId": "N_12345678",
+              "payloadTemplate": {
+                "payloadTemplateId": "wpt_00001",
+                "name": "Meraki (included)"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4200,15 +8121,32 @@ class Networks:
     ) -> UpdateNetworkWebhooksHttpServerResponse | None:
         """Update an HTTP server.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-http-server
+        [API documentation: updateNetworkWebhooksHttpServer](https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-http-server)
 
         Args:
             network_id: Network ID.
             http_server_id: Http server ID.
             name: A name for easy reference to the HTTP server.
             shared_secret: A shared secret that will be included in POSTs sent to the HTTP server.
-              This secret can be used to verify that the request was sent by Meraki.
+                This secret can be used to verify that the request was sent by Meraki.
             payload_template: The payload template to use when posting data to the HTTP server.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vbXlfY3VzdG9tX3dlYmhvb2s=",
+              "name": "Example Webhook Server",
+              "url": "https://www.example.com/my_custom_webhook",
+              "networkId": "N_12345678",
+              "payloadTemplate": {
+                "payloadTemplateId": "wpt_00001",
+                "name": "Meraki (included)"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4236,11 +8174,14 @@ class Networks:
     def delete_network_webhooks_http_server(self, *, network_id: str, http_server_id: str) -> None:
         """Delete an HTTP server from a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-http-server
+        [API documentation: deleteNetworkWebhooksHttpServer](https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-http-server)
 
         Args:
             network_id: Network ID.
             http_server_id: Http server ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4254,12 +8195,38 @@ class Networks:
     def get_network_webhooks_payload_templates(
         self, network_id: str
     ) -> GetNetworkWebhooksPayloadTemplatesResponse | None:
-        """List the webhook payload templates for a network.
+        r"""List the webhook payload templates for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-templates
+        [API documentation: getNetworkWebhooksPayloadTemplates](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-templates)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "payloadTemplateId": "wpt_343",
+                "type": "custom",
+                "name": "Custom Template",
+                "headers": [
+                  {
+                    "name": "Authorization",
+                    "template": "Bearer {{sharedSecret}}"
+                  }
+                ],
+                "body": "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}",
+                "sharing": {
+                  "byNetwork": {
+                    "adminsCanModify": false
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4282,20 +8249,44 @@ class Networks:
         body_file: str | None = None,
         headers_file: str | None = None,
     ) -> CreateNetworkWebhooksPayloadTemplateResponse | None:
-        """Create a webhook payload template for a network.
+        r"""Create a webhook payload template for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-payload-template
+        [API documentation: createNetworkWebhooksPayloadTemplate](https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-payload-template)
 
         Args:
             network_id: Network ID.
             name: The name of the new template.
             body: The liquid template used for the body of the webhook message. Either `body` or
-              `bodyFile` must be specified.
+                `bodyFile` must be specified.
             headers: The liquid template used with the webhook headers.
             body_file: A Base64 encoded file containing liquid template used for the body of the
-              webhook message. Either `body` or `bodyFile` must be specified.
+                webhook message. Either `body` or `bodyFile` must be specified.
             headers_file: A Base64 encoded file containing the liquid template used with the webhook
-              headers.
+                headers.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "payloadTemplateId": "wpt_343",
+              "type": "custom",
+              "name": "Custom Template",
+              "headers": [
+                {
+                  "name": "Authorization",
+                  "template": "Bearer {{sharedSecret}}"
+                }
+              ],
+              "body": "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}",
+              "sharing": {
+                "byNetwork": {
+                  "adminsCanModify": false
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4326,13 +8317,37 @@ class Networks:
     def get_network_webhooks_payload_template(
         self, *, network_id: str, payload_template_id: str
     ) -> GetNetworkWebhooksPayloadTemplateResponse | None:
-        """Get the webhook payload template for a network.
+        r"""Get the webhook payload template for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-template
+        [API documentation: getNetworkWebhooksPayloadTemplate](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-template)
 
         Args:
             network_id: Network ID.
             payload_template_id: Payload template ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "payloadTemplateId": "wpt_343",
+              "type": "custom",
+              "name": "Custom Template",
+              "headers": [
+                {
+                  "name": "Authorization",
+                  "template": "Bearer {{sharedSecret}}"
+                }
+              ],
+              "body": "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}",
+              "sharing": {
+                "byNetwork": {
+                  "adminsCanModify": false
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4357,9 +8372,9 @@ class Networks:
         body_file: str | None = None,
         headers_file: str | None = None,
     ) -> UpdateNetworkWebhooksPayloadTemplateResponse | None:
-        """Update a webhook payload template for a network.
+        r"""Update a webhook payload template for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-payload-template
+        [API documentation: updateNetworkWebhooksPayloadTemplate](https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-payload-template)
 
         Args:
             network_id: Network ID.
@@ -4369,6 +8384,30 @@ class Networks:
             headers: The liquid template used with the webhook headers.
             body_file: A file containing liquid template used for the body of the webhook message.
             headers_file: A file containing the liquid template used with the webhook headers.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "payloadTemplateId": "wpt_343",
+              "type": "custom",
+              "name": "Custom Template",
+              "headers": [
+                {
+                  "name": "Authorization",
+                  "template": "Bearer {{sharedSecret}}"
+                }
+              ],
+              "body": "{\"event_type\":\"{{alertTypeId}}\",\"client_payload\":{\"text\":\"{{alertData}}\"}}",
+              "sharing": {
+                "byNetwork": {
+                  "adminsCanModify": false
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4402,11 +8441,14 @@ class Networks:
     ) -> None:
         """Destroy a webhook payload template for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
+        [API documentation: deleteNetworkWebhooksPayloadTemplate](https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template)
 
         Args:
             network_id: Network ID.
             payload_template_id: Payload template ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4429,19 +8471,31 @@ class Networks:
     ) -> CreateNetworkWebhooksWebhookTestResponse | None:
         """Send a test webhook for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-webhook-test
+        [API documentation: createNetworkWebhooksWebhookTest](https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-webhook-test)
 
         Args:
             network_id: Network ID.
             url: The URL where the test webhook will be sent.
             shared_secret: The shared secret the test webhook will send. Optional. Defaults to HTTP
-              server's shared secret. Otherwise, defaults to an empty string.
+                server's shared secret. Otherwise, defaults to an empty string.
             payload_template_id: The ID of the payload template of the test webhook. Defaults to the
-              HTTP server's template ID if one exists for the given URL, or Generic
-              template ID otherwise.
+                HTTP server's template ID if one exists for the given URL, or Generic
+                template ID otherwise.
             payload_template_name: The name of the payload template.
             alert_type_id: The type of alert which the test webhook will send. Optional. Defaults to
-              power_supply_down.
+                power_supply_down.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "url": "https://www.example.com/path",
+              "status": "enqueued"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -4472,11 +8526,23 @@ class Networks:
     ) -> GetNetworkWebhooksWebhookTestResponse | None:
         """Return the status of a webhook test for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-webhook-test
+        [API documentation: getNetworkWebhooksWebhookTest](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-webhook-test)
 
         Args:
             network_id: Network ID.
             webhook_test_id: Webhook test ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "url": "https://www.example.com/path",
+              "status": "enqueued"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")

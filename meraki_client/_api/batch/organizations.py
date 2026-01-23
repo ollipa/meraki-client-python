@@ -59,7 +59,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates new adaptive policy ACL.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl
+        [API documentation: createOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl)
 
         Args:
             organization_id: Organization ID.
@@ -106,7 +106,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates an adaptive policy ACL.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl
+        [API documentation: updateOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl)
 
         Args:
             organization_id: Organization ID.
@@ -114,7 +114,7 @@ class ActionBatchOrganizations:
             name: Name of the adaptive policy ACL.
             description: Description of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules. An empty array will clear the
-              rules.
+                rules.
             ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
         """
@@ -149,7 +149,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes the specified adaptive policy ACL.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
+        [API documentation: deleteOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl)
 
         Args:
             organization_id: Organization ID.
@@ -176,7 +176,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates a new adaptive policy group.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group
+        [API documentation: createOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group)
 
         Args:
             organization_id: Organization ID.
@@ -184,9 +184,9 @@ class ActionBatchOrganizations:
             sgt: SGT value of the group.
             description: Description of the group (default: "").
             policy_objects: The policy objects that belong to this group; traffic from addresses
-              specified by these policy objects will be tagged with this group's SGT
-              value if no other tagging scheme is being used (each requires one unique
-              attribute) (default: []).
+                specified by these policy objects will be tagged with this group's SGT
+                value if no other tagging scheme is being used (each requires one unique
+                attribute) (default: []).
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -222,7 +222,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates an adaptive policy group.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group
+        [API documentation: updateOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group)
 
         Args:
             organization_id: Organization ID.
@@ -231,9 +231,9 @@ class ActionBatchOrganizations:
             sgt: SGT value of the group.
             description: Description of the group.
             policy_objects: The policy objects that belong to this group; traffic from addresses
-              specified by these policy objects will be tagged with this group's SGT
-              value if no other tagging scheme is being used (each requires one unique
-              attribute).
+                specified by these policy objects will be tagged with this group's SGT
+                value if no other tagging scheme is being used (each requires one unique
+                attribute).
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -263,7 +263,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
+        [API documentation: deleteOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group)
 
         Args:
             organization_id: Organization ID.
@@ -290,15 +290,15 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add an Adaptive Policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy
+        [API documentation: createOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy)
 
         Args:
             organization_id: Organization ID.
             source_group: The source adaptive policy group (requires one unique attribute).
             destination_group: The destination adaptive policy group (requires one unique
-              attribute).
+                attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
-              apply to this policy (default: []).
+                apply to this policy (default: []).
             last_entry_rule: The rule to apply if there is no matching ACL (default: "default").
 
         """
@@ -341,16 +341,16 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update an Adaptive Policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy
+        [API documentation: updateOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy)
 
         Args:
             organization_id: Organization ID.
             id: ID.
             source_group: The source adaptive policy group (requires one unique attribute).
             destination_group: The destination adaptive policy group (requires one unique
-              attribute).
+                attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
-              apply to this policy.
+                apply to this policy.
             last_entry_rule: The rule to apply if there is no matching ACL.
 
         """
@@ -387,7 +387,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an Adaptive Policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
+        [API documentation: deleteOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy)
 
         Args:
             organization_id: Organization ID.
@@ -408,7 +408,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update global adaptive policy settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings
+        [API documentation: updateOrganizationAdaptivePolicySettings](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings)
 
         Args:
             organization_id: Organization ID.
@@ -440,7 +440,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create an organization-wide alert configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile
+        [API documentation: createOrganizationAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile)
 
         Args:
             organization_id: Organization ID.
@@ -501,7 +501,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update an organization-wide alert config.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile
+        [API documentation: updateOrganizationAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile)
 
         Args:
             organization_id: Organization ID.
@@ -558,7 +558,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Removes an organization-wide alert config.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile
+        [API documentation: deleteOrganizationAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile)
 
         Args:
             organization_id: Organization ID.
@@ -586,7 +586,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a new branding policy to an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
+        [API documentation: createOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy)
 
         Args:
             organization_id: Organization ID.
@@ -594,12 +594,12 @@ class ActionBatchOrganizations:
             enabled: Boolean indicating whether this policy is enabled.
             admin_settings: Settings for describing which kinds of admins this policy applies to.
             help_settings: Settings for describing the modifications to various Help page features.
-              Each property in this object accepts one of 'default or inherit' (do not
-              modify functionality), 'hide' (remove the section from Dashboard), or
-              'show' (always show the section on Dashboard). Some properties in this
-              object also accept custom HTML used to replace the section on Dashboard;
-              see the documentation for each property to see the allowed values. Each
-              property defaults to 'default or inherit' when not provided.
+                Each property in this object accepts one of 'default or inherit' (do not
+                modify functionality), 'hide' (remove the section from Dashboard), or
+                'show' (always show the section on Dashboard). Some properties in this
+                object also accept custom HTML used to replace the section on Dashboard;
+                see the documentation for each property to see the allowed values. Each
+                property defaults to 'default or inherit' when not provided.
             custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
@@ -629,12 +629,12 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the priority ordering of an organization's branding policies.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities
+        [API documentation: updateOrganizationBrandingPoliciesPriorities](https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities)
 
         Args:
             organization_id: Organization ID.
             branding_policy_ids: An ordered list of branding policy IDs that determines the priority
-              order of how to apply the policies.
+                order of how to apply the policies.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -663,7 +663,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a branding policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
+        [API documentation: updateOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy)
 
         Args:
             organization_id: Organization ID.
@@ -672,11 +672,11 @@ class ActionBatchOrganizations:
             enabled: Boolean indicating whether this policy is enabled.
             admin_settings: Settings for describing which kinds of admins this policy applies to.
             help_settings: Settings for describing the modifications to various Help page features.
-              Each property in this object accepts one of 'default or inherit' (do not
-              modify functionality), 'hide' (remove the section from Dashboard), or
-              'show' (always show the section on Dashboard). Some properties in this
-              object also accept custom HTML used to replace the section on Dashboard;
-              see the documentation for each property to see the allowed values.
+                Each property in this object accepts one of 'default or inherit' (do not
+                modify functionality), 'hide' (remove the section from Dashboard), or
+                'show' (always show the section on Dashboard). Some properties in this
+                object also accept custom HTML used to replace the section on Dashboard;
+                see the documentation for each property to see the allowed values.
             custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
@@ -707,7 +707,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a branding policy.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy
+        [API documentation: deleteOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy)
 
         Args:
             organization_id: Organization ID.
@@ -733,17 +733,18 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a new configuration template.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template
+        [API documentation: createOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template)
 
         Args:
             organization_id: Organization ID.
             name: The name of the configuration template.
             time_zone: The timezone of the configuration template. For a list of allowed timezones,
-              please see the 'TZ' column in the table in <a target='_blank'
-              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
-              article</a>. Not applicable if copying from existing network or template.
+                please see the 'TZ' column in the table in <a target='_blank'
+                href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+                article</a>. Not applicable if copying from existing network or
+                template.
             copy_from_network_id: The ID of the network or config template to copy configuration
-              from.
+                from.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -773,16 +774,16 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a configuration template.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template
+        [API documentation: updateOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template)
 
         Args:
             organization_id: Organization ID.
             config_template_id: Config template ID.
             name: The name of the configuration template.
             time_zone: The timezone of the configuration template. For a list of allowed timezones,
-              please see the 'TZ' column in the table in <a target='_blank'
-              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
-              article.</a>.
+                please see the 'TZ' column in the table in <a target='_blank'
+                href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+                article.</a>.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -806,7 +807,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Migrate devices to another controller or management mode.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
+        [API documentation: createOrganizationDevicesControllerMigration](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration)
 
         Args:
             organization_id: Organization ID.
@@ -844,7 +845,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updating device details (currently only used for Catalyst devices).
 
-        https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details
+        [API documentation: bulkUpdateOrganizationDevicesDetails](https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details)
 
         Args:
             organization_id: Organization ID.
@@ -874,7 +875,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """BulkDelete packet captures from cloud.
 
-        https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete
+        [API documentation: bulkOrganizationDevicesPacketCaptureCapturesDelete](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete)
 
         Args:
             organization_id: Organization ID.
@@ -899,7 +900,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a single packet capture from cloud using captureId.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture
+        [API documentation: deleteOrganizationDevicesPacketCaptureCapture](https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture)
 
         Args:
             organization_id: Organization ID.
@@ -929,7 +930,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a schedule for packet capture.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule
+        [API documentation: createOrganizationDevicesPacketCaptureSchedule](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule)
 
         Args:
             organization_id: Organization ID.
@@ -977,7 +978,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Bulk update priorities of pcap schedules.
 
-        https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules
+        [API documentation: reorderOrganizationDevicesPacketCaptureSchedules](https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules)
 
         Args:
             organization_id: Organization ID.
@@ -1012,7 +1013,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a schedule for packet capture.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule
+        [API documentation: updateOrganizationDevicesPacketCaptureSchedule](https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule)
 
         Args:
             organization_id: Organization ID.
@@ -1059,7 +1060,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete schedule from cloud.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule
+        [API documentation: deleteOrganizationDevicesPacketCaptureSchedule](https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule)
 
         Args:
             organization_id: Organization ID.
@@ -1089,7 +1090,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update an early access feature opt-in for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in
+        [API documentation: updateOrganizationEarlyAccessFeaturesOptIn](https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in)
 
         Args:
             organization_id: Organization ID.
@@ -1119,7 +1120,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Disable XDR on networks.
 
-        https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks
+        [API documentation: disableOrganizationIntegrationsXdrNetworks](https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks)
 
         Args:
             organization_id: Organization ID.
@@ -1149,7 +1150,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Enable XDR on networks.
 
-        https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks
+        [API documentation: enableOrganizationIntegrationsXdrNetworks](https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks)
 
         Args:
             organization_id: Organization ID.
@@ -1180,7 +1181,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Claim an order by the secure unique order claim number, the order claim id.
 
-        https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders
+        [API documentation: claimOrganizationInventoryOrders](https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders)
 
         Args:
             organization_id: Organization ID.
@@ -1210,14 +1211,14 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Assign SM seats to a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats
+        [API documentation: assignOrganizationLicensesSeats](https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats)
 
         Args:
             organization_id: Organization ID.
             license_id: The ID of the SM license to assign seats from.
             network_id: The ID of the SM network to assign the seats to.
             seat_count: The number of seats to assign to the SM network. Must be less than or equal
-              to the total number of seats of the license.
+                to the total number of seats of the license.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1242,7 +1243,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Move licenses to another organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses
+        [API documentation: moveOrganizationLicenses](https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses)
 
         Args:
             organization_id: Organization ID.
@@ -1270,14 +1271,14 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Move SM seats to another organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats
+        [API documentation: moveOrganizationLicensesSeats](https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats)
 
         Args:
             organization_id: Organization ID.
             dest_organization_id: The ID of the organization to move the SM seats to.
             license_id: The ID of the SM license to move the seats from.
             seat_count: The number of seats to move to the new organization. Must be less than or
-              equal to the total number of seats of the license.
+                equal to the total number of seats of the license.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1302,15 +1303,15 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Renew SM seats of a license.
 
-        https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats
+        [API documentation: renewOrganizationLicensesSeats](https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats)
 
         Args:
             organization_id: Organization ID.
             license_id_to_renew: The ID of the SM license to renew. This license must already be
-              assigned to an SM network.
+                assigned to an SM network.
             unused_license_id: The SM license to use to renew the seats on 'licenseIdToRenew'. This
-              license must have at least as many seats available as there are seats on
-              'licenseIdToRenew'.
+                license must have at least as many seats available as there are seats on
+                'licenseIdToRenew'.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1333,14 +1334,15 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a license.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-license
+        [API documentation: updateOrganizationLicense](https://developer.cisco.com/meraki/api-v1/#!update-organization-license)
 
         Args:
             organization_id: Organization ID.
             license_id: License ID.
             device_serial: The serial number of the device to assign this license to. Set this to
-              null to unassign the license. If a different license is already active on
-              the device, this parameter will control queueing/dequeuing this license.
+                null to unassign the license. If a different license is already active
+                on the device, this parameter will control queueing/dequeuing this
+                license.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1378,39 +1380,40 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the login security settings for an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security
+        [API documentation: updateOrganizationLoginSecurity](https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security)
 
         Args:
             organization_id: Organization ID.
             enforce_password_expiration: Boolean indicating whether users are forced to change their
-              password every X number of days.
+                password every X number of days.
             password_expiration_days: Number of days after which users will be forced to change
-              their password.
+                their password.
             enforce_different_passwords: Boolean indicating whether users, when setting a new
-              password, are forced to choose a new password that is different from any
-              past passwords.
+                password, are forced to choose a new password that is different from any
+                past passwords.
             num_different_passwords: Number of recent passwords that new password must be distinct
-              from.
+                from.
             enforce_strong_passwords: Deprecated. Values of 'false' are always ignored.
             minimum_password_length: Minimum number of characters required in admins' passwords.
             enforce_account_lockout: Boolean indicating whether users' Dashboard accounts will be
-              locked out after a specified number of consecutive failed login attempts.
+                locked out after a specified number of consecutive failed login
+                attempts.
             account_lockout_attempts: Number of consecutive failed login attempts after which users'
-              accounts will be locked.
+                accounts will be locked.
             enforce_idle_timeout: Boolean indicating whether users will be logged out after being
-              idle for the specified number of minutes.
+                idle for the specified number of minutes.
             idle_timeout_minutes: Number of minutes users can remain idle before being logged out of
-              their accounts.
+                their accounts.
             enforce_two_factor_auth: Boolean indicating whether users in this organization will be
-              required to use an extra verification code when logging in to Dashboard.
-              This code will be sent to their mobile phone via SMS, or can be generated
-              by the authenticator application.
+                required to use an extra verification code when logging in to Dashboard.
+                This code will be sent to their mobile phone via SMS, or can be
+                generated by the authenticator application.
             enforce_login_ip_ranges: Boolean indicating whether organization will restrict access to
-              Dashboard (including the API) from certain IP addresses.
+                Dashboard (including the API) from certain IP addresses.
             login_ip_ranges: List of acceptable IP ranges. Entries can be single IP addresses, IP
-              address ranges, and CIDR subnets.
+                address ranges, and CIDR subnets.
             api_authentication: Details for indicating whether organization will restrict access to
-              API (but not Dashboard) to certain IP addresses.
+                API (but not Dashboard) to certain IP addresses.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1467,21 +1470,21 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-network
+        [API documentation: createOrganizationNetwork](https://developer.cisco.com/meraki/api-v1/#!create-organization-network)
 
         Args:
             organization_id: Organization ID.
             name: The name of the new network.
             product_types: The product type(s) of the new network. If more than one type is
-              included, the network will be a combined network.
+                included, the network will be a combined network.
             tags: A list of tags to be applied to the network.
             time_zone: The timezone of the network. For a list of allowed timezones, please see the
-              'TZ' column in the table in <a target='_blank'
-              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
-              article.</a>.
+                'TZ' column in the table in <a target='_blank'
+                href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+                article.</a>.
             copy_from_network_id: The ID of the network to copy configuration from. Other provided
-              parameters will override the copied configuration, except type which must
-              match this network's type exactly.
+                parameters will override the copied configuration, except type which
+                must match this network's type exactly.
             notes: Add any notes or additional information about this network here.
 
         """
@@ -1518,20 +1521,20 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Combine multiple networks into a single network.
 
-        https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks
+        [API documentation: combineOrganizationNetworks](https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks)
 
         Args:
             organization_id: Organization ID.
             name: The name of the combined network.
             network_ids: A list of the network IDs that will be combined. If an ID of a combined
-              network is included in this list, the other networks in the list will be
-              grouped into that network.
+                network is included in this list, the other networks in the list will be
+                grouped into that network.
             enrollment_string: A unique identifier which can be used for device enrollment or easy
-              access through the Meraki SM Registration page or the Self Service Portal.
-              Please note that changing this field may cause existing bookmarks to
-              break. All networks that are part of this combined network will have their
-              enrollment string appended by '-network_type'. If left empty, all exisitng
-              enrollment strings will be deleted.
+                access through the Meraki SM Registration page or the Self Service
+                Portal. Please note that changing this field may cause existing
+                bookmarks to break. All networks that are part of this combined network
+                will have their enrollment string appended by '-network_type'. If left
+                empty, all exisitng enrollment strings will be deleted.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1566,12 +1569,12 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates a new Policy Object.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object
+        [API documentation: createOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object)
 
         Args:
             organization_id: Organization ID.
             name: Name of a policy object, unique within the organization (alphanumeric, space,
-              dash, or underscore characters only).
+                dash, or underscore characters only).
             category: Category of a policy object (one of: adaptivePolicy, network).
             type_: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
@@ -1618,17 +1621,17 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates a new Policy Object Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group
+        [API documentation: createOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group)
 
         Args:
             organization_id: Organization ID.
             name: A name for the group of network addresses, unique within the organization
-              (alphanumeric, space, dash, or underscore characters only).
+                (alphanumeric, space, dash, or underscore characters only).
             category: Category of a policy object group (one of: NetworkObjectGroup,
-              GeoLocationGroup, PortObjectGroup, ApplicationGroup).
+                GeoLocationGroup, PortObjectGroup, ApplicationGroup).
             object_ids: A list of Policy Object ID's that this NetworkObjectGroup should be
-              associated to (note: these ID's will replace the existing associated
-              Policy Objects).
+                associated to (note: these ID's will replace the existing associated
+                Policy Objects).
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1658,16 +1661,16 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates a Policy Object Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group
+        [API documentation: updateOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group)
 
         Args:
             organization_id: Organization ID.
             policy_object_group_id: Policy object group ID.
             name: A name for the group of network addresses, unique within the organization
-              (alphanumeric, space, dash, or underscore characters only).
+                (alphanumeric, space, dash, or underscore characters only).
             object_ids: A list of Policy Object ID's that this NetworkObjectGroup should be
-              associated to (note: these ID's will replace the existing associated
-              Policy Objects).
+                associated to (note: these ID's will replace the existing associated
+                Policy Objects).
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1691,7 +1694,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a Policy Object Group.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group
+        [API documentation: deleteOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group)
 
         Args:
             organization_id: Organization ID.
@@ -1721,13 +1724,13 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates a Policy Object.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object
+        [API documentation: updateOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object)
 
         Args:
             organization_id: Organization ID.
             policy_object_id: Policy object ID.
             name: Name of a policy object, unique within the organization (alphanumeric, space,
-              dash, or underscore characters only).
+                dash, or underscore characters only).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
             mask: Mask of a policy object (e.g. "255.255.0.0").
@@ -1764,7 +1767,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a Policy Object.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object
+        [API documentation: deleteOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object)
 
         Args:
             organization_id: Organization ID.
@@ -1790,14 +1793,14 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a SAML IdP for your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp
+        [API documentation: createOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp)
 
         Args:
             organization_id: Organization ID.
             x509cert_sha1_fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
-              Identity Provider (IdP). This will be used for encryption / validation.
+                Identity Provider (IdP). This will be used for encryption / validation.
             sso_login_url: Dashboard will redirect users to this URL to log in again when their
-              sessions expire.
+                sessions expire.
             slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
@@ -1829,15 +1832,15 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a SAML IdP in your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp
+        [API documentation: updateOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp)
 
         Args:
             organization_id: Organization ID.
             idp_id: Idp ID.
             x509cert_sha1_fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
-              Identity Provider (IdP). This will be used for encryption / validation.
+                Identity Provider (IdP). This will be used for encryption / validation.
             sso_login_url: Dashboard will redirect users to this URL to log in again when their
-              sessions expire.
+                sessions expire.
             slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
@@ -1864,7 +1867,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Remove a SAML IdP in your organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
+        [API documentation: deleteOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp)
 
         Args:
             organization_id: Organization ID.
@@ -1885,7 +1888,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a Splash Theme Asset.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
+        [API documentation: deleteOrganizationSplashAsset](https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset)
 
         Args:
             organization_id: Organization ID.
@@ -1906,7 +1909,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a Splash Theme.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme
+        [API documentation: createOrganizationSplashTheme](https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme)
 
         Args:
             organization_id: Organization ID.
@@ -1934,7 +1937,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a Splash Theme.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
+        [API documentation: deleteOrganizationSplashTheme](https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme)
 
         Args:
             organization_id: Organization ID.
@@ -1960,7 +1963,7 @@ class ActionBatchOrganizations:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a Splash Theme Asset.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset
+        [API documentation: createOrganizationSplashThemeAsset](https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset)
 
         Args:
             organization_id: Organization ID.

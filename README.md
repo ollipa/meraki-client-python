@@ -1,4 +1,29 @@
-# Python client for Meraki Dashboard API
+<p align="center"><strong>Meraki Client</strong> <em>- Python client for Meraki Dashboard API.</em></p>
+
+<p align="center">
+<a href="https://pypi.org/project/meraki-client/">
+  <img src="https://img.shields.io/pypi/v/meraki-client" alt="pypi">
+</a>
+<a href="https://github.com/ollipa/meraki-client-python/actions/workflows/ci.yml">
+  <img src="https://github.com/ollipa/meraki-client-python/actions/workflows/ci.yml/badge.svg" alt="ci">
+</a>
+<a href="https://meraki-client.readthedocs.io/">
+  <img src="https://img.shields.io/readthedocs/meraki-client" alt="documentation">
+</a>
+<a href="./LICENSE">
+  <img src="https://img.shields.io/pypi/l/meraki-client" alt="license">
+</a>
+</p>
+
+<hr>
+
+<p align="center">
+<a href="https://meraki-client.readthedocs.io/">
+  <b>Documentation</b>
+</a>
+</p>
+
+<hr>
 
 Python client for the [Meraki Dashboard API](https://developer.cisco.com/meraki/api-v1/). Auto-generated from the OpenAPI spec to stay current with the latest releases.
 
@@ -14,7 +39,7 @@ pip install meraki-client
 - Sync and async clients built on httpx
 - Pydantic models for requests and responses
 - Automatic retries and pagination
-- Full API coverage ([auto-generated from OpenAPI](https://api.meraki.com/api/v1/openapiSpec))
+- Full API coverage ([auto-generated from OpenAPI](https://github.com/meraki/openapi))
 
 ## Setup
 
@@ -66,22 +91,9 @@ async with AsyncMerakiClient() as client:
     orgs = await client.organizations.get_organization(org_id)
 ```
 
-### Pagination
-
-Paginated endpoints return lazy iterators. Iterate directly or call `collect()` to fetch all pages:
-
-```python
-# Iterate page by page
-for device in client.organizations.get_organization_devices(organization_id=org_id, total_pages="all"):
-    print(device["name"])
-
-# Or collect all results at once
-devices = client.organizations.get_organization_devices(organization_id=org_id, total_pages="all").collect()
-```
-
 ## Contributing
 
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, testing, and code generation instructions.
+Contributions are welcome! See [CONTRIBUTING.md](https://github.com/ollipa/meraki-client-python/blob/main/CONTRIBUTING.md) for development setup, testing, and code generation instructions.
 
 ## Disclaimer
 

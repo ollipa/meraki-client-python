@@ -29,7 +29,33 @@ class Administered:
     def get_administered_identities_me(self) -> GetAdministeredIdentitiesMeResponse | None:
         """Returns the identity of the current user.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me
+        [API documentation: getAdministeredIdentitiesMe](https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me)
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "Miles Meraki",
+              "email": "miles@meraki.com",
+              "lastUsedDashboardAt": "2018-02-11T00:00:00.090210Z",
+              "authentication": {
+                "mode": "email",
+                "api": {
+                  "key": {
+                    "created": true
+                  }
+                },
+                "twoFactor": {
+                  "enabled": false
+                },
+                "saml": {
+                  "enabled": false
+                }
+              }
+            }
+            ```
 
         """
         path = f"/administered/identities/me"
@@ -46,7 +72,20 @@ class Administered:
     ) -> GetAdministeredIdentitiesMeApiKeysResponse | None:
         """List the non-sensitive metadata associated with the API keys that belong to the user.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me-api-keys
+        [API documentation: getAdministeredIdentitiesMeApiKeys](https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me-api-keys)
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "suffix": "da4f",
+                "createdAt": "2018-02-11T00:00:00.090210Z"
+              }
+            ]
+            ```
 
         """
         path = f"/administered/identities/me/api/keys"
@@ -63,7 +102,17 @@ class Administered:
     ) -> GenerateAdministeredIdentitiesMeApiKeysResponse | None:
         """Generates an API key for an identity.
 
-        https://developer.cisco.com/meraki/api-v1/#!generate-administered-identities-me-api-keys
+        [API documentation: generateAdministeredIdentitiesMeApiKeys](https://developer.cisco.com/meraki/api-v1/#!generate-administered-identities-me-api-keys)
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "key": "1284392014819"
+            }
+            ```
 
         """
         path = f"/administered/identities/me/api/keys/generate"
@@ -78,10 +127,13 @@ class Administered:
     def revoke_administered_identities_me_api_keys(self, suffix: str) -> None:
         """Revokes an identity's API key, using the last four characters of the key.
 
-        https://developer.cisco.com/meraki/api-v1/#!revoke-administered-identities-me-api-keys
+        [API documentation: revokeAdministeredIdentitiesMeApiKeys](https://developer.cisco.com/meraki/api-v1/#!revoke-administered-identities-me-api-keys)
 
         Args:
             suffix: Suffix.
+
+        Returns:
+            Successful operation.
 
         """
         suffix = urllib.parse.quote(str(suffix), safe="")

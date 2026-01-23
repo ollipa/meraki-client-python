@@ -28,14 +28,14 @@ class ActionBatchInsight:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a media server to be monitored for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server
+        [API documentation: createOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server)
 
         Args:
             organization_id: Organization ID.
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
             best_effort_monitoring_enabled: Indicates that if the media server doesn't respond to
-              ICMP pings, the nearest hop will be used in its stead.
+                ICMP pings, the nearest hop will be used in its stead.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -66,7 +66,7 @@ class ActionBatchInsight:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a monitored media server for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server
+        [API documentation: updateOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server)
 
         Args:
             organization_id: Organization ID.
@@ -74,7 +74,7 @@ class ActionBatchInsight:
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
             best_effort_monitoring_enabled: Indicates that if the media server doesn't respond to
-              ICMP pings, the nearest hop will be used in its stead.
+                ICMP pings, the nearest hop will be used in its stead.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -100,7 +100,7 @@ class ActionBatchInsight:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a monitored media server from this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server
+        [API documentation: deleteOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server)
 
         Args:
             organization_id: Organization ID.

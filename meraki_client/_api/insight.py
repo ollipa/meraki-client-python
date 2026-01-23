@@ -41,19 +41,42 @@ class Insight:
     ) -> GetNetworkInsightApplicationHealthByTimeResponse | None:
         """Get application health by time.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-insight-application-health-by-time
+        [API documentation: getNetworkInsightApplicationHealthByTime](https://developer.cisco.com/meraki/api-v1/#!get-network-insight-application-health-by-time)
 
         Args:
             network_id: Network ID.
             application_id: Application ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 7 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 7 days. The default is 2 hours.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 7 days. The default is 2 hours.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              60, 300, 3600, 86400. The default is 300.
+                60, 300, 3600, 86400. The default is 300.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "startTs": "2018-02-11T00:00:00Z",
+                "endTs": "2018-05-12T00:00:00Z",
+                "wanGoodput": 20000000,
+                "lanGoodput": 100000000,
+                "wanLatencyMs": 10.1,
+                "lanLatencyMs": 3.2,
+                "wanLossPercent": 0.2,
+                "lanLossPercent": 0.0,
+                "responseDuration": 210,
+                "sent": 1000,
+                "recv": 5000,
+                "numClients": 2
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -83,10 +106,33 @@ class Insight:
     ) -> GetOrganizationInsightApplicationsResponse | None:
         """List all Insight tracked applications.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications
+        [API documentation: getOrganizationInsightApplications](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "applicationId": "19.12",
+                "name": "Meraki HTTPS",
+                "thresholds": {
+                  "type": "smart",
+                  "byNetwork": [
+                    {
+                      "networkId": "N_12345678",
+                      "goodput": 50000,
+                      "responseDuration": 1000
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -104,10 +150,25 @@ class Insight:
     ) -> GetOrganizationInsightMonitoredMediaServersResponse | None:
         """List the monitored media servers for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers
+        [API documentation: getOrganizationInsightMonitoredMediaServers](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers)
 
         Args:
             organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "name": "Sample VoIP Provider",
+                "address": "123.123.123.1",
+                "bestEffortMonitoringEnabled": true
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -130,14 +191,27 @@ class Insight:
     ) -> CreateOrganizationInsightMonitoredMediaServerResponse | None:
         """Add a media server to be monitored for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server
+        [API documentation: createOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server)
 
         Args:
             organization_id: Organization ID.
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
             best_effort_monitoring_enabled: Indicates that if the media server doesn't respond to
-              ICMP pings, the nearest hop will be used in its stead.
+                ICMP pings, the nearest hop will be used in its stead.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "name": "Sample VoIP Provider",
+              "address": "123.123.123.1",
+              "bestEffortMonitoringEnabled": true
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -164,11 +238,24 @@ class Insight:
     ) -> GetOrganizationInsightMonitoredMediaServerResponse | None:
         """Return a monitored media server for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-server
+        [API documentation: getOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-server)
 
         Args:
             organization_id: Organization ID.
             monitored_media_server_id: Monitored media server ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "name": "Sample VoIP Provider",
+              "address": "123.123.123.1",
+              "bestEffortMonitoringEnabled": true
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -193,7 +280,7 @@ class Insight:
     ) -> UpdateOrganizationInsightMonitoredMediaServerResponse | None:
         """Update a monitored media server for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server
+        [API documentation: updateOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server)
 
         Args:
             organization_id: Organization ID.
@@ -201,7 +288,20 @@ class Insight:
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
             best_effort_monitoring_enabled: Indicates that if the media server doesn't respond to
-              ICMP pings, the nearest hop will be used in its stead.
+                ICMP pings, the nearest hop will be used in its stead.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "name": "Sample VoIP Provider",
+              "address": "123.123.123.1",
+              "bestEffortMonitoringEnabled": true
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -229,11 +329,14 @@ class Insight:
     ) -> None:
         """Delete a monitored media server from this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server
+        [API documentation: deleteOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server)
 
         Args:
             organization_id: Organization ID.
             monitored_media_server_id: Monitored media server ID.
+
+        Returns:
+            Successful operation.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

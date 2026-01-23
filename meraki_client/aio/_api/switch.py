@@ -178,10 +178,88 @@ class Switch:
     async def get_device_switch_ports(self, serial: str) -> GetDeviceSwitchPortsResponse | None:
         """List the switch ports for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports
+        [API documentation: getDeviceSwitchPorts](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "portId": "1",
+                "name": "My switch port",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "enabled": true,
+                "poeEnabled": true,
+                "type": "access",
+                "vlan": 10,
+                "voiceVlan": 20,
+                "allowedVlans": "1,3,5-10",
+                "isolationEnabled": false,
+                "rstpEnabled": true,
+                "stpGuard": "disabled",
+                "stpPortFastTrunk": false,
+                "linkNegotiation": "Auto negotiate",
+                "linkNegotiationCapabilities": [
+                  "Auto negotiate",
+                  "1 Gigabit full duplex (auto)"
+                ],
+                "portScheduleId": "1234",
+                "schedule": {
+                  "id": "1234",
+                  "name": "Port Schedule"
+                },
+                "udld": "Alert only",
+                "accessPolicyType": "Sticky MAC allow list",
+                "accessPolicyNumber": 2,
+                "macAllowList": [
+                  "34:56:fe:ce:8e:a0",
+                  "34:56:fe:ce:8e:a1"
+                ],
+                "macWhitelistLimit": 10,
+                "stickyMacAllowList": [
+                  "34:56:fe:ce:8e:b0",
+                  "34:56:fe:ce:8e:b1"
+                ],
+                "stickyMacAllowListLimit": 5,
+                "stormControlEnabled": true,
+                "adaptivePolicyGroupId": "123",
+                "adaptivePolicyGroup": {
+                  "id": "123",
+                  "name": "Adaptive Policy Group"
+                },
+                "peerSgtCapable": false,
+                "flexibleStackingEnabled": true,
+                "daiTrusted": false,
+                "profile": {
+                  "enabled": false,
+                  "id": "1284392014819",
+                  "iname": "iname"
+                },
+                "module": {
+                  "model": "MA-MOD-4X10G",
+                  "serial": "3_MA-MOD-4X10G",
+                  "slot": 1
+                },
+                "mirror": {
+                  "mode": "Not mirroring traffic"
+                },
+                "dot3az": {
+                  "enabled": false
+                },
+                "highSpeed": {
+                  "enabled": false
+                }
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -199,11 +277,26 @@ class Switch:
     ) -> CycleDeviceSwitchPortsResponse | None:
         """Cycle a set of switch ports.
 
-        https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports
+        [API documentation: cycleDeviceSwitchPorts](https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports)
 
         Args:
             serial: Serial.
             ports: List of switch ports.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ports": [
+                "1",
+                "2-5",
+                "1_MA-MOD-8X10G_1",
+                "1_MA-MOD-8X10G_2-1_MA-MOD-8X10G_8"
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -226,15 +319,95 @@ class Switch:
     ) -> GetDeviceSwitchPortsStatusesResponse | None:
         """Return the status for all the ports of a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports-statuses
+        [API documentation: getDeviceSwitchPortsStatuses](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports-statuses)
 
         Args:
             serial: Serial.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "portId": "1",
+                "enabled": true,
+                "status": "Connected",
+                "isUplink": false,
+                "errors": [
+                  "PoE overload",
+                  "Very high proportion of CRC errors"
+                ],
+                "warnings": [
+                  "SecurePort authentication in progress",
+                  "PoE port was denied power",
+                  "High proportion of CRC errors"
+                ],
+                "speed": "10 Gbps",
+                "duplex": "full",
+                "spanningTree": {
+                  "statuses": [
+                    "Learning"
+                  ]
+                },
+                "poe": {
+                  "isAllocated": false
+                },
+                "usageInKb": {
+                  "total": 40867,
+                  "sent": 23008,
+                  "recv": 17859
+                },
+                "cdp": {
+                  "systemName": "",
+                  "platform": "MS350-24X",
+                  "deviceId": "0c8ddbddee:ff",
+                  "portId": "Port 20",
+                  "nativeVlan": 1,
+                  "address": "10.0,0.1",
+                  "managementAddress": "10.0.0.100",
+                  "version": "1",
+                  "vtpManagementDomain": "",
+                  "capabilities": "Switch"
+                },
+                "lldp": {
+                  "systemName": "MS350-24X - Test",
+                  "systemDescription": "MS350-24X Cloud Managed PoE Switch",
+                  "chassisId": "0c:8d:db:dd:ee:ff",
+                  "portId": "20",
+                  "managementVlan": 1,
+                  "portVlan": 1,
+                  "managementAddress": "10.0.0.100",
+                  "portDescription": "Port 20",
+                  "systemCapabilities": "switch"
+                },
+                "clientCount": 10,
+                "powerUsageInWh": 55.9,
+                "trafficInKbps": {
+                  "total": 2.2,
+                  "sent": 1.2,
+                  "recv": 1.0
+                },
+                "securePort": {
+                  "enabled": true,
+                  "active": true,
+                  "authenticationStatus": "Authentication in progress",
+                  "configOverrides": {
+                    "type": "trunk",
+                    "vlan": 12,
+                    "voiceVlan": 34,
+                    "allowedVlans": "all"
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -259,17 +432,42 @@ class Switch:
     ) -> GetDeviceSwitchPortsStatusesPacketsResponse | None:
         """Return the packet counters for all the ports of a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports-statuses-packets
+        [API documentation: getDeviceSwitchPortsStatusesPackets](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports-statuses-packets)
 
         Args:
             serial: Serial.
             t0: The beginning of the timespan for the data. The value is used only to determine the
-              elapsed duration between t0 and the time of the request; the API snaps
-              that duration to the nearest preset window (5 minutes, 15 minutes, 1 hour,
-              or 1 day).
+                elapsed duration between t0 and the time of the request; the API snaps
+                that duration to the nearest preset window (5 minutes, 15 minutes, 1
+                hour, or 1 day).
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify t0. The value must be in seconds and be less than
-              or equal to 86400 seconds (1 day). The default is 1 day.
+                timespan, do not specify t0. The value must be in seconds and be less
+                than or equal to 86400 seconds (1 day). The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "portId": "1",
+                "packets": [
+                  {
+                    "desc": "Total",
+                    "total": 112081,
+                    "sent": 104135,
+                    "recv": 7946,
+                    "ratePerSec": {
+                      "total": 1,
+                      "sent": 1,
+                      "recv": 0
+                    }
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -294,11 +492,87 @@ class Switch:
     ) -> GetDeviceSwitchPortResponse | None:
         """Return a switch port.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-port
+        [API documentation: getDeviceSwitchPort](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-port)
 
         Args:
             serial: Serial.
             port_id: Port ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "portId": "1",
+              "name": "My switch port",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enabled": true,
+              "poeEnabled": true,
+              "type": "access",
+              "vlan": 10,
+              "voiceVlan": 20,
+              "allowedVlans": "1,3,5-10",
+              "isolationEnabled": false,
+              "rstpEnabled": true,
+              "stpGuard": "disabled",
+              "stpPortFastTrunk": false,
+              "linkNegotiation": "Auto negotiate",
+              "linkNegotiationCapabilities": [
+                "Auto negotiate",
+                "1 Gigabit full duplex (auto)"
+              ],
+              "portScheduleId": "1234",
+              "schedule": {
+                "id": "1234",
+                "name": "Port Schedule"
+              },
+              "udld": "Alert only",
+              "accessPolicyType": "Sticky MAC allow list",
+              "accessPolicyNumber": 2,
+              "macAllowList": [
+                "34:56:fe:ce:8e:a0",
+                "34:56:fe:ce:8e:a1"
+              ],
+              "macWhitelistLimit": 10,
+              "stickyMacAllowList": [
+                "34:56:fe:ce:8e:b0",
+                "34:56:fe:ce:8e:b1"
+              ],
+              "stickyMacAllowListLimit": 5,
+              "stormControlEnabled": true,
+              "adaptivePolicyGroupId": "123",
+              "adaptivePolicyGroup": {
+                "id": "123",
+                "name": "Adaptive Policy Group"
+              },
+              "peerSgtCapable": false,
+              "flexibleStackingEnabled": true,
+              "daiTrusted": false,
+              "profile": {
+                "enabled": false,
+                "id": "1284392014819",
+                "iname": "iname"
+              },
+              "module": {
+                "model": "MA-MOD-4X10G",
+                "serial": "3_MA-MOD-4X10G",
+                "slot": 1
+              },
+              "mirror": {
+                "mode": "Not mirroring traffic"
+              },
+              "dot3az": {
+                "enabled": false
+              },
+              "highSpeed": {
+                "enabled": false
+              }
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -349,7 +623,7 @@ class Switch:
     ) -> UpdateDeviceSwitchPortResponse | None:
         """Update a switch port.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-port
+        [API documentation: updateDeviceSwitchPort](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-port)
 
         Args:
             serial: Serial.
@@ -359,51 +633,129 @@ class Switch:
             enabled: The status of the switch port.
             poe_enabled: The PoE status of the switch port.
             type_: The type of the switch port ('access', 'trunk', 'stack', 'routed', 'svl' or
-              'dad').
+                'dad').
             vlan: The VLAN of the switch port. For a trunk port, this is the native VLAN. A null
-              value will clear the value set for trunk ports.
+                value will clear the value set for trunk ports.
             voice_vlan: The voice VLAN of the switch port. Only applicable to access ports.
             allowed_vlans: The VLANs allowed on the switch port. Only applicable to trunk ports.
             isolation_enabled: The isolation status of the switch port.
             rstp_enabled: The rapid spanning tree protocol status.
             stp_guard: The state of the STP guard ('disabled', 'root guard', 'bpdu guard' or 'loop
-              guard').
+                guard').
             stp_port_fast_trunk: The state of STP PortFast Trunk on the switch port.
             link_negotiation: The link speed for the switch port.
             port_schedule_id: The ID of the port schedule. A value of null will clear the port
-              schedule.
+                schedule.
             udld: The action to take when Unidirectional Link is detected (Alert only, Enforce).
-              Default configuration is Alert only.
+                Default configuration is Alert only.
             access_policy_type: The type of the access policy of the switch port. Only applicable to
-              access ports. Can be one of 'Open', 'Custom access policy', 'MAC allow
-              list' or 'Sticky MAC allow list'.
+                access ports. Can be one of 'Open', 'Custom access policy', 'MAC allow
+                list' or 'Sticky MAC allow list'.
             access_policy_number: The number of a custom access policy to configure on the switch
-              port. Only applicable when 'accessPolicyType' is 'Custom access policy'.
+                port. Only applicable when 'accessPolicyType' is 'Custom access policy'.
             mac_allow_list: Only devices with MAC addresses specified in this list will have access
-              to this port. Up to 20 MAC addresses can be defined. Only applicable when
-              'accessPolicyType' is 'MAC allow list'.
+                to this port. Up to 20 MAC addresses can be defined. Only applicable
+                when 'accessPolicyType' is 'MAC allow list'.
             mac_whitelist_limit: The maximum number of MAC addresses for regular MAC allow list.
-              Only applicable when 'accessPolicyType' is 'MAC allow list'. Note: Config
-              only supported on verions greater than ms18 only for classic switches.
+                Only applicable when 'accessPolicyType' is 'MAC allow list'. Note:
+                Config only supported on verions greater than ms18 only for classic
+                switches.
             sticky_mac_allow_list: The initial list of MAC addresses for sticky Mac allow list. Only
-              applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
+                applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
             sticky_mac_allow_list_limit: The maximum number of MAC addresses for sticky MAC allow
-              list. Only applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
+                list. Only applicable when 'accessPolicyType' is 'Sticky MAC allow
+                list'.
             storm_control_enabled: The storm control status of the switch port.
             adaptive_policy_group_id: The adaptive policy group ID that will be used to tag traffic
-              through this switch port. This ID must pre-exist during the configuration,
-              else needs to be created using adaptivePolicy/groups API. Cannot be
-              applied to a port on a switch bound to profile.
+                through this switch port. This ID must pre-exist during the
+                configuration, else needs to be created using adaptivePolicy/groups API.
+                Cannot be applied to a port on a switch bound to profile.
             peer_sgt_capable: If true, Peer SGT is enabled for traffic through this switch port.
-              Applicable to trunk port only, not access port. Cannot be applied to a
-              port on a switch bound to profile.
+                Applicable to trunk port only, not access port. Cannot be applied to a
+                port on a switch bound to profile.
             flexible_stacking_enabled: For supported switches (e.g. MS420/MS425), whether or not the
-              port has flexible stacking enabled.
+                port has flexible stacking enabled.
             dai_trusted: If true, ARP packets for this port will be considered trusted, and Dynamic
-              ARP Inspection will allow the traffic.
+                ARP Inspection will allow the traffic.
             profile: Profile attributes.
             dot3az: dot3az settings for the port.
             high_speed: High speed port enablement settings for C9500-32QC.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "portId": "1",
+              "name": "My switch port",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enabled": true,
+              "poeEnabled": true,
+              "type": "access",
+              "vlan": 10,
+              "voiceVlan": 20,
+              "allowedVlans": "1,3,5-10",
+              "isolationEnabled": false,
+              "rstpEnabled": true,
+              "stpGuard": "disabled",
+              "stpPortFastTrunk": false,
+              "linkNegotiation": "Auto negotiate",
+              "linkNegotiationCapabilities": [
+                "Auto negotiate",
+                "1 Gigabit full duplex (auto)"
+              ],
+              "portScheduleId": "1234",
+              "schedule": {
+                "id": "1234",
+                "name": "Port Schedule"
+              },
+              "udld": "Alert only",
+              "accessPolicyType": "Sticky MAC allow list",
+              "accessPolicyNumber": 2,
+              "macAllowList": [
+                "34:56:fe:ce:8e:a0",
+                "34:56:fe:ce:8e:a1"
+              ],
+              "macWhitelistLimit": 10,
+              "stickyMacAllowList": [
+                "34:56:fe:ce:8e:b0",
+                "34:56:fe:ce:8e:b1"
+              ],
+              "stickyMacAllowListLimit": 5,
+              "stormControlEnabled": true,
+              "adaptivePolicyGroupId": "123",
+              "adaptivePolicyGroup": {
+                "id": "123",
+                "name": "Adaptive Policy Group"
+              },
+              "peerSgtCapable": false,
+              "flexibleStackingEnabled": true,
+              "daiTrusted": false,
+              "profile": {
+                "enabled": false,
+                "id": "1284392014819",
+                "iname": "iname"
+              },
+              "module": {
+                "model": "MA-MOD-4X10G",
+                "serial": "3_MA-MOD-4X10G",
+                "slot": 1
+              },
+              "mirror": {
+                "mode": "Not mirroring traffic"
+              },
+              "dot3az": {
+                "enabled": false
+              },
+              "highSpeed": {
+                "enabled": false
+              }
+            }
+            ```
 
         """
         if type_ is not None:
@@ -502,12 +854,56 @@ class Switch:
     ) -> GetDeviceSwitchRoutingInterfacesResponse | None:
         """List layer 3 interfaces for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-interfaces
+        [API documentation: getDeviceSwitchRoutingInterfaces](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-interfaces)
 
         Args:
             serial: Serial.
             mode: Optional parameter to filter L3 interfaces by mode.
             protocol: Optional parameter to filter L3 interfaces by protocol.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "interfaceId": "1234",
+                "name": "L3 interface",
+                "mode": "vlan",
+                "subnet": "192.168.1.0/24",
+                "interfaceIp": "192.168.1.2",
+                "serial": "Q234-ABCD-5678",
+                "switchPortId": "1",
+                "multicastRouting": "disabled",
+                "vlanId": 100,
+                "uplinkV4": false,
+                "uplinkV6": false,
+                "ospfSettings": {
+                  "area": "0",
+                  "cost": 1,
+                  "isPassiveEnabled": true,
+                  "networkType": "broadcast"
+                },
+                "ospfV3": {
+                  "area": "1",
+                  "cost": 2,
+                  "isPassiveEnabled": true,
+                  "networkType": "broadcast"
+                },
+                "ipv6": {
+                  "assignmentMode": "static",
+                  "address": "2001:db8::1",
+                  "prefix": "2001:db8::/32",
+                  "gateway": "2001:db8::2"
+                },
+                "vrf": {
+                  "name": "Blue"
+                },
+                "defaultGateway": "192.168.1.1"
+              }
+            ]
+            ```
 
         """
         if mode is not None:
@@ -555,29 +951,71 @@ class Switch:
     ) -> CreateDeviceSwitchRoutingInterfaceResponse | None:
         """Create a layer 3 interface for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-interface
+        [API documentation: createDeviceSwitchRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-interface)
 
         Args:
             serial: Serial.
             name: A friendly name or description for the interface or VLAN (max length 128
-              characters).
+                characters).
             mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback'. Default is 'vlan'.
-              CS 17.18 or higher is required for 'routed' mode.
+                CS 17.18 or higher is required for 'routed' mode.
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
-              subnet. This cannot be the same as the device management IP.
+                subnet. This cannot be the same as the device management IP.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
-              required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
-              Default is 'disabled'.
+                required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
+                Default is 'disabled'.
             vlan_id: The VLAN this L3 interface is on. VLAN must be between 1 and 4094.
             default_gateway: The next hop for any traffic that isn't going to a directly connected
-              subnet or over a static route. This IP address must exist in a subnet with
-              a L3 interface. Required if this is the first IPv4 interface.
+                subnet or over a static route. This IP address must exist in a subnet
+                with a L3 interface. Required if this is the first IPv4 interface.
             ospf_settings: The OSPF routing settings of the interface.
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaceId": "1234",
+              "name": "L3 interface",
+              "mode": "vlan",
+              "subnet": "192.168.1.0/24",
+              "interfaceIp": "192.168.1.2",
+              "serial": "Q234-ABCD-5678",
+              "switchPortId": "1",
+              "multicastRouting": "disabled",
+              "vlanId": 100,
+              "uplinkV4": false,
+              "uplinkV6": false,
+              "ospfSettings": {
+                "area": "0",
+                "cost": 1,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ospfV3": {
+                "area": "1",
+                "cost": 2,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ipv6": {
+                "assignmentMode": "static",
+                "address": "2001:db8::1",
+                "prefix": "2001:db8::/32",
+                "gateway": "2001:db8::2"
+              },
+              "vrf": {
+                "name": "Blue"
+              },
+              "defaultGateway": "192.168.1.1"
+            }
+            ```
 
         """
         if mode is not None:
@@ -631,11 +1069,53 @@ class Switch:
     ) -> GetDeviceSwitchRoutingInterfaceResponse | None:
         """Return a layer 3 interface for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-interface
+        [API documentation: getDeviceSwitchRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-interface)
 
         Args:
             serial: Serial.
             interface_id: Interface ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaceId": "1234",
+              "name": "L3 interface",
+              "mode": "vlan",
+              "subnet": "192.168.1.0/24",
+              "interfaceIp": "192.168.1.2",
+              "serial": "Q234-ABCD-5678",
+              "switchPortId": "1",
+              "multicastRouting": "disabled",
+              "vlanId": 100,
+              "uplinkV4": false,
+              "uplinkV6": false,
+              "ospfSettings": {
+                "area": "0",
+                "cost": 1,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ospfV3": {
+                "area": "1",
+                "cost": 2,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ipv6": {
+                "assignmentMode": "static",
+                "address": "2001:db8::1",
+                "prefix": "2001:db8::/32",
+                "gateway": "2001:db8::2"
+              },
+              "vrf": {
+                "name": "Blue"
+              },
+              "defaultGateway": "192.168.1.1"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -668,28 +1148,70 @@ class Switch:
     ) -> UpdateDeviceSwitchRoutingInterfaceResponse | None:
         """Update a layer 3 interface for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface
+        [API documentation: updateDeviceSwitchRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface)
 
         Args:
             serial: Serial.
             interface_id: Interface ID.
             name: A friendly name or description for the interface or VLAN (max length 128
-              characters).
+                characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
-              subnet. This cannot be the same as the device management IP.
+                subnet. This cannot be the same as the device management IP.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
-              required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
-              Default is 'disabled'.
+                required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
+                Default is 'disabled'.
             vlan_id: The VLAN this L3 interface is on. VLAN must be between 1 and 4094.
             default_gateway: The next hop for any traffic that isn't going to a directly connected
-              subnet or over a static route. This IP address must exist in a subnet with
-              a L3 interface. Required if this is the first IPv4 interface.
+                subnet or over a static route. This IP address must exist in a subnet
+                with a L3 interface. Required if this is the first IPv4 interface.
             ospf_settings: The OSPF routing settings of the interface.
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaceId": "1234",
+              "name": "L3 interface",
+              "mode": "vlan",
+              "subnet": "192.168.1.0/24",
+              "interfaceIp": "192.168.1.2",
+              "serial": "Q234-ABCD-5678",
+              "switchPortId": "1",
+              "multicastRouting": "disabled",
+              "vlanId": 100,
+              "uplinkV4": false,
+              "uplinkV6": false,
+              "ospfSettings": {
+                "area": "0",
+                "cost": 1,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ospfV3": {
+                "area": "1",
+                "cost": 2,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ipv6": {
+                "assignmentMode": "static",
+                "address": "2001:db8::1",
+                "prefix": "2001:db8::/32",
+                "gateway": "2001:db8::2"
+              },
+              "vrf": {
+                "name": "Blue"
+              },
+              "defaultGateway": "192.168.1.1"
+            }
+            ```
 
         """
         if multicast_routing is not None:
@@ -739,11 +1261,14 @@ class Switch:
     ) -> None:
         """Delete a layer 3 interface from the switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface
+        [API documentation: deleteDeviceSwitchRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface)
 
         Args:
             serial: Serial.
             interface_id: Interface ID.
+
+        Returns:
+            Successful operation.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -759,11 +1284,53 @@ class Switch:
     ) -> GetDeviceSwitchRoutingInterfaceDhcpResponse | None:
         """Return a layer 3 interface DHCP configuration for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-interface-dhcp
+        [API documentation: getDeviceSwitchRoutingInterfaceDhcp](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-interface-dhcp)
 
         Args:
             serial: Serial.
             interface_id: Interface ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "dhcpMode": "dhcpServer",
+              "dhcpRelayServerIps": [
+                "1.2.3.4"
+              ],
+              "dhcpLeaseTime": "1 day",
+              "dnsNameserversOption": "custom",
+              "dnsCustomNameservers": [
+                "8.8.8.8, 8.8.4.4"
+              ],
+              "bootOptionsEnabled": true,
+              "bootNextServer": "1.2.3.4",
+              "bootFileName": "home_boot_file",
+              "dhcpOptions": [
+                {
+                  "code": "5",
+                  "type": "text",
+                  "value": "five"
+                }
+              ],
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.1",
+                  "end": "192.168.1.10",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "fixedIpAssignments": [
+                {
+                  "name": "Cisco Meraki valued client",
+                  "mac": "22:33:44:55:66:77",
+                  "ip": "192.168.1.12"
+                }
+              ]
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -798,34 +1365,76 @@ class Switch:
     ) -> UpdateDeviceSwitchRoutingInterfaceDhcpResponse | None:
         """Update a layer 3 interface DHCP configuration for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface-dhcp
+        [API documentation: updateDeviceSwitchRoutingInterfaceDhcp](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface-dhcp)
 
         Args:
             serial: Serial.
             interface_id: Interface ID.
             dhcp_mode: The DHCP mode options for the switch interface ('dhcpDisabled', 'dhcpRelay'
-              or 'dhcpServer').
+                or 'dhcpServer').
             dhcp_relay_server_ips: The DHCP relay server IPs to which DHCP packets would get relayed
-              for the switch interface.
+                for the switch interface.
             dhcp_lease_time: The DHCP lease time config for the dhcp server running on switch
-              interface ('30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
-              week').
+                interface ('30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
+                week').
             dns_nameservers_option: The DHCP name server option for the dhcp server running on the
-              switch interface ('googlePublicDns', 'openDns' or 'custom').
+                switch interface ('googlePublicDns', 'openDns' or 'custom').
             dns_custom_nameservers: The DHCP name server IPs when DHCP name server option is
-              'custom'.
+                'custom'.
             boot_options_enabled: Enable DHCP boot options to provide PXE boot options configs for
-              the dhcp server running on the switch interface.
+                the dhcp server running on the switch interface.
             boot_next_server: The PXE boot server IP for the DHCP server running on the switch
-              interface.
+                interface.
             boot_file_name: The PXE boot server filename for the DHCP server running on the switch
-              interface.
+                interface.
             dhcp_options: Array of DHCP options consisting of code, type and value for the DHCP
-              server running on the switch interface.
+                server running on the switch interface.
             reserved_ip_ranges: Array of DHCP reserved IP assignments for the DHCP server running on
-              the switch interface.
+                the switch interface.
             fixed_ip_assignments: Array of DHCP fixed IP assignments for the DHCP server running on
-              the switch interface.
+                the switch interface.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "dhcpMode": "dhcpServer",
+              "dhcpRelayServerIps": [
+                "1.2.3.4"
+              ],
+              "dhcpLeaseTime": "1 day",
+              "dnsNameserversOption": "custom",
+              "dnsCustomNameservers": [
+                "8.8.8.8, 8.8.4.4"
+              ],
+              "bootOptionsEnabled": true,
+              "bootNextServer": "1.2.3.4",
+              "bootFileName": "home_boot_file",
+              "dhcpOptions": [
+                {
+                  "code": "5",
+                  "type": "text",
+                  "value": "five"
+                }
+              ],
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.1",
+                  "end": "192.168.1.10",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "fixedIpAssignments": [
+                {
+                  "name": "Cisco Meraki valued client",
+                  "mac": "22:33:44:55:66:77",
+                  "ip": "192.168.1.12"
+                }
+              ]
+            }
+            ```
 
         """
         if dhcp_mode is not None:
@@ -891,10 +1500,32 @@ class Switch:
     ) -> GetDeviceSwitchRoutingStaticRoutesResponse | None:
         """List layer 3 static routes for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-static-routes
+        [API documentation: getDeviceSwitchRoutingStaticRoutes](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-static-routes)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "staticRouteId": "1234",
+                "name": "My route",
+                "subnet": "192.168.1.0/24",
+                "nextHopIp": "1.2.3.4",
+                "managementNextHop": "1.2.3.5",
+                "vrf": {
+                  "name": "Blue",
+                  "leakRouteToDefaultVrf": false
+                },
+                "advertiseViaOspfEnabled": false,
+                "preferOverOspfRoutesEnabled": false
+              }
+            ]
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -920,18 +1551,38 @@ class Switch:
     ) -> CreateDeviceSwitchRoutingStaticRouteResponse | None:
         """Create a layer 3 static route for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-static-route
+        [API documentation: createDeviceSwitchRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-static-route)
 
         Args:
             serial: Serial.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
-              notation (ex. 1.2.3.0/24).
+                notation (ex. 1.2.3.0/24).
             next_hop_ip: IP address of the next hop device to which the device sends its traffic for
-              the subnet.
+                the subnet.
             advertise_via_ospf_enabled: Option to advertise static route via OSPF.
             prefer_over_ospf_routes_enabled: Option to prefer static route over OSPF routes.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticRouteId": "1234",
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "nextHopIp": "1.2.3.4",
+              "managementNextHop": "1.2.3.5",
+              "vrf": {
+                "name": "Blue",
+                "leakRouteToDefaultVrf": false
+              },
+              "advertiseViaOspfEnabled": false,
+              "preferOverOspfRoutesEnabled": false
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -964,11 +1615,31 @@ class Switch:
     ) -> GetDeviceSwitchRoutingStaticRouteResponse | None:
         """Return a layer 3 static route for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-static-route
+        [API documentation: getDeviceSwitchRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-static-route)
 
         Args:
             serial: Serial.
             static_route_id: Static route ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticRouteId": "1234",
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "nextHopIp": "1.2.3.4",
+              "managementNextHop": "1.2.3.5",
+              "vrf": {
+                "name": "Blue",
+                "leakRouteToDefaultVrf": false
+              },
+              "advertiseViaOspfEnabled": false,
+              "preferOverOspfRoutesEnabled": false
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -997,20 +1668,40 @@ class Switch:
     ) -> UpdateDeviceSwitchRoutingStaticRouteResponse | None:
         """Update a layer 3 static route for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-static-route
+        [API documentation: updateDeviceSwitchRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-static-route)
 
         Args:
             serial: Serial.
             static_route_id: Static route ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
-              notation (ex. 1.2.3.0/24).
+                notation (ex. 1.2.3.0/24).
             next_hop_ip: IP address of the next hop device to which the device sends its traffic for
-              the subnet.
+                the subnet.
             management_next_hop: Optional fallback IP address for management traffic.
             advertise_via_ospf_enabled: Option to advertise static route via OSPF.
             prefer_over_ospf_routes_enabled: Option to prefer static route over OSPF routes.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticRouteId": "1234",
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "nextHopIp": "1.2.3.4",
+              "managementNextHop": "1.2.3.5",
+              "vrf": {
+                "name": "Blue",
+                "leakRouteToDefaultVrf": false
+              },
+              "advertiseViaOspfEnabled": false,
+              "preferOverOspfRoutesEnabled": false
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -1046,11 +1737,14 @@ class Switch:
     ) -> None:
         """Delete a layer 3 static route for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-static-route
+        [API documentation: deleteDeviceSwitchRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-static-route)
 
         Args:
             serial: Serial.
             static_route_id: Static route ID.
+
+        Returns:
+            Successful operation.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -1066,10 +1760,22 @@ class Switch:
     ) -> GetDeviceSwitchWarmSpareResponse | None:
         """Return warm spare configuration for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-device-switch-warm-spare
+        [API documentation: getDeviceSwitchWarmSpare](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-warm-spare)
 
         Args:
             serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "primarySerial": "Q234-ABCD-0001",
+              "spareSerial": "Q234-ABCD-0002"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -1087,12 +1793,24 @@ class Switch:
     ) -> UpdateDeviceSwitchWarmSpareResponse | None:
         """Update warm spare configuration for a switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-switch-warm-spare
+        [API documentation: updateDeviceSwitchWarmSpare](https://developer.cisco.com/meraki/api-v1/#!update-device-switch-warm-spare)
 
         Args:
             serial: Serial.
             enabled: Enable or disable warm spare for a switch.
             spare_serial: Serial number of the warm spare switch.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "primarySerial": "Q234-ABCD-0001",
+              "spareSerial": "Q234-ABCD-0002"
+            }
+            ```
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -1117,10 +1835,32 @@ class Switch:
     ) -> GetNetworkSwitchAccessControlListsResponse | None:
         """Return the access control lists for a MS network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-control-lists
+        [API documentation: getNetworkSwitchAccessControlLists](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-control-lists)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Deny SSH",
+                  "policy": "deny",
+                  "ipVersion": "ipv4",
+                  "protocol": "tcp",
+                  "srcCidr": "10.1.10.0/24",
+                  "srcPort": "any",
+                  "dstCidr": "172.16.30/24",
+                  "dstPort": "22",
+                  "vlan": "10"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1138,12 +1878,34 @@ class Switch:
     ) -> UpdateNetworkSwitchAccessControlListsResponse | None:
         """Update the access control lists for a MS network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-control-lists
+        [API documentation: updateNetworkSwitchAccessControlLists](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-control-lists)
 
         Args:
             network_id: Network ID.
             rules: An ordered array of the access control list rules (not including the default
-              rule). An empty array will clear the rules.
+                rule). An empty array will clear the rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rules": [
+                {
+                  "comment": "Deny SSH",
+                  "policy": "deny",
+                  "ipVersion": "ipv4",
+                  "protocol": "tcp",
+                  "srcCidr": "10.1.10.0/24",
+                  "srcPort": "any",
+                  "dstCidr": "172.16.30/24",
+                  "dstPort": "22",
+                  "vlan": "10"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1166,10 +1928,87 @@ class Switch:
     ) -> GetNetworkSwitchAccessPoliciesResponse | None:
         """List the access policies for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policies
+        [API documentation: getNetworkSwitchAccessPolicies](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policies)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "accessPolicyNumber": "1234",
+                "name": "Access policy #1",
+                "radiusServers": [
+                  {
+                    "serverId": "1",
+                    "organizationRadiusServerId": "42",
+                    "host": "1.2.3.4",
+                    "port": 22
+                  }
+                ],
+                "radius": {
+                  "criticalAuth": {
+                    "dataVlanId": 100,
+                    "voiceVlanId": 100,
+                    "suspendPortBounce": true,
+                    "dataGroupPolicyId": "1234",
+                    "voiceGroupPolicyId": "1234",
+                    "dataSgtId": 1234,
+                    "voiceSgtId": 1234
+                  },
+                  "failedAuthVlanId": 100,
+                  "failedAuthGroupPolicyId": "1234",
+                  "failedAuthSgtId": 1284392014819,
+                  "reAuthenticationInterval": 120,
+                  "cache": {
+                    "enabled": false,
+                    "timeout": 24
+                  },
+                  "authentication": {
+                    "mode": "Open"
+                  },
+                  "preAuthenticationGroupPolicyId": "1234"
+                },
+                "enforceRadiusMonitoring": false,
+                "guestPortBouncing": false,
+                "radiusTestingEnabled": false,
+                "radiusCoaSupportEnabled": false,
+                "radiusAccountingEnabled": true,
+                "radiusAccountingServers": [
+                  {
+                    "serverId": "2",
+                    "organizationRadiusServerId": "42",
+                    "host": "1.2.3.4",
+                    "port": 22
+                  }
+                ],
+                "radiusGroupAttribute": "11",
+                "hostMode": "Single-Host",
+                "accessPolicyType": "Hybrid authentication",
+                "increaseAccessSpeed": false,
+                "guestVlanId": 100,
+                "dot1x": {
+                  "controlDirection": "inbound"
+                },
+                "voiceVlanClients": true,
+                "urlRedirectWalledGardenEnabled": true,
+                "urlRedirectWalledGardenRanges": [
+                  "192.168.1.0/24"
+                ],
+                "counts": {
+                  "ports": {
+                    "withThisPolicy": 12
+                  }
+                },
+                "guestGroupPolicyId": "1234",
+                "guestSgtId": 1284392014819
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1209,44 +2048,119 @@ class Switch:
     ) -> CreateNetworkSwitchAccessPolicyResponse | None:
         """Create an access policy for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-access-policy
+        [API documentation: createNetworkSwitchAccessPolicy](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-access-policy)
 
         Args:
             network_id: Network ID.
             name: Name of the access policy(max length 255).
             radius_servers: List of RADIUS servers to require connecting devices to authenticate
-              against before granting network access.
+                against before granting network access.
             radius: Object for RADIUS Settings.
             guest_port_bouncing: If enabled, Meraki devices will periodically send access-request
-              messages to these RADIUS servers.
+                messages to these RADIUS servers.
             radius_testing_enabled: If enabled, Meraki devices will periodically send access-request
-              messages to these RADIUS servers.
+                messages to these RADIUS servers.
             radius_coa_support_enabled: Change of authentication for RADIUS re-authentication and
-              disconnection.
+                disconnection.
             radius_accounting_enabled: Enable to send start, interim-update and stop messages to a
-              configured RADIUS accounting server for tracking connected clients.
+                configured RADIUS accounting server for tracking connected clients.
             radius_accounting_servers: List of RADIUS accounting servers to require connecting
-              devices to authenticate against before granting network access.
+                devices to authenticate against before granting network access.
             radius_group_attribute: Acceptable values are `""` for None, or `"11"` for Group
-              Policies ACL.
+                Policies ACL.
             host_mode: Choose the Host Mode for the access policy.
             access_policy_type: Access Type of the policy. Automatically 'Hybrid authentication'
-              when hostMode is 'Multi-Domain'.
+                when hostMode is 'Multi-Domain'.
             increase_access_speed: Enabling this option will make switches execute 802.1X and MAC-
-              bypass authentication simultaneously so that clients authenticate faster.
-              Only required when accessPolicyType is 'Hybrid Authentication.
+                bypass authentication simultaneously so that clients authenticate
+                faster. Only required when accessPolicyType is 'Hybrid Authentication.
             guest_vlan_id: ID for the guest VLAN allow unauthorized devices access to limited
-              network resources.
+                network resources.
             dot1x: 802.1x Settings.
             voice_vlan_clients: CDP/LLDP capable voice clients will be able to use this VLAN.
-              Automatically true when hostMode is 'Multi-Domain'.
+                Automatically true when hostMode is 'Multi-Domain'.
             url_redirect_walled_garden_enabled: Enable to restrict access for clients to a specific
-              set of IP addresses or hostnames prior to authentication.
+                set of IP addresses or hostnames prior to authentication.
             url_redirect_walled_garden_ranges: IP address ranges, in CIDR notation, to restrict
-              access for clients to a specific set of IP addresses or hostnames prior to
-              authentication.
+                access for clients to a specific set of IP addresses or hostnames prior
+                to authentication.
             guest_group_policy_id: Group policy Number for guest group policy.
             guest_sgt_id: Security Group Tag ID for guest group policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "accessPolicyNumber": "1234",
+              "name": "Access policy #1",
+              "radiusServers": [
+                {
+                  "serverId": "1",
+                  "organizationRadiusServerId": "42",
+                  "host": "1.2.3.4",
+                  "port": 22
+                }
+              ],
+              "radius": {
+                "criticalAuth": {
+                  "dataVlanId": 100,
+                  "voiceVlanId": 100,
+                  "suspendPortBounce": true,
+                  "dataGroupPolicyId": "1234",
+                  "voiceGroupPolicyId": "1234",
+                  "dataSgtId": 1234,
+                  "voiceSgtId": 1234
+                },
+                "failedAuthVlanId": 100,
+                "failedAuthGroupPolicyId": "1234",
+                "failedAuthSgtId": 1284392014819,
+                "reAuthenticationInterval": 120,
+                "cache": {
+                  "enabled": false,
+                  "timeout": 24
+                },
+                "authentication": {
+                  "mode": "Open"
+                },
+                "preAuthenticationGroupPolicyId": "1234"
+              },
+              "enforceRadiusMonitoring": false,
+              "guestPortBouncing": false,
+              "radiusTestingEnabled": false,
+              "radiusCoaSupportEnabled": false,
+              "radiusAccountingEnabled": true,
+              "radiusAccountingServers": [
+                {
+                  "serverId": "2",
+                  "organizationRadiusServerId": "42",
+                  "host": "1.2.3.4",
+                  "port": 22
+                }
+              ],
+              "radiusGroupAttribute": "11",
+              "hostMode": "Single-Host",
+              "accessPolicyType": "Hybrid authentication",
+              "increaseAccessSpeed": false,
+              "guestVlanId": 100,
+              "dot1x": {
+                "controlDirection": "inbound"
+              },
+              "voiceVlanClients": true,
+              "urlRedirectWalledGardenEnabled": true,
+              "urlRedirectWalledGardenRanges": [
+                "192.168.1.0/24"
+              ],
+              "counts": {
+                "ports": {
+                  "withThisPolicy": 12
+                }
+              },
+              "guestGroupPolicyId": "1234",
+              "guestSgtId": 1284392014819
+            }
+            ```
 
         """
         if host_mode is not None:
@@ -1321,11 +2235,86 @@ class Switch:
     ) -> GetNetworkSwitchAccessPolicyResponse | None:
         """Return a specific access policy for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policy
+        [API documentation: getNetworkSwitchAccessPolicy](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policy)
 
         Args:
             network_id: Network ID.
             access_policy_number: Access policy number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "accessPolicyNumber": "1234",
+              "name": "Access policy #1",
+              "radiusServers": [
+                {
+                  "serverId": "1",
+                  "organizationRadiusServerId": "42",
+                  "host": "1.2.3.4",
+                  "port": 22
+                }
+              ],
+              "radius": {
+                "criticalAuth": {
+                  "dataVlanId": 100,
+                  "voiceVlanId": 100,
+                  "suspendPortBounce": true,
+                  "dataGroupPolicyId": "1234",
+                  "voiceGroupPolicyId": "1234",
+                  "dataSgtId": 1234,
+                  "voiceSgtId": 1234
+                },
+                "failedAuthVlanId": 100,
+                "failedAuthGroupPolicyId": "1234",
+                "failedAuthSgtId": 1284392014819,
+                "reAuthenticationInterval": 120,
+                "cache": {
+                  "enabled": false,
+                  "timeout": 24
+                },
+                "authentication": {
+                  "mode": "Open"
+                },
+                "preAuthenticationGroupPolicyId": "1234"
+              },
+              "enforceRadiusMonitoring": false,
+              "guestPortBouncing": false,
+              "radiusTestingEnabled": false,
+              "radiusCoaSupportEnabled": false,
+              "radiusAccountingEnabled": true,
+              "radiusAccountingServers": [
+                {
+                  "serverId": "2",
+                  "organizationRadiusServerId": "42",
+                  "host": "1.2.3.4",
+                  "port": 22
+                }
+              ],
+              "radiusGroupAttribute": "11",
+              "hostMode": "Single-Host",
+              "accessPolicyType": "Hybrid authentication",
+              "increaseAccessSpeed": false,
+              "guestVlanId": 100,
+              "dot1x": {
+                "controlDirection": "inbound"
+              },
+              "voiceVlanClients": true,
+              "urlRedirectWalledGardenEnabled": true,
+              "urlRedirectWalledGardenRanges": [
+                "192.168.1.0/24"
+              ],
+              "counts": {
+                "ports": {
+                  "withThisPolicy": 12
+                }
+              },
+              "guestGroupPolicyId": "1234",
+              "guestSgtId": 1284392014819
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1367,45 +2356,120 @@ class Switch:
     ) -> UpdateNetworkSwitchAccessPolicyResponse | None:
         """Update an access policy for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-policy
+        [API documentation: updateNetworkSwitchAccessPolicy](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-policy)
 
         Args:
             network_id: Network ID.
             access_policy_number: Access policy number.
             name: Name of the access policy(max length 255).
             radius_servers: List of RADIUS servers to require connecting devices to authenticate
-              against before granting network access.
+                against before granting network access.
             radius: Object for RADIUS Settings.
             guest_port_bouncing: If enabled, Meraki devices will periodically send access-request
-              messages to these RADIUS servers.
+                messages to these RADIUS servers.
             radius_testing_enabled: If enabled, Meraki devices will periodically send access-request
-              messages to these RADIUS servers.
+                messages to these RADIUS servers.
             radius_coa_support_enabled: Change of authentication for RADIUS re-authentication and
-              disconnection.
+                disconnection.
             radius_accounting_enabled: Enable to send start, interim-update and stop messages to a
-              configured RADIUS accounting server for tracking connected clients.
+                configured RADIUS accounting server for tracking connected clients.
             radius_accounting_servers: List of RADIUS accounting servers to require connecting
-              devices to authenticate against before granting network access.
+                devices to authenticate against before granting network access.
             radius_group_attribute: Acceptable values are `""` for None, or `"11"` for Group
-              Policies ACL.
+                Policies ACL.
             host_mode: Choose the Host Mode for the access policy.
             access_policy_type: Access Type of the policy. Automatically 'Hybrid authentication'
-              when hostMode is 'Multi-Domain'.
+                when hostMode is 'Multi-Domain'.
             increase_access_speed: Enabling this option will make switches execute 802.1X and MAC-
-              bypass authentication simultaneously so that clients authenticate faster.
-              Only required when accessPolicyType is 'Hybrid Authentication.
+                bypass authentication simultaneously so that clients authenticate
+                faster. Only required when accessPolicyType is 'Hybrid Authentication.
             guest_vlan_id: ID for the guest VLAN allow unauthorized devices access to limited
-              network resources.
+                network resources.
             dot1x: 802.1x Settings.
             voice_vlan_clients: CDP/LLDP capable voice clients will be able to use this VLAN.
-              Automatically true when hostMode is 'Multi-Domain'.
+                Automatically true when hostMode is 'Multi-Domain'.
             url_redirect_walled_garden_enabled: Enable to restrict access for clients to a specific
-              set of IP addresses or hostnames prior to authentication.
+                set of IP addresses or hostnames prior to authentication.
             url_redirect_walled_garden_ranges: IP address ranges, in CIDR notation, to restrict
-              access for clients to a specific set of IP addresses or hostnames prior to
-              authentication.
+                access for clients to a specific set of IP addresses or hostnames prior
+                to authentication.
             guest_group_policy_id: Group policy Number for guest group policy.
             guest_sgt_id: Security Group Tag ID for guest group policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "accessPolicyNumber": "1234",
+              "name": "Access policy #1",
+              "radiusServers": [
+                {
+                  "serverId": "1",
+                  "organizationRadiusServerId": "42",
+                  "host": "1.2.3.4",
+                  "port": 22
+                }
+              ],
+              "radius": {
+                "criticalAuth": {
+                  "dataVlanId": 100,
+                  "voiceVlanId": 100,
+                  "suspendPortBounce": true,
+                  "dataGroupPolicyId": "1234",
+                  "voiceGroupPolicyId": "1234",
+                  "dataSgtId": 1234,
+                  "voiceSgtId": 1234
+                },
+                "failedAuthVlanId": 100,
+                "failedAuthGroupPolicyId": "1234",
+                "failedAuthSgtId": 1284392014819,
+                "reAuthenticationInterval": 120,
+                "cache": {
+                  "enabled": false,
+                  "timeout": 24
+                },
+                "authentication": {
+                  "mode": "Open"
+                },
+                "preAuthenticationGroupPolicyId": "1234"
+              },
+              "enforceRadiusMonitoring": false,
+              "guestPortBouncing": false,
+              "radiusTestingEnabled": false,
+              "radiusCoaSupportEnabled": false,
+              "radiusAccountingEnabled": true,
+              "radiusAccountingServers": [
+                {
+                  "serverId": "2",
+                  "organizationRadiusServerId": "42",
+                  "host": "1.2.3.4",
+                  "port": 22
+                }
+              ],
+              "radiusGroupAttribute": "11",
+              "hostMode": "Single-Host",
+              "accessPolicyType": "Hybrid authentication",
+              "increaseAccessSpeed": false,
+              "guestVlanId": 100,
+              "dot1x": {
+                "controlDirection": "inbound"
+              },
+              "voiceVlanClients": true,
+              "urlRedirectWalledGardenEnabled": true,
+              "urlRedirectWalledGardenRanges": [
+                "192.168.1.0/24"
+              ],
+              "counts": {
+                "ports": {
+                  "withThisPolicy": 12
+                }
+              },
+              "guestGroupPolicyId": "1234",
+              "guestSgtId": 1284392014819
+            }
+            ```
 
         """
         if host_mode is not None:
@@ -1481,11 +2545,14 @@ class Switch:
     ) -> None:
         """Delete an access policy for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-access-policy
+        [API documentation: deleteNetworkSwitchAccessPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-access-policy)
 
         Args:
             network_id: Network ID.
             access_policy_number: Access policy number.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1501,10 +2568,34 @@ class Switch:
     ) -> GetNetworkSwitchAlternateManagementInterfaceResponse | None:
         """Return the switch alternate management interface for the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-alternate-management-interface
+        [API documentation: getNetworkSwitchAlternateManagementInterface](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-alternate-management-interface)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "vlanId": 100,
+              "protocols": [
+                "radius",
+                "snmp",
+                "syslog"
+              ],
+              "switches": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "alternateManagementIp": "1.2.3.4",
+                  "subnetMask": "255.255.255.0",
+                  "gateway": "1.2.3.5"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1528,19 +2619,43 @@ class Switch:
     ) -> UpdateNetworkSwitchAlternateManagementInterfaceResponse | None:
         """Update the switch alternate management interface for the network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-alternate-management-interface
+        [API documentation: updateNetworkSwitchAlternateManagementInterface](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-alternate-management-interface)
 
         Args:
             network_id: Network ID.
             enabled: Boolean value to enable or disable AMI configuration. If enabled, VLAN and
-              protocols must be set.
+                protocols must be set.
             vlan_id: Alternate management VLAN, must be between 1 and 4094.
             protocols: Can be one or more of the following values: 'radius', 'snmp' or 'syslog'.
             switches: Array of switch serial number and IP assignment. If parameter is present, it
-              cannot have empty body. Note: switches parameter is not applicable for
-              template networks, in other words, do not put 'switches' in the body when
-              updating template networks. Also, an empty 'switches' array will remove
-              all previous assignments.
+                cannot have empty body. Note: switches parameter is not applicable for
+                template networks, in other words, do not put 'switches' in the body
+                when updating template networks. Also, an empty 'switches' array will
+                remove all previous assignments.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "vlanId": 100,
+              "protocols": [
+                "radius",
+                "snmp",
+                "syslog"
+              ],
+              "switches": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "alternateManagementIp": "1.2.3.4",
+                  "subnetMask": "255.255.255.0",
+                  "gateway": "1.2.3.5"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1575,33 +2690,136 @@ class Switch:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkSwitchDhcpV4ServersSeenResponseItem]:
         """Return the network's DHCPv4 servers seen within the selected timeframe (default 1 day).
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-v-4-servers-seen
+        [API documentation: getNetworkSwitchDhcpV4ServersSeen](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-v-4-servers-seen)
 
         Args:
             network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "mac": "00:11:22:33:44:55",
+                "vlan": 100,
+                "clientId": "k74272e",
+                "isAllowed": true,
+                "lastSeenAt": "2018-02-11T00:00:00.090210Z",
+                "seenBy": [
+                  {
+                    "serial": "Q234-ABCD-0001",
+                    "name": "My switch2",
+                    "url": "https://n1.meraki.com//n//manage/nodes/new_list/0000000000001"
+                  }
+                ],
+                "type": "device",
+                "device": {
+                  "serial": "Q234-ABCD-0002",
+                  "name": "My AP",
+                  "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
+                  "interface": {
+                    "name": "My L3 Interface",
+                    "url": "https://n1.meraki.com//n//manage/configure/switch_l3/l3_interface/00000"
+                  }
+                },
+                "ipv4": {
+                  "address": "10.0.0.0/24",
+                  "subnet": "192.168.1.0/24",
+                  "gateway": "1.2.3.5"
+                },
+                "isConfigured": true,
+                "lastAck": {
+                  "ts": "2018-02-11T00:00:00.090210Z",
+                  "ipv4": {
+                    "address": "123.123.123.1"
+                  }
+                },
+                "lastPacket": {
+                  "source": {
+                    "mac": "00:11:22:33:44:55",
+                    "ipv4": {
+                      "address": "1.2.3.4"
+                    },
+                    "port": 443
+                  },
+                  "destination": {
+                    "mac": "22:33:44:55:66:77",
+                    "ipv4": {
+                      "address": "123.123.123.1"
+                    },
+                    "port": 444
+                  },
+                  "type": "ACK",
+                  "ethernet": {
+                    "type": "0x1212"
+                  },
+                  "ip": {
+                    "id": "0x1313",
+                    "version": 4,
+                    "length": 24929,
+                    "headerLength": 1,
+                    "protocol": 1,
+                    "ttl": 50,
+                    "dscp": {
+                      "tag": 24,
+                      "ecn": 1
+                    }
+                  },
+                  "udp": {
+                    "length": 24929,
+                    "checksum": "0x1414"
+                  },
+                  "fields": {
+                    "op": 1,
+                    "htype": 1,
+                    "hlen": 6,
+                    "hops": 0,
+                    "xid": "0x11111111",
+                    "secs": 1526087474,
+                    "flags": "0x0000",
+                    "ciaddr": "1.2.3.4",
+                    "yiaddr": "123.123.123.1",
+                    "siaddr": "1.2.3.4",
+                    "giaddr": "1.2.3.5",
+                    "chaddr": "abcdefghijkl",
+                    "sname": "1.2.3.4",
+                    "magicCookie": "0x22222222",
+                    "options": [
+                      {
+                        "name": "Lease time",
+                        "value": "86400 seconds"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1634,10 +2852,40 @@ class Switch:
     ) -> GetNetworkSwitchDhcpServerPolicyResponse | None:
         """Return the DHCP server settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy
+        [API documentation: getNetworkSwitchDhcpServerPolicy](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "alerts": {
+                "email": {
+                  "enabled": true
+                }
+              },
+              "defaultPolicy": "block",
+              "blockedServers": [
+                "00:50:56:00:00:03",
+                "00:50:56:00:00:04"
+              ],
+              "allowedServers": [
+                "00:50:56:00:00:01",
+                "00:50:56:00:00:02"
+              ],
+              "arpInspection": {
+                "enabled": true,
+                "unsupportedModels": [
+                  "MS120-8",
+                  "MS125-24"
+                ]
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1662,17 +2910,47 @@ class Switch:
     ) -> UpdateNetworkSwitchDhcpServerPolicyResponse | None:
         """Update the DHCP server settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy
+        [API documentation: updateNetworkSwitchDhcpServerPolicy](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy)
 
         Args:
             network_id: Network ID.
             alerts: Alert settings for DHCP servers.
             default_policy: 'allow' or 'block' new DHCP servers. Default value is 'allow'.
             allowed_servers: List the MAC addresses of DHCP servers to permit on the network when
-              defaultPolicy is set to block. An empty array will clear the entries.
+                defaultPolicy is set to block. An empty array will clear the entries.
             blocked_servers: List the MAC addresses of DHCP servers to block on the network when
-              defaultPolicy is set to allow. An empty array will clear the entries.
+                defaultPolicy is set to allow. An empty array will clear the entries.
             arp_inspection: Dynamic ARP Inspection settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "alerts": {
+                "email": {
+                  "enabled": true
+                }
+              },
+              "defaultPolicy": "block",
+              "blockedServers": [
+                "00:50:56:00:00:03",
+                "00:50:56:00:00:04"
+              ],
+              "allowedServers": [
+                "00:50:56:00:00:01",
+                "00:50:56:00:00:02"
+              ],
+              "arpInspection": {
+                "enabled": true,
+                "unsupportedModels": [
+                  "MS120-8",
+                  "MS125-24"
+                ]
+              }
+            }
+            ```
 
         """
         if default_policy is not None:
@@ -1711,30 +2989,47 @@ class Switch:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetNetworkSwitchDhcpServerPolicyArpInspectionTrustedServersResponseItem
     ]:
         """Return the list of servers trusted by Dynamic ARP Inspection on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-trusted-servers
+        [API documentation: getNetworkSwitchDhcpServerPolicyArpInspectionTrustedServers](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-trusted-servers)
 
         Args:
             network_id: Network ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "trustedServerId": "123",
+                "mac": "00:11:22:33:44:55",
+                "vlan": 100,
+                "ipv4": {
+                  "address": "1.2.3.4"
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1768,13 +3063,28 @@ class Switch:
     ) -> CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse | None:
         """Add a server to be trusted by Dynamic ARP Inspection on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-dhcp-server-policy-arp-inspection-trusted-server
+        [API documentation: createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-dhcp-server-policy-arp-inspection-trusted-server)
 
         Args:
             network_id: Network ID.
             mac: The mac address of the trusted server being added.
             vlan: The VLAN of the trusted server being added. It must be between 1 and 4094.
             ipv4: The IPv4 attributes of the trusted server being added.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "trustedServerId": "123",
+              "mac": "00:11:22:33:44:55",
+              "vlan": 100,
+              "ipv4": {
+                "address": "1.2.3.4"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1807,7 +3117,7 @@ class Switch:
     ) -> UpdateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse | None:
         """Update a server that is trusted by Dynamic ARP Inspection on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy-arp-inspection-trusted-server
+        [API documentation: updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy-arp-inspection-trusted-server)
 
         Args:
             network_id: Network ID.
@@ -1815,6 +3125,21 @@ class Switch:
             mac: The updated mac address of the trusted server.
             vlan: The updated VLAN of the trusted server. It must be between 1 and 4094.
             ipv4: The updated IPv4 attributes of the trusted server.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "trustedServerId": "123",
+              "mac": "00:11:22:33:44:55",
+              "vlan": 100,
+              "ipv4": {
+                "address": "1.2.3.4"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1842,11 +3167,14 @@ class Switch:
     ) -> None:
         """Remove a server from being trusted by Dynamic ARP Inspection on this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-dhcp-server-policy-arp-inspection-trusted-server
+        [API documentation: deleteNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-dhcp-server-policy-arp-inspection-trusted-server)
 
         Args:
             network_id: Network ID.
             trusted_server_id: Trusted server ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1866,30 +3194,46 @@ class Switch:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDeviceResponseItem
     ]:
         """Return the devices that have a Dynamic ARP Inspection warning and their warnings.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-warnings-by-device
+        [API documentation: getNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDevice](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-warnings-by-device)
 
         Args:
             network_id: Network ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "serial": "Q234-ABCD-0001",
+                "name": "My switch",
+                "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
+                "supportsInspection": false,
+                "hasTrustedPort": false
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1918,10 +3262,26 @@ class Switch:
     ) -> GetNetworkSwitchDscpToCosMappingsResponse | None:
         """Return the DSCP to CoS mappings.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dscp-to-cos-mappings
+        [API documentation: getNetworkSwitchDscpToCosMappings](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dscp-to-cos-mappings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mappings": [
+                {
+                  "dscp": 1,
+                  "cos": 1,
+                  "title": "Video"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1939,12 +3299,28 @@ class Switch:
     ) -> UpdateNetworkSwitchDscpToCosMappingsResponse | None:
         """Update the DSCP to CoS mappings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dscp-to-cos-mappings
+        [API documentation: updateNetworkSwitchDscpToCosMappings](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dscp-to-cos-mappings)
 
         Args:
             network_id: Network ID.
             mappings: An array of DSCP to CoS mappings. An empty array will reset the mappings to
-              default.
+                default.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "mappings": [
+                {
+                  "dscp": 1,
+                  "cos": 1,
+                  "title": "Video"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1969,10 +3345,28 @@ class Switch:
     ) -> GetNetworkSwitchLinkAggregationsResponse | None:
         """List link aggregation groups.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-link-aggregations
+        [API documentation: getNetworkSwitchLinkAggregations](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-link-aggregations)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "NDU2N18yXzM=",
+                "switchPorts": [
+                  {
+                    "serial": "Q234-ABCD-0001",
+                    "portId": "1"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1995,14 +3389,30 @@ class Switch:
     ) -> CreateNetworkSwitchLinkAggregationResponse | None:
         """Create a link aggregation group.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-link-aggregation
+        [API documentation: createNetworkSwitchLinkAggregation](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-link-aggregation)
 
         Args:
             network_id: Network ID.
             switch_ports: Array of switch or stack ports for creating aggregation group. Minimum 2
-              and maximum 8 ports are supported.
+                and maximum 8 ports are supported.
             switch_profile_ports: Array of switch profile ports for creating aggregation group.
-              Minimum 2 and maximum 8 ports are supported.
+                Minimum 2 and maximum 8 ports are supported.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "NDU2N18yXzM=",
+              "switchPorts": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "portId": "1"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2037,15 +3447,31 @@ class Switch:
     ) -> UpdateNetworkSwitchLinkAggregationResponse | None:
         """Update a link aggregation group.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-link-aggregation
+        [API documentation: updateNetworkSwitchLinkAggregation](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-link-aggregation)
 
         Args:
             network_id: Network ID.
             link_aggregation_id: Link aggregation ID.
             switch_ports: Array of switch or stack ports for updating aggregation group. Minimum 2
-              and maximum 8 ports are supported.
+                and maximum 8 ports are supported.
             switch_profile_ports: Array of switch profile ports for updating aggregation group.
-              Minimum 2 and maximum 8 ports are supported.
+                Minimum 2 and maximum 8 ports are supported.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "NDU2N18yXzM=",
+              "switchPorts": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "portId": "1"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2075,11 +3501,14 @@ class Switch:
     ) -> None:
         """Split a link aggregation group into separate ports.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-link-aggregation
+        [API documentation: deleteNetworkSwitchLinkAggregation](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-link-aggregation)
 
         Args:
             network_id: Network ID.
             link_aggregation_id: Link aggregation ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2093,10 +3522,34 @@ class Switch:
     async def get_network_switch_mtu(self, network_id: str) -> GetNetworkSwitchMtuResponse | None:
         """Return the MTU configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-mtu
+        [API documentation: getNetworkSwitchMtu](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-mtu)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "defaultMtuSize": 9578,
+              "overrides": [
+                {
+                  "switches": [
+                    "Q234-ABCD-0001",
+                    "Q234-ABCD-0002",
+                    "Q234-ABCD-0003"
+                  ],
+                  "switchProfiles": [
+                    "1284392014819",
+                    "2983092129865"
+                  ],
+                  "mtuSize": 1500
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2118,13 +3571,37 @@ class Switch:
     ) -> UpdateNetworkSwitchMtuResponse | None:
         """Update the MTU configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-mtu
+        [API documentation: updateNetworkSwitchMtu](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-mtu)
 
         Args:
             network_id: Network ID.
             default_mtu_size: MTU size for the entire network. Default value is 9578.
             overrides: Override MTU size for individual switches or switch templates. An empty array
-              will clear overrides.
+                will clear overrides.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "defaultMtuSize": 9578,
+              "overrides": [
+                {
+                  "switches": [
+                    "Q234-ABCD-0001",
+                    "Q234-ABCD-0002",
+                    "Q234-ABCD-0003"
+                  ],
+                  "switchProfiles": [
+                    "1284392014819",
+                    "2983092129865"
+                  ],
+                  "mtuSize": 1500
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2151,10 +3628,61 @@ class Switch:
     ) -> GetNetworkSwitchPortSchedulesResponse | None:
         """List switch port schedules.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-port-schedules
+        [API documentation: getNetworkSwitchPortSchedules](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-port-schedules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1234",
+                "networkId": "N_24329156",
+                "name": "Weekdays schedule",
+                "portSchedule": {
+                  "monday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "tuesday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "wednesday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "thursday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "friday": {
+                    "active": true,
+                    "from": "9:00",
+                    "to": "17:00"
+                  },
+                  "saturday": {
+                    "active": false,
+                    "from": "0:00",
+                    "to": "24:00"
+                  },
+                  "sunday": {
+                    "active": false,
+                    "from": "0:00",
+                    "to": "24:00"
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2176,15 +3704,64 @@ class Switch:
     ) -> CreateNetworkSwitchPortScheduleResponse | None:
         """Add a switch port schedule.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-port-schedule
+        [API documentation: createNetworkSwitchPortSchedule](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-port-schedule)
 
         Args:
             network_id: Network ID.
             name: The name for your port schedule. Required.
             port_schedule: The schedule for switch port scheduling. Schedules are applied to days of
-              the week. When it's empty, default schedule with all days of a week are
-              configured. Any unspecified day in the schedule is added as a default
-              schedule configuration of the day.
+                the week. When it's empty, default schedule with all days of a week are
+                configured. Any unspecified day in the schedule is added as a default
+                schedule configuration of the day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Weekdays schedule",
+              "portSchedule": {
+                "monday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "tuesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "wednesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "thursday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "friday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "saturday": {
+                  "active": false,
+                  "from": "0:00",
+                  "to": "24:00"
+                },
+                "sunday": {
+                  "active": false,
+                  "from": "0:00",
+                  "to": "24:00"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2214,16 +3791,65 @@ class Switch:
     ) -> UpdateNetworkSwitchPortScheduleResponse | None:
         """Update a switch port schedule.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-port-schedule
+        [API documentation: updateNetworkSwitchPortSchedule](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-port-schedule)
 
         Args:
             network_id: Network ID.
             port_schedule_id: Port schedule ID.
             name: The name for your port schedule.
             port_schedule: The schedule for switch port scheduling. Schedules are applied to days of
-              the week. When it's empty, default schedule with all days of a week are
-              configured. Any unspecified day in the schedule is added as a default
-              schedule configuration of the day.
+                the week. When it's empty, default schedule with all days of a week are
+                configured. Any unspecified day in the schedule is added as a default
+                schedule configuration of the day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1234",
+              "networkId": "N_24329156",
+              "name": "Weekdays schedule",
+              "portSchedule": {
+                "monday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "tuesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "wednesday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "thursday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "friday": {
+                  "active": true,
+                  "from": "9:00",
+                  "to": "17:00"
+                },
+                "saturday": {
+                  "active": false,
+                  "from": "0:00",
+                  "to": "24:00"
+                },
+                "sunday": {
+                  "active": false,
+                  "from": "0:00",
+                  "to": "24:00"
+                }
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2249,11 +3875,14 @@ class Switch:
     ) -> None:
         """Delete a switch port schedule.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-port-schedule
+        [API documentation: deleteNetworkSwitchPortSchedule](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-port-schedule)
 
         Args:
             network_id: Network ID.
             port_schedule_id: Port schedule ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2269,10 +3898,29 @@ class Switch:
     ) -> GetNetworkSwitchQosRulesResponse | None:
         """List quality of service rules.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules
+        [API documentation: getNetworkSwitchQosRules](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "1284392014819",
+                "vlan": 100,
+                "protocol": "TCP",
+                "srcPort": 2000,
+                "srcPortRange": "70-80",
+                "dstPort": 3000,
+                "dstPortRange": "3000-3100",
+                "dscp": 0
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2299,22 +3947,39 @@ class Switch:
     ) -> CreateNetworkSwitchQosRuleResponse | None:
         """Add a quality of service rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-qos-rule
+        [API documentation: createNetworkSwitchQosRule](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-qos-rule)
 
         Args:
             network_id: Network ID.
             vlan: The VLAN of the incoming packet. A null value will match any VLAN.
             protocol: The protocol of the incoming packet. Default value is "ANY".
             src_port: The source port of the incoming packet. Applicable only if protocol is TCP or
-              UDP.
+                UDP.
             src_port_range: The source port range of the incoming packet. Applicable only if
-              protocol is set to TCP or UDP.
+                protocol is set to TCP or UDP.
             dst_port: The destination port of the incoming packet. Applicable only if protocol is
-              TCP or UDP.
+                TCP or UDP.
             dst_port_range: The destination port range of the incoming packet. Applicable only if
-              protocol is set to TCP or UDP.
+                protocol is set to TCP or UDP.
             dscp: DSCP tag for the incoming packet. Set this to -1 to trust incoming DSCP. Default
-              value is 0.
+                value is 0.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "vlan": 100,
+              "protocol": "TCP",
+              "srcPort": 2000,
+              "srcPortRange": "70-80",
+              "dstPort": 3000,
+              "dstPortRange": "3000-3100",
+              "dscp": 0
+            }
+            ```
 
         """
         if protocol is not None:
@@ -2355,10 +4020,23 @@ class Switch:
     ) -> GetNetworkSwitchQosRulesOrderResponse | None:
         """Return the quality of service rule IDs by order in which they will be processed by the switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules-order
+        [API documentation: getNetworkSwitchQosRulesOrder](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules-order)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ruleIds": [
+                "1284392014819",
+                "2983092129865"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2376,12 +4054,25 @@ class Switch:
     ) -> UpdateNetworkSwitchQosRulesOrderResponse | None:
         """Update the order in which the rules should be processed by the switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rules-order
+        [API documentation: updateNetworkSwitchQosRulesOrder](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rules-order)
 
         Args:
             network_id: Network ID.
             rule_ids: A list of quality of service rule IDs arranged in order in which they should
-              be processed by the switch.
+                be processed by the switch.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ruleIds": [
+                "1284392014819",
+                "2983092129865"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2404,11 +4095,28 @@ class Switch:
     ) -> GetNetworkSwitchQosRuleResponse | None:
         """Return a quality of service rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rule
+        [API documentation: getNetworkSwitchQosRule](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rule)
 
         Args:
             network_id: Network ID.
             qos_rule_id: Qos rule ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "vlan": 100,
+              "protocol": "TCP",
+              "srcPort": 2000,
+              "srcPortRange": "70-80",
+              "dstPort": 3000,
+              "dstPortRange": "3000-3100",
+              "dscp": 0
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2437,7 +4145,7 @@ class Switch:
     ) -> UpdateNetworkSwitchQosRuleResponse | None:
         """Update a quality of service rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rule
+        [API documentation: updateNetworkSwitchQosRule](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rule)
 
         Args:
             network_id: Network ID.
@@ -2445,15 +4153,32 @@ class Switch:
             vlan: The VLAN of the incoming packet. A null value will match any VLAN.
             protocol: The protocol of the incoming packet. Default value is "ANY".
             src_port: The source port of the incoming packet. Applicable only if protocol is TCP or
-              UDP.
+                UDP.
             src_port_range: The source port range of the incoming packet. Applicable only if
-              protocol is set to TCP or UDP.
+                protocol is set to TCP or UDP.
             dst_port: The destination port of the incoming packet. Applicable only if protocol is
-              TCP or UDP.
+                TCP or UDP.
             dst_port_range: The destination port range of the incoming packet. Applicable only if
-              protocol is set to TCP or UDP.
+                protocol is set to TCP or UDP.
             dscp: DSCP tag that should be assigned to incoming packet. Set this to -1 to trust
-              incoming DSCP. Default value is 0.
+                incoming DSCP. Default value is 0.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "1284392014819",
+              "vlan": 100,
+              "protocol": "TCP",
+              "srcPort": 2000,
+              "srcPortRange": "70-80",
+              "dstPort": 3000,
+              "dstPortRange": "3000-3100",
+              "dscp": 0
+            }
+            ```
 
         """
         if protocol is not None:
@@ -2493,11 +4218,14 @@ class Switch:
     async def delete_network_switch_qos_rule(self, *, network_id: str, qos_rule_id: str) -> None:
         """Delete a quality of service rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
+        [API documentation: deleteNetworkSwitchQosRule](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule)
 
         Args:
             network_id: Network ID.
             qos_rule_id: Qos rule ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2513,10 +4241,43 @@ class Switch:
     ) -> GetNetworkSwitchRoutingMulticastResponse | None:
         """Return multicast settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast
+        [API documentation: getNetworkSwitchRoutingMulticast](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "defaultSettings": {
+                "igmpSnoopingEnabled": true,
+                "floodUnknownMulticastTrafficEnabled": true
+              },
+              "overrides": [
+                {
+                  "switches": [
+                    "Q234-ABCD-0001",
+                    "Q234-ABCD-0002",
+                    "Q234-ABCD-0003"
+                  ],
+                  "stacks": [
+                    "789102",
+                    "123456",
+                    "129102"
+                  ],
+                  "switchProfiles": [
+                    "1234",
+                    "4567"
+                  ],
+                  "igmpSnoopingEnabled": true,
+                  "floodUnknownMulticastTrafficEnabled": true
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2538,14 +4299,47 @@ class Switch:
     ) -> UpdateNetworkSwitchRoutingMulticastResponse | None:
         """Update multicast settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast
+        [API documentation: updateNetworkSwitchRoutingMulticast](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast)
 
         Args:
             network_id: Network ID.
             default_settings: Default multicast setting for entire network. IGMP snooping and Flood
-              unknown multicast traffic settings are enabled by default.
+                unknown multicast traffic settings are enabled by default.
             overrides: Array of paired switches/stacks/profiles and corresponding multicast
-              settings. An empty array will clear the multicast settings.
+                settings. An empty array will clear the multicast settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "defaultSettings": {
+                "igmpSnoopingEnabled": true,
+                "floodUnknownMulticastTrafficEnabled": true
+              },
+              "overrides": [
+                {
+                  "switches": [
+                    "Q234-ABCD-0001",
+                    "Q234-ABCD-0002",
+                    "Q234-ABCD-0003"
+                  ],
+                  "stacks": [
+                    "789102",
+                    "123456",
+                    "129102"
+                  ],
+                  "switchProfiles": [
+                    "1234",
+                    "4567"
+                  ],
+                  "igmpSnoopingEnabled": true,
+                  "floodUnknownMulticastTrafficEnabled": true
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2574,10 +4368,26 @@ class Switch:
     ) -> GetNetworkSwitchRoutingMulticastRendezvousPointsResponse | None:
         """List multicast rendezvous points.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast-rendezvous-points
+        [API documentation: getNetworkSwitchRoutingMulticastRendezvousPoints](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast-rendezvous-points)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "rendezvousPointId": "1234",
+                "serial": "Q234-ABCD-5678",
+                "interfaceName": "l3_interface_0",
+                "interfaceIp": "192.168.1.2",
+                "multicastGroup": "Any"
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2600,13 +4410,27 @@ class Switch:
     ) -> CreateNetworkSwitchRoutingMulticastRendezvousPointResponse | None:
         """Create a multicast rendezvous point.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-routing-multicast-rendezvous-point
+        [API documentation: createNetworkSwitchRoutingMulticastRendezvousPoint](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-routing-multicast-rendezvous-point)
 
         Args:
             network_id: Network ID.
             interface_ip: The IP address of the interface where the RP needs to be created.
             multicast_group: 'Any', or the IP address of a multicast group.
             vrf: The VRF with PIM enabled L3 interface.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rendezvousPointId": "1234",
+              "serial": "Q234-ABCD-5678",
+              "interfaceName": "l3_interface_0",
+              "interfaceIp": "192.168.1.2",
+              "multicastGroup": "Any"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2633,11 +4457,25 @@ class Switch:
     ) -> GetNetworkSwitchRoutingMulticastRendezvousPointResponse | None:
         """Return a multicast rendezvous point.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast-rendezvous-point
+        [API documentation: getNetworkSwitchRoutingMulticastRendezvousPoint](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast-rendezvous-point)
 
         Args:
             network_id: Network ID.
             rendezvous_point_id: Rendezvous point ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rendezvousPointId": "1234",
+              "serial": "Q234-ABCD-5678",
+              "interfaceName": "l3_interface_0",
+              "interfaceIp": "192.168.1.2",
+              "multicastGroup": "Any"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2662,7 +4500,7 @@ class Switch:
     ) -> UpdateNetworkSwitchRoutingMulticastRendezvousPointResponse | None:
         """Update a multicast rendezvous point.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast-rendezvous-point
+        [API documentation: updateNetworkSwitchRoutingMulticastRendezvousPoint](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast-rendezvous-point)
 
         Args:
             network_id: Network ID.
@@ -2670,6 +4508,20 @@ class Switch:
             interface_ip: The IP address of the interface where the RP needs to be created.
             multicast_group: 'Any', or the IP address of a multicast group.
             vrf: The VRF with PIM enabled L3 interface.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rendezvousPointId": "1234",
+              "serial": "Q234-ABCD-5678",
+              "interfaceName": "l3_interface_0",
+              "interfaceIp": "192.168.1.2",
+              "multicastGroup": "Any"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2697,11 +4549,14 @@ class Switch:
     ) -> None:
         """Delete a multicast rendezvous point.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
+        [API documentation: deleteNetworkSwitchRoutingMulticastRendezvousPoint](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point)
 
         Args:
             network_id: Network ID.
             rendezvous_point_id: Rendezvous point ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2719,12 +4574,51 @@ class Switch:
     ) -> GetNetworkSwitchRoutingOspfResponse | None:
         """Return layer 3 OSPF routing configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-ospf
+        [API documentation: getNetworkSwitchRoutingOspf](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-ospf)
 
         Args:
             network_id: Network ID.
             vrf: The VRF to return the OSPF routing configuration for. When not provided, the
-              default VRF is used. Included on networks with IOS XE 17.18 or higher.
+                default VRF is used. Included on networks with IOS XE 17.18 or higher.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "helloTimerInSeconds": 10,
+              "deadTimerInSeconds": 40,
+              "areas": [
+                {
+                  "areaId": "1284392014819",
+                  "areaName": "Backbone",
+                  "areaType": "normal"
+                }
+              ],
+              "v3": {
+                "enabled": true,
+                "helloTimerInSeconds": 10,
+                "deadTimerInSeconds": 40,
+                "areas": [
+                  {
+                    "areaId": "1284392014819",
+                    "areaName": "V3 Backbone",
+                    "areaType": "normal"
+                  }
+                ]
+              },
+              "md5AuthenticationEnabled": true,
+              "md5AuthenticationKey": {
+                "id": 1234,
+                "passphrase": "abc1234"
+              },
+              "vrf": {
+                "name": "Blue"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2757,25 +4651,64 @@ class Switch:
     ) -> UpdateNetworkSwitchRoutingOspfResponse | None:
         """Update layer 3 OSPF routing configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-ospf
+        [API documentation: updateNetworkSwitchRoutingOspf](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-ospf)
 
         Args:
             network_id: Network ID.
             vrf: The VRF to return the OSPF routing configuration for. When not provided, the
-              default VRF is used. Requires IOS XE 17.18 or higher.
+                default VRF is used. Requires IOS XE 17.18 or higher.
             enabled: Boolean value to enable or disable OSPF routing. OSPF routing is disabled by
-              default.
+                default.
             hello_timer_in_seconds: Time interval in seconds at which hello packet will be sent to
-              OSPF neighbors to maintain connectivity. Value must be between 1 and 255.
-              Default is 10 seconds.
+                OSPF neighbors to maintain connectivity. Value must be between 1 and
+                255. Default is 10 seconds.
             dead_timer_in_seconds: Time interval to determine when the peer will be declared
-              inactive/dead. Value must be between 1 and 65535.
+                inactive/dead. Value must be between 1 and 65535.
             areas: OSPF areas.
             v3: OSPF v3 configuration.
             md5_authentication_enabled: Boolean value to enable or disable MD5 authentication. MD5
-              authentication is disabled by default.
+                authentication is disabled by default.
             md5_authentication_key: MD5 authentication credentials. This param is only relevant if
-              md5AuthenticationEnabled is true.
+                md5AuthenticationEnabled is true.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "helloTimerInSeconds": 10,
+              "deadTimerInSeconds": 40,
+              "areas": [
+                {
+                  "areaId": "1284392014819",
+                  "areaName": "Backbone",
+                  "areaType": "normal"
+                }
+              ],
+              "v3": {
+                "enabled": true,
+                "helloTimerInSeconds": 10,
+                "deadTimerInSeconds": 40,
+                "areas": [
+                  {
+                    "areaId": "1284392014819",
+                    "areaName": "V3 Backbone",
+                    "areaType": "normal"
+                  }
+                ]
+              },
+              "md5AuthenticationEnabled": true,
+              "md5AuthenticationKey": {
+                "id": 1234,
+                "passphrase": "abc1234"
+              },
+              "vrf": {
+                "name": "Blue"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2816,10 +4749,39 @@ class Switch:
     ) -> GetNetworkSwitchSettingsResponse | None:
         """Returns the switch network settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-settings
+        [API documentation: getNetworkSwitchSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-settings)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "vlan": 100,
+              "useCombinedPower": false,
+              "powerExceptions": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "powerType": "redundant"
+                }
+              ],
+              "uplinkClientSampling": {
+                "enabled": true
+              },
+              "macBlocklist": {
+                "enabled": true
+              },
+              "uplinkSelection": {
+                "failback": {
+                  "enabled": true
+                },
+                "candidates": "all"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2845,17 +4807,46 @@ class Switch:
     ) -> UpdateNetworkSwitchSettingsResponse | None:
         """Update switch network settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-settings
+        [API documentation: updateNetworkSwitchSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-settings)
 
         Args:
             network_id: Network ID.
             vlan: Management VLAN.
             use_combined_power: The use Combined Power as the default behavior of secondary power
-              supplies on supported devices.
+                supplies on supported devices.
             power_exceptions: Exceptions on a per switch basis to "useCombinedPower".
             uplink_client_sampling: Uplink client sampling.
             mac_blocklist: MAC blocklist.
             uplink_selection: Settings related to uplink selection on IOS-XE switches.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "vlan": 100,
+              "useCombinedPower": false,
+              "powerExceptions": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "powerType": "redundant"
+                }
+              ],
+              "uplinkClientSampling": {
+                "enabled": true
+              },
+              "macBlocklist": {
+                "enabled": true
+              },
+              "uplinkSelection": {
+                "failback": {
+                  "enabled": true
+                },
+                "candidates": "all"
+              }
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2894,10 +4885,38 @@ class Switch:
     ) -> GetNetworkSwitchStacksResponse | None:
         """List the switch stacks in a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stacks
+        [API documentation: getNetworkSwitchStacks](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stacks)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "8473",
+                "name": "A cool stack",
+                "serials": [
+                  "QBZY-XWVU-TSRQ",
+                  "QBAB-CDEF-GHIJ"
+                ],
+                "isMonitorOnly": false,
+                "virtualMac": "00:18:0a:4f:21:19",
+                "members": [
+                  {
+                    "serial": "QBZY-XWVU-TSRQ",
+                    "name": "switch 1",
+                    "model": "MS350-24-HW",
+                    "mac": "00:18:0a:00:00:09",
+                    "role": "active"
+                  }
+                ]
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2915,12 +4934,28 @@ class Switch:
     ) -> CreateNetworkSwitchStackResponse | None:
         """Create a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack
+        [API documentation: createNetworkSwitchStack](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack)
 
         Args:
             network_id: Network ID.
             name: The name of the new stack.
             serials: An array of switch serials to be added into the new stack.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "8473",
+              "name": "A cool stack",
+              "serials": [
+                "QBZY-XWVU-TSRQ",
+                "QBAB-CDEF-GHIJ"
+              ],
+              "workflowId": "8473"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2945,11 +4980,37 @@ class Switch:
     ) -> GetNetworkSwitchStackResponse | None:
         """Show a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack
+        [API documentation: getNetworkSwitchStack](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "8473",
+              "name": "A cool stack",
+              "serials": [
+                "QBZY-XWVU-TSRQ",
+                "QBAB-CDEF-GHIJ"
+              ],
+              "isMonitorOnly": false,
+              "virtualMac": "00:18:0a:4f:21:19",
+              "members": [
+                {
+                  "serial": "QBZY-XWVU-TSRQ",
+                  "name": "switch 1",
+                  "model": "MS350-24-HW",
+                  "mac": "00:18:0a:00:00:09",
+                  "role": "active"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2966,11 +5027,14 @@ class Switch:
     async def delete_network_switch_stack(self, *, network_id: str, switch_stack_id: str) -> None:
         """Delete a stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack
+        [API documentation: deleteNetworkSwitchStack](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2986,12 +5050,38 @@ class Switch:
     ) -> AddNetworkSwitchStackResponse | None:
         """Add a switch to a stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!add-network-switch-stack
+        [API documentation: addNetworkSwitchStack](https://developer.cisco.com/meraki/api-v1/#!add-network-switch-stack)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             serial: The serial of the switch to be added.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "8473",
+              "name": "A cool stack",
+              "serials": [
+                "QBZY-XWVU-TSRQ",
+                "QBAB-CDEF-GHIJ"
+              ],
+              "isMonitorOnly": false,
+              "virtualMac": "00:18:0a:4f:21:19",
+              "members": [
+                {
+                  "serial": "QBZY-XWVU-TSRQ",
+                  "name": "switch 1",
+                  "model": "MS350-24-HW",
+                  "mac": "00:18:0a:00:00:09",
+                  "role": "active"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3015,12 +5105,38 @@ class Switch:
     ) -> RemoveNetworkSwitchStackResponse | None:
         """Remove a switch from a stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!remove-network-switch-stack
+        [API documentation: removeNetworkSwitchStack](https://developer.cisco.com/meraki/api-v1/#!remove-network-switch-stack)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             serial: The serial of the switch to be removed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "8473",
+              "name": "A cool stack",
+              "serials": [
+                "QBZY-XWVU-TSRQ",
+                "QBAB-CDEF-GHIJ"
+              ],
+              "isMonitorOnly": false,
+              "virtualMac": "00:18:0a:4f:21:19",
+              "members": [
+                {
+                  "serial": "QBZY-XWVU-TSRQ",
+                  "name": "switch 1",
+                  "model": "MS350-24-HW",
+                  "mac": "00:18:0a:00:00:09",
+                  "role": "active"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3049,13 +5165,57 @@ class Switch:
     ) -> GetNetworkSwitchStackRoutingInterfacesResponse | None:
         """List layer 3 interfaces for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interfaces
+        [API documentation: getNetworkSwitchStackRoutingInterfaces](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interfaces)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             mode: Optional parameter to filter L3 interfaces by mode.
             protocol: Optional parameter to filter L3 interfaces by protocol.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "interfaceId": "1234",
+                "name": "L3 interface",
+                "mode": "vlan",
+                "subnet": "192.168.1.0/24",
+                "interfaceIp": "192.168.1.2",
+                "serial": "Q234-ABCD-5678",
+                "switchPortId": "1",
+                "multicastRouting": "disabled",
+                "vlanId": 100,
+                "uplinkV4": false,
+                "uplinkV6": false,
+                "ospfSettings": {
+                  "area": "0",
+                  "cost": 1,
+                  "isPassiveEnabled": true,
+                  "networkType": "broadcast"
+                },
+                "ospfV3": {
+                  "area": "1",
+                  "cost": 2,
+                  "isPassiveEnabled": true,
+                  "networkType": "broadcast"
+                },
+                "ipv6": {
+                  "assignmentMode": "static",
+                  "address": "2001:db8::1",
+                  "prefix": "2001:db8::/32",
+                  "gateway": "2001:db8::2"
+                },
+                "vrf": {
+                  "name": "Blue"
+                },
+                "defaultGateway": "192.168.1.1"
+              }
+            ]
+            ```
 
         """
         if mode is not None:
@@ -3105,30 +5265,72 @@ class Switch:
     ) -> CreateNetworkSwitchStackRoutingInterfaceResponse | None:
         """Create a layer 3 interface for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-interface
+        [API documentation: createNetworkSwitchStackRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-interface)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             name: A friendly name or description for the interface or VLAN (max length 128
-              characters).
+                characters).
             mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback'. Default is 'vlan'.
-              CS 17.18 or higher is required for 'routed' mode.
+                CS 17.18 or higher is required for 'routed' mode.
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
-              subnet. This cannot be the same as the device management IP.
+                subnet. This cannot be the same as the device management IP.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
-              required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
-              Default is 'disabled'.
+                required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
+                Default is 'disabled'.
             vlan_id: The VLAN this L3 interface is on. VLAN must be between 1 and 4094.
             default_gateway: The next hop for any traffic that isn't going to a directly connected
-              subnet or over a static route. This IP address must exist in a subnet with
-              a L3 interface. Required if this is the first IPv4 interface.
+                subnet or over a static route. This IP address must exist in a subnet
+                with a L3 interface. Required if this is the first IPv4 interface.
             ospf_settings: The OSPF routing settings of the interface.
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaceId": "1234",
+              "name": "L3 interface",
+              "mode": "vlan",
+              "subnet": "192.168.1.0/24",
+              "interfaceIp": "192.168.1.2",
+              "serial": "Q234-ABCD-5678",
+              "switchPortId": "1",
+              "multicastRouting": "disabled",
+              "vlanId": 100,
+              "uplinkV4": false,
+              "uplinkV6": false,
+              "ospfSettings": {
+                "area": "0",
+                "cost": 1,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ospfV3": {
+                "area": "1",
+                "cost": 2,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ipv6": {
+                "assignmentMode": "static",
+                "address": "2001:db8::1",
+                "prefix": "2001:db8::/32",
+                "gateway": "2001:db8::2"
+              },
+              "vrf": {
+                "name": "Blue"
+              },
+              "defaultGateway": "192.168.1.1"
+            }
+            ```
 
         """
         if mode is not None:
@@ -3183,12 +5385,54 @@ class Switch:
     ) -> GetNetworkSwitchStackRoutingInterfaceResponse | None:
         """Return a layer 3 interface from a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interface
+        [API documentation: getNetworkSwitchStackRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interface)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             interface_id: Interface ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaceId": "1234",
+              "name": "L3 interface",
+              "mode": "vlan",
+              "subnet": "192.168.1.0/24",
+              "interfaceIp": "192.168.1.2",
+              "serial": "Q234-ABCD-5678",
+              "switchPortId": "1",
+              "multicastRouting": "disabled",
+              "vlanId": 100,
+              "uplinkV4": false,
+              "uplinkV6": false,
+              "ospfSettings": {
+                "area": "0",
+                "cost": 1,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ospfV3": {
+                "area": "1",
+                "cost": 2,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ipv6": {
+                "assignmentMode": "static",
+                "address": "2001:db8::1",
+                "prefix": "2001:db8::/32",
+                "gateway": "2001:db8::2"
+              },
+              "vrf": {
+                "name": "Blue"
+              },
+              "defaultGateway": "192.168.1.1"
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3223,29 +5467,70 @@ class Switch:
     ) -> UpdateNetworkSwitchStackRoutingInterfaceResponse | None:
         """Update a layer 3 interface for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface
+        [API documentation: updateNetworkSwitchStackRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             interface_id: Interface ID.
             name: A friendly name or description for the interface or VLAN (max length 128
-              characters).
+                characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
-              subnet. This cannot be the same as the device management IP.
+                subnet. This cannot be the same as the device management IP.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
-              required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
-              Default is 'disabled'.
+                required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
+                Default is 'disabled'.
             vlan_id: The VLAN this L3 interface is on. VLAN must be between 1 and 4094.
             default_gateway: The next hop for any traffic that isn't going to a directly connected
-              subnet or over a static route. This IP address must exist in a subnet with
-              a L3 interface. Required if this is the first IPv4 interface.
+                subnet or over a static route. This IP address must exist in a subnet
+                with a L3 interface. Required if this is the first IPv4 interface.
             ospf_settings: The OSPF routing settings of the interface.
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaceId": "1234",
+              "name": "L3 interface",
+              "mode": "vlan",
+              "subnet": "192.168.1.0/24",
+              "interfaceIp": "192.168.1.2",
+              "serial": "Q234-ABCD-5678",
+              "switchPortId": "1",
+              "multicastRouting": "disabled",
+              "vlanId": 100,
+              "uplinkV4": false,
+              "uplinkV6": false,
+              "ospfSettings": {
+                "area": "0",
+                "cost": 1,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ospfV3": {
+                "area": "1",
+                "cost": 2,
+                "isPassiveEnabled": true,
+                "networkType": "broadcast"
+              },
+              "ipv6": {
+                "assignmentMode": "static",
+                "address": "2001:db8::1",
+                "prefix": "2001:db8::/32",
+                "gateway": "2001:db8::2"
+              },
+              "vrf": {
+                "name": "Blue"
+              }
+            }
+            ```
 
         """
         if multicast_routing is not None:
@@ -3296,12 +5581,15 @@ class Switch:
     ) -> None:
         """Delete a layer 3 interface from a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-interface
+        [API documentation: deleteNetworkSwitchStackRoutingInterface](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-interface)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             interface_id: Interface ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3318,12 +5606,54 @@ class Switch:
     ) -> GetNetworkSwitchStackRoutingInterfaceDhcpResponse | None:
         """Return a layer 3 interface DHCP configuration for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interface-dhcp
+        [API documentation: getNetworkSwitchStackRoutingInterfaceDhcp](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interface-dhcp)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             interface_id: Interface ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "dhcpMode": "dhcpServer",
+              "dhcpRelayServerIps": [
+                "1.2.3.4"
+              ],
+              "dhcpLeaseTime": "1 day",
+              "dnsNameserversOption": "custom",
+              "dnsCustomNameservers": [
+                "8.8.8.8, 8.8.4.4"
+              ],
+              "bootOptionsEnabled": true,
+              "bootNextServer": "1.2.3.4",
+              "bootFileName": "home_boot_file",
+              "dhcpOptions": [
+                {
+                  "code": "5",
+                  "type": "text",
+                  "value": "five"
+                }
+              ],
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.1",
+                  "end": "192.168.1.10",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "fixedIpAssignments": [
+                {
+                  "name": "Cisco Meraki valued client",
+                  "mac": "22:33:44:55:66:77",
+                  "ip": "192.168.1.12"
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3363,35 +5693,77 @@ class Switch:
     ) -> UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse | None:
         """Update a layer 3 interface DHCP configuration for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface-dhcp
+        [API documentation: updateNetworkSwitchStackRoutingInterfaceDhcp](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface-dhcp)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             interface_id: Interface ID.
             dhcp_mode: The DHCP mode options for the switch stack interface ('dhcpDisabled',
-              'dhcpRelay' or 'dhcpServer').
+                'dhcpRelay' or 'dhcpServer').
             dhcp_relay_server_ips: The DHCP relay server IPs to which DHCP packets would get relayed
-              for the switch stack interface.
+                for the switch stack interface.
             dhcp_lease_time: The DHCP lease time config for the dhcp server running on switch stack
-              interface ('30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
-              week').
+                interface ('30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
+                week').
             dns_nameservers_option: The DHCP name server option for the dhcp server running on the
-              switch stack interface ('googlePublicDns', 'openDns' or 'custom').
+                switch stack interface ('googlePublicDns', 'openDns' or 'custom').
             dns_custom_nameservers: The DHCP name server IPs when DHCP name server option is '
-              custom'.
+                custom'.
             boot_options_enabled: Enable DHCP boot options to provide PXE boot options configs for
-              the dhcp server running on the switch stack interface.
+                the dhcp server running on the switch stack interface.
             boot_next_server: The PXE boot server IP for the DHCP server running on the switch stack
-              interface.
+                interface.
             boot_file_name: The PXE boot server file name for the DHCP server running on the switch
-              stack interface.
+                stack interface.
             dhcp_options: Array of DHCP options consisting of code, type and value for the DHCP
-              server running on the switch stack interface.
+                server running on the switch stack interface.
             reserved_ip_ranges: Array of DHCP reserved IP assignments for the DHCP server running on
-              the switch stack interface.
+                the switch stack interface.
             fixed_ip_assignments: Array of DHCP fixed IP assignments for the DHCP server running on
-              the switch stack interface.
+                the switch stack interface.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "dhcpMode": "dhcpServer",
+              "dhcpRelayServerIps": [
+                "1.2.3.4"
+              ],
+              "dhcpLeaseTime": "1 day",
+              "dnsNameserversOption": "custom",
+              "dnsCustomNameservers": [
+                "8.8.8.8, 8.8.4.4"
+              ],
+              "bootOptionsEnabled": true,
+              "bootNextServer": "1.2.3.4",
+              "bootFileName": "home_boot_file",
+              "dhcpOptions": [
+                {
+                  "code": "5",
+                  "type": "text",
+                  "value": "five"
+                }
+              ],
+              "reservedIpRanges": [
+                {
+                  "start": "192.168.1.1",
+                  "end": "192.168.1.10",
+                  "comment": "A reserved IP range"
+                }
+              ],
+              "fixedIpAssignments": [
+                {
+                  "name": "Cisco Meraki valued client",
+                  "mac": "22:33:44:55:66:77",
+                  "ip": "192.168.1.12"
+                }
+              ]
+            }
+            ```
 
         """
         if dhcp_mode is not None:
@@ -3458,11 +5830,33 @@ class Switch:
     ) -> GetNetworkSwitchStackRoutingStaticRoutesResponse | None:
         """List layer 3 static routes for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-static-routes
+        [API documentation: getNetworkSwitchStackRoutingStaticRoutes](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-static-routes)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "staticRouteId": "1234",
+                "name": "My route",
+                "subnet": "192.168.1.0/24",
+                "nextHopIp": "1.2.3.4",
+                "managementNextHop": "1.2.3.5",
+                "vrf": {
+                  "name": "Blue",
+                  "leakRouteToDefaultVrf": false
+                },
+                "advertiseViaOspfEnabled": false,
+                "preferOverOspfRoutesEnabled": false
+              }
+            ]
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3490,19 +5884,39 @@ class Switch:
     ) -> CreateNetworkSwitchStackRoutingStaticRouteResponse | None:
         """Create a layer 3 static route for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-static-route
+        [API documentation: createNetworkSwitchStackRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-static-route)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
-              notation (ex. 1.2.3.0/24).
+                notation (ex. 1.2.3.0/24).
             next_hop_ip: IP address of the next hop device to which the device sends its traffic for
-              the subnet.
+                the subnet.
             advertise_via_ospf_enabled: Option to advertise static route via OSPF.
             prefer_over_ospf_routes_enabled: Option to prefer static route over OSPF routes.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticRouteId": "1234",
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "nextHopIp": "1.2.3.4",
+              "managementNextHop": "1.2.3.5",
+              "vrf": {
+                "name": "Blue",
+                "leakRouteToDefaultVrf": false
+              },
+              "advertiseViaOspfEnabled": false,
+              "preferOverOspfRoutesEnabled": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3536,12 +5950,32 @@ class Switch:
     ) -> GetNetworkSwitchStackRoutingStaticRouteResponse | None:
         """Return a layer 3 static route for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-static-route
+        [API documentation: getNetworkSwitchStackRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-static-route)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             static_route_id: Static route ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticRouteId": "1234",
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "nextHopIp": "1.2.3.4",
+              "managementNextHop": "1.2.3.5",
+              "vrf": {
+                "name": "Blue",
+                "leakRouteToDefaultVrf": false
+              },
+              "advertiseViaOspfEnabled": false,
+              "preferOverOspfRoutesEnabled": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3572,7 +6006,7 @@ class Switch:
     ) -> UpdateNetworkSwitchStackRoutingStaticRouteResponse | None:
         """Update a layer 3 static route for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-static-route
+        [API documentation: updateNetworkSwitchStackRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-static-route)
 
         Args:
             network_id: Network ID.
@@ -3580,13 +6014,33 @@ class Switch:
             static_route_id: Static route ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
-              notation (ex. 1.2.3.0/24).
+                notation (ex. 1.2.3.0/24).
             next_hop_ip: IP address of the next hop device to which the device sends its traffic for
-              the subnet.
+                the subnet.
             management_next_hop: Optional fallback IP address for management traffic.
             advertise_via_ospf_enabled: Option to advertise static route via OSPF.
             prefer_over_ospf_routes_enabled: Option to prefer static route over OSPF routes.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "staticRouteId": "1234",
+              "name": "My route",
+              "subnet": "192.168.1.0/24",
+              "nextHopIp": "1.2.3.4",
+              "managementNextHop": "1.2.3.5",
+              "vrf": {
+                "name": "Blue",
+                "leakRouteToDefaultVrf": false
+              },
+              "advertiseViaOspfEnabled": false,
+              "preferOverOspfRoutesEnabled": false
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3623,12 +6077,15 @@ class Switch:
     ) -> None:
         """Delete a layer 3 static route for a switch stack.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-static-route
+        [API documentation: deleteNetworkSwitchStackRoutingStaticRoute](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-static-route)
 
         Args:
             network_id: Network ID.
             switch_stack_id: Switch stack ID.
             static_route_id: Static route ID.
+
+        Returns:
+            Successful operation.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3645,10 +6102,26 @@ class Switch:
     ) -> GetNetworkSwitchStormControlResponse | None:
         """Return the storm control configuration for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-storm-control
+        [API documentation: getNetworkSwitchStormControl](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-storm-control)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "broadcastThreshold": 30,
+              "multicastThreshold": 30,
+              "unknownUnicastThreshold": 30,
+              "treatTheseTrafficTypesAsOneThreshold": [
+                "broadcast",
+                "multicast"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3672,20 +6145,36 @@ class Switch:
     ) -> UpdateNetworkSwitchStormControlResponse | None:
         """Update the storm control configuration for a switch network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-storm-control
+        [API documentation: updateNetworkSwitchStormControl](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-storm-control)
 
         Args:
             network_id: Network ID.
             broadcast_threshold: Percentage (1 to 99) of total available port bandwidth for
-              broadcast traffic type. Default value 100 percent rate is to clear the
-              configuration.
+                broadcast traffic type. Default value 100 percent rate is to clear the
+                configuration.
             multicast_threshold: Percentage (1 to 99) of total available port bandwidth for
-              multicast traffic type. Default value 100 percent rate is to clear the
-              configuration.
+                multicast traffic type. Default value 100 percent rate is to clear the
+                configuration.
             unknown_unicast_threshold: Percentage (1 to 99) of total available port bandwidth for
-              unknown unicast (dlf-destination lookup failure) traffic type. Default
-              value 100 percent rate is to clear the configuration.
+                unknown unicast (dlf-destination lookup failure) traffic type. Default
+                value 100 percent rate is to clear the configuration.
             treat_these_traffic_types_as_one_threshold: Grouped traffic types.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "broadcastThreshold": 30,
+              "multicastThreshold": 30,
+              "unknownUnicastThreshold": 30,
+              "treatTheseTrafficTypesAsOneThreshold": [
+                "broadcast",
+                "multicast"
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3714,10 +6203,40 @@ class Switch:
     async def get_network_switch_stp(self, network_id: str) -> GetNetworkSwitchStpResponse | None:
         """Returns STP settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stp
+        [API documentation: getNetworkSwitchStp](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stp)
 
         Args:
             network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rstpEnabled": true,
+              "stpBridgePriority": [
+                {
+                  "switches": [
+                    "Q234-ABCD-0001",
+                    "Q234-ABCD-0002",
+                    "Q234-ABCD-0003"
+                  ],
+                  "stacks": [
+                    "789102",
+                    "123456",
+                    "129102"
+                  ],
+                  "switchProfiles": [
+                    "1098",
+                    "1099",
+                    "1100"
+                  ],
+                  "stpPriority": 4096
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3739,13 +6258,43 @@ class Switch:
     ) -> UpdateNetworkSwitchStpResponse | None:
         """Updates STP settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stp
+        [API documentation: updateNetworkSwitchStp](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stp)
 
         Args:
             network_id: Network ID.
             rstp_enabled: The spanning tree protocol status in network.
             stp_bridge_priority: STP bridge priority for switches/stacks or switch templates. An
-              empty array will clear the STP bridge priority settings.
+                empty array will clear the STP bridge priority settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rstpEnabled": true,
+              "stpBridgePriority": [
+                {
+                  "switches": [
+                    "Q234-ABCD-0001",
+                    "Q234-ABCD-0002",
+                    "Q234-ABCD-0003"
+                  ],
+                  "stacks": [
+                    "789102",
+                    "123456",
+                    "129102"
+                  ],
+                  "switchProfiles": [
+                    "1098",
+                    "1099",
+                    "1100"
+                  ],
+                  "stpPriority": 4096
+                }
+              ]
+            }
+            ```
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -3772,11 +6321,25 @@ class Switch:
     ) -> GetOrganizationConfigTemplateSwitchProfilesResponse | None:
         """List the switch templates for your switch template configuration.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profiles
+        [API documentation: getOrganizationConfigTemplateSwitchProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profiles)
 
         Args:
             organization_id: Organization ID.
             config_template_id: Config template ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "switchProfileId": "1234",
+                "name": "A Simple Switch Template",
+                "model": "MS450-24"
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3797,12 +6360,84 @@ class Switch:
     ) -> GetOrganizationConfigTemplateSwitchProfilePortsResponse | None:
         """Return all the ports of a switch template.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profile-ports
+        [API documentation: getOrganizationConfigTemplateSwitchProfilePorts](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profile-ports)
 
         Args:
             organization_id: Organization ID.
             config_template_id: Config template ID.
             profile_id: Profile ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "portId": "1",
+                "name": "My switch port",
+                "tags": [
+                  "tag1",
+                  "tag2"
+                ],
+                "enabled": true,
+                "poeEnabled": true,
+                "type": "access",
+                "vlan": 10,
+                "voiceVlan": 20,
+                "allowedVlans": "1,3,5-10",
+                "isolationEnabled": false,
+                "rstpEnabled": true,
+                "stpGuard": "disabled",
+                "stpPortFastTrunk": false,
+                "linkNegotiation": "Auto negotiate",
+                "linkNegotiationCapabilities": [
+                  "Auto negotiate",
+                  "1 Gigabit full duplex (auto)"
+                ],
+                "portScheduleId": "1234",
+                "schedule": {
+                  "id": "1234",
+                  "name": "Port Schedule"
+                },
+                "udld": "Alert only",
+                "accessPolicyType": "Sticky MAC allow list",
+                "accessPolicyNumber": 2,
+                "macAllowList": [
+                  "34:56:fe:ce:8e:a0",
+                  "34:56:fe:ce:8e:a1"
+                ],
+                "macWhitelistLimit": 10,
+                "stickyMacAllowList": [
+                  "34:56:fe:ce:8e:b0",
+                  "34:56:fe:ce:8e:b1"
+                ],
+                "stickyMacAllowListLimit": 5,
+                "stormControlEnabled": true,
+                "flexibleStackingEnabled": true,
+                "daiTrusted": false,
+                "profile": {
+                  "enabled": false,
+                  "id": "1284392014819",
+                  "iname": "iname"
+                },
+                "module": {
+                  "model": "MA-MOD-4X10G",
+                  "serial": "3_MA-MOD-4X10G",
+                  "slot": 1
+                },
+                "mirror": {
+                  "mode": "Not mirroring traffic"
+                },
+                "dot3az": {
+                  "enabled": false
+                },
+                "highSpeed": {
+                  "enabled": false
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3822,13 +6457,83 @@ class Switch:
     ) -> GetOrganizationConfigTemplateSwitchProfilePortResponse | None:
         """Return a switch template port.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profile-port
+        [API documentation: getOrganizationConfigTemplateSwitchProfilePort](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profile-port)
 
         Args:
             organization_id: Organization ID.
             config_template_id: Config template ID.
             profile_id: Profile ID.
             port_id: Port ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "portId": "1",
+              "name": "My switch port",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enabled": true,
+              "poeEnabled": true,
+              "type": "access",
+              "vlan": 10,
+              "voiceVlan": 20,
+              "allowedVlans": "1,3,5-10",
+              "isolationEnabled": false,
+              "rstpEnabled": true,
+              "stpGuard": "disabled",
+              "stpPortFastTrunk": false,
+              "linkNegotiation": "Auto negotiate",
+              "linkNegotiationCapabilities": [
+                "Auto negotiate",
+                "1 Gigabit full duplex (auto)"
+              ],
+              "portScheduleId": "1234",
+              "schedule": {
+                "id": "1234",
+                "name": "Port Schedule"
+              },
+              "udld": "Alert only",
+              "accessPolicyType": "Sticky MAC allow list",
+              "accessPolicyNumber": 2,
+              "macAllowList": [
+                "34:56:fe:ce:8e:a0",
+                "34:56:fe:ce:8e:a1"
+              ],
+              "macWhitelistLimit": 10,
+              "stickyMacAllowList": [
+                "34:56:fe:ce:8e:b0",
+                "34:56:fe:ce:8e:b1"
+              ],
+              "stickyMacAllowListLimit": 5,
+              "stormControlEnabled": true,
+              "flexibleStackingEnabled": true,
+              "daiTrusted": false,
+              "profile": {
+                "enabled": false,
+                "id": "1284392014819",
+                "iname": "iname"
+              },
+              "module": {
+                "model": "MA-MOD-4X10G",
+                "serial": "3_MA-MOD-4X10G",
+                "slot": 1
+              },
+              "mirror": {
+                "mode": "Not mirroring traffic"
+              },
+              "dot3az": {
+                "enabled": false
+              },
+              "highSpeed": {
+                "enabled": false
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3881,7 +6586,7 @@ class Switch:
     ) -> UpdateOrganizationConfigTemplateSwitchProfilePortResponse | None:
         """Update a switch template port.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template-switch-profile-port
+        [API documentation: updateOrganizationConfigTemplateSwitchProfilePort](https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template-switch-profile-port)
 
         Args:
             organization_id: Organization ID.
@@ -3893,46 +6598,118 @@ class Switch:
             enabled: The status of the switch template port.
             poe_enabled: The PoE status of the switch template port.
             type_: The type of the switch template port ('access', 'trunk', 'stack', 'routed', 'svl'
-              or 'dad').
+                or 'dad').
             vlan: The VLAN of the switch template port. For a trunk port, this is the native VLAN. A
-              null value will clear the value set for trunk ports.
+                null value will clear the value set for trunk ports.
             voice_vlan: The voice VLAN of the switch template port. Only applicable to access ports.
             allowed_vlans: The VLANs allowed on the switch template port. Only applicable to trunk
-              ports.
+                ports.
             isolation_enabled: The isolation status of the switch template port.
             rstp_enabled: The rapid spanning tree protocol status.
             stp_guard: The state of the STP guard ('disabled', 'root guard', 'bpdu guard' or 'loop
-              guard').
+                guard').
             stp_port_fast_trunk: The state of STP PortFast Trunk on the switch template port.
             link_negotiation: The link speed for the switch template port.
             port_schedule_id: The ID of the port schedule. A value of null will clear the port
-              schedule.
+                schedule.
             udld: The action to take when Unidirectional Link is detected (Alert only, Enforce).
-              Default configuration is Alert only.
+                Default configuration is Alert only.
             access_policy_type: The type of the access policy of the switch template port. Only
-              applicable to access ports. Can be one of 'Open', 'Custom access policy',
-              'MAC allow list' or 'Sticky MAC allow list'.
+                applicable to access ports. Can be one of 'Open', 'Custom access
+                policy', 'MAC allow list' or 'Sticky MAC allow list'.
             access_policy_number: The number of a custom access policy to configure on the switch
-              template port. Only applicable when 'accessPolicyType' is 'Custom access
-              policy'.
+                template port. Only applicable when 'accessPolicyType' is 'Custom access
+                policy'.
             mac_allow_list: Only devices with MAC addresses specified in this list will have access
-              to this port. Up to 20 MAC addresses can be defined. Only applicable when
-              'accessPolicyType' is 'MAC allow list'.
+                to this port. Up to 20 MAC addresses can be defined. Only applicable
+                when 'accessPolicyType' is 'MAC allow list'.
             mac_whitelist_limit: The maximum number of MAC addresses for regular MAC allow list.
-              Only applicable when 'accessPolicyType' is 'MAC allow list'. Note: Config
-              only supported on verions greater than ms18 only for classic switches.
+                Only applicable when 'accessPolicyType' is 'MAC allow list'. Note:
+                Config only supported on verions greater than ms18 only for classic
+                switches.
             sticky_mac_allow_list: The initial list of MAC addresses for sticky Mac allow list. Only
-              applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
+                applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
             sticky_mac_allow_list_limit: The maximum number of MAC addresses for sticky MAC allow
-              list. Only applicable when 'accessPolicyType' is 'Sticky MAC allow list'.
+                list. Only applicable when 'accessPolicyType' is 'Sticky MAC allow
+                list'.
             storm_control_enabled: The storm control status of the switch template port.
             flexible_stacking_enabled: For supported switches (e.g. MS420/MS425), whether or not the
-              port has flexible stacking enabled.
+                port has flexible stacking enabled.
             dai_trusted: If true, ARP packets for this port will be considered trusted, and Dynamic
-              ARP Inspection will allow the traffic.
+                ARP Inspection will allow the traffic.
             profile: Profile attributes.
             dot3az: dot3az settings for the port.
             high_speed: High speed port enablement settings for C9500-32QC.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "portId": "1",
+              "name": "My switch port",
+              "tags": [
+                "tag1",
+                "tag2"
+              ],
+              "enabled": true,
+              "poeEnabled": true,
+              "type": "access",
+              "vlan": 10,
+              "voiceVlan": 20,
+              "allowedVlans": "1,3,5-10",
+              "isolationEnabled": false,
+              "rstpEnabled": true,
+              "stpGuard": "disabled",
+              "stpPortFastTrunk": false,
+              "linkNegotiation": "Auto negotiate",
+              "linkNegotiationCapabilities": [
+                "Auto negotiate",
+                "1 Gigabit full duplex (auto)"
+              ],
+              "portScheduleId": "1234",
+              "schedule": {
+                "id": "1234",
+                "name": "Port Schedule"
+              },
+              "udld": "Alert only",
+              "accessPolicyType": "Sticky MAC allow list",
+              "accessPolicyNumber": 2,
+              "macAllowList": [
+                "34:56:fe:ce:8e:a0",
+                "34:56:fe:ce:8e:a1"
+              ],
+              "macWhitelistLimit": 10,
+              "stickyMacAllowList": [
+                "34:56:fe:ce:8e:b0",
+                "34:56:fe:ce:8e:b1"
+              ],
+              "stickyMacAllowListLimit": 5,
+              "stormControlEnabled": true,
+              "flexibleStackingEnabled": true,
+              "daiTrusted": false,
+              "profile": {
+                "enabled": false,
+                "id": "1284392014819",
+                "iname": "iname"
+              },
+              "module": {
+                "model": "MA-MOD-4X10G",
+                "serial": "3_MA-MOD-4X10G",
+                "slot": 1
+              },
+              "mirror": {
+                "mode": "Not mirroring traffic"
+              },
+              "dot3az": {
+                "enabled": false
+              },
+              "highSpeed": {
+                "enabled": false
+              }
+            }
+            ```
 
         """
         if type_ is not None:
@@ -4034,15 +6811,28 @@ class Switch:
     ) -> GetOrganizationSummarySwitchPowerHistoryResponse | None:
         """Returns the total PoE power draw for all switch ports in the organization over the requested timespan (by default the last 24 hours).
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-switch-power-history
+        [API documentation: getOrganizationSummarySwitchPowerHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-switch-power-history)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "ts": "2021-06-20T01:00:00.000Z",
+                "draw": 5.4321
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4069,14 +6859,29 @@ class Switch:
     ) -> CloneOrganizationSwitchDevicesResponse | None:
         """Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.
 
-        https://developer.cisco.com/meraki/api-v1/#!clone-organization-switch-devices
+        [API documentation: cloneOrganizationSwitchDevices](https://developer.cisco.com/meraki/api-v1/#!clone-organization-switch-devices)
 
         Args:
             organization_id: Organization ID.
             source_serial: Serial number of the source switch (must be on a network not bound to a
-              template).
+                template).
             target_serials: Array of serial numbers of one or more target switches (must be on a
-              network not bound to a template).
+                network not bound to a template).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "sourceSerial": "Q234-ABCD-5678",
+              "targetSerials": [
+                "Q234-ABCD-0001",
+                "Q234-ABCD-0002",
+                "Q234-ABCD-0003"
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4111,44 +6916,86 @@ class Switch:
         port_profile_ids: list[str] | None = None,
         serial: str | None = None,
         serials: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSwitchPortsBySwitchResponsePortsItem]:
         """List the switchports in an organization by switch.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-by-switch
+        [API documentation: getOrganizationSwitchPortsBySwitch](https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-by-switch)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 50. Default
-              is 50.
+                is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             configuration_updated_after: Optional parameter to filter items to switches where the
-              configuration has been updated after the given timestamp.
+                configuration has been updated after the given timestamp.
             mac: Optional parameter to filter items to switches with MAC addresses that contain the
-              search term or are an exact match.
+                search term or are an exact match.
             macs: Optional parameter to filter items to switches that have one of the provided MAC
-              addresses.
+                addresses.
             name: Optional parameter to filter items to switches with names that contain the search
-              term or are an exact match.
+                term or are an exact match.
             network_ids: Optional parameter to filter items to switches in one of the provided
-              networks.
+                networks.
             port_profile_ids: Optional parameter to filter items to switches that contain
-              switchports belonging to one of the specified port profiles.
+                switchports belonging to one of the specified port profiles.
             serial: Optional parameter to filter items to switches with serial number that contains
-              the search term or are an exact match.
+                the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
-              serials.
+                serials.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "name": "Example Switch",
+              "serial": "Q555-5555-5555",
+              "mac": "01:23:45:67:ab:cd",
+              "network": {
+                "name": "Example Network",
+                "id": "L_12345"
+              },
+              "model": "MS120-8",
+              "ports": [
+                {
+                  "portId": "1",
+                  "name": "My switch port",
+                  "tags": [
+                    "tag1",
+                    "tag2"
+                  ],
+                  "enabled": true,
+                  "poeEnabled": true,
+                  "type": "access",
+                  "vlan": 10,
+                  "voiceVlan": 20,
+                  "allowedVlans": "1,3,5-10",
+                  "rstpEnabled": true,
+                  "stpGuard": "disabled",
+                  "linkNegotiation": "Auto negotiate",
+                  "accessPolicyType": "Sticky MAC allow list",
+                  "stickyMacAllowList": [
+                    "34:56:fe:ce:8e:b0",
+                    "34:56:fe:ce:8e:b1"
+                  ],
+                  "stickyMacAllowListLimit": 5
+                }
+              ]
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4205,49 +7052,88 @@ class Switch:
         port_profile_ids: list[str] | None = None,
         serial: str | None = None,
         serials: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem]:
         """List the number of clients for all switchports with at least one online client in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-clients-overview-by-device
+        [API documentation: getOrganizationSwitchPortsClientsOverviewByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-clients-overview-by-device)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 20. Default
-              is 20.
+                is 20.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             configuration_updated_after: Optional parameter to filter items to switches where the
-              configuration has been updated after the given timestamp.
+                configuration has been updated after the given timestamp.
             mac: Optional parameter to filter items to switches with MAC addresses that contain the
-              search term or are an exact match.
+                search term or are an exact match.
             macs: Optional parameter to filter items to switches that have one of the provided MAC
-              addresses.
+                addresses.
             name: Optional parameter to filter items to switches with names that contain the search
-              term or are an exact match.
+                term or are an exact match.
             network_ids: Optional parameter to filter items to switches in one of the provided
-              networks.
+                networks.
             port_profile_ids: Optional parameter to filter items to switches that contain
-              switchports belonging to one of the specified port profiles.
+                switchports belonging to one of the specified port profiles.
             serial: Optional parameter to filter items to switches with serial number that contains
-              the search term or are an exact match.
+                the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
-              serials.
+                serials.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "name": "Example Switch",
+                  "serial": "Q555-5555-5555",
+                  "mac": "01:23:45:67:ab:cd",
+                  "network": {
+                    "name": "Example Network",
+                    "id": "L_12345"
+                  },
+                  "model": "MS120-8",
+                  "ports": [
+                    {
+                      "portId": "1",
+                      "counts": {
+                        "byStatus": {
+                          "online": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4301,16 +7187,66 @@ class Switch:
     ) -> GetOrganizationSwitchPortsOverviewResponse | None:
         """Returns the counts of all active ports for the requested timespan, grouped by speed.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-overview
+        [API documentation: getOrganizationSwitchPortsOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-overview)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be greater than or equal to 12 hours and be less than or equal
-              to 186 days. The default is 1 day.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 12 hours and be less than or
+                equal to 186 days. The default is 1 day.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": {
+                "total": 120,
+                "byStatus": {
+                  "active": {
+                    "total": 87,
+                    "byMediaAndLinkSpeed": {
+                      "rj45": {
+                        "total": 24,
+                        "10": 0,
+                        "100": 0,
+                        "1000": 24,
+                        "2500": 0,
+                        "5000": 0,
+                        "10000": 0
+                      },
+                      "sfp": {
+                        "total": 63,
+                        "100": 8,
+                        "1000": 40,
+                        "10000": 10,
+                        "20000": 0,
+                        "25000": 0,
+                        "40000": 1,
+                        "50000": 0,
+                        "100000": 0
+                      }
+                    }
+                  },
+                  "inactive": {
+                    "total": 33,
+                    "byMedia": {
+                      "rj45": {
+                        "total": 16
+                      },
+                      "sfp": {
+                        "total": 17
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4347,44 +7283,104 @@ class Switch:
         port_profile_ids: list[str] | None = None,
         serial: str | None = None,
         serials: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem]:
         """List the switchports in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-statuses-by-switch
+        [API documentation: getOrganizationSwitchPortsStatusesBySwitch](https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-statuses-by-switch)
 
         Args:
             organization_id: Organization ID.
             per_page: The number of entries per page returned. Acceptable range is 3 - 20. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             configuration_updated_after: Optional parameter to filter items to switches where the
-              configuration has been updated after the given timestamp.
+                configuration has been updated after the given timestamp.
             mac: Optional parameter to filter items to switches with MAC addresses that contain the
-              search term or are an exact match.
+                search term or are an exact match.
             macs: Optional parameter to filter items to switches that have one of the provided MAC
-              addresses.
+                addresses.
             name: Optional parameter to filter items to switches with names that contain the search
-              term or are an exact match.
+                term or are an exact match.
             network_ids: Optional parameter to filter items to switches in one of the provided
-              networks.
+                networks.
             port_profile_ids: Optional parameter to filter items to switches that contain
-              switchports belonging to one of the specified port profiles.
+                switchports belonging to one of the specified port profiles.
             serial: Optional parameter to filter items to switches with serial number that contains
-              the search term or are an exact match.
+                the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
-              serials.
+                serials.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "name": "Example Switch",
+                  "serial": "Q555-5555-5555",
+                  "mac": "01:23:45:67:ab:cd",
+                  "network": {
+                    "name": "Example Network",
+                    "id": "L_12345"
+                  },
+                  "model": "MS120-8",
+                  "ports": [
+                    {
+                      "portId": "1",
+                      "enabled": true,
+                      "status": "Connected",
+                      "isUplink": false,
+                      "errors": [
+                        "PoE overload",
+                        "Very high proportion of CRC errors"
+                      ],
+                      "warnings": [
+                        "SecurePort authentication in progress",
+                        "PoE port was denied power",
+                        "High proportion of CRC errors"
+                      ],
+                      "speed": "10 Gbps",
+                      "duplex": "full",
+                      "spanningTree": {
+                        "statuses": [
+                          "Learning"
+                        ]
+                      },
+                      "poe": {
+                        "isAllocated": false
+                      },
+                      "securePort": {
+                        "active": true,
+                        "authenticationStatus": "Authentication in progress"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4441,51 +7437,98 @@ class Switch:
         port_profile_ids: list[str] | None = None,
         serial: str | None = None,
         serials: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem
     ]:
         """List most recently seen LLDP/CDP discovery and topology information per switch port in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-topology-discovery-by-device
+        [API documentation: getOrganizationSwitchPortsTopologyDiscoveryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-topology-discovery-by-device)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameter t0. The value must be in seconds and be
-              less than or equal to 31 days. The default is 1 day.
+                timespan, do not specify parameter t0. The value must be in seconds and
+                be less than or equal to 31 days. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 20. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             configuration_updated_after: Optional parameter to filter items to switches where the
-              configuration has been updated after the given timestamp.
+                configuration has been updated after the given timestamp.
             mac: Optional parameter to filter items to switches with MAC addresses that contain the
-              search term or are an exact match.
+                search term or are an exact match.
             macs: Optional parameter to filter items to switches that have one of the provided MAC
-              addresses.
+                addresses.
             name: Optional parameter to filter items to switches with names that contain the search
-              term or are an exact match.
+                term or are an exact match.
             network_ids: Optional parameter to filter items to switches in one of the provided
-              networks.
+                networks.
             port_profile_ids: Optional parameter to filter items to switches that contain
-              switchports belonging to one of the specified port profiles.
+                switchports belonging to one of the specified port profiles.
             serial: Optional parameter to filter items to switches with serial number that contains
-              the search term or are an exact match.
+                the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
-              serials.
+                serials.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "name": "Example Switch",
+                  "serial": "Q555-5555-5555",
+                  "mac": "01:23:45:67:ab:cd",
+                  "network": {
+                    "name": "Example Network",
+                    "id": "L_12345"
+                  },
+                  "model": "MS120-8",
+                  "ports": [
+                    {
+                      "portId": "1",
+                      "lastUpdatedAt": "ISO8061Z",
+                      "cdp": [
+                        {
+                          "name": "System name",
+                          "value": "MS350-24X - Test"
+                        }
+                      ],
+                      "lldp": [
+                        {
+                          "name": "System name",
+                          "value": "MS350-24X - Test"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -4548,56 +7591,115 @@ class Switch:
         port_profile_ids: list[str] | None = None,
         serial: str | None = None,
         serials: list[str] | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
         GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem
     ]:
         """List the historical usage and traffic data of switchports in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-usage-history-by-device-by-interval
+        [API documentation: getOrganizationSwitchPortsUsageHistoryByDeviceByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-usage-history-by-device-by-interval)
 
         Args:
             organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 1 day. If
-              interval is provided, the timespan will be autocalculated.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day. If
+                interval is provided, the timespan will be autocalculated.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
-              1200, 14400, 86400. The default is 1200. Interval is calculated if time
-              params are provided.
+                1200, 14400, 86400. The default is 1200. Interval is calculated if time
+                params are provided.
             per_page: The number of entries per page returned. Acceptable range is 3 - 50. Default
-              is 10.
+                is 10.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             configuration_updated_after: Optional parameter to filter items to switches where the
-              configuration has been updated after the given timestamp.
+                configuration has been updated after the given timestamp.
             mac: Optional parameter to filter items to switches with MAC addresses that contain the
-              search term or are an exact match.
+                search term or are an exact match.
             macs: Optional parameter to filter items to switches that have one of the provided MAC
-              addresses.
+                addresses.
             name: Optional parameter to filter items to switches with names that contain the search
-              term or are an exact match.
+                term or are an exact match.
             network_ids: Optional parameter to filter items to switches in one of the provided
-              networks.
+                networks.
             port_profile_ids: Optional parameter to filter items to switches that contain
-              switchports belonging to one of the specified port profiles.
+                switchports belonging to one of the specified port profiles.
             serial: Optional parameter to filter items to switches with serial number that contains
-              the search term or are an exact match.
+                the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
-              serials.
+                serials.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "name": "Example Switch",
+                  "serial": "Q555-5555-5555",
+                  "mac": "01:23:45:67:ab:cd",
+                  "network": {
+                    "name": "Example Network",
+                    "id": "L_12345"
+                  },
+                  "model": "MS120-8",
+                  "ports": [
+                    {
+                      "portId": "1",
+                      "intervals": [
+                        {
+                          "startTs": "2024-02-11T00:00:00.090210Z",
+                          "endTs": "2024-02-11T00:20:00.090210Z",
+                          "data": {
+                            "usage": {
+                              "total": 40867,
+                              "upstream": 23008,
+                              "downstream": 17859
+                            }
+                          },
+                          "bandwidth": {
+                            "usage": {
+                              "total": 2.2,
+                              "upstream": 1.2,
+                              "downstream": 1.0
+                            }
+                          },
+                          "energy": {
+                            "usage": {
+                              "total": 2.2
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

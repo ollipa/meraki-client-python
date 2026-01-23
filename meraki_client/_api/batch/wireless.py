@@ -107,7 +107,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update alternate management interface IPv6 address.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6
+        [API documentation: updateDeviceWirelessAlternateManagementInterfaceIpv6](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6)
 
         Args:
             serial: Serial.
@@ -139,16 +139,16 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the bluetooth settings for a wireless device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings
+        [API documentation: updateDeviceWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings)
 
         Args:
             serial: Serial.
             uuid: Desired UUID of the beacon. If the value is set to null it will reset to
-              Dashboard's automatically generated value.
+                Dashboard's automatically generated value.
             major: Desired major value of the beacon. If the value is set to null it will reset to
-              Dashboard's automatically generated value.
+                Dashboard's automatically generated value.
             minor: Desired minor value of the beacon. If the value is set to null it will reset to
-              Dashboard's automatically generated value.
+                Dashboard's automatically generated value.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -173,12 +173,12 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the ESL settings of a device.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label
+        [API documentation: updateDeviceWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label)
 
         Args:
             serial: Serial.
             channel: Desired ESL channel for the device, or 'Auto' (case insensitive) to use the
-              recommended channel.
+                recommended channel.
             enabled: Turn ESL features on and off for this device.
 
         """
@@ -207,15 +207,15 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the radio settings overrides of a device, which take precedence over RF profiles.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings
+        [API documentation: updateDeviceWirelessRadioSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings)
 
         Args:
             serial: Serial.
             rf_profile_id: The ID of an RF profile to assign to the device. If the value of this
-              parameter is null, the appropriate basic RF profile (indoor or outdoor)
-              will be assigned to the device. Assigning an RF profile will clear ALL
-              manually configured overrides on the device (channel width, channel,
-              power).
+                parameter is null, the appropriate basic RF profile (indoor or outdoor)
+                will be assigned to the device. Assigning an RF profile will clear ALL
+                manually configured overrides on the device (channel width, channel,
+                power).
             two_four_ghz_settings: Manual radio settings for 2.4 GHz.
             five_ghz_settings: Manual radio settings for 5 GHz.
 
@@ -246,7 +246,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates a new rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule
+        [API documentation: createNetworkWirelessAirMarshalRule](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule)
 
         Args:
             network_id: Network ID.
@@ -285,7 +285,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule
+        [API documentation: updateNetworkWirelessAirMarshalRule](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule)
 
         Args:
             network_id: Network ID.
@@ -321,7 +321,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an Air Marshal rule.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule
+        [API documentation: deleteNetworkWirelessAirMarshalRule](https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule)
 
         Args:
             network_id: Network ID.
@@ -342,7 +342,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates Air Marshal settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings
+        [API documentation: updateNetworkWirelessAirMarshalSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings)
 
         Args:
             network_id: Network ID.
@@ -380,19 +380,19 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update alternate management interface and device static IP.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface
+        [API documentation: updateNetworkWirelessAlternateManagementInterface](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface)
 
         Args:
             network_id: Network ID.
             enabled: Boolean value to enable or disable alternate management interface.
             vlan_id: Alternate management interface VLAN, must be between 1 and 4094.
             protocols: Can be one or more of the following values: 'radius', 'snmp', 'syslog' or
-              'ldap'.
+                'ldap'.
             access_points: Array of access point serial number and IP assignment. Note: accessPoints
-              IP assignment is not applicable for template networks, in other words, do
-              not put 'accessPoints' in the body when updating template networks. Also,
-              an empty 'accessPoints' array will remove all previous static IP
-              assignments.
+                IP assignment is not applicable for template networks, in other words,
+                do not put 'accessPoints' in the body when updating template networks.
+                Also, an empty 'accessPoints' array will remove all previous static IP
+                assignments.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -425,7 +425,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the billing settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing
+        [API documentation: updateNetworkWirelessBilling](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing)
 
         Args:
             network_id: Network ID.
@@ -458,14 +458,14 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the ESL settings of a wireless network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label
+        [API documentation: updateNetworkWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label)
 
         Args:
             network_id: Network ID.
             hostname: Desired ESL hostname of the network.
             enabled: Turn ESL features on and off for this network.
             mode: Electronic shelf label mode of the network. Valid options are 'Bluetooth', 'high
-              frequency'.
+                frequency'.
 
         """
         if mode is not None:
@@ -499,7 +499,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create an AP port profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile
+        [API documentation: createNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile)
 
         Args:
             network_id: Network ID.
@@ -532,7 +532,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Assign AP port profile to list of APs.
 
-        https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles
+        [API documentation: assignNetworkWirelessEthernetPortsProfiles](https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles)
 
         Args:
             network_id: Network ID.
@@ -560,7 +560,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Set the AP port profile to be default for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default
+        [API documentation: setNetworkWirelessEthernetPortsProfilesDefault](https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default)
 
         Args:
             network_id: Network ID.
@@ -591,7 +591,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the AP port profile by ID for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile
+        [API documentation: updateNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile)
 
         Args:
             network_id: Network ID.
@@ -626,7 +626,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an AP port profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile
+        [API documentation: deleteNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile)
 
         Args:
             network_id: Network ID.
@@ -651,7 +651,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Change scanning API settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning
+        [API documentation: updateNetworkWirelessLocationScanning](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning)
 
         Args:
             network_id: Network ID.
@@ -692,22 +692,22 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates new RF profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile
+        [API documentation: createNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile)
 
         Args:
             network_id: Network ID.
             name: The name of the new profile. Must be unique. This param is required on creation.
             client_balancing_enabled: Steers client to best available access point. Can be either
-              true or false. Defaults to true.
+                true or false. Defaults to true.
             min_bitrate_type: Minimum bitrate can be set to either 'band' or 'ssid'. Defaults to
-              band.
+                band.
             band_selection_type: Band selection can be set to either 'ssid' or 'ap'. This param is
-              required on creation.
+                required on creation.
             ap_band_settings: Settings that will be enabled if selectionType is set to 'ap'.
             two_four_ghz_settings: Settings related to 2.4Ghz band.
             five_ghz_settings: Settings related to 5Ghz band.
             six_ghz_settings: Settings related to 6Ghz band. Only applicable to networks with 6Ghz
-              capable APs.
+                capable APs.
             transmission: Settings related to radio transmission.
             per_ssid_settings: Per-SSID radio settings by number.
             flex_radios: Flex radio settings.
@@ -788,27 +788,27 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates specified RF profile for this network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile
+        [API documentation: updateNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile)
 
         Args:
             network_id: Network ID.
             rf_profile_id: Rf profile ID.
             name: The name of the new profile. Must be unique.
             is_indoor_default: Set this profile as the default indoor rf profile. If the profile ID
-              is one of 'indoor' or 'outdoor', then a new profile will be created from
-              the respective ID and set as the default.
+                is one of 'indoor' or 'outdoor', then a new profile will be created from
+                the respective ID and set as the default.
             is_outdoor_default: Set this profile as the default outdoor rf profile. If the profile
-              ID is one of 'indoor' or 'outdoor', then a new profile will be created
-              from the respective ID and set as the default.
+                ID is one of 'indoor' or 'outdoor', then a new profile will be created
+                from the respective ID and set as the default.
             client_balancing_enabled: Steers client to best available access point. Can be either
-              true or false.
+                true or false.
             min_bitrate_type: Minimum bitrate can be set to either 'band' or 'ssid'.
             band_selection_type: Band selection can be set to either 'ssid' or 'ap'.
             ap_band_settings: Settings that will be enabled if selectionType is set to 'ap'.
             two_four_ghz_settings: Settings related to 2.4Ghz band.
             five_ghz_settings: Settings related to 5Ghz band.
             six_ghz_settings: Settings related to 6Ghz band. Only applicable to networks with 6Ghz
-              capable APs.
+                capable APs.
             transmission: Settings related to radio transmission.
             per_ssid_settings: Per-SSID radio settings by number.
             flex_radios: Flex radio settings.
@@ -878,7 +878,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a RF Profile.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile
+        [API documentation: deleteNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile)
 
         Args:
             network_id: Network ID.
@@ -907,19 +907,19 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the wireless settings for a network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings
+        [API documentation: updateNetworkWirelessSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings)
 
         Args:
             network_id: Network ID.
             meshing_enabled: Toggle for enabling or disabling meshing in a network.
             ipv6_bridge_enabled: Toggle for enabling or disabling IPv6 bridging in a network (Note:
-              if enabled, SSIDs must also be configured to use bridge mode).
+                if enabled, SSIDs must also be configured to use bridge mode).
             location_analytics_enabled: Toggle for enabling or disabling location analytics for your
-              network.
+                network.
             upgrade_strategy: The default strategy that network devices will use to perform an
-              upgrade. Requires firmware version MR 26.8 or higher.
+                upgrade. Requires firmware version MR 26.8 or higher.
             led_lights_on: Toggle for enabling or disabling LED lights on all APs in the network
-              (making them run dark).
+                (making them run dark).
             named_vlans: Named VLAN settings for wireless networks.
 
         """
@@ -1024,7 +1024,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the attributes of an MR SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid
+        [API documentation: updateNetworkWirelessSsid](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid)
 
         Args:
             network_id: Network ID.
@@ -1032,151 +1032,152 @@ class ActionBatchWireless:
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
             auth_mode: The association control method for the SSID ('open', 'open-enhanced', 'psk',
-              'open-with-radius', 'open-with-nac', '8021x-meraki', '8021x-nac',
-              '8021x-radius', '8021x-google', '8021x-entra', '8021x-localradius', 'ipsk-
-              with-radius', 'ipsk-without-radius', 'ipsk-with-nac' or 'ipsk-with-radius-
-              easy-psk').
+                'open-with-radius', 'open-with-nac', '8021x-meraki', '8021x-nac',
+                '8021x-radius', '8021x-google', '8021x-entra', '8021x-localradius',
+                'ipsk-with-radius', 'ipsk-without-radius', 'ipsk-with-nac' or 'ipsk-
+                with-radius-easy-psk').
             enterprise_admin_access: Whether or not an SSID is accessible by 'enterprise'
-              administrators ('access disabled' or 'access enabled').
+                administrators ('access disabled' or 'access enabled').
             encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
-              only valid if the authMode is 'psk'.
+                only valid if the authMode is 'psk'.
             psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
             wpa_encryption_mode: The types of WPA encryption. ('WPA1 only', 'WPA1 and WPA2', 'WPA2
-              only', 'WPA3 Transition Mode', 'WPA3 only' or 'WPA3 192-bit Security').
+                only', 'WPA3 Transition Mode', 'WPA3 only' or 'WPA3 192-bit Security').
             dot11w: The current setting for Protected Management Frames (802.11w).
             dot11r: The current setting for 802.11r.
             splash_page: The type of splash page for the SSID ('None', 'Click-through splash page',
-              'Billing', 'Password-protected with Meraki RADIUS', 'Password-protected
-              with custom RADIUS', 'Password-protected with Active Directory',
-              'Password-protected with LDAP', 'SMS authentication', 'Systems Manager
-              Sentry', 'Facebook Wi-Fi', 'Google OAuth', 'Microsoft Entra ID',
-              'Sponsored guest', 'Cisco ISE' or 'Google Apps domain').This attribute is
-              not supported for template children.
+                'Billing', 'Password-protected with Meraki RADIUS', 'Password-protected
+                with custom RADIUS', 'Password-protected with Active Directory',
+                'Password-protected with LDAP', 'SMS authentication', 'Systems Manager
+                Sentry', 'Facebook Wi-Fi', 'Google OAuth', 'Microsoft Entra ID',
+                'Sponsored guest', 'Cisco ISE' or 'Google Apps domain').This attribute
+                is not supported for template children.
             splash_guest_sponsor_domains: Array of valid sponsor email domains for sponsored guest
-              splash type.
+                splash type.
             oauth: The OAuth settings of this SSID. Only valid if splashPage is 'Google OAuth'.
             local_radius: The current setting for Local Authentication, a built-in RADIUS server on
-              the access point. Only valid if authMode is '8021x-localradius'.
+                the access point. Only valid if authMode is '8021x-localradius'.
             ldap: The current setting for LDAP. Only valid if splashPage is 'Password-protected with
-              LDAP'.
+                LDAP'.
             active_directory: The current setting for Active Directory. Only valid if splashPage is
-              'Password-protected with Active Directory'.
+                'Password-protected with Active Directory'.
             radius_servers: The RADIUS 802.1X servers to be used for authentication. This param is
-              only valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-
-              with-radius'.
+                only valid if the authMode is 'open-with-radius', '8021x-radius' or
+                'ipsk-with-radius'.
             radius_proxy_enabled: If true, Meraki devices will proxy RADIUS messages through the
-              Meraki cloud to the configured RADIUS auth and accounting servers.
+                Meraki cloud to the configured RADIUS auth and accounting servers.
             radius_testing_enabled: If true, Meraki devices will periodically send Access-Request
-              messages to configured RADIUS servers using identity 'meraki_8021x_test'
-              to ensure that the RADIUS servers are reachable.
+                messages to configured RADIUS servers using identity 'meraki_8021x_test'
+                to ensure that the RADIUS servers are reachable.
             radius_called_station_id: The template of the called station identifier to be used for
-              RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
+                RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
             radius_authentication_nas_id: The template of the NAS identifier to be used for RADIUS
-              authentication (ex. $NODE_MAC$:$VAP_NUM$).
+                authentication (ex. $NODE_MAC$:$VAP_NUM$).
             radius_server_timeout: The amount of time for which a RADIUS client waits for a reply
-              from the RADIUS server (must be between 1-10 seconds).
+                from the RADIUS server (must be between 1-10 seconds).
             radius_server_attempts_limit: The maximum number of transmit attempts after which a
-              RADIUS server is failed over (must be between 1-5).
+                RADIUS server is failed over (must be between 1-5).
             radius_fallback_enabled: Whether or not higher priority RADIUS servers should be retried
-              after 60 seconds.
+                after 60 seconds.
             radius_radsec: The current settings for RADIUS RADSec.
             radius_coa_enabled: If true, Meraki devices will act as a RADIUS Dynamic Authorization
-              Server and will respond to RADIUS Change-of-Authorization and Disconnect
-              messages sent by the RADIUS server.
+                Server and will respond to RADIUS Change-of-Authorization and Disconnect
+                messages sent by the RADIUS server.
             radius_failover_policy: This policy determines how authentication requests should be
-              handled in the event that all of the configured RADIUS servers are
-              unreachable ('Deny access' or 'Allow access').
+                handled in the event that all of the configured RADIUS servers are
+                unreachable ('Deny access' or 'Allow access').
             radius_load_balancing_policy: This policy determines which RADIUS server will be
-              contacted first in an authentication attempt and the ordering of any
-              necessary retry attempts ('Strict priority order' or 'Round robin').
+                contacted first in an authentication attempt and the ordering of any
+                necessary retry attempts ('Strict priority order' or 'Round robin').
             radius_accounting_enabled: Whether or not RADIUS accounting is enabled. This param is
-              only valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-
-              with-radius'.
+                only valid if the authMode is 'open-with-radius', '8021x-radius' or
+                'ipsk-with-radius'.
             radius_accounting_servers: The RADIUS accounting 802.1X servers to be used for
-              authentication. This param is only valid if the authMode is 'open-with-
-              radius', '8021x-radius' or 'ipsk-with-radius' and radiusAccountingEnabled
-              is 'true'.
+                authentication. This param is only valid if the authMode is 'open-with-
+                radius', '8021x-radius' or 'ipsk-with-radius' and
+                radiusAccountingEnabled is 'true'.
             radius_accounting_interim_interval: The interval (in seconds) in which accounting
-              information is updated and sent to the RADIUS accounting server.
+                information is updated and sent to the RADIUS accounting server.
             radius_attribute_for_group_policies: Specify the RADIUS attribute used to look up group
-              policies ('Filter-Id', 'Reply-Message', 'Airespace-ACL-Name' or 'Aruba-
-              User-Role'). Access points must receive this attribute in the RADIUS
-              Access-Accept message.
+                policies ('Filter-Id', 'Reply-Message', 'Airespace-ACL-Name' or 'Aruba-
+                User-Role'). Access points must receive this attribute in the RADIUS
+                Access-Accept message.
             ip_assignment_mode: The client IP assignment mode ('NAT mode', 'Bridge mode', 'Layer 3
-              roaming', 'Ethernet over GRE', 'Layer 3 roaming with a concentrator',
-              'VPN' or 'Campus Gateway').
+                roaming', 'Ethernet over GRE', 'Layer 3 roaming with a concentrator',
+                'VPN' or 'Campus Gateway').
             use_vlan_tagging: Whether or not traffic should be directed to use specific VLANs. This
-              param is only valid if the ipAssignmentMode is 'Bridge mode' or 'Layer 3
-              roaming'.
+                param is only valid if the ipAssignmentMode is 'Bridge mode' or 'Layer 3
+                roaming'.
             concentrator_network_id: The concentrator to use when the ipAssignmentMode is 'Layer 3
-              roaming with a concentrator' or 'VPN'.
+                roaming with a concentrator' or 'VPN'.
             secondary_concentrator_network_id: The secondary concentrator to use when the
-              ipAssignmentMode is 'VPN'. If configured, the APs will switch to using
-              this concentrator if the primary concentrator is unreachable. This param
-              is optional. ('disabled' represents no secondary concentrator.).
+                ipAssignmentMode is 'VPN'. If configured, the APs will switch to using
+                this concentrator if the primary concentrator is unreachable. This param
+                is optional. ('disabled' represents no secondary concentrator.).
             disassociate_clients_on_vpn_failover: Disassociate clients when 'VPN' concentrator
-              failover occurs in order to trigger clients to re-associate and generate
-              new DHCP requests. This param is only valid if ipAssignmentMode is 'VPN'.
+                failover occurs in order to trigger clients to re-associate and generate
+                new DHCP requests. This param is only valid if ipAssignmentMode is
+                'VPN'.
             vlan_id: The VLAN ID used for VLAN tagging. This param is only valid when the
-              ipAssignmentMode is 'Layer 3 roaming with a concentrator' or 'VPN'.
+                ipAssignmentMode is 'Layer 3 roaming with a concentrator' or 'VPN'.
             default_vlan_id: The default VLAN ID used for 'all other APs'. This param is only valid
-              when the ipAssignmentMode is 'Bridge mode' or 'Layer 3 roaming'.
+                when the ipAssignmentMode is 'Bridge mode' or 'Layer 3 roaming'.
             ap_tags_and_vlan_ids: The list of tags and VLAN IDs used for VLAN tagging. This param is
-              only valid when the ipAssignmentMode is 'Bridge mode' or 'Layer 3
-              roaming'.
+                only valid when the ipAssignmentMode is 'Bridge mode' or 'Layer 3
+                roaming'.
             walled_garden_enabled: Allow access to a configurable list of IP ranges, which users may
-              access prior to sign-on.
+                access prior to sign-on.
             walled_garden_ranges: Specify your walled garden by entering an array of addresses,
-              ranges using CIDR notation, domain names, and domain wildcards (e.g.
-              '192.168.1.1/24', '192.168.37.10/32', 'www.yahoo.com', '*.google.com']).
-              Meraki's splash page is automatically included in your walled garden.
+                ranges using CIDR notation, domain names, and domain wildcards (e.g.
+                '192.168.1.1/24', '192.168.37.10/32', 'www.yahoo.com', '*.google.com']).
+                Meraki's splash page is automatically included in your walled garden.
             gre: Ethernet over GRE settings.
             radius_override: If true, the RADIUS response can override VLAN tag. This is not valid
-              when ipAssignmentMode is 'NAT mode'.
+                when ipAssignmentMode is 'NAT mode'.
             radius_guest_vlan_enabled: Whether or not RADIUS Guest VLAN is enabled. This param is
-              only valid if the authMode is 'open-with-radius' and addressing mode is
-              not set to 'isolated' or 'nat' mode.
+                only valid if the authMode is 'open-with-radius' and addressing mode is
+                not set to 'isolated' or 'nat' mode.
             radius_guest_vlan_id: VLAN ID of the RADIUS Guest VLAN. This param is only valid if the
-              authMode is 'open-with-radius' and addressing mode is not set to
-              'isolated' or 'nat' mode.
+                authMode is 'open-with-radius' and addressing mode is not set to
+                'isolated' or 'nat' mode.
             min_bitrate: The minimum bitrate in Mbps of this SSID in the default indoor RF profile.
-              ('1', '2', '5.5', '6', '9', '11', '12', '18', '24', '36', '48' or '54').
+                ('1', '2', '5.5', '6', '9', '11', '12', '18', '24', '36', '48' or '54').
             band_selection: The client-serving radio frequencies of this SSID in the default indoor
-              RF profile. ('Dual band operation', '5 GHz band only' or 'Dual band
-              operation with Band Steering').
+                RF profile. ('Dual band operation', '5 GHz band only' or 'Dual band
+                operation with Band Steering').
             per_client_bandwidth_limit_up: The upload bandwidth limit in Kbps. (0 represents no
-              limit.).
+                limit.).
             per_client_bandwidth_limit_down: The download bandwidth limit in Kbps. (0 represents no
-              limit.).
+                limit.).
             per_ssid_bandwidth_limit_up: The total upload bandwidth limit in Kbps. (0 represents no
-              limit.).
+                limit.).
             per_ssid_bandwidth_limit_down: The total download bandwidth limit in Kbps. (0 represents
-              no limit.).
+                no limit.).
             lan_isolation_enabled: Boolean indicating whether Layer 2 LAN isolation should be
-              enabled or disabled. Only configurable when ipAssignmentMode is 'Bridge
-              mode'.
+                enabled or disabled. Only configurable when ipAssignmentMode is 'Bridge
+                mode'.
             visible: Boolean indicating whether APs should advertise or hide this SSID. APs will
-              only broadcast this SSID if set to true.
+                only broadcast this SSID if set to true.
             available_on_all_aps: Boolean indicating whether all APs should broadcast the SSID or if
-              it should be restricted to APs matching any availability tags. Can only be
-              false if the SSID has availability tags.
+                it should be restricted to APs matching any availability tags. Can only
+                be false if the SSID has availability tags.
             availability_tags: Accepts a list of tags for this SSID. If availableOnAllAps is false,
-              then the SSID will only be broadcast by APs with tags matching any of the
-              tags in this list.
+                then the SSID will only be broadcast by APs with tags matching any of
+                the tags in this list.
             adaptive_policy_group_id: Adaptive policy group ID this SSID is assigned to.
             mandatory_dhcp_enabled: If true, Mandatory DHCP will enforce that clients connecting to
-              this SSID must use the IP address assigned by the DHCP server. Clients who
-              use a static IP address won't be able to associate.
+                this SSID must use the IP address assigned by the DHCP server. Clients
+                who use a static IP address won't be able to associate.
             adult_content_filtering_enabled: Boolean indicating whether or not adult content will be
-              blocked.
+                blocked.
             dns_rewrite: DNS servers rewrite settings.
             speed_burst: The SpeedBurst setting for this SSID'.
             named_vlans: Named VLAN settings.
             local_auth_fallback: The current configuration for Local Authentication Fallback.
-              Enables the Access Point (AP) to store client authentication data for a
-              specified duration that can be adjusted as needed.
+                Enables the Access Point (AP) to store client authentication data for a
+                specified duration that can be adjusted as needed.
             radius_accounting_start_delay: The delay (in seconds) before sending the first RADIUS
-              accounting start message. Must be between 0 and 60 seconds.
+                accounting start message. Must be between 0 and 60 seconds.
 
         """
         if auth_mode is not None:
@@ -1419,7 +1420,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the bonjour forwarding setting and rules for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding
+        [API documentation: updateNetworkWirelessSsidBonjourForwarding](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding)
 
         Args:
             network_id: Network ID.
@@ -1460,7 +1461,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the device type group policies for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies
+        [API documentation: updateNetworkWirelessSsidDeviceTypeGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies)
 
         Args:
             network_id: Network ID.
@@ -1499,7 +1500,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the EAP overridden parameters for an SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override
+        [API documentation: updateNetworkWirelessSsidEapOverride](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override)
 
         Args:
             network_id: Network ID.
@@ -1540,14 +1541,14 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the L3 firewall rules of an SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules
+        [API documentation: updateNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
             rules: An ordered array of the firewall rules for this SSID.
             allow_lan_access: Allow wireless client access to local LAN (boolean value - true allows
-              access and false denies access) (optional).
+                access and false denies access) (optional).
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1575,14 +1576,14 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the L7 firewall rules of an SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules
+        [API documentation: updateNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
             rules: An array of L7 firewall rules for this SSID. Rules will get applied in the same
-              order user has specified in request. Empty array will clear the L7
-              firewall rule configuration.
+                order user has specified in request. Empty array will clear the L7
+                firewall rule configuration.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1615,7 +1616,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the Hotspot 2.0 settings of an SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0
+        [API documentation: updateNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0)
 
         Args:
             network_id: Network ID.
@@ -1624,12 +1625,12 @@ class ActionBatchWireless:
             operator: Operator settings for this SSID.
             venue: Venue settings for this SSID.
             network_access_type: The network type of this SSID ('Private network', 'Private network
-              with guest access', 'Chargeable public network', 'Free public network',
-              'Personal device network', 'Emergency services only network', 'Test or
-              experimental', 'Wildcard').
+                with guest access', 'Chargeable public network', 'Free public network',
+                'Personal device network', 'Emergency services only network', 'Test or
+                experimental', 'Wildcard').
             domains: An array of domain names.
             roam_consort_ois: An array of roaming consortium OIs (hexadecimal number 3-5 octets in
-              length).
+                length).
             mcc_mncs: An array of MCC/MNC pairs.
             nai_realms: An array of NAI realms.
 
@@ -1693,14 +1694,14 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create an Identity PSK.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk
+        [API documentation: createNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk)
 
         Args:
             network_id: Network ID.
             number: Number.
             name: The name of the Identity PSK.
             passphrase: The passphrase for client authentication. If left blank, one will be auto-
-              generated.
+                generated.
             group_policy_id: The group policy to be applied to clients.
             expires_at: Timestamp for when the Identity PSK expires. Will not expire if left blank.
 
@@ -1738,7 +1739,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update an Identity PSK.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk
+        [API documentation: updateNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk)
 
         Args:
             network_id: Network ID.
@@ -1776,7 +1777,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an Identity PSK.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk
+        [API documentation: deleteNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk)
 
         Args:
             network_id: Network ID.
@@ -1804,7 +1805,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the OpenRoaming setting for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming
+        [API documentation: updateNetworkWirelessSsidOpenRoaming](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming)
 
         Args:
             network_id: Network ID.
@@ -1841,18 +1842,18 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the outage schedule for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules
+        [API documentation: updateNetworkWirelessSsidSchedules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules)
 
         Args:
             network_id: Network ID.
             number: Number.
             enabled: If true, the SSID outage schedule is enabled.
             ranges: List of outage ranges. Has a start date and time, and end date and time. If this
-              parameter is passed in along with rangesInSeconds parameter, this will
-              take precedence.
+                parameter is passed in along with rangesInSeconds parameter, this will
+                take precedence.
             ranges_in_seconds: List of outage ranges in seconds since Sunday at Midnight. Has a
-              start and end. If this parameter is passed in along with the ranges
-              parameter, ranges will take precedence.
+                start and end. If this parameter is passed in along with the ranges
+                parameter, ranges will take precedence.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1903,38 +1904,38 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Modify the splash page settings for the given SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings
+        [API documentation: updateNetworkWirelessSsidSplashSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings)
 
         Args:
             network_id: Network ID.
             number: Number.
             splash_url: [optional] The custom splash URL of the click-through splash page. Note that
-              the URL can be configured without necessarily being used. In order to
-              enable the custom URL, see 'useSplashUrl'.
+                the URL can be configured without necessarily being used. In order to
+                enable the custom URL, see 'useSplashUrl'.
             use_splash_url: [optional] Boolean indicating whether the users will be redirected to
-              the custom splash url. A custom splash URL must be set if this is true.
-              Note that depending on your SSID's access control settings, it may not be
-              possible to use the custom splash URL.
+                the custom splash url. A custom splash URL must be set if this is true.
+                Note that depending on your SSID's access control settings, it may not
+                be possible to use the custom splash URL.
             splash_timeout: Splash timeout in minutes. This will determine how often users will see
-              the splash page.
+                the splash page.
             redirect_url: The custom redirect URL where the users will go after the splash page.
             use_redirect_url: The Boolean indicating whether the the user will be redirected to the
-              custom redirect URL after the splash page. A custom redirect URL must be
-              set if this is true.
+                custom redirect URL after the splash page. A custom redirect URL must be
+                set if this is true.
             welcome_message: The welcome message for the users on the splash page.
             theme_id: The id of the selected splash theme.
             splash_logo: The logo used in the splash page.
             splash_image: The image used in the splash page.
             splash_prepaid_front: The prepaid front image used in the splash page.
             block_all_traffic_before_sign_on: How restricted allowing traffic should be. If true,
-              all traffic types are blocked until the splash page is acknowledged. If
-              false, all non-HTTP traffic is allowed before the splash page is
-              acknowledged.
+                all traffic types are blocked until the splash page is acknowledged. If
+                false, all non-HTTP traffic is allowed before the splash page is
+                acknowledged.
             controller_disconnection_behavior: How login attempts should be handled when the
-              controller is unreachable. Can be either 'open', 'restricted', or
-              'default'.
+                controller is unreachable. Can be either 'open', 'restricted', or
+                'default'.
             allow_simultaneous_logins: Whether or not to allow simultaneous logins from different
-              devices.
+                devices.
             guest_sponsorship: Details associated with guest sponsored splash.
             billing: Details associated with billing splash.
             sentry_enrollment: Systems Manager sentry enrollment splash settings.
@@ -2034,20 +2035,20 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the traffic shaping rules for an SSID on an MR network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules
+        [API documentation: updateNetworkWirelessSsidTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules)
 
         Args:
             network_id: Network ID.
             number: Number.
             traffic_shaping_enabled: Whether traffic shaping rules are applied to clients on your
-              SSID.
+                SSID.
             default_rules_enabled: Whether default traffic shaping rules are enabled (true) or
-              disabled (false). There are 4 default rules, which can be seen on your
-              network's traffic shaping page. Note that default rules count against the
-              rule limit of 8.
+                disabled (false). There are 4 default rules, which can be seen on your
+                network's traffic shaping page. Note that default rules count against
+                the rule limit of 8.
             rules: An array of traffic shaping rules. Rules are applied in the order that they are
-              specified in. An empty list (or null) means no rules. Note that you are
-              allowed a maximum of 8 rules.
+                specified in. An empty list (or null) means no rules. Note that you are
+                allowed a maximum of 8 rules.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2079,7 +2080,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the VPN settings for the SSID.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn
+        [API documentation: updateNetworkWirelessSsidVpn](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn)
 
         Args:
             network_id: Network ID.
@@ -2087,7 +2088,7 @@ class ActionBatchWireless:
             concentrator: The VPN concentrator settings for this SSID.
             split_tunnel: The VPN split tunnel settings for this SSID.
             failover: Secondary VPN concentrator settings. This is only used when two VPN
-              concentrators are configured on the SSID.
+                concentrators are configured on the SSID.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2119,7 +2120,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update Zigbee Configs for specified network.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee
+        [API documentation: updateNetworkWirelessZigbee](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee)
 
         Args:
             network_id: Network ID.
@@ -2160,7 +2161,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add new receiver for scanning API.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver
+        [API documentation: createOrganizationWirelessLocationScanningReceiver](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver)
 
         Args:
             organization_id: Organization ID.
@@ -2203,7 +2204,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Change scanning API receiver settings.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver
+        [API documentation: updateOrganizationWirelessLocationScanningReceiver](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver)
 
         Args:
             organization_id: Organization ID.
@@ -2238,7 +2239,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a scanning API receiver.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver
+        [API documentation: deleteOrganizationWirelessLocationScanningReceiver](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver)
 
         Args:
             organization_id: Organization ID.
@@ -2267,7 +2268,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add new broker config for wireless MQTT.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings
+        [API documentation: updateOrganizationWirelessMqttSettings](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings)
 
         Args:
             organization_id: Organization ID.
@@ -2301,7 +2302,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Recalculates automatically assigned channels for every AP within specified the specified network(s).
 
-        https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels
+        [API documentation: recalculateOrganizationWirelessRadioAutoRfChannels](https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels)
 
         Args:
             organization_id: Organization ID.
@@ -2332,7 +2333,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create isolation allow list MAC entry for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry
+        [API documentation: createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry)
 
         Args:
             organization_id: Organization ID.
@@ -2373,7 +2374,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update isolation allow list MAC entry info.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry
+        [API documentation: updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry)
 
         Args:
             organization_id: Organization ID.
@@ -2403,7 +2404,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Destroy isolation allow list MAC entry for this organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
+        [API documentation: deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry)
 
         Args:
             organization_id: Organization ID.
@@ -2424,7 +2425,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Endpoint to update zigbee gateways.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device
+        [API documentation: updateOrganizationWirelessZigbeeDevice](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device)
 
         Args:
             organization_id: Organization ID.
@@ -2454,7 +2455,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Endpoint to batch update door locks params.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock
+        [API documentation: updateOrganizationWirelessZigbeeDoorLock](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock)
 
         Args:
             organization_id: Organization ID.

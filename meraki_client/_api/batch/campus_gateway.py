@@ -42,14 +42,14 @@ class ActionBatchCampusGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a cluster and add campus gateways to it.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster
+        [API documentation: createNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster)
 
         Args:
             network_id: Network ID.
             name: Name of the new cluster.
             uplinks: Uplink interface settings of the cluster.
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
-              interface.
+                interface.
             nameservers: Nameservers of the cluster.
             port_channels: Port channel settings of the cluster.
             devices: Devices to be added to the cluster.
@@ -104,7 +104,7 @@ class ActionBatchCampusGateway:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a cluster and add/remove campus gateways to/from it.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster
+        [API documentation: updateNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster)
 
         Args:
             network_id: Network ID.
@@ -112,7 +112,7 @@ class ActionBatchCampusGateway:
             name: Name of the cluster.
             uplinks: Uplink interface settings of the cluster.
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
-              interface.
+                interface.
             nameservers: Nameservers of the cluster.
             port_channels: Port channel settings of the cluster.
             devices: Devices in the cluster.

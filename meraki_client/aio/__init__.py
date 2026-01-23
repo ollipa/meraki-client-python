@@ -51,18 +51,18 @@ class AsyncMerakiClient:
 
     Args:
         api_key: API key generated in dashboard; can also be set as an environment variable
-          MERAKI_DASHBOARD_API_KEY.
+            `MERAKI_DASHBOARD_API_KEY`.
         base_url: Base URL preceding all endpoint resources.
         single_request_timeout: Maximum number of seconds for each API call. Defaults to 30.
         total_request_timeout: Total time in seconds to wait for a request to complete including
-          retries. Defaults to 60.
+            retries. Defaults to 60.
         certificate_path: Path for TLS/SSL certificate verification if behind local proxy.
         requests_proxy: Proxy server and port, if needed, for HTTPS.
         wait_on_rate_limit: Retry if 429 rate limit error encountered? Defaults to True.
         maximum_retries: Retry up to this many times when encountering 429s or other server-side
-          errors. Defaults to 2.
+            errors. Defaults to 2.
         caller: Optional identifier for API usage tracking; can also be set as an environment
-          variable MERAKI_PYTHON_SDK_CALLER.
+            variable `MERAKI_PYTHON_SDK_CALLER`.
         maximum_concurrent_requests: Number of concurrent API requests. Defaults to 8.
 
     """

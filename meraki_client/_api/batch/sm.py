@@ -24,7 +24,7 @@ class ActionBatchSm:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a User Access Device.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device
+        [API documentation: deleteNetworkSmUserAccessDevice](https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device)
 
         Args:
             network_id: Network ID.
@@ -50,7 +50,7 @@ class ActionBatchSm:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a Limited Access Role.
 
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role
+        [API documentation: createOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role)
 
         Args:
             organization_id: Organization ID.
@@ -93,7 +93,7 @@ class ActionBatchSm:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a Limited Access Role.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role
+        [API documentation: updateOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role)
 
         Args:
             organization_id: Organization ID.
@@ -132,7 +132,7 @@ class ActionBatchSm:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a Limited Access Role.
 
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
+        [API documentation: deleteOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role)
 
         Args:
             organization_id: Organization ID.
@@ -156,7 +156,7 @@ class ActionBatchSm:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update an Organizations Sentry Policies using the provided list.
 
-        https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments
+        [API documentation: updateOrganizationSmSentryPoliciesAssignments](https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments)
 
         Args:
             organization_id: Organization ID.

@@ -47,38 +47,67 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
         GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem
     ]:
         """List connectivity data of wireless LAN controllers in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-availabilities-change-history
+        [API documentation: getOrganizationWirelessControllerAvailabilitiesChangeHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-availabilities-change-history)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "changes": [
+                    {
+                      "startTs": "2020-01-01T00:00:00Z",
+                      "endTs": "null",
+                      "status": "online"
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -123,40 +152,76 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         resolution: int | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[WirelessControllerItemsItem]:
         """List wireless client counts of wireless LAN controllers over time in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-clients-overview-history-by-device-by-interval
+        [API documentation: getOrganizationWirelessControllerClientsOverviewHistoryByDeviceByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-clients-overview-history-by-device-by-interval)
 
         Args:
             organization_id: Organization ID.
             network_ids: Optional parameter to filter wireless LAN controllers by network ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+                300, 600, 1200, 3600, 14400, 86400. The default is 86400.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "network": {
+                    "id": "N_24329156"
+                  },
+                  "readings": [
+                    {
+                      "startTs": "2020-01-01T00:00:00Z",
+                      "endTs": "2020-01-01T01:00:00Z",
+                      "counts": {
+                        "byStatus": {
+                          "online": 1
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -201,32 +266,62 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessControllerConnectionsResponseItemsItem]:
         """List all access points associated with wireless LAN controllers in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-connections
+        [API documentation: getOrganizationWirelessControllerConnections](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-connections)
 
         Args:
             organization_id: Organization ID.
             network_ids: Optional parameter to filter access points by network ID. This filter uses
-              multiple exact matches.
+                multiple exact matches.
             controller_serials: Optional parameter to filter access points by its controller cloud
-              ID. This filter uses multiple exact matches.
+                ID. This filter uses multiple exact matches.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "controller": {
+                    "serial": "Q234-ABCD-5678"
+                  },
+                  "network": {
+                    "id": "N_24329156",
+                    "url": "https://network/url",
+                    "name": "Network1"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -265,38 +360,80 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
         GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem
     ]:
         """List wireless LAN controller layer 2 interfaces in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-by-device
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2ByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-by-device)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "interfaces": [
+                    {
+                      "name": "TenGigabitEthernet0/0/5",
+                      "description": "Uplink",
+                      "enabled": true,
+                      "mac": "b0:c5:3c:0d:c5:0b",
+                      "status": "disabled",
+                      "speed": "1 Gbps",
+                      "isUplink": true,
+                      "vlan": 10,
+                      "isRedundancyPort": true,
+                      "linkNegotiation": "auto",
+                      "channelGroup": {
+                        "number": 5
+                      },
+                      "module": {
+                        "model": "C9800-2X40GE"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -340,39 +477,79 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[WirelessControllerItemsItem2]:
         """List wireless LAN controller layer 2 interfaces history status in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-statuses-change-history-by-device
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-statuses-change-history-by-device)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             include_interfaces_without_changes: By default, interfaces without changes are omitted
-              from the response for brevity. If you want to include the interfaces even
-              if they have no changes, set to true. (default: false).
+                from the response for brevity. If you want to include the interfaces
+                even if they have no changes, set to true. (default: false).
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "interfaces": [
+                    {
+                      "name": "TenGigabitEthernet0/0/5",
+                      "mac": "b0:c5:3c:0d:c5:0b",
+                      "changes": [
+                        {
+                          "ts": "2020-01-01T00:00:00Z",
+                          "status": "disabled",
+                          "warnings": [
+                            "CRC warnings"
+                          ],
+                          "errors": [
+                            "CRC errors"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -417,36 +594,66 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[WirelessControllerItemsItem3]:
         """List wireless LAN controller layer 2 interfaces history usage in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-usage-history-by-interval
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-usage-history-by-interval)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "readings": [
+                    {
+                      "name": "TenGigabitEthernet0/0/5",
+                      "mac": "b0:c5:3c:0d:c5:0b",
+                      "recv": 0,
+                      "send": 0
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -489,38 +696,88 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
         GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem
     ]:
         """List wireless LAN controller layer 3 interfaces in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-by-device
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3ByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-by-device)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "interfaces": [
+                    {
+                      "name": "vlan123",
+                      "description": "Wireless Mgmt",
+                      "mac": "1c:e8:5d:00:00:0c",
+                      "status": "disabled",
+                      "speed": "1 Gbps",
+                      "addresses": [
+                        {
+                          "protocol": "ipv4",
+                          "address": "192.168.123.1",
+                          "subnet": "192.168.123.0/24"
+                        }
+                      ],
+                      "vrf": {
+                        "name": "Global"
+                      },
+                      "isUplink": true,
+                      "vlan": 10,
+                      "linkNegotiation": "auto",
+                      "channelGroup": {
+                        "number": 5
+                      },
+                      "module": {
+                        "model": "C9800-2X40GE"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -564,39 +821,79 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[WirelessControllerItemsItem2]:
         """List wireless LAN controller layer 3 interfaces history status in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-statuses-change-history-by-device
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-statuses-change-history-by-device)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             include_interfaces_without_changes: By default, interfaces without changes are omitted
-              from the response for brevity. If you want to include the interfaces even
-              if they have no changes, set to true. (default: false).
+                from the response for brevity. If you want to include the interfaces
+                even if they have no changes, set to true. (default: false).
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "interfaces": [
+                    {
+                      "name": "TenGigabitEthernet0/0/5",
+                      "mac": "b0:c5:3c:0d:c5:0b",
+                      "changes": [
+                        {
+                          "ts": "2020-01-01T00:00:00Z",
+                          "status": "disabled",
+                          "warnings": [
+                            "CRC warnings"
+                          ],
+                          "errors": [
+                            "CRC errors"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -641,36 +938,66 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[WirelessControllerItemsItem3]:
         """List wireless LAN controller layer 3 interfaces history usage in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-usage-history-by-interval
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-usage-history-by-interval)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "readings": [
+                    {
+                      "name": "TenGigabitEthernet0/0/5",
+                      "mac": "b0:c5:3c:0d:c5:0b",
+                      "recv": 0,
+                      "send": 0
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -714,38 +1041,78 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[WirelessControllerItemsItem4]:
         """Retrieve the packet counters for the interfaces of a Wireless LAN controller.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-packets-overview-by-device
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-packets-overview-by-device)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             names: Optional parameter to filter wireless LAN controller by its interface name. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 1 day
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 1 day after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 1 day. The default is 1 hour.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 1 day. The default is 1 hour.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "interfaces": [
+                    {
+                      "name": "TenGigabitEthernet0/0/0",
+                      "readings": [
+                        {
+                          "name": "Total",
+                          "total": 2001,
+                          "recv": 1000,
+                          "send": 1001,
+                          "rate": {
+                            "total": 12,
+                            "recv": 3,
+                            "send": 8
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -791,38 +1158,81 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[WirelessControllerItemsItem5]:
         """Retrieve the traffic for the interfaces of a Wireless LAN controller.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-usage-history-by-interval
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesUsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-usage-history-by-interval)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             names: Optional parameter to filter wireless LAN controller by its interface name. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "intervals": [
+                    {
+                      "startTs": "2024-07-25T03:20:55Z",
+                      "endTs": "2024-07-25T03:25:55Z",
+                      "overall": {
+                        "total": 12300,
+                        "recv": 2300,
+                        "send": 10000
+                      },
+                      "byInterface": [
+                        {
+                          "name": "TenGigabitEthernet0/0/1",
+                          "usage": {
+                            "total": 12300,
+                            "recv": 2300,
+                            "send": 10000
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -867,38 +1277,74 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
         GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem
     ]:
         """List the failover events of wireless LAN controllers in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-failover-history
+        [API documentation: getOrganizationWirelessControllerDevicesRedundancyFailoverHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-failover-history)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            [
+              {
+                "items": [
+                  {
+                    "serial": "Q234-ABCD-5678",
+                    "ts": "2020-01-01T00:00:00Z",
+                    "reason": "Active Unit Failed",
+                    "failed": {
+                      "chassis": {
+                        "name": "Chassis 2"
+                      }
+                    },
+                    "active": {
+                      "chassis": {
+                        "name": "Chassis 1"
+                      }
+                    }
+                  }
+                ],
+                "meta": {
+                  "counts": {
+                    "items": {
+                      "total": 10,
+                      "remaining": 0
+                    }
+                  }
+                }
+              }
+            ]
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -938,32 +1384,66 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
         GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItem
     ]:
         """List redundancy details of wireless LAN controllers in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-statuses
+        [API documentation: getOrganizationWirelessControllerDevicesRedundancyStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-statuses)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud IDs. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "mode": "SSO",
+                  "enabled": true,
+                  "failover": {
+                    "last": {
+                      "ts": "2020-01-01T00:00:00Z",
+                      "reason": "Active Unit Failed"
+                    },
+                    "counts": {
+                      "total": 2
+                    }
+                  },
+                  "mobilityMac": "b0:c5:3c:0d:c5:0b"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1000,36 +1480,81 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[WirelessControllerItemsItem7]:
         """List cpu utilization data of wireless LAN controllers in an organization.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-system-utilization-history-by-interval
+        [API documentation: getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-system-utilization-history-by-interval)
 
         Args:
             organization_id: Organization ID.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
-              from today.
+                from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
-              timespan, do not specify parameters t0 and t1. The value must be in
-              seconds and be less than or equal to 31 days. The default is 7 days.
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 7 days.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "intervals": [
+                    {
+                      "startTs": "2024-03-04T05:25:03Z",
+                      "endTs": "2024-03-04T05:30:19Z",
+                      "overall": {
+                        "usage": {
+                          "average": {
+                            "percentage": 10.59
+                          }
+                        }
+                      },
+                      "byCore": [
+                        {
+                          "name": "0",
+                          "usage": {
+                            "average": {
+                              "percentage": 2.74
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -1070,32 +1595,89 @@ class WirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: int | Literal["all"] = 1,
+        total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem]:
         """List the overview information of wireless LAN controllers in an organization and it is updated every minute.
 
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-overview-by-device
+        [API documentation: getOrganizationWirelessControllerOverviewByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-overview-by-device)
 
         Args:
             organization_id: Organization ID.
             network_ids: Optional parameter to filter wireless LAN controllers by network ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             serials: Optional parameter to filter wireless LAN controller by its cloud ID. This
-              filter uses multiple exact matches.
+                filter uses multiple exact matches.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 1000.
+                is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             ending_before: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-              "all" for all pages.
+                "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "network": {
+                    "id": "N_24329156"
+                  },
+                  "counts": {
+                    "clients": {
+                      "byStatus": {
+                        "online": 300
+                      }
+                    },
+                    "connections": {
+                      "total": 200,
+                      "byStatus": {
+                        "online": 180,
+                        "offline": 20
+                      }
+                    }
+                  },
+                  "redundancy": {
+                    "role": "Active",
+                    "id": "123456",
+                    "chassisName": "Chassis 1",
+                    "redundantSerial": "Q234-ABCD-5679",
+                    "management": {
+                      "addresses": [
+                        {
+                          "address": "10.14.140.5"
+                        }
+                      ]
+                    }
+                  },
+                  "firmware": {
+                    "version": {
+                      "shortName": "ios-xe"
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

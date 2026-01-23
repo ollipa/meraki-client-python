@@ -32,3 +32,6 @@ jobs:
 
       - name: Run type checker
         run: make typecheck
+
+      - name: Test building docs
+        run: make docs

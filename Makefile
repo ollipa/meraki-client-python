@@ -3,7 +3,7 @@ off := $(shell tput sgr0)
 TARGETS = meraki_client codegen tests
 
 .PHONY: lint
-lint: format linter typecheck
+lint: format linter typecheck docs
 
 .PHONY: test
 test:
@@ -49,3 +49,14 @@ endif
 	@printf '$(color)Generating SDK$(off)\n'
 	@printf '*****************\n'
 	@uv run python codegen/main.py -v $(VERSION)
+
+.PHONY: docs
+docs:
+	@printf '\n\n*****************\n'
+	@printf '$(color)Test building docs$(off)\n'
+	@printf '*****************\n'
+	uv run mkdocs build --strict
+
+.PHONY: serve
+serve:
+	uv run mkdocs serve --open --livereload
