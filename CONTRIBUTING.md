@@ -14,7 +14,7 @@ uv sync
 The SDK is auto-generated from Meraki's [OpenAPI specification](https://github.com/meraki/openapi). To regenerate the client code:
 
 ```shell
-make generate VERSION=1.66.0
+make generate
 ```
 
 This command:
@@ -25,7 +25,7 @@ This command:
 4. Generates integration tests in `tests/generated/`
 5. Formats all generated code
 
-See [meraki/openapi releases](https://github.com/meraki/openapi/tags) for available API versions.
+See [meraki/openapi releases](https://github.com/meraki/openapi/tags) for available API versions. Generated API version can be changed in `.api-version` file.
 
 ### Project Structure
 

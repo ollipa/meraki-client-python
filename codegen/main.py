@@ -1,6 +1,5 @@
 """A script that generates the Meraki Python library using the public OpenAPI specification."""
 
-import argparse
 import json
 import logging
 import os
@@ -125,21 +124,10 @@ PathsType: TypeAlias = dict[str, dict[Literal["get", "put", "post", "delete"], O
 
 
 def main() -> None:
-    """Main function to parse command line arguments and generate the library."""
+    """Main function to generate the library."""
     t_start = time.perf_counter()
-    parser = argparse.ArgumentParser(
-        description="Generate the Meraki Python library using the public OpenAPI specification."
-    )
-    parser.add_argument(
-        "-v",
-        "--version",
-        dest="api_version",
-        required=True,
-        help="API version tag to use (e.g., v1.66.0)",
-    )
-    args = parser.parse_args()
 
-    api_version = str(args.api_version)
+    api_version = get_api_version()
     if not api_version.startswith("v"):
         api_version = f"v{api_version}"
 
@@ -154,6 +142,12 @@ def main() -> None:
     generate_library(OpenAPI.model_validate(spec), batchable_actions, client_version, api_version)
     elapsed = time.perf_counter() - t_start
     log.info(f"Completed code generation in {elapsed:.2f}s")
+
+
+def get_api_version() -> str:
+    """Read the API version from .api-version file."""
+    api_version_path = PROJECT_ROOT / ".api-version"
+    return api_version_path.read_text().strip()
 
 
 def get_client_version() -> str:

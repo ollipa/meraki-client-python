@@ -52,7 +52,7 @@ def update_lockfile() -> None:
 
 def run_codegen() -> None:
     """Run the code generator."""
-    subprocess.run(["make", "generate", "VERSION=1.66.0"], check=True, cwd=ROOT)
+    subprocess.run(["make", "generate"], check=True, cwd=ROOT)
     subprocess.run(["make", "lint"], check=True, cwd=ROOT)
 
 

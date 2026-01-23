@@ -42,13 +42,10 @@ linter:
 
 .PHONY: generate
 generate:
-ifndef VERSION
-	$(error VERSION is required. Usage: make generate VERSION=1.66.0)
-endif
 	@printf '\n\n*****************\n'
 	@printf '$(color)Generating SDK$(off)\n'
 	@printf '*****************\n'
-	@uv run python codegen/main.py -v $(VERSION)
+	@uv run python codegen/main.py
 
 .PHONY: docs
 docs:
