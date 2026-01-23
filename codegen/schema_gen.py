@@ -75,6 +75,8 @@ class SchemaRegistry:
     untyped_response_ops: set[str]
     # Map of (operation_id, property_name) -> RequestBodyParamSchema
     request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema]
+    # Set of response schema names that are list types
+    list_response_schemas: set[str]
 
 
 @dataclass
@@ -136,6 +138,7 @@ def generate_response_schemas(
     item_schema_map: dict[str, list[str]] = {}
     untyped_response_operations: set[str] = set()
     request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema] = {}
+    list_response_schemas: set[str] = set()
 
     spec_overrides = load_spec_overrides()
     consumed_overrides: set[tuple[str, str]] = set()
@@ -185,6 +188,8 @@ def generate_response_schemas(
                 if result.status != SchemaStatus.SKIPPED:
                     if result.item_class_names:
                         item_schema_map[class_name] = result.item_class_names
+                    if result.is_array:
+                        list_response_schemas.add(class_name)
                 else:
                     untyped_response_operations.add(operation_id)
 
@@ -208,6 +213,7 @@ def generate_response_schemas(
         item_schema_map=item_schema_map,
         untyped_response_ops=untyped_response_operations,
         request_body_schemas=request_body_schemas,
+        list_response_schemas=list_response_schemas,
     )
 
 

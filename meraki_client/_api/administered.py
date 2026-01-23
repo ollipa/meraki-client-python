@@ -67,9 +67,7 @@ class Administered:
             response_schema=GetAdministeredIdentitiesMeResponse,
         )
 
-    def get_administered_identities_me_api_keys(
-        self,
-    ) -> GetAdministeredIdentitiesMeApiKeysResponse | None:
+    def get_administered_identities_me_api_keys(self) -> GetAdministeredIdentitiesMeApiKeysResponse:
         """List the non-sensitive metadata associated with the API keys that belong to the user.
 
         [API documentation: getAdministeredIdentitiesMeApiKeys](https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me-api-keys)
@@ -95,6 +93,7 @@ class Administered:
             operation_id="getAdministeredIdentitiesMeApiKeys",
             path=path,
             response_schema=GetAdministeredIdentitiesMeApiKeysResponse,
+            is_list_response=True,
         )
 
     def generate_administered_identities_me_api_keys(

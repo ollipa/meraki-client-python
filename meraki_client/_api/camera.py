@@ -117,7 +117,7 @@ class Camera:
         t1: str | None = None,
         timespan: float | None = None,
         object_type: str | None = None,
-    ) -> GetDeviceCameraAnalyticsOverviewResponse | None:
+    ) -> GetDeviceCameraAnalyticsOverviewResponse:
         """Returns an overview of aggregate analytics data for a timespan.
 
         [API documentation: getDeviceCameraAnalyticsOverview](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-overview)
@@ -176,11 +176,12 @@ class Camera:
             path=path,
             params=params,
             response_schema=GetDeviceCameraAnalyticsOverviewResponse,
+            is_list_response=True,
         )
 
     def get_device_camera_analytics_recent(
         self, serial: str, *, object_type: str | None = None
-    ) -> GetDeviceCameraAnalyticsRecentResponse | None:
+    ) -> GetDeviceCameraAnalyticsRecentResponse:
         """Returns most recent record for analytics zones.
 
         [API documentation: getDeviceCameraAnalyticsRecent](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-recent)
@@ -227,11 +228,12 @@ class Camera:
             path=path,
             params=params,
             response_schema=GetDeviceCameraAnalyticsRecentResponse,
+            is_list_response=True,
         )
 
     def get_device_camera_analytics_zones(
         self, serial: str
-    ) -> GetDeviceCameraAnalyticsZonesResponse | None:
+    ) -> GetDeviceCameraAnalyticsZonesResponse:
         """Returns all configured analytic zones for this camera.
 
         [API documentation: getDeviceCameraAnalyticsZones](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zones)
@@ -268,6 +270,7 @@ class Camera:
             operation_id="getDeviceCameraAnalyticsZones",
             path=path,
             response_schema=GetDeviceCameraAnalyticsZonesResponse,
+            is_list_response=True,
         )
 
     def get_device_camera_analytics_zone_history(
@@ -280,7 +283,7 @@ class Camera:
         timespan: float | None = None,
         resolution: int | None = None,
         object_type: str | None = None,
-    ) -> GetDeviceCameraAnalyticsZoneHistoryResponse | None:
+    ) -> GetDeviceCameraAnalyticsZoneHistoryResponse:
         """Return historical records for analytic zones.
 
         [API documentation: getDeviceCameraAnalyticsZoneHistory](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zone-history)
@@ -344,6 +347,7 @@ class Camera:
             path=path,
             params=params,
             response_schema=GetDeviceCameraAnalyticsZoneHistoryResponse,
+            is_list_response=True,
         )
 
     def get_device_camera_custom_analytics(
@@ -713,7 +717,7 @@ class Camera:
 
     def get_device_camera_sense_object_detection_models(
         self, serial: str
-    ) -> GetDeviceCameraSenseObjectDetectionModelsResponse | None:
+    ) -> GetDeviceCameraSenseObjectDetectionModelsResponse:
         """Returns the MV Sense object detection model list for the given camera.
 
         [API documentation: getDeviceCameraSenseObjectDetectionModels](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense-object-detection-models)
@@ -743,6 +747,7 @@ class Camera:
             operation_id="getDeviceCameraSenseObjectDetectionModels",
             path=path,
             response_schema=GetDeviceCameraSenseObjectDetectionModelsResponse,
+            is_list_response=True,
         )
 
     def get_device_camera_video_settings(
@@ -923,7 +928,7 @@ class Camera:
 
     def get_network_camera_quality_retention_profiles(
         self, network_id: str
-    ) -> GetNetworkCameraQualityRetentionProfilesResponse | None:
+    ) -> GetNetworkCameraQualityRetentionProfilesResponse:
         """List the quality retention profiles for this network.
 
         [API documentation: getNetworkCameraQualityRetentionProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profiles)
@@ -970,6 +975,7 @@ class Camera:
             operation_id="getNetworkCameraQualityRetentionProfiles",
             path=path,
             response_schema=GetNetworkCameraQualityRetentionProfilesResponse,
+            is_list_response=True,
         )
 
     def create_network_camera_quality_retention_profile(
@@ -1271,9 +1277,7 @@ class Camera:
             scope="camera", operation_id="deleteNetworkCameraQualityRetentionProfile", path=path
         )
 
-    def get_network_camera_schedules(
-        self, network_id: str
-    ) -> GetNetworkCameraSchedulesResponse | None:
+    def get_network_camera_schedules(self, network_id: str) -> GetNetworkCameraSchedulesResponse:
         """Returns a list of all camera recording schedules.
 
         [API documentation: getNetworkCameraSchedules](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules)
@@ -1303,11 +1307,12 @@ class Camera:
             operation_id="getNetworkCameraSchedules",
             path=path,
             response_schema=GetNetworkCameraSchedulesResponse,
+            is_list_response=True,
         )
 
     def get_network_camera_wireless_profiles(
         self, network_id: str
-    ) -> GetNetworkCameraWirelessProfilesResponse | None:
+    ) -> GetNetworkCameraWirelessProfilesResponse:
         """List the camera wireless profiles for this network.
 
         [API documentation: getNetworkCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles)
@@ -1348,6 +1353,7 @@ class Camera:
             operation_id="getNetworkCameraWirelessProfiles",
             path=path,
             response_schema=GetNetworkCameraWirelessProfilesResponse,
+            is_list_response=True,
         )
 
     def create_network_camera_wireless_profile(
@@ -1545,7 +1551,7 @@ class Camera:
 
     def get_organization_camera_boundaries_areas_by_device(
         self, organization_id: str, *, serials: list[str] | None = None
-    ) -> GetOrganizationCameraBoundariesAreasByDeviceResponse | None:
+    ) -> GetOrganizationCameraBoundariesAreasByDeviceResponse:
         """Returns all configured area boundaries of cameras.
 
         [API documentation: getOrganizationCameraBoundariesAreasByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-areas-by-device)
@@ -1593,11 +1599,12 @@ class Camera:
             path=path,
             params=params,
             response_schema=GetOrganizationCameraBoundariesAreasByDeviceResponse,
+            is_list_response=True,
         )
 
     def get_organization_camera_boundaries_lines_by_device(
         self, organization_id: str, *, serials: list[str] | None = None
-    ) -> GetOrganizationCameraBoundariesLinesByDeviceResponse | None:
+    ) -> GetOrganizationCameraBoundariesLinesByDeviceResponse:
         """Returns all configured crossingline boundaries of cameras.
 
         [API documentation: getOrganizationCameraBoundariesLinesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-lines-by-device)
@@ -1649,11 +1656,12 @@ class Camera:
             path=path,
             params=params,
             response_schema=GetOrganizationCameraBoundariesLinesByDeviceResponse,
+            is_list_response=True,
         )
 
     def get_organization_camera_custom_analytics_artifacts(
         self, organization_id: str
-    ) -> GetOrganizationCameraCustomAnalyticsArtifactsResponse | None:
+    ) -> GetOrganizationCameraCustomAnalyticsArtifactsResponse:
         """List Custom Analytics Artifacts.
 
         [API documentation: getOrganizationCameraCustomAnalyticsArtifacts](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifacts)
@@ -1688,6 +1696,7 @@ class Camera:
             operation_id="getOrganizationCameraCustomAnalyticsArtifacts",
             path=path,
             response_schema=GetOrganizationCameraCustomAnalyticsArtifactsResponse,
+            is_list_response=True,
         )
 
     def create_organization_camera_custom_analytics_artifact(
@@ -1882,7 +1891,7 @@ class Camera:
         *,
         serials: list[str] | None = None,
         network_ids: list[str] | None = None,
-    ) -> GetOrganizationCameraOnboardingStatusesResponse | None:
+    ) -> GetOrganizationCameraOnboardingStatusesResponse:
         """Fetch onboarding status of cameras.
 
         [API documentation: getOrganizationCameraOnboardingStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-onboarding-statuses)
@@ -1925,6 +1934,7 @@ class Camera:
             path=path,
             params=params,
             response_schema=GetOrganizationCameraOnboardingStatusesResponse,
+            is_list_response=True,
         )
 
     def update_organization_camera_onboarding_statuses(
@@ -1972,7 +1982,7 @@ class Camera:
 
     def get_organization_camera_permissions(
         self, organization_id: str
-    ) -> GetOrganizationCameraPermissionsResponse | None:
+    ) -> GetOrganizationCameraPermissionsResponse:
         """List the permissions scopes for this organization.
 
         [API documentation: getOrganizationCameraPermissions](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions)
@@ -2003,6 +2013,7 @@ class Camera:
             operation_id="getOrganizationCameraPermissions",
             path=path,
             response_schema=GetOrganizationCameraPermissionsResponse,
+            is_list_response=True,
         )
 
     def get_organization_camera_permission(
@@ -2042,7 +2053,7 @@ class Camera:
 
     def get_organization_camera_roles(
         self, organization_id: str
-    ) -> GetOrganizationCameraRolesResponse | None:
+    ) -> GetOrganizationCameraRolesResponse:
         """List all the roles in this organization.
 
         [API documentation: getOrganizationCameraRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles)
@@ -2097,6 +2108,7 @@ class Camera:
             operation_id="getOrganizationCameraRoles",
             path=path,
             response_schema=GetOrganizationCameraRolesResponse,
+            is_list_response=True,
         )
 
     def create_organization_camera_role(

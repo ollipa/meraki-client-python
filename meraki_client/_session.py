@@ -10,7 +10,7 @@ import time
 import urllib.parse
 from collections.abc import Callable, Iterator
 from datetime import UTC, datetime
-from typing import Any, Generic, Literal, Self, TypeVar
+from typing import Any, Generic, Literal, Self, TypeVar, overload
 
 import httpx
 import pydantic
@@ -263,6 +263,19 @@ class Session:
             f"Maximum number of retries reached: {retries}. This should never happen."
         )
 
+    @overload
+    def get(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        params: dict[str, Any] | None = None,
+        response_schema: type[T],
+        is_list_response: Literal[True],
+    ) -> T: ...
+
+    @overload
     def get(
         self,
         *,
@@ -271,12 +284,27 @@ class Session:
         path: str,
         params: dict[str, Any] | None = None,
         response_schema: type[T] | None = None,
+        is_list_response: Literal[False] = ...,
+    ) -> T | None: ...
+
+    def get(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        params: dict[str, Any] | None = None,
+        response_schema: type[T] | None = None,
+        is_list_response: bool = False,
     ) -> T | None:
         """Make a GET request to the API endpoint."""
         response = self._request(
             operation=f"{scope}.{operation_id}", method="GET", path=path, params=params
         )
         if response.status_code == 204 or not response.content.strip() or response_schema is None:
+            # List responses return empty list schema instead of None
+            if is_list_response and response_schema is not None:
+                return response_schema.model_validate([])
             return None
         try:
             return response_schema.model_validate_json(response.text)
@@ -389,6 +417,19 @@ class Session:
 
         return PaginatedResponse(fetch_pages)
 
+    @overload
+    def post(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        json: dict[str, Any] | None = None,
+        response_schema: type[T],
+        is_list_response: Literal[True],
+    ) -> T: ...
+
+    @overload
     def post(
         self,
         *,
@@ -397,12 +438,27 @@ class Session:
         path: str,
         json: dict[str, Any] | None = None,
         response_schema: type[T] | None = None,
+        is_list_response: Literal[False] = ...,
+    ) -> T | None: ...
+
+    def post(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        json: dict[str, Any] | None = None,
+        response_schema: type[T] | None = None,
+        is_list_response: bool = False,
     ) -> T | None:
         """Make a POST request to the API endpoint."""
         response = self._request(
             operation=f"{scope}.{operation_id}", method="POST", path=path, json=json
         )
         if response.status_code == 204 or not response.content.strip() or response_schema is None:
+            # List responses return empty list schema instead of None
+            if is_list_response and response_schema is not None:
+                return response_schema.model_validate([])
             return None
         try:
             return response_schema.model_validate_json(response.text)
@@ -413,6 +469,19 @@ class Session:
                 response_body=response.text,
             ) from e
 
+    @overload
+    def put(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        json: dict[str, Any] | None = None,
+        response_schema: type[T],
+        is_list_response: Literal[True],
+    ) -> T: ...
+
+    @overload
     def put(
         self,
         *,
@@ -421,12 +490,27 @@ class Session:
         path: str,
         json: dict[str, Any] | None = None,
         response_schema: type[T] | None = None,
+        is_list_response: Literal[False] = ...,
+    ) -> T | None: ...
+
+    def put(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        json: dict[str, Any] | None = None,
+        response_schema: type[T] | None = None,
+        is_list_response: bool = False,
     ) -> T | None:
         """Make a PUT request to the API endpoint."""
         response = self._request(
             operation=f"{scope}.{operation_id}", method="PUT", path=path, json=json
         )
         if response.status_code == 204 or not response.content.strip() or response_schema is None:
+            # List responses return empty list schema instead of None
+            if is_list_response and response_schema is not None:
+                return response_schema.model_validate([])
             return None
         try:
             return response_schema.model_validate_json(response.text)

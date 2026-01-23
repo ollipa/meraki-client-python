@@ -192,7 +192,7 @@ class Appliance:
 
     def get_device_appliance_dhcp_subnets(
         self, serial: str
-    ) -> GetDeviceApplianceDhcpSubnetsResponse | None:
+    ) -> GetDeviceApplianceDhcpSubnetsResponse:
         """Return the DHCP subnet information for an appliance.
 
         [API documentation: getDeviceApplianceDhcpSubnets](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-dhcp-subnets)
@@ -224,6 +224,7 @@ class Appliance:
             operation_id="getDeviceApplianceDhcpSubnets",
             path=path,
             response_schema=GetDeviceApplianceDhcpSubnetsResponse,
+            is_list_response=True,
         )
 
     def get_device_appliance_performance(
@@ -280,7 +281,7 @@ class Appliance:
 
     def get_device_appliance_prefixes_delegated(
         self, serial: str
-    ) -> GetDeviceAppliancePrefixesDelegatedResponse | None:
+    ) -> GetDeviceAppliancePrefixesDelegatedResponse:
         """Return current delegated IPv6 prefixes on an appliance.
 
         [API documentation: getDeviceAppliancePrefixesDelegated](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated)
@@ -320,11 +321,12 @@ class Appliance:
             operation_id="getDeviceAppliancePrefixesDelegated",
             path=path,
             response_schema=GetDeviceAppliancePrefixesDelegatedResponse,
+            is_list_response=True,
         )
 
     def get_device_appliance_prefixes_delegated_vlan_assignments(
         self, serial: str
-    ) -> GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse | None:
+    ) -> GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse:
         """Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
 
         [API documentation: getDeviceAppliancePrefixesDelegatedVlanAssignments](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated-vlan-assignments)
@@ -371,6 +373,7 @@ class Appliance:
             operation_id="getDeviceAppliancePrefixesDelegatedVlanAssignments",
             path=path,
             response_schema=GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse,
+            is_list_response=True,
         )
 
     def get_device_appliance_radio_settings(
@@ -1194,7 +1197,7 @@ class Appliance:
 
     def get_network_appliance_firewall_firewalled_services(
         self, network_id: str
-    ) -> GetNetworkApplianceFirewallFirewalledServicesResponse | None:
+    ) -> GetNetworkApplianceFirewallFirewalledServicesResponse:
         """List the appliance services and their accessibility rules.
 
         [API documentation: getNetworkApplianceFirewallFirewalledServices](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-services)
@@ -1227,6 +1230,7 @@ class Appliance:
             operation_id="getNetworkApplianceFirewallFirewalledServices",
             path=path,
             response_schema=GetNetworkApplianceFirewallFirewalledServicesResponse,
+            is_list_response=True,
         )
 
     def get_network_appliance_firewall_firewalled_service(
@@ -2235,9 +2239,7 @@ class Appliance:
             json=payload,
         )
 
-    def get_network_appliance_ports(
-        self, network_id: str
-    ) -> GetNetworkAppliancePortsResponse | None:
+    def get_network_appliance_ports(self, network_id: str) -> GetNetworkAppliancePortsResponse:
         """List per-port VLAN settings for all ports of a MX.
 
         [API documentation: getNetworkAppliancePorts](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports)
@@ -2272,6 +2274,7 @@ class Appliance:
             operation_id="getNetworkAppliancePorts",
             path=path,
             response_schema=GetNetworkAppliancePortsResponse,
+            is_list_response=True,
         )
 
     def get_network_appliance_port(
@@ -2391,7 +2394,7 @@ class Appliance:
 
     def get_network_appliance_prefixes_delegated_statics(
         self, network_id: str
-    ) -> GetNetworkAppliancePrefixesDelegatedStaticsResponse | None:
+    ) -> GetNetworkAppliancePrefixesDelegatedStaticsResponse:
         """List static delegated prefixes for a network.
 
         [API documentation: getNetworkAppliancePrefixesDelegatedStatics](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-statics)
@@ -2430,6 +2433,7 @@ class Appliance:
             operation_id="getNetworkAppliancePrefixesDelegatedStatics",
             path=path,
             response_schema=GetNetworkAppliancePrefixesDelegatedStaticsResponse,
+            is_list_response=True,
         )
 
     def create_network_appliance_prefixes_delegated_static(
@@ -3606,9 +3610,7 @@ class Appliance:
             response_schema=UpdateNetworkApplianceSingleLanResponse,
         )
 
-    def get_network_appliance_ssids(
-        self, network_id: str
-    ) -> GetNetworkApplianceSsidsResponse | None:
+    def get_network_appliance_ssids(self, network_id: str) -> GetNetworkApplianceSsidsResponse:
         """List the MX SSIDs in a network.
 
         [API documentation: getNetworkApplianceSsids](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids)
@@ -3650,6 +3652,7 @@ class Appliance:
             operation_id="getNetworkApplianceSsids",
             path=path,
             response_schema=GetNetworkApplianceSsidsResponse,
+            is_list_response=True,
         )
 
     def get_network_appliance_ssid(
@@ -3827,7 +3830,7 @@ class Appliance:
 
     def get_network_appliance_static_routes(
         self, network_id: str
-    ) -> GetNetworkApplianceStaticRoutesResponse | None:
+    ) -> GetNetworkApplianceStaticRoutesResponse:
         """List the static routes for an MX or teleworker network.
 
         [API documentation: getNetworkApplianceStaticRoutes](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes)
@@ -3876,6 +3879,7 @@ class Appliance:
             operation_id="getNetworkApplianceStaticRoutes",
             path=path,
             response_schema=GetNetworkApplianceStaticRoutesResponse,
+            is_list_response=True,
         )
 
     def create_network_appliance_static_route(
@@ -4196,7 +4200,7 @@ class Appliance:
 
     def get_network_appliance_traffic_shaping_custom_performance_classes(
         self, network_id: str
-    ) -> GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponse | None:
+    ) -> GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponse:
         """List all custom performance classes for an MX network.
 
         [API documentation: getNetworkApplianceTrafficShapingCustomPerformanceClasses](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-classes)
@@ -4229,6 +4233,7 @@ class Appliance:
             operation_id="getNetworkApplianceTrafficShapingCustomPerformanceClasses",
             path=path,
             response_schema=GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponse,
+            is_list_response=True,
         )
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
@@ -4984,7 +4989,7 @@ class Appliance:
         t1: str | None = None,
         timespan: float | None = None,
         resolution: int | None = None,
-    ) -> GetNetworkApplianceUplinksUsageHistoryResponse | None:
+    ) -> GetNetworkApplianceUplinksUsageHistoryResponse:
         """Get the sent and received bytes for each uplink of a network.
 
         [API documentation: getNetworkApplianceUplinksUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-uplinks-usage-history)
@@ -5040,11 +5045,10 @@ class Appliance:
             path=path,
             params=params,
             response_schema=GetNetworkApplianceUplinksUsageHistoryResponse,
+            is_list_response=True,
         )
 
-    def get_network_appliance_vlans(
-        self, network_id: str
-    ) -> GetNetworkApplianceVlansResponse | None:
+    def get_network_appliance_vlans(self, network_id: str) -> GetNetworkApplianceVlansResponse:
         """List the VLANs for a Cisco Secure Router network.
 
         [API documentation: getNetworkApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans)
@@ -5131,6 +5135,7 @@ class Appliance:
             operation_id="getNetworkApplianceVlans",
             path=path,
             response_schema=GetNetworkApplianceVlansResponse,
+            is_list_response=True,
         )
 
     def create_network_appliance_vlan(
@@ -6516,7 +6521,7 @@ class Appliance:
         hostname: str,
         address: str,
         profile: CreateOrganizationApplianceDnsLocalRecordProfile,
-    ) -> CreateOrganizationApplianceDnsLocalRecordResponse | None:
+    ) -> CreateOrganizationApplianceDnsLocalRecordResponse:
         """Create a new local DNS record.
 
         [API documentation: createOrganizationApplianceDnsLocalRecord](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record)
@@ -6562,6 +6567,7 @@ class Appliance:
             path=path,
             json=payload,
             response_schema=CreateOrganizationApplianceDnsLocalRecordResponse,
+            is_list_response=True,
         )
 
     def update_organization_appliance_dns_local_record(
@@ -7549,7 +7555,7 @@ class Appliance:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationApplianceUplinksUsageByNetworkResponse | None:
+    ) -> GetOrganizationApplianceUplinksUsageByNetworkResponse:
         """Get the sent and received bytes for each uplink of all MX and Z networks within an organization.
 
         [API documentation: getOrganizationApplianceUplinksUsageByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-usage-by-network)
@@ -7602,6 +7608,7 @@ class Appliance:
             path=path,
             params=params,
             response_schema=GetOrganizationApplianceUplinksUsageByNetworkResponse,
+            is_list_response=True,
         )
 
     def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(

@@ -494,6 +494,11 @@ def generate_module(  # noqa: PLR0915
                 "use_raw_docstring": use_raw_docstring,
             }
 
+            is_list_response = (
+                response_schema_name is not None
+                and response_schema_name in schema_registry.list_response_schemas
+            )
+
             output.write(
                 templates.function_template.render(
                     **common_params,
@@ -506,9 +511,11 @@ def generate_module(  # noqa: PLR0915
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
                         has_untyped_response=has_untyped_response,
+                        is_list_response=is_list_response,
                     ),
                     is_async=False,
                     is_paginated=is_paginated,
+                    is_list_response=is_list_response,
                 )
             )
             async_output.write(
@@ -523,9 +530,11 @@ def generate_module(  # noqa: PLR0915
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
                         has_untyped_response=has_untyped_response,
+                        is_list_response=is_list_response,
                     ),
                     is_async=True,
                     is_paginated=is_paginated,
+                    is_list_response=is_list_response,
                 )
             )
 
@@ -871,6 +880,7 @@ def get_return_type(
     response_schema_name: str | None = None,
     item_schema_name: str | None = None,
     has_untyped_response: bool = False,
+    is_list_response: bool = False,
 ) -> str:
     """Get the return type for a function."""
     if method == "delete":
@@ -882,6 +892,9 @@ def get_return_type(
             else f"PaginatedResponse[{item_schema_name}]"
         )
     if response_schema_name:
+        # List responses never return None - they return an empty list instead
+        if is_list_response:
+            return response_schema_name
         return f"{response_schema_name} | None"
     if has_untyped_response:
         return "dict[str, Any] | None"

@@ -406,7 +406,7 @@ class Sensor:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-    ) -> GetNetworkSensorAlertsOverviewByMetricResponse | None:
+    ) -> GetNetworkSensorAlertsOverviewByMetricResponse:
         """Return an overview of alert occurrences over a timespan, by metric.
 
         [API documentation: getNetworkSensorAlertsOverviewByMetric](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-overview-by-metric)
@@ -477,11 +477,12 @@ class Sensor:
             path=path,
             params=params,
             response_schema=GetNetworkSensorAlertsOverviewByMetricResponse,
+            is_list_response=True,
         )
 
     def get_network_sensor_alerts_profiles(
         self, network_id: str
-    ) -> GetNetworkSensorAlertsProfilesResponse | None:
+    ) -> GetNetworkSensorAlertsProfilesResponse:
         """Lists all sensor alert profiles for a network.
 
         [API documentation: getNetworkSensorAlertsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles)
@@ -600,6 +601,7 @@ class Sensor:
             operation_id="getNetworkSensorAlertsProfiles",
             path=path,
             response_schema=GetNetworkSensorAlertsProfilesResponse,
+            is_list_response=True,
         )
 
     def create_network_sensor_alerts_profile(
@@ -1063,7 +1065,7 @@ class Sensor:
 
     def get_network_sensor_mqtt_brokers(
         self, network_id: str
-    ) -> GetNetworkSensorMqttBrokersResponse | None:
+    ) -> GetNetworkSensorMqttBrokersResponse:
         """List the sensor settings of all MQTT brokers for this network.
 
         [API documentation: getNetworkSensorMqttBrokers](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers)
@@ -1093,6 +1095,7 @@ class Sensor:
             operation_id="getNetworkSensorMqttBrokers",
             path=path,
             response_schema=GetNetworkSensorMqttBrokersResponse,
+            is_list_response=True,
         )
 
     def get_network_sensor_mqtt_broker(
@@ -1171,7 +1174,7 @@ class Sensor:
 
     def get_network_sensor_relationships(
         self, network_id: str
-    ) -> GetNetworkSensorRelationshipsResponse | None:
+    ) -> GetNetworkSensorRelationshipsResponse:
         """List the sensor roles for devices in a given network.
 
         [API documentation: getNetworkSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-relationships)
@@ -1214,6 +1217,7 @@ class Sensor:
             operation_id="getNetworkSensorRelationships",
             path=path,
             response_schema=GetNetworkSensorRelationshipsResponse,
+            is_list_response=True,
         )
 
     def get_organization_sensor_gateways_connections_latest(

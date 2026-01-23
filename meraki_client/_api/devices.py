@@ -418,7 +418,7 @@ class Devices:
 
     def get_device_clients(
         self, serial: str, *, t0: str | None = None, timespan: float | None = None
-    ) -> GetDeviceClientsResponse | None:
+    ) -> GetDeviceClientsResponse:
         """List the clients of a device, up to a maximum of a month ago.
 
         [API documentation: getDeviceClients](https://developer.cisco.com/meraki/api-v1/#!get-device-clients)
@@ -473,6 +473,7 @@ class Devices:
             path=path,
             params=params,
             response_schema=GetDeviceClientsResponse,
+            is_list_response=True,
         )
 
     def create_device_live_tools_arp_table(
@@ -1507,7 +1508,7 @@ class Devices:
         timespan: float | None = None,
         resolution: int | None = None,
         uplink: str | None = None,
-    ) -> GetDeviceLossAndLatencyHistoryResponse | None:
+    ) -> GetDeviceLossAndLatencyHistoryResponse:
         """Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per second for MX, MG and Z devices.
 
         [API documentation: getDeviceLossAndLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-device-loss-and-latency-history)
@@ -1573,6 +1574,7 @@ class Devices:
             path=path,
             params=params,
             response_schema=GetDeviceLossAndLatencyHistoryResponse,
+            is_list_response=True,
         )
 
     def get_device_management_interface(

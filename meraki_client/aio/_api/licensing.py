@@ -35,7 +35,7 @@ class Licensing:
 
     async def get_administered_licensing_subscription_entitlements(
         self, *, skus: list[str] | None = None
-    ) -> GetAdministeredLicensingSubscriptionEntitlementsResponse | None:
+    ) -> GetAdministeredLicensingSubscriptionEntitlementsResponse:
         """Retrieve the list of purchasable entitlements.
 
         [API documentation: getAdministeredLicensingSubscriptionEntitlements](https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-entitlements)
@@ -72,6 +72,7 @@ class Licensing:
             path=path,
             params=params,
             response_schema=GetAdministeredLicensingSubscriptionEntitlementsResponse,
+            is_list_response=True,
         )
 
     def get_administered_licensing_subscription_subscriptions(
@@ -397,7 +398,7 @@ class Licensing:
 
     async def get_administered_licensing_subscription_subscriptions_compliance_statuses(
         self, organization_ids: list[str], *, subscription_ids: list[str] | None = None
-    ) -> GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse | None:
+    ) -> GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse:
         """Get compliance status for requested subscriptions.
 
         [API documentation: getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses](https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions-compliance-statuses)
@@ -453,6 +454,7 @@ class Licensing:
             path=path,
             params=params,
             response_schema=GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse,
+            is_list_response=True,
         )
 
     async def bind_administered_licensing_subscription_subscription(

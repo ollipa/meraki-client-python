@@ -1798,7 +1798,7 @@ class Networks:
 
     def get_network_client_usage_history(
         self, *, network_id: str, client_id: str
-    ) -> GetNetworkClientUsageHistoryResponse | None:
+    ) -> GetNetworkClientUsageHistoryResponse:
         """Return the client's daily usage history.
 
         [API documentation: getNetworkClientUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-client-usage-history)
@@ -1831,9 +1831,10 @@ class Networks:
             operation_id="getNetworkClientUsageHistory",
             path=path,
             response_schema=GetNetworkClientUsageHistoryResponse,
+            is_list_response=True,
         )
 
-    def get_network_devices(self, network_id: str) -> GetNetworkDevicesResponse | None:
+    def get_network_devices(self, network_id: str) -> GetNetworkDevicesResponse:
         """List the devices in a network.
 
         [API documentation: getNetworkDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-devices)
@@ -1887,6 +1888,7 @@ class Networks:
             operation_id="getNetworkDevices",
             path=path,
             response_schema=GetNetworkDevicesResponse,
+            is_list_response=True,
         )
 
     def claim_network_devices(
@@ -2222,9 +2224,7 @@ class Networks:
             item_schema=GetNetworkEventsResponseEventsItem,
         )
 
-    def get_network_events_event_types(
-        self, network_id: str
-    ) -> GetNetworkEventsEventTypesResponse | None:
+    def get_network_events_event_types(self, network_id: str) -> GetNetworkEventsEventTypesResponse:
         """List the event type to human-readable description.
 
         [API documentation: getNetworkEventsEventTypes](https://developer.cisco.com/meraki/api-v1/#!get-network-events-event-types)
@@ -2255,6 +2255,7 @@ class Networks:
             operation_id="getNetworkEventsEventTypes",
             path=path,
             response_schema=GetNetworkEventsEventTypesResponse,
+            is_list_response=True,
         )
 
     def get_network_firmware_upgrades(
@@ -3538,7 +3539,7 @@ class Networks:
 
     def get_network_firmware_upgrades_staged_groups(
         self, network_id: str
-    ) -> GetNetworkFirmwareUpgradesStagedGroupsResponse | None:
+    ) -> GetNetworkFirmwareUpgradesStagedGroupsResponse:
         """List of Staged Upgrade Groups in a network.
 
         [API documentation: getNetworkFirmwareUpgradesStagedGroups](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-groups)
@@ -3584,6 +3585,7 @@ class Networks:
             operation_id="getNetworkFirmwareUpgradesStagedGroups",
             path=path,
             response_schema=GetNetworkFirmwareUpgradesStagedGroupsResponse,
+            is_list_response=True,
         )
 
     def create_network_firmware_upgrades_staged_group(
@@ -3810,7 +3812,7 @@ class Networks:
 
     def get_network_firmware_upgrades_staged_stages(
         self, network_id: str
-    ) -> GetNetworkFirmwareUpgradesStagedStagesResponse | None:
+    ) -> GetNetworkFirmwareUpgradesStagedStagesResponse:
         """Order of Staged Upgrade Groups in a network.
 
         [API documentation: getNetworkFirmwareUpgradesStagedStages](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-stages)
@@ -3843,6 +3845,7 @@ class Networks:
             operation_id="getNetworkFirmwareUpgradesStagedStages",
             path=path,
             response_schema=GetNetworkFirmwareUpgradesStagedStagesResponse,
+            is_list_response=True,
         )
 
     def update_network_firmware_upgrades_staged_stages(
@@ -3850,7 +3853,7 @@ class Networks:
         network_id: str,
         *,
         _json: list[UpdateNetworkFirmwareUpgradesStagedStagesJsonItem] | None = None,
-    ) -> UpdateNetworkFirmwareUpgradesStagedStagesResponse | None:
+    ) -> UpdateNetworkFirmwareUpgradesStagedStagesResponse:
         """Assign Staged Upgrade Group order in the sequence.
 
         [API documentation: updateNetworkFirmwareUpgradesStagedStages](https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-stages)
@@ -3889,9 +3892,10 @@ class Networks:
             path=path,
             json=payload,
             response_schema=UpdateNetworkFirmwareUpgradesStagedStagesResponse,
+            is_list_response=True,
         )
 
-    def get_network_floor_plans(self, network_id: str) -> GetNetworkFloorPlansResponse | None:
+    def get_network_floor_plans(self, network_id: str) -> GetNetworkFloorPlansResponse:
         """List the floor plans that belong to your network.
 
         [API documentation: getNetworkFloorPlans](https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plans)
@@ -3974,6 +3978,7 @@ class Networks:
             operation_id="getNetworkFloorPlans",
             path=path,
             response_schema=GetNetworkFloorPlansResponse,
+            is_list_response=True,
         )
 
     def create_network_floor_plan(
@@ -4655,7 +4660,7 @@ class Networks:
             scope="networks", operation_id="deleteNetworkFloorPlan", path=path
         )
 
-    def get_network_group_policies(self, network_id: str) -> GetNetworkGroupPoliciesResponse | None:
+    def get_network_group_policies(self, network_id: str) -> GetNetworkGroupPoliciesResponse:
         """List the group policies in a network.
 
         [API documentation: getNetworkGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!get-network-group-policies)
@@ -4805,6 +4810,7 @@ class Networks:
             operation_id="getNetworkGroupPolicies",
             path=path,
             response_schema=GetNetworkGroupPoliciesResponse,
+            is_list_response=True,
         )
 
     def create_network_group_policy(
@@ -5412,7 +5418,7 @@ class Networks:
             scope="networks", operation_id="deleteNetworkGroupPolicy", path=path
         )
 
-    def get_network_health_alerts(self, network_id: str) -> GetNetworkHealthAlertsResponse | None:
+    def get_network_health_alerts(self, network_id: str) -> GetNetworkHealthAlertsResponse:
         """Return all global alerts on this network.
 
         [API documentation: getNetworkHealthAlerts](https://developer.cisco.com/meraki/api-v1/#!get-network-health-alerts)
@@ -5478,11 +5484,10 @@ class Networks:
             operation_id="getNetworkHealthAlerts",
             path=path,
             response_schema=GetNetworkHealthAlertsResponse,
+            is_list_response=True,
         )
 
-    def get_network_meraki_auth_users(
-        self, network_id: str
-    ) -> GetNetworkMerakiAuthUsersResponse | None:
+    def get_network_meraki_auth_users(self, network_id: str) -> GetNetworkMerakiAuthUsersResponse:
         """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network).
 
         [API documentation: getNetworkMerakiAuthUsers](https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-users)
@@ -5525,6 +5530,7 @@ class Networks:
             operation_id="getNetworkMerakiAuthUsers",
             path=path,
             response_schema=GetNetworkMerakiAuthUsersResponse,
+            is_list_response=True,
         )
 
     def create_network_meraki_auth_user(
@@ -5767,7 +5773,7 @@ class Networks:
             scope="networks", operation_id="deleteNetworkMerakiAuthUser", path=path
         )
 
-    def get_network_mqtt_brokers(self, network_id: str) -> GetNetworkMqttBrokersResponse | None:
+    def get_network_mqtt_brokers(self, network_id: str) -> GetNetworkMqttBrokersResponse:
         """List the MQTT brokers for this network.
 
         [API documentation: getNetworkMqttBrokers](https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-brokers)
@@ -5809,6 +5815,7 @@ class Networks:
             operation_id="getNetworkMqttBrokers",
             path=path,
             response_schema=GetNetworkMqttBrokersResponse,
+            is_list_response=True,
         )
 
     def create_network_mqtt_broker(
@@ -6298,7 +6305,7 @@ class Networks:
             response_schema=GetNetworkPiiPiiKeysResponse,
         )
 
-    def get_network_pii_requests(self, network_id: str) -> GetNetworkPiiRequestsResponse | None:
+    def get_network_pii_requests(self, network_id: str) -> GetNetworkPiiRequestsResponse:
         """List the PII requests for this network or organization.
 
         [API documentation: getNetworkPiiRequests](https://developer.cisco.com/meraki/api-v1/#!get-network-pii-requests)
@@ -6335,6 +6342,7 @@ class Networks:
             operation_id="getNetworkPiiRequests",
             path=path,
             response_schema=GetNetworkPiiRequestsResponse,
+            is_list_response=True,
         )
 
     def create_network_pii_request(
@@ -6933,7 +6941,7 @@ class Networks:
         ssid_number: int | None = None,
         login_identifier: str | None = None,
         timespan: int | None = None,
-    ) -> GetNetworkSplashLoginAttemptsResponse | None:
+    ) -> GetNetworkSplashLoginAttemptsResponse:
         """List the splash login attempts for a network.
 
         [API documentation: getNetworkSplashLoginAttempts](https://developer.cisco.com/meraki/api-v1/#!get-network-splash-login-attempts)
@@ -6988,6 +6996,7 @@ class Networks:
             path=path,
             params=params,
             response_schema=GetNetworkSplashLoginAttemptsResponse,
+            is_list_response=True,
         )
 
     def split_network(self, network_id: str) -> SplitNetworkResponse | None:
@@ -7245,7 +7254,7 @@ class Networks:
         t0: str | None = None,
         timespan: float | None = None,
         device_type: str | None = None,
-    ) -> GetNetworkTrafficResponse | None:
+    ) -> GetNetworkTrafficResponse:
         """Return the traffic analysis data for this network.
 
         [API documentation: getNetworkTraffic](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic)
@@ -7305,6 +7314,7 @@ class Networks:
             path=path,
             params=params,
             response_schema=GetNetworkTrafficResponse,
+            is_list_response=True,
         )
 
     def get_network_traffic_analysis(
@@ -7457,7 +7467,7 @@ class Networks:
 
     def get_network_traffic_shaping_dscp_tagging_options(
         self, network_id: str
-    ) -> GetNetworkTrafficShapingDscpTaggingOptionsResponse | None:
+    ) -> GetNetworkTrafficShapingDscpTaggingOptionsResponse:
         """Returns the available DSCP tagging options for your traffic shaping rules.
 
         [API documentation: getNetworkTrafficShapingDscpTaggingOptions](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-dscp-tagging-options)
@@ -7499,6 +7509,7 @@ class Networks:
             operation_id="getNetworkTrafficShapingDscpTaggingOptions",
             path=path,
             response_schema=GetNetworkTrafficShapingDscpTaggingOptionsResponse,
+            is_list_response=True,
         )
 
     def unbind_network(
@@ -7555,7 +7566,7 @@ class Networks:
             response_schema=UnbindNetworkResponse,
         )
 
-    def get_network_vlan_profiles(self, network_id: str) -> GetNetworkVlanProfilesResponse | None:
+    def get_network_vlan_profiles(self, network_id: str) -> GetNetworkVlanProfilesResponse:
         """List VLAN profiles for a network.
 
         [API documentation: getNetworkVlanProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles)
@@ -7602,6 +7613,7 @@ class Networks:
             operation_id="getNetworkVlanProfiles",
             path=path,
             response_schema=GetNetworkVlanProfilesResponse,
+            is_list_response=True,
         )
 
     def create_network_vlan_profile(
@@ -7970,7 +7982,7 @@ class Networks:
 
     def get_network_webhooks_http_servers(
         self, network_id: str
-    ) -> GetNetworkWebhooksHttpServersResponse | None:
+    ) -> GetNetworkWebhooksHttpServersResponse:
         """List the HTTP servers for a network.
 
         [API documentation: getNetworkWebhooksHttpServers](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-servers)
@@ -8006,6 +8018,7 @@ class Networks:
             operation_id="getNetworkWebhooksHttpServers",
             path=path,
             response_schema=GetNetworkWebhooksHttpServersResponse,
+            is_list_response=True,
         )
 
     def create_network_webhooks_http_server(
@@ -8194,7 +8207,7 @@ class Networks:
 
     def get_network_webhooks_payload_templates(
         self, network_id: str
-    ) -> GetNetworkWebhooksPayloadTemplatesResponse | None:
+    ) -> GetNetworkWebhooksPayloadTemplatesResponse:
         r"""List the webhook payload templates for a network.
 
         [API documentation: getNetworkWebhooksPayloadTemplates](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-templates)
@@ -8237,6 +8250,7 @@ class Networks:
             operation_id="getNetworkWebhooksPayloadTemplates",
             path=path,
             response_schema=GetNetworkWebhooksPayloadTemplatesResponse,
+            is_list_response=True,
         )
 
     def create_network_webhooks_payload_template(

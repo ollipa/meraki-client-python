@@ -866,7 +866,7 @@ class Wireless:
 
     async def get_network_wireless_air_marshal(
         self, network_id: str, *, t0: str | None = None, timespan: float | None = None
-    ) -> GetNetworkWirelessAirMarshalResponse | None:
+    ) -> GetNetworkWirelessAirMarshalResponse:
         """List Air Marshal scan results from a network.
 
         [API documentation: getNetworkWirelessAirMarshal](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-air-marshal)
@@ -933,6 +933,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessAirMarshalResponse,
+            is_list_response=True,
         )
 
     async def create_network_wireless_air_marshal_rule(
@@ -1468,7 +1469,7 @@ class Wireless:
         device_serial: str | None = None,
         ap_tag: str | None = None,
         band: str | None = None,
-    ) -> GetNetworkWirelessChannelUtilizationHistoryResponse | None:
+    ) -> GetNetworkWirelessChannelUtilizationHistoryResponse:
         """Return AP channel utilization over time for a device or network client.
 
         [API documentation: getNetworkWirelessChannelUtilizationHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-channel-utilization-history)
@@ -1546,6 +1547,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessChannelUtilizationHistoryResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_client_count_history(
@@ -1562,7 +1564,7 @@ class Wireless:
         ap_tag: str | None = None,
         band: str | None = None,
         ssid: int | None = None,
-    ) -> GetNetworkWirelessClientCountHistoryResponse | None:
+    ) -> GetNetworkWirelessClientCountHistoryResponse:
         """Return wireless client counts over time for a network, device, or network client.
 
         [API documentation: getNetworkWirelessClientCountHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-count-history)
@@ -1637,6 +1639,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessClientCountHistoryResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_clients_connection_stats(
@@ -1649,7 +1652,7 @@ class Wireless:
         band: str | None = None,
         ssid: int | None = None,
         ap_tag: str | None = None,
-    ) -> GetNetworkWirelessClientsConnectionStatsResponse | None:
+    ) -> GetNetworkWirelessClientsConnectionStatsResponse:
         """Aggregated connectivity info for this network, grouped by clients.
 
         [API documentation: getNetworkWirelessClientsConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-connection-stats)
@@ -1734,6 +1737,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessClientsConnectionStatsResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_clients_latency_stats(
@@ -1748,7 +1752,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> GetNetworkWirelessClientsLatencyStatsResponse | None:
+    ) -> GetNetworkWirelessClientsLatencyStatsResponse:
         """Aggregated latency info for this network, grouped by clients.
 
         [API documentation: getNetworkWirelessClientsLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats)
@@ -1889,6 +1893,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessClientsLatencyStatsResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_client_connection_stats(
@@ -2112,7 +2117,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         resolution: int | None = None,
-    ) -> GetNetworkWirelessClientLatencyHistoryResponse | None:
+    ) -> GetNetworkWirelessClientLatencyHistoryResponse:
         """Return the latency history for a client.
 
         [API documentation: getNetworkWirelessClientLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-history)
@@ -2225,6 +2230,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessClientLatencyHistoryResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_client_latency_stats(
@@ -2416,7 +2422,7 @@ class Wireless:
         ap_tag: str | None = None,
         band: str | None = None,
         ssid: int | None = None,
-    ) -> GetNetworkWirelessDataRateHistoryResponse | None:
+    ) -> GetNetworkWirelessDataRateHistoryResponse:
         """Return PHY data rates over time for a network, device, or network client.
 
         [API documentation: getNetworkWirelessDataRateHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-data-rate-history)
@@ -2492,6 +2498,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessDataRateHistoryResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_devices_connection_stats(
@@ -2504,7 +2511,7 @@ class Wireless:
         band: str | None = None,
         ssid: int | None = None,
         ap_tag: str | None = None,
-    ) -> GetNetworkWirelessDevicesConnectionStatsResponse | None:
+    ) -> GetNetworkWirelessDevicesConnectionStatsResponse:
         """Aggregated connectivity info for this network, grouped by node.
 
         [API documentation: getNetworkWirelessDevicesConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-connection-stats)
@@ -2569,6 +2576,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessDevicesConnectionStatsResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_devices_latency_stats(
@@ -2583,7 +2591,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> GetNetworkWirelessDevicesLatencyStatsResponse | None:
+    ) -> GetNetworkWirelessDevicesLatencyStatsResponse:
         """Aggregated latency info for this network, grouped by node.
 
         [API documentation: getNetworkWirelessDevicesLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats)
@@ -2698,6 +2706,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessDevicesLatencyStatsResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_electronic_shelf_label(
@@ -2790,7 +2799,7 @@ class Wireless:
 
     async def get_network_wireless_electronic_shelf_label_configured_devices(
         self, network_id: str
-    ) -> GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse | None:
+    ) -> GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse:
         """Get a list of all ESL eligible devices of a network.
 
         [API documentation: getNetworkWirelessElectronicShelfLabelConfiguredDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label-configured-devices)
@@ -2821,11 +2830,12 @@ class Wireless:
             operation_id="getNetworkWirelessElectronicShelfLabelConfiguredDevices",
             path=path,
             response_schema=GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_ethernet_ports_profiles(
         self, network_id: str
-    ) -> GetNetworkWirelessEthernetPortsProfilesResponse | None:
+    ) -> GetNetworkWirelessEthernetPortsProfilesResponse:
         """List the AP port profiles for this network.
 
         [API documentation: getNetworkWirelessEthernetPortsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profiles)
@@ -2872,6 +2882,7 @@ class Wireless:
             operation_id="getNetworkWirelessEthernetPortsProfiles",
             path=path,
             response_schema=GetNetworkWirelessEthernetPortsProfilesResponse,
+            is_list_response=True,
         )
 
     async def create_network_wireless_ethernet_ports_profile(
@@ -3181,7 +3192,7 @@ class Wireless:
         ap_tag: str | None = None,
         serial: str | None = None,
         client_id: str | None = None,
-    ) -> GetNetworkWirelessFailedConnectionsResponse | None:
+    ) -> GetNetworkWirelessFailedConnectionsResponse:
         """List of all failed client connection events on this network in a given time range.
 
         [API documentation: getNetworkWirelessFailedConnections](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-failed-connections)
@@ -3252,6 +3263,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessFailedConnectionsResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_latency_history(
@@ -3269,7 +3281,7 @@ class Wireless:
         band: str | None = None,
         ssid: int | None = None,
         access_category: str | None = None,
-    ) -> GetNetworkWirelessLatencyHistoryResponse | None:
+    ) -> GetNetworkWirelessLatencyHistoryResponse:
         """Return average wireless latency over time for a network, device, or network client.
 
         [API documentation: getNetworkWirelessLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-history)
@@ -3351,6 +3363,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessLatencyHistoryResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_latency_stats(
@@ -5312,7 +5325,7 @@ class Wireless:
         ap_tag: str | None = None,
         band: str | None = None,
         ssid: int | None = None,
-    ) -> GetNetworkWirelessSignalQualityHistoryResponse | None:
+    ) -> GetNetworkWirelessSignalQualityHistoryResponse:
         """Return signal quality (SNR/RSSI) over time for a device or network client.
 
         [API documentation: getNetworkWirelessSignalQualityHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-signal-quality-history)
@@ -5388,11 +5401,10 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessSignalQualityHistoryResponse,
+            is_list_response=True,
         )
 
-    async def get_network_wireless_ssids(
-        self, network_id: str
-    ) -> GetNetworkWirelessSsidsResponse | None:
+    async def get_network_wireless_ssids(self, network_id: str) -> GetNetworkWirelessSsidsResponse:
         r"""List the MR SSIDs in a network.
 
         [API documentation: getNetworkWirelessSsids](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids)
@@ -5471,6 +5483,7 @@ class Wireless:
             operation_id="getNetworkWirelessSsids",
             path=path,
             response_schema=GetNetworkWirelessSsidsResponse,
+            is_list_response=True,
         )
 
     async def get_network_wireless_ssid(
@@ -6800,7 +6813,7 @@ class Wireless:
 
     async def get_network_wireless_ssid_identity_psks(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidIdentityPsksResponse | None:
+    ) -> GetNetworkWirelessSsidIdentityPsksResponse:
         """List all Identity PSKs in a wireless network.
 
         [API documentation: getNetworkWirelessSsidIdentityPsks](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psks)
@@ -6837,6 +6850,7 @@ class Wireless:
             operation_id="getNetworkWirelessSsidIdentityPsks",
             path=path,
             response_schema=GetNetworkWirelessSsidIdentityPsksResponse,
+            is_list_response=True,
         )
 
     async def create_network_wireless_ssid_identity_psk(
@@ -7763,7 +7777,7 @@ class Wireless:
         ap_tag: str | None = None,
         band: str | None = None,
         ssid: int | None = None,
-    ) -> GetNetworkWirelessUsageHistoryResponse | None:
+    ) -> GetNetworkWirelessUsageHistoryResponse:
         """Return AP usage over time for a device or network client.
 
         [API documentation: getNetworkWirelessUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-usage-history)
@@ -7841,6 +7855,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetNetworkWirelessUsageHistoryResponse,
+            is_list_response=True,
         )
 
     async def update_network_wireless_zigbee(
@@ -9175,7 +9190,7 @@ class Wireless:
 
     async def get_organization_wireless_devices_radsec_certificates_authorities(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
-    ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse | None:
+    ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse:
         r"""Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
 
         [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthorities](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities)
@@ -9225,6 +9240,7 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse,
+            is_list_response=True,
         )
 
     async def update_organization_wireless_devices_radsec_certificates_authorities(

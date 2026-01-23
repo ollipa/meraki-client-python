@@ -38,7 +38,7 @@ class Insight:
         t1: str | None = None,
         timespan: float | None = None,
         resolution: int | None = None,
-    ) -> GetNetworkInsightApplicationHealthByTimeResponse | None:
+    ) -> GetNetworkInsightApplicationHealthByTimeResponse:
         """Get application health by time.
 
         [API documentation: getNetworkInsightApplicationHealthByTime](https://developer.cisco.com/meraki/api-v1/#!get-network-insight-application-health-by-time)
@@ -99,11 +99,12 @@ class Insight:
             path=path,
             params=params,
             response_schema=GetNetworkInsightApplicationHealthByTimeResponse,
+            is_list_response=True,
         )
 
     async def get_organization_insight_applications(
         self, organization_id: str
-    ) -> GetOrganizationInsightApplicationsResponse | None:
+    ) -> GetOrganizationInsightApplicationsResponse:
         """List all Insight tracked applications.
 
         [API documentation: getOrganizationInsightApplications](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications)
@@ -143,11 +144,12 @@ class Insight:
             operation_id="getOrganizationInsightApplications",
             path=path,
             response_schema=GetOrganizationInsightApplicationsResponse,
+            is_list_response=True,
         )
 
     async def get_organization_insight_monitored_media_servers(
         self, organization_id: str
-    ) -> GetOrganizationInsightMonitoredMediaServersResponse | None:
+    ) -> GetOrganizationInsightMonitoredMediaServersResponse:
         """List the monitored media servers for this organization.
 
         [API documentation: getOrganizationInsightMonitoredMediaServers](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers)
@@ -179,6 +181,7 @@ class Insight:
             operation_id="getOrganizationInsightMonitoredMediaServers",
             path=path,
             response_schema=GetOrganizationInsightMonitoredMediaServersResponse,
+            is_list_response=True,
         )
 
     async def create_organization_insight_monitored_media_server(

@@ -329,7 +329,7 @@ class Sm:
         wifi_mac: str | None = None,
         id: str | None = None,
         serial: str | None = None,
-    ) -> UpdateNetworkSmDevicesFieldsResponse | None:
+    ) -> UpdateNetworkSmDevicesFieldsResponse:
         """Modify the fields of a device.
 
         [API documentation: updateNetworkSmDevicesFields](https://developer.cisco.com/meraki/api-v1/#!update-network-sm-devices-fields)
@@ -377,6 +377,7 @@ class Sm:
             path=path,
             json=payload,
             response_schema=UpdateNetworkSmDevicesFieldsResponse,
+            is_list_response=True,
         )
 
     def lock_network_sm_devices(
@@ -450,7 +451,7 @@ class Sm:
         ids: list[str] | None = None,
         serials: list[str] | None = None,
         scope: list[str] | None = None,
-    ) -> ModifyNetworkSmDevicesTagsResponse | None:
+    ) -> ModifyNetworkSmDevicesTagsResponse:
         """Add, delete, or update the tags of a set of devices.
 
         [API documentation: modifyNetworkSmDevicesTags](https://developer.cisco.com/meraki/api-v1/#!modify-network-sm-devices-tags)
@@ -508,6 +509,7 @@ class Sm:
             path=path,
             json=payload,
             response_schema=ModifyNetworkSmDevicesTagsResponse,
+            is_list_response=True,
         )
 
     def move_network_sm_devices(
@@ -757,7 +759,7 @@ class Sm:
 
     def get_network_sm_device_cellular_usage_history(
         self, *, network_id: str, device_id: str
-    ) -> GetNetworkSmDeviceCellularUsageHistoryResponse | None:
+    ) -> GetNetworkSmDeviceCellularUsageHistoryResponse:
         """Return the client's daily cellular data usage history.
 
         [API documentation: getNetworkSmDeviceCellularUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-cellular-usage-history)
@@ -790,11 +792,12 @@ class Sm:
             operation_id="getNetworkSmDeviceCellularUsageHistory",
             path=path,
             response_schema=GetNetworkSmDeviceCellularUsageHistoryResponse,
+            is_list_response=True,
         )
 
     def get_network_sm_device_certs(
         self, *, network_id: str, device_id: str
-    ) -> GetNetworkSmDeviceCertsResponse | None:
+    ) -> GetNetworkSmDeviceCertsResponse:
         r"""List the certs on a device.
 
         [API documentation: getNetworkSmDeviceCerts](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-certs)
@@ -832,6 +835,7 @@ class Sm:
             operation_id="getNetworkSmDeviceCerts",
             path=path,
             response_schema=GetNetworkSmDeviceCertsResponse,
+            is_list_response=True,
         )
 
     def get_network_sm_device_connectivity(
@@ -1059,7 +1063,7 @@ class Sm:
 
     def get_network_sm_device_device_profiles(
         self, *, network_id: str, device_id: str
-    ) -> GetNetworkSmDeviceDeviceProfilesResponse | None:
+    ) -> GetNetworkSmDeviceDeviceProfilesResponse:
         """Get the installed profiles associated with a device.
 
         [API documentation: getNetworkSmDeviceDeviceProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-profiles)
@@ -1097,6 +1101,7 @@ class Sm:
             operation_id="getNetworkSmDeviceDeviceProfiles",
             path=path,
             response_schema=GetNetworkSmDeviceDeviceProfilesResponse,
+            is_list_response=True,
         )
 
     def install_network_sm_device_apps(
@@ -1134,7 +1139,7 @@ class Sm:
 
     def get_network_sm_device_network_adapters(
         self, *, network_id: str, device_id: str
-    ) -> GetNetworkSmDeviceNetworkAdaptersResponse | None:
+    ) -> GetNetworkSmDeviceNetworkAdaptersResponse:
         """List the network adapters of a device.
 
         [API documentation: getNetworkSmDeviceNetworkAdapters](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-network-adapters)
@@ -1172,6 +1177,7 @@ class Sm:
             operation_id="getNetworkSmDeviceNetworkAdapters",
             path=path,
             response_schema=GetNetworkSmDeviceNetworkAdaptersResponse,
+            is_list_response=True,
         )
 
     def get_network_sm_device_performance_history(
@@ -1317,7 +1323,7 @@ class Sm:
 
     def get_network_sm_device_security_centers(
         self, *, network_id: str, device_id: str
-    ) -> GetNetworkSmDeviceSecurityCentersResponse | None:
+    ) -> GetNetworkSmDeviceSecurityCentersResponse:
         """List the security centers on a device.
 
         [API documentation: getNetworkSmDeviceSecurityCenters](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-security-centers)
@@ -1357,11 +1363,12 @@ class Sm:
             operation_id="getNetworkSmDeviceSecurityCenters",
             path=path,
             response_schema=GetNetworkSmDeviceSecurityCentersResponse,
+            is_list_response=True,
         )
 
     def get_network_sm_device_softwares(
         self, *, network_id: str, device_id: str
-    ) -> GetNetworkSmDeviceSoftwaresResponse | None:
+    ) -> GetNetworkSmDeviceSoftwaresResponse:
         """Get a list of softwares associated with a device.
 
         [API documentation: getNetworkSmDeviceSoftwares](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-softwares)
@@ -1414,6 +1421,7 @@ class Sm:
             operation_id="getNetworkSmDeviceSoftwares",
             path=path,
             response_schema=GetNetworkSmDeviceSoftwaresResponse,
+            is_list_response=True,
         )
 
     def unenroll_network_sm_device(
@@ -1479,7 +1487,7 @@ class Sm:
 
     def get_network_sm_device_wlan_lists(
         self, *, network_id: str, device_id: str
-    ) -> GetNetworkSmDeviceWlanListsResponse | None:
+    ) -> GetNetworkSmDeviceWlanListsResponse:
         """List the saved SSID names on a device.
 
         [API documentation: getNetworkSmDeviceWlanLists](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-wlan-lists)
@@ -1512,11 +1520,12 @@ class Sm:
             operation_id="getNetworkSmDeviceWlanLists",
             path=path,
             response_schema=GetNetworkSmDeviceWlanListsResponse,
+            is_list_response=True,
         )
 
     def get_network_sm_profiles(
         self, network_id: str, *, payload_types: list[str] | None = None
-    ) -> GetNetworkSmProfilesResponse | None:
+    ) -> GetNetworkSmProfilesResponse:
         """List all profiles in a network.
 
         [API documentation: getNetworkSmProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-profiles)
@@ -1562,11 +1571,12 @@ class Sm:
             path=path,
             params=params,
             response_schema=GetNetworkSmProfilesResponse,
+            is_list_response=True,
         )
 
     def get_network_sm_target_groups(
         self, network_id: str, *, with_details: bool | None = None
-    ) -> GetNetworkSmTargetGroupsResponse | None:
+    ) -> GetNetworkSmTargetGroupsResponse:
         """List the target groups in this network.
 
         [API documentation: getNetworkSmTargetGroups](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-groups)
@@ -1608,6 +1618,7 @@ class Sm:
             path=path,
             params=params,
             response_schema=GetNetworkSmTargetGroupsResponse,
+            is_list_response=True,
         )
 
     def create_network_sm_target_group(
@@ -1969,7 +1980,7 @@ class Sm:
         usernames: list[str] | None = None,
         emails: list[str] | None = None,
         scope: list[str] | None = None,
-    ) -> GetNetworkSmUsersResponse | None:
+    ) -> GetNetworkSmUsersResponse:
         """List the owners in an SM network with various specified fields and filters.
 
         [API documentation: getNetworkSmUsers](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-users)
@@ -2027,11 +2038,12 @@ class Sm:
             path=path,
             params=params,
             response_schema=GetNetworkSmUsersResponse,
+            is_list_response=True,
         )
 
     def get_network_sm_user_device_profiles(
         self, *, network_id: str, user_id: str
-    ) -> GetNetworkSmUserDeviceProfilesResponse | None:
+    ) -> GetNetworkSmUserDeviceProfilesResponse:
         """Get the profiles associated with a user.
 
         [API documentation: getNetworkSmUserDeviceProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-device-profiles)
@@ -2069,11 +2081,12 @@ class Sm:
             operation_id="getNetworkSmUserDeviceProfiles",
             path=path,
             response_schema=GetNetworkSmUserDeviceProfilesResponse,
+            is_list_response=True,
         )
 
     def get_network_sm_user_softwares(
         self, *, network_id: str, user_id: str
-    ) -> GetNetworkSmUserSoftwaresResponse | None:
+    ) -> GetNetworkSmUserSoftwaresResponse:
         """Get a list of softwares associated with a user.
 
         [API documentation: getNetworkSmUserSoftwares](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-softwares)
@@ -2126,6 +2139,7 @@ class Sm:
             operation_id="getNetworkSmUserSoftwares",
             path=path,
             response_schema=GetNetworkSmUserSoftwaresResponse,
+            is_list_response=True,
         )
 
     def get_organization_sm_admins_roles(
@@ -2578,7 +2592,7 @@ class Sm:
 
     def get_organization_sm_vpp_accounts(
         self, organization_id: str
-    ) -> GetOrganizationSmVppAccountsResponse | None:
+    ) -> GetOrganizationSmVppAccountsResponse:
         """List the VPP accounts in the organization.
 
         [API documentation: getOrganizationSmVppAccounts](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts)
@@ -2627,6 +2641,7 @@ class Sm:
             operation_id="getOrganizationSmVppAccounts",
             path=path,
             response_schema=GetOrganizationSmVppAccountsResponse,
+            is_list_response=True,
         )
 
     def get_organization_sm_vpp_account(
