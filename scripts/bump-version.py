@@ -45,6 +45,11 @@ def update_changelog(new_version: str) -> None:
     CHANGELOG.write_text(content)
 
 
+def update_lockfile() -> None:
+    """Sync dependencies with uv."""
+    subprocess.run(["uv", "sync"], check=True, cwd=ROOT)
+
+
 def check_git_clean() -> None:
     """Check that git working directory is clean."""
     result = subprocess.run(
@@ -127,6 +132,7 @@ def main() -> None:
 
     update_pyproject(new_version)
     update_changelog(new_version)
+    update_lockfile()
 
     show_diff()
     if not confirm():
