@@ -10,7 +10,7 @@
 <a href="https://meraki-client.readthedocs.io/">
   <img src="https://img.shields.io/readthedocs/meraki-client" alt="documentation">
 </a>
-<a href="./LICENSE">
+<a href="https://github.com/ollipa/meraki-client-python/blob/main/LICENSE">
   <img src="https://img.shields.io/pypi/l/meraki-client" alt="license">
 </a>
 </p>
