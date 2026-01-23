@@ -83,7 +83,7 @@ def confirm() -> bool:
 
 def git_commit(new_version: str) -> None:
     """Commit the version bump changes."""
-    subprocess.run(["git", "add", PYPROJECT, CHANGELOG], check=True, cwd=ROOT)
+    subprocess.run(["git", "add", "."], check=True, cwd=ROOT)
     subprocess.run(
         ["git", "commit", "-m", f"Bump version to v{new_version}"],
         check=True,
