@@ -50,6 +50,12 @@ def update_lockfile() -> None:
     subprocess.run(["uv", "sync"], check=True, cwd=ROOT)
 
 
+def run_codegen() -> None:
+    """Run the code generator."""
+    subprocess.run(["make", "generate", "VERSION=1.66.0"], check=True, cwd=ROOT)
+    subprocess.run(["make", "lint"], check=True, cwd=ROOT)
+
+
 def check_git_clean() -> None:
     """Check that git working directory is clean."""
     result = subprocess.run(
@@ -133,6 +139,7 @@ def main() -> None:
     update_pyproject(new_version)
     update_changelog(new_version)
     update_lockfile()
+    run_codegen()
 
     show_diff()
     if not confirm():
