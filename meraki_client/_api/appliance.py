@@ -1523,7 +1523,7 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an MX network.
 
-        [API documentation: getNetworkApplianceFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l3-firewall-rules)
+        [API documentation: getNetworkApplianceFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -1566,7 +1566,7 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update the L3 firewall rules of an MX network.
 
-        [API documentation: updateNetworkApplianceFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l3-firewall-rules)
+        [API documentation: updateNetworkApplianceFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -1617,7 +1617,7 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """List the MX L7 firewall rules for an MX network.
 
-        [API documentation: getNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l7-firewall-rules)
+        [API documentation: getNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -1669,7 +1669,7 @@ class Appliance:
     ) -> dict[str, Any] | None:
         """Update the MX L7 firewall rules for an MX network.
 
-        [API documentation: updateNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l7-firewall-rules)
+        [API documentation: updateNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -1726,7 +1726,7 @@ class Appliance:
     ) -> GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse | None:
         """Return the L7 firewall application categories and their associated applications for an MX network.
 
-        [API documentation: getNetworkApplianceFirewallL7FirewallRulesApplicationCategories](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l7-firewall-rules-application-categories)
+        [API documentation: getNetworkApplianceFirewallL7FirewallRulesApplicationCategories](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules-application-categories)
 
         Args:
             network_id: Network ID.

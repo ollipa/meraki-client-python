@@ -107,7 +107,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update alternate management interface IPv6 address.
 
-        [API documentation: updateDeviceWirelessAlternateManagementInterfaceIpv6](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv6)
+        [API documentation: updateDeviceWirelessAlternateManagementInterfaceIpv6](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6)
 
         Args:
             serial: Serial.
@@ -1541,7 +1541,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the L3 firewall rules of an SSID on an MR network.
 
-        [API documentation: updateNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l3-firewall-rules)
+        [API documentation: updateNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -1576,7 +1576,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the L7 firewall rules of an SSID on an MR network.
 
-        [API documentation: updateNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l7-firewall-rules)
+        [API documentation: updateNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -1616,7 +1616,7 @@ class ActionBatchWireless:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the Hotspot 2.0 settings of an SSID.
 
-        [API documentation: updateNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot20)
+        [API documentation: updateNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-20)
 
         Args:
             network_id: Network ID.

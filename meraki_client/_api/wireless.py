@@ -227,7 +227,7 @@ class Wireless:
     ) -> UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response | None:
         """Update alternate management interface IPv6 address.
 
-        [API documentation: updateDeviceWirelessAlternateManagementInterfaceIpv6](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv6)
+        [API documentation: updateDeviceWirelessAlternateManagementInterfaceIpv6](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6)
 
         Args:
             serial: Serial.
@@ -6391,7 +6391,7 @@ class Wireless:
     ) -> GetNetworkWirelessSsidFirewallL3FirewallRulesResponse | None:
         """Return the L3 firewall rules for an SSID on an MR network.
 
-        [API documentation: getNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l3-firewall-rules)
+        [API documentation: getNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -6439,7 +6439,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse | None:
         """Update the L3 firewall rules of an SSID on an MR network.
 
-        [API documentation: updateNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l3-firewall-rules)
+        [API documentation: updateNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -6492,7 +6492,7 @@ class Wireless:
     ) -> GetNetworkWirelessSsidFirewallL7FirewallRulesResponse | None:
         """Return the L7 firewall rules for an SSID on an MR network.
 
-        [API documentation: getNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l7-firewall-rules)
+        [API documentation: getNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -6535,7 +6535,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse | None:
         """Update the L7 firewall rules of an SSID on an MR network.
 
-        [API documentation: updateNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l7-firewall-rules)
+        [API documentation: updateNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -6582,7 +6582,7 @@ class Wireless:
     ) -> GetNetworkWirelessSsidHotspot20Response | None:
         """Return the Hotspot 2.0 settings for an SSID.
 
-        [API documentation: getNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-hotspot20)
+        [API documentation: getNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-hotspot-20)
 
         Args:
             network_id: Network ID.
@@ -6669,7 +6669,7 @@ class Wireless:
     ) -> UpdateNetworkWirelessSsidHotspot20Response | None:
         """Update the Hotspot 2.0 settings of an SSID.
 
-        [API documentation: updateNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot20)
+        [API documentation: updateNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-20)
 
         Args:
             network_id: Network ID.

@@ -31,6 +31,7 @@ from openapi_pydantic.v3.v3_0 import (
     Schema,
 )
 from pydantic import BaseModel
+from pydantic.alias_generators import to_snake
 
 from codegen.constants import SCRIPT_DIR, TEMPLATE_DIR
 from codegen.log_config import setup_logging
@@ -986,7 +987,10 @@ def resolve_ref(
 def docs_url(operation_id: str) -> str:
     """Returns full link to endpoint's documentation on Developer Hub."""
     base_url = "https://developer.cisco.com/meraki/api-v1/#!"
-    return base_url + to_snake_case(operation_id).replace("_", "-")
+    kebab = to_snake(operation_id).replace("_", "-")
+    # Insert hyphen between letter and digit: l3 -> l-3, hotspot20 -> hotspot-20
+    kebab = re.sub(r"([a-z])(\d)", r"\1-\2", kebab)
+    return base_url + kebab
 
 
 def convert_path_params(path: str) -> str:

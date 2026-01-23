@@ -195,7 +195,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the MX L7 firewall rules for an MX network.
 
-        [API documentation: updateNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l7-firewall-rules)
+        [API documentation: updateNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules)
 
         Args:
             network_id: Network ID.
