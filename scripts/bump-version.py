@@ -72,7 +72,7 @@ def check_git_clean() -> None:
 
 def show_diff() -> None:
     """Show the git diff of changes."""
-    subprocess.run(["git", "diff", PYPROJECT, CHANGELOG], check=True, cwd=ROOT)
+    subprocess.run(["git", "diff"], check=True, cwd=ROOT)
 
 
 def confirm() -> bool:
@@ -144,7 +144,7 @@ def main() -> None:
     show_diff()
     if not confirm():
         subprocess.run(
-            ["git", "checkout", PYPROJECT, CHANGELOG],
+            ["git", "checkout", "."],
             check=True,
             cwd=ROOT,
         )
