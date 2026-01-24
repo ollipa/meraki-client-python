@@ -42,7 +42,7 @@ __all__ = [
     "AsyncPaginatedResponse",
     "BaseURL",
 ]
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __api_version__ = "v1.66.0"
 
 
