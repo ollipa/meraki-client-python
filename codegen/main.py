@@ -442,9 +442,8 @@ def generate_module(  # noqa: PLR0915
                 force_paginated=force_paginated,
             )
 
-            definition = build_function_definition(
-                function_definition.required_args, function_definition.optional_args
-            )
+            # Track if endpoint originally had pagination params (for template)
+            has_pagination_params = is_paginated
 
             response_schema_name = None
             item_schema_name = None
@@ -458,6 +457,21 @@ def generate_module(  # noqa: PLR0915
                     if is_paginated:
                         item_schemas = schema_registry.item_schema_map.get(schema_name)
                         item_schema_name = item_schemas[0] if item_schemas else schema_name
+
+            is_list_response = (
+                response_schema_name is not None
+                and response_schema_name in schema_registry.list_response_schemas
+            )
+            if is_list_response and not is_paginated and method == "get":
+                is_paginated = True
+                # Get item schema for list response
+                assert response_schema_name is not None
+                item_schemas = schema_registry.item_schema_map.get(response_schema_name)
+                item_schema_name = item_schemas[0] if item_schemas else response_schema_name
+
+            definition = build_function_definition(
+                function_definition.required_args, function_definition.optional_args
+            )
 
             if is_paginated and not item_schema_name:
                 raise ValueError(f"Paginated endpoint {operation_id} has no response schema")
@@ -494,11 +508,6 @@ def generate_module(  # noqa: PLR0915
                 "use_raw_docstring": use_raw_docstring,
             }
 
-            is_list_response = (
-                response_schema_name is not None
-                and response_schema_name in schema_registry.list_response_schemas
-            )
-
             output.write(
                 templates.function_template.render(
                     **common_params,
@@ -511,11 +520,10 @@ def generate_module(  # noqa: PLR0915
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
                         has_untyped_response=has_untyped_response,
-                        is_list_response=is_list_response,
                     ),
                     is_async=False,
                     is_paginated=is_paginated,
-                    is_list_response=is_list_response,
+                    has_pagination_params=has_pagination_params,
                 )
             )
             async_output.write(
@@ -530,11 +538,10 @@ def generate_module(  # noqa: PLR0915
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
                         has_untyped_response=has_untyped_response,
-                        is_list_response=is_list_response,
                     ),
                     is_async=True,
                     is_paginated=is_paginated,
-                    is_list_response=is_list_response,
+                    has_pagination_params=has_pagination_params,
                 )
             )
 
@@ -880,7 +887,6 @@ def get_return_type(
     response_schema_name: str | None = None,
     item_schema_name: str | None = None,
     has_untyped_response: bool = False,
-    is_list_response: bool = False,
 ) -> str:
     """Get the return type for a function."""
     if method == "delete":
@@ -892,9 +898,6 @@ def get_return_type(
             else f"PaginatedResponse[{item_schema_name}]"
         )
     if response_schema_name:
-        # List responses never return None - they return an empty list instead
-        if is_list_response:
-            return response_schema_name
         return f"{response_schema_name} | None"
     if has_untyped_response:
         return "dict[str, Any] | None"

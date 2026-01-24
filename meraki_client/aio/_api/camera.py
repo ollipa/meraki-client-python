@@ -24,28 +24,28 @@ from meraki_client.schemas import (
     CreateOrganizationCameraRoleResponse,
     GenerateDeviceCameraSnapshotResponse,
     GetDeviceCameraAnalyticsLiveResponse,
-    GetDeviceCameraAnalyticsOverviewResponse,
-    GetDeviceCameraAnalyticsRecentResponse,
-    GetDeviceCameraAnalyticsZoneHistoryResponse,
-    GetDeviceCameraAnalyticsZonesResponse,
+    GetDeviceCameraAnalyticsOverviewResponseItem,
+    GetDeviceCameraAnalyticsRecentResponseItem,
+    GetDeviceCameraAnalyticsZoneHistoryResponseItem,
+    GetDeviceCameraAnalyticsZonesResponseItem,
     GetDeviceCameraCustomAnalyticsResponse,
     GetDeviceCameraSenseObjectDetectionModelsResponse,
     GetDeviceCameraVideoSettingsResponse,
     GetNetworkCameraQualityRetentionProfileResponse,
-    GetNetworkCameraQualityRetentionProfilesResponse,
-    GetNetworkCameraSchedulesResponse,
+    GetNetworkCameraQualityRetentionProfilesResponseItem,
+    GetNetworkCameraSchedulesResponseItem,
     GetNetworkCameraWirelessProfileResponse,
-    GetNetworkCameraWirelessProfilesResponse,
-    GetOrganizationCameraBoundariesAreasByDeviceResponse,
-    GetOrganizationCameraBoundariesLinesByDeviceResponse,
+    GetNetworkCameraWirelessProfilesResponseItem,
+    GetOrganizationCameraBoundariesAreasByDeviceResponseItem,
+    GetOrganizationCameraBoundariesLinesByDeviceResponseItem,
     GetOrganizationCameraCustomAnalyticsArtifactResponse,
-    GetOrganizationCameraCustomAnalyticsArtifactsResponse,
+    GetOrganizationCameraCustomAnalyticsArtifactsResponseItem,
     GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem,
     GetOrganizationCameraOnboardingStatusesResponse,
     GetOrganizationCameraPermissionResponse,
-    GetOrganizationCameraPermissionsResponse,
+    GetOrganizationCameraPermissionsResponseItem,
     GetOrganizationCameraRoleResponse,
-    GetOrganizationCameraRolesResponse,
+    GetOrganizationCameraRolesResponseItem,
     UpdateDeviceCameraCustomAnalyticsParametersItem,
     UpdateDeviceCameraCustomAnalyticsResponse,
     UpdateDeviceCameraSenseAudioDetection,
@@ -109,7 +109,7 @@ class Camera:
             response_schema=GetDeviceCameraAnalyticsLiveResponse,
         )
 
-    async def get_device_camera_analytics_overview(
+    def get_device_camera_analytics_overview(
         self,
         serial: str,
         *,
@@ -117,7 +117,7 @@ class Camera:
         t1: str | None = None,
         timespan: float | None = None,
         object_type: str | None = None,
-    ) -> GetDeviceCameraAnalyticsOverviewResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsOverviewResponseItem]:
         """Returns an overview of aggregate analytics data for a timespan.
 
         [API documentation: getDeviceCameraAnalyticsOverview](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-overview)
@@ -170,18 +170,17 @@ class Camera:
         if object_type is not None:
             params["objectType"] = object_type
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getDeviceCameraAnalyticsOverview",
             path=path,
             params=params,
-            response_schema=GetDeviceCameraAnalyticsOverviewResponse,
-            is_list_response=True,
+            item_schema=GetDeviceCameraAnalyticsOverviewResponseItem,
         )
 
-    async def get_device_camera_analytics_recent(
+    def get_device_camera_analytics_recent(
         self, serial: str, *, object_type: str | None = None
-    ) -> GetDeviceCameraAnalyticsRecentResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsRecentResponseItem]:
         """Returns most recent record for analytics zones.
 
         [API documentation: getDeviceCameraAnalyticsRecent](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-recent)
@@ -222,18 +221,17 @@ class Camera:
         if object_type is not None:
             params["objectType"] = object_type
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getDeviceCameraAnalyticsRecent",
             path=path,
             params=params,
-            response_schema=GetDeviceCameraAnalyticsRecentResponse,
-            is_list_response=True,
+            item_schema=GetDeviceCameraAnalyticsRecentResponseItem,
         )
 
-    async def get_device_camera_analytics_zones(
+    def get_device_camera_analytics_zones(
         self, serial: str
-    ) -> GetDeviceCameraAnalyticsZonesResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsZonesResponseItem]:
         """Returns all configured analytic zones for this camera.
 
         [API documentation: getDeviceCameraAnalyticsZones](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zones)
@@ -265,15 +263,14 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/analytics/zones"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getDeviceCameraAnalyticsZones",
             path=path,
-            response_schema=GetDeviceCameraAnalyticsZonesResponse,
-            is_list_response=True,
+            item_schema=GetDeviceCameraAnalyticsZonesResponseItem,
         )
 
-    async def get_device_camera_analytics_zone_history(
+    def get_device_camera_analytics_zone_history(
         self,
         *,
         serial: str,
@@ -283,7 +280,7 @@ class Camera:
         timespan: float | None = None,
         resolution: int | None = None,
         object_type: str | None = None,
-    ) -> GetDeviceCameraAnalyticsZoneHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsZoneHistoryResponseItem]:
         """Return historical records for analytic zones.
 
         [API documentation: getDeviceCameraAnalyticsZoneHistory](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zone-history)
@@ -341,13 +338,12 @@ class Camera:
         if object_type is not None:
             params["objectType"] = object_type
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getDeviceCameraAnalyticsZoneHistory",
             path=path,
             params=params,
-            response_schema=GetDeviceCameraAnalyticsZoneHistoryResponse,
-            is_list_response=True,
+            item_schema=GetDeviceCameraAnalyticsZoneHistoryResponseItem,
         )
 
     async def get_device_camera_custom_analytics(
@@ -717,9 +713,9 @@ class Camera:
             scope="camera", operation_id="updateDeviceCameraSense", path=path, json=payload
         )
 
-    async def get_device_camera_sense_object_detection_models(
+    def get_device_camera_sense_object_detection_models(
         self, serial: str
-    ) -> GetDeviceCameraSenseObjectDetectionModelsResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceCameraSenseObjectDetectionModelsResponse]:
         """Returns the MV Sense object detection model list for the given camera.
 
         [API documentation: getDeviceCameraSenseObjectDetectionModels](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense-object-detection-models)
@@ -744,12 +740,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/sense/objectDetectionModels"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getDeviceCameraSenseObjectDetectionModels",
             path=path,
-            response_schema=GetDeviceCameraSenseObjectDetectionModelsResponse,
-            is_list_response=True,
+            item_schema=GetDeviceCameraSenseObjectDetectionModelsResponse,
         )
 
     async def get_device_camera_video_settings(
@@ -928,9 +923,9 @@ class Camera:
             json=payload,
         )
 
-    async def get_network_camera_quality_retention_profiles(
+    def get_network_camera_quality_retention_profiles(
         self, network_id: str
-    ) -> GetNetworkCameraQualityRetentionProfilesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkCameraQualityRetentionProfilesResponseItem]:
         """List the quality retention profiles for this network.
 
         [API documentation: getNetworkCameraQualityRetentionProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profiles)
@@ -972,12 +967,11 @@ class Camera:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/camera/qualityRetentionProfiles"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getNetworkCameraQualityRetentionProfiles",
             path=path,
-            response_schema=GetNetworkCameraQualityRetentionProfilesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkCameraQualityRetentionProfilesResponseItem,
         )
 
     async def create_network_camera_quality_retention_profile(
@@ -1279,9 +1273,9 @@ class Camera:
             scope="camera", operation_id="deleteNetworkCameraQualityRetentionProfile", path=path
         )
 
-    async def get_network_camera_schedules(
+    def get_network_camera_schedules(
         self, network_id: str
-    ) -> GetNetworkCameraSchedulesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkCameraSchedulesResponseItem]:
         """Returns a list of all camera recording schedules.
 
         [API documentation: getNetworkCameraSchedules](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules)
@@ -1306,17 +1300,16 @@ class Camera:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/camera/schedules"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getNetworkCameraSchedules",
             path=path,
-            response_schema=GetNetworkCameraSchedulesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkCameraSchedulesResponseItem,
         )
 
-    async def get_network_camera_wireless_profiles(
+    def get_network_camera_wireless_profiles(
         self, network_id: str
-    ) -> GetNetworkCameraWirelessProfilesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkCameraWirelessProfilesResponseItem]:
         """List the camera wireless profiles for this network.
 
         [API documentation: getNetworkCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles)
@@ -1352,12 +1345,11 @@ class Camera:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/camera/wirelessProfiles"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getNetworkCameraWirelessProfiles",
             path=path,
-            response_schema=GetNetworkCameraWirelessProfilesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkCameraWirelessProfilesResponseItem,
         )
 
     async def create_network_camera_wireless_profile(
@@ -1553,9 +1545,9 @@ class Camera:
             scope="camera", operation_id="deleteNetworkCameraWirelessProfile", path=path
         )
 
-    async def get_organization_camera_boundaries_areas_by_device(
+    def get_organization_camera_boundaries_areas_by_device(
         self, organization_id: str, *, serials: list[str] | None = None
-    ) -> GetOrganizationCameraBoundariesAreasByDeviceResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraBoundariesAreasByDeviceResponseItem]:
         """Returns all configured area boundaries of cameras.
 
         [API documentation: getOrganizationCameraBoundariesAreasByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-areas-by-device)
@@ -1597,18 +1589,17 @@ class Camera:
         if serials is not None:
             params["serials[]"] = serials
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getOrganizationCameraBoundariesAreasByDevice",
             path=path,
             params=params,
-            response_schema=GetOrganizationCameraBoundariesAreasByDeviceResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationCameraBoundariesAreasByDeviceResponseItem,
         )
 
-    async def get_organization_camera_boundaries_lines_by_device(
+    def get_organization_camera_boundaries_lines_by_device(
         self, organization_id: str, *, serials: list[str] | None = None
-    ) -> GetOrganizationCameraBoundariesLinesByDeviceResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraBoundariesLinesByDeviceResponseItem]:
         """Returns all configured crossingline boundaries of cameras.
 
         [API documentation: getOrganizationCameraBoundariesLinesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-lines-by-device)
@@ -1654,18 +1645,17 @@ class Camera:
         if serials is not None:
             params["serials[]"] = serials
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getOrganizationCameraBoundariesLinesByDevice",
             path=path,
             params=params,
-            response_schema=GetOrganizationCameraBoundariesLinesByDeviceResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationCameraBoundariesLinesByDeviceResponseItem,
         )
 
-    async def get_organization_camera_custom_analytics_artifacts(
+    def get_organization_camera_custom_analytics_artifacts(
         self, organization_id: str
-    ) -> GetOrganizationCameraCustomAnalyticsArtifactsResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraCustomAnalyticsArtifactsResponseItem]:
         """List Custom Analytics Artifacts.
 
         [API documentation: getOrganizationCameraCustomAnalyticsArtifacts](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifacts)
@@ -1695,12 +1685,11 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getOrganizationCameraCustomAnalyticsArtifacts",
             path=path,
-            response_schema=GetOrganizationCameraCustomAnalyticsArtifactsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationCameraCustomAnalyticsArtifactsResponseItem,
         )
 
     async def create_organization_camera_custom_analytics_artifact(
@@ -1891,13 +1880,13 @@ class Camera:
             item_schema=GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem,
         )
 
-    async def get_organization_camera_onboarding_statuses(
+    def get_organization_camera_onboarding_statuses(
         self,
         organization_id: str,
         *,
         serials: list[str] | None = None,
         network_ids: list[str] | None = None,
-    ) -> GetOrganizationCameraOnboardingStatusesResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraOnboardingStatusesResponse]:
         """Fetch onboarding status of cameras.
 
         [API documentation: getOrganizationCameraOnboardingStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-onboarding-statuses)
@@ -1934,13 +1923,12 @@ class Camera:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getOrganizationCameraOnboardingStatuses",
             path=path,
             params=params,
-            response_schema=GetOrganizationCameraOnboardingStatusesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationCameraOnboardingStatusesResponse,
         )
 
     async def update_organization_camera_onboarding_statuses(
@@ -1986,9 +1974,9 @@ class Camera:
             json=payload,
         )
 
-    async def get_organization_camera_permissions(
+    def get_organization_camera_permissions(
         self, organization_id: str
-    ) -> GetOrganizationCameraPermissionsResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraPermissionsResponseItem]:
         """List the permissions scopes for this organization.
 
         [API documentation: getOrganizationCameraPermissions](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions)
@@ -2014,12 +2002,11 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/camera/permissions"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getOrganizationCameraPermissions",
             path=path,
-            response_schema=GetOrganizationCameraPermissionsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationCameraPermissionsResponseItem,
         )
 
     async def get_organization_camera_permission(
@@ -2057,9 +2044,9 @@ class Camera:
             response_schema=GetOrganizationCameraPermissionResponse,
         )
 
-    async def get_organization_camera_roles(
+    def get_organization_camera_roles(
         self, organization_id: str
-    ) -> GetOrganizationCameraRolesResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraRolesResponseItem]:
         """List all the roles in this organization.
 
         [API documentation: getOrganizationCameraRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles)
@@ -2109,12 +2096,11 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/camera/roles"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="camera",
             operation_id="getOrganizationCameraRoles",
             path=path,
-            response_schema=GetOrganizationCameraRolesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationCameraRolesResponseItem,
         )
 
     async def create_organization_camera_role(

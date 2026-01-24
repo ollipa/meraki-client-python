@@ -77,20 +77,20 @@ from meraki_client.schemas import (
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksResponse,
     GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse,
-    GetOrganizationActionBatchesResponse,
+    GetOrganizationActionBatchesResponseItem,
     GetOrganizationActionBatchResponse,
     GetOrganizationAdaptivePolicyAclResponse,
-    GetOrganizationAdaptivePolicyAclsResponse,
+    GetOrganizationAdaptivePolicyAclsResponseItem,
     GetOrganizationAdaptivePolicyGroupResponse,
-    GetOrganizationAdaptivePolicyGroupsResponse,
+    GetOrganizationAdaptivePolicyGroupsResponseItem,
     GetOrganizationAdaptivePolicyOverviewResponse,
-    GetOrganizationAdaptivePolicyPoliciesResponse,
+    GetOrganizationAdaptivePolicyPoliciesResponseItem,
     GetOrganizationAdaptivePolicyPolicyResponse,
     GetOrganizationAdaptivePolicySettingsResponse,
-    GetOrganizationAdminsResponse,
-    GetOrganizationAlertsProfilesResponse,
+    GetOrganizationAdminsResponseItem,
+    GetOrganizationAlertsProfilesResponseItem,
     GetOrganizationApiRequestsOverviewResponse,
-    GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponse,
+    GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem,
     GetOrganizationApiRequestsResponseItem,
     GetOrganizationAssuranceAlertResponse,
     GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem,
@@ -98,16 +98,16 @@ from meraki_client.schemas import (
     GetOrganizationAssuranceAlertsOverviewHistoricalResponse,
     GetOrganizationAssuranceAlertsOverviewResponse,
     GetOrganizationAssuranceAlertsResponseItem,
-    GetOrganizationAssuranceAlertsTaxonomyCategoriesResponse,
-    GetOrganizationAssuranceAlertsTaxonomyTypesResponse,
+    GetOrganizationAssuranceAlertsTaxonomyCategoriesResponseItem,
+    GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem,
     GetOrganizationBrandingPoliciesPrioritiesResponse,
-    GetOrganizationBrandingPoliciesResponse,
+    GetOrganizationBrandingPoliciesResponseItem,
     GetOrganizationBrandingPolicyResponse,
-    GetOrganizationClientsBandwidthUsageHistoryResponse,
+    GetOrganizationClientsBandwidthUsageHistoryResponseItem,
     GetOrganizationClientsOverviewResponse,
     GetOrganizationClientsSearchResponseRecordsItem,
     GetOrganizationConfigTemplateResponse,
-    GetOrganizationConfigTemplatesResponse,
+    GetOrganizationConfigTemplatesResponseItem,
     GetOrganizationConfigurationChangesResponseItem,
     GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem,
     GetOrganizationDevicesAvailabilitiesResponseItem,
@@ -122,9 +122,9 @@ from meraki_client.schemas import (
     GetOrganizationDevicesStatusesResponseItem,
     GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem,
     GetOrganizationDevicesUplinksAddressesByDeviceResponseItem,
-    GetOrganizationDevicesUplinksLossAndLatencyResponse,
+    GetOrganizationDevicesUplinksLossAndLatencyResponseItem,
     GetOrganizationEarlyAccessFeaturesOptInResponse,
-    GetOrganizationEarlyAccessFeaturesResponse,
+    GetOrganizationEarlyAccessFeaturesResponseItem,
     GetOrganizationFirmwareUpgradesByDeviceResponseItem,
     GetOrganizationFirmwareUpgradesResponseItem,
     GetOrganizationFloorPlansAutoLocateDevicesResponseItem,
@@ -133,7 +133,7 @@ from meraki_client.schemas import (
     GetOrganizationInventoryDeviceResponse,
     GetOrganizationInventoryDevicesResponseItem,
     GetOrganizationInventoryDevicesSwapsBulkResponse,
-    GetOrganizationInventoryOnboardingCloudMonitoringImportsResponse,
+    GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem,
     GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem,
     GetOrganizationLicenseResponse,
     GetOrganizationLicensesOverviewResponse,
@@ -147,24 +147,24 @@ from meraki_client.schemas import (
     GetOrganizationPolicyObjectsResponse,
     GetOrganizationResponse,
     GetOrganizationSamlIdpResponse,
-    GetOrganizationSamlIdpsResponse,
+    GetOrganizationSamlIdpsResponseItem,
     GetOrganizationSamlResponse,
     GetOrganizationSamlRoleResponse,
-    GetOrganizationSamlRolesResponse,
+    GetOrganizationSamlRolesResponseItem,
     GetOrganizationSnmpResponse,
     GetOrganizationSplashAssetResponse,
-    GetOrganizationSplashThemesResponse,
+    GetOrganizationSplashThemesResponseItem,
     GetOrganizationsResponseItem,
-    GetOrganizationSummaryTopAppliancesByUtilizationResponse,
-    GetOrganizationSummaryTopApplicationsByUsageResponse,
-    GetOrganizationSummaryTopApplicationsCategoriesByUsageResponse,
-    GetOrganizationSummaryTopClientsByUsageResponse,
-    GetOrganizationSummaryTopClientsManufacturersByUsageResponse,
-    GetOrganizationSummaryTopDevicesByUsageResponse,
-    GetOrganizationSummaryTopDevicesModelsByUsageResponse,
+    GetOrganizationSummaryTopAppliancesByUtilizationResponseItem,
+    GetOrganizationSummaryTopApplicationsByUsageResponseItem,
+    GetOrganizationSummaryTopApplicationsCategoriesByUsageResponseItem,
+    GetOrganizationSummaryTopClientsByUsageResponseItem,
+    GetOrganizationSummaryTopClientsManufacturersByUsageResponseItem,
+    GetOrganizationSummaryTopDevicesByUsageResponseItem,
+    GetOrganizationSummaryTopDevicesModelsByUsageResponseItem,
     GetOrganizationSummaryTopNetworksByStatusResponseItem,
-    GetOrganizationSummaryTopSsidsByUsageResponse,
-    GetOrganizationSummaryTopSwitchesByEnergyUsageResponse,
+    GetOrganizationSummaryTopSsidsByUsageResponseItem,
+    GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem,
     GetOrganizationUplinksStatusesResponseItem,
     GetOrganizationWebhooksAlertTypesResponse,
     GetOrganizationWebhooksCallbacksStatusResponse,
@@ -524,7 +524,7 @@ class Organizations:
 
     def get_organization_action_batches(
         self, organization_id: str, *, status: str | None = None
-    ) -> GetOrganizationActionBatchesResponse:
+    ) -> PaginatedResponse[GetOrganizationActionBatchesResponseItem]:
         """Return the list of action batches in the organization.
 
         [API documentation: getOrganizationActionBatches](https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches)
@@ -579,13 +579,12 @@ class Organizations:
         if status is not None:
             params["status"] = status
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationActionBatches",
             path=path,
             params=params,
-            response_schema=GetOrganizationActionBatchesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationActionBatchesResponseItem,
         )
 
     def create_organization_action_batch(
@@ -825,7 +824,7 @@ class Organizations:
 
     def get_organization_adaptive_policy_acls(
         self, organization_id: str
-    ) -> GetOrganizationAdaptivePolicyAclsResponse:
+    ) -> PaginatedResponse[GetOrganizationAdaptivePolicyAclsResponseItem]:
         """List adaptive policy ACLs in a organization.
 
         [API documentation: getOrganizationAdaptivePolicyAcls](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acls)
@@ -864,12 +863,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyAcls",
             path=path,
-            response_schema=GetOrganizationAdaptivePolicyAclsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationAdaptivePolicyAclsResponseItem,
         )
 
     def create_organization_adaptive_policy_acl(
@@ -1093,7 +1091,7 @@ class Organizations:
 
     def get_organization_adaptive_policy_groups(
         self, organization_id: str
-    ) -> GetOrganizationAdaptivePolicyGroupsResponse:
+    ) -> PaginatedResponse[GetOrganizationAdaptivePolicyGroupsResponseItem]:
         """List adaptive policy groups in a organization.
 
         [API documentation: getOrganizationAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-groups)
@@ -1130,12 +1128,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyGroups",
             path=path,
-            response_schema=GetOrganizationAdaptivePolicyGroupsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationAdaptivePolicyGroupsResponseItem,
         )
 
     def create_organization_adaptive_policy_group(
@@ -1395,7 +1392,7 @@ class Organizations:
 
     def get_organization_adaptive_policy_policies(
         self, organization_id: str
-    ) -> GetOrganizationAdaptivePolicyPoliciesResponse:
+    ) -> PaginatedResponse[GetOrganizationAdaptivePolicyPoliciesResponseItem]:
         """List adaptive policies in an organization.
 
         [API documentation: getOrganizationAdaptivePolicyPolicies](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policies)
@@ -1438,12 +1435,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyPolicies",
             path=path,
-            response_schema=GetOrganizationAdaptivePolicyPoliciesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationAdaptivePolicyPoliciesResponseItem,
         )
 
     def create_organization_adaptive_policy_policy(
@@ -1764,7 +1760,7 @@ class Organizations:
 
     def get_organization_admins(
         self, organization_id: str, *, network_ids: list[str] | None = None
-    ) -> GetOrganizationAdminsResponse:
+    ) -> PaginatedResponse[GetOrganizationAdminsResponseItem]:
         """List the dashboard administrators in this organization.
 
         [API documentation: getOrganizationAdmins](https://developer.cisco.com/meraki/api-v1/#!get-organization-admins)
@@ -1814,13 +1810,12 @@ class Organizations:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationAdmins",
             path=path,
             params=params,
-            response_schema=GetOrganizationAdminsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationAdminsResponseItem,
         )
 
     def create_organization_admin(
@@ -2025,7 +2020,7 @@ class Organizations:
 
     def get_organization_alerts_profiles(
         self, organization_id: str
-    ) -> GetOrganizationAlertsProfilesResponse:
+    ) -> PaginatedResponse[GetOrganizationAlertsProfilesResponseItem]:
         """List all organization-wide alert configurations.
 
         [API documentation: getOrganizationAlertsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-alerts-profiles)
@@ -2070,12 +2065,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/alerts/profiles"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationAlertsProfiles",
             path=path,
-            response_schema=GetOrganizationAlertsProfilesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationAlertsProfilesResponseItem,
         )
 
     def create_organization_alerts_profile(
@@ -2542,7 +2536,7 @@ class Organizations:
         source_ips: list[str] | None = None,
         admin_ids: list[str] | None = None,
         user_agent: str | None = None,
-    ) -> GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponse:
+    ) -> PaginatedResponse[GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem]:
         """Tracks organizations' API requests by response code across a given time period.
 
         [API documentation: getOrganizationApiRequestsOverviewResponseCodesByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview-response-codes-by-interval)
@@ -2615,13 +2609,12 @@ class Organizations:
         if user_agent is not None:
             params["userAgent"] = user_agent
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationApiRequestsOverviewResponseCodesByInterval",
             path=path,
             params=params,
-            response_schema=GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem,
         )
 
     def get_organization_assurance_alerts(
@@ -3369,7 +3362,7 @@ class Organizations:
 
     def get_organization_assurance_alerts_taxonomy_categories(
         self, organization_id: str
-    ) -> GetOrganizationAssuranceAlertsTaxonomyCategoriesResponse:
+    ) -> PaginatedResponse[GetOrganizationAssuranceAlertsTaxonomyCategoriesResponseItem]:
         """Return a list of Category Types.
 
         [API documentation: getOrganizationAssuranceAlertsTaxonomyCategories](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-categories)
@@ -3394,17 +3387,16 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/assurance/alerts/taxonomy/categories"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationAssuranceAlertsTaxonomyCategories",
             path=path,
-            response_schema=GetOrganizationAssuranceAlertsTaxonomyCategoriesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationAssuranceAlertsTaxonomyCategoriesResponseItem,
         )
 
     def get_organization_assurance_alerts_taxonomy_types(
         self, organization_id: str
-    ) -> GetOrganizationAssuranceAlertsTaxonomyTypesResponse:
+    ) -> PaginatedResponse[GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem]:
         """Return a list of alert types.
 
         [API documentation: getOrganizationAssuranceAlertsTaxonomyTypes](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-types)
@@ -3449,12 +3441,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/assurance/alerts/taxonomy/types"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationAssuranceAlertsTaxonomyTypes",
             path=path,
-            response_schema=GetOrganizationAssuranceAlertsTaxonomyTypesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem,
         )
 
     def get_organization_assurance_alert(
@@ -3521,7 +3512,7 @@ class Organizations:
 
     def get_organization_branding_policies(
         self, organization_id: str
-    ) -> GetOrganizationBrandingPoliciesResponse:
+    ) -> PaginatedResponse[GetOrganizationBrandingPoliciesResponseItem]:
         """List the branding policies of an organization.
 
         [API documentation: getOrganizationBrandingPolicies](https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies)
@@ -3579,12 +3570,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/brandingPolicies"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationBrandingPolicies",
             path=path,
-            response_schema=GetOrganizationBrandingPoliciesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationBrandingPoliciesResponseItem,
         )
 
     def create_organization_branding_policy(
@@ -4020,7 +4010,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationClientsBandwidthUsageHistoryResponse:
+    ) -> PaginatedResponse[GetOrganizationClientsBandwidthUsageHistoryResponseItem]:
         """Return data usage (in megabits per second) over time for all clients in the given organization within a given time range.
 
         [API documentation: getOrganizationClientsBandwidthUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-bandwidth-usage-history)
@@ -4072,13 +4062,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationClientsBandwidthUsageHistory",
             path=path,
             params=params,
-            response_schema=GetOrganizationClientsBandwidthUsageHistoryResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationClientsBandwidthUsageHistoryResponseItem,
         )
 
     def get_organization_clients_overview(
@@ -4368,7 +4357,7 @@ class Organizations:
 
     def get_organization_config_templates(
         self, organization_id: str
-    ) -> GetOrganizationConfigTemplatesResponse:
+    ) -> PaginatedResponse[GetOrganizationConfigTemplatesResponseItem]:
         """List the configuration templates for this organization.
 
         [API documentation: getOrganizationConfigTemplates](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-templates)
@@ -4399,12 +4388,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/configTemplates"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationConfigTemplates",
             path=path,
-            response_schema=GetOrganizationConfigTemplatesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationConfigTemplatesResponseItem,
         )
 
     def create_organization_config_template(
@@ -5189,7 +5177,7 @@ class Organizations:
 
     def create_organization_devices_controller_migration(
         self, *, organization_id: str, serials: list[str], target: str
-    ) -> CreateOrganizationDevicesControllerMigrationResponse:
+    ) -> CreateOrganizationDevicesControllerMigrationResponse | None:
         """Migrate devices to another controller or management mode.
 
         [API documentation: createOrganizationDevicesControllerMigration](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration)
@@ -5236,7 +5224,6 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=CreateOrganizationDevicesControllerMigrationResponse,
-            is_list_response=True,
         )
 
     def bulk_update_organization_devices_details(
@@ -7025,7 +7012,7 @@ class Organizations:
         timespan: float | None = None,
         uplink: str | None = None,
         ip: str | None = None,
-    ) -> GetOrganizationDevicesUplinksLossAndLatencyResponse:
+    ) -> PaginatedResponse[GetOrganizationDevicesUplinksLossAndLatencyResponseItem]:
         """Return the uplink loss and latency for every MX in the organization from at latest 2 minutes ago.
 
         [API documentation: getOrganizationDevicesUplinksLossAndLatency](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-loss-and-latency)
@@ -7089,18 +7076,17 @@ class Organizations:
         if ip is not None:
             params["ip"] = ip
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationDevicesUplinksLossAndLatency",
             path=path,
             params=params,
-            response_schema=GetOrganizationDevicesUplinksLossAndLatencyResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationDevicesUplinksLossAndLatencyResponseItem,
         )
 
     def get_organization_early_access_features(
         self, organization_id: str
-    ) -> GetOrganizationEarlyAccessFeaturesResponse:
+    ) -> PaginatedResponse[GetOrganizationEarlyAccessFeaturesResponseItem]:
         """List the available early access features for organization.
 
         [API documentation: getOrganizationEarlyAccessFeatures](https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features)
@@ -7134,12 +7120,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/earlyAccess/features"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationEarlyAccessFeatures",
             path=path,
-            response_schema=GetOrganizationEarlyAccessFeaturesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationEarlyAccessFeaturesResponseItem,
         )
 
     def get_organization_early_access_features_opt_ins(
@@ -8458,7 +8443,7 @@ class Organizations:
 
     def get_organization_inventory_onboarding_cloud_monitoring_imports(
         self, *, organization_id: str, import_ids: list[str]
-    ) -> GetOrganizationInventoryOnboardingCloudMonitoringImportsResponse:
+    ) -> PaginatedResponse[GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem]:
         """Check the status of a committed Import operation.
 
         [API documentation: getOrganizationInventoryOnboardingCloudMonitoringImports](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-imports)
@@ -8492,13 +8477,12 @@ class Organizations:
         if import_ids is not None:
             params["importIds[]"] = import_ids
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationInventoryOnboardingCloudMonitoringImports",
             path=path,
             params=params,
-            response_schema=GetOrganizationInventoryOnboardingCloudMonitoringImportsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem,
         )
 
     def create_organization_inventory_onboarding_cloud_monitoring_import(
@@ -8506,7 +8490,7 @@ class Organizations:
         *,
         organization_id: str,
         devices: list[CreateOrganizationInventoryOnboardingCloudMonitoringImportDevicesItem],
-    ) -> CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse:
+    ) -> CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse | None:
         """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
 
         [API documentation: createOrganizationInventoryOnboardingCloudMonitoringImport](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import)
@@ -8545,7 +8529,6 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse,
-            is_list_response=True,
         )
 
     def get_organization_inventory_onboarding_cloud_monitoring_networks(
@@ -8648,7 +8631,7 @@ class Organizations:
         organization_id: str,
         devices: list[CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItem],
         options: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareOptions | None = None,
-    ) -> CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse:
+    ) -> CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse | None:
         """Initiates or updates an import session.
 
         [API documentation: createOrganizationInventoryOnboardingCloudMonitoringPrepare](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-prepare)
@@ -8711,7 +8694,6 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse,
-            is_list_response=True,
         )
 
     def claim_organization_inventory_orders(
@@ -10714,7 +10696,9 @@ class Organizations:
             response_schema=UpdateOrganizationSamlResponse,
         )
 
-    def get_organization_saml_idps(self, organization_id: str) -> GetOrganizationSamlIdpsResponse:
+    def get_organization_saml_idps(
+        self, organization_id: str
+    ) -> PaginatedResponse[GetOrganizationSamlIdpsResponseItem]:
         """List the SAML IdPs in your organization.
 
         [API documentation: getOrganizationSamlIdps](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps)
@@ -10743,12 +10727,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/saml/idps"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSamlIdps",
             path=path,
-            response_schema=GetOrganizationSamlIdpsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSamlIdpsResponseItem,
         )
 
     def create_organization_saml_idp(
@@ -10758,7 +10741,7 @@ class Organizations:
         x509cert_sha1_fingerprint: str,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
-    ) -> CreateOrganizationSamlIdpResponse:
+    ) -> CreateOrganizationSamlIdpResponse | None:
         """Create a SAML IdP for your organization.
 
         [API documentation: createOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp)
@@ -10806,7 +10789,6 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=CreateOrganizationSamlIdpResponse,
-            is_list_response=True,
         )
 
     def get_organization_saml_idp(
@@ -10855,7 +10837,7 @@ class Organizations:
         x509cert_sha1_fingerprint: str | None = None,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
-    ) -> UpdateOrganizationSamlIdpResponse:
+    ) -> UpdateOrganizationSamlIdpResponse | None:
         """Update a SAML IdP in your organization.
 
         [API documentation: updateOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp)
@@ -10905,7 +10887,6 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=UpdateOrganizationSamlIdpResponse,
-            is_list_response=True,
         )
 
     def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> None:
@@ -10929,7 +10910,9 @@ class Organizations:
             scope="organizations", operation_id="deleteOrganizationSamlIdp", path=path
         )
 
-    def get_organization_saml_roles(self, organization_id: str) -> GetOrganizationSamlRolesResponse:
+    def get_organization_saml_roles(
+        self, organization_id: str
+    ) -> PaginatedResponse[GetOrganizationSamlRolesResponseItem]:
         """List the SAML roles for this organization.
 
         [API documentation: getOrganizationSamlRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-roles)
@@ -10973,12 +10956,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/samlRoles"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSamlRoles",
             path=path,
-            response_schema=GetOrganizationSamlRolesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSamlRolesResponseItem,
         )
 
     def create_organization_saml_role(
@@ -11394,7 +11376,7 @@ class Organizations:
 
     def get_organization_splash_themes(
         self, organization_id: str
-    ) -> GetOrganizationSplashThemesResponse:
+    ) -> PaginatedResponse[GetOrganizationSplashThemesResponseItem]:
         """List Splash Themes.
 
         [API documentation: getOrganizationSplashThemes](https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-themes)
@@ -11425,12 +11407,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/splash/themes"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSplashThemes",
             path=path,
-            response_schema=GetOrganizationSplashThemesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSplashThemesResponseItem,
         )
 
     def create_organization_splash_theme(
@@ -11562,7 +11543,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopAppliancesByUtilizationResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopAppliancesByUtilizationResponseItem]:
         """Return the top 10 appliances sorted by utilization over given time range.
 
         [API documentation: getOrganizationSummaryTopAppliancesByUtilization](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-appliances-by-utilization)
@@ -11627,13 +11608,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopAppliancesByUtilization",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopAppliancesByUtilizationResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopAppliancesByUtilizationResponseItem,
         )
 
     def get_organization_summary_top_applications_by_usage(
@@ -11649,7 +11629,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopApplicationsByUsageResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopApplicationsByUsageResponseItem]:
         """Return the top applications sorted by data usage over given time range.
 
         [API documentation: getOrganizationSummaryTopApplicationsByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-by-usage)
@@ -11709,13 +11689,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopApplicationsByUsage",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopApplicationsByUsageResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopApplicationsByUsageResponseItem,
         )
 
     def get_organization_summary_top_applications_categories_by_usage(
@@ -11731,7 +11710,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopApplicationsCategoriesByUsageResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopApplicationsCategoriesByUsageResponseItem]:
         """Return the top application categories sorted by data usage over given time range.
 
         [API documentation: getOrganizationSummaryTopApplicationsCategoriesByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-categories-by-usage)
@@ -11791,13 +11770,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopApplicationsCategoriesByUsage",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopApplicationsCategoriesByUsageResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopApplicationsCategoriesByUsageResponseItem,
         )
 
     def get_organization_summary_top_clients_by_usage(
@@ -11812,7 +11790,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopClientsByUsageResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopClientsByUsageResponseItem]:
         """Return metrics for organization's top 10 clients by data usage (in mb) over given time range.
 
         [API documentation: getOrganizationSummaryTopClientsByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-by-usage)
@@ -11877,13 +11855,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopClientsByUsage",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopClientsByUsageResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopClientsByUsageResponseItem,
         )
 
     def get_organization_summary_top_clients_manufacturers_by_usage(
@@ -11898,7 +11875,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopClientsManufacturersByUsageResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopClientsManufacturersByUsageResponseItem]:
         """Return metrics for organization's top clients by data usage (in mb) over given time range, grouped by manufacturer.
 
         [API documentation: getOrganizationSummaryTopClientsManufacturersByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-manufacturers-by-usage)
@@ -11960,13 +11937,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopClientsManufacturersByUsage",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopClientsManufacturersByUsageResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopClientsManufacturersByUsageResponseItem,
         )
 
     def get_organization_summary_top_devices_by_usage(
@@ -11981,7 +11957,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopDevicesByUsageResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopDevicesByUsageResponseItem]:
         """Return metrics for organization's top 10 devices sorted by data usage over given time range.
 
         [API documentation: getOrganizationSummaryTopDevicesByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-by-usage)
@@ -12051,13 +12027,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopDevicesByUsage",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopDevicesByUsageResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopDevicesByUsageResponseItem,
         )
 
     def get_organization_summary_top_devices_models_by_usage(
@@ -12072,7 +12047,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopDevicesModelsByUsageResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopDevicesModelsByUsageResponseItem]:
         """Return metrics for organization's top 10 device models sorted by data usage over given time range.
 
         [API documentation: getOrganizationSummaryTopDevicesModelsByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-models-by-usage)
@@ -12130,13 +12105,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopDevicesModelsByUsage",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopDevicesModelsByUsageResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopDevicesModelsByUsageResponseItem,
         )
 
     def get_organization_summary_top_networks_by_status(
@@ -12276,7 +12250,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopSsidsByUsageResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopSsidsByUsageResponseItem]:
         """Return metrics for organization's top 10 ssids by data usage over given time range.
 
         [API documentation: getOrganizationSummaryTopSsidsByUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-ssids-by-usage)
@@ -12340,13 +12314,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopSsidsByUsage",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopSsidsByUsageResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopSsidsByUsageResponseItem,
         )
 
     def get_organization_summary_top_switches_by_energy_usage(
@@ -12361,7 +12334,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummaryTopSwitchesByEnergyUsageResponse:
+    ) -> PaginatedResponse[GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem]:
         """Return metrics for organization's top 10 switches by energy usage over given time range.
 
         [API documentation: getOrganizationSummaryTopSwitchesByEnergyUsage](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-switches-by-energy-usage)
@@ -12423,13 +12396,12 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationSummaryTopSwitchesByEnergyUsage",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummaryTopSwitchesByEnergyUsageResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem,
         )
 
     def get_organization_uplinks_statuses(

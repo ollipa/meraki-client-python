@@ -42,44 +42,44 @@ from meraki_client.schemas import (
     GetDeviceWirelessRadioSettingsResponse,
     GetDeviceWirelessStatusResponse,
     GetDeviceWirelessZigbeeEnrollmentResponse,
-    GetNetworkWirelessAirMarshalResponse,
+    GetNetworkWirelessAirMarshalResponseItem,
     GetNetworkWirelessBillingResponse,
     GetNetworkWirelessBluetoothSettingsResponse,
-    GetNetworkWirelessChannelUtilizationHistoryResponse,
+    GetNetworkWirelessChannelUtilizationHistoryResponseItem,
     GetNetworkWirelessClientConnectionStatsResponse,
     GetNetworkWirelessClientConnectivityEventsResponseItem,
-    GetNetworkWirelessClientCountHistoryResponse,
-    GetNetworkWirelessClientLatencyHistoryResponse,
+    GetNetworkWirelessClientCountHistoryResponseItem,
+    GetNetworkWirelessClientLatencyHistoryResponseItem,
     GetNetworkWirelessClientsConnectionStatsResponse,
     GetNetworkWirelessClientsLatencyStatsResponse,
     GetNetworkWirelessConnectionStatsResponse,
-    GetNetworkWirelessDataRateHistoryResponse,
-    GetNetworkWirelessDevicesConnectionStatsResponse,
+    GetNetworkWirelessDataRateHistoryResponseItem,
+    GetNetworkWirelessDevicesConnectionStatsResponseItem,
     GetNetworkWirelessDevicesLatencyStatsResponse,
-    GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse,
+    GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem,
     GetNetworkWirelessElectronicShelfLabelResponse,
     GetNetworkWirelessEthernetPortsProfileResponse,
-    GetNetworkWirelessEthernetPortsProfilesResponse,
-    GetNetworkWirelessFailedConnectionsResponse,
-    GetNetworkWirelessLatencyHistoryResponse,
+    GetNetworkWirelessEthernetPortsProfilesResponseItem,
+    GetNetworkWirelessFailedConnectionsResponseItem,
+    GetNetworkWirelessLatencyHistoryResponseItem,
     GetNetworkWirelessMeshStatusesResponseItem,
     GetNetworkWirelessRfProfileResponse,
     GetNetworkWirelessRfProfilesResponse,
     GetNetworkWirelessSettingsResponse,
-    GetNetworkWirelessSignalQualityHistoryResponse,
+    GetNetworkWirelessSignalQualityHistoryResponseItem,
     GetNetworkWirelessSsidBonjourForwardingResponse,
     GetNetworkWirelessSsidEapOverrideResponse,
     GetNetworkWirelessSsidFirewallL3FirewallRulesResponse,
     GetNetworkWirelessSsidFirewallL7FirewallRulesResponse,
     GetNetworkWirelessSsidHotspot20Response,
     GetNetworkWirelessSsidIdentityPskResponse,
-    GetNetworkWirelessSsidIdentityPsksResponse,
+    GetNetworkWirelessSsidIdentityPsksResponseItem,
     GetNetworkWirelessSsidResponse,
     GetNetworkWirelessSsidSchedulesResponse,
     GetNetworkWirelessSsidSplashSettingsResponse,
-    GetNetworkWirelessSsidsResponse,
+    GetNetworkWirelessSsidsResponseItem,
     GetNetworkWirelessSsidTrafficShapingRulesResponse,
-    GetNetworkWirelessUsageHistoryResponse,
+    GetNetworkWirelessUsageHistoryResponseItem,
     GetOrganizationWirelessAirMarshalRulesResponseItemsItem,
     GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem,
     GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem,
@@ -94,7 +94,7 @@ from meraki_client.schemas import (
     GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem,
     GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse,
     GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse,
-    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse,
+    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem,
     GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem,
     GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem,
     GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem,
@@ -864,9 +864,9 @@ class Wireless:
             response_schema=GetDeviceWirelessZigbeeEnrollmentResponse,
         )
 
-    async def get_network_wireless_air_marshal(
+    def get_network_wireless_air_marshal(
         self, network_id: str, *, t0: str | None = None, timespan: float | None = None
-    ) -> GetNetworkWirelessAirMarshalResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessAirMarshalResponseItem]:
         """List Air Marshal scan results from a network.
 
         [API documentation: getNetworkWirelessAirMarshal](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-air-marshal)
@@ -927,13 +927,12 @@ class Wireless:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessAirMarshal",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessAirMarshalResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessAirMarshalResponseItem,
         )
 
     async def create_network_wireless_air_marshal_rule(
@@ -1456,7 +1455,7 @@ class Wireless:
             response_schema=UpdateNetworkWirelessBluetoothSettingsResponse,
         )
 
-    async def get_network_wireless_channel_utilization_history(
+    def get_network_wireless_channel_utilization_history(
         self,
         network_id: str,
         *,
@@ -1469,7 +1468,7 @@ class Wireless:
         device_serial: str | None = None,
         ap_tag: str | None = None,
         band: str | None = None,
-    ) -> GetNetworkWirelessChannelUtilizationHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessChannelUtilizationHistoryResponseItem]:
         """Return AP channel utilization over time for a device or network client.
 
         [API documentation: getNetworkWirelessChannelUtilizationHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-channel-utilization-history)
@@ -1541,16 +1540,15 @@ class Wireless:
         if band is not None:
             params["band"] = band
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessChannelUtilizationHistory",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessChannelUtilizationHistoryResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessChannelUtilizationHistoryResponseItem,
         )
 
-    async def get_network_wireless_client_count_history(
+    def get_network_wireless_client_count_history(
         self,
         network_id: str,
         *,
@@ -1564,7 +1562,7 @@ class Wireless:
         ap_tag: str | None = None,
         band: str | None = None,
         ssid: int | None = None,
-    ) -> GetNetworkWirelessClientCountHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientCountHistoryResponseItem]:
         """Return wireless client counts over time for a network, device, or network client.
 
         [API documentation: getNetworkWirelessClientCountHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-count-history)
@@ -1633,16 +1631,15 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessClientCountHistory",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessClientCountHistoryResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessClientCountHistoryResponseItem,
         )
 
-    async def get_network_wireless_clients_connection_stats(
+    def get_network_wireless_clients_connection_stats(
         self,
         network_id: str,
         *,
@@ -1652,7 +1649,7 @@ class Wireless:
         band: str | None = None,
         ssid: int | None = None,
         ap_tag: str | None = None,
-    ) -> GetNetworkWirelessClientsConnectionStatsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsConnectionStatsResponse]:
         """Aggregated connectivity info for this network, grouped by clients.
 
         [API documentation: getNetworkWirelessClientsConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-connection-stats)
@@ -1731,16 +1728,15 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessClientsConnectionStats",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessClientsConnectionStatsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessClientsConnectionStatsResponse,
         )
 
-    async def get_network_wireless_clients_latency_stats(
+    def get_network_wireless_clients_latency_stats(
         self,
         network_id: str,
         *,
@@ -1752,7 +1748,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> GetNetworkWirelessClientsLatencyStatsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsLatencyStatsResponse]:
         """Aggregated latency info for this network, grouped by clients.
 
         [API documentation: getNetworkWirelessClientsLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats)
@@ -1887,13 +1883,12 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessClientsLatencyStats",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessClientsLatencyStatsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessClientsLatencyStatsResponse,
         )
 
     async def get_network_wireless_client_connection_stats(
@@ -2108,7 +2103,7 @@ class Wireless:
             item_schema=GetNetworkWirelessClientConnectivityEventsResponseItem,
         )
 
-    async def get_network_wireless_client_latency_history(
+    def get_network_wireless_client_latency_history(
         self,
         *,
         network_id: str,
@@ -2117,7 +2112,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         resolution: int | None = None,
-    ) -> GetNetworkWirelessClientLatencyHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientLatencyHistoryResponseItem]:
         """Return the latency history for a client.
 
         [API documentation: getNetworkWirelessClientLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-history)
@@ -2224,13 +2219,12 @@ class Wireless:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessClientLatencyHistory",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessClientLatencyHistoryResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessClientLatencyHistoryResponseItem,
         )
 
     async def get_network_wireless_client_latency_stats(
@@ -2408,7 +2402,7 @@ class Wireless:
             response_schema=GetNetworkWirelessConnectionStatsResponse,
         )
 
-    async def get_network_wireless_data_rate_history(
+    def get_network_wireless_data_rate_history(
         self,
         network_id: str,
         *,
@@ -2422,7 +2416,7 @@ class Wireless:
         ap_tag: str | None = None,
         band: str | None = None,
         ssid: int | None = None,
-    ) -> GetNetworkWirelessDataRateHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessDataRateHistoryResponseItem]:
         """Return PHY data rates over time for a network, device, or network client.
 
         [API documentation: getNetworkWirelessDataRateHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-data-rate-history)
@@ -2492,16 +2486,15 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessDataRateHistory",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessDataRateHistoryResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessDataRateHistoryResponseItem,
         )
 
-    async def get_network_wireless_devices_connection_stats(
+    def get_network_wireless_devices_connection_stats(
         self,
         network_id: str,
         *,
@@ -2511,7 +2504,7 @@ class Wireless:
         band: str | None = None,
         ssid: int | None = None,
         ap_tag: str | None = None,
-    ) -> GetNetworkWirelessDevicesConnectionStatsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessDevicesConnectionStatsResponseItem]:
         """Aggregated connectivity info for this network, grouped by node.
 
         [API documentation: getNetworkWirelessDevicesConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-connection-stats)
@@ -2570,16 +2563,15 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessDevicesConnectionStats",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessDevicesConnectionStatsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessDevicesConnectionStatsResponseItem,
         )
 
-    async def get_network_wireless_devices_latency_stats(
+    def get_network_wireless_devices_latency_stats(
         self,
         network_id: str,
         *,
@@ -2591,7 +2583,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> GetNetworkWirelessDevicesLatencyStatsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessDevicesLatencyStatsResponse]:
         """Aggregated latency info for this network, grouped by node.
 
         [API documentation: getNetworkWirelessDevicesLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats)
@@ -2700,13 +2692,12 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessDevicesLatencyStats",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessDevicesLatencyStatsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessDevicesLatencyStatsResponse,
         )
 
     async def get_network_wireless_electronic_shelf_label(
@@ -2797,9 +2788,11 @@ class Wireless:
             response_schema=UpdateNetworkWirelessElectronicShelfLabelResponse,
         )
 
-    async def get_network_wireless_electronic_shelf_label_configured_devices(
+    def get_network_wireless_electronic_shelf_label_configured_devices(
         self, network_id: str
-    ) -> GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse:
+    ) -> AsyncPaginatedResponse[
+        GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem
+    ]:
         """Get a list of all ESL eligible devices of a network.
 
         [API documentation: getNetworkWirelessElectronicShelfLabelConfiguredDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label-configured-devices)
@@ -2825,17 +2818,16 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/electronicShelfLabel/configuredDevices"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessElectronicShelfLabelConfiguredDevices",
             path=path,
-            response_schema=GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem,
         )
 
-    async def get_network_wireless_ethernet_ports_profiles(
+    def get_network_wireless_ethernet_ports_profiles(
         self, network_id: str
-    ) -> GetNetworkWirelessEthernetPortsProfilesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessEthernetPortsProfilesResponseItem]:
         """List the AP port profiles for this network.
 
         [API documentation: getNetworkWirelessEthernetPortsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profiles)
@@ -2877,12 +2869,11 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessEthernetPortsProfiles",
             path=path,
-            response_schema=GetNetworkWirelessEthernetPortsProfilesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessEthernetPortsProfilesResponseItem,
         )
 
     async def create_network_wireless_ethernet_ports_profile(
@@ -3180,7 +3171,7 @@ class Wireless:
             scope="wireless", operation_id="deleteNetworkWirelessEthernetPortsProfile", path=path
         )
 
-    async def get_network_wireless_failed_connections(
+    def get_network_wireless_failed_connections(
         self,
         network_id: str,
         *,
@@ -3192,7 +3183,7 @@ class Wireless:
         ap_tag: str | None = None,
         serial: str | None = None,
         client_id: str | None = None,
-    ) -> GetNetworkWirelessFailedConnectionsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessFailedConnectionsResponseItem]:
         """List of all failed client connection events on this network in a given time range.
 
         [API documentation: getNetworkWirelessFailedConnections](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-failed-connections)
@@ -3257,16 +3248,15 @@ class Wireless:
         if client_id is not None:
             params["clientId"] = client_id
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessFailedConnections",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessFailedConnectionsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessFailedConnectionsResponseItem,
         )
 
-    async def get_network_wireless_latency_history(
+    def get_network_wireless_latency_history(
         self,
         network_id: str,
         *,
@@ -3281,7 +3271,7 @@ class Wireless:
         band: str | None = None,
         ssid: int | None = None,
         access_category: str | None = None,
-    ) -> GetNetworkWirelessLatencyHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessLatencyHistoryResponseItem]:
         """Return average wireless latency over time for a network, device, or network client.
 
         [API documentation: getNetworkWirelessLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-history)
@@ -3357,13 +3347,12 @@ class Wireless:
         if access_category is not None:
             params["accessCategory"] = access_category
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessLatencyHistory",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessLatencyHistoryResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessLatencyHistoryResponseItem,
         )
 
     async def get_network_wireless_latency_stats(
@@ -5311,7 +5300,7 @@ class Wireless:
             response_schema=UpdateNetworkWirelessSettingsResponse,
         )
 
-    async def get_network_wireless_signal_quality_history(
+    def get_network_wireless_signal_quality_history(
         self,
         network_id: str,
         *,
@@ -5325,7 +5314,7 @@ class Wireless:
         ap_tag: str | None = None,
         band: str | None = None,
         ssid: int | None = None,
-    ) -> GetNetworkWirelessSignalQualityHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessSignalQualityHistoryResponseItem]:
         """Return signal quality (SNR/RSSI) over time for a device or network client.
 
         [API documentation: getNetworkWirelessSignalQualityHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-signal-quality-history)
@@ -5395,16 +5384,17 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessSignalQualityHistory",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessSignalQualityHistoryResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessSignalQualityHistoryResponseItem,
         )
 
-    async def get_network_wireless_ssids(self, network_id: str) -> GetNetworkWirelessSsidsResponse:
+    def get_network_wireless_ssids(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessSsidsResponseItem]:
         r"""List the MR SSIDs in a network.
 
         [API documentation: getNetworkWirelessSsids](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids)
@@ -5478,12 +5468,11 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/ssids"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessSsids",
             path=path,
-            response_schema=GetNetworkWirelessSsidsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessSsidsResponseItem,
         )
 
     async def get_network_wireless_ssid(
@@ -6811,9 +6800,9 @@ class Wireless:
             response_schema=UpdateNetworkWirelessSsidHotspot20Response,
         )
 
-    async def get_network_wireless_ssid_identity_psks(
+    def get_network_wireless_ssid_identity_psks(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidIdentityPsksResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessSsidIdentityPsksResponseItem]:
         """List all Identity PSKs in a wireless network.
 
         [API documentation: getNetworkWirelessSsidIdentityPsks](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psks)
@@ -6845,12 +6834,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessSsidIdentityPsks",
             path=path,
-            response_schema=GetNetworkWirelessSsidIdentityPsksResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessSsidIdentityPsksResponseItem,
         )
 
     async def create_network_wireless_ssid_identity_psk(
@@ -7763,7 +7751,7 @@ class Wireless:
             scope="wireless", operation_id="updateNetworkWirelessSsidVpn", path=path, json=payload
         )
 
-    async def get_network_wireless_usage_history(
+    def get_network_wireless_usage_history(
         self,
         network_id: str,
         *,
@@ -7777,7 +7765,7 @@ class Wireless:
         ap_tag: str | None = None,
         band: str | None = None,
         ssid: int | None = None,
-    ) -> GetNetworkWirelessUsageHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessUsageHistoryResponseItem]:
         """Return AP usage over time for a device or network client.
 
         [API documentation: getNetworkWirelessUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-usage-history)
@@ -7849,13 +7837,12 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessUsageHistory",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessUsageHistoryResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWirelessUsageHistoryResponseItem,
         )
 
     async def update_network_wireless_zigbee(
@@ -9188,9 +9175,11 @@ class Wireless:
             item_schema=GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem,
         )
 
-    async def get_organization_wireless_devices_radsec_certificates_authorities(
+    def get_organization_wireless_devices_radsec_certificates_authorities(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
-    ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem
+    ]:
         r"""Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
 
         [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthorities](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities)
@@ -9234,13 +9223,12 @@ class Wireless:
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getOrganizationWirelessDevicesRadsecCertificatesAuthorities",
             path=path,
             params=params,
-            response_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem,
         )
 
     async def update_organization_wireless_devices_radsec_certificates_authorities(

@@ -12,15 +12,15 @@ from typing import TYPE_CHECKING
 
 from meraki_client.schemas import (
     CreateOrganizationInsightMonitoredMediaServerResponse,
-    GetNetworkInsightApplicationHealthByTimeResponse,
-    GetOrganizationInsightApplicationsResponse,
+    GetNetworkInsightApplicationHealthByTimeResponseItem,
+    GetOrganizationInsightApplicationsResponseItem,
     GetOrganizationInsightMonitoredMediaServerResponse,
-    GetOrganizationInsightMonitoredMediaServersResponse,
+    GetOrganizationInsightMonitoredMediaServersResponseItem,
     UpdateOrganizationInsightMonitoredMediaServerResponse,
 )
 
 if TYPE_CHECKING:
-    from meraki_client.aio._session import Session
+    from meraki_client.aio._session import AsyncPaginatedResponse, Session
 
 
 class Insight:
@@ -29,7 +29,7 @@ class Insight:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_network_insight_application_health_by_time(
+    def get_network_insight_application_health_by_time(
         self,
         *,
         network_id: str,
@@ -38,7 +38,7 @@ class Insight:
         t1: str | None = None,
         timespan: float | None = None,
         resolution: int | None = None,
-    ) -> GetNetworkInsightApplicationHealthByTimeResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkInsightApplicationHealthByTimeResponseItem]:
         """Get application health by time.
 
         [API documentation: getNetworkInsightApplicationHealthByTime](https://developer.cisco.com/meraki/api-v1/#!get-network-insight-application-health-by-time)
@@ -93,18 +93,17 @@ class Insight:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="insight",
             operation_id="getNetworkInsightApplicationHealthByTime",
             path=path,
             params=params,
-            response_schema=GetNetworkInsightApplicationHealthByTimeResponse,
-            is_list_response=True,
+            item_schema=GetNetworkInsightApplicationHealthByTimeResponseItem,
         )
 
-    async def get_organization_insight_applications(
+    def get_organization_insight_applications(
         self, organization_id: str
-    ) -> GetOrganizationInsightApplicationsResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationInsightApplicationsResponseItem]:
         """List all Insight tracked applications.
 
         [API documentation: getOrganizationInsightApplications](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications)
@@ -139,17 +138,16 @@ class Insight:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/insight/applications"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="insight",
             operation_id="getOrganizationInsightApplications",
             path=path,
-            response_schema=GetOrganizationInsightApplicationsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationInsightApplicationsResponseItem,
         )
 
-    async def get_organization_insight_monitored_media_servers(
+    def get_organization_insight_monitored_media_servers(
         self, organization_id: str
-    ) -> GetOrganizationInsightMonitoredMediaServersResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationInsightMonitoredMediaServersResponseItem]:
         """List the monitored media servers for this organization.
 
         [API documentation: getOrganizationInsightMonitoredMediaServers](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers)
@@ -176,12 +174,11 @@ class Insight:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="insight",
             operation_id="getOrganizationInsightMonitoredMediaServers",
             path=path,
-            response_schema=GetOrganizationInsightMonitoredMediaServersResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationInsightMonitoredMediaServersResponseItem,
         )
 
     async def create_organization_insight_monitored_media_server(

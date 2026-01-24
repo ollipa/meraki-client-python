@@ -66,48 +66,48 @@ from meraki_client.schemas import (
     GetNetworkClientsResponseItem,
     GetNetworkClientsUsageHistoriesResponseItem,
     GetNetworkClientTrafficHistoryResponseItem,
-    GetNetworkClientUsageHistoryResponse,
-    GetNetworkDevicesResponse,
-    GetNetworkEventsEventTypesResponse,
+    GetNetworkClientUsageHistoryResponseItem,
+    GetNetworkDevicesResponseItem,
+    GetNetworkEventsEventTypesResponseItem,
     GetNetworkEventsResponseEventsItem,
     GetNetworkFirmwareUpgradesResponse,
     GetNetworkFirmwareUpgradesStagedEventsResponse,
     GetNetworkFirmwareUpgradesStagedGroupResponse,
-    GetNetworkFirmwareUpgradesStagedGroupsResponse,
-    GetNetworkFirmwareUpgradesStagedStagesResponse,
+    GetNetworkFirmwareUpgradesStagedGroupsResponseItem,
+    GetNetworkFirmwareUpgradesStagedStagesResponseItem,
     GetNetworkFloorPlanResponse,
-    GetNetworkFloorPlansResponse,
-    GetNetworkGroupPoliciesResponse,
+    GetNetworkFloorPlansResponseItem,
+    GetNetworkGroupPoliciesResponseItem,
     GetNetworkGroupPolicyResponse,
-    GetNetworkHealthAlertsResponse,
+    GetNetworkHealthAlertsResponseItem,
     GetNetworkMerakiAuthUserResponse,
-    GetNetworkMerakiAuthUsersResponse,
+    GetNetworkMerakiAuthUsersResponseItem,
     GetNetworkMqttBrokerResponse,
-    GetNetworkMqttBrokersResponse,
+    GetNetworkMqttBrokersResponseItem,
     GetNetworkNetflowResponse,
     GetNetworkNetworkHealthChannelUtilizationResponseItem,
     GetNetworkPiiPiiKeysResponse,
     GetNetworkPiiRequestResponse,
-    GetNetworkPiiRequestsResponse,
+    GetNetworkPiiRequestsResponseItem,
     GetNetworkPiiSmDevicesForKeyResponse,
     GetNetworkPiiSmOwnersForKeyResponse,
     GetNetworkPoliciesByClientResponseItem,
     GetNetworkResponse,
     GetNetworkSettingsResponse,
     GetNetworkSnmpResponse,
-    GetNetworkSplashLoginAttemptsResponse,
+    GetNetworkSplashLoginAttemptsResponseItem,
     GetNetworkSyslogServersResponse,
     GetNetworkTopologyLinkLayerResponse,
     GetNetworkTrafficAnalysisResponse,
-    GetNetworkTrafficResponse,
+    GetNetworkTrafficResponseItem,
     GetNetworkTrafficShapingDscpTaggingOptionsResponse,
     GetNetworkVlanProfileResponse,
     GetNetworkVlanProfilesAssignmentsByDeviceResponseItem,
-    GetNetworkVlanProfilesResponse,
+    GetNetworkVlanProfilesResponseItem,
     GetNetworkWebhooksHttpServerResponse,
-    GetNetworkWebhooksHttpServersResponse,
+    GetNetworkWebhooksHttpServersResponseItem,
     GetNetworkWebhooksPayloadTemplateResponse,
-    GetNetworkWebhooksPayloadTemplatesResponse,
+    GetNetworkWebhooksPayloadTemplatesResponseItem,
     GetNetworkWebhooksWebhookTestResponse,
     ProvisionNetworkClientsClientsItem,
     ProvisionNetworkClientsPoliciesBySecurityAppliance,
@@ -1796,9 +1796,9 @@ class Networks:
             item_schema=GetNetworkClientTrafficHistoryResponseItem,
         )
 
-    async def get_network_client_usage_history(
+    def get_network_client_usage_history(
         self, *, network_id: str, client_id: str
-    ) -> GetNetworkClientUsageHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkClientUsageHistoryResponseItem]:
         """Return the client's daily usage history.
 
         [API documentation: getNetworkClientUsageHistory](https://developer.cisco.com/meraki/api-v1/#!get-network-client-usage-history)
@@ -1826,15 +1826,16 @@ class Networks:
         client_id = urllib.parse.quote(str(client_id), safe="")
         path = f"/networks/{network_id}/clients/{client_id}/usageHistory"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkClientUsageHistory",
             path=path,
-            response_schema=GetNetworkClientUsageHistoryResponse,
-            is_list_response=True,
+            item_schema=GetNetworkClientUsageHistoryResponseItem,
         )
 
-    async def get_network_devices(self, network_id: str) -> GetNetworkDevicesResponse:
+    def get_network_devices(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkDevicesResponseItem]:
         """List the devices in a network.
 
         [API documentation: getNetworkDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-devices)
@@ -1883,12 +1884,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/devices"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkDevices",
             path=path,
-            response_schema=GetNetworkDevicesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkDevicesResponseItem,
         )
 
     async def claim_network_devices(
@@ -2224,9 +2224,9 @@ class Networks:
             item_schema=GetNetworkEventsResponseEventsItem,
         )
 
-    async def get_network_events_event_types(
+    def get_network_events_event_types(
         self, network_id: str
-    ) -> GetNetworkEventsEventTypesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkEventsEventTypesResponseItem]:
         """List the event type to human-readable description.
 
         [API documentation: getNetworkEventsEventTypes](https://developer.cisco.com/meraki/api-v1/#!get-network-events-event-types)
@@ -2252,12 +2252,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/events/eventTypes"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkEventsEventTypes",
             path=path,
-            response_schema=GetNetworkEventsEventTypesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkEventsEventTypesResponseItem,
         )
 
     async def get_network_firmware_upgrades(
@@ -3539,9 +3538,9 @@ class Networks:
             response_schema=RollbacksNetworkFirmwareUpgradesStagedEventsResponse,
         )
 
-    async def get_network_firmware_upgrades_staged_groups(
+    def get_network_firmware_upgrades_staged_groups(
         self, network_id: str
-    ) -> GetNetworkFirmwareUpgradesStagedGroupsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkFirmwareUpgradesStagedGroupsResponseItem]:
         """List of Staged Upgrade Groups in a network.
 
         [API documentation: getNetworkFirmwareUpgradesStagedGroups](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-groups)
@@ -3582,12 +3581,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkFirmwareUpgradesStagedGroups",
             path=path,
-            response_schema=GetNetworkFirmwareUpgradesStagedGroupsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkFirmwareUpgradesStagedGroupsResponseItem,
         )
 
     async def create_network_firmware_upgrades_staged_group(
@@ -3812,9 +3810,9 @@ class Networks:
             scope="networks", operation_id="deleteNetworkFirmwareUpgradesStagedGroup", path=path
         )
 
-    async def get_network_firmware_upgrades_staged_stages(
+    def get_network_firmware_upgrades_staged_stages(
         self, network_id: str
-    ) -> GetNetworkFirmwareUpgradesStagedStagesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkFirmwareUpgradesStagedStagesResponseItem]:
         """Order of Staged Upgrade Groups in a network.
 
         [API documentation: getNetworkFirmwareUpgradesStagedStages](https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-stages)
@@ -3842,12 +3840,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/firmwareUpgrades/staged/stages"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkFirmwareUpgradesStagedStages",
             path=path,
-            response_schema=GetNetworkFirmwareUpgradesStagedStagesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkFirmwareUpgradesStagedStagesResponseItem,
         )
 
     async def update_network_firmware_upgrades_staged_stages(
@@ -3855,7 +3852,7 @@ class Networks:
         network_id: str,
         *,
         _json: list[UpdateNetworkFirmwareUpgradesStagedStagesJsonItem] | None = None,
-    ) -> UpdateNetworkFirmwareUpgradesStagedStagesResponse:
+    ) -> UpdateNetworkFirmwareUpgradesStagedStagesResponse | None:
         """Assign Staged Upgrade Group order in the sequence.
 
         [API documentation: updateNetworkFirmwareUpgradesStagedStages](https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-stages)
@@ -3894,10 +3891,11 @@ class Networks:
             path=path,
             json=payload,
             response_schema=UpdateNetworkFirmwareUpgradesStagedStagesResponse,
-            is_list_response=True,
         )
 
-    async def get_network_floor_plans(self, network_id: str) -> GetNetworkFloorPlansResponse:
+    def get_network_floor_plans(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkFloorPlansResponseItem]:
         """List the floor plans that belong to your network.
 
         [API documentation: getNetworkFloorPlans](https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plans)
@@ -3975,12 +3973,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/floorPlans"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkFloorPlans",
             path=path,
-            response_schema=GetNetworkFloorPlansResponse,
-            is_list_response=True,
+            item_schema=GetNetworkFloorPlansResponseItem,
         )
 
     async def create_network_floor_plan(
@@ -4664,7 +4661,9 @@ class Networks:
             scope="networks", operation_id="deleteNetworkFloorPlan", path=path
         )
 
-    async def get_network_group_policies(self, network_id: str) -> GetNetworkGroupPoliciesResponse:
+    def get_network_group_policies(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkGroupPoliciesResponseItem]:
         """List the group policies in a network.
 
         [API documentation: getNetworkGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!get-network-group-policies)
@@ -4809,12 +4808,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/groupPolicies"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkGroupPolicies",
             path=path,
-            response_schema=GetNetworkGroupPoliciesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkGroupPoliciesResponseItem,
         )
 
     async def create_network_group_policy(
@@ -5422,7 +5420,9 @@ class Networks:
             scope="networks", operation_id="deleteNetworkGroupPolicy", path=path
         )
 
-    async def get_network_health_alerts(self, network_id: str) -> GetNetworkHealthAlertsResponse:
+    def get_network_health_alerts(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkHealthAlertsResponseItem]:
         """Return all global alerts on this network.
 
         [API documentation: getNetworkHealthAlerts](https://developer.cisco.com/meraki/api-v1/#!get-network-health-alerts)
@@ -5483,17 +5483,16 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/health/alerts"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkHealthAlerts",
             path=path,
-            response_schema=GetNetworkHealthAlertsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkHealthAlertsResponseItem,
         )
 
-    async def get_network_meraki_auth_users(
+    def get_network_meraki_auth_users(
         self, network_id: str
-    ) -> GetNetworkMerakiAuthUsersResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkMerakiAuthUsersResponseItem]:
         """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network).
 
         [API documentation: getNetworkMerakiAuthUsers](https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-users)
@@ -5531,12 +5530,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/merakiAuthUsers"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkMerakiAuthUsers",
             path=path,
-            response_schema=GetNetworkMerakiAuthUsersResponse,
-            is_list_response=True,
+            item_schema=GetNetworkMerakiAuthUsersResponseItem,
         )
 
     async def create_network_meraki_auth_user(
@@ -5779,7 +5777,9 @@ class Networks:
             scope="networks", operation_id="deleteNetworkMerakiAuthUser", path=path
         )
 
-    async def get_network_mqtt_brokers(self, network_id: str) -> GetNetworkMqttBrokersResponse:
+    def get_network_mqtt_brokers(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkMqttBrokersResponseItem]:
         """List the MQTT brokers for this network.
 
         [API documentation: getNetworkMqttBrokers](https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-brokers)
@@ -5816,12 +5816,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/mqttBrokers"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkMqttBrokers",
             path=path,
-            response_schema=GetNetworkMqttBrokersResponse,
-            is_list_response=True,
+            item_schema=GetNetworkMqttBrokersResponseItem,
         )
 
     async def create_network_mqtt_broker(
@@ -6311,7 +6310,9 @@ class Networks:
             response_schema=GetNetworkPiiPiiKeysResponse,
         )
 
-    async def get_network_pii_requests(self, network_id: str) -> GetNetworkPiiRequestsResponse:
+    def get_network_pii_requests(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkPiiRequestsResponseItem]:
         """List the PII requests for this network or organization.
 
         [API documentation: getNetworkPiiRequests](https://developer.cisco.com/meraki/api-v1/#!get-network-pii-requests)
@@ -6343,12 +6344,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/pii/requests"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkPiiRequests",
             path=path,
-            response_schema=GetNetworkPiiRequestsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkPiiRequestsResponseItem,
         )
 
     async def create_network_pii_request(
@@ -6940,14 +6940,14 @@ class Networks:
             response_schema=UpdateNetworkSnmpResponse,
         )
 
-    async def get_network_splash_login_attempts(
+    def get_network_splash_login_attempts(
         self,
         network_id: str,
         *,
         ssid_number: int | None = None,
         login_identifier: str | None = None,
         timespan: int | None = None,
-    ) -> GetNetworkSplashLoginAttemptsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSplashLoginAttemptsResponseItem]:
         """List the splash login attempts for a network.
 
         [API documentation: getNetworkSplashLoginAttempts](https://developer.cisco.com/meraki/api-v1/#!get-network-splash-login-attempts)
@@ -6996,13 +6996,12 @@ class Networks:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkSplashLoginAttempts",
             path=path,
             params=params,
-            response_schema=GetNetworkSplashLoginAttemptsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSplashLoginAttemptsResponseItem,
         )
 
     async def split_network(self, network_id: str) -> SplitNetworkResponse | None:
@@ -7255,14 +7254,14 @@ class Networks:
             response_schema=GetNetworkTopologyLinkLayerResponse,
         )
 
-    async def get_network_traffic(
+    def get_network_traffic(
         self,
         network_id: str,
         *,
         t0: str | None = None,
         timespan: float | None = None,
         device_type: str | None = None,
-    ) -> GetNetworkTrafficResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkTrafficResponseItem]:
         """Return the traffic analysis data for this network.
 
         [API documentation: getNetworkTraffic](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic)
@@ -7316,13 +7315,12 @@ class Networks:
         if device_type is not None:
             params["deviceType"] = device_type
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkTraffic",
             path=path,
             params=params,
-            response_schema=GetNetworkTrafficResponse,
-            is_list_response=True,
+            item_schema=GetNetworkTrafficResponseItem,
         )
 
     async def get_network_traffic_analysis(
@@ -7473,9 +7471,9 @@ class Networks:
             path=path,
         )
 
-    async def get_network_traffic_shaping_dscp_tagging_options(
+    def get_network_traffic_shaping_dscp_tagging_options(
         self, network_id: str
-    ) -> GetNetworkTrafficShapingDscpTaggingOptionsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkTrafficShapingDscpTaggingOptionsResponse]:
         """Returns the available DSCP tagging options for your traffic shaping rules.
 
         [API documentation: getNetworkTrafficShapingDscpTaggingOptions](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-dscp-tagging-options)
@@ -7512,12 +7510,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/trafficShaping/dscpTaggingOptions"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkTrafficShapingDscpTaggingOptions",
             path=path,
-            response_schema=GetNetworkTrafficShapingDscpTaggingOptionsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkTrafficShapingDscpTaggingOptionsResponse,
         )
 
     async def unbind_network(
@@ -7574,7 +7571,9 @@ class Networks:
             response_schema=UnbindNetworkResponse,
         )
 
-    async def get_network_vlan_profiles(self, network_id: str) -> GetNetworkVlanProfilesResponse:
+    def get_network_vlan_profiles(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkVlanProfilesResponseItem]:
         """List VLAN profiles for a network.
 
         [API documentation: getNetworkVlanProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles)
@@ -7616,12 +7615,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/vlanProfiles"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkVlanProfiles",
             path=path,
-            response_schema=GetNetworkVlanProfilesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkVlanProfilesResponseItem,
         )
 
     async def create_network_vlan_profile(
@@ -7988,9 +7986,9 @@ class Networks:
             scope="networks", operation_id="deleteNetworkVlanProfile", path=path
         )
 
-    async def get_network_webhooks_http_servers(
+    def get_network_webhooks_http_servers(
         self, network_id: str
-    ) -> GetNetworkWebhooksHttpServersResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWebhooksHttpServersResponseItem]:
         """List the HTTP servers for a network.
 
         [API documentation: getNetworkWebhooksHttpServers](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-servers)
@@ -8021,12 +8019,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/webhooks/httpServers"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkWebhooksHttpServers",
             path=path,
-            response_schema=GetNetworkWebhooksHttpServersResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWebhooksHttpServersResponseItem,
         )
 
     async def create_network_webhooks_http_server(
@@ -8215,9 +8212,9 @@ class Networks:
             scope="networks", operation_id="deleteNetworkWebhooksHttpServer", path=path
         )
 
-    async def get_network_webhooks_payload_templates(
+    def get_network_webhooks_payload_templates(
         self, network_id: str
-    ) -> GetNetworkWebhooksPayloadTemplatesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkWebhooksPayloadTemplatesResponseItem]:
         r"""List the webhook payload templates for a network.
 
         [API documentation: getNetworkWebhooksPayloadTemplates](https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-templates)
@@ -8255,12 +8252,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/webhooks/payloadTemplates"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="networks",
             operation_id="getNetworkWebhooksPayloadTemplates",
             path=path,
-            response_schema=GetNetworkWebhooksPayloadTemplatesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkWebhooksPayloadTemplatesResponseItem,
         )
 
     async def create_network_webhooks_payload_template(

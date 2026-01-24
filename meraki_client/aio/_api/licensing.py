@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING, Literal
 from meraki_client.schemas import (
     BindAdministeredLicensingSubscriptionSubscriptionResponse,
     ClaimAdministeredLicensingSubscriptionSubscriptionsResponse,
-    GetAdministeredLicensingSubscriptionEntitlementsResponse,
-    GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse,
+    GetAdministeredLicensingSubscriptionEntitlementsResponseItem,
+    GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItem,
     GetAdministeredLicensingSubscriptionSubscriptionsResponseItem,
     GetOrganizationLicensingCotermLicensesResponseItem,
     MoveOrganizationLicensingCotermLicensesDestination,
@@ -33,9 +33,9 @@ class Licensing:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_administered_licensing_subscription_entitlements(
+    def get_administered_licensing_subscription_entitlements(
         self, *, skus: list[str] | None = None
-    ) -> GetAdministeredLicensingSubscriptionEntitlementsResponse:
+    ) -> AsyncPaginatedResponse[GetAdministeredLicensingSubscriptionEntitlementsResponseItem]:
         """Retrieve the list of purchasable entitlements.
 
         [API documentation: getAdministeredLicensingSubscriptionEntitlements](https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-entitlements)
@@ -66,13 +66,12 @@ class Licensing:
         if skus is not None:
             params["skus[]"] = skus
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="licensing",
             operation_id="getAdministeredLicensingSubscriptionEntitlements",
             path=path,
             params=params,
-            response_schema=GetAdministeredLicensingSubscriptionEntitlementsResponse,
-            is_list_response=True,
+            item_schema=GetAdministeredLicensingSubscriptionEntitlementsResponseItem,
         )
 
     def get_administered_licensing_subscription_subscriptions(
@@ -396,9 +395,11 @@ class Licensing:
             response_schema=ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse,
         )
 
-    async def get_administered_licensing_subscription_subscriptions_compliance_statuses(
+    def get_administered_licensing_subscription_subscriptions_compliance_statuses(
         self, organization_ids: list[str], *, subscription_ids: list[str] | None = None
-    ) -> GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse:
+    ) -> AsyncPaginatedResponse[
+        GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItem
+    ]:
         """Get compliance status for requested subscriptions.
 
         [API documentation: getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses](https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions-compliance-statuses)
@@ -448,13 +449,12 @@ class Licensing:
         if subscription_ids is not None:
             params["subscriptionIds[]"] = subscription_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="licensing",
             operation_id="getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses",
             path=path,
             params=params,
-            response_schema=GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse,
-            is_list_response=True,
+            item_schema=GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItem,
         )
 
     async def bind_administered_licensing_subscription_subscription(

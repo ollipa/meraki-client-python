@@ -20,12 +20,12 @@ from meraki_client.schemas import (
     GetDeviceSensorCommandsResponseItem,
     GetDeviceSensorRelationshipsResponse,
     GetNetworkSensorAlertsCurrentOverviewByMetricResponse,
-    GetNetworkSensorAlertsOverviewByMetricResponse,
+    GetNetworkSensorAlertsOverviewByMetricResponseItem,
     GetNetworkSensorAlertsProfileResponse,
-    GetNetworkSensorAlertsProfilesResponse,
+    GetNetworkSensorAlertsProfilesResponseItem,
     GetNetworkSensorMqttBrokerResponse,
-    GetNetworkSensorMqttBrokersResponse,
-    GetNetworkSensorRelationshipsResponse,
+    GetNetworkSensorMqttBrokersResponseItem,
+    GetNetworkSensorRelationshipsResponseItem,
     GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem,
     GetOrganizationSensorReadingsHistoryResponseItem,
     GetOrganizationSensorReadingsLatestResponseItem,
@@ -398,7 +398,7 @@ class Sensor:
             response_schema=GetNetworkSensorAlertsCurrentOverviewByMetricResponse,
         )
 
-    async def get_network_sensor_alerts_overview_by_metric(
+    def get_network_sensor_alerts_overview_by_metric(
         self,
         network_id: str,
         *,
@@ -406,7 +406,7 @@ class Sensor:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-    ) -> GetNetworkSensorAlertsOverviewByMetricResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSensorAlertsOverviewByMetricResponseItem]:
         """Return an overview of alert occurrences over a timespan, by metric.
 
         [API documentation: getNetworkSensorAlertsOverviewByMetric](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-overview-by-metric)
@@ -471,18 +471,17 @@ class Sensor:
         if interval is not None:
             params["interval"] = interval
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="sensor",
             operation_id="getNetworkSensorAlertsOverviewByMetric",
             path=path,
             params=params,
-            response_schema=GetNetworkSensorAlertsOverviewByMetricResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSensorAlertsOverviewByMetricResponseItem,
         )
 
-    async def get_network_sensor_alerts_profiles(
+    def get_network_sensor_alerts_profiles(
         self, network_id: str
-    ) -> GetNetworkSensorAlertsProfilesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSensorAlertsProfilesResponseItem]:
         """Lists all sensor alert profiles for a network.
 
         [API documentation: getNetworkSensorAlertsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles)
@@ -596,12 +595,11 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/sensor/alerts/profiles"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="sensor",
             operation_id="getNetworkSensorAlertsProfiles",
             path=path,
-            response_schema=GetNetworkSensorAlertsProfilesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSensorAlertsProfilesResponseItem,
         )
 
     async def create_network_sensor_alerts_profile(
@@ -1063,9 +1061,9 @@ class Sensor:
             scope="sensor", operation_id="deleteNetworkSensorAlertsProfile", path=path
         )
 
-    async def get_network_sensor_mqtt_brokers(
+    def get_network_sensor_mqtt_brokers(
         self, network_id: str
-    ) -> GetNetworkSensorMqttBrokersResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSensorMqttBrokersResponseItem]:
         """List the sensor settings of all MQTT brokers for this network.
 
         [API documentation: getNetworkSensorMqttBrokers](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers)
@@ -1090,12 +1088,11 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/sensor/mqttBrokers"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="sensor",
             operation_id="getNetworkSensorMqttBrokers",
             path=path,
-            response_schema=GetNetworkSensorMqttBrokersResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSensorMqttBrokersResponseItem,
         )
 
     async def get_network_sensor_mqtt_broker(
@@ -1172,9 +1169,9 @@ class Sensor:
             response_schema=UpdateNetworkSensorMqttBrokerResponse,
         )
 
-    async def get_network_sensor_relationships(
+    def get_network_sensor_relationships(
         self, network_id: str
-    ) -> GetNetworkSensorRelationshipsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSensorRelationshipsResponseItem]:
         """List the sensor roles for devices in a given network.
 
         [API documentation: getNetworkSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-relationships)
@@ -1212,12 +1209,11 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/sensor/relationships"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="sensor",
             operation_id="getNetworkSensorRelationships",
             path=path,
-            response_schema=GetNetworkSensorRelationshipsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSensorRelationshipsResponseItem,
         )
 
     def get_organization_sensor_gateways_connections_latest(

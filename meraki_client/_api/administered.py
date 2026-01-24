@@ -12,12 +12,12 @@ from typing import TYPE_CHECKING
 
 from meraki_client.schemas import (
     GenerateAdministeredIdentitiesMeApiKeysResponse,
-    GetAdministeredIdentitiesMeApiKeysResponse,
+    GetAdministeredIdentitiesMeApiKeysResponseItem,
     GetAdministeredIdentitiesMeResponse,
 )
 
 if TYPE_CHECKING:
-    from meraki_client._session import Session
+    from meraki_client._session import PaginatedResponse, Session
 
 
 class Administered:
@@ -67,7 +67,9 @@ class Administered:
             response_schema=GetAdministeredIdentitiesMeResponse,
         )
 
-    def get_administered_identities_me_api_keys(self) -> GetAdministeredIdentitiesMeApiKeysResponse:
+    def get_administered_identities_me_api_keys(
+        self,
+    ) -> PaginatedResponse[GetAdministeredIdentitiesMeApiKeysResponseItem]:
         """List the non-sensitive metadata associated with the API keys that belong to the user.
 
         [API documentation: getAdministeredIdentitiesMeApiKeys](https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me-api-keys)
@@ -88,12 +90,11 @@ class Administered:
         """
         path = f"/administered/identities/me/api/keys"
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="administered",
             operation_id="getAdministeredIdentitiesMeApiKeys",
             path=path,
-            response_schema=GetAdministeredIdentitiesMeApiKeysResponse,
-            is_list_response=True,
+            item_schema=GetAdministeredIdentitiesMeApiKeysResponseItem,
         )
 
     def generate_administered_identities_me_api_keys(

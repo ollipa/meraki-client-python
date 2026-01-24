@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+- All list-returning GET endpoints now return `PaginatedResponse[T]` instead of `Schema | None`.
 
 ## v0.3.0
 

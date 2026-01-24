@@ -38,7 +38,7 @@
         {% endfor %}
         path = f'{{ resource }}'
 
-        {% if query_params|length > 0 or is_paginated %}
+        {% if query_params|length > 0 or has_pagination_params %}
         params = {}
         {% for snake, orig in query_params %}
         if {{ snake }} is not None:
@@ -64,23 +64,27 @@
         {% endif %}
         {% if method == "get" %}
             {% if is_paginated %}
-        return self._session.get_pages(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params, total_pages=total_pages, direction=direction{% if operation_id == "getNetworkEvents" %}, event_log_end_time=event_log_end_time{% endif %}{% if item_schema_name %}, item_schema={{ item_schema_name }}{% endif %})
+                {% if has_pagination_params %}
+        return self._session.get_pages(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params, total_pages=total_pages, direction=direction{% if operation_id == "getNetworkEvents" %}, event_log_end_time=event_log_end_time{% endif %}, item_schema={{ item_schema_name }})
+                {% else %}
+        return self._session.get_pages(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if query_params|length > 0 %}, params=params{% endif %}, item_schema={{ item_schema_name }})
+                {% endif %}
             {% elif query_params|length > 0 %}
-        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %}{% if is_list_response %}, is_list_response=True{% endif %})
+        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% else %}
-        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %}{% if is_list_response %}, is_list_response=True{% endif %})
+        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% endif %}
         {% elif method == "post" %}
             {% if body_params|length > 0 %}
-        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %}{% if is_list_response %}, is_list_response=True{% endif %})
+        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% else %}
-        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %}{% if is_list_response %}, is_list_response=True{% endif %})
+        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% endif %}
         {% elif method == "put" %}
             {% if body_params|length > 0 %}
-        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %}{% if is_list_response %}, is_list_response=True{% endif %})
+        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% else %}
-        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %}{% if is_list_response %}, is_list_response=True{% endif %})
+        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% endif %}
         {% elif method == "delete" %}
         return {{ await_ }}self._session.delete(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)

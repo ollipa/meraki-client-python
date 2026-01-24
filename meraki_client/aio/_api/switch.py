@@ -43,17 +43,17 @@ from meraki_client.schemas import (
     CreateNetworkSwitchStackRoutingStaticRouteVrf,
     CycleDeviceSwitchPortsResponse,
     GetDeviceSwitchPortResponse,
-    GetDeviceSwitchPortsResponse,
-    GetDeviceSwitchPortsStatusesPacketsResponse,
-    GetDeviceSwitchPortsStatusesResponse,
+    GetDeviceSwitchPortsResponseItem,
+    GetDeviceSwitchPortsStatusesPacketsResponseItem,
+    GetDeviceSwitchPortsStatusesResponseItem,
     GetDeviceSwitchRoutingInterfaceDhcpResponse,
     GetDeviceSwitchRoutingInterfaceResponse,
-    GetDeviceSwitchRoutingInterfacesResponse,
+    GetDeviceSwitchRoutingInterfacesResponseItem,
     GetDeviceSwitchRoutingStaticRouteResponse,
-    GetDeviceSwitchRoutingStaticRoutesResponse,
+    GetDeviceSwitchRoutingStaticRoutesResponseItem,
     GetDeviceSwitchWarmSpareResponse,
     GetNetworkSwitchAccessControlListsResponse,
-    GetNetworkSwitchAccessPoliciesResponse,
+    GetNetworkSwitchAccessPoliciesResponseItem,
     GetNetworkSwitchAccessPolicyResponse,
     GetNetworkSwitchAlternateManagementInterfaceResponse,
     GetNetworkSwitchDhcpServerPolicyArpInspectionTrustedServersResponseItem,
@@ -61,30 +61,30 @@ from meraki_client.schemas import (
     GetNetworkSwitchDhcpServerPolicyResponse,
     GetNetworkSwitchDhcpV4ServersSeenResponseItem,
     GetNetworkSwitchDscpToCosMappingsResponse,
-    GetNetworkSwitchLinkAggregationsResponse,
+    GetNetworkSwitchLinkAggregationsResponseItem,
     GetNetworkSwitchMtuResponse,
-    GetNetworkSwitchPortSchedulesResponse,
+    GetNetworkSwitchPortSchedulesResponseItem,
     GetNetworkSwitchQosRuleResponse,
     GetNetworkSwitchQosRulesOrderResponse,
-    GetNetworkSwitchQosRulesResponse,
+    GetNetworkSwitchQosRulesResponseItem,
     GetNetworkSwitchRoutingMulticastRendezvousPointResponse,
-    GetNetworkSwitchRoutingMulticastRendezvousPointsResponse,
+    GetNetworkSwitchRoutingMulticastRendezvousPointsResponseItem,
     GetNetworkSwitchRoutingMulticastResponse,
     GetNetworkSwitchRoutingOspfResponse,
     GetNetworkSwitchSettingsResponse,
     GetNetworkSwitchStackResponse,
     GetNetworkSwitchStackRoutingInterfaceDhcpResponse,
     GetNetworkSwitchStackRoutingInterfaceResponse,
-    GetNetworkSwitchStackRoutingInterfacesResponse,
+    GetNetworkSwitchStackRoutingInterfacesResponseItem,
     GetNetworkSwitchStackRoutingStaticRouteResponse,
-    GetNetworkSwitchStackRoutingStaticRoutesResponse,
-    GetNetworkSwitchStacksResponse,
+    GetNetworkSwitchStackRoutingStaticRoutesResponseItem,
+    GetNetworkSwitchStacksResponseItem,
     GetNetworkSwitchStormControlResponse,
     GetNetworkSwitchStpResponse,
     GetOrganizationConfigTemplateSwitchProfilePortResponse,
-    GetOrganizationConfigTemplateSwitchProfilePortsResponse,
-    GetOrganizationConfigTemplateSwitchProfilesResponse,
-    GetOrganizationSummarySwitchPowerHistoryResponse,
+    GetOrganizationConfigTemplateSwitchProfilePortsResponseItem,
+    GetOrganizationConfigTemplateSwitchProfilesResponseItem,
+    GetOrganizationSummarySwitchPowerHistoryResponseItem,
     GetOrganizationSwitchPortsBySwitchResponsePortsItem,
     GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem,
     GetOrganizationSwitchPortsOverviewResponse,
@@ -175,7 +175,9 @@ class Switch:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_device_switch_ports(self, serial: str) -> GetDeviceSwitchPortsResponse:
+    def get_device_switch_ports(
+        self, serial: str
+    ) -> AsyncPaginatedResponse[GetDeviceSwitchPortsResponseItem]:
         """List the switch ports for a switch.
 
         [API documentation: getDeviceSwitchPorts](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports)
@@ -265,12 +267,11 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/ports"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getDeviceSwitchPorts",
             path=path,
-            response_schema=GetDeviceSwitchPortsResponse,
-            is_list_response=True,
+            item_schema=GetDeviceSwitchPortsResponseItem,
         )
 
     async def cycle_device_switch_ports(
@@ -315,9 +316,9 @@ class Switch:
             response_schema=CycleDeviceSwitchPortsResponse,
         )
 
-    async def get_device_switch_ports_statuses(
+    def get_device_switch_ports_statuses(
         self, serial: str, *, t0: str | None = None, timespan: float | None = None
-    ) -> GetDeviceSwitchPortsStatusesResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceSwitchPortsStatusesResponseItem]:
         """Return the status for all the ports of a switch.
 
         [API documentation: getDeviceSwitchPortsStatuses](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports-statuses)
@@ -420,18 +421,17 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getDeviceSwitchPortsStatuses",
             path=path,
             params=params,
-            response_schema=GetDeviceSwitchPortsStatusesResponse,
-            is_list_response=True,
+            item_schema=GetDeviceSwitchPortsStatusesResponseItem,
         )
 
-    async def get_device_switch_ports_statuses_packets(
+    def get_device_switch_ports_statuses_packets(
         self, serial: str, *, t0: str | None = None, timespan: float | None = None
-    ) -> GetDeviceSwitchPortsStatusesPacketsResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceSwitchPortsStatusesPacketsResponseItem]:
         """Return the packet counters for all the ports of a switch.
 
         [API documentation: getDeviceSwitchPortsStatusesPackets](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports-statuses-packets)
@@ -481,13 +481,12 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getDeviceSwitchPortsStatusesPackets",
             path=path,
             params=params,
-            response_schema=GetDeviceSwitchPortsStatusesPacketsResponse,
-            is_list_response=True,
+            item_schema=GetDeviceSwitchPortsStatusesPacketsResponseItem,
         )
 
     async def get_device_switch_port(
@@ -852,9 +851,9 @@ class Switch:
             response_schema=UpdateDeviceSwitchPortResponse,
         )
 
-    async def get_device_switch_routing_interfaces(
+    def get_device_switch_routing_interfaces(
         self, serial: str, *, mode: str | None = None, protocol: str | None = None
-    ) -> GetDeviceSwitchRoutingInterfacesResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceSwitchRoutingInterfacesResponseItem]:
         """List layer 3 interfaces for a switch.
 
         [API documentation: getDeviceSwitchRoutingInterfaces](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-interfaces)
@@ -927,13 +926,12 @@ class Switch:
         if protocol is not None:
             params["protocol"] = protocol
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getDeviceSwitchRoutingInterfaces",
             path=path,
             params=params,
-            response_schema=GetDeviceSwitchRoutingInterfacesResponse,
-            is_list_response=True,
+            item_schema=GetDeviceSwitchRoutingInterfacesResponseItem,
         )
 
     async def create_device_switch_routing_interface(
@@ -1499,9 +1497,9 @@ class Switch:
             response_schema=UpdateDeviceSwitchRoutingInterfaceDhcpResponse,
         )
 
-    async def get_device_switch_routing_static_routes(
+    def get_device_switch_routing_static_routes(
         self, serial: str
-    ) -> GetDeviceSwitchRoutingStaticRoutesResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceSwitchRoutingStaticRoutesResponseItem]:
         """List layer 3 static routes for a switch.
 
         [API documentation: getDeviceSwitchRoutingStaticRoutes](https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-static-routes)
@@ -1535,12 +1533,11 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/routing/staticRoutes"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getDeviceSwitchRoutingStaticRoutes",
             path=path,
-            response_schema=GetDeviceSwitchRoutingStaticRoutesResponse,
-            is_list_response=True,
+            item_schema=GetDeviceSwitchRoutingStaticRoutesResponseItem,
         )
 
     async def create_device_switch_routing_static_route(
@@ -1928,9 +1925,9 @@ class Switch:
             response_schema=UpdateNetworkSwitchAccessControlListsResponse,
         )
 
-    async def get_network_switch_access_policies(
+    def get_network_switch_access_policies(
         self, network_id: str
-    ) -> GetNetworkSwitchAccessPoliciesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSwitchAccessPoliciesResponseItem]:
         """List the access policies for a switch network.
 
         [API documentation: getNetworkSwitchAccessPolicies](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policies)
@@ -2019,12 +2016,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getNetworkSwitchAccessPolicies",
             path=path,
-            response_schema=GetNetworkSwitchAccessPoliciesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSwitchAccessPoliciesResponseItem,
         )
 
     async def create_network_switch_access_policy(
@@ -3346,9 +3342,9 @@ class Switch:
             response_schema=UpdateNetworkSwitchDscpToCosMappingsResponse,
         )
 
-    async def get_network_switch_link_aggregations(
+    def get_network_switch_link_aggregations(
         self, network_id: str
-    ) -> GetNetworkSwitchLinkAggregationsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSwitchLinkAggregationsResponseItem]:
         """List link aggregation groups.
 
         [API documentation: getNetworkSwitchLinkAggregations](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-link-aggregations)
@@ -3378,12 +3374,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/linkAggregations"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getNetworkSwitchLinkAggregations",
             path=path,
-            response_schema=GetNetworkSwitchLinkAggregationsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSwitchLinkAggregationsResponseItem,
         )
 
     async def create_network_switch_link_aggregation(
@@ -3630,9 +3625,9 @@ class Switch:
             response_schema=UpdateNetworkSwitchMtuResponse,
         )
 
-    async def get_network_switch_port_schedules(
+    def get_network_switch_port_schedules(
         self, network_id: str
-    ) -> GetNetworkSwitchPortSchedulesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSwitchPortSchedulesResponseItem]:
         """List switch port schedules.
 
         [API documentation: getNetworkSwitchPortSchedules](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-port-schedules)
@@ -3695,12 +3690,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/portSchedules"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getNetworkSwitchPortSchedules",
             path=path,
-            response_schema=GetNetworkSwitchPortSchedulesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSwitchPortSchedulesResponseItem,
         )
 
     async def create_network_switch_port_schedule(
@@ -3901,9 +3895,9 @@ class Switch:
             scope="switch", operation_id="deleteNetworkSwitchPortSchedule", path=path
         )
 
-    async def get_network_switch_qos_rules(
+    def get_network_switch_qos_rules(
         self, network_id: str
-    ) -> GetNetworkSwitchQosRulesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSwitchQosRulesResponseItem]:
         """List quality of service rules.
 
         [API documentation: getNetworkSwitchQosRules](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules)
@@ -3934,12 +3928,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getNetworkSwitchQosRules",
             path=path,
-            response_schema=GetNetworkSwitchQosRulesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSwitchQosRulesResponseItem,
         )
 
     async def create_network_switch_qos_rule(
@@ -4372,9 +4365,9 @@ class Switch:
             response_schema=UpdateNetworkSwitchRoutingMulticastResponse,
         )
 
-    async def get_network_switch_routing_multicast_rendezvous_points(
+    def get_network_switch_routing_multicast_rendezvous_points(
         self, network_id: str
-    ) -> GetNetworkSwitchRoutingMulticastRendezvousPointsResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSwitchRoutingMulticastRendezvousPointsResponseItem]:
         """List multicast rendezvous points.
 
         [API documentation: getNetworkSwitchRoutingMulticastRendezvousPoints](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast-rendezvous-points)
@@ -4402,12 +4395,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getNetworkSwitchRoutingMulticastRendezvousPoints",
             path=path,
-            response_schema=GetNetworkSwitchRoutingMulticastRendezvousPointsResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSwitchRoutingMulticastRendezvousPointsResponseItem,
         )
 
     async def create_network_switch_routing_multicast_rendezvous_point(
@@ -4890,7 +4882,9 @@ class Switch:
             response_schema=UpdateNetworkSwitchSettingsResponse,
         )
 
-    async def get_network_switch_stacks(self, network_id: str) -> GetNetworkSwitchStacksResponse:
+    def get_network_switch_stacks(
+        self, network_id: str
+    ) -> AsyncPaginatedResponse[GetNetworkSwitchStacksResponseItem]:
         """List the switch stacks in a network.
 
         [API documentation: getNetworkSwitchStacks](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stacks)
@@ -4930,12 +4924,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/stacks"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getNetworkSwitchStacks",
             path=path,
-            response_schema=GetNetworkSwitchStacksResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSwitchStacksResponseItem,
         )
 
     async def create_network_switch_stack(
@@ -5164,14 +5157,14 @@ class Switch:
             response_schema=RemoveNetworkSwitchStackResponse,
         )
 
-    async def get_network_switch_stack_routing_interfaces(
+    def get_network_switch_stack_routing_interfaces(
         self,
         *,
         network_id: str,
         switch_stack_id: str,
         mode: str | None = None,
         protocol: str | None = None,
-    ) -> GetNetworkSwitchStackRoutingInterfacesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSwitchStackRoutingInterfacesResponseItem]:
         """List layer 3 interfaces for a switch stack.
 
         [API documentation: getNetworkSwitchStackRoutingInterfaces](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interfaces)
@@ -5246,13 +5239,12 @@ class Switch:
         if protocol is not None:
             params["protocol"] = protocol
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getNetworkSwitchStackRoutingInterfaces",
             path=path,
             params=params,
-            response_schema=GetNetworkSwitchStackRoutingInterfacesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSwitchStackRoutingInterfacesResponseItem,
         )
 
     async def create_network_switch_stack_routing_interface(
@@ -5835,9 +5827,9 @@ class Switch:
             response_schema=UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse,
         )
 
-    async def get_network_switch_stack_routing_static_routes(
+    def get_network_switch_stack_routing_static_routes(
         self, *, network_id: str, switch_stack_id: str
-    ) -> GetNetworkSwitchStackRoutingStaticRoutesResponse:
+    ) -> AsyncPaginatedResponse[GetNetworkSwitchStackRoutingStaticRoutesResponseItem]:
         """List layer 3 static routes for a switch stack.
 
         [API documentation: getNetworkSwitchStackRoutingStaticRoutes](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-static-routes)
@@ -5873,12 +5865,11 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getNetworkSwitchStackRoutingStaticRoutes",
             path=path,
-            response_schema=GetNetworkSwitchStackRoutingStaticRoutesResponse,
-            is_list_response=True,
+            item_schema=GetNetworkSwitchStackRoutingStaticRoutesResponseItem,
         )
 
     async def create_network_switch_stack_routing_static_route(
@@ -6327,9 +6318,9 @@ class Switch:
             response_schema=UpdateNetworkSwitchStpResponse,
         )
 
-    async def get_organization_config_template_switch_profiles(
+    def get_organization_config_template_switch_profiles(
         self, *, organization_id: str, config_template_id: str
-    ) -> GetOrganizationConfigTemplateSwitchProfilesResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationConfigTemplateSwitchProfilesResponseItem]:
         """List the switch templates for your switch template configuration.
 
         [API documentation: getOrganizationConfigTemplateSwitchProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profiles)
@@ -6359,17 +6350,16 @@ class Switch:
             f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles"
         )
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getOrganizationConfigTemplateSwitchProfiles",
             path=path,
-            response_schema=GetOrganizationConfigTemplateSwitchProfilesResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationConfigTemplateSwitchProfilesResponseItem,
         )
 
-    async def get_organization_config_template_switch_profile_ports(
+    def get_organization_config_template_switch_profile_ports(
         self, *, organization_id: str, config_template_id: str, profile_id: str
-    ) -> GetOrganizationConfigTemplateSwitchProfilePortsResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationConfigTemplateSwitchProfilePortsResponseItem]:
         """Return all the ports of a switch template.
 
         [API documentation: getOrganizationConfigTemplateSwitchProfilePorts](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profile-ports)
@@ -6457,12 +6447,11 @@ class Switch:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getOrganizationConfigTemplateSwitchProfilePorts",
             path=path,
-            response_schema=GetOrganizationConfigTemplateSwitchProfilePortsResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationConfigTemplateSwitchProfilePortsResponseItem,
         )
 
     async def get_organization_config_template_switch_profile_port(
@@ -6814,14 +6803,14 @@ class Switch:
             response_schema=UpdateOrganizationConfigTemplateSwitchProfilePortResponse,
         )
 
-    async def get_organization_summary_switch_power_history(
+    def get_organization_summary_switch_power_history(
         self,
         organization_id: str,
         *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-    ) -> GetOrganizationSummarySwitchPowerHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationSummarySwitchPowerHistoryResponseItem]:
         """Returns the total PoE power draw for all switch ports in the organization over the requested timespan (by default the last 24 hours).
 
         [API documentation: getOrganizationSummarySwitchPowerHistory](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-switch-power-history)
@@ -6859,13 +6848,12 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="switch",
             operation_id="getOrganizationSummarySwitchPowerHistory",
             path=path,
             params=params,
-            response_schema=GetOrganizationSummarySwitchPowerHistoryResponse,
-            is_list_response=True,
+            item_schema=GetOrganizationSummarySwitchPowerHistoryResponseItem,
         )
 
     async def clone_organization_switch_devices(

@@ -31,7 +31,7 @@ from meraki_client.schemas import (
     CreateDeviceLiveToolsWakeOnLanCallback,
     CreateDeviceLiveToolsWakeOnLanResponse,
     GetDeviceCellularSimsResponse,
-    GetDeviceClientsResponse,
+    GetDeviceClientsResponseItem,
     GetDeviceLiveToolsArpTableResponse,
     GetDeviceLiveToolsCableTestResponse,
     GetDeviceLiveToolsLedsBlinkResponse,
@@ -42,7 +42,7 @@ from meraki_client.schemas import (
     GetDeviceLiveToolsThroughputTestResponse,
     GetDeviceLiveToolsWakeOnLanResponse,
     GetDeviceLldpCdpResponse,
-    GetDeviceLossAndLatencyHistoryResponse,
+    GetDeviceLossAndLatencyHistoryResponseItem,
     GetDeviceManagementInterfaceResponse,
     GetDeviceResponse,
     RebootDeviceResponse,
@@ -56,7 +56,7 @@ from meraki_client.schemas import (
 )
 
 if TYPE_CHECKING:
-    from meraki_client.aio._session import Session
+    from meraki_client.aio._session import AsyncPaginatedResponse, Session
 
 
 class Devices:
@@ -416,9 +416,9 @@ class Devices:
             response_schema=UpdateDeviceCellularSimsResponse,
         )
 
-    async def get_device_clients(
+    def get_device_clients(
         self, serial: str, *, t0: str | None = None, timespan: float | None = None
-    ) -> GetDeviceClientsResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceClientsResponseItem]:
         """List the clients of a device, up to a maximum of a month ago.
 
         [API documentation: getDeviceClients](https://developer.cisco.com/meraki/api-v1/#!get-device-clients)
@@ -467,13 +467,12 @@ class Devices:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="devices",
             operation_id="getDeviceClients",
             path=path,
             params=params,
-            response_schema=GetDeviceClientsResponse,
-            is_list_response=True,
+            item_schema=GetDeviceClientsResponseItem,
         )
 
     async def create_device_live_tools_arp_table(
@@ -1498,7 +1497,7 @@ class Devices:
             response_schema=GetDeviceLldpCdpResponse,
         )
 
-    async def get_device_loss_and_latency_history(
+    def get_device_loss_and_latency_history(
         self,
         *,
         serial: str,
@@ -1508,7 +1507,7 @@ class Devices:
         timespan: float | None = None,
         resolution: int | None = None,
         uplink: str | None = None,
-    ) -> GetDeviceLossAndLatencyHistoryResponse:
+    ) -> AsyncPaginatedResponse[GetDeviceLossAndLatencyHistoryResponseItem]:
         """Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per second for MX, MG and Z devices.
 
         [API documentation: getDeviceLossAndLatencyHistory](https://developer.cisco.com/meraki/api-v1/#!get-device-loss-and-latency-history)
@@ -1568,13 +1567,12 @@ class Devices:
         if ip is not None:
             params["ip"] = ip
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="devices",
             operation_id="getDeviceLossAndLatencyHistory",
             path=path,
             params=params,
-            response_schema=GetDeviceLossAndLatencyHistoryResponse,
-            is_list_response=True,
+            item_schema=GetDeviceLossAndLatencyHistoryResponseItem,
         )
 
     async def get_device_management_interface(
