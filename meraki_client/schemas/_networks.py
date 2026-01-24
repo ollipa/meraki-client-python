@@ -1634,9 +1634,9 @@ class GetNetworkPoliciesByClientResponseItem(_BaseSchema):
 class GetNetworkResponse(_BaseSchema):
     """Response for getNetwork operation."""
 
-    id: str | None = None
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
+    id: str
+    organization_id: str = Field(
+        validation_alias="organizationId", serialization_alias="organizationId"
     )
     name: str | None = None
     product_types: list[str] | None = Field(

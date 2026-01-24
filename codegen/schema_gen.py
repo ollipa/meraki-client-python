@@ -92,6 +92,7 @@ class GenerationContext:
     field_path: tuple[str, ...] = ()
     spec_overrides: SpecOverrides | None = None
     consumed_overrides: set[tuple[str, str]] | None = None
+    consumed_required_overrides: set[tuple[str, str]] | None = None
 
     def nested(self, path_segment: str | None = None) -> GenerationContext:
         """Create a new context for nested schema generation."""
@@ -106,6 +107,7 @@ class GenerationContext:
             field_path=new_path,
             spec_overrides=self.spec_overrides,
             consumed_overrides=self.consumed_overrides,
+            consumed_required_overrides=self.consumed_required_overrides,
         )
 
 
@@ -142,6 +144,7 @@ def generate_response_schemas(
 
     spec_overrides = load_spec_overrides()
     consumed_overrides: set[tuple[str, str]] = set()
+    consumed_required_overrides: set[tuple[str, str]] = set()
     spec_operation_ids: set[str] = set()
 
     for path_item in spec.paths.values():
@@ -170,6 +173,7 @@ def generate_response_schemas(
                 operation_id=operation_id,
                 spec_overrides=spec_overrides,
                 consumed_overrides=consumed_overrides,
+                consumed_required_overrides=consumed_required_overrides,
             )
 
             # Generate response schemas
@@ -200,7 +204,9 @@ def generate_response_schemas(
                 request_body_schemas=request_body_schemas,
             )
 
-    _validate_spec_overrides(spec_overrides, consumed_overrides, spec_operation_ids)
+    _validate_spec_overrides(
+        spec_overrides, consumed_overrides, consumed_required_overrides, spec_operation_ids
+    )
 
     _write_schema_files(
         schemas=schemas,
@@ -563,12 +569,16 @@ def _generate_object_schema(
     item_class_names: list[str] = []
 
     for prop_name, prop_schema in properties.items():
+        is_required_in_spec = prop_name in required
+        is_force_required = _is_field_force_required(
+            ctx, prop_name, is_required_in_spec=is_required_in_spec
+        )
         field_def, item_class = _generate_field(
             ctx,
             parent_class=class_name,
             prop_name=prop_name,
             prop_schema=prop_schema,
-            is_required=prop_name in required,
+            is_required=is_required_in_spec or is_force_required,
         )
         lines.append(f"    {field_def}")
         if item_class:
@@ -628,6 +638,39 @@ def _get_field_override(
 
     ctx.consumed_overrides.add((ctx.operation_id, field_path))
     return override_type
+
+
+def _is_field_force_required(
+    ctx: GenerationContext, prop_name: str, *, is_required_in_spec: bool
+) -> bool:
+    """Check if a field should be forced as required via spec override.
+
+    Returns True if there's an override marking this field as required.
+    Logs a warning if the field is already required in the spec.
+    """
+    if (
+        not ctx.operation_id
+        or ctx.spec_overrides is None
+        or ctx.consumed_required_overrides is None
+    ):
+        return False
+
+    required_fields = ctx.spec_overrides.required_fields.get(ctx.operation_id)
+    if not required_fields:
+        return False
+
+    field_path = ".".join((*ctx.field_path, prop_name))
+    if field_path not in required_fields:
+        return False
+
+    if is_required_in_spec:
+        log.warning(
+            f"{ctx.operation_id}: field '{field_path}' is marked as required in override "
+            "but is already required in spec - spec may have been fixed"
+        )
+
+    ctx.consumed_required_overrides.add((ctx.operation_id, field_path))
+    return True
 
 
 def _generate_field(
@@ -907,6 +950,7 @@ def _normalize_schema(schema: dict[str, Any], *, is_required: bool = False) -> d
 def _validate_spec_overrides(
     spec_overrides: SpecOverrides,
     consumed_overrides: set[tuple[str, str]],
+    consumed_required_overrides: set[tuple[str, str]],
     spec_operation_ids: set[str],
 ) -> None:
     """Validate that all spec overrides reference valid operations and fields."""
@@ -938,6 +982,21 @@ def _validate_spec_overrides(
             if (operation_id, field_path) not in consumed_overrides:
                 raise ValueError(
                     f"Response field override for '{operation_id}' field '{field_path}' was not applied. "
+                    "Check that the field path exists in the response schema."
+                )
+
+    # Validate required field overrides
+    for operation_id, fields in spec_overrides.required_fields.items():
+        if operation_id not in spec_operation_ids:
+            raise ValueError(
+                f"Required field override references unknown operation '{operation_id}'. "
+                "Check that the operationId exists in the OpenAPI spec."
+            )
+
+        for field_path in fields:
+            if (operation_id, field_path) not in consumed_required_overrides:
+                raise ValueError(
+                    f"Required field override for '{operation_id}' field '{field_path}' was not applied. "
                     "Check that the field path exists in the response schema."
                 )
 

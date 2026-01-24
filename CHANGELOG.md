@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Added
+
+- Codegen: Support for marking response fields as required via `[operationId.required]` in `spec_overrides.toml`.
+- Mark `id` as required for organization and network responses (`getOrganization`, `getOrganizations`, `getNetwork`, `getOrganizationNetworks`).
+- Mark `organizationId` as required for network responses (`getNetwork`, `getOrganizationNetworks`).
 
 ## v0.4.0
 

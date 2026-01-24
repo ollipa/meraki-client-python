@@ -51,6 +51,7 @@ class SpecOverrides:
     force_paginated: set[str] = field(default_factory=set)
     skip_tests: set[str] = field(default_factory=set)
     response_fields: dict[str, dict[str, str]] = field(default_factory=dict)
+    required_fields: dict[str, set[str]] = field(default_factory=dict)
 
 
 def load_spec_overrides() -> SpecOverrides:
@@ -62,13 +63,18 @@ def load_spec_overrides() -> SpecOverrides:
         data = tomllib.load(f)
 
     response_fields: dict[str, dict[str, str]] = {}
+    required_fields: dict[str, set[str]] = {}
     for key, value in data.items():
-        if isinstance(value, dict) and "response" in value:
-            response_fields[key] = value["response"]
+        if isinstance(value, dict):
+            if "response" in value:
+                response_fields[key] = value["response"]
+            if "required" in value:
+                required_fields[key] = set(value["required"])
 
     return SpecOverrides(
         force_array_response=set(data.get("force_array_response", [])),
         force_paginated=set(data.get("force_paginated", [])),
         skip_tests=set(data.get("skip_tests", [])),
         response_fields=response_fields,
+        required_fields=required_fields,
     )

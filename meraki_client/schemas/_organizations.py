@@ -2817,9 +2817,9 @@ class GetOrganizationNetworksResponse(RootModel[list["GetOrganizationNetworksRes
 class GetOrganizationNetworksResponseItem(_BaseSchema):
     """Schema for GetOrganizationNetworksResponseItem."""
 
-    id: str | None = None
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
+    id: str
+    organization_id: str = Field(
+        validation_alias="organizationId", serialization_alias="organizationId"
     )
     name: str | None = None
     product_types: list[str] | None = Field(
@@ -2948,7 +2948,7 @@ class GetOrganizationPolicyObjectsResponse(_BaseSchema):
 class GetOrganizationResponse(_BaseSchema):
     """Response for getOrganization operation."""
 
-    id: str | None = None
+    id: str
     name: str | None = None
     url: str | None = None
     api: OrganizationsApi | None = None
@@ -3456,7 +3456,7 @@ class GetOrganizationsResponse(RootModel[list["GetOrganizationsResponseItem"]]):
 class GetOrganizationsResponseItem(_BaseSchema):
     """Schema for GetOrganizationsResponseItem."""
 
-    id: str | None = None
+    id: str
     name: str | None = None
     url: str | None = None
     api: OrganizationsApi | None = None
