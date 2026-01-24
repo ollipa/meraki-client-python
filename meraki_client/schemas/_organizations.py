@@ -2098,7 +2098,7 @@ class GetOrganizationDevicesResponseItem(_BaseSchema):
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
-    serial: str | None = None
+    serial: str
     model: str | None = None
     imei: str | None = None
     mac: str | None = None

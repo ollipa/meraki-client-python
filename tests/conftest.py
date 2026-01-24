@@ -50,7 +50,7 @@ def organization_id(client: MerakiClient) -> str:
     org = orgs[0]
     if not org.id:
         pytest.skip("No organization ID available for testing")
-    return org.id  # ty: ignore[invalid-return-type]
+    return org.id
 
 
 @pytest.fixture(scope="module")
@@ -65,7 +65,7 @@ def network_id(client: MerakiClient, organization_id: str) -> str:
     network = networks[0]
     if not network.id:
         pytest.skip("No network ID available for testing")
-    return network.id  # ty: ignore[invalid-return-type]
+    return network.id
 
 
 @pytest.fixture(scope="module")
@@ -80,4 +80,4 @@ def device_serial(client: MerakiClient, organization_id: str) -> str:
     device = devices[0]
     if not device.serial:
         pytest.skip("No device serial available for testing")
-    return device.serial  # ty: ignore[invalid-return-type]
+    return device.serial

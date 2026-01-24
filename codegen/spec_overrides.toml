@@ -82,3 +82,6 @@ required = ["id", "organizationId"]
 
 [getOrganizationNetworks]
 required = ["id", "organizationId"]
+
+[getOrganizationDevices]
+required = ["serial"]
