@@ -52,6 +52,7 @@ class _PaginatedWrapper(BaseModel, Generic[T]):
                 return {"items": data["events"], "is_events": True}
             if "items" in data:
                 return {"items": data["items"]}
+            raise ValueError("Paginated response did not contain 'items' or 'events' key")
         return {"items": []}
 
 

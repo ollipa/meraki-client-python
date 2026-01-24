@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - All list-returning GET endpoints now return `PaginatedResponse[T]` instead of `Schema | None`.
+- Raise exception if pagination endpoint dict doesn't contain required keys.
 
 ## v0.3.0
 
