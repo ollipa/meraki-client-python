@@ -1837,6 +1837,8 @@ class GetNetworkWirelessSsidsResponseItem(_BaseSchema):
         validation_alias="mandatoryDhcpEnabled",
         serialization_alias="mandatoryDhcpEnabled",
     )
+    dot11w: dict[str, Any] | None = None
+    dot11r: dict[str, Any] | None = None
 
 
 class GetNetworkWirelessUsageHistoryResponse(

@@ -52,6 +52,7 @@ class SpecOverrides:
     skip_tests: set[str] = field(default_factory=set)
     response_fields: dict[str, dict[str, str]] = field(default_factory=dict)
     required_fields: dict[str, set[str]] = field(default_factory=dict)
+    extra_fields: dict[str, dict[str, str]] = field(default_factory=dict)
 
 
 def load_spec_overrides() -> SpecOverrides:
@@ -64,12 +65,15 @@ def load_spec_overrides() -> SpecOverrides:
 
     response_fields: dict[str, dict[str, str]] = {}
     required_fields: dict[str, set[str]] = {}
+    extra_fields: dict[str, dict[str, str]] = {}
     for key, value in data.items():
         if isinstance(value, dict):
             if "response" in value:
                 response_fields[key] = value["response"]
             if "required" in value:
                 required_fields[key] = set(value["required"])
+            if "extra_fields" in value:
+                extra_fields[key] = value["extra_fields"]
 
     return SpecOverrides(
         force_array_response=set(data.get("force_array_response", [])),
@@ -77,4 +81,5 @@ def load_spec_overrides() -> SpecOverrides:
         skip_tests=set(data.get("skip_tests", [])),
         response_fields=response_fields,
         required_fields=required_fields,
+        extra_fields=extra_fields,
     )

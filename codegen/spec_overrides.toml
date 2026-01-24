@@ -7,6 +7,7 @@
 # - skip_tests: Endpoints to skip in test generation
 # - [operationId.response]: Field type overrides for response schemas
 # - [operationId.required]: Fields to mark as required (list of field paths)
+# - [operationId.extra_fields]: Add fields missing from spec (field_name = "type")
 
 # Endpoints where spec says object but API returns array
 force_array_response = ["getAdministeredLicensingSubscriptionEntitlements"]
@@ -85,3 +86,7 @@ required = ["id", "organizationId"]
 
 [getOrganizationDevices]
 required = ["serial"]
+
+[getNetworkWirelessSsids.extra_fields]
+dot11w = "dict[str, Any]"
+dot11r = "dict[str, Any]"

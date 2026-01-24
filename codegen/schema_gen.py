@@ -205,7 +205,10 @@ def generate_response_schemas(
             )
 
     _validate_spec_overrides(
-        spec_overrides, consumed_overrides, consumed_required_overrides, spec_operation_ids
+        spec_overrides,
+        consumed_overrides,
+        consumed_required_overrides,
+        spec_operation_ids,
     )
 
     _write_schema_files(
@@ -584,6 +587,18 @@ def _generate_object_schema(
         if item_class:
             item_class_names.append(item_class)
 
+    # Add extra fields from overrides (fields missing from spec but present in API responses)
+    for field_name, field_type in _get_extra_fields(ctx, set(properties.keys())):
+        snake_name = _sanitize_field_name(field_name)
+        needs_alias = snake_name != field_name
+        alias_args = f'validation_alias="{field_name}", serialization_alias="{field_name}"'
+        if needs_alias:
+            lines.append(
+                f"    {snake_name}: {field_type} | None = Field(default=None, {alias_args})"
+            )
+        else:
+            lines.append(f"    {snake_name}: {field_type} | None = None")
+
     status = _register_schema(ctx, name=class_name, definition="\n".join(lines) + "\n")
     return SchemaResult(
         status=status,
@@ -671,6 +686,35 @@ def _is_field_force_required(
 
     ctx.consumed_required_overrides.add((ctx.operation_id, field_path))
     return True
+
+
+def _get_extra_fields(
+    ctx: GenerationContext, existing_properties: set[str]
+) -> list[tuple[str, str]]:
+    """Get extra field definitions to add from spec overrides.
+
+    Returns list of (field_name, type_annotation) tuples for fields not in existing_properties.
+    Applies to top-level response schemas: depth=0 for object responses, depth<=1 for array items.
+    Logs warning if a field already exists in the spec.
+    """
+    if not ctx.operation_id or ctx.spec_overrides is None or ctx.depth > 1 or ctx.field_path:
+        return []
+
+    extra_fields = ctx.spec_overrides.extra_fields.get(ctx.operation_id)
+    if not extra_fields:
+        return []
+
+    result: list[tuple[str, str]] = []
+    for field_name, field_type in extra_fields.items():
+        if field_name in existing_properties:
+            log.warning(
+                f"{ctx.operation_id}: extra_field '{field_name}' already exists in spec - "
+                "use 'response' override to change its type instead"
+            )
+        else:
+            result.append((field_name, field_type))
+
+    return result
 
 
 def _generate_field(
@@ -999,6 +1043,14 @@ def _validate_spec_overrides(
                     f"Required field override for '{operation_id}' field '{field_path}' was not applied. "
                     "Check that the field path exists in the response schema."
                 )
+
+    # Validate extra field overrides (only check operation exists, fields are always added)
+    for operation_id in spec_overrides.extra_fields:
+        if operation_id not in spec_operation_ids:
+            raise ValueError(
+                f"Extra field override references unknown operation '{operation_id}'. "
+                "Check that the operationId exists in the OpenAPI spec."
+            )
 
 
 def _write_schema_files(
