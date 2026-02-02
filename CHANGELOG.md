@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Codegen: Support for adding missing fields via `[operationId.extra_fields]` in `spec_overrides.toml`.
 - Add `dot11w` and `dot11r` fields to `getNetworkWirelessSsids` response (missing from OpenAPI spec).
 - Documentation for accessing extra fields via `model_extra`.
+- Add batch endpoints to API reference documentation.
 
 ## v0.5.0
 

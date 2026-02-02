@@ -350,7 +350,7 @@ def generate_library(  # noqa: PLR0915
     log.info(f"Generated tests in {elapsed:.2f}s")
 
     t_start = time.perf_counter()
-    generate_api_reference_docs(scopes.keys(), templates)
+    generate_api_reference_docs(scopes.keys(), batch_modules, templates)
     elapsed = time.perf_counter() - t_start
     log.info(f"Generated API reference docs in {elapsed:.2f}s")
 
@@ -575,6 +575,7 @@ def generate_module(  # noqa: PLR0915
 
 def generate_api_reference_docs(
     scopes: list[str] | KeysView[str],
+    batch_modules: list[ModuleInfo],
     templates: Templates,
 ) -> None:
     """Generate API reference markdown docs for mkdocs."""
@@ -589,6 +590,18 @@ def generate_api_reference_docs(
             module_path=f"meraki_client._api.{module_name}.{capitalize_first(scope)}",
         )
         with open(f"{DOCS_DIR}/{module_name}.md", "w") as f:
+            f.write(content)
+
+    # Generate batch module docs
+    for batch_module in batch_modules:
+        title = MODULE_DISPLAY_TITLES.get(
+            batch_module.class_name, capitalize_first(batch_module.class_name)
+        )
+        content = templates.api_reference_template.render(
+            title=f"{title} (Batch)",
+            module_path=f"meraki_client._api.batch.{batch_module.snake_name}.ActionBatch{batch_module.class_name}",
+        )
+        with open(f"{DOCS_DIR}/batch_{batch_module.snake_name}.md", "w") as f:
             f.write(content)
 
 

@@ -57,6 +57,21 @@ nav:
       - Switch: api_reference/switch.md
       - Wireless: api_reference/wireless.md
       - Wireless Controller: api_reference/wireless_controller.md
+      - Batch:
+          - Appliance: api_reference/batch_appliance.md
+          - Camera: api_reference/batch_camera.md
+          - Campus Gateway: api_reference/batch_campus_gateway.md
+          - Cellular Gateway: api_reference/batch_cellular_gateway.md
+          - Devices: api_reference/batch_devices.md
+          - Insight: api_reference/batch_insight.md
+          - NAC: api_reference/batch_nac.md
+          - Networks: api_reference/batch_networks.md
+          - Organizations: api_reference/batch_organizations.md
+          - Sensor: api_reference/batch_sensor.md
+          - Systems Manager: api_reference/batch_sm.md
+          - Spaces: api_reference/batch_spaces.md
+          - Switch: api_reference/batch_switch.md
+          - Wireless: api_reference/batch_wireless.md
   - Contributing: contributing.md
   - Changelog: changelog.md
 
