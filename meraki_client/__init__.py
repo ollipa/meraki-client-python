@@ -39,7 +39,7 @@ __all__ = [
     "MerakiClient",
     "PaginatedResponse",
 ]
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 __api_version__ = "v1.67.0"
 
 
