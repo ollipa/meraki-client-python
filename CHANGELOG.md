@@ -14,6 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation for accessing extra fields via `model_extra`.
 - Add batch endpoints to API reference documentation.
 
+### Changed
+
+#### Update to Meraki API v1.67.0
+
+- New endpoints: `get_organization_inventory_devices_eox_overview`, `get_network_moves`, `create_network_move`, `update_network_wireless_radio_rrm`, `get_organization_wireless_radio_rrm_by_network`.
+- New parameter `eox_statuses` filter for `get_organization_inventory_devices`.
+- New parameter `multicast_to_unicast_conversion` for `update_network_wireless_settings`.
+- New response field `eox` in inventory device responses with EOX status information.
+- New response field `useOobMgmt` in switch alternate management interface responses.
+- New response field `alwaysAllowedServers` in switch DHCP server policy responses.
+- Change Policy Object Group `object_ids` type from `list[int]` to `list[str]`.
+- Remove `nac` API module (NAC certificates authorities CRL endpoints).
+
 ## v0.5.0
 
 ### Added

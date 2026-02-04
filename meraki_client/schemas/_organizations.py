@@ -226,6 +226,42 @@ class CombineOrganizationNetworksResponse(_BaseSchema):
     )
 
 
+class CreateNetworkMoveNetwork(_BaseSchema):
+    """Network to be moved."""
+
+    id: str | None = None
+
+
+class CreateNetworkMoveOrganizations(_BaseSchema):
+    """Organizations involved in the network move."""
+
+    target: CreateNetworkMoveOrganizationsTarget | None = None
+
+
+class CreateNetworkMoveOrganizationsTarget(_BaseSchema):
+    """The organization to which the network is moving."""
+
+    id: str
+
+
+class CreateNetworkMoveResponse(_BaseSchema):
+    """Response for createNetworkMove operation."""
+
+    move_id: str | None = Field(
+        default=None, validation_alias="moveId", serialization_alias="moveId"
+    )
+    initiator: OrganizationsInitiator | None = None
+    organizations: OrganizationsOrganizations | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    last_updated_at: datetime | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    result: OrganizationsResult | None = None
+
+
 class CreateOrganizationActionBatchActionsItem(_BaseSchema):
     """Item schema for actions."""
 
@@ -1097,6 +1133,31 @@ class GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse(_BaseSc
         default=None, validation_alias="downloadUrl", serialization_alias="downloadUrl"
     )
     url: str | None = None
+
+
+class GetNetworkMovesResponse(_BaseSchema):
+    """Response for getNetworkMoves operation."""
+
+    items: list[GetNetworkMovesResponseItemsItem] | None = None
+    meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
+
+
+class GetNetworkMovesResponseItemsItem(_BaseSchema):
+    """Schema for GetNetworkMovesResponseItemsItem."""
+
+    move_id: str | None = Field(
+        default=None, validation_alias="moveId", serialization_alias="moveId"
+    )
+    initiator: OrganizationsInitiator | None = None
+    organizations: OrganizationsOrganizations | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    last_updated_at: datetime | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    result: OrganizationsResult | None = None
 
 
 class GetOrganizationActionBatchResponse(_BaseSchema):
@@ -2475,6 +2536,21 @@ class GetOrganizationInventoryDeviceResponse(_BaseSchema):
         default=None, validation_alias="countryCode", serialization_alias="countryCode"
     )
     details: list[OrganizationsDetailsItem] | None = None
+    eox: OrganizationsEox | None = None
+
+
+class GetOrganizationInventoryDevicesEoxOverviewResponse(_BaseSchema):
+    """Response for getOrganizationInventoryDevicesEoxOverview operation."""
+
+    counts: GetOrganizationInventoryDevicesEoxOverviewResponseCounts | None = None
+
+
+class GetOrganizationInventoryDevicesEoxOverviewResponseCounts(_BaseSchema):
+    """Device counts grouped by category."""
+
+    by_status: OrganizationsCountsByStatus2 | None = Field(
+        default=None, validation_alias="byStatus", serialization_alias="byStatus"
+    )
 
 
 class GetOrganizationInventoryDevicesResponse(
@@ -2512,6 +2588,7 @@ class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
         default=None, validation_alias="countryCode", serialization_alias="countryCode"
     )
     details: list[OrganizationsDetailsItem] | None = None
+    eox: OrganizationsEox | None = None
 
 
 class GetOrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
@@ -2903,8 +2980,14 @@ class GetOrganizationPolicyObjectsGroupResponse(_BaseSchema):
     )
 
 
-class GetOrganizationPolicyObjectsGroupsResponse(_BaseSchema):
+class GetOrganizationPolicyObjectsGroupsResponse(
+    RootModel[list["GetOrganizationPolicyObjectsGroupsResponseItem"]]
+):
     """Response for getOrganizationPolicyObjectsGroups operation."""
+
+
+class GetOrganizationPolicyObjectsGroupsResponseItem(_BaseSchema):
+    """Schema for GetOrganizationPolicyObjectsGroupsResponseItem."""
 
     id: str | None = None
     name: str | None = None
@@ -2923,8 +3006,14 @@ class GetOrganizationPolicyObjectsGroupsResponse(_BaseSchema):
     )
 
 
-class GetOrganizationPolicyObjectsResponse(_BaseSchema):
+class GetOrganizationPolicyObjectsResponse(
+    RootModel[list["GetOrganizationPolicyObjectsResponseItem"]]
+):
     """Response for getOrganizationPolicyObjects operation."""
+
+
+class GetOrganizationPolicyObjectsResponseItem(_BaseSchema):
+    """Schema for GetOrganizationPolicyObjectsResponseItem."""
 
     id: str | None = None
     name: str | None = None
@@ -3723,6 +3812,20 @@ class OrganizationsCountsByStatus(_BaseSchema):
     dormant: int | None = None
 
 
+class OrganizationsCountsByStatus2(_BaseSchema):
+    """Device counts grouped by EOX status."""
+
+    end_of_sale: GetOrganizationClientsOverviewResponseCounts | None = Field(
+        default=None, validation_alias="endOfSale", serialization_alias="endOfSale"
+    )
+    end_of_support: GetOrganizationClientsOverviewResponseCounts | None = Field(
+        default=None, validation_alias="endOfSupport", serialization_alias="endOfSupport"
+    )
+    near_end_of_support: GetOrganizationClientsOverviewResponseCounts | None = Field(
+        default=None, validation_alias="nearEndOfSupport", serialization_alias="nearEndOfSupport"
+    )
+
+
 class OrganizationsCreatedResourcesItem(_BaseSchema):
     """Schema for OrganizationsCreatedResourcesItem."""
 
@@ -3850,6 +3953,18 @@ class OrganizationsDevicesItem3(_BaseSchema):
     description: str | None = None
 
 
+class OrganizationsEox(_BaseSchema):
+    """End of life information for the device."""
+
+    status: str | None = None
+    end_of_sale_at: datetime | None = Field(
+        default=None, validation_alias="endOfSaleAt", serialization_alias="endOfSaleAt"
+    )
+    end_of_support_at: datetime | None = Field(
+        default=None, validation_alias="endOfSupportAt", serialization_alias="endOfSupportAt"
+    )
+
+
 class OrganizationsErrorsItem(_BaseSchema):
     """Schema for OrganizationsErrorsItem."""
 
@@ -3861,13 +3976,6 @@ class OrganizationsFile(_BaseSchema):
     """Object containing information about the file."""
 
     size: int | None = None
-
-
-class OrganizationsFloorPlan(_BaseSchema):
-    """The assigned floor plan for this device."""
-
-    id: str | None = None
-    status: str | None = None
 
 
 class OrganizationsFree(_BaseSchema):
@@ -3978,6 +4086,12 @@ class OrganizationsImage(_BaseSchema):
     preview: OrganizationsPreview | None = None
 
 
+class OrganizationsInitiator(_BaseSchema):
+    """User who initiated the move."""
+
+    admin: CreateOrganizationActionBatchCallbackHttpServer | None = None
+
+
 class OrganizationsIntervalsItem(_BaseSchema):
     """Schema for OrganizationsIntervalsItem."""
 
@@ -4007,7 +4121,7 @@ class OrganizationsItemsItem(_BaseSchema):
     tags: list[str] | None = None
     status: str | None = None
     network: CreateOrganizationActionBatchCallbackHttpServer | None = None
-    floor_plan: OrganizationsFloorPlan | None = Field(
+    floor_plan: OrganizationsPolicyObjectsItem | None = Field(
         default=None, validation_alias="floorPlan", serialization_alias="floorPlan"
     )
     lat: float | None = None
@@ -4167,6 +4281,13 @@ class OrganizationsOptOutEligibilityHelp(_BaseSchema):
     url: str | None = None
 
 
+class OrganizationsOrganizations(_BaseSchema):
+    """Organizations involved in the network move."""
+
+    source: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    target: CreateOrganizationActionBatchCallbackHttpServer | None = None
+
+
 class OrganizationsPercentages(_BaseSchema):
     """Memory utilization percentages on the device over the interval."""
 
@@ -4292,6 +4413,13 @@ class OrganizationsRegion(_BaseSchema):
 
     name: str | None = None
     host: OrganizationsHost | None = None
+
+
+class OrganizationsResult(_BaseSchema):
+    """Result of the network move operation."""
+
+    status: str | None = None
+    reason: str | None = None
 
 
 class OrganizationsRoaming(_BaseSchema):

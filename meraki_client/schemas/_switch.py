@@ -1257,6 +1257,9 @@ class GetNetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
     """Response for getNetworkSwitchAlternateManagementInterface operation."""
 
     enabled: bool | None = None
+    use_oob_mgmt: bool | None = Field(
+        default=None, validation_alias="useOobMgmt", serialization_alias="useOobMgmt"
+    )
     vlan_id: int | None = Field(
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
@@ -1330,6 +1333,11 @@ class GetNetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
     )
     allowed_servers: list[str] | None = Field(
         default=None, validation_alias="allowedServers", serialization_alias="allowedServers"
+    )
+    always_allowed_servers: list[str] | None = Field(
+        default=None,
+        validation_alias="alwaysAllowedServers",
+        serialization_alias="alwaysAllowedServers",
     )
     arp_inspection: GetNetworkSwitchDhcpServerPolicyResponseArpInspection | None = Field(
         default=None, validation_alias="arpInspection", serialization_alias="arpInspection"
@@ -3019,7 +3027,8 @@ class SwitchSwitchPortsItem(_BaseSchema):
 
 class SwitchTrafficInKbps(_BaseSchema):
     """A breakdown of the average speed of data that has passed through this port during the
-    timespan.
+    timespan. Note that this data is collected periodically from the switch. Any data from the
+    past five minutes may be incomplete.
     """
 
     total: float | None = None
@@ -3057,7 +3066,10 @@ class SwitchUsage3(_BaseSchema):
 
 
 class SwitchUsageInKb(_BaseSchema):
-    """A breakdown of how many kilobytes have passed through this port during the timespan."""
+    """A breakdown of how many kilobytes have passed through this port during the timespan. Note
+    that this data is collected periodically from the switch. Any data from the past five
+    minutes may be incomplete.
+    """
 
     total: int | None = None
     sent: int | None = None
@@ -3587,6 +3599,9 @@ class UpdateNetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
     """Response for updateNetworkSwitchAlternateManagementInterface operation."""
 
     enabled: bool | None = None
+    use_oob_mgmt: bool | None = Field(
+        default=None, validation_alias="useOobMgmt", serialization_alias="useOobMgmt"
+    )
     vlan_id: int | None = Field(
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
@@ -3648,6 +3663,11 @@ class UpdateNetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
     )
     allowed_servers: list[str] | None = Field(
         default=None, validation_alias="allowedServers", serialization_alias="allowedServers"
+    )
+    always_allowed_servers: list[str] | None = Field(
+        default=None,
+        validation_alias="alwaysAllowedServers",
+        serialization_alias="alwaysAllowedServers",
     )
     arp_inspection: GetNetworkSwitchDhcpServerPolicyResponseArpInspection | None = Field(
         default=None, validation_alias="arpInspection", serialization_alias="arpInspection"

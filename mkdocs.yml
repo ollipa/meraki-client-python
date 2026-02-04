@@ -48,7 +48,6 @@ nav:
       - Devices: api_reference/devices.md
       - Insight: api_reference/insight.md
       - Licensing: api_reference/licensing.md
-      - NAC: api_reference/nac.md
       - Networks: api_reference/networks.md
       - Organizations: api_reference/organizations.md
       - Sensor: api_reference/sensor.md
@@ -64,7 +63,6 @@ nav:
           - Cellular Gateway: api_reference/batch_cellular_gateway.md
           - Devices: api_reference/batch_devices.md
           - Insight: api_reference/batch_insight.md
-          - NAC: api_reference/batch_nac.md
           - Networks: api_reference/batch_networks.md
           - Organizations: api_reference/batch_organizations.md
           - Sensor: api_reference/batch_sensor.md

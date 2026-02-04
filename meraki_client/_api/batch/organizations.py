@@ -1617,7 +1617,7 @@ class ActionBatchOrganizations:
         organization_id: str,
         name: str,
         category: str | None = None,
-        object_ids: list[int] | None = None,
+        object_ids: list[str] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates a new Policy Object Group.
 
@@ -1657,7 +1657,7 @@ class ActionBatchOrganizations:
         organization_id: str,
         policy_object_group_id: str,
         name: str | None = None,
-        object_ids: list[int] | None = None,
+        object_ids: list[str] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates a Policy Object Group.
 
