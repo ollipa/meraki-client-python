@@ -2,7 +2,7 @@
 
 import re
 import urllib.parse
-from enum import Enum
+from enum import StrEnum
 
 import httpx
 
@@ -12,7 +12,7 @@ _USER_AGENT_REGEX = re.compile(
 _USER_AGENT_DOC_URL = "https://developer.cisco.com/meraki/api-v1/user-agents-overview/"
 
 
-class BaseURL(str, Enum):
+class BaseURL(StrEnum):
     """Base URL for the Meraki dashboard API."""
 
     # Default base URL for the Meraki dashboard API.
