@@ -70,8 +70,8 @@ class MerakiHTTPError(MerakiException):
     def __str__(self) -> str:
         """Return the exception message."""
         if self.errors:
-            errors = "\n".join(self.errors)
-            return f"{self.__class__.__name__}: {self.status_code} {self.reason}\n{errors}"
+            errors = ", ".join(self.errors)
+            return f"{self.__class__.__name__}: {self.status_code} {self.reason} - {errors}"
         return f"{self.__class__.__name__}: {self.status_code} {self.reason}"
 
 

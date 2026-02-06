@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+- Format Meraki API error messages as a single line when logged or displayed in exceptions.
 
 ## v0.6.0
 
