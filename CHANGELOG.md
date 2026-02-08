@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+-
+
+## v0.7.0
+
 ### Changed
 
 - Change default type for lists to empty list instead of `None`.
