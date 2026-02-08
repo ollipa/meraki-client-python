@@ -305,6 +305,7 @@ def generate_library(  # noqa: PLR0915
                 templates=templates,
                 schema_registry=schema_registry,
                 force_paginated=spec_overrides.force_paginated,
+                optional_response=spec_overrides.optional_response,
             )
 
         if batch_content:
@@ -366,6 +367,7 @@ def generate_module(  # noqa: PLR0915
     templates: Templates,
     schema_registry: SchemaRegistry,
     force_paginated: set[str],
+    optional_response: set[str],
 ) -> str | None:
     """Generate a module for a scope.
 
@@ -510,6 +512,7 @@ def generate_module(  # noqa: PLR0915
                 "use_raw_docstring": use_raw_docstring,
             }
 
+            is_optional_response = operation_id in optional_response
             output.write(
                 templates.function_template.render(
                     **common_params,
@@ -521,9 +524,11 @@ def generate_module(  # noqa: PLR0915
                         is_async=False,
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
+                        optional_response=is_optional_response,
                     ),
                     is_async=False,
                     is_paginated=is_paginated,
+                    is_optional_response=is_optional_response,
                     has_pagination_params=has_pagination_params,
                 )
             )
@@ -538,9 +543,11 @@ def generate_module(  # noqa: PLR0915
                         is_async=True,
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
+                        optional_response=is_optional_response,
                     ),
                     is_async=True,
                     is_paginated=is_paginated,
+                    is_optional_response=is_optional_response,
                     has_pagination_params=has_pagination_params,
                 )
             )
@@ -899,6 +906,7 @@ def get_return_type(
     is_async: bool,
     response_schema_name: str | None = None,
     item_schema_name: str | None = None,
+    optional_response: bool = False,
 ) -> str:
     """Get the return type for a function."""
     if method == "delete":
@@ -910,6 +918,8 @@ def get_return_type(
             else f"PaginatedResponse[{item_schema_name}]"
         )
     if response_schema_name:
+        if optional_response:
+            return f"{response_schema_name} | None"
         return f"{response_schema_name}"
     return "None"
 

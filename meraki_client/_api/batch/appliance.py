@@ -94,7 +94,7 @@ class ActionBatchAppliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/radio/settings"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if rf_profile_id is not None:
             payload["rfProfileId"] = rf_profile_id
         if two_four_ghz_settings is not None:
@@ -127,7 +127,7 @@ class ActionBatchAppliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/uplinks/settings"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if interfaces is not None:
             payload["interfaces"] = interfaces.model_dump(by_alias=True, exclude_none=True)
 
@@ -175,7 +175,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if destinations is not None:
             payload["destinations"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in destinations
@@ -205,7 +205,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if rules is not None:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
@@ -233,7 +233,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if rules is not None:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
@@ -281,7 +281,7 @@ class ActionBatchAppliance:
         port_id = urllib.parse.quote(str(port_id), safe="")
         path = f"/networks/{network_id}/appliance/ports/{port_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if enabled is not None:
             payload["enabled"] = enabled
         if drop_untagged_traffic is not None:
@@ -323,7 +323,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if prefix is not None:
             payload["prefix"] = prefix
         if origin is not None:
@@ -362,7 +362,7 @@ class ActionBatchAppliance:
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if prefix is not None:
             payload["prefix"] = prefix
         if origin is not None:
@@ -421,7 +421,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/rfProfiles"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if two_four_ghz_settings is not None:
@@ -470,7 +470,7 @@ class ActionBatchAppliance:
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if two_four_ghz_settings is not None:
@@ -535,7 +535,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if wan_traffic_uplink_preferences is not None:
             payload["wanTrafficUplinkPreferences"] = [
                 item.model_dump(by_alias=True, exclude_none=True)
@@ -581,7 +581,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/settings"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if client_tracking_method is not None:
             payload["clientTrackingMethod"] = client_tracking_method
         if deployment_mode is not None:
@@ -622,7 +622,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/singleLan"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if subnet is not None:
             payload["subnet"] = subnet
         if appliance_ip is not None:
@@ -706,7 +706,7 @@ class ActionBatchAppliance:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/appliance/ssids/{number}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if enabled is not None:
@@ -764,7 +764,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if max_latency is not None:
@@ -807,7 +807,7 @@ class ActionBatchAppliance:
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if max_latency is not None:
@@ -869,7 +869,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if default_rules_enabled is not None:
             payload["defaultRulesEnabled"] = default_rules_enabled
         if rules is not None:
@@ -901,7 +901,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if bandwidth_limits is not None:
             payload["bandwidthLimits"] = bandwidth_limits.model_dump(
                 by_alias=True, exclude_none=True
@@ -948,7 +948,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if active_active_auto_vpn_enabled is not None:
             payload["activeActiveAutoVpnEnabled"] = active_active_auto_vpn_enabled
         if default_uplink is not None:
@@ -1000,7 +1000,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if custom is not None:
             payload["custom"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in custom
@@ -1100,7 +1100,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if id is not None:
             payload["id"] = id
         if name is not None:
@@ -1160,7 +1160,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans/settings"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if vlans_enabled is not None:
             payload["vlansEnabled"] = vlans_enabled
 
@@ -1269,7 +1269,7 @@ class ActionBatchAppliance:
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if subnet is not None:
@@ -1376,7 +1376,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vpn/bgp"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if enabled is not None:
             payload["enabled"] = enabled
         if as_number is not None:
@@ -1423,7 +1423,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if mode is not None:
             payload["mode"] = mode
         if hubs is not None:
@@ -1467,7 +1467,7 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/warmSpare"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if enabled is not None:
             payload["enabled"] = enabled
         if spare_serial is not None:
@@ -1519,7 +1519,7 @@ class ActionBatchAppliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
 
@@ -1549,7 +1549,7 @@ class ActionBatchAppliance:
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkCreate"
         )
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
@@ -1579,7 +1579,7 @@ class ActionBatchAppliance:
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkDelete"
         )
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
@@ -1606,7 +1606,7 @@ class ActionBatchAppliance:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
 
@@ -1659,7 +1659,7 @@ class ActionBatchAppliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/records"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if hostname is not None:
             payload["hostname"] = hostname
         if address is not None:
@@ -1698,7 +1698,7 @@ class ActionBatchAppliance:
         record_id = urllib.parse.quote(str(record_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if hostname is not None:
             payload["hostname"] = hostname
         if address is not None:
@@ -1756,7 +1756,7 @@ class ActionBatchAppliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if hostnames is not None:
@@ -1790,7 +1790,7 @@ class ActionBatchAppliance:
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkCreate"
         )
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
@@ -1820,7 +1820,7 @@ class ActionBatchAppliance:
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkDelete"
         )
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
@@ -1856,7 +1856,7 @@ class ActionBatchAppliance:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if hostnames is not None:
@@ -1909,7 +1909,7 @@ class ActionBatchAppliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
@@ -1937,7 +1937,7 @@ class ActionBatchAppliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if peers is not None:
             payload["peers"] = [item.model_dump(by_alias=True, exclude_none=True) for item in peers]
 

@@ -304,7 +304,7 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/ports/cycle"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if ports is not None:
             payload["ports"] = ports
 
@@ -415,7 +415,7 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/ports/statuses"
 
-        params = {}
+        params: dict[str, Any] = {}
         if t0 is not None:
             params["t0"] = t0
         if timespan is not None:
@@ -475,7 +475,7 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/ports/statuses/packets"
 
-        params = {}
+        params: dict[str, Any] = {}
         if t0 is not None:
             params["t0"] = t0
         if timespan is not None:
@@ -783,7 +783,7 @@ class Switch:
         port_id = urllib.parse.quote(str(port_id), safe="")
         path = f"/devices/{serial}/switch/ports/{port_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if tags is not None:
@@ -920,7 +920,7 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces"
 
-        params = {}
+        params: dict[str, Any] = {}
         if mode is not None:
             params["mode"] = mode
         if protocol is not None:
@@ -1032,7 +1032,7 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if mode is not None:
@@ -1226,7 +1226,7 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if subnet is not None:
@@ -1459,7 +1459,7 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if dhcp_mode is not None:
             payload["dhcpMode"] = dhcp_mode
         if dhcp_relay_server_ips is not None:
@@ -1590,7 +1590,7 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/routing/staticRoutes"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if subnet is not None:
@@ -1710,7 +1710,7 @@ class Switch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if subnet is not None:
@@ -1816,7 +1816,7 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/warmSpare"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if enabled is not None:
             payload["enabled"] = enabled
         if spare_serial is not None:
@@ -1911,7 +1911,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/accessControlLists"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if rules is not None:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
@@ -2177,7 +2177,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if radius_servers is not None:
@@ -2487,7 +2487,7 @@ class Switch:
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if radius_servers is not None:
@@ -2663,7 +2663,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/alternateManagementInterface"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if enabled is not None:
             payload["enabled"] = enabled
         if vlan_id is not None:
@@ -2827,7 +2827,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dhcp/v4/servers/seen"
 
-        params = {}
+        params: dict[str, Any] = {}
         if t0 is not None:
             params["t0"] = t0
         if timespan is not None:
@@ -2972,7 +2972,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if alerts is not None:
             payload["alerts"] = alerts.model_dump(by_alias=True, exclude_none=True)
         if default_policy is not None:
@@ -3045,7 +3045,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
-        params = {}
+        params: dict[str, Any] = {}
         if per_page is not None:
             params["perPage"] = per_page
         if starting_after is not None:
@@ -3100,7 +3100,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if mac is not None:
             payload["mac"] = mac
         if vlan is not None:
@@ -3156,7 +3156,7 @@ class Switch:
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if mac is not None:
             payload["mac"] = mac
         if vlan is not None:
@@ -3249,7 +3249,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/warnings/byDevice"
 
-        params = {}
+        params: dict[str, Any] = {}
         if per_page is not None:
             params["perPage"] = per_page
         if starting_after is not None:
@@ -3336,7 +3336,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dscpToCosMappings"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if mappings is not None:
             payload["mappings"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in mappings
@@ -3428,7 +3428,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/linkAggregations"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if switch_ports is not None:
             payload["switchPorts"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in switch_ports
@@ -3488,7 +3488,7 @@ class Switch:
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
         path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if switch_ports is not None:
             payload["switchPorts"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in switch_ports
@@ -3617,7 +3617,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/mtu"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if default_mtu_size is not None:
             payload["defaultMtuSize"] = default_mtu_size
         if overrides is not None:
@@ -3777,7 +3777,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/portSchedules"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if port_schedule is not None:
@@ -3866,7 +3866,7 @@ class Switch:
         port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
         path = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if port_schedule is not None:
@@ -4001,7 +4001,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if vlan is not None:
             payload["vlan"] = vlan
         if protocol is not None:
@@ -4088,7 +4088,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules/order"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if rule_ids is not None:
             payload["ruleIds"] = rule_ids
 
@@ -4201,7 +4201,7 @@ class Switch:
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if vlan is not None:
             payload["vlan"] = vlan
         if protocol is not None:
@@ -4355,7 +4355,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if default_settings is not None:
             payload["defaultSettings"] = default_settings.model_dump(
                 by_alias=True, exclude_none=True
@@ -4446,7 +4446,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if interface_ip is not None:
             payload["interfaceIp"] = interface_ip
         if multicast_group is not None:
@@ -4538,7 +4538,7 @@ class Switch:
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if interface_ip is not None:
             payload["interfaceIp"] = interface_ip
         if multicast_group is not None:
@@ -4634,7 +4634,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/routing/ospf"
 
-        params = {}
+        params: dict[str, Any] = {}
         if vrf is not None:
             params["vrf"] = vrf
 
@@ -4724,11 +4724,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/routing/ospf"
 
-        params = {}
+        params: dict[str, Any] = {}
         if vrf is not None:
             params["vrf"] = vrf
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if enabled is not None:
             payload["enabled"] = enabled
         if hello_timer_in_seconds is not None:
@@ -4862,7 +4862,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/settings"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if vlan is not None:
             payload["vlan"] = vlan
         if use_combined_power is not None:
@@ -4971,7 +4971,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/stacks"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if serials is not None:
@@ -5098,7 +5098,7 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/add"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if serial is not None:
             payload["serial"] = serial
 
@@ -5153,7 +5153,7 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/remove"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if serial is not None:
             payload["serial"] = serial
 
@@ -5241,7 +5241,7 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
 
-        params = {}
+        params: dict[str, Any] = {}
         if mode is not None:
             params["mode"] = mode
         if protocol is not None:
@@ -5356,7 +5356,7 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if mode is not None:
@@ -5554,7 +5554,7 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if subnet is not None:
@@ -5797,7 +5797,7 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if dhcp_mode is not None:
             payload["dhcpMode"] = dhcp_mode
         if dhcp_relay_server_ips is not None:
@@ -5933,7 +5933,7 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if subnet is not None:
@@ -6058,7 +6058,7 @@ class Switch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if subnet is not None:
@@ -6190,7 +6190,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/stormControl"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if broadcast_threshold is not None:
             payload["broadcastThreshold"] = broadcast_threshold
         if multicast_threshold is not None:
@@ -6310,7 +6310,7 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/stp"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if rstp_enabled is not None:
             payload["rstpEnabled"] = rstp_enabled
         if stp_bridge_priority is not None:
@@ -6747,7 +6747,7 @@ class Switch:
         port_id = urllib.parse.quote(str(port_id), safe="")
         path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
         if tags is not None:
@@ -6848,7 +6848,7 @@ class Switch:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/summary/switch/power/history"
 
-        params = {}
+        params: dict[str, Any] = {}
         if t0 is not None:
             params["t0"] = t0
         if t1 is not None:
@@ -6897,7 +6897,7 @@ class Switch:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/switch/devices/clone"
 
-        payload = {}
+        payload: dict[str, Any] = {}
         if source_serial is not None:
             payload["sourceSerial"] = source_serial
         if target_serials is not None:
@@ -7011,7 +7011,7 @@ class Switch:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/switch/ports/bySwitch"
 
-        params = {}
+        params: dict[str, Any] = {}
         if per_page is not None:
             params["perPage"] = per_page
         if starting_after is not None:
@@ -7149,7 +7149,7 @@ class Switch:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/switch/ports/clients/overview/byDevice"
 
-        params = {}
+        params: dict[str, Any] = {}
         if t0 is not None:
             params["t0"] = t0
         if timespan is not None:
@@ -7262,7 +7262,7 @@ class Switch:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/switch/ports/overview"
 
-        params = {}
+        params: dict[str, Any] = {}
         if t0 is not None:
             params["t0"] = t0
         if t1 is not None:
@@ -7396,7 +7396,7 @@ class Switch:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/switch/ports/statuses/bySwitch"
 
-        params = {}
+        params: dict[str, Any] = {}
         if per_page is not None:
             params["perPage"] = per_page
         if starting_after is not None:
@@ -7544,7 +7544,7 @@ class Switch:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/switch/ports/topology/discovery/byDevice"
 
-        params = {}
+        params: dict[str, Any] = {}
         if t0 is not None:
             params["t0"] = t0
         if timespan is not None:
@@ -7715,7 +7715,7 @@ class Switch:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/switch/ports/usage/history/byDevice/byInterval"
 
-        params = {}
+        params: dict[str, Any] = {}
         if t0 is not None:
             params["t0"] = t0
         if t1 is not None:

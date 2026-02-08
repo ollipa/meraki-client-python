@@ -134,7 +134,7 @@ class Session:
         version: str,
         maximum_concurrent_requests: int,
     ) -> None:
-        self._base_url = str(base_url)
+        self._base_url = base_url.value
         self._single_request_timeout = single_request_timeout
         self._total_request_timeout = total_request_timeout
         self._certificate_path = certificate_path
@@ -142,9 +142,6 @@ class Session:
         self._wait_on_rate_limit = wait_on_rate_limit
         self._maximum_retries = maximum_retries
         self._semaphore = asyncio.Semaphore(maximum_concurrent_requests)
-
-        # Check base URL
-        self._base_url: str = base_url.value
 
         # Initialize httpx client
         self._client = httpx.AsyncClient(
@@ -289,6 +286,30 @@ class Session:
         response_schema: type[T],
     ) -> T: ...
 
+    @overload
+    async def get(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        params: dict[str, Any] | None = None,
+        response_schema: type[T],
+        optional_response: Literal[False],
+    ) -> T: ...
+
+    @overload
+    async def get(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        params: dict[str, Any] | None = None,
+        response_schema: type[T],
+        optional_response: Literal[True],
+    ) -> T | None: ...
+
     async def get(
         self,
         *,
@@ -297,12 +318,13 @@ class Session:
         path: str,
         params: dict[str, Any] | None = None,
         response_schema: type[T] | None = None,
+        optional_response: bool = False,
     ) -> T | None:
         """Make a GET request to the API endpoint."""
         response = await self._request(
             operation=f"{scope}.{operation_id}", method="GET", path=path, params=params
         )
-        if response_schema is None:
+        if response_schema is None or (optional_response and response.status_code == 204):
             return None
         try:
             return response_schema.model_validate_json(response.text)

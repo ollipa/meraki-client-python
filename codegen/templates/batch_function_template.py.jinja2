@@ -25,7 +25,7 @@
         path = f'{{ resource }}'
 
         {% if query_params|length > 0 %}
-        params = {}
+        params: dict[str, Any] = {}
         {% for snake, orig in query_params %}
         if {{ snake }} is not None:
             params['{{ orig }}'] = {{ snake }}
@@ -33,7 +33,7 @@
 
         {% endif %}
         {% if body_params|length > 0 %}
-        payload = {}
+        payload: dict[str, Any] = {}
         {% for snake, orig, is_schema, is_list, is_dict in body_params %}
         if {{ snake }} is not None:
             {% if is_schema and is_list %}

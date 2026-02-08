@@ -4,6 +4,7 @@
 # Available overrides:
 # - force_array_response: Endpoints where spec says object but API returns array
 # - force_paginated: Endpoints missing pagination params but return paginated responses
+# - optional_response: Endpoints where response can be None
 # - skip_tests: Endpoints to skip in test generation
 # - [operationId.response]: Field type overrides for response schemas
 # - [operationId.required]: Fields to mark as required (list of field paths)
@@ -22,6 +23,10 @@ force_paginated = [
     "getNetworkWirelessRfProfiles",
     "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
 ]
+
+# Endpoints where response can be None
+# Only implemented for GET requests currently
+optional_response = ["getDeviceAppliancePerformance"]
 
 # Endpoints to skip in test generation
 skip_tests = [
