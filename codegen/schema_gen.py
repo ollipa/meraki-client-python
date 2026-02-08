@@ -739,6 +739,7 @@ def _generate_field(
 
     needs_alias = snake_name != prop_name
     is_nullable = prop_schema.get("nullable", False)
+    is_list = type_str.startswith("list[")
     alias_args = f'validation_alias="{prop_name}", serialization_alias="{prop_name}"'
 
     if is_required:
@@ -751,10 +752,17 @@ def _generate_field(
         return f"{snake_name}: {type_annotation}", item_class
 
     if needs_alias:
+        if is_list:
+            return (
+                f"{snake_name}: {type_str} = Field(default_factory=list, {alias_args})",
+                item_class,
+            )
         return (
             f"{snake_name}: {type_str} | None = Field(default=None, {alias_args})",
             item_class,
         )
+    if is_list:
+        return f"{snake_name}: {type_str} = Field(default_factory=list)", item_class
     return f"{snake_name}: {type_str} | None = None", item_class
 
 

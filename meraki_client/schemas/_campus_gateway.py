@@ -50,7 +50,7 @@ class CampusGatewayDevicesUplinksItem(_BaseSchema):
     """Schema for CampusGatewayDevicesUplinksItem."""
 
     interface: str | None = None
-    addresses: list[CampusGatewayAddressesItem] | None = None
+    addresses: list[CampusGatewayAddressesItem] = Field(default_factory=list)
 
 
 class CampusGatewayItems(_BaseSchema):
@@ -102,7 +102,7 @@ class CampusGatewayUplink(_BaseSchema):
 
     interface: str | None = None
     vlan: int | None = None
-    addresses: list[CampusGatewayAddressesItem4] | None = None
+    addresses: list[CampusGatewayAddressesItem4] = Field(default_factory=list)
 
 
 class CampusGatewayUplinksAddressesItem(_BaseSchema):
@@ -122,8 +122,12 @@ class CreateNetworkCampusGatewayClusterDevicesItem(_BaseSchema):
     """Item schema for devices."""
 
     serial: str
-    uplinks: list[CreateNetworkCampusGatewayClusterDevicesItemUplinksItem] | None = None
-    tunnels: list[CreateNetworkCampusGatewayClusterDevicesItemUplinksItem] | None = None
+    uplinks: list[CreateNetworkCampusGatewayClusterDevicesItemUplinksItem] = Field(
+        default_factory=list
+    )
+    tunnels: list[CreateNetworkCampusGatewayClusterDevicesItemUplinksItem] = Field(
+        default_factory=list
+    )
 
 
 class CreateNetworkCampusGatewayClusterDevicesItemUplinksItem(_BaseSchema):
@@ -136,7 +140,7 @@ class CreateNetworkCampusGatewayClusterDevicesItemUplinksItem(_BaseSchema):
 class CreateNetworkCampusGatewayClusterNameservers(_BaseSchema):
     """Nameservers of the cluster."""
 
-    addresses: list[str] | None = None
+    addresses: list[str] = Field(default_factory=list)
 
 
 class CreateNetworkCampusGatewayClusterPortChannelsItem(_BaseSchema):
@@ -154,13 +158,19 @@ class CreateNetworkCampusGatewayClusterResponse(_BaseSchema):
         default=None, validation_alias="clusterId", serialization_alias="clusterId"
     )
     name: str | None = None
-    uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
-    tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
-    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
-    port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
-        default=None, validation_alias="portChannels", serialization_alias="portChannels"
+    uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] = Field(
+        default_factory=list
     )
-    devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
+    tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] = Field(
+        default_factory=list
+    )
+    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
+    port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] = Field(
+        default_factory=list, validation_alias="portChannels", serialization_alias="portChannels"
+    )
+    devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] = Field(
+        default_factory=list
+    )
     notes: str | None = None
     url: str | None = None
 
@@ -172,14 +182,14 @@ class CreateNetworkCampusGatewayClusterResponseDevicesItem(_BaseSchema):
     member_id: str | None = Field(
         default=None, validation_alias="memberId", serialization_alias="memberId"
     )
-    uplinks: list[CampusGatewayDevicesUplinksItem] | None = None
-    tunnels: list[CampusGatewayDevicesUplinksItem] | None = None
+    uplinks: list[CampusGatewayDevicesUplinksItem] = Field(default_factory=list)
+    tunnels: list[CampusGatewayDevicesUplinksItem] = Field(default_factory=list)
 
 
 class CreateNetworkCampusGatewayClusterResponseNameservers(_BaseSchema):
     """Nameservers of the cluster."""
 
-    addresses: list[str] | None = None
+    addresses: list[str] = Field(default_factory=list)
 
 
 class CreateNetworkCampusGatewayClusterResponsePortChannelsItem(_BaseSchema):
@@ -199,7 +209,7 @@ class CreateNetworkCampusGatewayClusterResponseTunnelsItem(_BaseSchema):
     uplink: CampusGatewayTunnelsUplink | None = None
     interface: str | None = None
     vlan: int | None = None
-    addresses: list[CampusGatewayTunnelsAddressesItem] | None = None
+    addresses: list[CampusGatewayTunnelsAddressesItem] = Field(default_factory=list)
 
 
 class CreateNetworkCampusGatewayClusterResponseUplinksItem(_BaseSchema):
@@ -207,7 +217,7 @@ class CreateNetworkCampusGatewayClusterResponseUplinksItem(_BaseSchema):
 
     interface: str | None = None
     vlan: int | None = None
-    addresses: list[CampusGatewayUplinksAddressesItem] | None = None
+    addresses: list[CampusGatewayUplinksAddressesItem] = Field(default_factory=list)
 
 
 class CreateNetworkCampusGatewayClusterTunnelsItem(_BaseSchema):
@@ -216,7 +226,9 @@ class CreateNetworkCampusGatewayClusterTunnelsItem(_BaseSchema):
     uplink: CreateNetworkCampusGatewayClusterTunnelsItemUplink | None = None
     interface: str | None = None
     vlan: int | None = None
-    addresses: list[CreateNetworkCampusGatewayClusterTunnelsItemAddressesItem] | None = None
+    addresses: list[CreateNetworkCampusGatewayClusterTunnelsItemAddressesItem] = Field(
+        default_factory=list
+    )
 
 
 class CreateNetworkCampusGatewayClusterTunnelsItemAddressesItem(_BaseSchema):
@@ -257,7 +269,7 @@ class CreateNetworkCampusGatewayClusterUplinksItemAddressesItem(_BaseSchema):
 class GetOrganizationCampusGatewayClustersResponse(_BaseSchema):
     """Response for getOrganizationCampusGatewayClusters operation."""
 
-    items: list[GetOrganizationCampusGatewayClustersResponseItemsItem] | None = None
+    items: list[GetOrganizationCampusGatewayClustersResponseItemsItem] = Field(default_factory=list)
     meta: GetOrganizationCampusGatewayClustersResponseMeta | None = None
 
 
@@ -269,13 +281,19 @@ class GetOrganizationCampusGatewayClustersResponseItemsItem(_BaseSchema):
         default=None, validation_alias="clusterId", serialization_alias="clusterId"
     )
     name: str | None = None
-    uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
-    tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
-    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
-    port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
-        default=None, validation_alias="portChannels", serialization_alias="portChannels"
+    uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] = Field(
+        default_factory=list
     )
-    devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
+    tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] = Field(
+        default_factory=list
+    )
+    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
+    port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] = Field(
+        default_factory=list, validation_alias="portChannels", serialization_alias="portChannels"
+    )
+    devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] = Field(
+        default_factory=list
+    )
     notes: str | None = None
     url: str | None = None
 
@@ -289,7 +307,7 @@ class GetOrganizationCampusGatewayClustersResponseMeta(_BaseSchema):
 class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponse(_BaseSchema):
     """Response for getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice operation."""
 
-    items: list[CampusGatewayItemsItem] | None = None
+    items: list[CampusGatewayItemsItem] = Field(default_factory=list)
     meta: GetOrganizationCampusGatewayClustersResponseMeta | None = None
 
 
@@ -297,8 +315,12 @@ class UpdateNetworkCampusGatewayClusterDevicesItem(_BaseSchema):
     """Item schema for devices."""
 
     serial: str
-    uplinks: list[UpdateNetworkCampusGatewayClusterDevicesItemUplinksItem] | None = None
-    tunnels: list[UpdateNetworkCampusGatewayClusterDevicesItemUplinksItem] | None = None
+    uplinks: list[UpdateNetworkCampusGatewayClusterDevicesItemUplinksItem] = Field(
+        default_factory=list
+    )
+    tunnels: list[UpdateNetworkCampusGatewayClusterDevicesItemUplinksItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkCampusGatewayClusterDevicesItemUplinksItem(_BaseSchema):
@@ -311,7 +333,7 @@ class UpdateNetworkCampusGatewayClusterDevicesItemUplinksItem(_BaseSchema):
 class UpdateNetworkCampusGatewayClusterNameservers(_BaseSchema):
     """Nameservers of the cluster."""
 
-    addresses: list[str] | None = None
+    addresses: list[str] = Field(default_factory=list)
 
 
 class UpdateNetworkCampusGatewayClusterPortChannelsItem(_BaseSchema):
@@ -331,13 +353,19 @@ class UpdateNetworkCampusGatewayClusterResponse(_BaseSchema):
         default=None, validation_alias="clusterId", serialization_alias="clusterId"
     )
     name: str | None = None
-    uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
-    tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
-    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
-    port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
-        default=None, validation_alias="portChannels", serialization_alias="portChannels"
+    uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] = Field(
+        default_factory=list
     )
-    devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
+    tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] = Field(
+        default_factory=list
+    )
+    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
+    port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] = Field(
+        default_factory=list, validation_alias="portChannels", serialization_alias="portChannels"
+    )
+    devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] = Field(
+        default_factory=list
+    )
     notes: str | None = None
     url: str | None = None
 
@@ -348,7 +376,9 @@ class UpdateNetworkCampusGatewayClusterTunnelsItem(_BaseSchema):
     uplink: CreateNetworkCampusGatewayClusterTunnelsItemUplink | None = None
     interface: str | None = None
     vlan: int | None = None
-    addresses: list[UpdateNetworkCampusGatewayClusterTunnelsItemAddressesItem] | None = None
+    addresses: list[UpdateNetworkCampusGatewayClusterTunnelsItemAddressesItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkCampusGatewayClusterTunnelsItemAddressesItem(_BaseSchema):
@@ -366,7 +396,9 @@ class UpdateNetworkCampusGatewayClusterUplinksItem(_BaseSchema):
 
     interface: str
     vlan: int | None = None
-    addresses: list[UpdateNetworkCampusGatewayClusterUplinksItemAddressesItem] | None = None
+    addresses: list[UpdateNetworkCampusGatewayClusterUplinksItemAddressesItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkCampusGatewayClusterUplinksItemAddressesItem(_BaseSchema):

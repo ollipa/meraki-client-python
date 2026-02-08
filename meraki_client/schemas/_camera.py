@@ -51,7 +51,7 @@ class CameraBoundaries(_BaseSchema):
     id: str | None = None
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
-    vertices: list[CameraVerticesItem] | None = None
+    vertices: list[CameraVerticesItem] = Field(default_factory=list)
 
 
 class CameraBoundaries2(_BaseSchema):
@@ -60,7 +60,7 @@ class CameraBoundaries2(_BaseSchema):
     id: str | None = None
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
-    vertices: list[CameraVerticesItem] | None = None
+    vertices: list[CameraVerticesItem] = Field(default_factory=list)
     direction_vertex: CameraVerticesItem | None = Field(
         default=None, validation_alias="directionVertex", serialization_alias="directionVertex"
     )
@@ -423,14 +423,20 @@ class CreateOrganizationCameraRoleResponse(_BaseSchema):
     """Response for createOrganizationCameraRole operation."""
 
     name: str | None = None
-    applied_on_devices: list[CameraAppliedOnDevicesItem] | None = Field(
-        default=None, validation_alias="appliedOnDevices", serialization_alias="appliedOnDevices"
+    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnDevices",
+        serialization_alias="appliedOnDevices",
     )
-    applied_on_networks: list[CameraAppliedOnDevicesItem] | None = Field(
-        default=None, validation_alias="appliedOnNetworks", serialization_alias="appliedOnNetworks"
+    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnNetworks",
+        serialization_alias="appliedOnNetworks",
     )
-    applied_org_wide: list[CameraAppliedOrgWideItem] | None = Field(
-        default=None, validation_alias="appliedOrgWide", serialization_alias="appliedOrgWide"
+    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOrgWide",
+        serialization_alias="appliedOrgWide",
     )
 
 
@@ -549,7 +555,9 @@ class GetDeviceCameraCustomAnalyticsResponse(_BaseSchema):
     artifact_id: str | None = Field(
         default=None, validation_alias="artifactId", serialization_alias="artifactId"
     )
-    parameters: list[GetDeviceCameraCustomAnalyticsResponseParametersItem] | None = None
+    parameters: list[GetDeviceCameraCustomAnalyticsResponseParametersItem] = Field(
+        default_factory=list
+    )
 
 
 class GetDeviceCameraCustomAnalyticsResponseParametersItem(_BaseSchema):
@@ -831,14 +839,20 @@ class GetOrganizationCameraRoleResponse(_BaseSchema):
     """Response for getOrganizationCameraRole operation."""
 
     name: str | None = None
-    applied_on_devices: list[CameraAppliedOnDevicesItem] | None = Field(
-        default=None, validation_alias="appliedOnDevices", serialization_alias="appliedOnDevices"
+    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnDevices",
+        serialization_alias="appliedOnDevices",
     )
-    applied_on_networks: list[CameraAppliedOnDevicesItem] | None = Field(
-        default=None, validation_alias="appliedOnNetworks", serialization_alias="appliedOnNetworks"
+    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnNetworks",
+        serialization_alias="appliedOnNetworks",
     )
-    applied_org_wide: list[CameraAppliedOrgWideItem] | None = Field(
-        default=None, validation_alias="appliedOrgWide", serialization_alias="appliedOrgWide"
+    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOrgWide",
+        serialization_alias="appliedOrgWide",
     )
 
 
@@ -850,14 +864,20 @@ class GetOrganizationCameraRolesResponseItem(_BaseSchema):
     """Schema for GetOrganizationCameraRolesResponseItem."""
 
     name: str | None = None
-    applied_on_devices: list[CameraAppliedOnDevicesItem] | None = Field(
-        default=None, validation_alias="appliedOnDevices", serialization_alias="appliedOnDevices"
+    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnDevices",
+        serialization_alias="appliedOnDevices",
     )
-    applied_on_networks: list[CameraAppliedOnDevicesItem] | None = Field(
-        default=None, validation_alias="appliedOnNetworks", serialization_alias="appliedOnNetworks"
+    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnNetworks",
+        serialization_alias="appliedOnNetworks",
     )
-    applied_org_wide: list[CameraAppliedOrgWideItem] | None = Field(
-        default=None, validation_alias="appliedOrgWide", serialization_alias="appliedOrgWide"
+    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOrgWide",
+        serialization_alias="appliedOrgWide",
     )
 
 
@@ -875,7 +895,9 @@ class UpdateDeviceCameraCustomAnalyticsResponse(_BaseSchema):
     artifact_id: str | None = Field(
         default=None, validation_alias="artifactId", serialization_alias="artifactId"
     )
-    parameters: list[GetDeviceCameraCustomAnalyticsResponseParametersItem] | None = None
+    parameters: list[GetDeviceCameraCustomAnalyticsResponseParametersItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateDeviceCameraSenseAudioDetection(_BaseSchema):
@@ -1111,12 +1133,18 @@ class UpdateOrganizationCameraRoleResponse(_BaseSchema):
     """Response for updateOrganizationCameraRole operation."""
 
     name: str | None = None
-    applied_on_devices: list[CameraAppliedOnDevicesItem] | None = Field(
-        default=None, validation_alias="appliedOnDevices", serialization_alias="appliedOnDevices"
+    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnDevices",
+        serialization_alias="appliedOnDevices",
     )
-    applied_on_networks: list[CameraAppliedOnDevicesItem] | None = Field(
-        default=None, validation_alias="appliedOnNetworks", serialization_alias="appliedOnNetworks"
+    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnNetworks",
+        serialization_alias="appliedOnNetworks",
     )
-    applied_org_wide: list[CameraAppliedOrgWideItem] | None = Field(
-        default=None, validation_alias="appliedOrgWide", serialization_alias="appliedOrgWide"
+    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOrgWide",
+        serialization_alias="appliedOrgWide",
     )

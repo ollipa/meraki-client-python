@@ -19,14 +19,14 @@ class AddNetworkSwitchStackResponse(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     is_monitor_only: bool | None = Field(
         default=None, validation_alias="isMonitorOnly", serialization_alias="isMonitorOnly"
     )
     virtual_mac: str | None = Field(
         default=None, validation_alias="virtualMac", serialization_alias="virtualMac"
     )
-    members: list[SwitchMembersItem] | None = None
+    members: list[SwitchMembersItem] = Field(default_factory=list)
 
 
 class CloneOrganizationSwitchDevicesResponse(_BaseSchema):
@@ -35,8 +35,8 @@ class CloneOrganizationSwitchDevicesResponse(_BaseSchema):
     source_serial: str | None = Field(
         default=None, validation_alias="sourceSerial", serialization_alias="sourceSerial"
     )
-    target_serials: list[str] | None = Field(
-        default=None, validation_alias="targetSerials", serialization_alias="targetSerials"
+    target_serials: list[str] = Field(
+        default_factory=list, validation_alias="targetSerials", serialization_alias="targetSerials"
     )
 
 
@@ -228,8 +228,8 @@ class CreateNetworkSwitchAccessPolicyResponse(_BaseSchema):
         serialization_alias="accessPolicyNumber",
     )
     name: str | None = None
-    radius_servers: list[SwitchRadiusServersItem] | None = Field(
-        default=None, validation_alias="radiusServers", serialization_alias="radiusServers"
+    radius_servers: list[SwitchRadiusServersItem] = Field(
+        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
     )
     radius: SwitchRadius | None = None
     enforce_radius_monitoring: bool | None = Field(
@@ -255,8 +255,8 @@ class CreateNetworkSwitchAccessPolicyResponse(_BaseSchema):
         validation_alias="radiusAccountingEnabled",
         serialization_alias="radiusAccountingEnabled",
     )
-    radius_accounting_servers: list[SwitchRadiusServersItem] | None = Field(
-        default=None,
+    radius_accounting_servers: list[SwitchRadiusServersItem] = Field(
+        default_factory=list,
         validation_alias="radiusAccountingServers",
         serialization_alias="radiusAccountingServers",
     )
@@ -288,8 +288,8 @@ class CreateNetworkSwitchAccessPolicyResponse(_BaseSchema):
         validation_alias="urlRedirectWalledGardenEnabled",
         serialization_alias="urlRedirectWalledGardenEnabled",
     )
-    url_redirect_walled_garden_ranges: list[str] | None = Field(
-        default=None,
+    url_redirect_walled_garden_ranges: list[str] = Field(
+        default_factory=list,
         validation_alias="urlRedirectWalledGardenRanges",
         serialization_alias="urlRedirectWalledGardenRanges",
     )
@@ -325,8 +325,8 @@ class CreateNetworkSwitchLinkAggregationResponse(_BaseSchema):
     """Response for createNetworkSwitchLinkAggregation operation."""
 
     id: str | None = None
-    switch_ports: list[SwitchSwitchPortsItem] | None = Field(
-        default=None, validation_alias="switchPorts", serialization_alias="switchPorts"
+    switch_ports: list[SwitchSwitchPortsItem] = Field(
+        default_factory=list, validation_alias="switchPorts", serialization_alias="switchPorts"
     )
 
 
@@ -422,7 +422,7 @@ class CreateNetworkSwitchStackResponse(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     workflow_id: str | None = Field(
         default=None, validation_alias="workflowId", serialization_alias="workflowId"
     )
@@ -539,7 +539,7 @@ class CreateNetworkSwitchStackRoutingStaticRouteVrf(_BaseSchema):
 class CycleDeviceSwitchPortsResponse(_BaseSchema):
     """Response for cycleDeviceSwitchPorts operation."""
 
-    ports: list[str] | None = None
+    ports: list[str] = Field(default_factory=list)
 
 
 class GetDeviceSwitchPortResponse(_BaseSchema):
@@ -549,7 +549,7 @@ class GetDeviceSwitchPortResponse(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enabled: bool | None = None
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
@@ -577,8 +577,8 @@ class GetDeviceSwitchPortResponse(_BaseSchema):
     link_negotiation: str | None = Field(
         default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
     )
-    link_negotiation_capabilities: list[str] | None = Field(
-        default=None,
+    link_negotiation_capabilities: list[str] = Field(
+        default_factory=list,
         validation_alias="linkNegotiationCapabilities",
         serialization_alias="linkNegotiationCapabilities",
     )
@@ -595,14 +595,14 @@ class GetDeviceSwitchPortResponse(_BaseSchema):
         validation_alias="accessPolicyNumber",
         serialization_alias="accessPolicyNumber",
     )
-    mac_allow_list: list[str] | None = Field(
-        default=None, validation_alias="macAllowList", serialization_alias="macAllowList"
+    mac_allow_list: list[str] = Field(
+        default_factory=list, validation_alias="macAllowList", serialization_alias="macAllowList"
     )
     mac_whitelist_limit: int | None = Field(
         default=None, validation_alias="macWhitelistLimit", serialization_alias="macWhitelistLimit"
     )
-    sticky_mac_allow_list: list[str] | None = Field(
-        default=None,
+    sticky_mac_allow_list: list[str] = Field(
+        default_factory=list,
         validation_alias="stickyMacAllowList",
         serialization_alias="stickyMacAllowList",
     )
@@ -657,7 +657,7 @@ class GetDeviceSwitchPortsResponseItem(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enabled: bool | None = None
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
@@ -685,8 +685,8 @@ class GetDeviceSwitchPortsResponseItem(_BaseSchema):
     link_negotiation: str | None = Field(
         default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
     )
-    link_negotiation_capabilities: list[str] | None = Field(
-        default=None,
+    link_negotiation_capabilities: list[str] = Field(
+        default_factory=list,
         validation_alias="linkNegotiationCapabilities",
         serialization_alias="linkNegotiationCapabilities",
     )
@@ -703,14 +703,14 @@ class GetDeviceSwitchPortsResponseItem(_BaseSchema):
         validation_alias="accessPolicyNumber",
         serialization_alias="accessPolicyNumber",
     )
-    mac_allow_list: list[str] | None = Field(
-        default=None, validation_alias="macAllowList", serialization_alias="macAllowList"
+    mac_allow_list: list[str] = Field(
+        default_factory=list, validation_alias="macAllowList", serialization_alias="macAllowList"
     )
     mac_whitelist_limit: int | None = Field(
         default=None, validation_alias="macWhitelistLimit", serialization_alias="macWhitelistLimit"
     )
-    sticky_mac_allow_list: list[str] | None = Field(
-        default=None,
+    sticky_mac_allow_list: list[str] = Field(
+        default_factory=list,
         validation_alias="stickyMacAllowList",
         serialization_alias="stickyMacAllowList",
     )
@@ -766,7 +766,7 @@ class GetDeviceSwitchPortsStatusesPacketsResponseItem(_BaseSchema):
     port_id: str | None = Field(
         default=None, validation_alias="portId", serialization_alias="portId"
     )
-    packets: list[SwitchPacketsItem] | None = None
+    packets: list[SwitchPacketsItem] = Field(default_factory=list)
 
 
 class GetDeviceSwitchPortsStatusesResponse(
@@ -786,8 +786,8 @@ class GetDeviceSwitchPortsStatusesResponseItem(_BaseSchema):
     is_uplink: bool | None = Field(
         default=None, validation_alias="isUplink", serialization_alias="isUplink"
     )
-    errors: list[str] | None = None
-    warnings: list[str] | None = None
+    errors: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
     speed: str | None = None
     duplex: str | None = None
     spanning_tree: SwitchSpanningTree | None = Field(
@@ -819,8 +819,8 @@ class GetDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
     dhcp_mode: str | None = Field(
         default=None, validation_alias="dhcpMode", serialization_alias="dhcpMode"
     )
-    dhcp_relay_server_ips: list[str] | None = Field(
-        default=None,
+    dhcp_relay_server_ips: list[str] = Field(
+        default_factory=list,
         validation_alias="dhcpRelayServerIps",
         serialization_alias="dhcpRelayServerIps",
     )
@@ -832,8 +832,8 @@ class GetDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
         validation_alias="dnsNameserversOption",
         serialization_alias="dnsNameserversOption",
     )
-    dns_custom_nameservers: list[str] | None = Field(
-        default=None,
+    dns_custom_nameservers: list[str] = Field(
+        default_factory=list,
         validation_alias="dnsCustomNameservers",
         serialization_alias="dnsCustomNameservers",
     )
@@ -848,18 +848,20 @@ class GetDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
     boot_file_name: str | None = Field(
         default=None, validation_alias="bootFileName", serialization_alias="bootFileName"
     )
-    dhcp_options: list[GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem] | None = Field(
-        default=None, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
+    dhcp_options: list[GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem] = Field(
+        default_factory=list, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
     )
-    reserved_ip_ranges: (
-        list[GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem] | None
-    ) = Field(
-        default=None, validation_alias="reservedIpRanges", serialization_alias="reservedIpRanges"
+    reserved_ip_ranges: list[GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem] = (
+        Field(
+            default_factory=list,
+            validation_alias="reservedIpRanges",
+            serialization_alias="reservedIpRanges",
+        )
     )
-    fixed_ip_assignments: (
-        list[GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem] | None
-    ) = Field(
-        default=None,
+    fixed_ip_assignments: list[
+        GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem
+    ] = Field(
+        default_factory=list,
         validation_alias="fixedIpAssignments",
         serialization_alias="fixedIpAssignments",
     )
@@ -1050,7 +1052,7 @@ class GetDeviceSwitchWarmSpareResponse(_BaseSchema):
 class GetNetworkSwitchAccessControlListsResponse(_BaseSchema):
     """Response for getNetworkSwitchAccessControlLists operation."""
 
-    rules: list[GetNetworkSwitchAccessControlListsResponseRulesItem] | None = None
+    rules: list[GetNetworkSwitchAccessControlListsResponseRulesItem] = Field(default_factory=list)
 
 
 class GetNetworkSwitchAccessControlListsResponseRulesItem(_BaseSchema):
@@ -1092,8 +1094,8 @@ class GetNetworkSwitchAccessPoliciesResponseItem(_BaseSchema):
         serialization_alias="accessPolicyNumber",
     )
     name: str | None = None
-    radius_servers: list[SwitchRadiusServersItem] | None = Field(
-        default=None, validation_alias="radiusServers", serialization_alias="radiusServers"
+    radius_servers: list[SwitchRadiusServersItem] = Field(
+        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
     )
     radius: SwitchRadius | None = None
     enforce_radius_monitoring: bool | None = Field(
@@ -1119,8 +1121,8 @@ class GetNetworkSwitchAccessPoliciesResponseItem(_BaseSchema):
         validation_alias="radiusAccountingEnabled",
         serialization_alias="radiusAccountingEnabled",
     )
-    radius_accounting_servers: list[SwitchRadiusServersItem] | None = Field(
-        default=None,
+    radius_accounting_servers: list[SwitchRadiusServersItem] = Field(
+        default_factory=list,
         validation_alias="radiusAccountingServers",
         serialization_alias="radiusAccountingServers",
     )
@@ -1152,8 +1154,8 @@ class GetNetworkSwitchAccessPoliciesResponseItem(_BaseSchema):
         validation_alias="urlRedirectWalledGardenEnabled",
         serialization_alias="urlRedirectWalledGardenEnabled",
     )
-    url_redirect_walled_garden_ranges: list[str] | None = Field(
-        default=None,
+    url_redirect_walled_garden_ranges: list[str] = Field(
+        default_factory=list,
         validation_alias="urlRedirectWalledGardenRanges",
         serialization_alias="urlRedirectWalledGardenRanges",
     )
@@ -1177,8 +1179,8 @@ class GetNetworkSwitchAccessPolicyResponse(_BaseSchema):
         serialization_alias="accessPolicyNumber",
     )
     name: str | None = None
-    radius_servers: list[SwitchRadiusServersItem] | None = Field(
-        default=None, validation_alias="radiusServers", serialization_alias="radiusServers"
+    radius_servers: list[SwitchRadiusServersItem] = Field(
+        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
     )
     radius: SwitchRadius | None = None
     enforce_radius_monitoring: bool | None = Field(
@@ -1204,8 +1206,8 @@ class GetNetworkSwitchAccessPolicyResponse(_BaseSchema):
         validation_alias="radiusAccountingEnabled",
         serialization_alias="radiusAccountingEnabled",
     )
-    radius_accounting_servers: list[SwitchRadiusServersItem] | None = Field(
-        default=None,
+    radius_accounting_servers: list[SwitchRadiusServersItem] = Field(
+        default_factory=list,
         validation_alias="radiusAccountingServers",
         serialization_alias="radiusAccountingServers",
     )
@@ -1237,8 +1239,8 @@ class GetNetworkSwitchAccessPolicyResponse(_BaseSchema):
         validation_alias="urlRedirectWalledGardenEnabled",
         serialization_alias="urlRedirectWalledGardenEnabled",
     )
-    url_redirect_walled_garden_ranges: list[str] | None = Field(
-        default=None,
+    url_redirect_walled_garden_ranges: list[str] = Field(
+        default_factory=list,
         validation_alias="urlRedirectWalledGardenRanges",
         serialization_alias="urlRedirectWalledGardenRanges",
     )
@@ -1263,8 +1265,10 @@ class GetNetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
     vlan_id: int | None = Field(
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
-    protocols: list[str] | None = None
-    switches: list[GetNetworkSwitchAlternateManagementInterfaceResponseSwitchesItem] | None = None
+    protocols: list[str] = Field(default_factory=list)
+    switches: list[GetNetworkSwitchAlternateManagementInterfaceResponseSwitchesItem] = Field(
+        default_factory=list
+    )
 
 
 class GetNetworkSwitchAlternateManagementInterfaceResponseSwitchesItem(_BaseSchema):
@@ -1328,14 +1332,18 @@ class GetNetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
     default_policy: str | None = Field(
         default=None, validation_alias="defaultPolicy", serialization_alias="defaultPolicy"
     )
-    blocked_servers: list[str] | None = Field(
-        default=None, validation_alias="blockedServers", serialization_alias="blockedServers"
+    blocked_servers: list[str] = Field(
+        default_factory=list,
+        validation_alias="blockedServers",
+        serialization_alias="blockedServers",
     )
-    allowed_servers: list[str] | None = Field(
-        default=None, validation_alias="allowedServers", serialization_alias="allowedServers"
+    allowed_servers: list[str] = Field(
+        default_factory=list,
+        validation_alias="allowedServers",
+        serialization_alias="allowedServers",
     )
-    always_allowed_servers: list[str] | None = Field(
-        default=None,
+    always_allowed_servers: list[str] = Field(
+        default_factory=list,
         validation_alias="alwaysAllowedServers",
         serialization_alias="alwaysAllowedServers",
     )
@@ -1354,8 +1362,10 @@ class GetNetworkSwitchDhcpServerPolicyResponseArpInspection(_BaseSchema):
     """Dynamic ARP Inspection settings."""
 
     enabled: bool | None = None
-    unsupported_models: list[str] | None = Field(
-        default=None, validation_alias="unsupportedModels", serialization_alias="unsupportedModels"
+    unsupported_models: list[str] = Field(
+        default_factory=list,
+        validation_alias="unsupportedModels",
+        serialization_alias="unsupportedModels",
     )
 
 
@@ -1379,8 +1389,8 @@ class GetNetworkSwitchDhcpV4ServersSeenResponseItem(_BaseSchema):
     last_seen_at: datetime | None = Field(
         default=None, validation_alias="lastSeenAt", serialization_alias="lastSeenAt"
     )
-    seen_by: list[SwitchSeenByItem] | None = Field(
-        default=None, validation_alias="seenBy", serialization_alias="seenBy"
+    seen_by: list[SwitchSeenByItem] = Field(
+        default_factory=list, validation_alias="seenBy", serialization_alias="seenBy"
     )
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     device: SwitchDevice | None = None
@@ -1399,7 +1409,9 @@ class GetNetworkSwitchDhcpV4ServersSeenResponseItem(_BaseSchema):
 class GetNetworkSwitchDscpToCosMappingsResponse(_BaseSchema):
     """Response for getNetworkSwitchDscpToCosMappings operation."""
 
-    mappings: list[GetNetworkSwitchDscpToCosMappingsResponseMappingsItem] | None = None
+    mappings: list[GetNetworkSwitchDscpToCosMappingsResponseMappingsItem] = Field(
+        default_factory=list
+    )
 
 
 class GetNetworkSwitchDscpToCosMappingsResponseMappingsItem(_BaseSchema):
@@ -1420,8 +1432,8 @@ class GetNetworkSwitchLinkAggregationsResponseItem(_BaseSchema):
     """Schema for GetNetworkSwitchLinkAggregationsResponseItem."""
 
     id: str | None = None
-    switch_ports: list[SwitchSwitchPortsItem] | None = Field(
-        default=None, validation_alias="switchPorts", serialization_alias="switchPorts"
+    switch_ports: list[SwitchSwitchPortsItem] = Field(
+        default_factory=list, validation_alias="switchPorts", serialization_alias="switchPorts"
     )
 
 
@@ -1431,15 +1443,17 @@ class GetNetworkSwitchMtuResponse(_BaseSchema):
     default_mtu_size: int | None = Field(
         default=None, validation_alias="defaultMtuSize", serialization_alias="defaultMtuSize"
     )
-    overrides: list[GetNetworkSwitchMtuResponseOverridesItem] | None = None
+    overrides: list[GetNetworkSwitchMtuResponseOverridesItem] = Field(default_factory=list)
 
 
 class GetNetworkSwitchMtuResponseOverridesItem(_BaseSchema):
     """Schema for GetNetworkSwitchMtuResponseOverridesItem."""
 
-    switches: list[str] | None = None
-    switch_profiles: list[str] | None = Field(
-        default=None, validation_alias="switchProfiles", serialization_alias="switchProfiles"
+    switches: list[str] = Field(default_factory=list)
+    switch_profiles: list[str] = Field(
+        default_factory=list,
+        validation_alias="switchProfiles",
+        serialization_alias="switchProfiles",
     )
     mtu_size: int = Field(validation_alias="mtuSize", serialization_alias="mtuSize")
 
@@ -1487,8 +1501,8 @@ class GetNetworkSwitchQosRuleResponse(_BaseSchema):
 class GetNetworkSwitchQosRulesOrderResponse(_BaseSchema):
     """Response for getNetworkSwitchQosRulesOrder operation."""
 
-    rule_ids: list[str] | None = Field(
-        default=None, validation_alias="ruleIds", serialization_alias="ruleIds"
+    rule_ids: list[str] = Field(
+        default_factory=list, validation_alias="ruleIds", serialization_alias="ruleIds"
     )
 
 
@@ -1565,7 +1579,9 @@ class GetNetworkSwitchRoutingMulticastResponse(_BaseSchema):
     default_settings: GetNetworkSwitchRoutingMulticastResponseDefaultSettings | None = Field(
         default=None, validation_alias="defaultSettings", serialization_alias="defaultSettings"
     )
-    overrides: list[GetNetworkSwitchRoutingMulticastResponseOverridesItem] | None = None
+    overrides: list[GetNetworkSwitchRoutingMulticastResponseOverridesItem] = Field(
+        default_factory=list
+    )
 
 
 class GetNetworkSwitchRoutingMulticastResponseDefaultSettings(_BaseSchema):
@@ -1588,10 +1604,12 @@ class GetNetworkSwitchRoutingMulticastResponseDefaultSettings(_BaseSchema):
 class GetNetworkSwitchRoutingMulticastResponseOverridesItem(_BaseSchema):
     """Schema for GetNetworkSwitchRoutingMulticastResponseOverridesItem."""
 
-    switches: list[str] | None = None
-    stacks: list[str] | None = None
-    switch_profiles: list[str] | None = Field(
-        default=None, validation_alias="switchProfiles", serialization_alias="switchProfiles"
+    switches: list[str] = Field(default_factory=list)
+    stacks: list[str] = Field(default_factory=list)
+    switch_profiles: list[str] = Field(
+        default_factory=list,
+        validation_alias="switchProfiles",
+        serialization_alias="switchProfiles",
     )
     igmp_snooping_enabled: bool | None = Field(
         default=None,
@@ -1619,7 +1637,7 @@ class GetNetworkSwitchRoutingOspfResponse(_BaseSchema):
         validation_alias="deadTimerInSeconds",
         serialization_alias="deadTimerInSeconds",
     )
-    areas: list[GetNetworkSwitchRoutingOspfResponseAreasItem] | None = None
+    areas: list[GetNetworkSwitchRoutingOspfResponseAreasItem] = Field(default_factory=list)
     v3: GetNetworkSwitchRoutingOspfResponseV3 | None = None
     md5_authentication_enabled: bool | None = Field(
         default=None,
@@ -1671,7 +1689,7 @@ class GetNetworkSwitchRoutingOspfResponseV3(_BaseSchema):
         validation_alias="deadTimerInSeconds",
         serialization_alias="deadTimerInSeconds",
     )
-    areas: list[GetNetworkSwitchRoutingOspfResponseAreasItem] | None = None
+    areas: list[GetNetworkSwitchRoutingOspfResponseAreasItem] = Field(default_factory=list)
 
 
 class GetNetworkSwitchSettingsResponse(_BaseSchema):
@@ -1681,8 +1699,10 @@ class GetNetworkSwitchSettingsResponse(_BaseSchema):
     use_combined_power: bool | None = Field(
         default=None, validation_alias="useCombinedPower", serialization_alias="useCombinedPower"
     )
-    power_exceptions: list[GetNetworkSwitchSettingsResponsePowerExceptionsItem] | None = Field(
-        default=None, validation_alias="powerExceptions", serialization_alias="powerExceptions"
+    power_exceptions: list[GetNetworkSwitchSettingsResponsePowerExceptionsItem] = Field(
+        default_factory=list,
+        validation_alias="powerExceptions",
+        serialization_alias="powerExceptions",
     )
     uplink_client_sampling: SwitchDot3az | None = Field(
         default=None,
@@ -1718,14 +1738,14 @@ class GetNetworkSwitchStackResponse(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     is_monitor_only: bool | None = Field(
         default=None, validation_alias="isMonitorOnly", serialization_alias="isMonitorOnly"
     )
     virtual_mac: str | None = Field(
         default=None, validation_alias="virtualMac", serialization_alias="virtualMac"
     )
-    members: list[SwitchMembersItem] | None = None
+    members: list[SwitchMembersItem] = Field(default_factory=list)
 
 
 class GetNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
@@ -1734,8 +1754,8 @@ class GetNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
     dhcp_mode: str | None = Field(
         default=None, validation_alias="dhcpMode", serialization_alias="dhcpMode"
     )
-    dhcp_relay_server_ips: list[str] | None = Field(
-        default=None,
+    dhcp_relay_server_ips: list[str] = Field(
+        default_factory=list,
         validation_alias="dhcpRelayServerIps",
         serialization_alias="dhcpRelayServerIps",
     )
@@ -1747,8 +1767,8 @@ class GetNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
         validation_alias="dnsNameserversOption",
         serialization_alias="dnsNameserversOption",
     )
-    dns_custom_nameservers: list[str] | None = Field(
-        default=None,
+    dns_custom_nameservers: list[str] = Field(
+        default_factory=list,
         validation_alias="dnsCustomNameservers",
         serialization_alias="dnsCustomNameservers",
     )
@@ -1763,18 +1783,20 @@ class GetNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
     boot_file_name: str | None = Field(
         default=None, validation_alias="bootFileName", serialization_alias="bootFileName"
     )
-    dhcp_options: list[GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem] | None = Field(
-        default=None, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
+    dhcp_options: list[GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem] = Field(
+        default_factory=list, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
     )
-    reserved_ip_ranges: (
-        list[GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem] | None
-    ) = Field(
-        default=None, validation_alias="reservedIpRanges", serialization_alias="reservedIpRanges"
+    reserved_ip_ranges: list[GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem] = (
+        Field(
+            default_factory=list,
+            validation_alias="reservedIpRanges",
+            serialization_alias="reservedIpRanges",
+        )
     )
-    fixed_ip_assignments: (
-        list[GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem] | None
-    ) = Field(
-        default=None,
+    fixed_ip_assignments: list[
+        GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem
+    ] = Field(
+        default_factory=list,
         validation_alias="fixedIpAssignments",
         serialization_alias="fixedIpAssignments",
     )
@@ -1935,14 +1957,14 @@ class GetNetworkSwitchStacksResponseItem(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     is_monitor_only: bool | None = Field(
         default=None, validation_alias="isMonitorOnly", serialization_alias="isMonitorOnly"
     )
     virtual_mac: str | None = Field(
         default=None, validation_alias="virtualMac", serialization_alias="virtualMac"
     )
-    members: list[SwitchMembersItem] | None = None
+    members: list[SwitchMembersItem] = Field(default_factory=list)
 
 
 class GetNetworkSwitchStormControlResponse(_BaseSchema):
@@ -1963,8 +1985,8 @@ class GetNetworkSwitchStormControlResponse(_BaseSchema):
         validation_alias="unknownUnicastThreshold",
         serialization_alias="unknownUnicastThreshold",
     )
-    treat_these_traffic_types_as_one_threshold: list[str] | None = Field(
-        default=None,
+    treat_these_traffic_types_as_one_threshold: list[str] = Field(
+        default_factory=list,
         validation_alias="treatTheseTrafficTypesAsOneThreshold",
         serialization_alias="treatTheseTrafficTypesAsOneThreshold",
     )
@@ -1976,18 +1998,22 @@ class GetNetworkSwitchStpResponse(_BaseSchema):
     rstp_enabled: bool | None = Field(
         default=None, validation_alias="rstpEnabled", serialization_alias="rstpEnabled"
     )
-    stp_bridge_priority: list[GetNetworkSwitchStpResponseStpBridgePriorityItem] | None = Field(
-        default=None, validation_alias="stpBridgePriority", serialization_alias="stpBridgePriority"
+    stp_bridge_priority: list[GetNetworkSwitchStpResponseStpBridgePriorityItem] = Field(
+        default_factory=list,
+        validation_alias="stpBridgePriority",
+        serialization_alias="stpBridgePriority",
     )
 
 
 class GetNetworkSwitchStpResponseStpBridgePriorityItem(_BaseSchema):
     """Schema for GetNetworkSwitchStpResponseStpBridgePriorityItem."""
 
-    switches: list[str] | None = None
-    stacks: list[str] | None = None
-    switch_profiles: list[str] | None = Field(
-        default=None, validation_alias="switchProfiles", serialization_alias="switchProfiles"
+    switches: list[str] = Field(default_factory=list)
+    stacks: list[str] = Field(default_factory=list)
+    switch_profiles: list[str] = Field(
+        default_factory=list,
+        validation_alias="switchProfiles",
+        serialization_alias="switchProfiles",
     )
     stp_priority: int | None = Field(
         default=None, validation_alias="stpPriority", serialization_alias="stpPriority"
@@ -2001,7 +2027,7 @@ class GetOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enabled: bool | None = None
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
@@ -2029,8 +2055,8 @@ class GetOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
     link_negotiation: str | None = Field(
         default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
     )
-    link_negotiation_capabilities: list[str] | None = Field(
-        default=None,
+    link_negotiation_capabilities: list[str] = Field(
+        default_factory=list,
         validation_alias="linkNegotiationCapabilities",
         serialization_alias="linkNegotiationCapabilities",
     )
@@ -2047,14 +2073,14 @@ class GetOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
         validation_alias="accessPolicyNumber",
         serialization_alias="accessPolicyNumber",
     )
-    mac_allow_list: list[str] | None = Field(
-        default=None, validation_alias="macAllowList", serialization_alias="macAllowList"
+    mac_allow_list: list[str] = Field(
+        default_factory=list, validation_alias="macAllowList", serialization_alias="macAllowList"
     )
     mac_whitelist_limit: int | None = Field(
         default=None, validation_alias="macWhitelistLimit", serialization_alias="macWhitelistLimit"
     )
-    sticky_mac_allow_list: list[str] | None = Field(
-        default=None,
+    sticky_mac_allow_list: list[str] = Field(
+        default_factory=list,
         validation_alias="stickyMacAllowList",
         serialization_alias="stickyMacAllowList",
     )
@@ -2098,7 +2124,7 @@ class GetOrganizationConfigTemplateSwitchProfilePortsResponseItem(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enabled: bool | None = None
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
@@ -2126,8 +2152,8 @@ class GetOrganizationConfigTemplateSwitchProfilePortsResponseItem(_BaseSchema):
     link_negotiation: str | None = Field(
         default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
     )
-    link_negotiation_capabilities: list[str] | None = Field(
-        default=None,
+    link_negotiation_capabilities: list[str] = Field(
+        default_factory=list,
         validation_alias="linkNegotiationCapabilities",
         serialization_alias="linkNegotiationCapabilities",
     )
@@ -2144,14 +2170,14 @@ class GetOrganizationConfigTemplateSwitchProfilePortsResponseItem(_BaseSchema):
         validation_alias="accessPolicyNumber",
         serialization_alias="accessPolicyNumber",
     )
-    mac_allow_list: list[str] | None = Field(
-        default=None, validation_alias="macAllowList", serialization_alias="macAllowList"
+    mac_allow_list: list[str] = Field(
+        default_factory=list, validation_alias="macAllowList", serialization_alias="macAllowList"
     )
     mac_whitelist_limit: int | None = Field(
         default=None, validation_alias="macWhitelistLimit", serialization_alias="macWhitelistLimit"
     )
-    sticky_mac_allow_list: list[str] | None = Field(
-        default=None,
+    sticky_mac_allow_list: list[str] = Field(
+        default_factory=list,
         validation_alias="stickyMacAllowList",
         serialization_alias="stickyMacAllowList",
     )
@@ -2219,7 +2245,7 @@ class GetOrganizationSwitchPortsBySwitchResponse(_BaseSchema):
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[GetOrganizationSwitchPortsBySwitchResponsePortsItem] | None = None
+    ports: list[GetOrganizationSwitchPortsBySwitchResponsePortsItem] = Field(default_factory=list)
 
 
 class GetOrganizationSwitchPortsBySwitchResponsePortsItem(_BaseSchema):
@@ -2229,7 +2255,7 @@ class GetOrganizationSwitchPortsBySwitchResponsePortsItem(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enabled: bool | None = None
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
@@ -2254,8 +2280,8 @@ class GetOrganizationSwitchPortsBySwitchResponsePortsItem(_BaseSchema):
     access_policy_type: str | None = Field(
         default=None, validation_alias="accessPolicyType", serialization_alias="accessPolicyType"
     )
-    sticky_mac_allow_list: list[str] | None = Field(
-        default=None,
+    sticky_mac_allow_list: list[str] = Field(
+        default_factory=list,
         validation_alias="stickyMacAllowList",
         serialization_alias="stickyMacAllowList",
     )
@@ -2269,7 +2295,9 @@ class GetOrganizationSwitchPortsBySwitchResponsePortsItem(_BaseSchema):
 class GetOrganizationSwitchPortsClientsOverviewByDeviceResponse(_BaseSchema):
     """Response for getOrganizationSwitchPortsClientsOverviewByDevice operation."""
 
-    items: list[GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem] | None = None
+    items: list[GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
 
 
@@ -2281,7 +2309,7 @@ class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem(_BaseSc
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[SwitchPortsItem] | None = None
+    ports: list[SwitchPortsItem] = Field(default_factory=list)
 
 
 class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta(_BaseSchema):
@@ -2308,7 +2336,9 @@ class GetOrganizationSwitchPortsOverviewResponseCounts(_BaseSchema):
 class GetOrganizationSwitchPortsStatusesBySwitchResponse(_BaseSchema):
     """Response for getOrganizationSwitchPortsStatusesBySwitch operation."""
 
-    items: list[GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem] | None = None
+    items: list[GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
 
 
@@ -2320,13 +2350,15 @@ class GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem(_BaseSchema):
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[SwitchPortsItem2] | None = None
+    ports: list[SwitchPortsItem2] = Field(default_factory=list)
 
 
 class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponse(_BaseSchema):
     """Response for getOrganizationSwitchPortsTopologyDiscoveryByDevice operation."""
 
-    items: list[GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem] | None = None
+    items: list[GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
 
 
@@ -2338,15 +2370,15 @@ class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_Base
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[SwitchPortsItem3] | None = None
+    ports: list[SwitchPortsItem3] = Field(default_factory=list)
 
 
 class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponse(_BaseSchema):
     """Response for getOrganizationSwitchPortsUsageHistoryByDeviceByInterval operation."""
 
-    items: (
-        list[GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem] | None
-    ) = None
+    items: list[GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
 
 
@@ -2358,7 +2390,7 @@ class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[SwitchPortsItem4] | None = None
+    ports: list[SwitchPortsItem4] = Field(default_factory=list)
 
 
 class RemoveNetworkSwitchStackResponse(_BaseSchema):
@@ -2366,14 +2398,14 @@ class RemoveNetworkSwitchStackResponse(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     is_monitor_only: bool | None = Field(
         default=None, validation_alias="isMonitorOnly", serialization_alias="isMonitorOnly"
     )
     virtual_mac: str | None = Field(
         default=None, validation_alias="virtualMac", serialization_alias="virtualMac"
     )
-    members: list[SwitchMembersItem] | None = None
+    members: list[SwitchMembersItem] = Field(default_factory=list)
 
 
 class SwitchActive(_BaseSchema):
@@ -2588,7 +2620,7 @@ class SwitchFields(_BaseSchema):
     magic_cookie: str | None = Field(
         default=None, validation_alias="magicCookie", serialization_alias="magicCookie"
     )
-    options: list[SwitchOptionsItem] | None = None
+    options: list[SwitchOptionsItem] = Field(default_factory=list)
 
 
 class SwitchInactive(_BaseSchema):
@@ -2838,8 +2870,8 @@ class SwitchPortsItem2(_BaseSchema):
     is_uplink: bool | None = Field(
         default=None, validation_alias="isUplink", serialization_alias="isUplink"
     )
-    errors: list[str] | None = None
-    warnings: list[str] | None = None
+    errors: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
     speed: str | None = None
     duplex: str | None = None
     spanning_tree: SwitchSpanningTree | None = Field(
@@ -2860,8 +2892,8 @@ class SwitchPortsItem3(_BaseSchema):
     last_updated_at: str | None = Field(
         default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
     )
-    cdp: list[SwitchOptionsItem] | None = None
-    lldp: list[SwitchOptionsItem] | None = None
+    cdp: list[SwitchOptionsItem] = Field(default_factory=list)
+    lldp: list[SwitchOptionsItem] = Field(default_factory=list)
 
 
 class SwitchPortsItem4(_BaseSchema):
@@ -2870,7 +2902,7 @@ class SwitchPortsItem4(_BaseSchema):
     port_id: str | None = Field(
         default=None, validation_alias="portId", serialization_alias="portId"
     )
-    intervals: list[SwitchIntervalsItem] | None = None
+    intervals: list[SwitchIntervalsItem] = Field(default_factory=list)
 
 
 class SwitchProfile(_BaseSchema):
@@ -3013,7 +3045,7 @@ class SwitchSource(_BaseSchema):
 class SwitchSpanningTree(_BaseSchema):
     """The Spanning Tree Protocol (STP) information of the connected device."""
 
-    statuses: list[str] | None = None
+    statuses: list[str] = Field(default_factory=list)
 
 
 class SwitchSwitchPortsItem(_BaseSchema):
@@ -3120,7 +3152,7 @@ class UpdateDeviceSwitchPortResponse(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enabled: bool | None = None
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
@@ -3148,8 +3180,8 @@ class UpdateDeviceSwitchPortResponse(_BaseSchema):
     link_negotiation: str | None = Field(
         default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
     )
-    link_negotiation_capabilities: list[str] | None = Field(
-        default=None,
+    link_negotiation_capabilities: list[str] = Field(
+        default_factory=list,
         validation_alias="linkNegotiationCapabilities",
         serialization_alias="linkNegotiationCapabilities",
     )
@@ -3166,14 +3198,14 @@ class UpdateDeviceSwitchPortResponse(_BaseSchema):
         validation_alias="accessPolicyNumber",
         serialization_alias="accessPolicyNumber",
     )
-    mac_allow_list: list[str] | None = Field(
-        default=None, validation_alias="macAllowList", serialization_alias="macAllowList"
+    mac_allow_list: list[str] = Field(
+        default_factory=list, validation_alias="macAllowList", serialization_alias="macAllowList"
     )
     mac_whitelist_limit: int | None = Field(
         default=None, validation_alias="macWhitelistLimit", serialization_alias="macWhitelistLimit"
     )
-    sticky_mac_allow_list: list[str] | None = Field(
-        default=None,
+    sticky_mac_allow_list: list[str] = Field(
+        default_factory=list,
         validation_alias="stickyMacAllowList",
         serialization_alias="stickyMacAllowList",
     )
@@ -3247,8 +3279,8 @@ class UpdateDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
     dhcp_mode: str | None = Field(
         default=None, validation_alias="dhcpMode", serialization_alias="dhcpMode"
     )
-    dhcp_relay_server_ips: list[str] | None = Field(
-        default=None,
+    dhcp_relay_server_ips: list[str] = Field(
+        default_factory=list,
         validation_alias="dhcpRelayServerIps",
         serialization_alias="dhcpRelayServerIps",
     )
@@ -3260,8 +3292,8 @@ class UpdateDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
         validation_alias="dnsNameserversOption",
         serialization_alias="dnsNameserversOption",
     )
-    dns_custom_nameservers: list[str] | None = Field(
-        default=None,
+    dns_custom_nameservers: list[str] = Field(
+        default_factory=list,
         validation_alias="dnsCustomNameservers",
         serialization_alias="dnsCustomNameservers",
     )
@@ -3276,18 +3308,20 @@ class UpdateDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
     boot_file_name: str | None = Field(
         default=None, validation_alias="bootFileName", serialization_alias="bootFileName"
     )
-    dhcp_options: list[GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem] | None = Field(
-        default=None, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
+    dhcp_options: list[GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem] = Field(
+        default_factory=list, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
     )
-    reserved_ip_ranges: (
-        list[GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem] | None
-    ) = Field(
-        default=None, validation_alias="reservedIpRanges", serialization_alias="reservedIpRanges"
+    reserved_ip_ranges: list[GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem] = (
+        Field(
+            default_factory=list,
+            validation_alias="reservedIpRanges",
+            serialization_alias="reservedIpRanges",
+        )
     )
-    fixed_ip_assignments: (
-        list[GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem] | None
-    ) = Field(
-        default=None,
+    fixed_ip_assignments: list[
+        GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem
+    ] = Field(
+        default_factory=list,
         validation_alias="fixedIpAssignments",
         serialization_alias="fixedIpAssignments",
     )
@@ -3416,7 +3450,7 @@ class UpdateDeviceSwitchWarmSpareResponse(_BaseSchema):
 class UpdateNetworkSwitchAccessControlListsResponse(_BaseSchema):
     """Response for updateNetworkSwitchAccessControlLists operation."""
 
-    rules: list[GetNetworkSwitchAccessControlListsResponseRulesItem] | None = None
+    rules: list[GetNetworkSwitchAccessControlListsResponseRulesItem] = Field(default_factory=list)
 
 
 class UpdateNetworkSwitchAccessControlListsRulesItem(_BaseSchema):
@@ -3519,8 +3553,8 @@ class UpdateNetworkSwitchAccessPolicyResponse(_BaseSchema):
         serialization_alias="accessPolicyNumber",
     )
     name: str | None = None
-    radius_servers: list[SwitchRadiusServersItem] | None = Field(
-        default=None, validation_alias="radiusServers", serialization_alias="radiusServers"
+    radius_servers: list[SwitchRadiusServersItem] = Field(
+        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
     )
     radius: SwitchRadius | None = None
     enforce_radius_monitoring: bool | None = Field(
@@ -3546,8 +3580,8 @@ class UpdateNetworkSwitchAccessPolicyResponse(_BaseSchema):
         validation_alias="radiusAccountingEnabled",
         serialization_alias="radiusAccountingEnabled",
     )
-    radius_accounting_servers: list[SwitchRadiusServersItem] | None = Field(
-        default=None,
+    radius_accounting_servers: list[SwitchRadiusServersItem] = Field(
+        default_factory=list,
         validation_alias="radiusAccountingServers",
         serialization_alias="radiusAccountingServers",
     )
@@ -3579,8 +3613,8 @@ class UpdateNetworkSwitchAccessPolicyResponse(_BaseSchema):
         validation_alias="urlRedirectWalledGardenEnabled",
         serialization_alias="urlRedirectWalledGardenEnabled",
     )
-    url_redirect_walled_garden_ranges: list[str] | None = Field(
-        default=None,
+    url_redirect_walled_garden_ranges: list[str] = Field(
+        default_factory=list,
         validation_alias="urlRedirectWalledGardenRanges",
         serialization_alias="urlRedirectWalledGardenRanges",
     )
@@ -3605,8 +3639,10 @@ class UpdateNetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
     vlan_id: int | None = Field(
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
-    protocols: list[str] | None = None
-    switches: list[GetNetworkSwitchAlternateManagementInterfaceResponseSwitchesItem] | None = None
+    protocols: list[str] = Field(default_factory=list)
+    switches: list[GetNetworkSwitchAlternateManagementInterfaceResponseSwitchesItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkSwitchAlternateManagementInterfaceSwitchesItem(_BaseSchema):
@@ -3658,14 +3694,18 @@ class UpdateNetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
     default_policy: str | None = Field(
         default=None, validation_alias="defaultPolicy", serialization_alias="defaultPolicy"
     )
-    blocked_servers: list[str] | None = Field(
-        default=None, validation_alias="blockedServers", serialization_alias="blockedServers"
+    blocked_servers: list[str] = Field(
+        default_factory=list,
+        validation_alias="blockedServers",
+        serialization_alias="blockedServers",
     )
-    allowed_servers: list[str] | None = Field(
-        default=None, validation_alias="allowedServers", serialization_alias="allowedServers"
+    allowed_servers: list[str] = Field(
+        default_factory=list,
+        validation_alias="allowedServers",
+        serialization_alias="allowedServers",
     )
-    always_allowed_servers: list[str] | None = Field(
-        default=None,
+    always_allowed_servers: list[str] = Field(
+        default_factory=list,
         validation_alias="alwaysAllowedServers",
         serialization_alias="alwaysAllowedServers",
     )
@@ -3685,15 +3725,17 @@ class UpdateNetworkSwitchDscpToCosMappingsMappingsItem(_BaseSchema):
 class UpdateNetworkSwitchDscpToCosMappingsResponse(_BaseSchema):
     """Response for updateNetworkSwitchDscpToCosMappings operation."""
 
-    mappings: list[GetNetworkSwitchDscpToCosMappingsResponseMappingsItem] | None = None
+    mappings: list[GetNetworkSwitchDscpToCosMappingsResponseMappingsItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkSwitchLinkAggregationResponse(_BaseSchema):
     """Response for updateNetworkSwitchLinkAggregation operation."""
 
     id: str | None = None
-    switch_ports: list[SwitchSwitchPortsItem] | None = Field(
-        default=None, validation_alias="switchPorts", serialization_alias="switchPorts"
+    switch_ports: list[SwitchSwitchPortsItem] = Field(
+        default_factory=list, validation_alias="switchPorts", serialization_alias="switchPorts"
     )
 
 
@@ -3714,9 +3756,11 @@ class UpdateNetworkSwitchLinkAggregationSwitchProfilePortsItem(_BaseSchema):
 class UpdateNetworkSwitchMtuOverridesItem(_BaseSchema):
     """Item schema for overrides."""
 
-    switches: list[str] | None = None
-    switch_profiles: list[str] | None = Field(
-        default=None, validation_alias="switchProfiles", serialization_alias="switchProfiles"
+    switches: list[str] = Field(default_factory=list)
+    switch_profiles: list[str] = Field(
+        default_factory=list,
+        validation_alias="switchProfiles",
+        serialization_alias="switchProfiles",
     )
     mtu_size: int = Field(validation_alias="mtuSize", serialization_alias="mtuSize")
 
@@ -3727,7 +3771,7 @@ class UpdateNetworkSwitchMtuResponse(_BaseSchema):
     default_mtu_size: int | None = Field(
         default=None, validation_alias="defaultMtuSize", serialization_alias="defaultMtuSize"
     )
-    overrides: list[GetNetworkSwitchMtuResponseOverridesItem] | None = None
+    overrides: list[GetNetworkSwitchMtuResponseOverridesItem] = Field(default_factory=list)
 
 
 class UpdateNetworkSwitchPortSchedulePortSchedule(_BaseSchema):
@@ -3782,8 +3826,8 @@ class UpdateNetworkSwitchQosRuleResponse(_BaseSchema):
 class UpdateNetworkSwitchQosRulesOrderResponse(_BaseSchema):
     """Response for updateNetworkSwitchQosRulesOrder operation."""
 
-    rule_ids: list[str] | None = Field(
-        default=None, validation_alias="ruleIds", serialization_alias="ruleIds"
+    rule_ids: list[str] = Field(
+        default_factory=list, validation_alias="ruleIds", serialization_alias="ruleIds"
     )
 
 
@@ -3807,11 +3851,13 @@ class UpdateNetworkSwitchRoutingMulticastDefaultSettings(_BaseSchema):
 class UpdateNetworkSwitchRoutingMulticastOverridesItem(_BaseSchema):
     """Item schema for overrides."""
 
-    switch_profiles: list[str] | None = Field(
-        default=None, validation_alias="switchProfiles", serialization_alias="switchProfiles"
+    switch_profiles: list[str] = Field(
+        default_factory=list,
+        validation_alias="switchProfiles",
+        serialization_alias="switchProfiles",
     )
-    switches: list[str] | None = None
-    stacks: list[str] | None = None
+    switches: list[str] = Field(default_factory=list)
+    stacks: list[str] = Field(default_factory=list)
     igmp_snooping_enabled: bool = Field(
         validation_alias="igmpSnoopingEnabled", serialization_alias="igmpSnoopingEnabled"
     )
@@ -3851,7 +3897,9 @@ class UpdateNetworkSwitchRoutingMulticastResponse(_BaseSchema):
     default_settings: GetNetworkSwitchRoutingMulticastResponseDefaultSettings | None = Field(
         default=None, validation_alias="defaultSettings", serialization_alias="defaultSettings"
     )
-    overrides: list[GetNetworkSwitchRoutingMulticastResponseOverridesItem] | None = None
+    overrides: list[GetNetworkSwitchRoutingMulticastResponseOverridesItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkSwitchRoutingOspfAreasItem(_BaseSchema):
@@ -3885,7 +3933,7 @@ class UpdateNetworkSwitchRoutingOspfResponse(_BaseSchema):
         validation_alias="deadTimerInSeconds",
         serialization_alias="deadTimerInSeconds",
     )
-    areas: list[GetNetworkSwitchRoutingOspfResponseAreasItem] | None = None
+    areas: list[GetNetworkSwitchRoutingOspfResponseAreasItem] = Field(default_factory=list)
     v3: GetNetworkSwitchRoutingOspfResponseV3 | None = None
     md5_authentication_enabled: bool | None = Field(
         default=None,
@@ -3914,7 +3962,7 @@ class UpdateNetworkSwitchRoutingOspfV3(_BaseSchema):
         validation_alias="deadTimerInSeconds",
         serialization_alias="deadTimerInSeconds",
     )
-    areas: list[UpdateNetworkSwitchRoutingOspfV3AreasItem] | None = None
+    areas: list[UpdateNetworkSwitchRoutingOspfV3AreasItem] = Field(default_factory=list)
 
 
 class UpdateNetworkSwitchRoutingOspfV3AreasItem(_BaseSchema):
@@ -3945,8 +3993,10 @@ class UpdateNetworkSwitchSettingsResponse(_BaseSchema):
     use_combined_power: bool | None = Field(
         default=None, validation_alias="useCombinedPower", serialization_alias="useCombinedPower"
     )
-    power_exceptions: list[GetNetworkSwitchSettingsResponsePowerExceptionsItem] | None = Field(
-        default=None, validation_alias="powerExceptions", serialization_alias="powerExceptions"
+    power_exceptions: list[GetNetworkSwitchSettingsResponsePowerExceptionsItem] = Field(
+        default_factory=list,
+        validation_alias="powerExceptions",
+        serialization_alias="powerExceptions",
     )
     uplink_client_sampling: SwitchDot3az | None = Field(
         default=None,
@@ -4010,8 +4060,8 @@ class UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
     dhcp_mode: str | None = Field(
         default=None, validation_alias="dhcpMode", serialization_alias="dhcpMode"
     )
-    dhcp_relay_server_ips: list[str] | None = Field(
-        default=None,
+    dhcp_relay_server_ips: list[str] = Field(
+        default_factory=list,
         validation_alias="dhcpRelayServerIps",
         serialization_alias="dhcpRelayServerIps",
     )
@@ -4023,8 +4073,8 @@ class UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
         validation_alias="dnsNameserversOption",
         serialization_alias="dnsNameserversOption",
     )
-    dns_custom_nameservers: list[str] | None = Field(
-        default=None,
+    dns_custom_nameservers: list[str] = Field(
+        default_factory=list,
         validation_alias="dnsCustomNameservers",
         serialization_alias="dnsCustomNameservers",
     )
@@ -4039,18 +4089,20 @@ class UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
     boot_file_name: str | None = Field(
         default=None, validation_alias="bootFileName", serialization_alias="bootFileName"
     )
-    dhcp_options: list[GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem] | None = Field(
-        default=None, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
+    dhcp_options: list[GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem] = Field(
+        default_factory=list, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
     )
-    reserved_ip_ranges: (
-        list[GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem] | None
-    ) = Field(
-        default=None, validation_alias="reservedIpRanges", serialization_alias="reservedIpRanges"
+    reserved_ip_ranges: list[GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem] = (
+        Field(
+            default_factory=list,
+            validation_alias="reservedIpRanges",
+            serialization_alias="reservedIpRanges",
+        )
     )
-    fixed_ip_assignments: (
-        list[GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem] | None
-    ) = Field(
-        default=None,
+    fixed_ip_assignments: list[
+        GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem
+    ] = Field(
+        default_factory=list,
         validation_alias="fixedIpAssignments",
         serialization_alias="fixedIpAssignments",
     )
@@ -4179,8 +4231,8 @@ class UpdateNetworkSwitchStormControlResponse(_BaseSchema):
         validation_alias="unknownUnicastThreshold",
         serialization_alias="unknownUnicastThreshold",
     )
-    treat_these_traffic_types_as_one_threshold: list[str] | None = Field(
-        default=None,
+    treat_these_traffic_types_as_one_threshold: list[str] = Field(
+        default_factory=list,
         validation_alias="treatTheseTrafficTypesAsOneThreshold",
         serialization_alias="treatTheseTrafficTypesAsOneThreshold",
     )
@@ -4192,19 +4244,23 @@ class UpdateNetworkSwitchStpResponse(_BaseSchema):
     rstp_enabled: bool | None = Field(
         default=None, validation_alias="rstpEnabled", serialization_alias="rstpEnabled"
     )
-    stp_bridge_priority: list[GetNetworkSwitchStpResponseStpBridgePriorityItem] | None = Field(
-        default=None, validation_alias="stpBridgePriority", serialization_alias="stpBridgePriority"
+    stp_bridge_priority: list[GetNetworkSwitchStpResponseStpBridgePriorityItem] = Field(
+        default_factory=list,
+        validation_alias="stpBridgePriority",
+        serialization_alias="stpBridgePriority",
     )
 
 
 class UpdateNetworkSwitchStpStpBridgePriorityItem(_BaseSchema):
     """Item schema for stpBridgePriority."""
 
-    switch_profiles: list[str] | None = Field(
-        default=None, validation_alias="switchProfiles", serialization_alias="switchProfiles"
+    switch_profiles: list[str] = Field(
+        default_factory=list,
+        validation_alias="switchProfiles",
+        serialization_alias="switchProfiles",
     )
-    switches: list[str] | None = None
-    stacks: list[str] | None = None
+    switches: list[str] = Field(default_factory=list)
+    stacks: list[str] = Field(default_factory=list)
     stp_priority: int = Field(validation_alias="stpPriority", serialization_alias="stpPriority")
 
 
@@ -4235,7 +4291,7 @@ class UpdateOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enabled: bool | None = None
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
@@ -4263,8 +4319,8 @@ class UpdateOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
     link_negotiation: str | None = Field(
         default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
     )
-    link_negotiation_capabilities: list[str] | None = Field(
-        default=None,
+    link_negotiation_capabilities: list[str] = Field(
+        default_factory=list,
         validation_alias="linkNegotiationCapabilities",
         serialization_alias="linkNegotiationCapabilities",
     )
@@ -4281,14 +4337,14 @@ class UpdateOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
         validation_alias="accessPolicyNumber",
         serialization_alias="accessPolicyNumber",
     )
-    mac_allow_list: list[str] | None = Field(
-        default=None, validation_alias="macAllowList", serialization_alias="macAllowList"
+    mac_allow_list: list[str] = Field(
+        default_factory=list, validation_alias="macAllowList", serialization_alias="macAllowList"
     )
     mac_whitelist_limit: int | None = Field(
         default=None, validation_alias="macWhitelistLimit", serialization_alias="macWhitelistLimit"
     )
-    sticky_mac_allow_list: list[str] | None = Field(
-        default=None,
+    sticky_mac_allow_list: list[str] = Field(
+        default_factory=list,
         validation_alias="stickyMacAllowList",
         serialization_alias="stickyMacAllowList",
     )

@@ -18,7 +18,7 @@ class BatchNetworkFloorPlansAutoLocateJobsJobsItem(_BaseSchema):
     """Item schema for jobs."""
 
     floor_plan_id: str = Field(validation_alias="floorPlanId", serialization_alias="floorPlanId")
-    refresh: list[str] | None = None
+    refresh: list[str] = Field(default_factory=list)
     scheduled_at: datetime | None = Field(
         default=None, validation_alias="scheduledAt", serialization_alias="scheduledAt"
     )
@@ -27,7 +27,7 @@ class BatchNetworkFloorPlansAutoLocateJobsJobsItem(_BaseSchema):
 class BatchNetworkFloorPlansAutoLocateJobsResponse(_BaseSchema):
     """Response for batchNetworkFloorPlansAutoLocateJobs operation."""
 
-    jobs: list[BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem] | None = None
+    jobs: list[BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem] = Field(default_factory=list)
 
 
 class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem(_BaseSchema):
@@ -47,7 +47,7 @@ class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem(_BaseSchema):
     completed: NetworksJobsCompleted | None = None
     ranging: NetworksJobsRanging | None = None
     gnss: NetworksJobsRanging | None = None
-    errors: list[NetworksJobsErrorsItem] | None = None
+    errors: list[NetworksJobsErrorsItem] = Field(default_factory=list)
 
 
 class BatchNetworkFloorPlansDevicesUpdateAssignmentsItem(_BaseSchema):
@@ -73,13 +73,13 @@ class BindNetworkResponse(_BaseSchema):
         default=None, validation_alias="organizationId", serialization_alias="organizationId"
     )
     name: str | None = None
-    product_types: list[str] | None = Field(
-        default=None, validation_alias="productTypes", serialization_alias="productTypes"
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
     time_zone: str | None = Field(
         default=None, validation_alias="timeZone", serialization_alias="timeZone"
     )
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
@@ -112,8 +112,8 @@ class ClaimNetworkDevicesDetailsByDeviceItemDetailsItem(_BaseSchema):
 class ClaimNetworkDevicesResponse(_BaseSchema):
     """Response for claimNetworkDevices operation."""
 
-    serials: list[str] | None = None
-    errors: list[ClaimNetworkDevicesResponseErrorsItem] | None = None
+    serials: list[str] = Field(default_factory=list)
+    errors: list[ClaimNetworkDevicesResponseErrorsItem] = Field(default_factory=list)
 
 
 class ClaimNetworkDevicesResponseErrorsItem(_BaseSchema):
@@ -142,7 +142,9 @@ class CreateNetworkFirmwareUpgradesRollbackResponse(_BaseSchema):
     to_version: NetworksCurrentVersion | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
-    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] = Field(
+        default_factory=list
+    )
 
 
 class CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem(_BaseSchema):
@@ -179,8 +181,12 @@ class CreateNetworkFirmwareUpgradesStagedEventResponse(_BaseSchema):
     """Response for createNetworkFirmwareUpgradesStagedEvent operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
-    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] = Field(
+        default_factory=list
+    )
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] = Field(
+        default_factory=list
+    )
 
 
 class CreateNetworkFirmwareUpgradesStagedEventStagesItem(_BaseSchema):
@@ -193,10 +199,16 @@ class CreateNetworkFirmwareUpgradesStagedEventStagesItem(_BaseSchema):
 class CreateNetworkFirmwareUpgradesStagedGroupAssignedDevices(_BaseSchema):
     """The devices and Switch Stacks assigned to the Group."""
 
-    devices: list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem] | None = None
-    switch_stacks: (
-        list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem] | None
-    ) = Field(default=None, validation_alias="switchStacks", serialization_alias="switchStacks")
+    devices: list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem] = Field(
+        default_factory=list
+    )
+    switch_stacks: list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem] = (
+        Field(
+            default_factory=list,
+            validation_alias="switchStacks",
+            serialization_alias="switchStacks",
+        )
+    )
 
 
 class CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem(_BaseSchema):
@@ -277,7 +289,7 @@ class CreateNetworkFloorPlanResponse(_BaseSchema):
         default=None, validation_alias="imageMd5", serialization_alias="imageMd5"
     )
     name: str | None = None
-    devices: list[NetworksDevicesItem2] | None = None
+    devices: list[NetworksDevicesItem2] = Field(default_factory=list)
     width: float | None = None
     height: float | None = None
     center: NetworksCenter | None = None
@@ -327,7 +339,7 @@ class CreateNetworkGroupPolicyBonjourForwarding(_BaseSchema):
     """
 
     settings: str | None = None
-    rules: list[NetworksRulesItem] | None = None
+    rules: list[NetworksRulesItem] = Field(default_factory=list)
 
 
 class CreateNetworkGroupPolicyContentFiltering(_BaseSchema):
@@ -354,16 +366,20 @@ class CreateNetworkGroupPolicyFirewallAndTrafficShaping(_BaseSchema):
     """The firewall and traffic shaping rules and settings for your policy."""
 
     settings: str | None = None
-    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] | None = Field(
-        default=None,
+    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] = Field(
+        default_factory=list,
         validation_alias="trafficShapingRules",
         serialization_alias="trafficShapingRules",
     )
-    l3_firewall_rules: list[NetworksL3FirewallRulesItem] | None = Field(
-        default=None, validation_alias="l3FirewallRules", serialization_alias="l3FirewallRules"
+    l3_firewall_rules: list[NetworksL3FirewallRulesItem] = Field(
+        default_factory=list,
+        validation_alias="l3FirewallRules",
+        serialization_alias="l3FirewallRules",
     )
-    l7_firewall_rules: list[NetworksL7FirewallRulesItem] | None = Field(
-        default=None, validation_alias="l7FirewallRules", serialization_alias="l7FirewallRules"
+    l7_firewall_rules: list[NetworksL7FirewallRulesItem] = Field(
+        default_factory=list,
+        validation_alias="l7FirewallRules",
+        serialization_alias="l7FirewallRules",
     )
 
 
@@ -446,7 +462,7 @@ class CreateNetworkMerakiAuthUserResponse(_BaseSchema):
     is_admin: bool | None = Field(
         default=None, validation_alias="isAdmin", serialization_alias="isAdmin"
     )
-    authorizations: list[NetworksAuthorizationsItem] | None = None
+    authorizations: list[NetworksAuthorizationsItem] = Field(default_factory=list)
 
 
 class CreateNetworkMqttBrokerAuthentication(_BaseSchema):
@@ -515,11 +531,11 @@ class CreateNetworkVlanProfileResponse(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
-    vlan_names: list[NetworksVlanNamesItem] | None = Field(
-        default=None, validation_alias="vlanNames", serialization_alias="vlanNames"
+    vlan_names: list[NetworksVlanNamesItem] = Field(
+        default_factory=list, validation_alias="vlanNames", serialization_alias="vlanNames"
     )
-    vlan_groups: list[NetworksVlanGroupsItem] | None = Field(
-        default=None, validation_alias="vlanGroups", serialization_alias="vlanGroups"
+    vlan_groups: list[NetworksVlanGroupsItem] = Field(
+        default_factory=list, validation_alias="vlanGroups", serialization_alias="vlanGroups"
     )
 
 
@@ -580,7 +596,7 @@ class CreateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
     )
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
-    headers: list[NetworksHeadersItem] | None = None
+    headers: list[NetworksHeadersItem] = Field(default_factory=list)
     body: str | None = None
     sharing: NetworksSharing | None = None
 
@@ -597,8 +613,12 @@ class DeferNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
     """Response for deferNetworkFirmwareUpgradesStagedEvents operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
-    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] = Field(
+        default_factory=list
+    )
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] = Field(
+        default_factory=list
+    )
 
 
 class DeleteNetworkFloorPlanResponse(_BaseSchema):
@@ -620,7 +640,7 @@ class DeleteNetworkFloorPlanResponse(_BaseSchema):
         default=None, validation_alias="imageMd5", serialization_alias="imageMd5"
     )
     name: str | None = None
-    devices: list[NetworksDevicesItem2] | None = None
+    devices: list[NetworksDevicesItem2] = Field(default_factory=list)
     width: float | None = None
     height: float | None = None
     center: NetworksCenter | None = None
@@ -672,7 +692,7 @@ class GetNetworkAlertsSettingsResponse(_BaseSchema):
         validation_alias="defaultDestinations",
         serialization_alias="defaultDestinations",
     )
-    alerts: list[GetNetworkAlertsSettingsResponseAlertsItem] | None = None
+    alerts: list[GetNetworkAlertsSettingsResponseAlertsItem] = Field(default_factory=list)
     muting: GetNetworkAlertsSettingsResponseMuting | None = None
 
 
@@ -690,13 +710,13 @@ class GetNetworkAlertsSettingsResponseAlertsItem(_BaseSchema):
 class GetNetworkAlertsSettingsResponseDefaultDestinations(_BaseSchema):
     """The network-wide destinations for all alerts on the network."""
 
-    emails: list[str] | None = None
+    emails: list[str] = Field(default_factory=list)
     all_admins: bool | None = Field(
         default=None, validation_alias="allAdmins", serialization_alias="allAdmins"
     )
     snmp: bool | None = None
-    http_server_ids: list[str] | None = Field(
-        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    http_server_ids: list[str] = Field(
+        default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
 
 
@@ -733,7 +753,7 @@ class GetNetworkBluetoothClientResponse(_BaseSchema):
     out_of_sight_alert: bool | None = Field(
         default=None, validation_alias="outOfSightAlert", serialization_alias="outOfSightAlert"
     )
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class GetNetworkBluetoothClientsResponse(RootModel[list["GetNetworkBluetoothClientsResponseItem"]]):
@@ -765,7 +785,7 @@ class GetNetworkBluetoothClientsResponseItem(_BaseSchema):
     out_of_sight_alert: bool | None = Field(
         default=None, validation_alias="outOfSightAlert", serialization_alias="outOfSightAlert"
     )
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class GetNetworkClientPolicyResponse(_BaseSchema):
@@ -778,8 +798,10 @@ class GetNetworkClientPolicyResponse(_BaseSchema):
     group_policy_id: str | None = Field(
         default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
     )
-    policies_by_ssid: list[GetNetworkClientPolicyResponsePoliciesBySsidItem] | None = Field(
-        default=None, validation_alias="policiesBySsid", serialization_alias="policiesBySsid"
+    policies_by_ssid: list[GetNetworkClientPolicyResponsePoliciesBySsidItem] = Field(
+        default_factory=list,
+        validation_alias="policiesBySsid",
+        serialization_alias="policiesBySsid",
     )
 
 
@@ -847,13 +869,13 @@ class GetNetworkClientResponse(_BaseSchema):
         validation_alias="recentDeviceConnection",
         serialization_alias="recentDeviceConnection",
     )
-    client_vpn_connections: list[GetNetworkClientResponseClientVpnConnectionsItem] | None = Field(
-        default=None,
+    client_vpn_connections: list[GetNetworkClientResponseClientVpnConnectionsItem] = Field(
+        default_factory=list,
         validation_alias="clientVpnConnections",
         serialization_alias="clientVpnConnections",
     )
-    lldp: list[list[str]] | None = None
-    cdp: list[list[str]] | None = None
+    lldp: list[list[str]] = Field(default_factory=list)
+    cdp: list[list[str]] = Field(default_factory=list)
     status: str | None = None
     notes: str | None = None
     device_type_prediction: str | None = Field(
@@ -933,8 +955,10 @@ class GetNetworkClientsApplicationUsageResponseItem(_BaseSchema):
     client_mac: str | None = Field(
         default=None, validation_alias="clientMac", serialization_alias="clientMac"
     )
-    application_usage: list[NetworksApplicationUsageItem] | None = Field(
-        default=None, validation_alias="applicationUsage", serialization_alias="applicationUsage"
+    application_usage: list[NetworksApplicationUsageItem] = Field(
+        default_factory=list,
+        validation_alias="applicationUsage",
+        serialization_alias="applicationUsage",
     )
 
 
@@ -1073,8 +1097,8 @@ class GetNetworkClientsUsageHistoriesResponseItem(_BaseSchema):
     client_mac: str | None = Field(
         default=None, validation_alias="clientMac", serialization_alias="clientMac"
     )
-    usage_history: list[NetworksUsageHistoryItem] | None = Field(
-        default=None, validation_alias="usageHistory", serialization_alias="usageHistory"
+    usage_history: list[NetworksUsageHistoryItem] = Field(
+        default_factory=list, validation_alias="usageHistory", serialization_alias="usageHistory"
     )
 
 
@@ -1090,7 +1114,7 @@ class GetNetworkDevicesResponseItem(_BaseSchema):
     lng: float | None = None
     address: str | None = None
     notes: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
@@ -1102,7 +1126,7 @@ class GetNetworkDevicesResponseItem(_BaseSchema):
     floor_plan_id: str | None = Field(
         default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
     )
-    details: list[NetworksDetailsItem] | None = None
+    details: list[NetworksDetailsItem] = Field(default_factory=list)
     beacon_id_params: NetworksBeaconIdParams | None = Field(
         default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
@@ -1130,7 +1154,7 @@ class GetNetworkEventsResponse(_BaseSchema):
     page_end_at: str | None = Field(
         default=None, validation_alias="pageEndAt", serialization_alias="pageEndAt"
     )
-    events: list[GetNetworkEventsResponseEventsItem] | None = None
+    events: list[GetNetworkEventsResponseEventsItem] = Field(default_factory=list)
 
 
 class GetNetworkEventsResponseEventsItem(_BaseSchema):
@@ -1214,8 +1238,12 @@ class GetNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
     """Response for getNetworkFirmwareUpgradesStagedEvents operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
-    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] = Field(
+        default_factory=list
+    )
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] = Field(
+        default_factory=list
+    )
 
 
 class GetNetworkFirmwareUpgradesStagedEventsResponseProducts(_BaseSchema):
@@ -1301,7 +1329,7 @@ class GetNetworkFloorPlanResponse(_BaseSchema):
         default=None, validation_alias="imageMd5", serialization_alias="imageMd5"
     )
     name: str | None = None
-    devices: list[NetworksDevicesItem2] | None = None
+    devices: list[NetworksDevicesItem2] = Field(default_factory=list)
     width: float | None = None
     height: float | None = None
     center: NetworksCenter | None = None
@@ -1345,7 +1373,7 @@ class GetNetworkFloorPlansResponseItem(_BaseSchema):
         default=None, validation_alias="imageMd5", serialization_alias="imageMd5"
     )
     name: str | None = None
-    devices: list[NetworksDevicesItem2] | None = None
+    devices: list[NetworksDevicesItem2] = Field(default_factory=list)
     width: float | None = None
     height: float | None = None
     center: NetworksCenter | None = None
@@ -1457,7 +1485,7 @@ class GetNetworkMerakiAuthUserResponse(_BaseSchema):
     is_admin: bool | None = Field(
         default=None, validation_alias="isAdmin", serialization_alias="isAdmin"
     )
-    authorizations: list[NetworksAuthorizationsItem] | None = None
+    authorizations: list[NetworksAuthorizationsItem] = Field(default_factory=list)
 
 
 class GetNetworkMerakiAuthUsersResponse(RootModel[list["GetNetworkMerakiAuthUsersResponseItem"]]):
@@ -1479,7 +1507,7 @@ class GetNetworkMerakiAuthUsersResponseItem(_BaseSchema):
     is_admin: bool | None = Field(
         default=None, validation_alias="isAdmin", serialization_alias="isAdmin"
     )
-    authorizations: list[NetworksAuthorizationsItem] | None = None
+    authorizations: list[NetworksAuthorizationsItem] = Field(default_factory=list)
 
 
 class GetNetworkMqttBrokerResponse(_BaseSchema):
@@ -1540,8 +1568,8 @@ class GetNetworkNetworkHealthChannelUtilizationResponseItem(_BaseSchema):
     serial: str | None = None
     model: str | None = None
     tags: str | None = None
-    wifi0: list[NetworksWifi0Item] | None = None
-    wifi1: list[NetworksWifi0Item] | None = None
+    wifi0: list[NetworksWifi0Item] = Field(default_factory=list)
+    wifi1: list[NetworksWifi0Item] = Field(default_factory=list)
 
 
 class GetNetworkPiiPiiKeysResponse(RootModel[dict[str, "GetNetworkPiiPiiKeysResponseValue"]]):
@@ -1551,13 +1579,13 @@ class GetNetworkPiiPiiKeysResponse(RootModel[dict[str, "GetNetworkPiiPiiKeysResp
 class GetNetworkPiiPiiKeysResponseValue(_BaseSchema):
     """List of pii keys."""
 
-    macs: list[str] | None = None
-    emails: list[str] | None = None
-    usernames: list[str] | None = None
-    serials: list[str] | None = None
-    imeis: list[str] | None = None
-    bluetooth_macs: list[str] | None = Field(
-        default=None, validation_alias="bluetoothMacs", serialization_alias="bluetoothMacs"
+    macs: list[str] = Field(default_factory=list)
+    emails: list[str] = Field(default_factory=list)
+    usernames: list[str] = Field(default_factory=list)
+    serials: list[str] = Field(default_factory=list)
+    imeis: list[str] = Field(default_factory=list)
+    bluetooth_macs: list[str] = Field(
+        default_factory=list, validation_alias="bluetoothMacs", serialization_alias="bluetoothMacs"
     )
 
 
@@ -1628,7 +1656,7 @@ class GetNetworkPoliciesByClientResponseItem(_BaseSchema):
     client_id: str | None = Field(
         default=None, validation_alias="clientId", serialization_alias="clientId"
     )
-    assigned: list[NetworksAssignedItem] | None = None
+    assigned: list[NetworksAssignedItem] = Field(default_factory=list)
 
 
 class GetNetworkResponse(_BaseSchema):
@@ -1639,13 +1667,13 @@ class GetNetworkResponse(_BaseSchema):
         validation_alias="organizationId", serialization_alias="organizationId"
     )
     name: str | None = None
-    product_types: list[str] | None = Field(
-        default=None, validation_alias="productTypes", serialization_alias="productTypes"
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
     time_zone: str | None = Field(
         default=None, validation_alias="timeZone", serialization_alias="timeZone"
     )
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
@@ -1702,7 +1730,7 @@ class GetNetworkSnmpResponse(_BaseSchema):
     community_string: str | None = Field(
         default=None, validation_alias="communityString", serialization_alias="communityString"
     )
-    users: list[GetNetworkSnmpResponseUsersItem] | None = None
+    users: list[GetNetworkSnmpResponseUsersItem] = Field(default_factory=list)
 
 
 class GetNetworkSnmpResponseUsersItem(_BaseSchema):
@@ -1742,7 +1770,7 @@ class GetNetworkSplashLoginAttemptsResponseItem(_BaseSchema):
 class GetNetworkSyslogServersResponse(_BaseSchema):
     """Response for getNetworkSyslogServers operation."""
 
-    servers: list[GetNetworkSyslogServersResponseServersItem] | None = None
+    servers: list[GetNetworkSyslogServersResponseServersItem] = Field(default_factory=list)
 
 
 class GetNetworkSyslogServersResponseServersItem(_BaseSchema):
@@ -1750,21 +1778,21 @@ class GetNetworkSyslogServersResponseServersItem(_BaseSchema):
 
     host: str | None = None
     port: int | None = None
-    roles: list[str] | None = None
+    roles: list[str] = Field(default_factory=list)
 
 
 class GetNetworkTopologyLinkLayerResponse(_BaseSchema):
     """Response for getNetworkTopologyLinkLayer operation."""
 
-    nodes: list[GetNetworkTopologyLinkLayerResponseNodesItem] | None = None
-    links: list[GetNetworkTopologyLinkLayerResponseLinksItem] | None = None
-    errors: list[str] | None = None
+    nodes: list[GetNetworkTopologyLinkLayerResponseNodesItem] = Field(default_factory=list)
+    links: list[GetNetworkTopologyLinkLayerResponseLinksItem] = Field(default_factory=list)
+    errors: list[str] = Field(default_factory=list)
 
 
 class GetNetworkTopologyLinkLayerResponseLinksItem(_BaseSchema):
     """Schema for GetNetworkTopologyLinkLayerResponseLinksItem."""
 
-    ends: list[NetworksLinksEndsItem] | None = None
+    ends: list[NetworksLinksEndsItem] = Field(default_factory=list)
     last_reported_at: str | None = Field(
         default=None, validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
     )
@@ -1788,10 +1816,8 @@ class GetNetworkTrafficAnalysisResponse(_BaseSchema):
     """Response for getNetworkTrafficAnalysis operation."""
 
     mode: str | None = None
-    custom_pie_chart_items: (
-        list[GetNetworkTrafficAnalysisResponseCustomPieChartItemsItem] | None
-    ) = Field(
-        default=None,
+    custom_pie_chart_items: list[GetNetworkTrafficAnalysisResponseCustomPieChartItemsItem] = Field(
+        default_factory=list,
         validation_alias="customPieChartItems",
         serialization_alias="customPieChartItems",
     )
@@ -1839,11 +1865,11 @@ class GetNetworkVlanProfileResponse(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
-    vlan_names: list[NetworksVlanNamesItem] | None = Field(
-        default=None, validation_alias="vlanNames", serialization_alias="vlanNames"
+    vlan_names: list[NetworksVlanNamesItem] = Field(
+        default_factory=list, validation_alias="vlanNames", serialization_alias="vlanNames"
     )
-    vlan_groups: list[NetworksVlanGroupsItem] | None = Field(
-        default=None, validation_alias="vlanGroups", serialization_alias="vlanGroups"
+    vlan_groups: list[NetworksVlanGroupsItem] = Field(
+        default_factory=list, validation_alias="vlanGroups", serialization_alias="vlanGroups"
     )
 
 
@@ -1880,11 +1906,11 @@ class GetNetworkVlanProfilesResponseItem(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
-    vlan_names: list[NetworksVlanNamesItem] | None = Field(
-        default=None, validation_alias="vlanNames", serialization_alias="vlanNames"
+    vlan_names: list[NetworksVlanNamesItem] = Field(
+        default_factory=list, validation_alias="vlanNames", serialization_alias="vlanNames"
     )
-    vlan_groups: list[NetworksVlanGroupsItem] | None = Field(
-        default=None, validation_alias="vlanGroups", serialization_alias="vlanGroups"
+    vlan_groups: list[NetworksVlanGroupsItem] = Field(
+        default_factory=list, validation_alias="vlanGroups", serialization_alias="vlanGroups"
     )
 
 
@@ -1930,7 +1956,7 @@ class GetNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
     )
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
-    headers: list[NetworksHeadersItem] | None = None
+    headers: list[NetworksHeadersItem] = Field(default_factory=list)
     body: str | None = None
     sharing: NetworksSharing | None = None
 
@@ -1949,7 +1975,7 @@ class GetNetworkWebhooksPayloadTemplatesResponseItem(_BaseSchema):
     )
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
-    headers: list[NetworksHeadersItem] | None = None
+    headers: list[NetworksHeadersItem] = Field(default_factory=list)
     body: str | None = None
     sharing: NetworksSharing | None = None
 
@@ -1965,16 +1991,16 @@ class GetNetworkWebhooksWebhookTestResponse(_BaseSchema):
 class NetworksAlertsAlertDestinations(_BaseSchema):
     """A hash of destinations for this specific alert."""
 
-    emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(
-        default=None, validation_alias="smsNumbers", serialization_alias="smsNumbers"
+    emails: list[str] = Field(default_factory=list)
+    sms_numbers: list[str] = Field(
+        default_factory=list, validation_alias="smsNumbers", serialization_alias="smsNumbers"
     )
     all_admins: bool | None = Field(
         default=None, validation_alias="allAdmins", serialization_alias="allAdmins"
     )
     snmp: bool | None = None
-    http_server_ids: list[str] | None = Field(
-        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    http_server_ids: list[str] = Field(
+        default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
 
 
@@ -1983,7 +2009,7 @@ class NetworksAlertsFilters(_BaseSchema):
     be updated.
     """
 
-    conditions: list[NetworksConditionsItem] | None = None
+    conditions: list[NetworksConditionsItem] = Field(default_factory=list)
     failure_type: str | None = Field(
         default=None, validation_alias="failureType", serialization_alias="failureType"
     )
@@ -1998,7 +2024,7 @@ class NetworksAlertsFilters(_BaseSchema):
     priority: str | None = None
     regex: str | None = None
     selector: str | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     ssid_num: int | None = Field(
         default=None, validation_alias="ssidNum", serialization_alias="ssidNum"
     )
@@ -2011,7 +2037,7 @@ class NetworksAllowedUrlPatterns(_BaseSchema):
     """Settings for allowed URL patterns."""
 
     settings: str | None = None
-    patterns: list[str] | None = None
+    patterns: list[str] = Field(default_factory=list)
 
 
 class NetworksApplicationUsageItem(_BaseSchema):
@@ -2032,9 +2058,9 @@ class NetworksApplicationsItem(_BaseSchema):
 class NetworksAssignedDevices(_BaseSchema):
     """The devices and Switch Stacks assigned to the Group."""
 
-    devices: list[NetworksDevicesItem] | None = None
-    switch_stacks: list[NetworksSwitchStacksItem] | None = Field(
-        default=None, validation_alias="switchStacks", serialization_alias="switchStacks"
+    devices: list[NetworksDevicesItem] = Field(default_factory=list)
+    switch_stacks: list[NetworksSwitchStacksItem] = Field(
+        default_factory=list, validation_alias="switchStacks", serialization_alias="switchStacks"
     )
 
 
@@ -2046,7 +2072,7 @@ class NetworksAssignedItem(_BaseSchema):
     group_policy_id: str | None = Field(
         default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
     )
-    ssid: list[NetworksSsidItem] | None = None
+    ssid: list[NetworksSsidItem] = Field(default_factory=list)
 
 
 class NetworksAuthentication(_BaseSchema):
@@ -2109,7 +2135,7 @@ class NetworksBlockedUrlCategories(_BaseSchema):
     """Settings for blocked URL categories."""
 
     settings: str | None = None
-    categories: list[str] | None = None
+    categories: list[str] = Field(default_factory=list)
 
 
 class NetworksBonjourForwarding(_BaseSchema):
@@ -2118,7 +2144,7 @@ class NetworksBonjourForwarding(_BaseSchema):
     """
 
     settings: str | None = None
-    rules: list[NetworksRulesItem] | None = None
+    rules: list[NetworksRulesItem] = Field(default_factory=list)
 
 
 class NetworksByNetwork(_BaseSchema):
@@ -2137,7 +2163,7 @@ class NetworksCdp(_BaseSchema):
         default=None, validation_alias="deviceId", serialization_alias="deviceId"
     )
     address: str | None = None
-    capabilities: list[str] | None = None
+    capabilities: list[str] = Field(default_factory=list)
     management_address: str | None = Field(
         default=None, validation_alias="managementAddress", serialization_alias="managementAddress"
     )
@@ -2277,7 +2303,7 @@ class NetworksDevicesItem2(_BaseSchema):
     lng: float | None = None
     address: str | None = None
     notes: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
@@ -2290,7 +2316,7 @@ class NetworksDevicesItem2(_BaseSchema):
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
-    details: list[NetworksDetailsItem] | None = None
+    details: list[NetworksDetailsItem] = Field(default_factory=list)
 
 
 class NetworksDevicesItem3(_BaseSchema):
@@ -2304,7 +2330,7 @@ class NetworksDevicesItem3(_BaseSchema):
     serial: str | None = None
     mac: str | None = None
     lldp: NetworksLldp | None = None
-    clients: list[NetworksClientsItem] | None = None
+    clients: list[NetworksClientsItem] = Field(default_factory=list)
 
 
 class NetworksDiscovered(_BaseSchema):
@@ -2338,16 +2364,20 @@ class NetworksFirewallAndTrafficShaping(_BaseSchema):
     """The firewall and traffic shaping rules and settings for your policy."""
 
     settings: str | None = None
-    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] | None = Field(
-        default=None,
+    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] = Field(
+        default_factory=list,
         validation_alias="trafficShapingRules",
         serialization_alias="trafficShapingRules",
     )
-    l3_firewall_rules: list[NetworksL3FirewallRulesItem] | None = Field(
-        default=None, validation_alias="l3FirewallRules", serialization_alias="l3FirewallRules"
+    l3_firewall_rules: list[NetworksL3FirewallRulesItem] = Field(
+        default_factory=list,
+        validation_alias="l3FirewallRules",
+        serialization_alias="l3FirewallRules",
     )
-    l7_firewall_rules: list[NetworksL7FirewallRulesItem] | None = Field(
-        default=None, validation_alias="l7FirewallRules", serialization_alias="l7FirewallRules"
+    l7_firewall_rules: list[NetworksL7FirewallRulesItem] = Field(
+        default_factory=list,
+        validation_alias="l7FirewallRules",
+        serialization_alias="l7FirewallRules",
     )
 
 
@@ -2438,8 +2468,8 @@ class NetworksLldp2(_BaseSchema):
     system_description: str | None = Field(
         default=None, validation_alias="systemDescription", serialization_alias="systemDescription"
     )
-    system_capabilities: list[str] | None = Field(
-        default=None,
+    system_capabilities: list[str] = Field(
+        default_factory=list,
         validation_alias="systemCapabilities",
         serialization_alias="systemCapabilities",
     )
@@ -2537,7 +2567,7 @@ class NetworksNodesDevice(_BaseSchema):
         default=None, validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
     )
     clients: NetworksClients | None = None
-    uplinks: list[NetworksUplinksItem] | None = None
+    uplinks: list[NetworksUplinksItem] = Field(default_factory=list)
 
 
 class NetworksNodesDiscovered(_BaseSchema):
@@ -2552,7 +2582,7 @@ class NetworksNodesStack(_BaseSchema):
 
     id: int | None = None
     name: str | None = None
-    members: list[dict[str, Any]] | None = None
+    members: list[dict[str, Any]] = Field(default_factory=list)
     clients: NetworksClients | None = None
 
 
@@ -2606,8 +2636,10 @@ class NetworksProductsWireless(_BaseSchema):
         validation_alias="isUpgradeAvailable",
         serialization_alias="isUpgradeAvailable",
     )
-    available_versions: list[NetworksCurrentVersion] | None = Field(
-        default=None, validation_alias="availableVersions", serialization_alias="availableVersions"
+    available_versions: list[NetworksCurrentVersion] = Field(
+        default_factory=list,
+        validation_alias="availableVersions",
+        serialization_alias="availableVersions",
     )
     participate_in_next_beta_release: bool | None = Field(
         default=None,
@@ -2640,9 +2672,9 @@ class NetworksScheduling(_BaseSchema):
 class NetworksScope(_BaseSchema):
     """The scope of the alert."""
 
-    devices: list[NetworksDevicesItem3] | None = None
-    applications: list[NetworksApplicationsItem] | None = None
-    peers: list[NetworksPeersItem] | None = None
+    devices: list[NetworksDevicesItem3] = Field(default_factory=list)
+    applications: list[NetworksApplicationsItem] = Field(default_factory=list)
+    peers: list[NetworksPeersItem] = Field(default_factory=list)
 
 
 class NetworksSecurity(_BaseSchema):
@@ -2913,7 +2945,7 @@ class ProvisionNetworkClientsPoliciesBySsid0(_BaseSchema):
 class ProvisionNetworkClientsResponse(_BaseSchema):
     """Response for provisionNetworkClients operation."""
 
-    clients: list[ProvisionNetworkClientsResponseClientsItem] | None = None
+    clients: list[ProvisionNetworkClientsResponseClientsItem] = Field(default_factory=list)
     device_policy: str | None = Field(
         default=None, validation_alias="devicePolicy", serialization_alias="devicePolicy"
     )
@@ -2964,9 +2996,9 @@ class ReassignNetworkVlanProfilesAssignmentsResponse(_BaseSchema):
     vlan_profile: ReassignNetworkVlanProfilesAssignmentsResponseVlanProfile | None = Field(
         default=None, validation_alias="vlanProfile", serialization_alias="vlanProfile"
     )
-    serials: list[str] | None = None
-    stack_ids: list[str] | None = Field(
-        default=None, validation_alias="stackIds", serialization_alias="stackIds"
+    serials: list[str] = Field(default_factory=list)
+    stack_ids: list[str] = Field(
+        default_factory=list, validation_alias="stackIds", serialization_alias="stackIds"
     )
 
 
@@ -3017,8 +3049,12 @@ class RollbacksNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
     """Response for rollbacksNetworkFirmwareUpgradesStagedEvents operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
-    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] = Field(
+        default_factory=list
+    )
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] = Field(
+        default_factory=list
+    )
 
 
 class RollbacksNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
@@ -3031,8 +3067,10 @@ class RollbacksNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
 class SplitNetworkResponse(_BaseSchema):
     """Response for splitNetwork operation."""
 
-    resulting_networks: list[SplitNetworkResponseResultingNetworksItem] | None = Field(
-        default=None, validation_alias="resultingNetworks", serialization_alias="resultingNetworks"
+    resulting_networks: list[SplitNetworkResponseResultingNetworksItem] = Field(
+        default_factory=list,
+        validation_alias="resultingNetworks",
+        serialization_alias="resultingNetworks",
     )
 
 
@@ -3044,13 +3082,13 @@ class SplitNetworkResponseResultingNetworksItem(_BaseSchema):
         default=None, validation_alias="organizationId", serialization_alias="organizationId"
     )
     name: str | None = None
-    product_types: list[str] | None = Field(
-        default=None, validation_alias="productTypes", serialization_alias="productTypes"
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
     time_zone: str | None = Field(
         default=None, validation_alias="timeZone", serialization_alias="timeZone"
     )
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
@@ -3071,13 +3109,13 @@ class UnbindNetworkResponse(_BaseSchema):
         default=None, validation_alias="organizationId", serialization_alias="organizationId"
     )
     name: str | None = None
-    product_types: list[str] | None = Field(
-        default=None, validation_alias="productTypes", serialization_alias="productTypes"
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
     time_zone: str | None = Field(
         default=None, validation_alias="timeZone", serialization_alias="timeZone"
     )
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
@@ -3104,13 +3142,13 @@ class UpdateNetworkAlertsSettingsAlertsItem(_BaseSchema):
 class UpdateNetworkAlertsSettingsDefaultDestinations(_BaseSchema):
     """The network-wide destinations for all alerts on the network."""
 
-    emails: list[str] | None = None
+    emails: list[str] = Field(default_factory=list)
     all_admins: bool | None = Field(
         default=None, validation_alias="allAdmins", serialization_alias="allAdmins"
     )
     snmp: bool | None = None
-    http_server_ids: list[str] | None = Field(
-        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    http_server_ids: list[str] = Field(
+        default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
 
 
@@ -3130,7 +3168,7 @@ class UpdateNetworkAlertsSettingsResponse(_BaseSchema):
         validation_alias="defaultDestinations",
         serialization_alias="defaultDestinations",
     )
-    alerts: list[GetNetworkAlertsSettingsResponseAlertsItem] | None = None
+    alerts: list[GetNetworkAlertsSettingsResponseAlertsItem] = Field(default_factory=list)
     muting: GetNetworkAlertsSettingsResponseMuting | None = None
 
 
@@ -3144,8 +3182,10 @@ class UpdateNetworkClientPolicyResponse(_BaseSchema):
     group_policy_id: str | None = Field(
         default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
     )
-    policies_by_ssid: list[GetNetworkClientPolicyResponsePoliciesBySsidItem] | None = Field(
-        default=None, validation_alias="policiesBySsid", serialization_alias="policiesBySsid"
+    policies_by_ssid: list[GetNetworkClientPolicyResponsePoliciesBySsidItem] = Field(
+        default_factory=list,
+        validation_alias="policiesBySsid",
+        serialization_alias="policiesBySsid",
     )
 
 
@@ -3261,8 +3301,12 @@ class UpdateNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
     """Response for updateNetworkFirmwareUpgradesStagedEvents operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
-    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] = Field(
+        default_factory=list
+    )
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
@@ -3287,10 +3331,16 @@ class UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones(_BaseSchema)
 class UpdateNetworkFirmwareUpgradesStagedGroupAssignedDevices(_BaseSchema):
     """The devices and Switch Stacks assigned to the Group."""
 
-    devices: list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem] | None = None
-    switch_stacks: (
-        list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem] | None
-    ) = Field(default=None, validation_alias="switchStacks", serialization_alias="switchStacks")
+    devices: list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem] = Field(
+        default_factory=list
+    )
+    switch_stacks: list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem] = (
+        Field(
+            default_factory=list,
+            validation_alias="switchStacks",
+            serialization_alias="switchStacks",
+        )
+    )
 
 
 class UpdateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
@@ -3387,7 +3437,7 @@ class UpdateNetworkFloorPlanResponse(_BaseSchema):
         default=None, validation_alias="imageMd5", serialization_alias="imageMd5"
     )
     name: str | None = None
-    devices: list[NetworksDevicesItem2] | None = None
+    devices: list[NetworksDevicesItem2] = Field(default_factory=list)
     width: float | None = None
     height: float | None = None
     center: NetworksCenter | None = None
@@ -3437,7 +3487,7 @@ class UpdateNetworkGroupPolicyBonjourForwarding(_BaseSchema):
     """
 
     settings: str | None = None
-    rules: list[NetworksRulesItem] | None = None
+    rules: list[NetworksRulesItem] = Field(default_factory=list)
 
 
 class UpdateNetworkGroupPolicyContentFiltering(_BaseSchema):
@@ -3464,16 +3514,20 @@ class UpdateNetworkGroupPolicyFirewallAndTrafficShaping(_BaseSchema):
     """The firewall and traffic shaping rules and settings for your policy."""
 
     settings: str | None = None
-    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] | None = Field(
-        default=None,
+    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] = Field(
+        default_factory=list,
         validation_alias="trafficShapingRules",
         serialization_alias="trafficShapingRules",
     )
-    l3_firewall_rules: list[NetworksL3FirewallRulesItem] | None = Field(
-        default=None, validation_alias="l3FirewallRules", serialization_alias="l3FirewallRules"
+    l3_firewall_rules: list[NetworksL3FirewallRulesItem] = Field(
+        default_factory=list,
+        validation_alias="l3FirewallRules",
+        serialization_alias="l3FirewallRules",
     )
-    l7_firewall_rules: list[NetworksL7FirewallRulesItem] | None = Field(
-        default=None, validation_alias="l7FirewallRules", serialization_alias="l7FirewallRules"
+    l7_firewall_rules: list[NetworksL7FirewallRulesItem] = Field(
+        default_factory=list,
+        validation_alias="l7FirewallRules",
+        serialization_alias="l7FirewallRules",
     )
 
 
@@ -3554,7 +3608,7 @@ class UpdateNetworkMerakiAuthUserResponse(_BaseSchema):
     is_admin: bool | None = Field(
         default=None, validation_alias="isAdmin", serialization_alias="isAdmin"
     )
-    authorizations: list[NetworksAuthorizationsItem] | None = None
+    authorizations: list[NetworksAuthorizationsItem] = Field(default_factory=list)
 
 
 class UpdateNetworkMqttBrokerAuthentication(_BaseSchema):
@@ -3610,13 +3664,13 @@ class UpdateNetworkResponse(_BaseSchema):
         default=None, validation_alias="organizationId", serialization_alias="organizationId"
     )
     name: str | None = None
-    product_types: list[str] | None = Field(
-        default=None, validation_alias="productTypes", serialization_alias="productTypes"
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
     time_zone: str | None = Field(
         default=None, validation_alias="timeZone", serialization_alias="timeZone"
     )
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
@@ -3687,7 +3741,7 @@ class UpdateNetworkSnmpResponse(_BaseSchema):
     community_string: str | None = Field(
         default=None, validation_alias="communityString", serialization_alias="communityString"
     )
-    users: list[GetNetworkSnmpResponseUsersItem] | None = None
+    users: list[GetNetworkSnmpResponseUsersItem] = Field(default_factory=list)
 
 
 class UpdateNetworkSnmpUsersItem(_BaseSchema):
@@ -3700,7 +3754,7 @@ class UpdateNetworkSnmpUsersItem(_BaseSchema):
 class UpdateNetworkSyslogServersResponse(_BaseSchema):
     """Response for updateNetworkSyslogServers operation."""
 
-    servers: list[GetNetworkSyslogServersResponseServersItem] | None = None
+    servers: list[GetNetworkSyslogServersResponseServersItem] = Field(default_factory=list)
 
 
 class UpdateNetworkSyslogServersServersItem(_BaseSchema):
@@ -3723,10 +3777,8 @@ class UpdateNetworkTrafficAnalysisResponse(_BaseSchema):
     """Response for updateNetworkTrafficAnalysis operation."""
 
     mode: str | None = None
-    custom_pie_chart_items: (
-        list[GetNetworkTrafficAnalysisResponseCustomPieChartItemsItem] | None
-    ) = Field(
-        default=None,
+    custom_pie_chart_items: list[GetNetworkTrafficAnalysisResponseCustomPieChartItemsItem] = Field(
+        default_factory=list,
         validation_alias="customPieChartItems",
         serialization_alias="customPieChartItems",
     )
@@ -3740,11 +3792,11 @@ class UpdateNetworkVlanProfileResponse(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
-    vlan_names: list[NetworksVlanNamesItem] | None = Field(
-        default=None, validation_alias="vlanNames", serialization_alias="vlanNames"
+    vlan_names: list[NetworksVlanNamesItem] = Field(
+        default_factory=list, validation_alias="vlanNames", serialization_alias="vlanNames"
     )
-    vlan_groups: list[NetworksVlanGroupsItem] | None = Field(
-        default=None, validation_alias="vlanGroups", serialization_alias="vlanGroups"
+    vlan_groups: list[NetworksVlanGroupsItem] = Field(
+        default_factory=list, validation_alias="vlanGroups", serialization_alias="vlanGroups"
     )
 
 
@@ -3804,7 +3856,7 @@ class UpdateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
     )
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
-    headers: list[NetworksHeadersItem] | None = None
+    headers: list[NetworksHeadersItem] = Field(default_factory=list)
     body: str | None = None
     sharing: NetworksSharing | None = None
 
@@ -3817,7 +3869,7 @@ class VmxNetworkDevicesClaimResponse(_BaseSchema):
     lng: float | None = None
     address: str | None = None
     notes: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
@@ -3830,4 +3882,4 @@ class VmxNetworkDevicesClaimResponse(_BaseSchema):
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
-    details: list[NetworksDetailsItem] | None = None
+    details: list[NetworksDetailsItem] = Field(default_factory=list)

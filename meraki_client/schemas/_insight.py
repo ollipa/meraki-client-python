@@ -133,8 +133,8 @@ class InsightThresholds(_BaseSchema):
     """Thresholds defined by a user or Meraki models for each application."""
 
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    by_network: list[InsightByNetworkItem] | None = Field(
-        default=None, validation_alias="byNetwork", serialization_alias="byNetwork"
+    by_network: list[InsightByNetworkItem] = Field(
+        default_factory=list, validation_alias="byNetwork", serialization_alias="byNetwork"
     )
 
 

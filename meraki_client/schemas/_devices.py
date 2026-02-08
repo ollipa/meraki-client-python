@@ -100,7 +100,7 @@ class CreateDeviceLiveToolsCableTestResponseRequest(_BaseSchema):
     """Cable test request parameters."""
 
     serial: str | None = None
-    ports: list[str] | None = None
+    ports: list[str] = Field(default_factory=list)
 
 
 class CreateDeviceLiveToolsLedsBlinkCallback(_BaseSchema):
@@ -410,9 +410,9 @@ class DevicesWan1Vrf(_BaseSchema):
 class GetDeviceCellularSimsResponse(_BaseSchema):
     """Response for getDeviceCellularSims operation."""
 
-    sims: list[GetDeviceCellularSimsResponseSimsItem] | None = None
-    sim_ordering: list[str] | None = Field(
-        default=None, validation_alias="simOrdering", serialization_alias="simOrdering"
+    sims: list[GetDeviceCellularSimsResponseSimsItem] = Field(default_factory=list)
+    sim_ordering: list[str] = Field(
+        default_factory=list, validation_alias="simOrdering", serialization_alias="simOrdering"
     )
     sim_failover: GetDeviceCellularSimsResponseSimFailover | None = Field(
         default=None, validation_alias="simFailover", serialization_alias="simFailover"
@@ -437,7 +437,7 @@ class GetDeviceCellularSimsResponseSimsItem(_BaseSchema):
         default=None, validation_alias="isPrimary", serialization_alias="isPrimary"
     )
     status: str | None = None
-    apns: list[DevicesSimsApnsItem] | None = None
+    apns: list[DevicesSimsApnsItem] = Field(default_factory=list)
 
 
 class GetDeviceClientsResponse(RootModel[list["GetDeviceClientsResponseItem"]]):
@@ -480,7 +480,7 @@ class GetDeviceLiveToolsArpTableResponse(_BaseSchema):
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
-    entries: list[GetDeviceLiveToolsArpTableResponseEntriesItem] | None = None
+    entries: list[GetDeviceLiveToolsArpTableResponseEntriesItem] = Field(default_factory=list)
     error: str | None = None
 
 
@@ -507,7 +507,7 @@ class GetDeviceLiveToolsCableTestResponse(_BaseSchema):
     url: str | None = None
     request: CreateDeviceLiveToolsCableTestResponseRequest | None = None
     status: str | None = None
-    results: list[GetDeviceLiveToolsCableTestResponseResultsItem] | None = None
+    results: list[GetDeviceLiveToolsCableTestResponseResultsItem] = Field(default_factory=list)
     error: str | None = None
 
 
@@ -520,7 +520,7 @@ class GetDeviceLiveToolsCableTestResponseResultsItem(_BaseSchema):
         default=None, validation_alias="speedMbps", serialization_alias="speedMbps"
     )
     error: str | None = None
-    pairs: list[DevicesResultsPairsItem] | None = None
+    pairs: list[DevicesResultsPairsItem] = Field(default_factory=list)
 
 
 class GetDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
@@ -544,7 +544,7 @@ class GetDeviceLiveToolsMacTableResponse(_BaseSchema):
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
-    entries: list[GetDeviceLiveToolsMacTableResponseEntriesItem] | None = None
+    entries: list[GetDeviceLiveToolsMacTableResponseEntriesItem] = Field(default_factory=list)
     error: str | None = None
 
 
@@ -569,8 +569,10 @@ class GetDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
-    interfaces: list[GetDeviceLiveToolsMulticastRoutingResponseInterfacesItem] | None = None
-    routes: list[GetDeviceLiveToolsMulticastRoutingResponseRoutesItem] | None = None
+    interfaces: list[GetDeviceLiveToolsMulticastRoutingResponseInterfacesItem] = Field(
+        default_factory=list
+    )
+    routes: list[GetDeviceLiveToolsMulticastRoutingResponseRoutesItem] = Field(default_factory=list)
     error: str | None = None
 
 
@@ -580,8 +582,8 @@ class GetDeviceLiveToolsMulticastRoutingResponseInterfacesItem(_BaseSchema):
     ip: str | None = None
     name: str | None = None
     subnet: str | None = None
-    flags: list[str] | None = None
-    neighbors: list[str] | None = None
+    flags: list[str] = Field(default_factory=list)
+    neighbors: list[str] = Field(default_factory=list)
 
 
 class GetDeviceLiveToolsMulticastRoutingResponseRoutesItem(_BaseSchema):
@@ -597,12 +599,12 @@ class GetDeviceLiveToolsMulticastRoutingResponseRoutesItem(_BaseSchema):
         validation_alias="incomingInterfaceName",
         serialization_alias="incomingInterfaceName",
     )
-    outgoing_interface_names: list[str] | None = Field(
-        default=None,
+    outgoing_interface_names: list[str] = Field(
+        default_factory=list,
         validation_alias="outgoingInterfaceNames",
         serialization_alias="outgoingInterfaceNames",
     )
-    flags: list[str] | None = None
+    flags: list[str] = Field(default_factory=list)
 
 
 class GetDeviceLiveToolsPingDeviceResponse(_BaseSchema):
@@ -637,7 +639,7 @@ class GetDeviceLiveToolsPingResponseResults(_BaseSchema):
     received: int | None = None
     loss: DevicesResultsLoss | None = None
     latencies: DevicesResultsLatencies | None = None
-    replies: list[DevicesResultsRepliesItem] | None = None
+    replies: list[DevicesResultsRepliesItem] = Field(default_factory=list)
 
 
 class GetDeviceLiveToolsThroughputTestResponse(_BaseSchema):
@@ -743,8 +745,8 @@ class GetDeviceManagementInterfaceResponseWan1(_BaseSchema):
     static_gateway_ip: str | None = Field(
         default=None, validation_alias="staticGatewayIp", serialization_alias="staticGatewayIp"
     )
-    static_dns: list[str] | None = Field(
-        default=None, validation_alias="staticDns", serialization_alias="staticDns"
+    static_dns: list[str] = Field(
+        default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
     )
     vlan: int | None = None
     vrf: DevicesWan1Vrf | None = None
@@ -758,7 +760,7 @@ class GetDeviceResponse(_BaseSchema):
     lng: float | None = None
     address: str | None = None
     notes: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
@@ -770,7 +772,7 @@ class GetDeviceResponse(_BaseSchema):
     floor_plan_id: str | None = Field(
         default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
     )
-    details: list[GetDeviceResponseDetailsItem] | None = None
+    details: list[GetDeviceResponseDetailsItem] = Field(default_factory=list)
     beacon_id_params: GetDeviceResponseBeaconIdParams | None = Field(
         default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
@@ -800,9 +802,9 @@ class RebootDeviceResponse(_BaseSchema):
 class UpdateDeviceCellularSimsResponse(_BaseSchema):
     """Response for updateDeviceCellularSims operation."""
 
-    sims: list[GetDeviceCellularSimsResponseSimsItem] | None = None
-    sim_ordering: list[str] | None = Field(
-        default=None, validation_alias="simOrdering", serialization_alias="simOrdering"
+    sims: list[GetDeviceCellularSimsResponseSimsItem] = Field(default_factory=list)
+    sim_ordering: list[str] = Field(
+        default_factory=list, validation_alias="simOrdering", serialization_alias="simOrdering"
     )
     sim_failover: GetDeviceCellularSimsResponseSimFailover | None = Field(
         default=None, validation_alias="simFailover", serialization_alias="simFailover"
@@ -823,7 +825,7 @@ class UpdateDeviceCellularSimsSimsItem(_BaseSchema):
     is_primary: bool | None = Field(
         default=None, validation_alias="isPrimary", serialization_alias="isPrimary"
     )
-    apns: list[DevicesSimsApnsItem] | None = None
+    apns: list[DevicesSimsApnsItem] = Field(default_factory=list)
     sim_order: int | None = Field(
         default=None, validation_alias="simOrder", serialization_alias="simOrder"
     )
@@ -857,8 +859,8 @@ class UpdateDeviceManagementInterfaceWan1(_BaseSchema):
     static_subnet_mask: str | None = Field(
         default=None, validation_alias="staticSubnetMask", serialization_alias="staticSubnetMask"
     )
-    static_dns: list[str] | None = Field(
-        default=None, validation_alias="staticDns", serialization_alias="staticDns"
+    static_dns: list[str] = Field(
+        default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
     )
     vlan: int | None = None
 
@@ -881,8 +883,8 @@ class UpdateDeviceManagementInterfaceWan2(_BaseSchema):
     static_subnet_mask: str | None = Field(
         default=None, validation_alias="staticSubnetMask", serialization_alias="staticSubnetMask"
     )
-    static_dns: list[str] | None = Field(
-        default=None, validation_alias="staticDns", serialization_alias="staticDns"
+    static_dns: list[str] = Field(
+        default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
     )
     vlan: int | None = None
 
@@ -895,7 +897,7 @@ class UpdateDeviceResponse(_BaseSchema):
     lng: float | None = None
     address: str | None = None
     notes: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
@@ -907,7 +909,7 @@ class UpdateDeviceResponse(_BaseSchema):
     floor_plan_id: str | None = Field(
         default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
     )
-    details: list[GetDeviceResponseDetailsItem] | None = None
+    details: list[GetDeviceResponseDetailsItem] = Field(default_factory=list)
     beacon_id_params: GetDeviceResponseBeaconIdParams | None = Field(
         default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )

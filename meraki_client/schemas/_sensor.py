@@ -30,7 +30,7 @@ class CreateDeviceSensorCommandResponse(_BaseSchema):
     )
     operation: str | None = None
     status: str | None = None
-    errors: list[str] | None = None
+    errors: list[str] = Field(default_factory=list)
 
 
 class CreateNetworkSensorAlertsProfileConditionsItem(_BaseSchema):
@@ -45,12 +45,12 @@ class CreateNetworkSensorAlertsProfileConditionsItem(_BaseSchema):
 class CreateNetworkSensorAlertsProfileRecipients(_BaseSchema):
     """List of recipients that will receive the alert."""
 
-    emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(
-        default=None, validation_alias="smsNumbers", serialization_alias="smsNumbers"
+    emails: list[str] = Field(default_factory=list)
+    sms_numbers: list[str] = Field(
+        default_factory=list, validation_alias="smsNumbers", serialization_alias="smsNumbers"
     )
-    http_server_ids: list[str] | None = Field(
-        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    http_server_ids: list[str] = Field(
+        default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
 
 
@@ -64,7 +64,7 @@ class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
     schedule: SensorSchedule | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     include_sensor_url: bool | None = Field(
         default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
     )
@@ -94,7 +94,7 @@ class GetDeviceSensorCommandResponse(_BaseSchema):
     )
     operation: str | None = None
     status: str | None = None
-    errors: list[str] | None = None
+    errors: list[str] = Field(default_factory=list)
 
 
 class GetDeviceSensorCommandsResponse(RootModel[list["GetDeviceSensorCommandsResponseItem"]]):
@@ -118,7 +118,7 @@ class GetDeviceSensorCommandsResponseItem(_BaseSchema):
     )
     operation: str | None = None
     status: str | None = None
-    errors: list[str] | None = None
+    errors: list[str] = Field(default_factory=list)
 
 
 class GetDeviceSensorRelationshipsResponse(_BaseSchema):
@@ -133,16 +133,20 @@ class GetDeviceSensorRelationshipsResponseLivestream(_BaseSchema):
     that the sensor triggers.
     """
 
-    related_devices: list[SensorLivestreamRelatedDevicesItem] | None = Field(
-        default=None, validation_alias="relatedDevices", serialization_alias="relatedDevices"
+    related_devices: list[SensorLivestreamRelatedDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="relatedDevices",
+        serialization_alias="relatedDevices",
     )
 
 
 class GetNetworkSensorAlertsCurrentOverviewByMetricResponse(_BaseSchema):
     """Response for getNetworkSensorAlertsCurrentOverviewByMetric operation."""
 
-    supported_metrics: list[str] | None = Field(
-        default=None, validation_alias="supportedMetrics", serialization_alias="supportedMetrics"
+    supported_metrics: list[str] = Field(
+        default_factory=list,
+        validation_alias="supportedMetrics",
+        serialization_alias="supportedMetrics",
     )
     counts: GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts | None = None
 
@@ -206,7 +210,7 @@ class GetNetworkSensorAlertsProfileResponse(_BaseSchema):
     schedule: SensorSchedule | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     include_sensor_url: bool | None = Field(
         default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
     )
@@ -229,7 +233,7 @@ class GetNetworkSensorAlertsProfilesResponseItem(_BaseSchema):
     schedule: SensorSchedule | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     include_sensor_url: bool | None = Field(
         default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
     )
@@ -366,7 +370,7 @@ class GetOrganizationSensorReadingsLatestResponseItem(_BaseSchema):
 
     serial: str | None = None
     network: SensorSchedule | None = None
-    readings: list[SensorReadingsItem] | None = None
+    readings: list[SensorReadingsItem] = Field(default_factory=list)
 
 
 class SensorAmbient(_BaseSchema):
@@ -623,12 +627,12 @@ class SensorRealPower(_BaseSchema):
 class SensorRecipients(_BaseSchema):
     """List of recipients that will receive the alert."""
 
-    emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(
-        default=None, validation_alias="smsNumbers", serialization_alias="smsNumbers"
+    emails: list[str] = Field(default_factory=list)
+    sms_numbers: list[str] = Field(
+        default_factory=list, validation_alias="smsNumbers", serialization_alias="smsNumbers"
     )
-    http_server_ids: list[str] | None = Field(
-        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    http_server_ids: list[str] = Field(
+        default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
 
 
@@ -752,8 +756,10 @@ class UpdateDeviceSensorRelationshipsLivestream(_BaseSchema):
     that the sensor triggers.
     """
 
-    related_devices: list[UpdateDeviceSensorRelationshipsLivestreamRelatedDevicesItem] | None = (
-        Field(default=None, validation_alias="relatedDevices", serialization_alias="relatedDevices")
+    related_devices: list[UpdateDeviceSensorRelationshipsLivestreamRelatedDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="relatedDevices",
+        serialization_alias="relatedDevices",
     )
 
 
@@ -781,12 +787,12 @@ class UpdateNetworkSensorAlertsProfileConditionsItem(_BaseSchema):
 class UpdateNetworkSensorAlertsProfileRecipients(_BaseSchema):
     """List of recipients that will receive the alert."""
 
-    emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(
-        default=None, validation_alias="smsNumbers", serialization_alias="smsNumbers"
+    emails: list[str] = Field(default_factory=list)
+    sms_numbers: list[str] = Field(
+        default_factory=list, validation_alias="smsNumbers", serialization_alias="smsNumbers"
     )
-    http_server_ids: list[str] | None = Field(
-        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    http_server_ids: list[str] = Field(
+        default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
 
 
@@ -800,7 +806,7 @@ class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
     schedule: SensorSchedule | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     include_sensor_url: bool | None = Field(
         default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
     )

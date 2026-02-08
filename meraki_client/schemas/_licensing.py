@@ -19,12 +19,12 @@ class BindAdministeredLicensingSubscriptionSubscriptionResponse(_BaseSchema):
     subscription_id: str | None = Field(
         default=None, validation_alias="subscriptionId", serialization_alias="subscriptionId"
     )
-    networks: list[BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem] | None = (
-        None
+    networks: list[BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem] = Field(
+        default_factory=list
     )
-    errors: list[str] | None = None
-    insufficient_entitlements: list[LicensingEntitlementsItem2] | None = Field(
-        default=None,
+    errors: list[str] = Field(default_factory=list)
+    insufficient_entitlements: list[LicensingEntitlementsItem2] = Field(
+        default_factory=list,
         validation_alias="insufficientEntitlements",
         serialization_alias="insufficientEntitlements",
     )
@@ -65,10 +65,10 @@ class ClaimAdministeredLicensingSubscriptionSubscriptionsResponse(_BaseSchema):
     renewal_requested: bool | None = Field(
         default=None, validation_alias="renewalRequested", serialization_alias="renewalRequested"
     )
-    product_types: list[str] | None = Field(
-        default=None, validation_alias="productTypes", serialization_alias="productTypes"
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
-    entitlements: list[LicensingEntitlementsItem] | None = None
+    entitlements: list[LicensingEntitlementsItem] = Field(default_factory=list)
     counts: LicensingCounts | None = None
     enterprise_agreement: LicensingEnterpriseAgreement | None = Field(
         default=None,
@@ -154,10 +154,10 @@ class GetAdministeredLicensingSubscriptionSubscriptionsResponseItem(_BaseSchema)
     renewal_requested: bool | None = Field(
         default=None, validation_alias="renewalRequested", serialization_alias="renewalRequested"
     )
-    product_types: list[str] | None = Field(
-        default=None, validation_alias="productTypes", serialization_alias="productTypes"
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
-    entitlements: list[LicensingEntitlementsItem] | None = None
+    entitlements: list[LicensingEntitlementsItem] = Field(default_factory=list)
     counts: LicensingCounts | None = None
     enterprise_agreement: LicensingEnterpriseAgreement | None = Field(
         default=None,
@@ -192,8 +192,8 @@ class GetOrganizationLicensingCotermLicensesResponseItem(_BaseSchema):
         default=None, validation_alias="invalidatedAt", serialization_alias="invalidatedAt"
     )
     expired: bool | None = None
-    editions: list[LicensingEditionsItem] | None = None
-    counts: list[LicensingCountsItem] | None = None
+    editions: list[LicensingEditionsItem] = Field(default_factory=list)
+    counts: list[LicensingCountsItem] = Field(default_factory=list)
 
 
 class LicensingAccount(_BaseSchema):
@@ -243,7 +243,7 @@ class LicensingEditionsItem(_BaseSchema):
 class LicensingEnterpriseAgreement(_BaseSchema):
     """enterprise agreement details."""
 
-    suites: list[str] | None = None
+    suites: list[str] = Field(default_factory=list)
 
 
 class LicensingEntitlementsItem(_BaseSchema):
@@ -263,7 +263,7 @@ class LicensingEntitlementsItem2(_BaseSchema):
 class LicensingMissing(_BaseSchema):
     """Missing entitlements details."""
 
-    entitlements: list[LicensingEntitlementsItem2] | None = None
+    entitlements: list[LicensingEntitlementsItem2] = Field(default_factory=list)
 
 
 class LicensingSeats(_BaseSchema):
@@ -292,8 +292,10 @@ class LicensingSubscription(_BaseSchema):
 class LicensingViolations(_BaseSchema):
     """Violations."""
 
-    by_product_class: list[LicensingByProductClassItem] | None = Field(
-        default=None, validation_alias="byProductClass", serialization_alias="byProductClass"
+    by_product_class: list[LicensingByProductClassItem] = Field(
+        default_factory=list,
+        validation_alias="byProductClass",
+        serialization_alias="byProductClass",
     )
 
 
@@ -323,14 +325,20 @@ class MoveOrganizationLicensingCotermLicensesLicensesItemCountsItem(_BaseSchema)
 class MoveOrganizationLicensingCotermLicensesResponse(_BaseSchema):
     """Response for moveOrganizationLicensingCotermLicenses operation."""
 
-    remainder_licenses: (
-        list[MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem] | None
-    ) = Field(
-        default=None, validation_alias="remainderLicenses", serialization_alias="remainderLicenses"
+    remainder_licenses: list[
+        MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem
+    ] = Field(
+        default_factory=list,
+        validation_alias="remainderLicenses",
+        serialization_alias="remainderLicenses",
     )
-    moved_licenses: (
-        list[MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem] | None
-    ) = Field(default=None, validation_alias="movedLicenses", serialization_alias="movedLicenses")
+    moved_licenses: list[MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem] = (
+        Field(
+            default_factory=list,
+            validation_alias="movedLicenses",
+            serialization_alias="movedLicenses",
+        )
+    )
 
 
 class MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem(_BaseSchema):
@@ -353,8 +361,8 @@ class MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem(_Base
         default=None, validation_alias="invalidatedAt", serialization_alias="invalidatedAt"
     )
     expired: bool | None = None
-    editions: list[LicensingEditionsItem] | None = None
-    counts: list[LicensingCountsItem] | None = None
+    editions: list[LicensingEditionsItem] = Field(default_factory=list)
+    counts: list[LicensingCountsItem] = Field(default_factory=list)
 
 
 class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse(_BaseSchema):
@@ -385,10 +393,10 @@ class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse(_Ba
     renewal_requested: bool | None = Field(
         default=None, validation_alias="renewalRequested", serialization_alias="renewalRequested"
     )
-    product_types: list[str] | None = Field(
-        default=None, validation_alias="productTypes", serialization_alias="productTypes"
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
-    entitlements: list[LicensingEntitlementsItem] | None = None
+    entitlements: list[LicensingEntitlementsItem] = Field(default_factory=list)
     counts: LicensingCounts | None = None
     enterprise_agreement: LicensingEnterpriseAgreement | None = Field(
         default=None,

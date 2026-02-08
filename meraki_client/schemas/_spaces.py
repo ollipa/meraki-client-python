@@ -15,7 +15,7 @@ class GetOrganizationSpacesIntegrateStatusResponse(_BaseSchema):
     """Response for getOrganizationSpacesIntegrateStatus operation."""
 
     status: bool | None = None
-    states: list[str] | None = None
+    states: list[str] = Field(default_factory=list)
     email: str | None = None
     account_name: str | None = Field(
         default=None, validation_alias="accountName", serialization_alias="accountName"

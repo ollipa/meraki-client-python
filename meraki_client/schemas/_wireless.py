@@ -17,7 +17,7 @@ from meraki_client.schemas._base import _BaseSchema
 class AssignNetworkWirelessEthernetPortsProfilesResponse(_BaseSchema):
     """Response for assignNetworkWirelessEthernetPortsProfiles operation."""
 
-    serials: list[str] | None = None
+    serials: list[str] = Field(default_factory=list)
     profile_id: str | None = Field(
         default=None, validation_alias="profileId", serialization_alias="profileId"
     )
@@ -94,9 +94,9 @@ class CreateNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
-    ports: list[WirelessPortsItem] | None = None
-    usb_ports: list[WirelessUsbPortsItem] | None = Field(
-        default=None, validation_alias="usbPorts", serialization_alias="usbPorts"
+    ports: list[WirelessPortsItem] = Field(default_factory=list)
+    usb_ports: list[WirelessUsbPortsItem] = Field(
+        default_factory=list, validation_alias="usbPorts", serialization_alias="usbPorts"
     )
 
 
@@ -125,7 +125,7 @@ class CreateNetworkWirelessRfProfileApBandSettings(_BaseSchema):
 class CreateNetworkWirelessRfProfileApBandSettingsBands(_BaseSchema):
     """Settings related to all bands."""
 
-    enabled: list[str] | None = None
+    enabled: list[str] = Field(default_factory=list)
 
 
 class CreateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
@@ -140,8 +140,10 @@ class CreateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     min_bitrate: int | None = Field(
         default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
     )
-    valid_auto_channels: list[int] | None = Field(
-        default=None, validation_alias="validAutoChannels", serialization_alias="validAutoChannels"
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
     )
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
@@ -152,8 +154,8 @@ class CreateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
 class CreateNetworkWirelessRfProfileFlexRadios(_BaseSchema):
     """Flex radio settings."""
 
-    by_model: list[CreateNetworkWirelessRfProfileFlexRadiosByModelItem] | None = Field(
-        default=None, validation_alias="byModel", serialization_alias="byModel"
+    by_model: list[CreateNetworkWirelessRfProfileFlexRadiosByModelItem] = Field(
+        default_factory=list, validation_alias="byModel", serialization_alias="byModel"
     )
 
 
@@ -161,7 +163,7 @@ class CreateNetworkWirelessRfProfileFlexRadiosByModelItem(_BaseSchema):
     """Schema for CreateNetworkWirelessRfProfileFlexRadiosByModelItem."""
 
     model: str | None = None
-    bands: list[str] | None = None
+    bands: list[str] = Field(default_factory=list)
 
 
 class CreateNetworkWirelessRfProfilePerSsidSettings(_BaseSchema):
@@ -288,8 +290,10 @@ class CreateNetworkWirelessRfProfileSixGhzSettings(_BaseSchema):
     min_bitrate: int | None = Field(
         default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
     )
-    valid_auto_channels: list[int] | None = Field(
-        default=None, validation_alias="validAutoChannels", serialization_alias="validAutoChannels"
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
     )
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
@@ -315,8 +319,10 @@ class CreateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
     min_bitrate: float | None = Field(
         default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
     )
-    valid_auto_channels: list[int] | None = Field(
-        default=None, validation_alias="validAutoChannels", serialization_alias="validAutoChannels"
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
     )
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
@@ -428,8 +434,8 @@ class CreateOrganizationWirelessZigbeeDisenrollmentResponse(_BaseSchema):
 class CreateOrganizationWirelessZigbeeDisenrollmentResponseRequest(_BaseSchema):
     """Disenrollment parameters."""
 
-    door_lock_ids: list[str] | None = Field(
-        default=None, validation_alias="doorLockIds", serialization_alias="doorLockIds"
+    door_lock_ids: list[str] = Field(
+        default_factory=list, validation_alias="doorLockIds", serialization_alias="doorLockIds"
     )
 
 
@@ -517,8 +523,10 @@ class GetDeviceWirelessRadioSettingsResponseTwoFourGhzSettings(_BaseSchema):
 class GetDeviceWirelessStatusResponse(_BaseSchema):
     """Response for getDeviceWirelessStatus operation."""
 
-    basic_service_sets: list[GetDeviceWirelessStatusResponseBasicServiceSetsItem] | None = Field(
-        default=None, validation_alias="basicServiceSets", serialization_alias="basicServiceSets"
+    basic_service_sets: list[GetDeviceWirelessStatusResponseBasicServiceSetsItem] = Field(
+        default_factory=list,
+        validation_alias="basicServiceSets",
+        serialization_alias="basicServiceSets",
     )
 
 
@@ -557,8 +565,8 @@ class GetDeviceWirelessZigbeeEnrollmentResponse(_BaseSchema):
         validation_alias="enrollmentStartedAt",
         serialization_alias="enrollmentStartedAt",
     )
-    door_locks: list[GetDeviceWirelessZigbeeEnrollmentResponseDoorLocksItem] | None = Field(
-        default=None, validation_alias="doorLocks", serialization_alias="doorLocks"
+    door_locks: list[GetDeviceWirelessZigbeeEnrollmentResponseDoorLocksItem] = Field(
+        default_factory=list, validation_alias="doorLocks", serialization_alias="doorLocks"
     )
 
 
@@ -596,19 +604,19 @@ class GetNetworkWirelessAirMarshalResponseItem(_BaseSchema):
     """Schema for GetNetworkWirelessAirMarshalResponseItem."""
 
     ssid: str | None = None
-    bssids: list[WirelessBssidsItem] | None = None
-    channels: list[int] | None = None
+    bssids: list[WirelessBssidsItem] = Field(default_factory=list)
+    channels: list[int] = Field(default_factory=list)
     first_seen: int | None = Field(
         default=None, validation_alias="firstSeen", serialization_alias="firstSeen"
     )
     last_seen: int | None = Field(
         default=None, validation_alias="lastSeen", serialization_alias="lastSeen"
     )
-    wired_macs: list[str] | None = Field(
-        default=None, validation_alias="wiredMacs", serialization_alias="wiredMacs"
+    wired_macs: list[str] = Field(
+        default_factory=list, validation_alias="wiredMacs", serialization_alias="wiredMacs"
     )
-    wired_vlans: list[int] | None = Field(
-        default=None, validation_alias="wiredVlans", serialization_alias="wiredVlans"
+    wired_vlans: list[int] = Field(
+        default_factory=list, validation_alias="wiredVlans", serialization_alias="wiredVlans"
     )
     wired_last_seen: int | None = Field(
         default=None, validation_alias="wiredLastSeen", serialization_alias="wiredLastSeen"
@@ -619,7 +627,7 @@ class GetNetworkWirelessBillingResponse(_BaseSchema):
     """Response for getNetworkWirelessBilling operation."""
 
     currency: str | None = None
-    plans: list[GetNetworkWirelessBillingResponsePlansItem] | None = None
+    plans: list[GetNetworkWirelessBillingResponsePlansItem] = Field(default_factory=list)
 
 
 class GetNetworkWirelessBillingResponsePlansItem(_BaseSchema):
@@ -871,9 +879,9 @@ class GetNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
-    ports: list[WirelessPortsItem] | None = None
-    usb_ports: list[WirelessUsbPortsItem] | None = Field(
-        default=None, validation_alias="usbPorts", serialization_alias="usbPorts"
+    ports: list[WirelessPortsItem] = Field(default_factory=list)
+    usb_ports: list[WirelessUsbPortsItem] = Field(
+        default_factory=list, validation_alias="usbPorts", serialization_alias="usbPorts"
     )
 
 
@@ -893,9 +901,9 @@ class GetNetworkWirelessEthernetPortsProfilesResponseItem(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
-    ports: list[WirelessPortsItem] | None = None
-    usb_ports: list[WirelessUsbPortsItem] | None = Field(
-        default=None, validation_alias="usbPorts", serialization_alias="usbPorts"
+    ports: list[WirelessPortsItem] = Field(default_factory=list)
+    usb_ports: list[WirelessUsbPortsItem] = Field(
+        default_factory=list, validation_alias="usbPorts", serialization_alias="usbPorts"
     )
 
 
@@ -954,8 +962,8 @@ class GetNetworkWirelessMeshStatusesResponseItem(_BaseSchema):
     """Schema for GetNetworkWirelessMeshStatusesResponseItem."""
 
     serial: str | None = None
-    mesh_route: list[str] | None = Field(
-        default=None, validation_alias="meshRoute", serialization_alias="meshRoute"
+    mesh_route: list[str] = Field(
+        default_factory=list, validation_alias="meshRoute", serialization_alias="meshRoute"
     )
     latest_mesh_performance: WirelessLatestMeshPerformance | None = Field(
         default=None,
@@ -1080,8 +1088,10 @@ class GetNetworkWirelessRfProfilesResponseFiveGhzSettings(_BaseSchema):
     min_bitrate: int | None = Field(
         default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
     )
-    valid_auto_channels: list[int] | None = Field(
-        default=None, validation_alias="validAutoChannels", serialization_alias="validAutoChannels"
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
     )
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
@@ -1151,8 +1161,10 @@ class GetNetworkWirelessRfProfilesResponseTwoFourGhzSettings(_BaseSchema):
     min_bitrate: float | None = Field(
         default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
     )
-    valid_auto_channels: list[int] | None = Field(
-        default=None, validation_alias="validAutoChannels", serialization_alias="validAutoChannels"
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
     )
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
@@ -1237,7 +1249,9 @@ class GetNetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
 
     enabled: bool | None = None
     exception: WirelessBusyHourMinimizeChanges | None = None
-    rules: list[GetNetworkWirelessSsidBonjourForwardingResponseRulesItem] | None = None
+    rules: list[GetNetworkWirelessSsidBonjourForwardingResponseRulesItem] = Field(
+        default_factory=list
+    )
 
 
 class GetNetworkWirelessSsidBonjourForwardingResponseRulesItem(_BaseSchema):
@@ -1247,7 +1261,7 @@ class GetNetworkWirelessSsidBonjourForwardingResponseRulesItem(_BaseSchema):
     vlan_id: str | None = Field(
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
-    services: list[str] | None = None
+    services: list[str] = Field(default_factory=list)
 
 
 class GetNetworkWirelessSsidEapOverrideResponse(_BaseSchema):
@@ -1282,7 +1296,9 @@ class GetNetworkWirelessSsidEapOverrideResponseIdentity(_BaseSchema):
 class GetNetworkWirelessSsidFirewallL3FirewallRulesResponse(_BaseSchema):
     """Response for getNetworkWirelessSsidFirewallL3FirewallRules operation."""
 
-    rules: list[GetNetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem] | None = None
+    rules: list[GetNetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
     allow_lan_access: bool | None = Field(
         default=None, validation_alias="allowLanAccess", serialization_alias="allowLanAccess"
     )
@@ -1304,7 +1320,9 @@ class GetNetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem(_BaseSchema
 class GetNetworkWirelessSsidFirewallL7FirewallRulesResponse(_BaseSchema):
     """Response for getNetworkWirelessSsidFirewallL7FirewallRules operation."""
 
-    rules: list[GetNetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem] | None = None
+    rules: list[GetNetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
 
 
 class GetNetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem(_BaseSchema):
@@ -1324,15 +1342,17 @@ class GetNetworkWirelessSsidHotspot20Response(_BaseSchema):
     network_access_type: str | None = Field(
         default=None, validation_alias="networkAccessType", serialization_alias="networkAccessType"
     )
-    domains: list[str] | None = None
-    roam_consort_ois: list[str] | None = Field(
-        default=None, validation_alias="roamConsortOis", serialization_alias="roamConsortOis"
+    domains: list[str] = Field(default_factory=list)
+    roam_consort_ois: list[str] = Field(
+        default_factory=list,
+        validation_alias="roamConsortOis",
+        serialization_alias="roamConsortOis",
     )
-    mcc_mncs: list[GetNetworkWirelessSsidHotspot20ResponseMccMncsItem] | None = Field(
-        default=None, validation_alias="mccMncs", serialization_alias="mccMncs"
+    mcc_mncs: list[GetNetworkWirelessSsidHotspot20ResponseMccMncsItem] = Field(
+        default_factory=list, validation_alias="mccMncs", serialization_alias="mccMncs"
     )
-    nai_realms: list[GetNetworkWirelessSsidHotspot20ResponseNaiRealmsItem] | None = Field(
-        default=None, validation_alias="naiRealms", serialization_alias="naiRealms"
+    nai_realms: list[GetNetworkWirelessSsidHotspot20ResponseNaiRealmsItem] = Field(
+        default_factory=list, validation_alias="naiRealms", serialization_alias="naiRealms"
     )
 
 
@@ -1350,7 +1370,7 @@ class GetNetworkWirelessSsidHotspot20ResponseNaiRealmsItem(_BaseSchema):
         default=None, validation_alias="format", serialization_alias="format"
     )
     name: str | None = None
-    methods: list[WirelessNaiRealmsMethodsItem] | None = None
+    methods: list[WirelessNaiRealmsMethodsItem] = Field(default_factory=list)
 
 
 class GetNetworkWirelessSsidHotspot20ResponseOperator(_BaseSchema):
@@ -1438,11 +1458,11 @@ class GetNetworkWirelessSsidResponse(_BaseSchema):
     wpa_encryption_mode: str | None = Field(
         default=None, validation_alias="wpaEncryptionMode", serialization_alias="wpaEncryptionMode"
     )
-    radius_servers: list[WirelessRadiusServersItem] | None = Field(
-        default=None, validation_alias="radiusServers", serialization_alias="radiusServers"
+    radius_servers: list[WirelessRadiusServersItem] = Field(
+        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
     )
-    radius_accounting_servers: list[WirelessRadiusServersItem] | None = Field(
-        default=None,
+    radius_accounting_servers: list[WirelessRadiusServersItem] = Field(
+        default_factory=list,
         validation_alias="radiusAccountingServers",
         serialization_alias="radiusAccountingServers",
     )
@@ -1483,8 +1503,8 @@ class GetNetworkWirelessSsidResponse(_BaseSchema):
         validation_alias="walledGardenEnabled",
         serialization_alias="walledGardenEnabled",
     )
-    walled_garden_ranges: list[str] | None = Field(
-        default=None,
+    walled_garden_ranges: list[str] = Field(
+        default_factory=list,
         validation_alias="walledGardenRanges",
         serialization_alias="walledGardenRanges",
     )
@@ -1508,8 +1528,10 @@ class GetNetworkWirelessSsidResponse(_BaseSchema):
     available_on_all_aps: bool | None = Field(
         default=None, validation_alias="availableOnAllAps", serialization_alias="availableOnAllAps"
     )
-    availability_tags: list[str] | None = Field(
-        default=None, validation_alias="availabilityTags", serialization_alias="availabilityTags"
+    availability_tags: list[str] = Field(
+        default_factory=list,
+        validation_alias="availabilityTags",
+        serialization_alias="availabilityTags",
     )
     per_ssid_bandwidth_limit_up: int | None = Field(
         default=None,
@@ -1532,11 +1554,11 @@ class GetNetworkWirelessSsidSchedulesResponse(_BaseSchema):
     """Response for getNetworkWirelessSsidSchedules operation."""
 
     enabled: bool | None = None
-    ranges: list[GetNetworkWirelessSsidSchedulesResponseRangesItem] | None = None
-    ranges_in_seconds: list[GetNetworkWirelessSsidSchedulesResponseRangesInSecondsItem] | None = (
-        Field(
-            default=None, validation_alias="rangesInSeconds", serialization_alias="rangesInSeconds"
-        )
+    ranges: list[GetNetworkWirelessSsidSchedulesResponseRangesItem] = Field(default_factory=list)
+    ranges_in_seconds: list[GetNetworkWirelessSsidSchedulesResponseRangesInSecondsItem] = Field(
+        default_factory=list,
+        validation_alias="rangesInSeconds",
+        serialization_alias="rangesInSeconds",
     )
 
 
@@ -1673,8 +1695,10 @@ class GetNetworkWirelessSsidSplashSettingsResponseSentryEnrollment(_BaseSchema):
         serialization_alias="systemsManagerNetwork",
     )
     strength: str | None = None
-    enforced_systems: list[str] | None = Field(
-        default=None, validation_alias="enforcedSystems", serialization_alias="enforcedSystems"
+    enforced_systems: list[str] = Field(
+        default_factory=list,
+        validation_alias="enforcedSystems",
+        serialization_alias="enforcedSystems",
     )
 
 
@@ -1698,7 +1722,9 @@ class GetNetworkWirelessSsidTrafficShapingRulesResponse(_BaseSchema):
         validation_alias="defaultRulesEnabled",
         serialization_alias="defaultRulesEnabled",
     )
-    rules: list[GetNetworkWirelessSsidTrafficShapingRulesResponseRulesItem] | None = None
+    rules: list[GetNetworkWirelessSsidTrafficShapingRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
 
 
 class GetNetworkWirelessSsidTrafficShapingRulesResponseRulesItem(_BaseSchema):
@@ -1748,11 +1774,11 @@ class GetNetworkWirelessSsidsResponseItem(_BaseSchema):
     wpa_encryption_mode: str | None = Field(
         default=None, validation_alias="wpaEncryptionMode", serialization_alias="wpaEncryptionMode"
     )
-    radius_servers: list[WirelessRadiusServersItem] | None = Field(
-        default=None, validation_alias="radiusServers", serialization_alias="radiusServers"
+    radius_servers: list[WirelessRadiusServersItem] = Field(
+        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
     )
-    radius_accounting_servers: list[WirelessRadiusServersItem] | None = Field(
-        default=None,
+    radius_accounting_servers: list[WirelessRadiusServersItem] = Field(
+        default_factory=list,
         validation_alias="radiusAccountingServers",
         serialization_alias="radiusAccountingServers",
     )
@@ -1793,8 +1819,8 @@ class GetNetworkWirelessSsidsResponseItem(_BaseSchema):
         validation_alias="walledGardenEnabled",
         serialization_alias="walledGardenEnabled",
     )
-    walled_garden_ranges: list[str] | None = Field(
-        default=None,
+    walled_garden_ranges: list[str] = Field(
+        default_factory=list,
         validation_alias="walledGardenRanges",
         serialization_alias="walledGardenRanges",
     )
@@ -1818,8 +1844,10 @@ class GetNetworkWirelessSsidsResponseItem(_BaseSchema):
     available_on_all_aps: bool | None = Field(
         default=None, validation_alias="availableOnAllAps", serialization_alias="availableOnAllAps"
     )
-    availability_tags: list[str] | None = Field(
-        default=None, validation_alias="availabilityTags", serialization_alias="availabilityTags"
+    availability_tags: list[str] = Field(
+        default_factory=list,
+        validation_alias="availabilityTags",
+        serialization_alias="availabilityTags",
     )
     per_ssid_bandwidth_limit_up: int | None = Field(
         default=None,
@@ -1869,7 +1897,9 @@ class GetNetworkWirelessUsageHistoryResponseItem(_BaseSchema):
 class GetOrganizationWirelessAirMarshalRulesResponse(_BaseSchema):
     """Response for getOrganizationWirelessAirMarshalRules operation."""
 
-    items: list[GetOrganizationWirelessAirMarshalRulesResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessAirMarshalRulesResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalRulesResponseMeta | None = None
 
 
@@ -1899,7 +1929,9 @@ class GetOrganizationWirelessAirMarshalRulesResponseMeta(_BaseSchema):
 class GetOrganizationWirelessAirMarshalSettingsByNetworkResponse(_BaseSchema):
     """Response for getOrganizationWirelessAirMarshalSettingsByNetwork operation."""
 
-    items: list[GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -1923,7 +1955,9 @@ class GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta(_BaseSchema
 class GetOrganizationWirelessClientsOverviewByDeviceResponse(_BaseSchema):
     """Response for getOrganizationWirelessClientsOverviewByDevice operation."""
 
-    items: list[GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -1947,8 +1981,8 @@ class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem(_Base
     serial: str | None = None
     mac: str | None = None
     network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
-    by_band: list[WirelessByBandItem] | None = Field(
-        default=None, validation_alias="byBand", serialization_alias="byBand"
+    by_band: list[WirelessByBandItem] = Field(
+        default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
 
 
@@ -1962,8 +1996,8 @@ class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem(_Bas
     """Schema for GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem."""
 
     network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
-    by_band: list[WirelessByBandItem] | None = Field(
-        default=None, validation_alias="byBand", serialization_alias="byBand"
+    by_band: list[WirelessByBandItem] = Field(
+        default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
 
 
@@ -1995,8 +2029,8 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalR
     serial: str | None = None
     mac: str | None = None
     network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
-    by_band: list[WirelessByBandItem] | None = Field(
-        default=None, validation_alias="byBand", serialization_alias="byBand"
+    by_band: list[WirelessByBandItem] = Field(
+        default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
 
 
@@ -2026,8 +2060,8 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
         default=None, validation_alias="endTs", serialization_alias="endTs"
     )
     network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
-    by_band: list[WirelessByBandItem] | None = Field(
-        default=None, validation_alias="byBand", serialization_alias="byBand"
+    by_band: list[WirelessByBandItem] = Field(
+        default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
 
 
@@ -2044,7 +2078,7 @@ class GetOrganizationWirelessDevicesEthernetStatusesResponseItem(_BaseSchema):
     name: str | None = None
     network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
     power: WirelessPower | None = None
-    ports: list[WirelessPortsItem2] | None = None
+    ports: list[WirelessPortsItem2] = Field(default_factory=list)
     aggregation: WirelessAggregation | None = None
 
 
@@ -2095,7 +2129,9 @@ class GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem(_BaseSchema)
 class GetOrganizationWirelessDevicesPowerModeHistoryResponse(_BaseSchema):
     """Response for getOrganizationWirelessDevicesPowerModeHistory operation."""
 
-    items: list[GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem] = Field(
+        default_factory=list
+    )
 
 
 class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchema):
@@ -2105,9 +2141,9 @@ class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchem
     model: str | None = None
     name: str | None = None
     mac: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     network: WirelessNetwork | None = None
-    events: list[WirelessEventsItem] | None = None
+    events: list[WirelessEventsItem] = Field(default_factory=list)
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse(_BaseSchema):
@@ -2115,20 +2151,18 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasRespo
     operation.
     """
 
-    items: (
-        list[GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem]
-        | None
-    ) = None
+    items: list[
+        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
+    ] = Field(default_factory=list)
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse(_BaseSchema):
     """Response for getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls operation."""
 
-    items: (
-        list[GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem]
-        | None
-    ) = None
+    items: list[
+        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
+    ] = Field(default_factory=list)
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2152,14 +2186,16 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem."""
 
-    items: list[WirelessItemsItem] | None = None
+    items: list[WirelessItemsItem] = Field(default_factory=list)
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
 class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponse(_BaseSchema):
     """Response for getOrganizationWirelessDevicesSystemCpuLoadHistory operation."""
 
-    items: list[GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem] = Field(
+        default_factory=list
+    )
 
 
 class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseSchema):
@@ -2169,20 +2205,20 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
     model: str | None = None
     name: str | None = None
     mac: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     network: WirelessNetwork | None = None
     cpu_count: int | None = Field(
         default=None, validation_alias="cpuCount", serialization_alias="cpuCount"
     )
-    series: list[WirelessSeriesItem] | None = None
+    series: list[WirelessSeriesItem] = Field(default_factory=list)
 
 
 class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponse(_BaseSchema):
     """Response for getOrganizationWirelessDevicesWirelessControllersByDevice operation."""
 
-    items: (
-        list[GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem] | None
-    ) = None
+    items: list[GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2196,18 +2232,20 @@ class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem
         default=None, validation_alias="joinedAt", serialization_alias="joinedAt"
     )
     model: str | None = None
-    tags: list[WirelessTagsItem] | None = None
+    tags: list[WirelessTagsItem] = Field(default_factory=list)
     mode: str | None = None
     country_code: str | None = Field(
         default=None, validation_alias="countryCode", serialization_alias="countryCode"
     )
-    details: list[WirelessDetailsItem] | None = None
+    details: list[WirelessDetailsItem] = Field(default_factory=list)
 
 
 class GetOrganizationWirelessLocationScanningByNetworkResponse(_BaseSchema):
     """Response for getOrganizationWirelessLocationScanningByNetwork operation."""
 
-    items: list[GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2225,7 +2263,9 @@ class GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem(_BaseSch
 class GetOrganizationWirelessLocationScanningReceiversResponse(_BaseSchema):
     """Response for getOrganizationWirelessLocationScanningReceivers operation."""
 
-    items: list[GetOrganizationWirelessLocationScanningReceiversResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessLocationScanningReceiversResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2244,7 +2284,7 @@ class GetOrganizationWirelessLocationScanningReceiversResponseItemsItem(_BaseSch
 class GetOrganizationWirelessMqttSettingsResponse(_BaseSchema):
     """Response for getOrganizationWirelessMqttSettings operation."""
 
-    items: list[GetOrganizationWirelessMqttSettingsResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessMqttSettingsResponseItemsItem] = Field(default_factory=list)
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2260,7 +2300,9 @@ class GetOrganizationWirelessMqttSettingsResponseItemsItem(_BaseSchema):
 class GetOrganizationWirelessRadioRrmByNetworkResponse(_BaseSchema):
     """Response for getOrganizationWirelessRadioRrmByNetwork operation."""
 
-    items: list[GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2291,16 +2333,16 @@ class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponse(
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem."""
 
-    items: list[WirelessItemsItem2] | None = None
+    items: list[WirelessItemsItem2] = Field(default_factory=list)
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
 class GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponse(_BaseSchema):
     """Response for getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries operation."""
 
-    items: (
-        list[GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem] | None
-    ) = None
+    items: list[GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem] = (
+        Field(default_factory=list)
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2323,7 +2365,9 @@ class GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItems
 class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponse(_BaseSchema):
     """Response for getOrganizationWirelessSsidsOpenRoamingByNetwork operation."""
 
-    items: list[GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2336,13 +2380,15 @@ class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem(_BaseSch
     network_name: str | None = Field(
         default=None, validation_alias="networkName", serialization_alias="networkName"
     )
-    ssid: list[WirelessSsidItem] | None = None
+    ssid: list[WirelessSsidItem] = Field(default_factory=list)
 
 
 class GetOrganizationWirelessSsidsStatusesByDeviceResponse(_BaseSchema):
     """Response for getOrganizationWirelessSsidsStatusesByDevice operation."""
 
-    items: list[GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem] | None = None
+    items: list[GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
@@ -2352,8 +2398,10 @@ class GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem(_BaseSchema)
     serial: str | None = None
     name: str | None = None
     network: WirelessDoorLocksNetwork | None = None
-    basic_service_sets: list[WirelessBasicServiceSetsItem] | None = Field(
-        default=None, validation_alias="basicServiceSets", serialization_alias="basicServiceSets"
+    basic_service_sets: list[WirelessBasicServiceSetsItem] = Field(
+        default_factory=list,
+        validation_alias="basicServiceSets",
+        serialization_alias="basicServiceSets",
     )
 
 
@@ -2409,8 +2457,8 @@ class GetOrganizationWirelessZigbeeDisenrollmentResponse(_BaseSchema):
     url: str | None = None
     request: CreateOrganizationWirelessZigbeeDisenrollmentResponseRequest | None = None
     status: str | None = None
-    door_locks: list[GetOrganizationWirelessZigbeeDisenrollmentResponseDoorLocksItem] | None = (
-        Field(default=None, validation_alias="doorLocks", serialization_alias="doorLocks")
+    door_locks: list[GetOrganizationWirelessZigbeeDisenrollmentResponseDoorLocksItem] = Field(
+        default_factory=list, validation_alias="doorLocks", serialization_alias="doorLocks"
     )
 
 
@@ -2487,9 +2535,9 @@ class UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem(_BaseSch
 class UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response(_BaseSchema):
     """Response for updateDeviceWirelessAlternateManagementInterfaceIpv6 operation."""
 
-    addresses: (
-        list[UpdateDeviceWirelessAlternateManagementInterfaceIpv6ResponseAddressesItem] | None
-    ) = None
+    addresses: list[UpdateDeviceWirelessAlternateManagementInterfaceIpv6ResponseAddressesItem] = (
+        Field(default_factory=list)
+    )
 
 
 class UpdateDeviceWirelessAlternateManagementInterfaceIpv6ResponseAddressesItem(_BaseSchema):
@@ -2632,7 +2680,7 @@ class UpdateNetworkWirelessBillingResponse(_BaseSchema):
     """Response for updateNetworkWirelessBilling operation."""
 
     currency: str | None = None
-    plans: list[GetNetworkWirelessBillingResponsePlansItem] | None = None
+    plans: list[GetNetworkWirelessBillingResponsePlansItem] = Field(default_factory=list)
 
 
 class UpdateNetworkWirelessBluetoothSettingsResponse(_BaseSchema):
@@ -2688,9 +2736,9 @@ class UpdateNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
-    ports: list[WirelessPortsItem] | None = None
-    usb_ports: list[WirelessUsbPortsItem] | None = Field(
-        default=None, validation_alias="usbPorts", serialization_alias="usbPorts"
+    ports: list[WirelessPortsItem] = Field(default_factory=list)
+    usb_ports: list[WirelessUsbPortsItem] = Field(
+        default_factory=list, validation_alias="usbPorts", serialization_alias="usbPorts"
     )
 
 
@@ -2824,8 +2872,10 @@ class UpdateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     min_bitrate: int | None = Field(
         default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
     )
-    valid_auto_channels: list[int] | None = Field(
-        default=None, validation_alias="validAutoChannels", serialization_alias="validAutoChannels"
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
     )
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
@@ -2836,8 +2886,8 @@ class UpdateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
 class UpdateNetworkWirelessRfProfileFlexRadios(_BaseSchema):
     """Flex radio settings."""
 
-    by_model: list[CreateNetworkWirelessRfProfileFlexRadiosByModelItem] | None = Field(
-        default=None, validation_alias="byModel", serialization_alias="byModel"
+    by_model: list[CreateNetworkWirelessRfProfileFlexRadiosByModelItem] = Field(
+        default_factory=list, validation_alias="byModel", serialization_alias="byModel"
     )
 
 
@@ -2948,8 +2998,10 @@ class UpdateNetworkWirelessRfProfileSixGhzSettings(_BaseSchema):
     min_bitrate: int | None = Field(
         default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
     )
-    valid_auto_channels: list[int] | None = Field(
-        default=None, validation_alias="validAutoChannels", serialization_alias="validAutoChannels"
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
     )
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
@@ -2975,8 +3027,10 @@ class UpdateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
     min_bitrate: float | None = Field(
         default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
     )
-    valid_auto_channels: list[int] | None = Field(
-        default=None, validation_alias="validAutoChannels", serialization_alias="validAutoChannels"
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
     )
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
@@ -3038,7 +3092,7 @@ class UpdateNetworkWirelessSsidActiveDirectory(_BaseSchema):
     with Active Directory'.
     """
 
-    servers: list[UpdateNetworkWirelessSsidActiveDirectoryServersItem] | None = None
+    servers: list[UpdateNetworkWirelessSsidActiveDirectoryServersItem] = Field(default_factory=list)
     credentials: UpdateNetworkWirelessSsidActiveDirectoryCredentials | None = None
 
 
@@ -3065,7 +3119,7 @@ class UpdateNetworkWirelessSsidActiveDirectoryServersItem(_BaseSchema):
 class UpdateNetworkWirelessSsidApTagsAndVlanIdsItem(_BaseSchema):
     """Item schema for apTagsAndVlanIds."""
 
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     vlan_id: int | None = Field(
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
@@ -3082,7 +3136,9 @@ class UpdateNetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
 
     enabled: bool | None = None
     exception: WirelessBusyHourMinimizeChanges | None = None
-    rules: list[GetNetworkWirelessSsidBonjourForwardingResponseRulesItem] | None = None
+    rules: list[GetNetworkWirelessSsidBonjourForwardingResponseRulesItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkWirelessSsidBonjourForwardingRulesItem(_BaseSchema):
@@ -3107,8 +3163,8 @@ class UpdateNetworkWirelessSsidDnsRewrite(_BaseSchema):
     """DNS servers rewrite settings."""
 
     enabled: bool | None = None
-    dns_custom_nameservers: list[str] | None = Field(
-        default=None,
+    dns_custom_nameservers: list[str] = Field(
+        default_factory=list,
         validation_alias="dnsCustomNameservers",
         serialization_alias="dnsCustomNameservers",
     )
@@ -3160,7 +3216,9 @@ class UpdateNetworkWirelessSsidEapOverrideResponse(_BaseSchema):
 class UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse(_BaseSchema):
     """Response for updateNetworkWirelessSsidFirewallL3FirewallRules operation."""
 
-    rules: list[GetNetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem] | None = None
+    rules: list[GetNetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
     allow_lan_access: bool | None = Field(
         default=None, validation_alias="allowLanAccess", serialization_alias="allowLanAccess"
     )
@@ -3182,7 +3240,9 @@ class UpdateNetworkWirelessSsidFirewallL3FirewallRulesRulesItem(_BaseSchema):
 class UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse(_BaseSchema):
     """Response for updateNetworkWirelessSsidFirewallL7FirewallRules operation."""
 
-    rules: list[GetNetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem] | None = None
+    rules: list[GetNetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkWirelessSsidFirewallL7FirewallRulesRulesItem(_BaseSchema):
@@ -3220,7 +3280,7 @@ class UpdateNetworkWirelessSsidHotspot20NaiRealmsItem(_BaseSchema):
         default=None, validation_alias="format", serialization_alias="format"
     )
     realm: str | None = None
-    methods: list[WirelessNaiRealmsMethodsItem] | None = None
+    methods: list[WirelessNaiRealmsMethodsItem] = Field(default_factory=list)
 
 
 class UpdateNetworkWirelessSsidHotspot20Operator(_BaseSchema):
@@ -3238,15 +3298,17 @@ class UpdateNetworkWirelessSsidHotspot20Response(_BaseSchema):
     network_access_type: str | None = Field(
         default=None, validation_alias="networkAccessType", serialization_alias="networkAccessType"
     )
-    domains: list[str] | None = None
-    roam_consort_ois: list[str] | None = Field(
-        default=None, validation_alias="roamConsortOis", serialization_alias="roamConsortOis"
+    domains: list[str] = Field(default_factory=list)
+    roam_consort_ois: list[str] = Field(
+        default_factory=list,
+        validation_alias="roamConsortOis",
+        serialization_alias="roamConsortOis",
     )
-    mcc_mncs: list[GetNetworkWirelessSsidHotspot20ResponseMccMncsItem] | None = Field(
-        default=None, validation_alias="mccMncs", serialization_alias="mccMncs"
+    mcc_mncs: list[GetNetworkWirelessSsidHotspot20ResponseMccMncsItem] = Field(
+        default_factory=list, validation_alias="mccMncs", serialization_alias="mccMncs"
     )
-    nai_realms: list[GetNetworkWirelessSsidHotspot20ResponseNaiRealmsItem] | None = Field(
-        default=None, validation_alias="naiRealms", serialization_alias="naiRealms"
+    nai_realms: list[GetNetworkWirelessSsidHotspot20ResponseNaiRealmsItem] = Field(
+        default_factory=list, validation_alias="naiRealms", serialization_alias="naiRealms"
     )
 
 
@@ -3280,7 +3342,7 @@ class UpdateNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
 class UpdateNetworkWirelessSsidLdap(_BaseSchema):
     """The current setting for LDAP. Only valid if splashPage is 'Password-protected with LDAP'."""
 
-    servers: list[UpdateNetworkWirelessSsidLdapServersItem] | None = None
+    servers: list[UpdateNetworkWirelessSsidLdapServersItem] = Field(default_factory=list)
     credentials: UpdateNetworkWirelessSsidLdapCredentials | None = None
     base_distinguished_name: str | None = Field(
         default=None,
@@ -3396,16 +3458,18 @@ class UpdateNetworkWirelessSsidNamedVlansTagging(_BaseSchema):
     default_vlan_name: str | None = Field(
         default=None, validation_alias="defaultVlanName", serialization_alias="defaultVlanName"
     )
-    by_ap_tags: list[WirelessByApTagsItem] | None = Field(
-        default=None, validation_alias="byApTags", serialization_alias="byApTags"
+    by_ap_tags: list[WirelessByApTagsItem] = Field(
+        default_factory=list, validation_alias="byApTags", serialization_alias="byApTags"
     )
 
 
 class UpdateNetworkWirelessSsidOauth(_BaseSchema):
     """The OAuth settings of this SSID. Only valid if splashPage is 'Google OAuth'."""
 
-    allowed_domains: list[str] | None = Field(
-        default=None, validation_alias="allowedDomains", serialization_alias="allowedDomains"
+    allowed_domains: list[str] = Field(
+        default_factory=list,
+        validation_alias="allowedDomains",
+        serialization_alias="allowedDomains",
     )
 
 
@@ -3491,11 +3555,11 @@ class UpdateNetworkWirelessSsidResponse(_BaseSchema):
     wpa_encryption_mode: str | None = Field(
         default=None, validation_alias="wpaEncryptionMode", serialization_alias="wpaEncryptionMode"
     )
-    radius_servers: list[WirelessRadiusServersItem] | None = Field(
-        default=None, validation_alias="radiusServers", serialization_alias="radiusServers"
+    radius_servers: list[WirelessRadiusServersItem] = Field(
+        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
     )
-    radius_accounting_servers: list[WirelessRadiusServersItem] | None = Field(
-        default=None,
+    radius_accounting_servers: list[WirelessRadiusServersItem] = Field(
+        default_factory=list,
         validation_alias="radiusAccountingServers",
         serialization_alias="radiusAccountingServers",
     )
@@ -3536,8 +3600,8 @@ class UpdateNetworkWirelessSsidResponse(_BaseSchema):
         validation_alias="walledGardenEnabled",
         serialization_alias="walledGardenEnabled",
     )
-    walled_garden_ranges: list[str] | None = Field(
-        default=None,
+    walled_garden_ranges: list[str] = Field(
+        default_factory=list,
         validation_alias="walledGardenRanges",
         serialization_alias="walledGardenRanges",
     )
@@ -3561,8 +3625,10 @@ class UpdateNetworkWirelessSsidResponse(_BaseSchema):
     available_on_all_aps: bool | None = Field(
         default=None, validation_alias="availableOnAllAps", serialization_alias="availableOnAllAps"
     )
-    availability_tags: list[str] | None = Field(
-        default=None, validation_alias="availabilityTags", serialization_alias="availabilityTags"
+    availability_tags: list[str] = Field(
+        default_factory=list,
+        validation_alias="availabilityTags",
+        serialization_alias="availabilityTags",
     )
     per_ssid_bandwidth_limit_up: int | None = Field(
         default=None,
@@ -3601,11 +3667,11 @@ class UpdateNetworkWirelessSsidSchedulesResponse(_BaseSchema):
     """Response for updateNetworkWirelessSsidSchedules operation."""
 
     enabled: bool | None = None
-    ranges: list[GetNetworkWirelessSsidSchedulesResponseRangesItem] | None = None
-    ranges_in_seconds: list[GetNetworkWirelessSsidSchedulesResponseRangesInSecondsItem] | None = (
-        Field(
-            default=None, validation_alias="rangesInSeconds", serialization_alias="rangesInSeconds"
-        )
+    ranges: list[GetNetworkWirelessSsidSchedulesResponseRangesItem] = Field(default_factory=list)
+    ranges_in_seconds: list[GetNetworkWirelessSsidSchedulesResponseRangesInSecondsItem] = Field(
+        default_factory=list,
+        validation_alias="rangesInSeconds",
+        serialization_alias="rangesInSeconds",
     )
 
 
@@ -3734,8 +3800,10 @@ class UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment(_BaseSchema):
         serialization_alias="systemsManagerNetwork",
     )
     strength: str | None = None
-    enforced_systems: list[str] | None = Field(
-        default=None, validation_alias="enforcedSystems", serialization_alias="enforcedSystems"
+    enforced_systems: list[str] = Field(
+        default_factory=list,
+        validation_alias="enforcedSystems",
+        serialization_alias="enforcedSystems",
     )
 
 
@@ -3791,7 +3859,9 @@ class UpdateNetworkWirelessSsidTrafficShapingRulesResponse(_BaseSchema):
         validation_alias="defaultRulesEnabled",
         serialization_alias="defaultRulesEnabled",
     )
-    rules: list[GetNetworkWirelessSsidTrafficShapingRulesResponseRulesItem] | None = None
+    rules: list[GetNetworkWirelessSsidTrafficShapingRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem(_BaseSchema):
@@ -3842,7 +3912,7 @@ class UpdateNetworkWirelessSsidVpnSplitTunnel(_BaseSchema):
     """The VPN split tunnel settings for this SSID."""
 
     enabled: bool | None = None
-    rules: list[UpdateNetworkWirelessSsidVpnSplitTunnelRulesItem] | None = None
+    rules: list[UpdateNetworkWirelessSsidVpnSplitTunnelRulesItem] = Field(default_factory=list)
 
 
 class UpdateNetworkWirelessSsidVpnSplitTunnelRulesItem(_BaseSchema):
@@ -3971,8 +4041,8 @@ class UpdateOrganizationWirelessMqttSettingsMqtt(_BaseSchema):
 
     enabled: bool | None = None
     topic: str | None = None
-    message_fields: list[str] | None = Field(
-        default=None, validation_alias="messageFields", serialization_alias="messageFields"
+    message_fields: list[str] = Field(
+        default_factory=list, validation_alias="messageFields", serialization_alias="messageFields"
     )
     publishing: WirelessPublishing | None = None
     broker: GetNetworkWirelessSsidHotspot20ResponseOperator | None = None
@@ -4079,7 +4149,7 @@ class WirelessAc(_BaseSchema):
 class WirelessAddressesNameservers(_BaseSchema):
     """The DNS servers settings for this address."""
 
-    addresses: list[str] | None = None
+    addresses: list[str] = Field(default_factory=list)
 
 
 class WirelessAggregation(_BaseSchema):
@@ -4092,20 +4162,20 @@ class WirelessAggregation(_BaseSchema):
 class WirelessAllowLists(_BaseSchema):
     """Allowed List for MAC and UUID."""
 
-    uuids: list[str] | None = None
-    macs: list[str] | None = None
+    uuids: list[str] = Field(default_factory=list)
+    macs: list[str] = Field(default_factory=list)
 
 
 class WirelessAllowLists2(_BaseSchema):
     """Allowed List for MAC and UUID."""
 
-    macs: list[str] | None = None
+    macs: list[str] = Field(default_factory=list)
 
 
 class WirelessApBandSettingsBands(_BaseSchema):
     """Settings related to all bands."""
 
-    enabled: list[str] | None = None
+    enabled: list[str] = Field(default_factory=list)
 
 
 class WirelessApiValidator(_BaseSchema):
@@ -4119,19 +4189,19 @@ class WirelessAuthenticationTypes(_BaseSchema):
     method category in camelcase as the key and the list of types as the value.
     """
 
-    non_eap_inner_authentication: list[str] | None = Field(
-        default=None,
+    non_eap_inner_authentication: list[str] = Field(
+        default_factory=list,
         validation_alias="nonEapInnerAuthentication",
         serialization_alias="nonEapInnerAuthentication",
     )
-    eap_inner_authentication: list[str] | None = Field(
-        default=None,
+    eap_inner_authentication: list[str] = Field(
+        default_factory=list,
         validation_alias="eapInnerAuthentication",
         serialization_alias="eapInnerAuthentication",
     )
-    credentials: list[str] | None = None
-    tunneled_eap_method_credentials: list[str] | None = Field(
-        default=None,
+    credentials: list[str] = Field(default_factory=list)
+    tunneled_eap_method_credentials: list[str] = Field(
+        default_factory=list,
         validation_alias="tunneledEapMethodCredentials",
         serialization_alias="tunneledEapMethodCredentials",
     )
@@ -4200,8 +4270,8 @@ class WirelessBssidsItem(_BaseSchema):
 
     bssid: str | None = None
     contained: bool | None = None
-    detected_by: list[WirelessDetectedByItem] | None = Field(
-        default=None, validation_alias="detectedBy", serialization_alias="detectedBy"
+    detected_by: list[WirelessDetectedByItem] = Field(
+        default_factory=list, validation_alias="detectedBy", serialization_alias="detectedBy"
     )
 
 
@@ -4222,7 +4292,7 @@ class WirelessBusyHourSchedule(_BaseSchema):
 class WirelessByApTagsItem(_BaseSchema):
     """Schema for WirelessByApTagsItem."""
 
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     vlan_name: str | None = Field(
         default=None, validation_alias="vlanName", serialization_alias="vlanName"
     )
@@ -4363,7 +4433,7 @@ class WirelessGateway(_BaseSchema):
     name: str | None = None
     mac: str | None = None
     serial: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class WirelessGuestVlan(_BaseSchema):
@@ -4473,8 +4543,8 @@ class WirelessMqtt(_BaseSchema):
     )
     enabled: bool | None = None
     topic: str | None = None
-    message_fields: list[str] | None = Field(
-        default=None, validation_alias="messageFields", serialization_alias="messageFields"
+    message_fields: list[str] = Field(
+        default_factory=list, validation_alias="messageFields", serialization_alias="messageFields"
     )
     publishing: WirelessPublishing | None = None
     broker: WirelessDoorLocksNetwork | None = None
@@ -4503,7 +4573,7 @@ class WirelessNetwork(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class WirelessNetwork2(_BaseSchema):

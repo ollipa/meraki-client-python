@@ -17,7 +17,7 @@ from meraki_client.schemas._base import _BaseSchema
 class CheckinNetworkSmDevicesResponse(_BaseSchema):
     """Response for checkinNetworkSmDevices operation."""
 
-    ids: list[str] | None = None
+    ids: list[str] = Field(default_factory=list)
 
 
 class CreateNetworkSmTargetGroupResponse(_BaseSchema):
@@ -26,7 +26,7 @@ class CreateNetworkSmTargetGroupResponse(_BaseSchema):
     id: str | None = None
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class CreateOrganizationSmAdminsRoleResponse(_BaseSchema):
@@ -37,7 +37,7 @@ class CreateOrganizationSmAdminsRoleResponse(_BaseSchema):
     )
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class GetNetworkSmDeviceCellularUsageHistoryResponse(
@@ -263,7 +263,9 @@ class GetNetworkSmDevicePerformanceHistoryResponseItem(_BaseSchema):
 class GetNetworkSmDeviceRestrictionsResponse(_BaseSchema):
     """Response for getNetworkSmDeviceRestrictions operation."""
 
-    restrictions: list[GetNetworkSmDeviceRestrictionsResponseRestrictionsItem] | None = None
+    restrictions: list[GetNetworkSmDeviceRestrictionsResponseRestrictionsItem] = Field(
+        default_factory=list
+    )
 
 
 class GetNetworkSmDeviceRestrictionsResponseRestrictionsItem(_BaseSchema):
@@ -405,7 +407,7 @@ class GetNetworkSmDevicesResponseItem(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     ssid: str | None = None
     wifi_mac: str | None = Field(
         default=None, validation_alias="wifiMac", serialization_alias="wifiMac"
@@ -436,9 +438,9 @@ class GetNetworkSmProfilesResponseItem(_BaseSchema):
     name: str | None = None
     description: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
-    payload_types: list[str] | None = Field(
-        default=None, validation_alias="payloadTypes", serialization_alias="payloadTypes"
+    tags: list[str] = Field(default_factory=list)
+    payload_types: list[str] = Field(
+        default_factory=list, validation_alias="payloadTypes", serialization_alias="payloadTypes"
     )
 
 
@@ -448,7 +450,7 @@ class GetNetworkSmTargetGroupResponse(_BaseSchema):
     id: str | None = None
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class GetNetworkSmTargetGroupsResponse(RootModel[list["GetNetworkSmTargetGroupsResponseItem"]]):
@@ -461,7 +463,7 @@ class GetNetworkSmTargetGroupsResponseItem(_BaseSchema):
     id: str | None = None
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class GetNetworkSmTrustedAccessConfigsResponse(
@@ -479,7 +481,7 @@ class GetNetworkSmTrustedAccessConfigsResponseItem(_BaseSchema):
     )
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     timebound_type: str | None = Field(
         default=None, validation_alias="timeboundType", serialization_alias="timeboundType"
     )
@@ -523,9 +525,9 @@ class GetNetworkSmUserAccessDevicesResponseItem(_BaseSchema):
     mac: str | None = None
     username: str | None = None
     email: str | None = None
-    tags: list[str] | None = None
-    trusted_access_connections: list[SmTrustedAccessConnectionsItem] | None = Field(
-        default=None,
+    tags: list[str] = Field(default_factory=list)
+    trusted_access_connections: list[SmTrustedAccessConnectionsItem] = Field(
+        default_factory=list,
         validation_alias="trustedAccessConnections",
         serialization_alias="trustedAccessConnections",
     )
@@ -639,17 +641,17 @@ class GetNetworkSmUsersResponseItem(_BaseSchema):
         default=None, validation_alias="hasPassword", serialization_alias="hasPassword"
     )
     tags: str | None = None
-    ad_groups: list[str] | None = Field(
-        default=None, validation_alias="adGroups", serialization_alias="adGroups"
+    ad_groups: list[str] = Field(
+        default_factory=list, validation_alias="adGroups", serialization_alias="adGroups"
     )
-    azure_ad_groups: list[str] | None = Field(
-        default=None, validation_alias="azureAdGroups", serialization_alias="azureAdGroups"
+    azure_ad_groups: list[str] = Field(
+        default_factory=list, validation_alias="azureAdGroups", serialization_alias="azureAdGroups"
     )
-    saml_groups: list[str] | None = Field(
-        default=None, validation_alias="samlGroups", serialization_alias="samlGroups"
+    saml_groups: list[str] = Field(
+        default_factory=list, validation_alias="samlGroups", serialization_alias="samlGroups"
     )
-    asm_groups: list[str] | None = Field(
-        default=None, validation_alias="asmGroups", serialization_alias="asmGroups"
+    asm_groups: list[str] = Field(
+        default_factory=list, validation_alias="asmGroups", serialization_alias="asmGroups"
     )
     is_external: bool | None = Field(
         default=None, validation_alias="isExternal", serialization_alias="isExternal"
@@ -675,13 +677,13 @@ class GetOrganizationSmAdminsRoleResponse(_BaseSchema):
     )
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class GetOrganizationSmAdminsRolesResponse(_BaseSchema):
     """Response for getOrganizationSmAdminsRoles operation."""
 
-    items: list[GetOrganizationSmAdminsRolesResponseItemsItem] | None = None
+    items: list[GetOrganizationSmAdminsRolesResponseItemsItem] = Field(default_factory=list)
     meta: GetOrganizationSmAdminsRolesResponseMeta | None = None
 
 
@@ -693,7 +695,7 @@ class GetOrganizationSmAdminsRolesResponseItemsItem(_BaseSchema):
     )
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class GetOrganizationSmAdminsRolesResponseMeta(_BaseSchema):
@@ -717,7 +719,9 @@ class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponse(
 class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem(_BaseSchema):
     """Schema for GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem."""
 
-    items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] | None = None
+    items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] = Field(
+        default_factory=list
+    )
     meta: GetOrganizationSmAdminsRolesResponseMeta | None = None
 
 
@@ -743,8 +747,8 @@ class GetOrganizationSmVppAccountResponse(_BaseSchema):
         validation_alias="assignableNetworks",
         serialization_alias="assignableNetworks",
     )
-    assignable_network_ids: list[str] | None = Field(
-        default=None,
+    assignable_network_ids: list[str] = Field(
+        default_factory=list,
         validation_alias="assignableNetworkIds",
         serialization_alias="assignableNetworkIds",
     )
@@ -797,8 +801,8 @@ class GetOrganizationSmVppAccountsResponseItem(_BaseSchema):
         validation_alias="assignableNetworks",
         serialization_alias="assignableNetworks",
     )
-    assignable_network_ids: list[str] | None = Field(
-        default=None,
+    assignable_network_ids: list[str] = Field(
+        default_factory=list,
         validation_alias="assignableNetworkIds",
         serialization_alias="assignableNetworkIds",
     )
@@ -826,7 +830,7 @@ class GetOrganizationSmVppAccountsResponseItem(_BaseSchema):
 class LockNetworkSmDevicesResponse(_BaseSchema):
     """Response for lockNetworkSmDevices operation."""
 
-    ids: list[str] | None = None
+    ids: list[str] = Field(default_factory=list)
 
 
 class ModifyNetworkSmDevicesTagsResponse(RootModel[list["ModifyNetworkSmDevicesTagsResponseItem"]]):
@@ -837,7 +841,7 @@ class ModifyNetworkSmDevicesTagsResponseItem(_BaseSchema):
     """Schema for ModifyNetworkSmDevicesTagsResponseItem."""
 
     id: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     wifi_mac: str | None = Field(
         default=None, validation_alias="wifiMac", serialization_alias="wifiMac"
     )
@@ -847,7 +851,7 @@ class ModifyNetworkSmDevicesTagsResponseItem(_BaseSchema):
 class MoveNetworkSmDevicesResponse(_BaseSchema):
     """Response for moveNetworkSmDevices operation."""
 
-    ids: list[str] | None = None
+    ids: list[str] = Field(default_factory=list)
     new_network: str | None = Field(
         default=None, validation_alias="newNetwork", serialization_alias="newNetwork"
     )
@@ -856,13 +860,13 @@ class MoveNetworkSmDevicesResponse(_BaseSchema):
 class RebootNetworkSmDevicesResponse(_BaseSchema):
     """Response for rebootNetworkSmDevices operation."""
 
-    ids: list[str] | None = None
+    ids: list[str] = Field(default_factory=list)
 
 
 class ShutdownNetworkSmDevicesResponse(_BaseSchema):
     """Response for shutdownNetworkSmDevices operation."""
 
-    ids: list[str] | None = None
+    ids: list[str] = Field(default_factory=list)
 
 
 class SmC(_BaseSchema):
@@ -917,7 +921,7 @@ class SmPoliciesItem(_BaseSchema):
     sm_network_id: str | None = Field(
         default=None, validation_alias="smNetworkId", serialization_alias="smNetworkId"
     )
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
     scope: str | None = None
     group_number: str | None = Field(
         default=None, validation_alias="groupNumber", serialization_alias="groupNumber"
@@ -990,7 +994,7 @@ class UpdateNetworkSmTargetGroupResponse(_BaseSchema):
     id: str | None = None
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class UpdateOrganizationSmAdminsRoleResponse(_BaseSchema):
@@ -1001,14 +1005,16 @@ class UpdateOrganizationSmAdminsRoleResponse(_BaseSchema):
     )
     name: str | None = None
     scope: str | None = None
-    tags: list[str] | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem(_BaseSchema):
     """Item schema for items."""
 
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
-    policies: list[UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem] | None = None
+    policies: list[UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem(_BaseSchema):
@@ -1028,7 +1034,9 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem(_BaseSc
 class UpdateOrganizationSmSentryPoliciesAssignmentsResponse(_BaseSchema):
     """Response for updateOrganizationSmSentryPoliciesAssignments operation."""
 
-    items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] | None = None
+    items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] = Field(
+        default_factory=list
+    )
 
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem(_BaseSchema):
@@ -1037,7 +1045,7 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem(_BaseSchema
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
-    policies: list[SmPoliciesItem] | None = None
+    policies: list[SmPoliciesItem] = Field(default_factory=list)
 
 
 class WipeNetworkSmDevicesResponse(_BaseSchema):
