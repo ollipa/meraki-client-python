@@ -156,7 +156,7 @@ class Sensor:
 
     async def create_device_sensor_command(
         self, *, serial: str, operation: str
-    ) -> CreateDeviceSensorCommandResponse | None:
+    ) -> CreateDeviceSensorCommandResponse:
         """Sends a command to a sensor.
 
         [API documentation: createDeviceSensorCommand](https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command)
@@ -218,7 +218,7 @@ class Sensor:
 
     async def get_device_sensor_command(
         self, *, serial: str, command_id: str
-    ) -> GetDeviceSensorCommandResponse | None:
+    ) -> GetDeviceSensorCommandResponse:
         """Returns information about the command's execution, including the status.
 
         [API documentation: getDeviceSensorCommand](https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-command)
@@ -261,7 +261,7 @@ class Sensor:
 
     async def get_device_sensor_relationships(
         self, serial: str
-    ) -> GetDeviceSensorRelationshipsResponse | None:
+    ) -> GetDeviceSensorRelationshipsResponse:
         """List the sensor roles for a given sensor or camera device.
 
         [API documentation: getDeviceSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-relationships)
@@ -299,7 +299,7 @@ class Sensor:
 
     async def update_device_sensor_relationships(
         self, serial: str, *, livestream: UpdateDeviceSensorRelationshipsLivestream | None = None
-    ) -> UpdateDeviceSensorRelationshipsResponse | None:
+    ) -> UpdateDeviceSensorRelationshipsResponse:
         """Assign one or more sensor roles to a given sensor or camera device.
 
         [API documentation: updateDeviceSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships)
@@ -345,7 +345,7 @@ class Sensor:
 
     async def get_network_sensor_alerts_current_overview_by_metric(
         self, network_id: str
-    ) -> GetNetworkSensorAlertsCurrentOverviewByMetricResponse | None:
+    ) -> GetNetworkSensorAlertsCurrentOverviewByMetricResponse:
         """Return an overview of currently alerting sensors by metric.
 
         [API documentation: getNetworkSensorAlertsCurrentOverviewByMetric](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-current-overview-by-metric)
@@ -613,7 +613,7 @@ class Sensor:
         serials: list[str] | None = None,
         include_sensor_url: bool | None = None,
         message: str | None = None,
-    ) -> CreateNetworkSensorAlertsProfileResponse | None:
+    ) -> CreateNetworkSensorAlertsProfileResponse:
         """Creates a sensor alert profile for a network.
 
         [API documentation: createNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile)
@@ -760,7 +760,7 @@ class Sensor:
 
     async def get_network_sensor_alerts_profile(
         self, *, network_id: str, id: str
-    ) -> GetNetworkSensorAlertsProfileResponse | None:
+    ) -> GetNetworkSensorAlertsProfileResponse:
         """Show details of a sensor alert profile for a network.
 
         [API documentation: getNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profile)
@@ -893,7 +893,7 @@ class Sensor:
         serials: list[str] | None = None,
         include_sensor_url: bool | None = None,
         message: str | None = None,
-    ) -> UpdateNetworkSensorAlertsProfileResponse | None:
+    ) -> UpdateNetworkSensorAlertsProfileResponse:
         """Updates a sensor alert profile for a network.
 
         [API documentation: updateNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile)
@@ -1097,7 +1097,7 @@ class Sensor:
 
     async def get_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str
-    ) -> GetNetworkSensorMqttBrokerResponse | None:
+    ) -> GetNetworkSensorMqttBrokerResponse:
         """Return the sensor settings of an MQTT broker.
 
         [API documentation: getNetworkSensorMqttBroker](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-broker)
@@ -1131,7 +1131,7 @@ class Sensor:
 
     async def update_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str, enabled: bool
-    ) -> UpdateNetworkSensorMqttBrokerResponse | None:
+    ) -> UpdateNetworkSensorMqttBrokerResponse:
         """Update the sensor settings of an MQTT broker.
 
         [API documentation: updateNetworkSensorMqttBroker](https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker)

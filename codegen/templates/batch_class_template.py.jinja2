@@ -10,6 +10,7 @@ from typing import Any, Literal
 
 from meraki_client.schemas import (
     CreateOrganizationActionBatchActionsItem,
+    DictResponse,
 {% for schema in schemas_used %}
     {{ schema }},
 {% endfor %}

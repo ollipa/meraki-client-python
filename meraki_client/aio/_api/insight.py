@@ -188,7 +188,7 @@ class Insight:
         name: str,
         address: str,
         best_effort_monitoring_enabled: bool | None = None,
-    ) -> CreateOrganizationInsightMonitoredMediaServerResponse | None:
+    ) -> CreateOrganizationInsightMonitoredMediaServerResponse:
         """Add a media server to be monitored for this organization.
 
         [API documentation: createOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server)
@@ -235,7 +235,7 @@ class Insight:
 
     async def get_organization_insight_monitored_media_server(
         self, *, organization_id: str, monitored_media_server_id: str
-    ) -> GetOrganizationInsightMonitoredMediaServerResponse | None:
+    ) -> GetOrganizationInsightMonitoredMediaServerResponse:
         """Return a monitored media server for this organization.
 
         [API documentation: getOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-server)
@@ -277,7 +277,7 @@ class Insight:
         name: str | None = None,
         address: str | None = None,
         best_effort_monitoring_enabled: bool | None = None,
-    ) -> UpdateOrganizationInsightMonitoredMediaServerResponse | None:
+    ) -> UpdateOrganizationInsightMonitoredMediaServerResponse:
         """Update a monitored media server for this organization.
 
         [API documentation: updateOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server)

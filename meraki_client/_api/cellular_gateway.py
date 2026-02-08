@@ -53,9 +53,7 @@ class CellularGateway:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device_cellular_gateway_lan(
-        self, serial: str
-    ) -> GetDeviceCellularGatewayLanResponse | None:
+    def get_device_cellular_gateway_lan(self, serial: str) -> GetDeviceCellularGatewayLanResponse:
         """Show the LAN Settings of a MG.
 
         [API documentation: getDeviceCellularGatewayLan](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-lan)
@@ -107,7 +105,7 @@ class CellularGateway:
         reserved_ip_ranges: list[UpdateDeviceCellularGatewayLanReservedIpRangesItem] | None = None,
         fixed_ip_assignments: list[UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem]
         | None = None,
-    ) -> UpdateDeviceCellularGatewayLanResponse | None:
+    ) -> UpdateDeviceCellularGatewayLanResponse:
         """Update the LAN Settings for a single MG.
 
         [API documentation: updateDeviceCellularGatewayLan](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan)
@@ -167,7 +165,7 @@ class CellularGateway:
 
     def get_device_cellular_gateway_port_forwarding_rules(
         self, serial: str
-    ) -> GetDeviceCellularGatewayPortForwardingRulesResponse | None:
+    ) -> GetDeviceCellularGatewayPortForwardingRulesResponse:
         """Returns the port forwarding rules for a single MG.
 
         [API documentation: getDeviceCellularGatewayPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-port-forwarding-rules)
@@ -214,7 +212,7 @@ class CellularGateway:
         serial: str,
         *,
         rules: list[UpdateDeviceCellularGatewayPortForwardingRulesRulesItem] | None = None,
-    ) -> UpdateDeviceCellularGatewayPortForwardingRulesResponse | None:
+    ) -> UpdateDeviceCellularGatewayPortForwardingRulesResponse:
         """Updates the port forwarding rules for a single MG.
 
         [API documentation: updateDeviceCellularGatewayPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules)
@@ -264,7 +262,7 @@ class CellularGateway:
 
     def get_network_cellular_gateway_connectivity_monitoring_destinations(
         self, network_id: str
-    ) -> GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse | None:
+    ) -> GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse:
         """Return the connectivity testing destinations for an MG network.
 
         [API documentation: getNetworkCellularGatewayConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-connectivity-monitoring-destinations)
@@ -307,7 +305,7 @@ class CellularGateway:
             UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinationsItem
         ]
         | None = None,
-    ) -> UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse | None:
+    ) -> UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse:
         """Update the connectivity testing destinations for an MG network.
 
         [API documentation: updateNetworkCellularGatewayConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations)
@@ -352,7 +350,7 @@ class CellularGateway:
 
     def get_network_cellular_gateway_dhcp(
         self, network_id: str
-    ) -> GetNetworkCellularGatewayDhcpResponse | None:
+    ) -> GetNetworkCellularGatewayDhcpResponse:
         """List common DHCP settings of MGs.
 
         [API documentation: getNetworkCellularGatewayDhcp](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-dhcp)
@@ -393,7 +391,7 @@ class CellularGateway:
         dhcp_lease_time: str | None = None,
         dns_nameservers: str | None = None,
         dns_custom_nameservers: list[str] | None = None,
-    ) -> UpdateNetworkCellularGatewayDhcpResponse | None:
+    ) -> UpdateNetworkCellularGatewayDhcpResponse:
         """Update common DHCP settings of MGs.
 
         [API documentation: updateNetworkCellularGatewayDhcp](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp)
@@ -444,7 +442,7 @@ class CellularGateway:
 
     def get_network_cellular_gateway_subnet_pool(
         self, network_id: str
-    ) -> GetNetworkCellularGatewaySubnetPoolResponse | None:
+    ) -> GetNetworkCellularGatewaySubnetPoolResponse:
         """Return the subnet pool and mask configured for MGs in the network.
 
         [API documentation: getNetworkCellularGatewaySubnetPool](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-subnet-pool)
@@ -485,7 +483,7 @@ class CellularGateway:
 
     def update_network_cellular_gateway_subnet_pool(
         self, network_id: str, *, mask: int | None = None, cidr: str | None = None
-    ) -> UpdateNetworkCellularGatewaySubnetPoolResponse | None:
+    ) -> UpdateNetworkCellularGatewaySubnetPoolResponse:
         """Update the subnet pool and mask configuration for MGs in the network.
 
         [API documentation: updateNetworkCellularGatewaySubnetPool](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool)
@@ -536,7 +534,7 @@ class CellularGateway:
 
     def get_network_cellular_gateway_uplink(
         self, network_id: str
-    ) -> GetNetworkCellularGatewayUplinkResponse | None:
+    ) -> GetNetworkCellularGatewayUplinkResponse:
         """Returns the uplink settings for your MG network.
 
         [API documentation: getNetworkCellularGatewayUplink](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-uplink)
@@ -573,7 +571,7 @@ class CellularGateway:
         network_id: str,
         *,
         bandwidth_limits: UpdateNetworkCellularGatewayUplinkBandwidthLimits | None = None,
-    ) -> UpdateNetworkCellularGatewayUplinkResponse | None:
+    ) -> UpdateNetworkCellularGatewayUplinkResponse:
         """Updates the uplink settings for your MG network.
 
         [API documentation: updateNetworkCellularGatewayUplink](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink)
@@ -615,7 +613,7 @@ class CellularGateway:
 
     def get_organization_cellular_gateway_esims_inventory(
         self, organization_id: str, *, eids: list[str] | None = None
-    ) -> GetOrganizationCellularGatewayEsimsInventoryResponse | None:
+    ) -> GetOrganizationCellularGatewayEsimsInventoryResponse:
         """The eSIM inventory of a given organization.
 
         [API documentation: getOrganizationCellularGatewayEsimsInventory](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-inventory)
@@ -694,7 +692,7 @@ class CellularGateway:
 
     def update_organization_cellular_gateway_esims_inventory(
         self, *, organization_id: str, id: str, status: str | None = None
-    ) -> UpdateOrganizationCellularGatewayEsimsInventoryResponse | None:
+    ) -> UpdateOrganizationCellularGatewayEsimsInventoryResponse:
         """Toggle the status of an eSIM.
 
         [API documentation: updateOrganizationCellularGatewayEsimsInventory](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-inventory)
@@ -763,7 +761,7 @@ class CellularGateway:
 
     def get_organization_cellular_gateway_esims_service_providers(
         self, organization_id: str
-    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersResponse | None:
+    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersResponse:
         """Service providers customers can add accounts for.
 
         [API documentation: getOrganizationCellularGatewayEsimsServiceProviders](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers)
@@ -891,7 +889,7 @@ class CellularGateway:
         service_provider: CreateOrganizationCellularGatewayEsimsServiceProvidersAccountServiceProvider,
         title: str,
         username: str,
-    ) -> CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse | None:
+    ) -> CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse:
         """Add a service provider account.
 
         [API documentation: createOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-service-providers-account)
@@ -951,9 +949,7 @@ class CellularGateway:
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
         self, *, organization_id: str, account_ids: list[str]
-    ) -> (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse | None
-    ):
+    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse:
         """The communication plans available for a given provider.
 
         [API documentation: getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts-communication-plans)
@@ -1008,7 +1004,7 @@ class CellularGateway:
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans(
         self, *, organization_id: str, account_ids: list[str]
-    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse | None:
+    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse:
         """The rate plans available for a given provider.
 
         [API documentation: getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts-rate-plans)
@@ -1063,7 +1059,7 @@ class CellularGateway:
         account_id: str,
         title: str | None = None,
         api_key: str | None = None,
-    ) -> UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse | None:
+    ) -> UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse:
         """Edit service provider account info stored in Meraki's database.
 
         [API documentation: updateOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-service-providers-account)
@@ -1142,7 +1138,7 @@ class CellularGateway:
         *,
         organization_id: str,
         swaps: list[CreateOrganizationCellularGatewayEsimsSwapSwapsItem],
-    ) -> CreateOrganizationCellularGatewayEsimsSwapResponse | None:
+    ) -> CreateOrganizationCellularGatewayEsimsSwapResponse:
         """Swap which profile an eSIM uses.
 
         [API documentation: createOrganizationCellularGatewayEsimsSwap](https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap)
@@ -1181,7 +1177,7 @@ class CellularGateway:
 
     def update_organization_cellular_gateway_esims_swap(
         self, *, id: str, organization_id: str
-    ) -> UpdateOrganizationCellularGatewayEsimsSwapResponse | None:
+    ) -> UpdateOrganizationCellularGatewayEsimsSwapResponse:
         """Get the status of a profile swap.
 
         [API documentation: updateOrganizationCellularGatewayEsimsSwap](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap)

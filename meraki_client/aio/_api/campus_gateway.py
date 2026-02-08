@@ -48,7 +48,7 @@ class CampusGateway:
         port_channels: list[CreateNetworkCampusGatewayClusterPortChannelsItem],
         devices: list[CreateNetworkCampusGatewayClusterDevicesItem] | None = None,
         notes: str | None = None,
-    ) -> CreateNetworkCampusGatewayClusterResponse | None:
+    ) -> CreateNetworkCampusGatewayClusterResponse:
         """Create a cluster and add campus gateways to it.
 
         [API documentation: createNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster)
@@ -197,7 +197,7 @@ class CampusGateway:
         port_channels: list[UpdateNetworkCampusGatewayClusterPortChannelsItem] | None = None,
         devices: list[UpdateNetworkCampusGatewayClusterDevicesItem] | None = None,
         notes: str | None = None,
-    ) -> UpdateNetworkCampusGatewayClusterResponse | None:
+    ) -> UpdateNetworkCampusGatewayClusterResponse:
         """Update a cluster and add/remove campus gateways to/from it.
 
         [API documentation: updateNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster)

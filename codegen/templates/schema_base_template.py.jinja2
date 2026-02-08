@@ -13,3 +13,8 @@ class _BaseSchema(BaseModel):
     """Base class for all response schemas."""
 
     model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+class DictResponse(RootModel):
+    """Response schema for responses that are missing type information in the OpenAPI spec."""
+
+    root: dict[str, Any]

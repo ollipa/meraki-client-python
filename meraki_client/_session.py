@@ -10,7 +10,7 @@ import time
 import urllib.parse
 from collections.abc import Callable, Iterator
 from datetime import UTC, datetime
-from typing import Any, Generic, Literal, Self, TypeVar
+from typing import Any, Generic, Literal, Self, TypeVar, overload
 
 import httpx
 import pydantic
@@ -264,6 +264,27 @@ class Session:
             f"Maximum number of retries reached: {retries}. This should never happen."
         )
 
+    @overload
+    def get(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        params: dict[str, Any] | None = None,
+    ) -> None: ...
+
+    @overload
+    def get(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        params: dict[str, Any] | None = None,
+        response_schema: type[T],
+    ) -> T: ...
+
     def get(
         self,
         *,
@@ -277,7 +298,7 @@ class Session:
         response = self._request(
             operation=f"{scope}.{operation_id}", method="GET", path=path, params=params
         )
-        if response.status_code == 204 or not response.content.strip() or response_schema is None:
+        if response_schema is None:
             return None
         try:
             return response_schema.model_validate_json(response.text)
@@ -390,6 +411,27 @@ class Session:
 
         return PaginatedResponse(fetch_pages)
 
+    @overload
+    def post(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        json: dict[str, Any] | None = None,
+    ) -> None: ...
+
+    @overload
+    def post(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        json: dict[str, Any] | None = None,
+        response_schema: type[T],
+    ) -> T: ...
+
     def post(
         self,
         *,
@@ -403,7 +445,7 @@ class Session:
         response = self._request(
             operation=f"{scope}.{operation_id}", method="POST", path=path, json=json
         )
-        if response.status_code == 204 or not response.content.strip() or response_schema is None:
+        if response_schema is None:
             return None
         try:
             return response_schema.model_validate_json(response.text)
@@ -413,6 +455,27 @@ class Session:
                 cause=e,
                 response_body=response.text,
             ) from e
+
+    @overload
+    def put(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        json: dict[str, Any] | None = None,
+    ) -> None: ...
+
+    @overload
+    def put(
+        self,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
+        json: dict[str, Any] | None = None,
+        response_schema: type[T],
+    ) -> T: ...
 
     def put(
         self,
@@ -427,7 +490,7 @@ class Session:
         response = self._request(
             operation=f"{scope}.{operation_id}", method="PUT", path=path, json=json
         )
-        if response.status_code == 204 or not response.content.strip() or response_schema is None:
+        if response_schema is None:
             return None
         try:
             return response_schema.model_validate_json(response.text)

@@ -448,6 +448,8 @@ def generate_module(  # noqa: PLR0915
             response_schema_name = None
             item_schema_name = None
             has_untyped_response = operation_id in schema_registry.untyped_response_ops
+            if has_untyped_response:
+                response_schema_name = "DictResponse"
             if method != "delete":
                 schema_name = get_response_schema_name(operation_id)
                 if schema_name in schema_registry.schema_names:
@@ -519,7 +521,6 @@ def generate_module(  # noqa: PLR0915
                         is_async=False,
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
-                        has_untyped_response=has_untyped_response,
                     ),
                     is_async=False,
                     is_paginated=is_paginated,
@@ -537,7 +538,6 @@ def generate_module(  # noqa: PLR0915
                         is_async=True,
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
-                        has_untyped_response=has_untyped_response,
                     ),
                     is_async=True,
                     is_paginated=is_paginated,
@@ -899,7 +899,6 @@ def get_return_type(
     is_async: bool,
     response_schema_name: str | None = None,
     item_schema_name: str | None = None,
-    has_untyped_response: bool = False,
 ) -> str:
     """Get the return type for a function."""
     if method == "delete":
@@ -911,9 +910,7 @@ def get_return_type(
             else f"PaginatedResponse[{item_schema_name}]"
         )
     if response_schema_name:
-        return f"{response_schema_name} | None"
-    if has_untyped_response:
-        return "dict[str, Any] | None"
+        return f"{response_schema_name}"
     return "None"
 
 

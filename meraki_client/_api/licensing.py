@@ -224,7 +224,7 @@ class Licensing:
         validate: bool | None = None,
         name: str | None = None,
         description: str | None = None,
-    ) -> ClaimAdministeredLicensingSubscriptionSubscriptionsResponse | None:
+    ) -> ClaimAdministeredLicensingSubscriptionSubscriptionsResponse:
         """Claim a subscription into an organization.
 
         [API documentation: claimAdministeredLicensingSubscriptionSubscriptions](https://developer.cisco.com/meraki/api-v1/#!claim-administered-licensing-subscription-subscriptions)
@@ -318,7 +318,7 @@ class Licensing:
 
     def validate_administered_licensing_subscription_subscriptions_claim_key(
         self, claim_key: str
-    ) -> ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse | None:
+    ) -> ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse:
         """Find a subscription by claim key.
 
         [API documentation: validateAdministeredLicensingSubscriptionSubscriptionsClaimKey](https://developer.cisco.com/meraki/api-v1/#!validate-administered-licensing-subscription-subscriptions-claim-key)
@@ -463,7 +463,7 @@ class Licensing:
         *,
         validate: bool | None = None,
         network_ids: list[str] | None = None,
-    ) -> BindAdministeredLicensingSubscriptionSubscriptionResponse | None:
+    ) -> BindAdministeredLicensingSubscriptionSubscriptionResponse:
         """Bind networks to a subscription.
 
         [API documentation: bindAdministeredLicensingSubscriptionSubscription](https://developer.cisco.com/meraki/api-v1/#!bind-administered-licensing-subscription-subscription)
@@ -617,7 +617,7 @@ class Licensing:
         organization_id: str,
         destination: MoveOrganizationLicensingCotermLicensesDestination,
         licenses: list[MoveOrganizationLicensingCotermLicensesLicensesItem],
-    ) -> MoveOrganizationLicensingCotermLicensesResponse | None:
+    ) -> MoveOrganizationLicensingCotermLicensesResponse:
         """Moves a license to a different organization (coterm only).
 
         [API documentation: moveOrganizationLicensingCotermLicenses](https://developer.cisco.com/meraki/api-v1/#!move-organization-licensing-coterm-licenses)

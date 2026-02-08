@@ -27,7 +27,7 @@ class Spaces:
 
     def get_organization_spaces_integrate_status(
         self, organization_id: str
-    ) -> GetOrganizationSpacesIntegrateStatusResponse | None:
+    ) -> GetOrganizationSpacesIntegrateStatusResponse:
         """Get the status of the Spaces integration in Meraki.
 
         [API documentation: getOrganizationSpacesIntegrateStatus](https://developer.cisco.com/meraki/api-v1/#!get-organization-spaces-integrate-status)
@@ -67,7 +67,7 @@ class Spaces:
 
     def remove_organization_spaces_integration(
         self, organization_id: str
-    ) -> RemoveOrganizationSpacesIntegrationResponse | None:
+    ) -> RemoveOrganizationSpacesIntegrationResponse:
         """Remove the Spaces integration from Meraki.
 
         [API documentation: removeOrganizationSpacesIntegration](https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration)

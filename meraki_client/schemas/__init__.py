@@ -313,7 +313,7 @@ from meraki_client.schemas._appliance import (
     UpdateOrganizationApplianceVpnVpnFirewallRulesResponse,
     UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem,
 )
-from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._base import DictResponse
 from meraki_client.schemas._camera import (
     CameraAppliedOnDevicesItem,
     CameraAppliedOrgWideItem,
@@ -2707,6 +2707,7 @@ __all__ = [
     "DevicesSimsApnsItem",
     "DevicesUsage",
     "DevicesWan1Vrf",
+    "DictResponse",
     "DisableOrganizationIntegrationsXdrNetworksNetworksItem",
     "DisableOrganizationIntegrationsXdrNetworksResponse",
     "EnableOrganizationIntegrationsXdrNetworksNetworksItem",
@@ -4525,5 +4526,4 @@ __all__ = [
     "WirelessUsbPortsItem",
     "WirelessWifi",
     "WirelessWifi2",
-    "_BaseSchema",
 ]

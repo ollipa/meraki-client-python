@@ -65,7 +65,7 @@ class Devices:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device(self, serial: str) -> GetDeviceResponse | None:
+    def get_device(self, serial: str) -> GetDeviceResponse:
         """Return a single device.
 
         [API documentation: getDevice](https://developer.cisco.com/meraki/api-v1/#!get-device)
@@ -129,7 +129,7 @@ class Devices:
         move_map_marker: bool | None = None,
         switch_profile_id: str | None = None,
         floor_plan_id: str | None = None,
-    ) -> UpdateDeviceResponse | None:
+    ) -> UpdateDeviceResponse:
         """Update the attributes of a device.
 
         [API documentation: updateDevice](https://developer.cisco.com/meraki/api-v1/#!update-device)
@@ -226,7 +226,7 @@ class Devices:
         duration: int | None = None,
         period: int | None = None,
         duty: int | None = None,
-    ) -> BlinkDeviceLedsResponse | None:
+    ) -> BlinkDeviceLedsResponse:
         """Blink the LEDs on a device.
 
         [API documentation: blinkDeviceLeds](https://developer.cisco.com/meraki/api-v1/#!blink-device-leds)
@@ -270,7 +270,7 @@ class Devices:
             response_schema=BlinkDeviceLedsResponse,
         )
 
-    def get_device_cellular_sims(self, serial: str) -> GetDeviceCellularSimsResponse | None:
+    def get_device_cellular_sims(self, serial: str) -> GetDeviceCellularSimsResponse:
         """Return the SIM and APN configurations for a cellular device.
 
         [API documentation: getDeviceCellularSims](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims)
@@ -338,7 +338,7 @@ class Devices:
         sims: list[UpdateDeviceCellularSimsSimsItem] | None = None,
         sim_ordering: list[str] | None = None,
         sim_failover: UpdateDeviceCellularSimsSimFailover | None = None,
-    ) -> UpdateDeviceCellularSimsResponse | None:
+    ) -> UpdateDeviceCellularSimsResponse:
         """Updates the SIM and APN configurations for a cellular device.
 
         [API documentation: updateDeviceCellularSims](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-sims)
@@ -477,7 +477,7 @@ class Devices:
 
     def create_device_live_tools_arp_table(
         self, serial: str, *, callback: CreateDeviceLiveToolsArpTableCallback | None = None
-    ) -> CreateDeviceLiveToolsArpTableResponse | None:
+    ) -> CreateDeviceLiveToolsArpTableResponse:
         """Enqueue a job to perform a ARP table request for the device.
 
         [API documentation: createDeviceLiveToolsArpTable](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-arp-table)
@@ -525,7 +525,7 @@ class Devices:
 
     def get_device_live_tools_arp_table(
         self, *, serial: str, arp_table_id: str
-    ) -> GetDeviceLiveToolsArpTableResponse | None:
+    ) -> GetDeviceLiveToolsArpTableResponse:
         """Return an ARP table live tool job.
 
         [API documentation: getDeviceLiveToolsArpTable](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-arp-table)
@@ -577,7 +577,7 @@ class Devices:
         serial: str,
         ports: list[str],
         callback: CreateDeviceLiveToolsCableTestCallback | None = None,
-    ) -> CreateDeviceLiveToolsCableTestResponse | None:
+    ) -> CreateDeviceLiveToolsCableTestResponse:
         """Enqueue a job to perform a cable test for the device on the specified ports.
 
         [API documentation: createDeviceLiveToolsCableTest](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-cable-test)
@@ -634,7 +634,7 @@ class Devices:
 
     def get_device_live_tools_cable_test(
         self, *, serial: str, id: str
-    ) -> GetDeviceLiveToolsCableTestResponse | None:
+    ) -> GetDeviceLiveToolsCableTestResponse:
         """Return a cable test live tool job.
 
         [API documentation: getDeviceLiveToolsCableTest](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-cable-test)
@@ -696,7 +696,7 @@ class Devices:
         serial: str,
         duration: int,
         callback: CreateDeviceLiveToolsLedsBlinkCallback | None = None,
-    ) -> CreateDeviceLiveToolsLedsBlinkResponse | None:
+    ) -> CreateDeviceLiveToolsLedsBlinkResponse:
         """Enqueue a job to blink LEDs on a device.
 
         [API documentation: createDeviceLiveToolsLedsBlink](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink)
@@ -749,7 +749,7 @@ class Devices:
 
     def get_device_live_tools_leds_blink(
         self, *, serial: str, leds_blink_id: str
-    ) -> GetDeviceLiveToolsLedsBlinkResponse | None:
+    ) -> GetDeviceLiveToolsLedsBlinkResponse:
         """Return a blink LEDs job.
 
         [API documentation: getDeviceLiveToolsLedsBlink](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-leds-blink)
@@ -789,7 +789,7 @@ class Devices:
 
     def create_device_live_tools_mac_table(
         self, serial: str, *, callback: CreateDeviceLiveToolsMacTableCallback | None = None
-    ) -> CreateDeviceLiveToolsMacTableResponse | None:
+    ) -> CreateDeviceLiveToolsMacTableResponse:
         """Enqueue a job to request the MAC table from the device.
 
         [API documentation: createDeviceLiveToolsMacTable](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-mac-table)
@@ -837,7 +837,7 @@ class Devices:
 
     def get_device_live_tools_mac_table(
         self, *, serial: str, mac_table_id: str
-    ) -> GetDeviceLiveToolsMacTableResponse | None:
+    ) -> GetDeviceLiveToolsMacTableResponse:
         """Return a MAC table live tool job.
 
         [API documentation: getDeviceLiveToolsMacTable](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-mac-table)
@@ -883,7 +883,7 @@ class Devices:
 
     def create_device_live_tools_multicast_routing(
         self, serial: str, *, callback: CreateDeviceLiveToolsMulticastRoutingCallback | None = None
-    ) -> CreateDeviceLiveToolsMulticastRoutingResponse | None:
+    ) -> CreateDeviceLiveToolsMulticastRoutingResponse:
         """Enqueue a job to perform a Multicast routing request for the device.
 
         [API documentation: createDeviceLiveToolsMulticastRouting](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-multicast-routing)
@@ -931,7 +931,7 @@ class Devices:
 
     def get_device_live_tools_multicast_routing(
         self, *, serial: str, multicast_routing_id: str
-    ) -> GetDeviceLiveToolsMulticastRoutingResponse | None:
+    ) -> GetDeviceLiveToolsMulticastRoutingResponse:
         """Return a Multicast routing live tool job.
 
         [API documentation: getDeviceLiveToolsMulticastRouting](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-multicast-routing)
@@ -1003,7 +1003,7 @@ class Devices:
         target: str,
         count: int | None = None,
         callback: CreateDeviceLiveToolsPingCallback | None = None,
-    ) -> CreateDeviceLiveToolsPingResponse | None:
+    ) -> CreateDeviceLiveToolsPingResponse:
         """Enqueue a job to ping a target host from the device.
 
         [API documentation: createDeviceLiveToolsPing](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping)
@@ -1057,9 +1057,7 @@ class Devices:
             response_schema=CreateDeviceLiveToolsPingResponse,
         )
 
-    def get_device_live_tools_ping(
-        self, *, serial: str, id: str
-    ) -> GetDeviceLiveToolsPingResponse | None:
+    def get_device_live_tools_ping(self, *, serial: str, id: str) -> GetDeviceLiveToolsPingResponse:
         """Return a ping job.
 
         [API documentation: getDeviceLiveToolsPing](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping)
@@ -1122,7 +1120,7 @@ class Devices:
         *,
         count: int | None = None,
         callback: CreateDeviceLiveToolsPingDeviceCallback | None = None,
-    ) -> CreateDeviceLiveToolsPingDeviceResponse | None:
+    ) -> CreateDeviceLiveToolsPingDeviceResponse:
         """Enqueue a job to check connectivity status to the device.
 
         [API documentation: createDeviceLiveToolsPingDevice](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping-device)
@@ -1174,7 +1172,7 @@ class Devices:
 
     def get_device_live_tools_ping_device(
         self, *, serial: str, id: str
-    ) -> GetDeviceLiveToolsPingDeviceResponse | None:
+    ) -> GetDeviceLiveToolsPingDeviceResponse:
         """Return a ping device job.
 
         [API documentation: getDeviceLiveToolsPingDevice](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping-device)
@@ -1237,7 +1235,7 @@ class Devices:
 
     def create_device_live_tools_throughput_test(
         self, serial: str, *, callback: CreateDeviceLiveToolsThroughputTestCallback | None = None
-    ) -> CreateDeviceLiveToolsThroughputTestResponse | None:
+    ) -> CreateDeviceLiveToolsThroughputTestResponse:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
         [API documentation: createDeviceLiveToolsThroughputTest](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test)
@@ -1291,7 +1289,7 @@ class Devices:
 
     def get_device_live_tools_throughput_test(
         self, *, serial: str, throughput_test_id: str
-    ) -> GetDeviceLiveToolsThroughputTestResponse | None:
+    ) -> GetDeviceLiveToolsThroughputTestResponse:
         """Return a throughput test job.
 
         [API documentation: getDeviceLiveToolsThroughputTest](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-throughput-test)
@@ -1340,7 +1338,7 @@ class Devices:
         vlan_id: int,
         mac: str,
         callback: CreateDeviceLiveToolsWakeOnLanCallback | None = None,
-    ) -> CreateDeviceLiveToolsWakeOnLanResponse | None:
+    ) -> CreateDeviceLiveToolsWakeOnLanResponse:
         """Enqueue a job to send a Wake-on-LAN packet from the device.
 
         [API documentation: createDeviceLiveToolsWakeOnLan](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-wake-on-lan)
@@ -1397,7 +1395,7 @@ class Devices:
 
     def get_device_live_tools_wake_on_lan(
         self, *, serial: str, wake_on_lan_id: str
-    ) -> GetDeviceLiveToolsWakeOnLanResponse | None:
+    ) -> GetDeviceLiveToolsWakeOnLanResponse:
         """Return a Wake-on-LAN job.
 
         [API documentation: getDeviceLiveToolsWakeOnLan](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-wake-on-lan)
@@ -1436,7 +1434,7 @@ class Devices:
             response_schema=GetDeviceLiveToolsWakeOnLanResponse,
         )
 
-    def get_device_lldp_cdp(self, serial: str) -> GetDeviceLldpCdpResponse | None:
+    def get_device_lldp_cdp(self, serial: str) -> GetDeviceLldpCdpResponse:
         """List LLDP and CDP information for a device.
 
         [API documentation: getDeviceLldpCdp](https://developer.cisco.com/meraki/api-v1/#!get-device-lldp-cdp)
@@ -1575,9 +1573,7 @@ class Devices:
             item_schema=GetDeviceLossAndLatencyHistoryResponseItem,
         )
 
-    def get_device_management_interface(
-        self, serial: str
-    ) -> GetDeviceManagementInterfaceResponse | None:
+    def get_device_management_interface(self, serial: str) -> GetDeviceManagementInterfaceResponse:
         """Return the management interface settings for a device.
 
         [API documentation: getDeviceManagementInterface](https://developer.cisco.com/meraki/api-v1/#!get-device-management-interface)
@@ -1646,7 +1642,7 @@ class Devices:
         *,
         wan1: UpdateDeviceManagementInterfaceWan1 | None = None,
         wan2: UpdateDeviceManagementInterfaceWan2 | None = None,
-    ) -> UpdateDeviceManagementInterfaceResponse | None:
+    ) -> UpdateDeviceManagementInterfaceResponse:
         """Update the management interface settings for a device.
 
         [API documentation: updateDeviceManagementInterface](https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface)
@@ -1718,7 +1714,7 @@ class Devices:
             response_schema=UpdateDeviceManagementInterfaceResponse,
         )
 
-    def reboot_device(self, serial: str) -> RebootDeviceResponse | None:
+    def reboot_device(self, serial: str) -> RebootDeviceResponse:
         """Reboot a device.
 
         [API documentation: rebootDevice](https://developer.cisco.com/meraki/api-v1/#!reboot-device)

@@ -26,7 +26,7 @@ class Administered:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_administered_identities_me(self) -> GetAdministeredIdentitiesMeResponse | None:
+    async def get_administered_identities_me(self) -> GetAdministeredIdentitiesMeResponse:
         """Returns the identity of the current user.
 
         [API documentation: getAdministeredIdentitiesMe](https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me)
@@ -99,7 +99,7 @@ class Administered:
 
     async def generate_administered_identities_me_api_keys(
         self,
-    ) -> GenerateAdministeredIdentitiesMeApiKeysResponse | None:
+    ) -> GenerateAdministeredIdentitiesMeApiKeysResponse:
         """Generates an API key for an identity.
 
         [API documentation: generateAdministeredIdentitiesMeApiKeys](https://developer.cisco.com/meraki/api-v1/#!generate-administered-identities-me-api-keys)

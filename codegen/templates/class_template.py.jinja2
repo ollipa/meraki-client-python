@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any, Literal
 
 {% if schemas_used %}
 from meraki_client.schemas import (
+    DictResponse,
 {% for schema in schemas_used %}
     {{ schema }},
 {% endfor %}
