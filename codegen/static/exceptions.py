@@ -23,7 +23,7 @@ class _ErrorResponse(pydantic.BaseModel):
 class MerakiException(Exception):
     """Base exception for all Meraki API exceptions."""
 
-    def __init__(self, *args: Any, cause: dict[str, Any] | Exception | None = None) -> None:
+    def __init__(self, *args: Any, cause: Exception | None = None) -> None:
         """Initialize MerakiError with cause.
 
         Args:
@@ -31,7 +31,7 @@ class MerakiException(Exception):
             cause: Exception that caused the exception if available.
 
         """
-        self.cause: dict[str, Any] | Exception | None = cause
+        self.cause: Exception | None = cause
         super().__init__(*args)
 
 
@@ -41,7 +41,7 @@ class MerakiHTTPError(MerakiException):
     def __init__(
         self,
         *args: Any,
-        cause: dict[str, Any] | Exception | None = None,
+        cause: Exception | None = None,
         response: httpx.Response | None = None,
     ) -> None:
         """Initialize MerakiHTTPError with cause.
@@ -52,7 +52,6 @@ class MerakiHTTPError(MerakiException):
             response: HTTP Response object.
 
         """
-        self.cause: dict[str, Any] | Exception | None = cause
         self.response: httpx.Response | None = response
         self.status_code: int | None = None
         self.reason: str | None = None
@@ -108,6 +107,7 @@ class InvalidResponseError(MerakiException):
         *,
         cause: pydantic.ValidationError | None = None,
         response_body: Any = None,
+        response: httpx.Response | None = None,
     ) -> None:
         """Initialize InvalidResponseError.
 
@@ -115,10 +115,14 @@ class InvalidResponseError(MerakiException):
             message: Error message describing the validation failure.
             cause: The pydantic ValidationError that caused this exception.
             response_body: The raw response body that failed validation.
+            response: HTTP Response object.
 
         """
         self.validation_error: pydantic.ValidationError | None = cause
         self.response_body: Any = response_body
+        self.response: httpx.Response | None = response
+        self.status_code: int | None = response.status_code if response else None
+        self.status_reason: str | None = response.reason_phrase if response else None
         super().__init__(message, cause=cause)
 
     def __str__(self) -> str:

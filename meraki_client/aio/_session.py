@@ -341,6 +341,7 @@ class Session:
                 f"Response validation failed for {operation_id}",
                 cause=e,
                 response_body=response.text,
+                response=response,
             ) from e
 
     def get_pages(
@@ -371,9 +372,10 @@ class Session:
             )
 
         def parse_and_extract(
-            response_content: bytes,
+            response: httpx.Response,
         ) -> tuple[list[T], bool, dict[str, Any] | None]:
             """Parse JSON and extract items and metadata."""
+            response_content = response.content
             try:
                 wrapper = _PaginatedWrapper[item_schema].model_validate_json(  # type: ignore[valid-type]
                     response_content
@@ -383,6 +385,7 @@ class Session:
                     f"Response validation failed for {operation_id}",
                     cause=e,
                     response_body=response_content.decode(errors="replace"),
+                    response=response,
                 ) from e
             return wrapper.items, wrapper.is_events, wrapper.meta
 
@@ -426,7 +429,7 @@ class Session:
                     params=params if current_page == 1 else None,
                     current_page=current_page,
                 )
-                items, is_events, meta = parse_and_extract(response.content)
+                items, is_events, meta = parse_and_extract(response)
                 if meta is not None and paginated_response is not None:
                     paginated_response.meta = meta
                     paginated_response.meta_pages.append(meta)
@@ -498,6 +501,7 @@ class Session:
                 f"Response validation failed for {operation_id}",
                 cause=e,
                 response_body=response.text,
+                response=response,
             ) from e
 
     @overload
@@ -543,6 +547,7 @@ class Session:
                 f"Response validation failed for {operation_id}",
                 cause=e,
                 response_body=response.text,
+                response=response,
             ) from e
 
     async def delete(

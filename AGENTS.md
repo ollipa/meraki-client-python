@@ -63,7 +63,7 @@ When making behavior changes, generated output changes, or user-visible fixes, u
 
 Types of changes:
 
-- `Added` for new features.
+- `Added` for new functionality or features.
 - `Changed` for changes in existing functionality.
 - `Deprecated` for soon-to-be removed features.
 - `Removed` for now removed features.
