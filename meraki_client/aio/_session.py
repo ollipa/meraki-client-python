@@ -36,6 +36,7 @@ class _PaginatedWrapper(BaseModel, Generic[T]):
 
     items: list[T]
     is_events: bool = False
+    meta: dict[str, Any] | None = None
 
     @model_validator(mode="before")
     @classmethod
@@ -45,20 +46,28 @@ class _PaginatedWrapper(BaseModel, Generic[T]):
             return {"items": data}
         if isinstance(data, dict):
             if "events" in data:
-                return {"items": data["events"], "is_events": True}
+                return {"items": data["events"], "is_events": True, "meta": data.get("meta")}
             if "items" in data:
-                return {"items": data["items"]}
+                return {"items": data["items"], "meta": data.get("meta")}
             raise ValueError("Paginated response did not contain 'items' or 'events' key")
         return {"items": []}
 
 
 class AsyncPaginatedResponse(AsyncIterator[T], Generic[T]):
-    """Lazy asynchronous paginated response that can be iterated or collected."""
+    """Lazy asynchronous paginated response that can be iterated or collected.
+
+    Attributes:
+        meta: Metadata from the most recently fetched page, when present.
+        meta_pages: Metadata from all fetched pages in order.
+
+    """
 
     def __init__(self, page_fetcher: Callable[[], AsyncIterator[T]]) -> None:
         self._page_fetcher = page_fetcher
         self._iterator: AsyncIterator[T] | None = None
         self._exhausted = False
+        self.meta: dict[str, Any] | None = None
+        self.meta_pages: list[dict[str, Any]] = []
 
     def _ensure_iterator(self) -> AsyncIterator[T]:
         if self._iterator is None:
@@ -351,6 +360,7 @@ class Session:
 
         Returns a AsyncPaginatedResponse that can be iterated for individual items
         or collected with .collect() to get all results as a list.
+        Metadata from fetched pages is available on `.meta` and `.meta_pages`.
         """
         if isinstance(total_pages, str) and total_pages.lower() == "all":
             total_pages = -1
@@ -361,8 +371,10 @@ class Session:
                 f"total_pages must be either an integer or 'all' as a string. Got {total_pages}",
             )
 
-        def parse_and_extract(response_content: bytes) -> tuple[list[T], bool]:
-            """Parse JSON and extract items, returning (items, is_events)."""
+        def parse_and_extract(
+            response_content: bytes,
+        ) -> tuple[list[T], bool, dict[str, Any] | None]:
+            """Parse JSON and extract items and metadata."""
             try:
                 wrapper = _PaginatedWrapper[item_schema].model_validate_json(  # type: ignore[valid-type]
                     response_content
@@ -373,7 +385,9 @@ class Session:
                     cause=e,
                     response_body=response_content.decode(errors="replace"),
                 ) from e
-            return wrapper.items, wrapper.is_events
+            return wrapper.items, wrapper.is_events, wrapper.meta
+
+        paginated_response: AsyncPaginatedResponse[T] | None = None
 
         def get_link_param(link_url: str, param: str) -> str | None:
             """Safely extract a query parameter from a pagination link."""
@@ -413,7 +427,10 @@ class Session:
                     params=params if current_page == 1 else None,
                     current_page=current_page,
                 )
-                items, is_events = parse_and_extract(response.content)
+                items, is_events, meta = parse_and_extract(response.content)
+                if meta is not None and paginated_response is not None:
+                    paginated_response.meta = meta
+                    paginated_response.meta_pages.append(meta)
                 # getNetworkEvents returns events in reverse chronological order,
                 # reverse when paginating forward to restore chronological order
                 if is_events and direction == "next":
@@ -436,7 +453,8 @@ class Session:
                     next_url = link_url
                     current_page += 1
 
-        return AsyncPaginatedResponse(fetch_pages)
+        paginated_response = AsyncPaginatedResponse(fetch_pages)
+        return paginated_response
 
     @overload
     async def post(

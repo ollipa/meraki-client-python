@@ -1680,13 +1680,6 @@ class GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem(_BaseSchema)
     count: int
 
 
-class GetOrganizationAssuranceAlertsOverviewHistoricalResponse(_BaseSchema):
-    """Response for getOrganizationAssuranceAlertsOverviewHistorical operation."""
-
-    items: list[GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem]
-    meta: GetOrganizationAssuranceAlertsOverviewHistoricalResponseMeta
-
-
 class GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem."""
 
@@ -1697,12 +1690,6 @@ class GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem(_BaseSch
     by_alert_type: list[OrganizationsByAlertTypeItem] = Field(
         validation_alias="byAlertType", serialization_alias="byAlertType"
     )
-
-
-class GetOrganizationAssuranceAlertsOverviewHistoricalResponseMeta(_BaseSchema):
-    """Metadata about the response."""
-
-    counts: OrganizationsMetaCounts
 
 
 class GetOrganizationAssuranceAlertsOverviewResponse(_BaseSchema):
@@ -2085,15 +2072,6 @@ class GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem(_BaseSchema):
     interface: str | None = None
 
 
-class GetOrganizationDevicesPacketCaptureSchedulesResponse(_BaseSchema):
-    """Response for getOrganizationDevicesPacketCaptureSchedules operation."""
-
-    items: list[GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationDevicesPacketCaptureSchedulesResponseMeta | None = None
-
-
 class GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem."""
 
@@ -2124,12 +2102,6 @@ class GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem(_BaseSchema)
     priority: int | None = None
     schedule: OrganizationsSchedule | None = None
     warnings: list[str] = Field(default_factory=list)
-
-
-class GetOrganizationDevicesPacketCaptureSchedulesResponseMeta(_BaseSchema):
-    """Meta data details about result."""
-
-    counts: OrganizationsMetaCounts2 | None = None
 
 
 class GetOrganizationDevicesPowerModulesStatusesByDeviceResponse(
@@ -4191,18 +4163,6 @@ class OrganizationsMemory(_BaseSchema):
 
     used: OrganizationsUsed2 | None = None
     free: OrganizationsFree | None = None
-
-
-class OrganizationsMetaCounts(_BaseSchema):
-    """Counts."""
-
-    items: int
-
-
-class OrganizationsMetaCounts2(_BaseSchema):
-    """Counts of the result."""
-
-    items: GetOrganizationClientsOverviewResponseCounts | None = None
 
 
 class OrganizationsNameservers(_BaseSchema):

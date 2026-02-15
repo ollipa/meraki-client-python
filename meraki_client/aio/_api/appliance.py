@@ -78,10 +78,10 @@ from meraki_client.schemas import (
     GetNetworkApplianceVpnBgpResponse,
     GetNetworkApplianceVpnSiteToSiteVpnResponse,
     GetNetworkApplianceWarmSpareResponse,
-    GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse,
+    GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem,
     GetOrganizationApplianceDnsLocalProfilesResponseItem,
     GetOrganizationApplianceDnsLocalRecordsResponseItem,
-    GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse,
+    GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem,
     GetOrganizationApplianceDnsSplitProfilesResponseItem,
     GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem,
     GetOrganizationApplianceSecurityEventsResponse,
@@ -89,7 +89,7 @@ from meraki_client.schemas import (
     GetOrganizationApplianceUplinksStatusesOverviewResponse,
     GetOrganizationApplianceUplinkStatusesResponseItem,
     GetOrganizationApplianceUplinksUsageByNetworkResponseItem,
-    GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
+    GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
     GetOrganizationApplianceVpnStatsResponseItem,
     GetOrganizationApplianceVpnStatusesResponseItem,
     GetOrganizationApplianceVpnThirdPartyVPNPeersResponse,
@@ -204,6 +204,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -293,6 +298,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -336,6 +346,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -779,6 +794,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -1209,6 +1229,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -2271,6 +2296,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -2424,6 +2454,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -3091,6 +3126,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -3646,6 +3686,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -3864,6 +3909,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -4239,6 +4289,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -5041,6 +5096,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -5092,6 +5152,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6177,12 +6242,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_local_profiles(
-        self,
-        organization_id: str,
-        *,
-        profile_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
+        self, organization_id: str, *, profile_ids: list[str] | None = None
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceDnsLocalProfilesResponseItem]:
         """Fetch the local DNS profiles used in the organization.
 
@@ -6191,12 +6251,14 @@ class Appliance:
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6221,8 +6283,6 @@ class Appliance:
             operation_id="getOrganizationApplianceDnsLocalProfiles",
             path=path,
             params=params,
-            total_pages=total_pages,
-            direction=direction,
             item_schema=GetOrganizationApplianceDnsLocalProfilesResponseItem,
         )
 
@@ -6264,13 +6324,15 @@ class Appliance:
             response_schema=CreateOrganizationApplianceDnsLocalProfileResponse,
         )
 
-    async def get_organization_appliance_dns_local_profiles_assignments(
+    def get_organization_appliance_dns_local_profiles_assignments(
         self,
         organization_id: str,
         *,
         profile_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
-    ) -> GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem
+    ]:
         """Fetch the local DNS profile assignments in the organization.
 
         [API documentation: getOrganizationApplianceDnsLocalProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles-assignments)
@@ -6282,6 +6344,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6318,12 +6385,12 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="appliance",
             operation_id="getOrganizationApplianceDnsLocalProfilesAssignments",
             path=path,
             params=params,
-            response_schema=GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse,
+            item_schema=GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem,
         )
 
     async def bulk_organization_appliance_dns_local_profiles_assignments_create(
@@ -6494,12 +6561,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_local_records(
-        self,
-        organization_id: str,
-        *,
-        profile_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
+        self, organization_id: str, *, profile_ids: list[str] | None = None
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceDnsLocalRecordsResponseItem]:
         """Fetch the DNS records used in local DNS profiles.
 
@@ -6508,12 +6570,14 @@ class Appliance:
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6542,8 +6606,6 @@ class Appliance:
             operation_id="getOrganizationApplianceDnsLocalRecords",
             path=path,
             params=params,
-            total_pages=total_pages,
-            direction=direction,
             item_schema=GetOrganizationApplianceDnsLocalRecordsResponseItem,
         )
 
@@ -6682,12 +6744,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_split_profiles(
-        self,
-        organization_id: str,
-        *,
-        profile_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
+        self, organization_id: str, *, profile_ids: list[str] | None = None
     ) -> AsyncPaginatedResponse[GetOrganizationApplianceDnsSplitProfilesResponseItem]:
         """Fetch the split DNS profiles used in the organization.
 
@@ -6696,12 +6753,14 @@ class Appliance:
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6735,8 +6794,6 @@ class Appliance:
             operation_id="getOrganizationApplianceDnsSplitProfiles",
             path=path,
             params=params,
-            total_pages=total_pages,
-            direction=direction,
             item_schema=GetOrganizationApplianceDnsSplitProfilesResponseItem,
         )
 
@@ -6799,13 +6856,15 @@ class Appliance:
             response_schema=CreateOrganizationApplianceDnsSplitProfileResponse,
         )
 
-    async def get_organization_appliance_dns_split_profiles_assignments(
+    def get_organization_appliance_dns_split_profiles_assignments(
         self,
         organization_id: str,
         *,
         profile_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
-    ) -> GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem
+    ]:
         """Fetch the split DNS profile assignments in the organization.
 
         [API documentation: getOrganizationApplianceDnsSplitProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles-assignments)
@@ -6817,6 +6876,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6853,12 +6917,12 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="appliance",
             operation_id="getOrganizationApplianceDnsSplitProfilesAssignments",
             path=path,
             params=params,
-            response_schema=GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse,
+            item_schema=GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem,
         )
 
     async def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
@@ -7087,6 +7151,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -7186,6 +7255,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -7391,6 +7465,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -7481,6 +7560,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -7608,6 +7692,11 @@ class Appliance:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -7646,9 +7735,11 @@ class Appliance:
             item_schema=GetOrganizationApplianceUplinksUsageByNetworkResponseItem,
         )
 
-    async def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
+    def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self, organization_id: str
-    ) -> GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem
+    ]:
         """Get the list of available IPsec SLA policies for an organization.
 
         [API documentation: getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-site-to-site-ipsec-peers-slas)
@@ -7658,6 +7749,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -7690,11 +7786,11 @@ class Appliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="appliance",
             operation_id="getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
             path=path,
-            response_schema=GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
+            item_schema=GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
         )
 
     async def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
@@ -7801,6 +7897,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -7923,6 +8024,11 @@ class Appliance:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json

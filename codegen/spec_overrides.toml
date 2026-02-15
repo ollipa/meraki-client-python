@@ -3,7 +3,7 @@
 #
 # Available overrides:
 # - force_array_response: Endpoints where spec says object but API returns array
-# - force_paginated: Endpoints missing pagination params but return paginated responses
+# - force_paginated: Endpoints missing pagination params but endpoint returns a list of items.
 # - force_paginated_items_schema: Endpoints where paginated wrapper is incorrectly modeled as
 #   array[object{items, meta}] in the spec
 # - optional_response: Endpoints where response can be None

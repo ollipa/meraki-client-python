@@ -100,7 +100,7 @@ from meraki_client.schemas import (
     GetOrganizationAssuranceAlertResponse,
     GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem,
     GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem,
-    GetOrganizationAssuranceAlertsOverviewHistoricalResponse,
+    GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem,
     GetOrganizationAssuranceAlertsOverviewResponse,
     GetOrganizationAssuranceAlertsResponseItem,
     GetOrganizationAssuranceAlertsTaxonomyCategoriesResponseItem,
@@ -119,7 +119,7 @@ from meraki_client.schemas import (
     GetOrganizationDevicesControllerMigrationsResponseItemsItem,
     GetOrganizationDevicesOverviewByModelResponse,
     GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem,
-    GetOrganizationDevicesPacketCaptureSchedulesResponse,
+    GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem,
     GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem,
     GetOrganizationDevicesProvisioningStatusesResponseItem,
     GetOrganizationDevicesResponseItem,
@@ -267,6 +267,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -541,6 +546,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -841,6 +851,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -1107,6 +1122,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -1408,6 +1428,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -1779,6 +1804,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -2036,6 +2066,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -2351,6 +2386,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -2569,6 +2609,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -2690,6 +2735,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -2998,6 +3048,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -3151,6 +3206,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -3250,7 +3310,7 @@ class Organizations:
         category: str | None = None,
         serials: list[str] | None = None,
         device_types: list[str] | None = None,
-    ) -> GetOrganizationAssuranceAlertsOverviewHistoricalResponse:
+    ) -> PaginatedResponse[GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem]:
         """Returns historical health alert overviews.
 
         [API documentation: getOrganizationAssuranceAlertsOverviewHistorical](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-historical)
@@ -3269,6 +3329,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -3329,12 +3394,12 @@ class Organizations:
         if device_types is not None:
             params["deviceTypes[]"] = device_types
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationAssuranceAlertsOverviewHistorical",
             path=path,
             params=params,
-            response_schema=GetOrganizationAssuranceAlertsOverviewHistoricalResponse,
+            item_schema=GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem,
         )
 
     def restore_organization_assurance_alerts(
@@ -3379,6 +3444,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -3412,6 +3482,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -3528,6 +3603,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -4036,6 +4116,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -4170,6 +4255,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -4371,6 +4461,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -4625,6 +4720,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -4756,6 +4856,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -4898,6 +5003,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -5009,6 +5119,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -5122,6 +5237,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -5399,6 +5519,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -5918,7 +6043,7 @@ class Organizations:
         schedule_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
         device_ids: list[str] | None = None,
-    ) -> GetOrganizationDevicesPacketCaptureSchedulesResponse:
+    ) -> PaginatedResponse[GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem]:
         """List the Packet Capture Schedules.
 
         [API documentation: getOrganizationDevicesPacketCaptureSchedules](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-schedules)
@@ -5932,6 +6057,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6001,12 +6131,12 @@ class Organizations:
         if device_ids is not None:
             params["deviceIds[]"] = device_ids
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationDevicesPacketCaptureSchedules",
             path=path,
             params=params,
-            response_schema=GetOrganizationDevicesPacketCaptureSchedulesResponse,
+            item_schema=GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem,
         )
 
     def create_organization_devices_packet_capture_schedule(
@@ -6344,6 +6474,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -6461,6 +6596,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6581,6 +6721,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6778,6 +6923,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -6926,6 +7076,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -7039,6 +7194,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -7101,6 +7261,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -7132,11 +7297,7 @@ class Organizations:
         )
 
     def get_organization_early_access_features_opt_ins(
-        self,
-        organization_id: str,
-        *,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
+        self, organization_id: str
     ) -> PaginatedResponse[OrganizationsPolicyObjectsItem]:
         """List the early access feature opt-ins for an organization.
 
@@ -7144,12 +7305,14 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -7178,15 +7341,10 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/earlyAccess/features/optIns"
 
-        params: dict[str, Any] = {}
-
         return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationEarlyAccessFeaturesOptIns",
             path=path,
-            params=params,
-            total_pages=total_pages,
-            direction=direction,
             item_schema=OrganizationsPolicyObjectsItem,
         )
 
@@ -7420,6 +7578,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -7528,6 +7691,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -7646,6 +7814,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -7752,6 +7925,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -7871,6 +8049,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -8150,6 +8333,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -8520,6 +8708,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -8632,6 +8825,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -8982,6 +9180,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -9723,6 +9926,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -9977,6 +10185,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -10227,6 +10440,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -10318,6 +10536,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -10477,6 +10700,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -10951,6 +11179,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -11164,6 +11397,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -11629,6 +11867,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -11807,6 +12050,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -11894,6 +12142,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -11975,6 +12228,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -12053,6 +12311,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -12138,6 +12401,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -12220,6 +12488,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -12311,6 +12584,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -12396,6 +12674,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -12514,6 +12797,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -12597,6 +12885,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -12688,6 +12981,11 @@ class Organizations:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -12764,12 +13062,7 @@ class Organizations:
         )
 
     def get_organization_webhooks_alert_types(
-        self,
-        organization_id: str,
-        *,
-        product_type: str | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
+        self, organization_id: str, *, product_type: str | None = None
     ) -> PaginatedResponse[GetOrganizationWebhooksAlertTypesResponse]:
         """Return a list of alert types to be used with managing webhook alerts.
 
@@ -12778,12 +13071,14 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             product_type: Filter sample alerts to a specific product type.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -12852,8 +13147,6 @@ class Organizations:
             operation_id="getOrganizationWebhooksAlertTypes",
             path=path,
             params=params,
-            total_pages=total_pages,
-            direction=direction,
             item_schema=GetOrganizationWebhooksAlertTypesResponse,
         )
 
@@ -12950,6 +13243,11 @@ class Organizations:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json

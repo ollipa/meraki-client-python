@@ -21,11 +21,11 @@ from meraki_client.schemas import (
     GetNetworkCellularGatewayDhcpResponse,
     GetNetworkCellularGatewaySubnetPoolResponse,
     GetNetworkCellularGatewayUplinkResponse,
-    GetOrganizationCellularGatewayEsimsInventoryResponse,
-    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse,
-    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse,
+    GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem,
+    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItem,
+    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem,
     GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem,
-    GetOrganizationCellularGatewayEsimsServiceProvidersResponse,
+    GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem,
     GetOrganizationCellularGatewayUplinkStatusesResponseItem,
     UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem,
     UpdateDeviceCellularGatewayLanReservedIpRangesItem,
@@ -613,9 +613,9 @@ class CellularGateway:
             response_schema=UpdateNetworkCellularGatewayUplinkResponse,
         )
 
-    async def get_organization_cellular_gateway_esims_inventory(
+    def get_organization_cellular_gateway_esims_inventory(
         self, organization_id: str, *, eids: list[str] | None = None
-    ) -> GetOrganizationCellularGatewayEsimsInventoryResponse:
+    ) -> AsyncPaginatedResponse[GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem]:
         """The eSIM inventory of a given organization.
 
         [API documentation: getOrganizationCellularGatewayEsimsInventory](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-inventory)
@@ -626,6 +626,11 @@ class CellularGateway:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -684,12 +689,12 @@ class CellularGateway:
         if eids is not None:
             params["eids[]"] = eids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="cellularGateway",
             operation_id="getOrganizationCellularGatewayEsimsInventory",
             path=path,
             params=params,
-            response_schema=GetOrganizationCellularGatewayEsimsInventoryResponse,
+            item_schema=GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem,
         )
 
     async def update_organization_cellular_gateway_esims_inventory(
@@ -761,9 +766,11 @@ class CellularGateway:
             response_schema=UpdateOrganizationCellularGatewayEsimsInventoryResponse,
         )
 
-    async def get_organization_cellular_gateway_esims_service_providers(
+    def get_organization_cellular_gateway_esims_service_providers(
         self, organization_id: str
-    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem
+    ]:
         """Service providers customers can add accounts for.
 
         [API documentation: getOrganizationCellularGatewayEsimsServiceProviders](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers)
@@ -773,6 +780,11 @@ class CellularGateway:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -805,20 +817,15 @@ class CellularGateway:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders"
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="cellularGateway",
             operation_id="getOrganizationCellularGatewayEsimsServiceProviders",
             path=path,
-            response_schema=GetOrganizationCellularGatewayEsimsServiceProvidersResponse,
+            item_schema=GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem,
         )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts(
-        self,
-        organization_id: str,
-        *,
-        account_ids: list[int] | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
+        self, organization_id: str, *, account_ids: list[int] | None = None
     ) -> AsyncPaginatedResponse[
         GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem
     ]:
@@ -829,12 +836,14 @@ class CellularGateway:
         Args:
             organization_id: Organization ID.
             account_ids: Optional parameter to filter the results by service provider account IDs.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -879,8 +888,6 @@ class CellularGateway:
             operation_id="getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
             path=path,
             params=params,
-            total_pages=total_pages,
-            direction=direction,
             item_schema=GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem,
         )
 
@@ -951,9 +958,11 @@ class CellularGateway:
             response_schema=CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
         )
 
-    async def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
+    def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
         self, *, organization_id: str, account_ids: list[str]
-    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItem
+    ]:
         """The communication plans available for a given provider.
 
         [API documentation: getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts-communication-plans)
@@ -964,6 +973,11 @@ class CellularGateway:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -998,17 +1012,19 @@ class CellularGateway:
         if account_ids is not None:
             params["accountIds[]"] = account_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="cellularGateway",
             operation_id="getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans",
             path=path,
             params=params,
-            response_schema=GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse,
+            item_schema=GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItem,
         )
 
-    async def get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans(
+    def get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans(
         self, *, organization_id: str, account_ids: list[str]
-    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem
+    ]:
         """The rate plans available for a given provider.
 
         [API documentation: getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts-rate-plans)
@@ -1019,6 +1035,11 @@ class CellularGateway:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -1048,12 +1069,12 @@ class CellularGateway:
         if account_ids is not None:
             params["accountIds[]"] = account_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="cellularGateway",
             operation_id="getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans",
             path=path,
             params=params,
-            response_schema=GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse,
+            item_schema=GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem,
         )
 
     async def update_organization_cellular_gateway_esims_service_providers_account(
@@ -1255,6 +1276,11 @@ class CellularGateway:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json

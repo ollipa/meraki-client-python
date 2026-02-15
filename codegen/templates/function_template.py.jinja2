@@ -17,6 +17,13 @@
             {{ return_description }}
 
         {% endif %}
+        {% if is_paginated %}
+        Note:
+            Returns a lazy {{ "AsyncPaginatedResponse" if is_async else "PaginatedResponse" }}
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        {% endif %}
         {% if response_example %}
         Example API response:
             ```json

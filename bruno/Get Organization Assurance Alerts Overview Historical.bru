@@ -1,0 +1,21 @@
+meta {
+  name: Get Organization Assurance Alerts Overview Historical
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/organizations/{{orgId}}/assurance/alerts/overview/historical?segmentDuration=60&tsStart=2026-02-14T09:15:33.910977+00:00
+  body: none
+  auth: inherit
+}
+
+params:query {
+  segmentDuration: 60
+  tsStart: 2026-02-14T09:15:33.910977+00:00
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

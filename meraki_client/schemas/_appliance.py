@@ -792,9 +792,19 @@ class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem(_BaseS
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse(_BaseSchema):
     """Response for bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate operation."""
 
-    items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] = Field(
-        default_factory=list
+    items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
+        Field(default_factory=list)
     )
+
+
+class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem(_BaseSchema):
+    """Schema for BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem."""
+
+    assignment_id: str | None = Field(
+        default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
+    )
+    network: ApplianceNetwork | None = None
+    profile: ApplianceNetwork | None = None
 
 
 class CreateDeviceApplianceVmxAuthenticationTokenResponse(_BaseSchema):
@@ -1011,8 +1021,8 @@ class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem(
 class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse(_BaseSchema):
     """Response for createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete operation."""
 
-    items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] = Field(
-        default_factory=list
+    items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
+        Field(default_factory=list)
     )
 
 
@@ -1066,8 +1076,8 @@ class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem(
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse(_BaseSchema):
     """Response for createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate operation."""
 
-    items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] = Field(
-        default_factory=list
+    items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
+        Field(default_factory=list)
     )
 
 
@@ -1082,8 +1092,8 @@ class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem(
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse(_BaseSchema):
     """Response for createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete operation."""
 
-    items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] = Field(
-        default_factory=list
+    items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
+        Field(default_factory=list)
     )
 
 
@@ -2097,15 +2107,6 @@ class GetNetworkApplianceWarmSpareResponseWan1(_BaseSchema):
     subnet: str | None = None
 
 
-class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse(_BaseSchema):
-    """Response for getOrganizationApplianceDnsLocalProfilesAssignments operation."""
-
-    items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
-
-
 class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem."""
 
@@ -2114,12 +2115,6 @@ class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_Base
     )
     network: ApplianceNetwork | None = None
     profile: ApplianceNetwork | None = None
-
-
-class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: ApplianceMetaCounts | None = None
 
 
 class GetOrganizationApplianceDnsLocalProfilesResponse(
@@ -2154,13 +2149,14 @@ class GetOrganizationApplianceDnsLocalRecordsResponseItem(_BaseSchema):
     profile: ApplianceNetwork | None = None
 
 
-class GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse(_BaseSchema):
-    """Response for getOrganizationApplianceDnsSplitProfilesAssignments operation."""
+class GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem."""
 
-    items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] = Field(
-        default_factory=list
+    assignment_id: str | None = Field(
+        default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
+    network: ApplianceNetwork | None = None
+    profile: ApplianceNetwork | None = None
 
 
 class GetOrganizationApplianceDnsSplitProfilesResponse(
@@ -2255,15 +2251,6 @@ class GetOrganizationApplianceUplinksUsageByNetworkResponseItem(_BaseSchema):
     by_uplink: list[ApplianceByUplinkItem] = Field(
         default_factory=list, validation_alias="byUplink", serialization_alias="byUplink"
     )
-
-
-class GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
-    """Response for getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas operation."""
-
-    items: list[GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
 
 
 class GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem(_BaseSchema):
@@ -3592,10 +3579,25 @@ class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem(_BaseSchem
 class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
     """Response for updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas operation."""
 
-    items: list[GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem] = Field(
+    items: list[UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem] = Field(
         default_factory=list
     )
-    meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
+    meta: UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseMeta | None = None
+
+
+class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem(_BaseSchema):
+    """Schema for UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem."""
+
+    id: str | None = None
+    name: str | None = None
+    uri: str | None = None
+    ipsec: ApplianceIpsec | None = None
+
+
+class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseMeta(_BaseSchema):
+    """Metadata relevant to the paginated dataset."""
+
+    counts: ApplianceMetaCounts | None = None
 
 
 class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem(_BaseSchema):

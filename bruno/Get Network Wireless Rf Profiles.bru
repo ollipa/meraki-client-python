@@ -1,0 +1,19 @@
+meta {
+  name: Get Network Wireless Rf Profiles
+  type: http
+  seq: 16
+}
+
+get {
+  url: '''
+    {{baseUrl}}
+    /networks/{{networkId}}/wireless/rfProfiles
+'''
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

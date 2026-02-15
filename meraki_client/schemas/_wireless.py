@@ -2099,24 +2099,19 @@ class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchem
     events: list[WirelessEventsItem] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse(_BaseSchema):
-    """Response for getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas
-    operation.
+class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem.
     """
 
-    items: list[
-        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
-    ] = Field(default_factory=list)
-    meta: GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseMeta | None = None
-
-
-class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse(_BaseSchema):
-    """Response for getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls operation."""
-
-    items: list[
-        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
-    ] = Field(default_factory=list)
-    meta: GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseMeta | None = None
+    certificate_authority_id: str | None = Field(
+        default=None,
+        validation_alias="certificateAuthorityId",
+        serialization_alias="certificateAuthorityId",
+    )
+    crl: str | None = None
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem(_BaseSchema):
@@ -2128,12 +2123,6 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseIte
         serialization_alias="certificateAuthorityId",
     )
     crl: str | None = None
-
-
-class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseMeta(_BaseSchema):
-    """Metadata about the CRLs."""
-
-    counts: WirelessMetaCounts | None = None
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(
@@ -4343,13 +4332,6 @@ class WirelessHysteresis(_BaseSchema):
     threshold: int | None = None
 
 
-class WirelessItems(_BaseSchema):
-    """Counts of the CRLs."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
 class WirelessLatencyBinsByCategory(_BaseSchema):
     """The latency buckets by category."""
 
@@ -4382,12 +4364,6 @@ class WirelessLinkNegotiation(_BaseSchema):
 
     duplex: str | None = None
     speed: int | None = None
-
-
-class WirelessMetaCounts(_BaseSchema):
-    """Counts of the CRLs."""
-
-    items: WirelessItems | None = None
 
 
 class WirelessMqtt(_BaseSchema):

@@ -37,42 +37,10 @@ class CellularGatewayDevice(_BaseSchema):
     status: str | None = None
 
 
-class CellularGatewayItems(_BaseSchema):
-    """Count of eSIM Devices available."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class CellularGatewayItemsItem(_BaseSchema):
-    """Schema for CellularGatewayItemsItem."""
-
-    account_id: str | None = Field(
-        default=None, validation_alias="accountId", serialization_alias="accountId"
-    )
-    apns: list[CellularGatewayApnsItem] = Field(default_factory=list)
-    name: str | None = None
-
-
-class CellularGatewayItemsItem2(_BaseSchema):
-    """Schema for CellularGatewayItemsItem2."""
-
-    account_id: str | None = Field(
-        default=None, validation_alias="accountId", serialization_alias="accountId"
-    )
-    name: str | None = None
-
-
 class CellularGatewayLogo(_BaseSchema):
     """Service Provider logo data."""
 
     url: str | None = None
-
-
-class CellularGatewayMetaCounts(_BaseSchema):
-    """Counts of involved entities."""
-
-    items: CellularGatewayItems | None = None
 
 
 class CellularGatewayNetwork(_BaseSchema):
@@ -346,15 +314,6 @@ class GetNetworkCellularGatewayUplinkResponseBandwidthLimits(_BaseSchema):
     )
 
 
-class GetOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
-    """Response for getOrganizationCellularGatewayEsimsInventory operation."""
-
-    items: list[GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
-
-
 class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem."""
 
@@ -368,28 +327,31 @@ class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem(_BaseSchema)
     profiles: list[CellularGatewayProfilesItem] = Field(default_factory=list)
 
 
-class GetOrganizationCellularGatewayEsimsInventoryResponseMeta(_BaseSchema):
-    """Meta details about the result."""
-
-    counts: CellularGatewayMetaCounts | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse(
+class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItem(
     _BaseSchema
 ):
-    """Response for getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans
-    operation.
+    """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResp
+    onseItemsItem.
     """
 
-    items: list[CellularGatewayItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
+    account_id: str | None = Field(
+        default=None, validation_alias="accountId", serialization_alias="accountId"
+    )
+    apns: list[CellularGatewayApnsItem] = Field(default_factory=list)
+    name: str | None = None
 
 
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse(_BaseSchema):
-    """Response for getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans operation."""
+class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem.
+    """
 
-    items: list[CellularGatewayItemsItem2] = Field(default_factory=list)
-    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
+    account_id: str | None = Field(
+        default=None, validation_alias="accountId", serialization_alias="accountId"
+    )
+    name: str | None = None
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse(
@@ -412,15 +374,6 @@ class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem(_B
     )
     title: str | None = None
     username: str | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersResponse(_BaseSchema):
-    """Response for getOrganizationCellularGatewayEsimsServiceProviders operation."""
-
-    items: list[GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem(_BaseSchema):

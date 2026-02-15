@@ -77,6 +77,11 @@ class Administered:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [

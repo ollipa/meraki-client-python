@@ -93,8 +93,8 @@ from meraki_client.schemas import (
     GetOrganizationWirelessDevicesPacketLossByDeviceResponseItem,
     GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem,
     GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem,
-    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse,
-    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse,
+    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem,
+    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem,
     GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem,
     GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem,
     GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem,
@@ -898,6 +898,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -1517,6 +1522,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -1608,6 +1618,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -1687,6 +1702,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -1793,6 +1813,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -2056,6 +2081,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -2158,6 +2188,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -2477,6 +2512,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -2558,6 +2598,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -2644,6 +2689,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -2843,6 +2893,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -2877,6 +2932,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -3246,6 +3306,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -3341,6 +3406,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -3582,6 +3652,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -3706,12 +3781,7 @@ class Wireless:
         )
 
     def get_network_wireless_rf_profiles(
-        self,
-        network_id: str,
-        *,
-        include_template_profiles: bool | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
+        self, network_id: str, *, include_template_profiles: bool | None = None
     ) -> AsyncPaginatedResponse[GetNetworkWirelessRfProfilesResponse]:
         """List RF profiles for this network.
 
@@ -3723,12 +3793,14 @@ class Wireless:
                 controls whether or not the non-basic RF profiles defined on the
                 template should be included in the response alongside the non-basic
                 profiles defined on the bound network. Defaults to false.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -4066,8 +4138,6 @@ class Wireless:
             operation_id="getNetworkWirelessRfProfiles",
             path=path,
             params=params,
-            total_pages=total_pages,
-            direction=direction,
             item_schema=GetNetworkWirelessRfProfilesResponse,
         )
 
@@ -5485,6 +5555,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -5547,6 +5622,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -6959,6 +7039,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -7944,6 +8029,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -8100,6 +8190,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -8190,6 +8285,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -8275,6 +8375,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -8381,6 +8486,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -8494,6 +8604,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -8603,6 +8718,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -8718,6 +8838,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -8814,6 +8939,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -8928,6 +9058,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -9040,6 +9175,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -9155,6 +9295,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -9261,6 +9406,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -9341,6 +9491,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -9461,9 +9616,11 @@ class Wireless:
             response_schema=CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse,
         )
 
-    async def get_organization_wireless_devices_radsec_certificates_authorities_crls(
+    def get_organization_wireless_devices_radsec_certificates_authorities_crls(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
-    ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
+    ]:
         r"""Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
 
         [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls)
@@ -9475,6 +9632,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -9504,17 +9666,19 @@ class Wireless:
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls",
             path=path,
             params=params,
-            response_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse,
+            item_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem,
         )
 
-    async def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
+    def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
-    ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem
+    ]:
         r"""Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
 
         [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls-deltas)
@@ -9526,6 +9690,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -9555,12 +9724,12 @@ class Wireless:
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas",
             path=path,
             params=params,
-            response_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse,
+            item_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem,
         )
 
     def get_organization_wireless_devices_system_cpu_load_history(
@@ -9612,6 +9781,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -9722,6 +9896,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -9827,6 +10006,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -9912,6 +10096,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -10153,6 +10342,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -10438,6 +10632,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -10581,6 +10780,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -10691,6 +10895,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -10948,6 +11157,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             {
@@ -11049,6 +11263,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -11158,6 +11377,11 @@ class Wireless:
         Returns:
             Successful operation.
 
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
         Example API response:
             ```json
             [
@@ -11248,6 +11472,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json
@@ -11506,6 +11735,11 @@ class Wireless:
 
         Returns:
             Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
 
         Example API response:
             ```json

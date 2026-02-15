@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Codegen: Skip generating top-level paginated wrapper schemas with only `items`/`meta` fields;
   generate only item schemas used by `PaginatedResponse[T]`.
+- Codegen: Treat GET endpoints with top-level `items`/`meta` responses as paginated and return
+  `PaginatedResponse[T]`.
+- Codegen: `force_paginated` no longer injects `total_pages`/`direction` args when the endpoint
+  does not already declare pagination params in the spec.
+- Session: Track page metadata on paginated results via `PaginatedResponse.meta` and
+  `PaginatedResponse.meta_pages` (and async equivalent).
 
 ## v0.9.0
 

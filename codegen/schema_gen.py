@@ -154,7 +154,7 @@ def generate_response_schemas(
             "post": path_item.post,
             "delete": path_item.delete,
         }
-        for operation in operations.values():
+        for method, operation in operations.items():
             if not operation or not operation.operationId:
                 continue
 
@@ -188,11 +188,7 @@ def generate_response_schemas(
                     force_paginated_items_schema=spec_overrides.force_paginated_items_schema,
                 )
                 class_name = get_response_schema_name(operation_id)
-                if _is_paginated_operation(
-                    operation_id=operation_id,
-                    operation=operation,
-                    force_paginated=spec_overrides.force_paginated,
-                ):
+                if method == "get":
                     item_schema = _get_paginated_wrapper_item_schema(response_schema)
                     if item_schema is not None:
                         item_class_name = class_name + "ItemsItem"
@@ -467,22 +463,6 @@ def _normalize_paginated_response_schema(
         "using nested items schema for generated response models"
     )
     return items_schema
-
-
-def _is_paginated_operation(
-    *, operation_id: str, operation: Operation, force_paginated: set[str]
-) -> bool:
-    """Check whether operation is paginated by params or override."""
-    if operation_id in force_paginated:
-        return True
-
-    pagination_params = {"perPage", "startingAfter", "endingBefore"}
-    for param in operation.parameters or []:
-        if isinstance(param, Reference):
-            continue
-        if param.name in pagination_params:
-            return True
-    return False
 
 
 def _get_paginated_wrapper_item_schema(schema: dict[str, Any]) -> dict[str, Any] | None:

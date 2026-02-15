@@ -432,6 +432,7 @@ def generate_module(  # noqa: PLR0915
             is_paginated = collect_params(
                 spec, operation_id, endpoint.parameters or [], function_definition
             )
+            has_pagination_params = is_paginated
             collect_request_body_params(
                 spec, operation_id, endpoint.requestBody, function_definition, schema_registry
             )
@@ -440,12 +441,8 @@ def generate_module(  # noqa: PLR0915
             is_paginated = check_force_paginated(
                 operation_id=operation_id,
                 is_paginated=is_paginated,
-                function_definition=function_definition,
                 force_paginated=force_paginated,
             )
-
-            # Track if endpoint originally had pagination params (for template)
-            has_pagination_params = is_paginated
 
             response_schema_name = None
             item_schema_name = None
@@ -454,6 +451,15 @@ def generate_module(  # noqa: PLR0915
                 response_schema_name = "DictResponse"
             if method != "delete":
                 schema_name = get_response_schema_name(operation_id)
+                # GET endpoints with wrapper shape {items, meta} are generated as paginated item
+                # schemas only, so treat them as paginated responses.
+                if (
+                    method == "get"
+                    and schema_name not in schema_registry.schema_names
+                    and schema_name in schema_registry.item_schema_map
+                ):
+                    is_paginated = True
+
                 if schema_name in schema_registry.schema_names:
                     response_schema_name = schema_name
                 # For paginated endpoints, use first item schema from map or fallback to response schema.
@@ -844,7 +850,6 @@ def check_force_paginated(
     *,
     operation_id: str,
     is_paginated: bool,
-    function_definition: FunctionDefinition,
     force_paginated: set[str],
 ) -> bool:
     """Check if endpoint should be force-paginated due to spec bugs.
@@ -860,11 +865,7 @@ def check_force_paginated(
             f"{operation_id} in force_paginated now has per_page param - "
             "spec may be fixed, check if override still needed"
         )
-    else:
-        is_paginated = True
-        collect_pagination_params(operation_id, function_definition)
-
-    return is_paginated
+    return True
 
 
 def collect_pagination_params(operation_id: str, function_definition: FunctionDefinition) -> None:
