@@ -63,6 +63,15 @@ from meraki_client.schemas import (
     UpdateOrganizationCameraRoleAppliedOrgWideItem,
     UpdateOrganizationCameraRoleResponse,
 )
+from meraki_client.types import (
+    GetDeviceCameraAnalyticsOverviewObjectType,
+    GetDeviceCameraAnalyticsRecentObjectType,
+    GetDeviceCameraAnalyticsZoneHistoryObjectType,
+    GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalBoundaryTypes,
+    UpdateDeviceCameraQualityAndRetentionMotionDetectorVersion,
+    UpdateDeviceCameraQualityAndRetentionQuality,
+    UpdateDeviceCameraQualityAndRetentionResolution,
+)
 
 if TYPE_CHECKING:
     from meraki_client.aio._session import AsyncPaginatedResponse, Session
@@ -117,7 +126,7 @@ class Camera:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        object_type: str | None = None,
+        object_type: GetDeviceCameraAnalyticsOverviewObjectType | None = None,
     ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsOverviewResponseItem]:
         """Returns an overview of aggregate analytics data for a timespan.
 
@@ -157,12 +166,6 @@ class Camera:
             ```
 
         """
-        if object_type is not None:
-            options = ["person", "vehicle"]
-            assert object_type in options, (
-                f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/analytics/overview"
 
@@ -185,7 +188,7 @@ class Camera:
         )
 
     def get_device_camera_analytics_recent(
-        self, serial: str, *, object_type: str | None = None
+        self, serial: str, *, object_type: GetDeviceCameraAnalyticsRecentObjectType | None = None
     ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsRecentResponseItem]:
         """Returns most recent record for analytics zones.
 
@@ -219,12 +222,6 @@ class Camera:
             ```
 
         """
-        if object_type is not None:
-            options = ["person", "vehicle"]
-            assert object_type in options, (
-                f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/analytics/recent"
 
@@ -295,7 +292,7 @@ class Camera:
         t1: str | None = None,
         timespan: float | None = None,
         resolution: int | None = None,
-        object_type: str | None = None,
+        object_type: GetDeviceCameraAnalyticsZoneHistoryObjectType | None = None,
     ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsZoneHistoryResponseItem]:
         """Return historical records for analytic zones.
 
@@ -337,12 +334,6 @@ class Camera:
             ```
 
         """
-        if object_type is not None:
-            options = ["person", "vehicle"]
-            assert object_type in options, (
-                f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         zone_id = urllib.parse.quote(str(zone_id), safe="")
         path = f"/devices/{serial}/camera/analytics/zones/{zone_id}/history"
@@ -549,9 +540,10 @@ class Camera:
         motion_based_retention_enabled: bool | None = None,
         audio_recording_enabled: bool | None = None,
         restricted_bandwidth_mode_enabled: bool | None = None,
-        quality: str | None = None,
-        resolution: str | None = None,
-        motion_detector_version: int | None = None,
+        quality: UpdateDeviceCameraQualityAndRetentionQuality | None = None,
+        resolution: UpdateDeviceCameraQualityAndRetentionResolution | None = None,
+        motion_detector_version: UpdateDeviceCameraQualityAndRetentionMotionDetectorVersion
+        | None = None,
     ) -> DictResponse:
         """Update quality and retention settings for the given camera.
 
@@ -595,30 +587,6 @@ class Camera:
             ```
 
         """
-        if quality is not None:
-            options = ["Enhanced", "High", "Standard", "Ultra"]
-            assert quality in options, (
-                f'"quality" cannot be "{quality}", & must be set to one of: {options}'
-            )
-        if resolution is not None:
-            options = [
-                "1080x1080",
-                "1280x720",
-                "1920x1080",
-                "2112x2112",
-                "2688x1512",
-                "2880x2880",
-                "3840x2160",
-            ]
-            assert resolution in options, (
-                f'"resolution" cannot be "{resolution}", & must be set to one of: {options}'
-            )
-        if motion_detector_version is not None:
-            options = [1, 2]
-            assert motion_detector_version in options, (
-                f'"motion_detector_version" cannot be "{motion_detector_version}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/qualityAndRetention"
 
@@ -1885,7 +1853,8 @@ class Camera:
         ranges: list[dict[str, Any]],
         duration: int | None = None,
         per_page: int | None = None,
-        boundary_types: list[str] | None = None,
+        boundary_types: GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalBoundaryTypes
+        | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[

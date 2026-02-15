@@ -54,6 +54,9 @@ from meraki_client.schemas import (
     UpdateDeviceManagementInterfaceWan2,
     UpdateDeviceResponse,
 )
+from meraki_client.types import (
+    GetDeviceLossAndLatencyHistoryUplink,
+)
 
 if TYPE_CHECKING:
     from meraki_client._session import PaginatedResponse, Session
@@ -1509,7 +1512,7 @@ class Devices:
         t1: str | None = None,
         timespan: float | None = None,
         resolution: int | None = None,
-        uplink: str | None = None,
+        uplink: GetDeviceLossAndLatencyHistoryUplink | None = None,
     ) -> PaginatedResponse[GetDeviceLossAndLatencyHistoryResponseItem]:
         """Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per second for MX, MG and Z devices.
 
@@ -1552,12 +1555,6 @@ class Devices:
             ```
 
         """
-        if uplink is not None:
-            options = ["cellular", "wan1", "wan2", "wan3"]
-            assert uplink in options, (
-                f'"uplink" cannot be "{uplink}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/lossAndLatencyHistory"
 

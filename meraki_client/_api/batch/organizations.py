@@ -41,6 +41,16 @@ from meraki_client.schemas import (
     UpdateOrganizationDevicesPacketCaptureScheduleSchedule,
     UpdateOrganizationLoginSecurityApiAuthentication,
 )
+from meraki_client.types import (
+    CreateOrganizationAdaptivePolicyAclIpVersion,
+    CreateOrganizationAdaptivePolicyPolicyLastEntryRule,
+    CreateOrganizationAlertsProfileType,
+    CreateOrganizationDevicesControllerMigrationTarget,
+    CreateOrganizationNetworkProductTypes,
+    UpdateOrganizationAdaptivePolicyAclIpVersion,
+    UpdateOrganizationAdaptivePolicyPolicyLastEntryRule,
+    UpdateOrganizationAlertsProfileType,
+)
 
 
 class ActionBatchOrganizations:
@@ -55,7 +65,7 @@ class ActionBatchOrganizations:
         organization_id: str,
         name: str,
         rules: list[CreateOrganizationAdaptivePolicyAclRulesItem],
-        ip_version: str,
+        ip_version: CreateOrganizationAdaptivePolicyAclIpVersion,
         description: str | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates new adaptive policy ACL.
@@ -70,12 +80,6 @@ class ActionBatchOrganizations:
             ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
         """
-        if ip_version is not None:
-            options = ["any", "ipv4", "ipv6"]
-            assert ip_version in options, (
-                f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
@@ -103,7 +107,7 @@ class ActionBatchOrganizations:
         name: str | None = None,
         description: str | None = None,
         rules: list[UpdateOrganizationAdaptivePolicyAclRulesItem] | None = None,
-        ip_version: str | None = None,
+        ip_version: UpdateOrganizationAdaptivePolicyAclIpVersion | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates an adaptive policy ACL.
 
@@ -119,12 +123,6 @@ class ActionBatchOrganizations:
             ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
         """
-        if ip_version is not None:
-            options = ["any", "ipv4", "ipv6"]
-            assert ip_version in options, (
-                f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
@@ -287,7 +285,7 @@ class ActionBatchOrganizations:
         source_group: CreateOrganizationAdaptivePolicyPolicySourceGroup,
         destination_group: CreateOrganizationAdaptivePolicyPolicyDestinationGroup,
         acls: list[CreateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
-        last_entry_rule: str | None = None,
+        last_entry_rule: CreateOrganizationAdaptivePolicyPolicyLastEntryRule | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add an Adaptive Policy.
 
@@ -303,12 +301,6 @@ class ActionBatchOrganizations:
             last_entry_rule: The rule to apply if there is no matching ACL (default: "default").
 
         """
-        if last_entry_rule is not None:
-            options = ["allow", "default", "deny"]
-            assert last_entry_rule in options, (
-                f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
@@ -338,7 +330,7 @@ class ActionBatchOrganizations:
         source_group: UpdateOrganizationAdaptivePolicyPolicySourceGroup | None = None,
         destination_group: UpdateOrganizationAdaptivePolicyPolicyDestinationGroup | None = None,
         acls: list[UpdateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
-        last_entry_rule: str | None = None,
+        last_entry_rule: UpdateOrganizationAdaptivePolicyPolicyLastEntryRule | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update an Adaptive Policy.
 
@@ -355,12 +347,6 @@ class ActionBatchOrganizations:
             last_entry_rule: The rule to apply if there is no matching ACL.
 
         """
-        if last_entry_rule is not None:
-            options = ["allow", "default", "deny"]
-            assert last_entry_rule in options, (
-                f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
@@ -433,7 +419,7 @@ class ActionBatchOrganizations:
         self,
         *,
         organization_id: str,
-        type_: str,
+        type_: CreateOrganizationAlertsProfileType,
         alert_condition: CreateOrganizationAlertsProfileAlertCondition,
         recipients: CreateOrganizationAlertsProfileRecipients,
         network_tags: list[str],
@@ -452,21 +438,6 @@ class ActionBatchOrganizations:
             description: User supplied description of the alert.
 
         """
-        if type_ is not None:
-            options = [
-                "appOutage",
-                "voipJitter",
-                "voipMos",
-                "voipPacketLoss",
-                "wanLatency",
-                "wanPacketLoss",
-                "wanStatus",
-                "wanUtilization",
-            ]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/alerts/profiles"
 
@@ -494,7 +465,7 @@ class ActionBatchOrganizations:
         organization_id: str,
         alert_config_id: str,
         enabled: bool | None = None,
-        type_: str | None = None,
+        type_: UpdateOrganizationAlertsProfileType | None = None,
         alert_condition: UpdateOrganizationAlertsProfileAlertCondition | None = None,
         recipients: UpdateOrganizationAlertsProfileRecipients | None = None,
         network_tags: list[str] | None = None,
@@ -515,21 +486,6 @@ class ActionBatchOrganizations:
             description: User supplied description of the alert.
 
         """
-        if type_ is not None:
-            options = [
-                "appOutage",
-                "voipJitter",
-                "voipMos",
-                "voipPacketLoss",
-                "wanLatency",
-                "wanPacketLoss",
-                "wanStatus",
-                "wanUtilization",
-            ]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
@@ -804,7 +760,11 @@ class ActionBatchOrganizations:
         )
 
     def create_organization_devices_controller_migration(
-        self, *, organization_id: str, serials: list[str], target: str
+        self,
+        *,
+        organization_id: str,
+        serials: list[str],
+        target: CreateOrganizationDevicesControllerMigrationTarget,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Migrate devices to another controller or management mode.
 
@@ -816,12 +776,6 @@ class ActionBatchOrganizations:
             target: The controller or management mode to which the devices will be migrated.
 
         """
-        if target is not None:
-            options = ["wirelessController"]
-            assert target in options, (
-                f'"target" cannot be "{target}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/controller/migrations"
 
@@ -1463,7 +1417,7 @@ class ActionBatchOrganizations:
         *,
         organization_id: str,
         name: str,
-        product_types: list[str],
+        product_types: CreateOrganizationNetworkProductTypes,
         tags: list[str] | None = None,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,

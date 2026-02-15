@@ -56,6 +56,10 @@ from meraki_client.schemas import (
     UpdateOrganizationSmSentryPoliciesAssignmentsResponse,
     WipeNetworkSmDevicesResponse,
 )
+from meraki_client.types import (
+    CreateOrganizationSmAdminsRoleScope,
+    UpdateOrganizationSmAdminsRoleScope,
+)
 
 if TYPE_CHECKING:
     from meraki_client._session import PaginatedResponse, Session
@@ -2326,7 +2330,7 @@ class Sm:
         *,
         organization_id: str,
         name: str,
-        scope: str | None = None,
+        scope: CreateOrganizationSmAdminsRoleScope | None = None,
         tags: list[str] | None = None,
     ) -> CreateOrganizationSmAdminsRoleResponse:
         """Create a Limited Access Role.
@@ -2355,12 +2359,6 @@ class Sm:
             ```
 
         """
-        if scope is not None:
-            options = ["all_tags", "some", "without_all_tags", "without_some"]
-            assert scope in options, (
-                f'"scope" cannot be "{scope}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/sm/admins/roles"
 
@@ -2424,7 +2422,7 @@ class Sm:
         organization_id: str,
         role_id: str,
         name: str | None = None,
-        scope: str | None = None,
+        scope: UpdateOrganizationSmAdminsRoleScope | None = None,
         tags: list[str] | None = None,
     ) -> UpdateOrganizationSmAdminsRoleResponse:
         """Update a Limited Access Role.
@@ -2454,12 +2452,6 @@ class Sm:
             ```
 
         """
-        if scope is not None:
-            options = ["all_tags", "some", "without_all_tags", "without_some"]
-            assert scope in options, (
-                f'"scope" cannot be "{scope}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
         path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"

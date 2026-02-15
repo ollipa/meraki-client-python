@@ -179,6 +179,25 @@ from meraki_client.schemas import (
     UpdateNetworkWebhooksPayloadTemplateResponse,
     VmxNetworkDevicesClaimResponse,
 )
+from meraki_client.types import (
+    CreateNetworkFirmwareUpgradesRollbackProduct,
+    CreateNetworkGroupPolicySplashAuthSettings,
+    CreateNetworkMerakiAuthUserAccountType,
+    CreateNetworkPiiRequestType,
+    GetNetworkClientsApplicationUsageSsidNumber,
+    GetNetworkClientsRecentDeviceConnections,
+    GetNetworkClientsStatuses,
+    GetNetworkClientsUsageHistoriesSsidNumber,
+    GetNetworkEventsProductType,
+    GetNetworkSplashLoginAttemptsSsidNumber,
+    GetNetworkTrafficDeviceType,
+    GetNetworkVlanProfilesAssignmentsByDeviceProductTypes,
+    ProvisionNetworkClientsDevicePolicy,
+    UpdateNetworkGroupPolicySplashAuthSettings,
+    UpdateNetworkSnmpAccess,
+    UpdateNetworkTrafficAnalysisMode,
+    VmxNetworkDevicesClaimSize,
+)
 
 if TYPE_CHECKING:
     from meraki_client._session import PaginatedResponse, Session
@@ -850,7 +869,7 @@ class Networks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        statuses: list[str] | None = None,
+        statuses: GetNetworkClientsStatuses | None = None,
         ip: str | None = None,
         ip6: str | None = None,
         ip6_local: str | None = None,
@@ -860,7 +879,7 @@ class Networks:
         description: str | None = None,
         vlan: str | None = None,
         named_vlan: str | None = None,
-        recent_device_connections: list[str] | None = None,
+        recent_device_connections: GetNetworkClientsRecentDeviceConnections | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkClientsResponseItem]:
@@ -1003,7 +1022,7 @@ class Networks:
         *,
         network_id: str,
         clients: str,
-        ssid_number: int | None = None,
+        ssid_number: GetNetworkClientsApplicationUsageSsidNumber | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1068,12 +1087,6 @@ class Networks:
             ```
 
         """
-        if ssid_number is not None:
-            options = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-            assert ssid_number in options, (
-                f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/clients/applicationUsage"
 
@@ -1260,7 +1273,7 @@ class Networks:
         *,
         network_id: str,
         clients: list[ProvisionNetworkClientsClientsItem],
-        device_policy: str,
+        device_policy: ProvisionNetworkClientsDevicePolicy,
         group_policy_id: str | None = None,
         policies_by_security_appliance: ProvisionNetworkClientsPoliciesBySecurityAppliance
         | None = None,
@@ -1304,12 +1317,6 @@ class Networks:
             ```
 
         """
-        if device_policy is not None:
-            options = ["Allowed", "Blocked", "Group policy", "Normal", "Per connection"]
-            assert device_policy in options, (
-                f'"device_policy" cannot be "{device_policy}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/clients/provision"
 
@@ -1344,7 +1351,7 @@ class Networks:
         *,
         network_id: str,
         clients: str,
-        ssid_number: int | None = None,
+        ssid_number: GetNetworkClientsUsageHistoriesSsidNumber | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1409,12 +1416,6 @@ class Networks:
             ```
 
         """
-        if ssid_number is not None:
-            options = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-            assert ssid_number in options, (
-                f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/clients/usageHistories"
 
@@ -2004,7 +2005,7 @@ class Networks:
         )
 
     def vmx_network_devices_claim(
-        self, *, network_id: str, size: str
+        self, *, network_id: str, size: VmxNetworkDevicesClaimSize
     ) -> VmxNetworkDevicesClaimResponse:
         """Claim a vMX into a network.
 
@@ -2047,10 +2048,6 @@ class Networks:
             ```
 
         """
-        if size is not None:
-            options = ["100", "large", "medium", "small", "xlarge"]
-            assert size in options, f'"size" cannot be "{size}", & must be set to one of: {options}'
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/devices/claim/vmx"
 
@@ -2094,7 +2091,7 @@ class Networks:
         self,
         network_id: str,
         *,
-        product_type: str | None = None,
+        product_type: GetNetworkEventsProductType | None = None,
         included_event_types: list[str] | None = None,
         excluded_event_types: list[str] | None = None,
         device_mac: str | None = None,
@@ -2209,22 +2206,6 @@ class Networks:
             ```
 
         """
-        if product_type is not None:
-            options = [
-                "appliance",
-                "camera",
-                "campusGateway",
-                "cellularGateway",
-                "secureConnect",
-                "switch",
-                "systemsManager",
-                "wireless",
-                "wirelessController",
-            ]
-            assert product_type in options, (
-                f'"product_type" cannot be "{product_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/events"
 
@@ -3161,7 +3142,7 @@ class Networks:
         *,
         network_id: str,
         reasons: list[CreateNetworkFirmwareUpgradesRollbackReasonsItem],
-        product: str | None = None,
+        product: CreateNetworkFirmwareUpgradesRollbackProduct | None = None,
         time: str | None = None,
         to_version: CreateNetworkFirmwareUpgradesRollbackToVersion | None = None,
     ) -> CreateNetworkFirmwareUpgradesRollbackResponse:
@@ -3203,21 +3184,6 @@ class Networks:
             ```
 
         """
-        if product is not None:
-            options = [
-                "appliance",
-                "camera",
-                "cellularGateway",
-                "secureConnect",
-                "switch",
-                "switchCatalyst",
-                "wireless",
-                "wirelessController",
-            ]
-            assert product in options, (
-                f'"product" cannot be "{product}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/firmwareUpgrades/rollbacks"
 
@@ -4897,7 +4863,7 @@ class Networks:
         firewall_and_traffic_shaping: CreateNetworkGroupPolicyFirewallAndTrafficShaping
         | None = None,
         content_filtering: CreateNetworkGroupPolicyContentFiltering | None = None,
-        splash_auth_settings: str | None = None,
+        splash_auth_settings: CreateNetworkGroupPolicySplashAuthSettings | None = None,
         vlan_tagging: CreateNetworkGroupPolicyVlanTagging | None = None,
         bonjour_forwarding: CreateNetworkGroupPolicyBonjourForwarding | None = None,
     ) -> CreateNetworkGroupPolicyResponse:
@@ -5055,12 +5021,6 @@ class Networks:
             ```
 
         """
-        if splash_auth_settings is not None:
-            options = ["bypass", "network default"]
-            assert splash_auth_settings in options, (
-                f'"splash_auth_settings" cannot be "{splash_auth_settings}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/groupPolicies"
 
@@ -5261,7 +5221,7 @@ class Networks:
         firewall_and_traffic_shaping: UpdateNetworkGroupPolicyFirewallAndTrafficShaping
         | None = None,
         content_filtering: UpdateNetworkGroupPolicyContentFiltering | None = None,
-        splash_auth_settings: str | None = None,
+        splash_auth_settings: UpdateNetworkGroupPolicySplashAuthSettings | None = None,
         vlan_tagging: UpdateNetworkGroupPolicyVlanTagging | None = None,
         bonjour_forwarding: UpdateNetworkGroupPolicyBonjourForwarding | None = None,
     ) -> UpdateNetworkGroupPolicyResponse:
@@ -5420,12 +5380,6 @@ class Networks:
             ```
 
         """
-        if splash_auth_settings is not None:
-            options = ["bypass", "network default"]
-            assert splash_auth_settings in options, (
-                f'"splash_auth_settings" cannot be "{splash_auth_settings}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
         path = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
@@ -5627,7 +5581,7 @@ class Networks:
         authorizations: list[CreateNetworkMerakiAuthUserAuthorizationsItem],
         name: str | None = None,
         password: str | None = None,
-        account_type: str | None = None,
+        account_type: CreateNetworkMerakiAuthUserAccountType | None = None,
         email_password_to_user: bool | None = None,
         is_admin: bool | None = None,
     ) -> CreateNetworkMerakiAuthUserResponse:
@@ -5673,12 +5627,6 @@ class Networks:
             ```
 
         """
-        if account_type is not None:
-            options = ["802.1X", "Client VPN", "Guest"]
-            assert account_type in options, (
-                f'"account_type" cannot be "{account_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/merakiAuthUsers"
 
@@ -6452,7 +6400,7 @@ class Networks:
         self,
         network_id: str,
         *,
-        type_: str | None = None,
+        type_: CreateNetworkPiiRequestType | None = None,
         datasets: list[str] | None = None,
         username: str | None = None,
         email: str | None = None,
@@ -6503,12 +6451,6 @@ class Networks:
             ```
 
         """
-        if type_ is not None:
-            options = ["delete", "restrict processing"]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/pii/requests"
 
@@ -6983,7 +6925,7 @@ class Networks:
         self,
         network_id: str,
         *,
-        access: str | None = None,
+        access: UpdateNetworkSnmpAccess | None = None,
         community_string: str | None = None,
         users: list[UpdateNetworkSnmpUsersItem] | None = None,
     ) -> UpdateNetworkSnmpResponse:
@@ -7017,12 +6959,6 @@ class Networks:
             ```
 
         """
-        if access is not None:
-            options = ["community", "none", "users"]
-            assert access in options, (
-                f'"access" cannot be "{access}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/snmp"
 
@@ -7046,7 +6982,7 @@ class Networks:
         self,
         network_id: str,
         *,
-        ssid_number: int | None = None,
+        ssid_number: GetNetworkSplashLoginAttemptsSsidNumber | None = None,
         login_identifier: str | None = None,
         timespan: int | None = None,
     ) -> PaginatedResponse[GetNetworkSplashLoginAttemptsResponseItem]:
@@ -7086,12 +7022,6 @@ class Networks:
             ```
 
         """
-        if ssid_number is not None:
-            options = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-            assert ssid_number in options, (
-                f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/splashLoginAttempts"
 
@@ -7365,7 +7295,7 @@ class Networks:
         *,
         t0: str | None = None,
         timespan: float | None = None,
-        device_type: str | None = None,
+        device_type: GetNetworkTrafficDeviceType | None = None,
     ) -> PaginatedResponse[GetNetworkTrafficResponseItem]:
         """Return the traffic analysis data for this network.
 
@@ -7408,12 +7338,6 @@ class Networks:
             ```
 
         """
-        if device_type is not None:
-            options = ["appliance", "combined", "switch", "wireless"]
-            assert device_type in options, (
-                f'"device_type" cannot be "{device_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/traffic"
 
@@ -7473,7 +7397,7 @@ class Networks:
         self,
         network_id: str,
         *,
-        mode: str | None = None,
+        mode: UpdateNetworkTrafficAnalysisMode | None = None,
         custom_pie_chart_items: list[UpdateNetworkTrafficAnalysisCustomPieChartItemsItem]
         | None = None,
     ) -> UpdateNetworkTrafficAnalysisResponse:
@@ -7507,10 +7431,6 @@ class Networks:
             ```
 
         """
-        if mode is not None:
-            options = ["basic", "detailed", "disabled"]
-            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/trafficAnalysis"
 
@@ -7821,7 +7741,7 @@ class Networks:
         starting_after: str | None = None,
         ending_before: str | None = None,
         serials: list[str] | None = None,
-        product_types: list[str] | None = None,
+        product_types: GetNetworkVlanProfilesAssignmentsByDeviceProductTypes | None = None,
         stack_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",

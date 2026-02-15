@@ -37,6 +37,7 @@ from codegen.log_config import setup_logging
 from codegen.schema_gen import (
     SchemaRegistry,
     generate_response_schemas,
+    get_request_param_schema_name,
     get_response_schema_name,
 )
 from codegen.schemas import BatchableAction
@@ -85,7 +86,6 @@ class FunctionDefinition:
     """Function definition parameters."""
 
     body_params: list[BodyParam] = field(default_factory=list)
-    assert_blocks: list[tuple[str, list[str]]] = field(default_factory=list)
     param_descriptions: list[str] = field(default_factory=list)
     required_args: list[str] = field(default_factory=list)
     optional_args: list[str] = field(default_factory=list)
@@ -118,9 +118,11 @@ class Templates:
     schema_init_template: jinja2.Template
     schema_module_template: jinja2.Template
     session_template: jinja2.Template
+    types_template: jinja2.Template
 
 
 PathsType: TypeAlias = dict[str, dict[Literal["get", "put", "post", "delete"], Operation]]
+EnumAliasKey: TypeAlias = tuple[str, Literal["param", "body"], str]
 
 
 def main() -> None:
@@ -277,6 +279,9 @@ def generate_library(  # noqa: PLR0915
                 is_async=True,
             )
         )
+    enum_type_aliases, enum_alias_lookup = collect_enum_type_aliases(spec)
+    with open(f"{OUTPUT_DIR}/types.py", "w") as f:
+        f.write(templates.types_template.render(enum_type_aliases=enum_type_aliases))
 
     with open(f"{OUTPUT_DIR}/_session.py", "w") as f:
         f.write(templates.session_template.render(is_async=False))
@@ -306,6 +311,7 @@ def generate_library(  # noqa: PLR0915
                 schema_registry=schema_registry,
                 force_paginated=spec_overrides.force_paginated,
                 optional_response=spec_overrides.optional_response,
+                enum_alias_lookup=enum_alias_lookup,
             )
 
         if batch_content:
@@ -368,6 +374,7 @@ def generate_module(  # noqa: PLR0915
     schema_registry: SchemaRegistry,
     force_paginated: set[str],
     optional_response: set[str],
+    enum_alias_lookup: dict[EnumAliasKey, str],
 ) -> str | None:
     """Generate a module for a scope.
 
@@ -380,6 +387,8 @@ def generate_module(  # noqa: PLR0915
     batch_content: list[str] = []
     batch_schemas_used: list[str] = []
     operation_request_schemas: dict[str, list[str]] = {}
+    enum_type_aliases_used: set[str] = set()
+    batch_enum_type_aliases_used: set[str] = set()
 
     for methods in paths.values():
         for method, endpoint in methods.items():
@@ -399,6 +408,16 @@ def generate_module(  # noqa: PLR0915
                 operation_request_schemas[operation_id] = op_schemas
                 schemas_used.extend(op_schemas)
 
+            operation_enum_aliases = collect_operation_enum_type_aliases(
+                spec=spec,
+                operation_id=operation_id,
+                endpoint=endpoint,
+                enum_alias_lookup=enum_alias_lookup,
+            )
+            enum_type_aliases_used.update(operation_enum_aliases)
+            if batchable_actions_map.get(endpoint.description or ""):
+                batch_enum_type_aliases_used.update(operation_enum_aliases)
+
             if method == "delete":
                 continue
 
@@ -410,12 +429,18 @@ def generate_module(  # noqa: PLR0915
 
     output.write(
         templates.class_template.render(
-            class_name=class_name, is_async=False, schemas_used=sorted(set(schemas_used))
+            class_name=class_name,
+            is_async=False,
+            schemas_used=sorted(set(schemas_used)),
+            enum_type_aliases=sorted(enum_type_aliases_used),
         )
     )
     async_output.write(
         templates.class_template.render(
-            class_name=class_name, is_async=True, schemas_used=sorted(set(schemas_used))
+            class_name=class_name,
+            is_async=True,
+            schemas_used=sorted(set(schemas_used)),
+            enum_type_aliases=sorted(enum_type_aliases_used),
         )
     )
 
@@ -430,11 +455,20 @@ def generate_module(  # noqa: PLR0915
             resource_path = convert_path_params(path)
             function_definition = FunctionDefinition()
             is_paginated = collect_params(
-                spec, operation_id, endpoint.parameters or [], function_definition
+                spec,
+                operation_id,
+                endpoint.parameters or [],
+                function_definition,
+                enum_alias_lookup,
             )
             has_pagination_params = is_paginated
             collect_request_body_params(
-                spec, operation_id, endpoint.requestBody, function_definition, schema_registry
+                spec,
+                operation_id,
+                endpoint.requestBody,
+                function_definition,
+                schema_registry,
+                enum_alias_lookup,
             )
             if is_paginated:
                 collect_pagination_params(operation_id, function_definition)
@@ -511,7 +545,6 @@ def generate_module(  # noqa: PLR0915
                 "description": description,
                 "doc_url": docs_url(operation_id),
                 "descriptions": function_definition.param_descriptions,
-                "assert_blocks": function_definition.assert_blocks,
                 "resource": resource_path,
                 "query_params": function_definition.query_params,
                 "body_params": body_params_for_template,
@@ -575,7 +608,6 @@ def generate_module(  # noqa: PLR0915
                         description=description,
                         doc_url=docs_url(operation_id),
                         descriptions=function_definition.param_descriptions,
-                        assert_blocks=function_definition.assert_blocks,
                         resource=resource_path,
                         query_params=function_definition.query_params,
                         body_params=body_params_for_template,
@@ -586,7 +618,9 @@ def generate_module(  # noqa: PLR0915
 
     if batch_content:
         return templates.batch_class_template.render(
-            class_name=class_name, schemas_used=sorted(set(batch_schemas_used))
+            class_name=class_name,
+            schemas_used=sorted(set(batch_schemas_used)),
+            enum_type_aliases=sorted(batch_enum_type_aliases_used),
         ) + "".join(batch_content)
     return None
 
@@ -697,6 +731,7 @@ def init_templates() -> Templates:
         schema_init_template=read_template("schema_init_template.py", jinja_env),
         schema_module_template=read_template("schema_module_template.py", jinja_env),
         session_template=read_template("session_template.py", jinja_env),
+        types_template=read_template("types_template.py", jinja_env),
     )
 
 
@@ -713,6 +748,7 @@ def collect_params(
     operation_id: str,
     parameters: list[Parameter | Reference],
     function_definition: FunctionDefinition,
+    enum_alias_lookup: dict[EnumAliasKey, str],
 ) -> bool:
     """Collect path and query parameters. Returns True if paginated."""
     is_paginated = False
@@ -737,6 +773,9 @@ def collect_params(
                 continue
 
         py_type = get_python_type(param_schema)
+        alias_name = enum_alias_lookup.get((operation_id, "param", param_name))
+        if alias_name:
+            py_type = alias_name
 
         if param.param_in == ParameterLocation.QUERY:
             key = param_name
@@ -765,8 +804,6 @@ def collect_params(
             function_definition.required_args.append(f"{snake_name}: {py_type}")
         else:
             function_definition.optional_args.append(f"{snake_name}: {py_type} | None = None")
-        if param_schema.enum:
-            function_definition.assert_blocks.append((snake_name, param_schema.enum))
 
     return is_paginated
 
@@ -777,6 +814,7 @@ def collect_request_body_params(
     request_body: RequestBody | Reference | None,
     function_definition: FunctionDefinition,
     schema_registry: SchemaRegistry,
+    enum_alias_lookup: dict[EnumAliasKey, str],
 ) -> None:
     """Collect request body parameters."""
     if isinstance(request_body, Reference):
@@ -836,14 +874,59 @@ def collect_request_body_params(
         else:
             py_type = get_python_type(property_schema)
 
+        alias_name = enum_alias_lookup.get((operation_id, "body", property_name))
+        if alias_name:
+            py_type = alias_name
+
         required_properties = content_schema.required or []
         if property_name in required_properties:
             function_definition.required_args.append(f"{snake_name}: {py_type}")
         else:
             function_definition.optional_args.append(f"{snake_name}: {py_type} | None = None")
 
-        if property_schema.enum:
-            function_definition.assert_blocks.append((snake_name, property_schema.enum))
+
+def collect_operation_enum_type_aliases(
+    *,
+    spec: OpenAPI,
+    operation_id: str,
+    endpoint: Operation,
+    enum_alias_lookup: dict[EnumAliasKey, str],
+) -> set[str]:
+    """Collect enum type aliases used by a single endpoint."""
+    aliases: set[str] = set()
+
+    for param in endpoint.parameters or []:
+        resolved_param = param
+        if isinstance(resolved_param, Reference):
+            resolved_param = resolve_ref(spec, resolved_param, Parameter)
+            if not resolved_param:
+                continue
+        alias_name = enum_alias_lookup.get((operation_id, "param", resolved_param.name))
+        if alias_name:
+            aliases.add(alias_name)
+
+    request_body = endpoint.requestBody
+    if isinstance(request_body, Reference):
+        request_body = resolve_ref(spec, request_body, RequestBody)
+    if not request_body:
+        return aliases
+
+    json_content = request_body.content.get("application/json")
+    if not json_content:
+        return aliases
+
+    content_schema = json_content.media_type_schema
+    if isinstance(content_schema, Reference):
+        content_schema = resolve_ref(spec, content_schema, Schema)
+    if not content_schema:
+        return aliases
+
+    for property_name in content_schema.properties or {}:
+        alias_name = enum_alias_lookup.get((operation_id, "body", property_name))
+        if alias_name:
+            aliases.add(alias_name)
+
+    return aliases
 
 
 def check_force_paginated(
@@ -1039,8 +1122,48 @@ def convert_path_params(path: str) -> str:
     return re.sub(r"\{(\w+)\}", replace_param, path)
 
 
+def format_literal_type(enum_values: list[Any]) -> str:
+    """Format enum values as a Literal type."""
+    if not enum_values:
+        raise ValueError("Enum values are required")
+    return f"Literal[{', '.join(repr(value) for value in enum_values)}]"
+
+
+def build_enum_type_alias_name(operation_id: str, param_name: str) -> str:
+    """Build a stable alias name for an enum request parameter."""
+    return get_request_param_schema_name(operation_id, param_name)
+
+
+def register_enum_type_alias(
+    enum_type_aliases: dict[str, str], alias_name: str, alias_type: str
+) -> str:
+    """Register enum type alias while handling rare name collisions."""
+    if alias_name not in enum_type_aliases:
+        enum_type_aliases[alias_name] = alias_type
+        return alias_name
+
+    if enum_type_aliases[alias_name] == alias_type:
+        return alias_name
+
+    suffix = 2
+    while True:
+        candidate = f"{alias_name}{suffix}"
+        if candidate not in enum_type_aliases:
+            log.warning(
+                f"Enum alias collision on {alias_name}; using {candidate} for differing type"
+            )
+            enum_type_aliases[candidate] = alias_type
+            return candidate
+        if enum_type_aliases[candidate] == alias_type:
+            return candidate
+        suffix += 1
+
+
 def get_python_type(schema: Schema) -> str:
     """Get Python type for a schema."""
+    if schema.enum:
+        return format_literal_type(schema.enum)
+
     data_type = schema.type or DataType.STRING
     match data_type:
         case DataType.ARRAY:
@@ -1062,6 +1185,112 @@ def get_python_type(schema: Schema) -> str:
             return "str"
         case _:
             assert_never(data_type)
+
+
+def collect_param_enum_type_aliases(
+    *,
+    spec: OpenAPI,
+    operation_id: str,
+    endpoint: Operation,
+    enum_type_aliases: dict[str, str],
+    enum_alias_lookup: dict[EnumAliasKey, str],
+) -> None:
+    """Collect enum aliases from operation parameters."""
+    for param in endpoint.parameters or []:
+        resolved_param = param
+        if isinstance(resolved_param, Reference):
+            resolved_param = resolve_ref(spec, resolved_param, Parameter)
+            if not resolved_param:
+                continue
+
+        param_schema = resolved_param.param_schema
+        if not param_schema:
+            continue
+        if isinstance(param_schema, Reference):
+            param_schema = resolve_ref(spec, param_schema, Schema)
+            if not param_schema:
+                continue
+
+        py_type = get_python_type(param_schema)
+        if "Literal[" not in py_type:
+            continue
+
+        alias_name = build_enum_type_alias_name(operation_id, resolved_param.name)
+        resolved_alias_name = register_enum_type_alias(enum_type_aliases, alias_name, py_type)
+        enum_alias_lookup[(operation_id, "param", resolved_param.name)] = resolved_alias_name
+
+
+def collect_body_enum_type_aliases(
+    *,
+    spec: OpenAPI,
+    operation_id: str,
+    endpoint: Operation,
+    enum_type_aliases: dict[str, str],
+    enum_alias_lookup: dict[EnumAliasKey, str],
+) -> None:
+    """Collect enum aliases from operation request body properties."""
+    request_body = endpoint.requestBody
+    if isinstance(request_body, Reference):
+        request_body = resolve_ref(spec, request_body, RequestBody)
+    if not request_body:
+        return
+
+    json_content = request_body.content.get("application/json")
+    if not json_content:
+        return
+
+    content_schema = json_content.media_type_schema
+    if isinstance(content_schema, Reference):
+        content_schema = resolve_ref(spec, content_schema, Schema)
+    if not content_schema:
+        return
+
+    for property_name, property_schema in (content_schema.properties or {}).items():
+        resolved_property_schema = property_schema
+        if isinstance(resolved_property_schema, Reference):
+            resolved_property_schema = resolve_ref(spec, resolved_property_schema, Schema)
+            if not resolved_property_schema:
+                continue
+
+        py_type = get_python_type(resolved_property_schema)
+        if "Literal[" not in py_type:
+            continue
+
+        alias_name = build_enum_type_alias_name(operation_id, property_name)
+        resolved_alias_name = register_enum_type_alias(enum_type_aliases, alias_name, py_type)
+        enum_alias_lookup[(operation_id, "body", property_name)] = resolved_alias_name
+
+
+def collect_enum_type_aliases(spec: OpenAPI) -> tuple[dict[str, str], dict[EnumAliasKey, str]]:
+    """Collect importable enum request parameter type aliases and lookup keys."""
+    enum_type_aliases: dict[str, str] = {}
+    enum_alias_lookup: dict[EnumAliasKey, str] = {}
+
+    for path_item in spec.paths.values():
+        operations = [path_item.get, path_item.put, path_item.post, path_item.delete]
+        for endpoint in operations:
+            if not endpoint:
+                continue
+            operation_id = endpoint.operationId
+            if not operation_id:
+                continue
+
+            collect_param_enum_type_aliases(
+                spec=spec,
+                operation_id=operation_id,
+                endpoint=endpoint,
+                enum_type_aliases=enum_type_aliases,
+                enum_alias_lookup=enum_alias_lookup,
+            )
+            collect_body_enum_type_aliases(
+                spec=spec,
+                operation_id=operation_id,
+                endpoint=endpoint,
+                enum_type_aliases=enum_type_aliases,
+                enum_alias_lookup=enum_alias_lookup,
+            )
+
+    return dict(sorted(enum_type_aliases.items())), enum_alias_lookup
 
 
 if __name__ == "__main__":

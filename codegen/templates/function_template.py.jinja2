@@ -32,14 +32,6 @@
 
         {% endif %}
         """
-        {% if assert_blocks|length > 0 %}
-        {% for param, values in assert_blocks %}
-        if {{ param }} is not None:
-            options = {{ values }}
-            assert {{ param }} in options, f'"{{ param }}" cannot be "{{ '{' + param + '}' }}", & must be set to one of: {options}'
-        {% endfor %}
-
-        {% endif %}
         {% for param in path_params %}
         {{ param }} = urllib.parse.quote(str({{ param }}), safe='')
         {% endfor %}

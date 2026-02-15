@@ -37,6 +37,12 @@ from meraki_client.schemas import (
     UpdateNetworkSensorAlertsProfileSchedule,
     UpdateNetworkSensorMqttBrokerResponse,
 )
+from meraki_client.types import (
+    CreateDeviceSensorCommandOperation,
+    GetDeviceSensorCommandsSortOrder,
+    GetOrganizationSensorReadingsHistoryMetrics,
+    GetOrganizationSensorReadingsLatestMetrics,
+)
 
 if TYPE_CHECKING:
     from meraki_client.aio._session import AsyncPaginatedResponse, Session
@@ -56,7 +62,7 @@ class Sensor:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        sort_order: str | None = None,
+        sort_order: GetDeviceSensorCommandsSortOrder | None = None,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -122,12 +128,6 @@ class Sensor:
             ```
 
         """
-        if sort_order is not None:
-            options = ["ascending", "descending"]
-            assert sort_order in options, (
-                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/sensor/commands"
 
@@ -160,7 +160,7 @@ class Sensor:
         )
 
     async def create_device_sensor_command(
-        self, *, serial: str, operation: str
+        self, *, serial: str, operation: CreateDeviceSensorCommandOperation
     ) -> CreateDeviceSensorCommandResponse:
         """Sends a command to a sensor.
 
@@ -195,17 +195,6 @@ class Sensor:
             ```
 
         """
-        if operation is not None:
-            options = [
-                "cycleDownstreamPower",
-                "disableDownstreamPower",
-                "enableDownstreamPower",
-                "refreshData",
-            ]
-            assert operation in options, (
-                f'"operation" cannot be "{operation}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/sensor/commands"
 
@@ -1352,7 +1341,7 @@ class Sensor:
         timespan: float | None = None,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
-        metrics: list[str] | None = None,
+        metrics: GetOrganizationSensorReadingsHistoryMetrics | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSensorReadingsHistoryResponseItem]:
@@ -1525,7 +1514,7 @@ class Sensor:
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
-        metrics: list[str] | None = None,
+        metrics: GetOrganizationSensorReadingsLatestMetrics | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSensorReadingsLatestResponseItem]:

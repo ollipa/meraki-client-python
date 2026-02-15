@@ -10,6 +10,14 @@ from __future__ import annotations
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
+{% if enum_type_aliases %}
+from meraki_client.types import (
+{% for type_alias in enum_type_aliases %}
+    {{ type_alias }},
+{% endfor %}
+)
+{% endif %}
+
 {% if schemas_used %}
 from meraki_client.schemas import (
     DictResponse,

@@ -96,6 +96,29 @@ from meraki_client.schemas import (
     UpdateOrganizationWirelessMqttSettingsWifi,
     UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
 )
+from meraki_client.types import (
+    CreateNetworkWirelessAirMarshalRuleType,
+    CreateNetworkWirelessRfProfileBandSelectionType,
+    CreateNetworkWirelessRfProfileMinBitrateType,
+    UpdateNetworkWirelessAirMarshalRuleType,
+    UpdateNetworkWirelessAirMarshalSettingsDefaultPolicy,
+    UpdateNetworkWirelessAlternateManagementInterfaceProtocols,
+    UpdateNetworkWirelessElectronicShelfLabelMode,
+    UpdateNetworkWirelessRfProfileBandSelectionType,
+    UpdateNetworkWirelessRfProfileMinBitrateType,
+    UpdateNetworkWirelessSettingsUpgradeStrategy,
+    UpdateNetworkWirelessSsidAuthMode,
+    UpdateNetworkWirelessSsidEncryptionMode,
+    UpdateNetworkWirelessSsidEnterpriseAdminAccess,
+    UpdateNetworkWirelessSsidHotspot20NetworkAccessType,
+    UpdateNetworkWirelessSsidRadiusAttributeForGroupPolicies,
+    UpdateNetworkWirelessSsidRadiusFailoverPolicy,
+    UpdateNetworkWirelessSsidRadiusLoadBalancingPolicy,
+    UpdateNetworkWirelessSsidSplashPage,
+    UpdateNetworkWirelessSsidSplashSettingsControllerDisconnectionBehavior,
+    UpdateNetworkWirelessSsidSplashSettingsSplashTimeout,
+    UpdateNetworkWirelessSsidWpaEncryptionMode,
+)
 
 
 class ActionBatchWireless:
@@ -248,7 +271,11 @@ class ActionBatchWireless:
         )
 
     def create_network_wireless_air_marshal_rule(
-        self, *, network_id: str, type_: str, match: CreateNetworkWirelessAirMarshalRuleMatch
+        self,
+        *,
+        network_id: str,
+        type_: CreateNetworkWirelessAirMarshalRuleType,
+        match: CreateNetworkWirelessAirMarshalRuleMatch,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates a new rule.
 
@@ -260,12 +287,6 @@ class ActionBatchWireless:
             match: Object describing the rule specification.
 
         """
-        if type_ is not None:
-            options = ["alert", "allow", "block"]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/airMarshal/rules"
 
@@ -286,7 +307,7 @@ class ActionBatchWireless:
         *,
         network_id: str,
         rule_id: str,
-        type_: str | None = None,
+        type_: UpdateNetworkWirelessAirMarshalRuleType | None = None,
         match: UpdateNetworkWirelessAirMarshalRuleMatch | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a rule.
@@ -300,12 +321,6 @@ class ActionBatchWireless:
             match: Object describing the rule specification.
 
         """
-        if type_ is not None:
-            options = ["alert", "allow", "block"]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         rule_id = urllib.parse.quote(str(rule_id), safe="")
         path = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
@@ -344,7 +359,10 @@ class ActionBatchWireless:
         )
 
     def update_network_wireless_air_marshal_settings(
-        self, *, network_id: str, default_policy: str
+        self,
+        *,
+        network_id: str,
+        default_policy: UpdateNetworkWirelessAirMarshalSettingsDefaultPolicy,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates Air Marshal settings.
 
@@ -355,12 +373,6 @@ class ActionBatchWireless:
             default_policy: Allows clients to access rogue networks. Blocked by default.
 
         """
-        if default_policy is not None:
-            options = ["allow", "block"]
-            assert default_policy in options, (
-                f'"default_policy" cannot be "{default_policy}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/airMarshal/settings"
 
@@ -380,7 +392,7 @@ class ActionBatchWireless:
         *,
         enabled: bool | None = None,
         vlan_id: int | None = None,
-        protocols: list[str] | None = None,
+        protocols: UpdateNetworkWirelessAlternateManagementInterfaceProtocols | None = None,
         access_points: list[UpdateNetworkWirelessAlternateManagementInterfaceAccessPointsItem]
         | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -460,7 +472,7 @@ class ActionBatchWireless:
         *,
         hostname: str | None = None,
         enabled: bool | None = None,
-        mode: str | None = None,
+        mode: UpdateNetworkWirelessElectronicShelfLabelMode | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the ESL settings of a wireless network.
 
@@ -474,10 +486,6 @@ class ActionBatchWireless:
                 frequency'.
 
         """
-        if mode is not None:
-            options = ["Bluetooth", "high frequency"]
-            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/electronicShelfLabel"
 
@@ -725,9 +733,9 @@ class ActionBatchWireless:
         *,
         network_id: str,
         name: str,
-        band_selection_type: str,
+        band_selection_type: CreateNetworkWirelessRfProfileBandSelectionType,
         client_balancing_enabled: bool | None = None,
-        min_bitrate_type: str | None = None,
+        min_bitrate_type: CreateNetworkWirelessRfProfileMinBitrateType | None = None,
         ap_band_settings: CreateNetworkWirelessRfProfileApBandSettings | None = None,
         two_four_ghz_settings: CreateNetworkWirelessRfProfileTwoFourGhzSettings | None = None,
         five_ghz_settings: CreateNetworkWirelessRfProfileFiveGhzSettings | None = None,
@@ -759,17 +767,6 @@ class ActionBatchWireless:
             flex_radios: Flex radio settings.
 
         """
-        if min_bitrate_type is not None:
-            options = ["band", "ssid"]
-            assert min_bitrate_type in options, (
-                f'"min_bitrate_type" cannot be "{min_bitrate_type}", & must be set to one of: {options}'
-            )
-        if band_selection_type is not None:
-            options = ["ap", "ssid"]
-            assert band_selection_type in options, (
-                f'"band_selection_type" cannot be "{band_selection_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/rfProfiles"
 
@@ -822,8 +819,8 @@ class ActionBatchWireless:
         is_indoor_default: bool | None = None,
         is_outdoor_default: bool | None = None,
         client_balancing_enabled: bool | None = None,
-        min_bitrate_type: str | None = None,
-        band_selection_type: str | None = None,
+        min_bitrate_type: UpdateNetworkWirelessRfProfileMinBitrateType | None = None,
+        band_selection_type: UpdateNetworkWirelessRfProfileBandSelectionType | None = None,
         ap_band_settings: UpdateNetworkWirelessRfProfileApBandSettings | None = None,
         two_four_ghz_settings: UpdateNetworkWirelessRfProfileTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateNetworkWirelessRfProfileFiveGhzSettings | None = None,
@@ -860,17 +857,6 @@ class ActionBatchWireless:
             flex_radios: Flex radio settings.
 
         """
-        if min_bitrate_type is not None:
-            options = ["band", "ssid"]
-            assert min_bitrate_type in options, (
-                f'"min_bitrate_type" cannot be "{min_bitrate_type}", & must be set to one of: {options}'
-            )
-        if band_selection_type is not None:
-            options = ["ap", "ssid"]
-            assert band_selection_type in options, (
-                f'"band_selection_type" cannot be "{band_selection_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
@@ -947,7 +933,7 @@ class ActionBatchWireless:
         meshing_enabled: bool | None = None,
         ipv6_bridge_enabled: bool | None = None,
         location_analytics_enabled: bool | None = None,
-        upgrade_strategy: str | None = None,
+        upgrade_strategy: UpdateNetworkWirelessSettingsUpgradeStrategy | None = None,
         led_lights_on: bool | None = None,
         multicast_to_unicast_conversion: UpdateNetworkWirelessSettingsMulticastToUnicastConversion
         | None = None,
@@ -973,12 +959,6 @@ class ActionBatchWireless:
             named_vlans: Named VLAN settings for wireless networks.
 
         """
-        if upgrade_strategy is not None:
-            options = ["minimizeClientDowntime", "minimizeUpgradeTime"]
-            assert upgrade_strategy in options, (
-                f'"upgrade_strategy" cannot be "{upgrade_strategy}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/settings"
 
@@ -1013,14 +993,14 @@ class ActionBatchWireless:
         number: str,
         name: str | None = None,
         enabled: bool | None = None,
-        auth_mode: str | None = None,
-        enterprise_admin_access: str | None = None,
-        encryption_mode: str | None = None,
+        auth_mode: UpdateNetworkWirelessSsidAuthMode | None = None,
+        enterprise_admin_access: UpdateNetworkWirelessSsidEnterpriseAdminAccess | None = None,
+        encryption_mode: UpdateNetworkWirelessSsidEncryptionMode | None = None,
         psk: str | None = None,
-        wpa_encryption_mode: str | None = None,
+        wpa_encryption_mode: UpdateNetworkWirelessSsidWpaEncryptionMode | None = None,
         dot11w: UpdateNetworkWirelessSsidDot11w | None = None,
         dot11r: UpdateNetworkWirelessSsidDot11r | None = None,
-        splash_page: str | None = None,
+        splash_page: UpdateNetworkWirelessSsidSplashPage | None = None,
         splash_guest_sponsor_domains: list[str] | None = None,
         oauth: UpdateNetworkWirelessSsidOauth | None = None,
         local_radius: UpdateNetworkWirelessSsidLocalRadius | None = None,
@@ -1036,13 +1016,15 @@ class ActionBatchWireless:
         radius_fallback_enabled: bool | None = None,
         radius_radsec: UpdateNetworkWirelessSsidRadiusRadsec | None = None,
         radius_coa_enabled: bool | None = None,
-        radius_failover_policy: str | None = None,
-        radius_load_balancing_policy: str | None = None,
+        radius_failover_policy: UpdateNetworkWirelessSsidRadiusFailoverPolicy | None = None,
+        radius_load_balancing_policy: UpdateNetworkWirelessSsidRadiusLoadBalancingPolicy
+        | None = None,
         radius_accounting_enabled: bool | None = None,
         radius_accounting_servers: list[UpdateNetworkWirelessSsidRadiusAccountingServersItem]
         | None = None,
         radius_accounting_interim_interval: int | None = None,
-        radius_attribute_for_group_policies: str | None = None,
+        radius_attribute_for_group_policies: UpdateNetworkWirelessSsidRadiusAttributeForGroupPolicies
+        | None = None,
         ip_assignment_mode: str | None = None,
         use_vlan_tagging: bool | None = None,
         concentrator_network_id: str | None = None,
@@ -1234,86 +1216,6 @@ class ActionBatchWireless:
                 accounting start message. Must be between 0 and 60 seconds.
 
         """
-        if auth_mode is not None:
-            options = [
-                "8021x-entra",
-                "8021x-google",
-                "8021x-localradius",
-                "8021x-meraki",
-                "8021x-nac",
-                "8021x-radius",
-                "ipsk-with-nac",
-                "ipsk-with-radius",
-                "ipsk-with-radius-easy-psk",
-                "ipsk-without-radius",
-                "open",
-                "open-enhanced",
-                "open-with-nac",
-                "open-with-radius",
-                "psk",
-            ]
-            assert auth_mode in options, (
-                f'"auth_mode" cannot be "{auth_mode}", & must be set to one of: {options}'
-            )
-        if enterprise_admin_access is not None:
-            options = ["access disabled", "access enabled"]
-            assert enterprise_admin_access in options, (
-                f'"enterprise_admin_access" cannot be "{enterprise_admin_access}", & must be set to one of: {options}'
-            )
-        if encryption_mode is not None:
-            options = ["open", "wep", "wpa", "wpa-eap"]
-            assert encryption_mode in options, (
-                f'"encryption_mode" cannot be "{encryption_mode}", & must be set to one of: {options}'
-            )
-        if wpa_encryption_mode is not None:
-            options = [
-                "WPA1 and WPA2",
-                "WPA1 only",
-                "WPA2 only",
-                "WPA3 192-bit Security",
-                "WPA3 Transition Mode",
-                "WPA3 only",
-            ]
-            assert wpa_encryption_mode in options, (
-                f'"wpa_encryption_mode" cannot be "{wpa_encryption_mode}", & must be set to one of: {options}'
-            )
-        if splash_page is not None:
-            options = [
-                "Billing",
-                "Cisco ISE",
-                "Click-through splash page",
-                "Facebook Wi-Fi",
-                "Google Apps domain",
-                "Google OAuth",
-                "Microsoft Entra ID",
-                "None",
-                "Password-protected with Active Directory",
-                "Password-protected with LDAP",
-                "Password-protected with Meraki RADIUS",
-                "Password-protected with custom RADIUS",
-                "SMS authentication",
-                "Sponsored guest",
-                "Systems Manager Sentry",
-            ]
-            assert splash_page in options, (
-                f'"splash_page" cannot be "{splash_page}", & must be set to one of: {options}'
-            )
-        if radius_failover_policy is not None:
-            options = ["Allow access", "Deny access"]
-            assert radius_failover_policy in options, (
-                f'"radius_failover_policy" cannot be "{radius_failover_policy}", & must be set to one of: {options}'
-            )
-        if radius_load_balancing_policy is not None:
-            options = ["Round robin", "Strict priority order"]
-            assert radius_load_balancing_policy in options, (
-                f'"radius_load_balancing_policy" cannot be "{radius_load_balancing_policy}", & must be set to one of: {options}'
-            )
-        if radius_attribute_for_group_policies is not None:
-            options = ["Airespace-ACL-Name", "Aruba-User-Role", "Filter-Id", "Reply-Message"]
-            assert radius_attribute_for_group_policies in options, (
-                f'"radius_attribute_for_group_policies" cannot be "{radius_attribute_for_group_policies}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}"
@@ -1662,7 +1564,7 @@ class ActionBatchWireless:
         enabled: bool | None = None,
         operator: UpdateNetworkWirelessSsidHotspot20Operator | None = None,
         venue: UpdateNetworkWirelessSsidHotspot20Venue | None = None,
-        network_access_type: str | None = None,
+        network_access_type: UpdateNetworkWirelessSsidHotspot20NetworkAccessType | None = None,
         domains: list[str] | None = None,
         roam_consort_ois: list[str] | None = None,
         mcc_mncs: list[UpdateNetworkWirelessSsidHotspot20MccMncsItem] | None = None,
@@ -1689,21 +1591,6 @@ class ActionBatchWireless:
             nai_realms: An array of NAI realms.
 
         """
-        if network_access_type is not None:
-            options = [
-                "Chargeable public network",
-                "Emergency services only network",
-                "Free public network",
-                "Personal device network",
-                "Private network",
-                "Private network with guest access",
-                "Test or experimental",
-                "Wildcard",
-            ]
-            assert network_access_type in options, (
-                f'"network_access_type" cannot be "{network_access_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
@@ -1939,7 +1826,7 @@ class ActionBatchWireless:
         number: str,
         splash_url: str | None = None,
         use_splash_url: bool | None = None,
-        splash_timeout: int | None = None,
+        splash_timeout: UpdateNetworkWirelessSsidSplashSettingsSplashTimeout | None = None,
         redirect_url: str | None = None,
         use_redirect_url: bool | None = None,
         welcome_message: str | None = None,
@@ -1949,7 +1836,8 @@ class ActionBatchWireless:
         splash_prepaid_front: UpdateNetworkWirelessSsidSplashSettingsSplashPrepaidFront
         | None = None,
         block_all_traffic_before_sign_on: bool | None = None,
-        controller_disconnection_behavior: str | None = None,
+        controller_disconnection_behavior: UpdateNetworkWirelessSsidSplashSettingsControllerDisconnectionBehavior
+        | None = None,
         allow_simultaneous_logins: bool | None = None,
         guest_sponsorship: UpdateNetworkWirelessSsidSplashSettingsGuestSponsorship | None = None,
         billing: UpdateNetworkWirelessSsidSplashSettingsBilling | None = None,
@@ -1996,34 +1884,6 @@ class ActionBatchWireless:
             self_registration: Self-registration settings for splash with Meraki authentication.
 
         """
-        if splash_timeout is not None:
-            options = [
-                30,
-                60,
-                120,
-                240,
-                480,
-                720,
-                1080,
-                1440,
-                2880,
-                5760,
-                7200,
-                10080,
-                20160,
-                43200,
-                86400,
-                129600,
-            ]
-            assert splash_timeout in options, (
-                f'"splash_timeout" cannot be "{splash_timeout}", & must be set to one of: {options}'
-            )
-        if controller_disconnection_behavior is not None:
-            options = ["default", "open", "restricted"]
-            assert controller_disconnection_behavior in options, (
-                f'"controller_disconnection_behavior" cannot be "{controller_disconnection_behavior}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"

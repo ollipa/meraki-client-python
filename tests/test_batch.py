@@ -13,13 +13,12 @@ def test_network_batch_with_multiple_actions(client: MerakiClient, organization_
     """Test action batch with multiple update_network actions."""
     unique_suffix = uuid.uuid4().hex[:8]
     network_name = f"Test Network Batch {unique_suffix}"
-    product_types = ["switch"]
 
     # Create network using regular API
     created = client.organizations.create_organization_network(
         organization_id=organization_id,
         name=network_name,
-        product_types=product_types,
+        product_types=["switch"],
     )
     assert created is not None
     assert created.id is not None

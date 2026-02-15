@@ -18,6 +18,9 @@ from meraki_client.schemas import (
     UpdateNetworkSensorAlertsProfileRecipients,
     UpdateNetworkSensorAlertsProfileSchedule,
 )
+from meraki_client.types import (
+    CreateDeviceSensorCommandOperation,
+)
 
 
 class ActionBatchSensor:
@@ -27,7 +30,7 @@ class ActionBatchSensor:
         pass
 
     def create_device_sensor_command(
-        self, *, serial: str, operation: str
+        self, *, serial: str, operation: CreateDeviceSensorCommandOperation
     ) -> CreateOrganizationActionBatchActionsItem:
         """Sends a command to a sensor.
 
@@ -42,17 +45,6 @@ class ActionBatchSensor:
                 readings so that they are immediately available in the Dashboard API.
 
         """
-        if operation is not None:
-            options = [
-                "cycleDownstreamPower",
-                "disableDownstreamPower",
-                "enableDownstreamPower",
-                "refreshData",
-            ]
-            assert operation in options, (
-                f'"operation" cannot be "{operation}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/sensor/commands"
 

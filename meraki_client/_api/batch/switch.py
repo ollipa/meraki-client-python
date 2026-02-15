@@ -71,6 +71,36 @@ from meraki_client.schemas import (
     UpdateOrganizationConfigTemplateSwitchProfilePortHighSpeed,
     UpdateOrganizationConfigTemplateSwitchProfilePortProfile,
 )
+from meraki_client.types import (
+    CreateDeviceSwitchRoutingInterfaceMode,
+    CreateDeviceSwitchRoutingInterfaceMulticastRouting,
+    CreateNetworkSwitchAccessPolicyAccessPolicyType,
+    CreateNetworkSwitchAccessPolicyHostMode,
+    CreateNetworkSwitchQosRuleProtocol,
+    CreateNetworkSwitchStackRoutingInterfaceMode,
+    CreateNetworkSwitchStackRoutingInterfaceMulticastRouting,
+    UpdateDeviceSwitchPortAccessPolicyType,
+    UpdateDeviceSwitchPortStpGuard,
+    UpdateDeviceSwitchPortType,
+    UpdateDeviceSwitchPortUdld,
+    UpdateDeviceSwitchRoutingInterfaceDhcpDhcpLeaseTime,
+    UpdateDeviceSwitchRoutingInterfaceDhcpDhcpMode,
+    UpdateDeviceSwitchRoutingInterfaceDhcpDnsNameserversOption,
+    UpdateDeviceSwitchRoutingInterfaceMulticastRouting,
+    UpdateNetworkSwitchAccessPolicyAccessPolicyType,
+    UpdateNetworkSwitchAccessPolicyHostMode,
+    UpdateNetworkSwitchAlternateManagementInterfaceProtocols,
+    UpdateNetworkSwitchDhcpServerPolicyDefaultPolicy,
+    UpdateNetworkSwitchQosRuleProtocol,
+    UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpLeaseTime,
+    UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpMode,
+    UpdateNetworkSwitchStackRoutingInterfaceDhcpDnsNameserversOption,
+    UpdateNetworkSwitchStackRoutingInterfaceMulticastRouting,
+    UpdateOrganizationConfigTemplateSwitchProfilePortAccessPolicyType,
+    UpdateOrganizationConfigTemplateSwitchProfilePortStpGuard,
+    UpdateOrganizationConfigTemplateSwitchProfilePortType,
+    UpdateOrganizationConfigTemplateSwitchProfilePortUdld,
+)
 
 
 class ActionBatchSwitch:
@@ -113,18 +143,18 @@ class ActionBatchSwitch:
         tags: list[str] | None = None,
         enabled: bool | None = None,
         poe_enabled: bool | None = None,
-        type_: str | None = None,
+        type_: UpdateDeviceSwitchPortType | None = None,
         vlan: int | None = None,
         voice_vlan: int | None = None,
         allowed_vlans: str | None = None,
         isolation_enabled: bool | None = None,
         rstp_enabled: bool | None = None,
-        stp_guard: str | None = None,
+        stp_guard: UpdateDeviceSwitchPortStpGuard | None = None,
         stp_port_fast_trunk: bool | None = None,
         link_negotiation: str | None = None,
         port_schedule_id: str | None = None,
-        udld: str | None = None,
-        access_policy_type: str | None = None,
+        udld: UpdateDeviceSwitchPortUdld | None = None,
+        access_policy_type: UpdateDeviceSwitchPortAccessPolicyType | None = None,
         access_policy_number: int | None = None,
         mac_allow_list: list[str] | None = None,
         mac_whitelist_limit: int | None = None,
@@ -200,25 +230,6 @@ class ActionBatchSwitch:
             high_speed: High speed port enablement settings for C9500-32QC.
 
         """
-        if type_ is not None:
-            options = ["access", "dad", "routed", "stack", "svl", "trunk"]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-        if stp_guard is not None:
-            options = ["bpdu guard", "disabled", "loop guard", "root guard"]
-            assert stp_guard in options, (
-                f'"stp_guard" cannot be "{stp_guard}", & must be set to one of: {options}'
-            )
-        if udld is not None:
-            options = ["Alert only", "Enforce"]
-            assert udld in options, f'"udld" cannot be "{udld}", & must be set to one of: {options}'
-        if access_policy_type is not None:
-            options = ["Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list"]
-            assert access_policy_type in options, (
-                f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
         path = f"/devices/{serial}/switch/ports/{port_id}"
@@ -294,11 +305,11 @@ class ActionBatchSwitch:
         *,
         serial: str,
         name: str,
-        mode: str | None = None,
+        mode: CreateDeviceSwitchRoutingInterfaceMode | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
         interface_ip: str | None = None,
-        multicast_routing: str | None = None,
+        multicast_routing: CreateDeviceSwitchRoutingInterfaceMulticastRouting | None = None,
         vlan_id: int | None = None,
         default_gateway: str | None = None,
         ospf_settings: CreateDeviceSwitchRoutingInterfaceOspfSettings | None = None,
@@ -333,15 +344,6 @@ class ActionBatchSwitch:
             loopback: The loopback settings of the interface.
 
         """
-        if mode is not None:
-            options = ["loopback", "oob_management", "routed", "vlan"]
-            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
-        if multicast_routing is not None:
-            options = ["IGMP snooping querier", "disabled", "enabled"]
-            assert multicast_routing in options, (
-                f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces"
 
@@ -386,7 +388,7 @@ class ActionBatchSwitch:
         subnet: str | None = None,
         switch_port_id: str | None = None,
         interface_ip: str | None = None,
-        multicast_routing: str | None = None,
+        multicast_routing: UpdateDeviceSwitchRoutingInterfaceMulticastRouting | None = None,
         vlan_id: int | None = None,
         default_gateway: str | None = None,
         ospf_settings: UpdateDeviceSwitchRoutingInterfaceOspfSettings | None = None,
@@ -420,12 +422,6 @@ class ActionBatchSwitch:
             loopback: The loopback settings of the interface.
 
         """
-        if multicast_routing is not None:
-            options = ["IGMP snooping querier", "disabled", "enabled"]
-            assert multicast_routing in options, (
-                f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
@@ -486,10 +482,11 @@ class ActionBatchSwitch:
         *,
         serial: str,
         interface_id: str,
-        dhcp_mode: str | None = None,
+        dhcp_mode: UpdateDeviceSwitchRoutingInterfaceDhcpDhcpMode | None = None,
         dhcp_relay_server_ips: list[str] | None = None,
-        dhcp_lease_time: str | None = None,
-        dns_nameservers_option: str | None = None,
+        dhcp_lease_time: UpdateDeviceSwitchRoutingInterfaceDhcpDhcpLeaseTime | None = None,
+        dns_nameservers_option: UpdateDeviceSwitchRoutingInterfaceDhcpDnsNameserversOption
+        | None = None,
         dns_custom_nameservers: list[str] | None = None,
         boot_options_enabled: bool | None = None,
         boot_next_server: str | None = None,
@@ -532,22 +529,6 @@ class ActionBatchSwitch:
                 the switch interface.
 
         """
-        if dhcp_mode is not None:
-            options = ["dhcpDisabled", "dhcpRelay", "dhcpServer"]
-            assert dhcp_mode in options, (
-                f'"dhcp_mode" cannot be "{dhcp_mode}", & must be set to one of: {options}'
-            )
-        if dhcp_lease_time is not None:
-            options = ["1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"]
-            assert dhcp_lease_time in options, (
-                f'"dhcp_lease_time" cannot be "{dhcp_lease_time}", & must be set to one of: {options}'
-            )
-        if dns_nameservers_option is not None:
-            options = ["custom", "googlePublicDns", "openDns"]
-            assert dns_nameservers_option in options, (
-                f'"dns_nameservers_option" cannot be "{dns_nameservers_option}", & must be set to one of: {options}'
-            )
-
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
@@ -758,8 +739,8 @@ class ActionBatchSwitch:
         radius_accounting_servers: list[CreateNetworkSwitchAccessPolicyRadiusAccountingServersItem]
         | None = None,
         radius_group_attribute: str | None = None,
-        host_mode: str | None = None,
-        access_policy_type: str | None = None,
+        host_mode: CreateNetworkSwitchAccessPolicyHostMode | None = None,
+        access_policy_type: CreateNetworkSwitchAccessPolicyAccessPolicyType | None = None,
         increase_access_speed: bool | None = None,
         guest_vlan_id: int | None = None,
         dot1x: CreateNetworkSwitchAccessPolicyDot1x | None = None,
@@ -811,17 +792,6 @@ class ActionBatchSwitch:
             guest_sgt_id: Security Group Tag ID for guest group policy.
 
         """
-        if host_mode is not None:
-            options = ["Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host"]
-            assert host_mode in options, (
-                f'"host_mode" cannot be "{host_mode}", & must be set to one of: {options}'
-            )
-        if access_policy_type is not None:
-            options = ["802.1x", "Hybrid authentication", "MAC authentication bypass"]
-            assert access_policy_type in options, (
-                f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies"
 
@@ -891,8 +861,8 @@ class ActionBatchSwitch:
         radius_accounting_servers: list[UpdateNetworkSwitchAccessPolicyRadiusAccountingServersItem]
         | None = None,
         radius_group_attribute: str | None = None,
-        host_mode: str | None = None,
-        access_policy_type: str | None = None,
+        host_mode: UpdateNetworkSwitchAccessPolicyHostMode | None = None,
+        access_policy_type: UpdateNetworkSwitchAccessPolicyAccessPolicyType | None = None,
         increase_access_speed: bool | None = None,
         guest_vlan_id: int | None = None,
         dot1x: UpdateNetworkSwitchAccessPolicyDot1x | None = None,
@@ -945,17 +915,6 @@ class ActionBatchSwitch:
             guest_sgt_id: Security Group Tag ID for guest group policy.
 
         """
-        if host_mode is not None:
-            options = ["Multi-Auth", "Multi-Domain", "Multi-Host", "Single-Host"]
-            assert host_mode in options, (
-                f'"host_mode" cannot be "{host_mode}", & must be set to one of: {options}'
-            )
-        if access_policy_type is not None:
-            options = ["802.1x", "Hybrid authentication", "MAC authentication bypass"]
-            assert access_policy_type in options, (
-                f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
@@ -1038,7 +997,7 @@ class ActionBatchSwitch:
         *,
         enabled: bool | None = None,
         vlan_id: int | None = None,
-        protocols: list[str] | None = None,
+        protocols: UpdateNetworkSwitchAlternateManagementInterfaceProtocols | None = None,
         switches: list[UpdateNetworkSwitchAlternateManagementInterfaceSwitchesItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the switch alternate management interface for the network.
@@ -1084,7 +1043,7 @@ class ActionBatchSwitch:
         network_id: str,
         *,
         alerts: UpdateNetworkSwitchDhcpServerPolicyAlerts | None = None,
-        default_policy: str | None = None,
+        default_policy: UpdateNetworkSwitchDhcpServerPolicyDefaultPolicy | None = None,
         allowed_servers: list[str] | None = None,
         blocked_servers: list[str] | None = None,
         arp_inspection: UpdateNetworkSwitchDhcpServerPolicyArpInspection | None = None,
@@ -1104,12 +1063,6 @@ class ActionBatchSwitch:
             arp_inspection: Dynamic ARP Inspection settings.
 
         """
-        if default_policy is not None:
-            options = ["allow", "block"]
-            assert default_policy in options, (
-                f'"default_policy" cannot be "{default_policy}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
@@ -1435,7 +1388,7 @@ class ActionBatchSwitch:
         *,
         network_id: str,
         vlan: int,
-        protocol: str | None = None,
+        protocol: CreateNetworkSwitchQosRuleProtocol | None = None,
         src_port: int | None = None,
         src_port_range: str | None = None,
         dst_port: int | None = None,
@@ -1462,12 +1415,6 @@ class ActionBatchSwitch:
                 value is 0.
 
         """
-        if protocol is not None:
-            options = ["ANY", "TCP", "UDP"]
-            assert protocol in options, (
-                f'"protocol" cannot be "{protocol}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules"
 
@@ -1525,7 +1472,7 @@ class ActionBatchSwitch:
         network_id: str,
         qos_rule_id: str,
         vlan: int | None = None,
-        protocol: str | None = None,
+        protocol: UpdateNetworkSwitchQosRuleProtocol | None = None,
         src_port: int | None = None,
         src_port_range: str | None = None,
         dst_port: int | None = None,
@@ -1553,12 +1500,6 @@ class ActionBatchSwitch:
                 incoming DSCP. Default value is 0.
 
         """
-        if protocol is not None:
-            options = ["ANY", "TCP", "UDP"]
-            assert protocol in options, (
-                f'"protocol" cannot be "{protocol}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
@@ -1868,11 +1809,11 @@ class ActionBatchSwitch:
         network_id: str,
         switch_stack_id: str,
         name: str,
-        mode: str | None = None,
+        mode: CreateNetworkSwitchStackRoutingInterfaceMode | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
         interface_ip: str | None = None,
-        multicast_routing: str | None = None,
+        multicast_routing: CreateNetworkSwitchStackRoutingInterfaceMulticastRouting | None = None,
         vlan_id: int | None = None,
         default_gateway: str | None = None,
         ospf_settings: CreateNetworkSwitchStackRoutingInterfaceOspfSettings | None = None,
@@ -1908,15 +1849,6 @@ class ActionBatchSwitch:
             loopback: The loopback settings of the interface.
 
         """
-        if mode is not None:
-            options = ["loopback", "oob_management", "routed", "vlan"]
-            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
-        if multicast_routing is not None:
-            options = ["IGMP snooping querier", "disabled", "enabled"]
-            assert multicast_routing in options, (
-                f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
@@ -1963,7 +1895,7 @@ class ActionBatchSwitch:
         subnet: str | None = None,
         switch_port_id: str | None = None,
         interface_ip: str | None = None,
-        multicast_routing: str | None = None,
+        multicast_routing: UpdateNetworkSwitchStackRoutingInterfaceMulticastRouting | None = None,
         vlan_id: int | None = None,
         default_gateway: str | None = None,
         ospf_settings: UpdateNetworkSwitchStackRoutingInterfaceOspfSettings | None = None,
@@ -1998,12 +1930,6 @@ class ActionBatchSwitch:
             loopback: The loopback settings of the interface.
 
         """
-        if multicast_routing is not None:
-            options = ["IGMP snooping querier", "disabled", "enabled"]
-            assert multicast_routing in options, (
-                f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
@@ -2068,10 +1994,11 @@ class ActionBatchSwitch:
         network_id: str,
         switch_stack_id: str,
         interface_id: str,
-        dhcp_mode: str | None = None,
+        dhcp_mode: UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpMode | None = None,
         dhcp_relay_server_ips: list[str] | None = None,
-        dhcp_lease_time: str | None = None,
-        dns_nameservers_option: str | None = None,
+        dhcp_lease_time: UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpLeaseTime | None = None,
+        dns_nameservers_option: UpdateNetworkSwitchStackRoutingInterfaceDhcpDnsNameserversOption
+        | None = None,
         dns_custom_nameservers: list[str] | None = None,
         boot_options_enabled: bool | None = None,
         boot_next_server: str | None = None,
@@ -2118,22 +2045,6 @@ class ActionBatchSwitch:
                 the switch stack interface.
 
         """
-        if dhcp_mode is not None:
-            options = ["dhcpDisabled", "dhcpRelay", "dhcpServer"]
-            assert dhcp_mode in options, (
-                f'"dhcp_mode" cannot be "{dhcp_mode}", & must be set to one of: {options}'
-            )
-        if dhcp_lease_time is not None:
-            options = ["1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"]
-            assert dhcp_lease_time in options, (
-                f'"dhcp_lease_time" cannot be "{dhcp_lease_time}", & must be set to one of: {options}'
-            )
-        if dns_nameservers_option is not None:
-            options = ["custom", "googlePublicDns", "openDns"]
-            assert dns_nameservers_option in options, (
-                f'"dns_nameservers_option" cannot be "{dns_nameservers_option}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
@@ -2405,18 +2316,19 @@ class ActionBatchSwitch:
         tags: list[str] | None = None,
         enabled: bool | None = None,
         poe_enabled: bool | None = None,
-        type_: str | None = None,
+        type_: UpdateOrganizationConfigTemplateSwitchProfilePortType | None = None,
         vlan: int | None = None,
         voice_vlan: int | None = None,
         allowed_vlans: str | None = None,
         isolation_enabled: bool | None = None,
         rstp_enabled: bool | None = None,
-        stp_guard: str | None = None,
+        stp_guard: UpdateOrganizationConfigTemplateSwitchProfilePortStpGuard | None = None,
         stp_port_fast_trunk: bool | None = None,
         link_negotiation: str | None = None,
         port_schedule_id: str | None = None,
-        udld: str | None = None,
-        access_policy_type: str | None = None,
+        udld: UpdateOrganizationConfigTemplateSwitchProfilePortUdld | None = None,
+        access_policy_type: UpdateOrganizationConfigTemplateSwitchProfilePortAccessPolicyType
+        | None = None,
         access_policy_number: int | None = None,
         mac_allow_list: list[str] | None = None,
         mac_whitelist_limit: int | None = None,
@@ -2487,25 +2399,6 @@ class ActionBatchSwitch:
             high_speed: High speed port enablement settings for C9500-32QC.
 
         """
-        if type_ is not None:
-            options = ["access", "dad", "routed", "stack", "svl", "trunk"]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-        if stp_guard is not None:
-            options = ["bpdu guard", "disabled", "loop guard", "root guard"]
-            assert stp_guard in options, (
-                f'"stp_guard" cannot be "{stp_guard}", & must be set to one of: {options}'
-            )
-        if udld is not None:
-            options = ["Alert only", "Enforce"]
-            assert udld in options, f'"udld" cannot be "{udld}", & must be set to one of: {options}'
-        if access_policy_type is not None:
-            options = ["Custom access policy", "MAC allow list", "Open", "Sticky MAC allow list"]
-            assert access_policy_type in options, (
-                f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")

@@ -180,6 +180,28 @@ from meraki_client.schemas import (
     UpdateOrganizationApplianceVpnVpnFirewallRulesResponse,
     UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem,
 )
+from meraki_client.types import (
+    CreateNetworkApplianceVlanDhcpHandling,
+    CreateNetworkApplianceVlanDhcpLeaseTime,
+    CreateNetworkApplianceVlanTemplateVlanType,
+    GetNetworkApplianceClientSecurityEventsSortOrder,
+    GetNetworkApplianceSecurityEventsSortOrder,
+    GetOrganizationApplianceSecurityEventsSortOrder,
+    UpdateNetworkApplianceContentFilteringUrlCategoryListSize,
+    UpdateNetworkApplianceFirewallFirewalledServiceAccess,
+    UpdateNetworkApplianceSecurityIntrusionIdsRulesets,
+    UpdateNetworkApplianceSecurityIntrusionMode,
+    UpdateNetworkApplianceSecurityMalwareMode,
+    UpdateNetworkApplianceSettingsClientTrackingMethod,
+    UpdateNetworkApplianceSettingsDeploymentMode,
+    UpdateNetworkApplianceSsidAuthMode,
+    UpdateNetworkApplianceSsidEncryptionMode,
+    UpdateNetworkApplianceSsidWpaEncryptionMode,
+    UpdateNetworkApplianceVlanDhcpHandling,
+    UpdateNetworkApplianceVlanDhcpLeaseTime,
+    UpdateNetworkApplianceVlanTemplateVlanType,
+    UpdateNetworkApplianceVpnSiteToSiteVpnMode,
+)
 
 if TYPE_CHECKING:
     from meraki_client._session import PaginatedResponse, Session
@@ -758,7 +780,7 @@ class Appliance:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        sort_order: str | None = None,
+        sort_order: GetNetworkApplianceClientSecurityEventsSortOrder | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkApplianceClientSecurityEventsResponse]:
@@ -840,12 +862,6 @@ class Appliance:
             ```
 
         """
-        if sort_order is not None:
-            options = ["ascending", "descending"]
-            assert sort_order in options, (
-                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
         path = f"/networks/{network_id}/appliance/clients/{client_id}/security/events"
@@ -1014,7 +1030,8 @@ class Appliance:
         allowed_url_patterns: list[str] | None = None,
         blocked_url_patterns: list[str] | None = None,
         blocked_url_categories: list[str] | None = None,
-        url_category_list_size: str | None = None,
+        url_category_list_size: UpdateNetworkApplianceContentFilteringUrlCategoryListSize
+        | None = None,
     ) -> UpdateNetworkApplianceContentFilteringResponse:
         """Update the content filtering settings for an MX network.
 
@@ -1052,12 +1069,6 @@ class Appliance:
             ```
 
         """
-        if url_category_list_size is not None:
-            options = ["fullList", "topSites"]
-            assert url_category_list_size in options, (
-                f'"url_category_list_size" cannot be "{url_category_list_size}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/contentFiltering"
 
@@ -1295,7 +1306,12 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_firewalled_service(
-        self, *, network_id: str, service: str, access: str, allowed_ips: list[str] | None = None
+        self,
+        *,
+        network_id: str,
+        service: str,
+        access: UpdateNetworkApplianceFirewallFirewalledServiceAccess,
+        allowed_ips: list[str] | None = None,
     ) -> UpdateNetworkApplianceFirewallFirewalledServiceResponse:
         """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP').
 
@@ -1328,12 +1344,6 @@ class Appliance:
             ```
 
         """
-        if access is not None:
-            options = ["blocked", "restricted", "unrestricted"]
-            assert access in options, (
-                f'"access" cannot be "{access}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         service = urllib.parse.quote(str(service), safe="")
         path = f"/networks/{network_id}/appliance/firewall/firewalledServices/{service}"
@@ -3079,7 +3089,7 @@ class Appliance:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        sort_order: str | None = None,
+        sort_order: GetNetworkApplianceSecurityEventsSortOrder | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetNetworkApplianceSecurityEventsResponse]:
@@ -3160,12 +3170,6 @@ class Appliance:
             ```
 
         """
-        if sort_order is not None:
-            options = ["ascending", "descending"]
-            assert sort_order in options, (
-                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/security/events"
 
@@ -3244,8 +3248,8 @@ class Appliance:
         self,
         network_id: str,
         *,
-        mode: str | None = None,
-        ids_rulesets: str | None = None,
+        mode: UpdateNetworkApplianceSecurityIntrusionMode | None = None,
+        ids_rulesets: UpdateNetworkApplianceSecurityIntrusionIdsRulesets | None = None,
         protected_networks: UpdateNetworkApplianceSecurityIntrusionProtectedNetworks | None = None,
     ) -> UpdateNetworkApplianceSecurityIntrusionResponse:
         """Set the supported intrusion settings for an MX network.
@@ -3288,15 +3292,6 @@ class Appliance:
             ```
 
         """
-        if mode is not None:
-            options = ["detection", "disabled", "prevention"]
-            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
-        if ids_rulesets is not None:
-            options = ["balanced", "connectivity", "security"]
-            assert ids_rulesets in options, (
-                f'"ids_rulesets" cannot be "{ids_rulesets}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/security/intrusion"
 
@@ -3365,7 +3360,7 @@ class Appliance:
         self,
         *,
         network_id: str,
-        mode: str,
+        mode: UpdateNetworkApplianceSecurityMalwareMode,
         allowed_urls: list[UpdateNetworkApplianceSecurityMalwareAllowedUrlsItem] | None = None,
         allowed_files: list[UpdateNetworkApplianceSecurityMalwareAllowedFilesItem] | None = None,
     ) -> UpdateNetworkApplianceSecurityMalwareResponse:
@@ -3406,10 +3401,6 @@ class Appliance:
             ```
 
         """
-        if mode is not None:
-            options = ["disabled", "enabled"]
-            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/security/malware"
 
@@ -3474,8 +3465,8 @@ class Appliance:
         self,
         network_id: str,
         *,
-        client_tracking_method: str | None = None,
-        deployment_mode: str | None = None,
+        client_tracking_method: UpdateNetworkApplianceSettingsClientTrackingMethod | None = None,
+        deployment_mode: UpdateNetworkApplianceSettingsDeploymentMode | None = None,
         dynamic_dns: UpdateNetworkApplianceSettingsDynamicDns | None = None,
     ) -> UpdateNetworkApplianceSettingsResponse:
         """Update the appliance settings for a network.
@@ -3505,17 +3496,6 @@ class Appliance:
             ```
 
         """
-        if client_tracking_method is not None:
-            options = ["IP address", "MAC address", "Unique client identifier"]
-            assert client_tracking_method in options, (
-                f'"client_tracking_method" cannot be "{client_tracking_method}", & must be set to one of: {options}'
-            )
-        if deployment_mode is not None:
-            options = ["passthrough", "routed"]
-            assert deployment_mode in options, (
-                f'"deployment_mode" cannot be "{deployment_mode}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/settings"
 
@@ -3766,11 +3746,11 @@ class Appliance:
         name: str | None = None,
         enabled: bool | None = None,
         default_vlan_id: int | None = None,
-        auth_mode: str | None = None,
+        auth_mode: UpdateNetworkApplianceSsidAuthMode | None = None,
         psk: str | None = None,
         radius_servers: list[UpdateNetworkApplianceSsidRadiusServersItem] | None = None,
-        encryption_mode: str | None = None,
-        wpa_encryption_mode: str | None = None,
+        encryption_mode: UpdateNetworkApplianceSsidEncryptionMode | None = None,
+        wpa_encryption_mode: UpdateNetworkApplianceSsidWpaEncryptionMode | None = None,
         visible: bool | None = None,
         dhcp_enforced_deauthentication: UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication
         | None = None,
@@ -3829,22 +3809,6 @@ class Appliance:
             ```
 
         """
-        if auth_mode is not None:
-            options = ["8021x-meraki", "8021x-radius", "open", "psk"]
-            assert auth_mode in options, (
-                f'"auth_mode" cannot be "{auth_mode}", & must be set to one of: {options}'
-            )
-        if encryption_mode is not None:
-            options = ["wep", "wpa"]
-            assert encryption_mode in options, (
-                f'"encryption_mode" cannot be "{encryption_mode}", & must be set to one of: {options}'
-            )
-        if wpa_encryption_mode is not None:
-            options = ["WPA1 and WPA2", "WPA2 only", "WPA3 Transition Mode", "WPA3 only"]
-            assert wpa_encryption_mode in options, (
-                f'"wpa_encryption_mode" cannot be "{wpa_encryption_mode}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/appliance/ssids/{number}"
@@ -5231,13 +5195,13 @@ class Appliance:
         subnet: str | None = None,
         appliance_ip: str | None = None,
         group_policy_id: str | None = None,
-        template_vlan_type: str | None = None,
+        template_vlan_type: CreateNetworkApplianceVlanTemplateVlanType | None = None,
         cidr: str | None = None,
         mask: int | None = None,
         ipv6: CreateNetworkApplianceVlanIpv6 | None = None,
-        dhcp_handling: str | None = None,
+        dhcp_handling: CreateNetworkApplianceVlanDhcpHandling | None = None,
         dhcp_relay_server_ips: list[str] | None = None,
-        dhcp_lease_time: str | None = None,
+        dhcp_lease_time: CreateNetworkApplianceVlanDhcpLeaseTime | None = None,
         mandatory_dhcp: CreateNetworkApplianceVlanMandatoryDhcp | None = None,
         dhcp_boot_options_enabled: bool | None = None,
         dhcp_boot_next_server: str | None = None,
@@ -5320,26 +5284,6 @@ class Appliance:
             ```
 
         """
-        if template_vlan_type is not None:
-            options = ["same", "unique"]
-            assert template_vlan_type in options, (
-                f'"template_vlan_type" cannot be "{template_vlan_type}", & must be set to one of: {options}'
-            )
-        if dhcp_handling is not None:
-            options = [
-                "Do not respond to DHCP requests",
-                "Relay DHCP to another server",
-                "Run a DHCP server",
-            ]
-            assert dhcp_handling in options, (
-                f'"dhcp_handling" cannot be "{dhcp_handling}", & must be set to one of: {options}'
-            )
-        if dhcp_lease_time is not None:
-            options = ["1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"]
-            assert dhcp_lease_time in options, (
-                f'"dhcp_lease_time" cannot be "{dhcp_lease_time}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans"
 
@@ -5559,9 +5503,9 @@ class Appliance:
         appliance_ip: str | None = None,
         group_policy_id: str | None = None,
         vpn_nat_subnet: str | None = None,
-        dhcp_handling: str | None = None,
+        dhcp_handling: UpdateNetworkApplianceVlanDhcpHandling | None = None,
         dhcp_relay_server_ips: list[str] | None = None,
-        dhcp_lease_time: str | None = None,
+        dhcp_lease_time: UpdateNetworkApplianceVlanDhcpLeaseTime | None = None,
         dhcp_boot_options_enabled: bool | None = None,
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
@@ -5569,7 +5513,7 @@ class Appliance:
         reserved_ip_ranges: list[UpdateNetworkApplianceVlanReservedIpRangesItem] | None = None,
         dns_nameservers: str | None = None,
         dhcp_options: list[UpdateNetworkApplianceVlanDhcpOptionsItem] | None = None,
-        template_vlan_type: str | None = None,
+        template_vlan_type: UpdateNetworkApplianceVlanTemplateVlanType | None = None,
         cidr: str | None = None,
         mask: int | None = None,
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
@@ -5692,26 +5636,6 @@ class Appliance:
             ```
 
         """
-        if dhcp_handling is not None:
-            options = [
-                "Do not respond to DHCP requests",
-                "Relay DHCP to another server",
-                "Run a DHCP server",
-            ]
-            assert dhcp_handling in options, (
-                f'"dhcp_handling" cannot be "{dhcp_handling}", & must be set to one of: {options}'
-            )
-        if dhcp_lease_time is not None:
-            options = ["1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"]
-            assert dhcp_lease_time in options, (
-                f'"dhcp_lease_time" cannot be "{dhcp_lease_time}", & must be set to one of: {options}'
-            )
-        if template_vlan_type is not None:
-            options = ["same", "unique"]
-            assert template_vlan_type in options, (
-                f'"template_vlan_type" cannot be "{template_vlan_type}", & must be set to one of: {options}'
-            )
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
@@ -5998,7 +5922,7 @@ class Appliance:
         self,
         *,
         network_id: str,
-        mode: str,
+        mode: UpdateNetworkApplianceVpnSiteToSiteVpnMode,
         hubs: list[UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem] | None = None,
         subnets: list[UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem] | None = None,
         subnet: UpdateNetworkApplianceVpnSiteToSiteVpnSubnet | None = None,
@@ -6047,10 +5971,6 @@ class Appliance:
             ```
 
         """
-        if mode is not None:
-            options = ["hub", "none", "spoke"]
-            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
-
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
@@ -7201,7 +7121,7 @@ class Appliance:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        sort_order: str | None = None,
+        sort_order: GetOrganizationApplianceSecurityEventsSortOrder | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationApplianceSecurityEventsResponse]:
@@ -7282,12 +7202,6 @@ class Appliance:
             ```
 
         """
-        if sort_order is not None:
-            options = ["ascending", "descending"]
-            assert sort_order in options, (
-                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/security/events"
 

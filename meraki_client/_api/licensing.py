@@ -22,6 +22,10 @@ from meraki_client.schemas import (
     MoveOrganizationLicensingCotermLicensesResponse,
     ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse,
 )
+from meraki_client.types import (
+    GetAdministeredLicensingSubscriptionSubscriptionsProductTypes,
+    GetAdministeredLicensingSubscriptionSubscriptionsStatuses,
+)
 
 if TYPE_CHECKING:
     from meraki_client._session import PaginatedResponse, Session
@@ -87,8 +91,8 @@ class Licensing:
         starting_after: str | None = None,
         ending_before: str | None = None,
         subscription_ids: list[str] | None = None,
-        statuses: list[str] | None = None,
-        product_types: list[str] | None = None,
+        statuses: GetAdministeredLicensingSubscriptionSubscriptionsStatuses | None = None,
+        product_types: GetAdministeredLicensingSubscriptionSubscriptionsProductTypes | None = None,
         skus: list[str] | None = None,
         name: str | None = None,
         start_date: str | None = None,

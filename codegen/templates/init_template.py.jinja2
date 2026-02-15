@@ -13,6 +13,7 @@ from types import TracebackType
 from typing import Self
 {% endif %}
 
+from meraki_client import types
 {% for module in modules %}
 from meraki_client.{{ api_path }}.{{ module.snake_name }} import {{ module.class_name }}
 {% endfor %}
@@ -37,6 +38,7 @@ __all__ = [
     "MerakiClient",
     "PaginatedResponse",
     {% endif %}
+    "types",
 ]
 __version__ = "{{ version }}"
 __api_version__ = "{{ api_version }}"

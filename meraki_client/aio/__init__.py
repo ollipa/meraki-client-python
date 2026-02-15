@@ -9,6 +9,7 @@ import sys
 from types import TracebackType
 from typing import Self
 
+from meraki_client import types
 from meraki_client._api.batch import Batch
 from meraki_client._common import BaseURL
 from meraki_client.aio._api.administered import Administered
@@ -40,6 +41,7 @@ __all__ = [
     "AsyncMerakiClient",
     "AsyncPaginatedResponse",
     "BaseURL",
+    "types",
 ]
 __version__ = "0.9.0"
 __api_version__ = "v1.67.0"

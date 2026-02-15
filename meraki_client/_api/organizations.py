@@ -226,6 +226,75 @@ from meraki_client.schemas import (
     UpdateOrganizationSamlSpInitiated,
     UpdateOrganizationSnmpResponse,
 )
+from meraki_client.types import (
+    CreateOrganizationAdaptivePolicyAclIpVersion,
+    CreateOrganizationAdaptivePolicyPolicyLastEntryRule,
+    CreateOrganizationAdminAuthenticationMethod,
+    CreateOrganizationAdminOrgAccess,
+    CreateOrganizationAlertsProfileType,
+    CreateOrganizationDevicesControllerMigrationTarget,
+    CreateOrganizationNetworkProductTypes,
+    GetOrganizationActionBatchesStatus,
+    GetOrganizationApiRequestsMethod,
+    GetOrganizationApiRequestsOverviewResponseCodesByIntervalVersion,
+    GetOrganizationApiRequestsVersion,
+    GetOrganizationAssuranceAlertsCategory,
+    GetOrganizationAssuranceAlertsDeviceTypes,
+    GetOrganizationAssuranceAlertsOverviewByNetworkCategory,
+    GetOrganizationAssuranceAlertsOverviewByNetworkDeviceTypes,
+    GetOrganizationAssuranceAlertsOverviewByNetworkSortOrder,
+    GetOrganizationAssuranceAlertsOverviewByNetworkTypes,
+    GetOrganizationAssuranceAlertsOverviewByTypeCategory,
+    GetOrganizationAssuranceAlertsOverviewByTypeDeviceTypes,
+    GetOrganizationAssuranceAlertsOverviewByTypeSortBy,
+    GetOrganizationAssuranceAlertsOverviewByTypeSortOrder,
+    GetOrganizationAssuranceAlertsOverviewByTypeTypes,
+    GetOrganizationAssuranceAlertsOverviewCategory,
+    GetOrganizationAssuranceAlertsOverviewDeviceTypes,
+    GetOrganizationAssuranceAlertsOverviewHistoricalCategory,
+    GetOrganizationAssuranceAlertsOverviewHistoricalDeviceTypes,
+    GetOrganizationAssuranceAlertsOverviewHistoricalTypes,
+    GetOrganizationAssuranceAlertsOverviewTypes,
+    GetOrganizationAssuranceAlertsSortBy,
+    GetOrganizationAssuranceAlertsSortOrder,
+    GetOrganizationAssuranceAlertsTypes,
+    GetOrganizationDevicesAvailabilitiesChangeHistoryStatuses,
+    GetOrganizationDevicesAvailabilitiesStatuses,
+    GetOrganizationDevicesAvailabilitiesTagsFilterType,
+    GetOrganizationDevicesControllerMigrationsTarget,
+    GetOrganizationDevicesOverviewByModelProductTypes,
+    GetOrganizationDevicesPacketCaptureCapturesSortOrder,
+    GetOrganizationDevicesPowerModulesStatusesByDeviceTagsFilterType,
+    GetOrganizationDevicesProductTypes,
+    GetOrganizationDevicesProvisioningStatusesStatus,
+    GetOrganizationDevicesProvisioningStatusesTagsFilterType,
+    GetOrganizationDevicesSensorMetrics,
+    GetOrganizationDevicesStatusesOverviewProductTypes,
+    GetOrganizationDevicesStatusesProductTypes,
+    GetOrganizationDevicesStatusesStatuses,
+    GetOrganizationDevicesStatusesTagsFilterType,
+    GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalProductTypes,
+    GetOrganizationDevicesTagsFilterType,
+    GetOrganizationDevicesUplinksAddressesByDeviceTagsFilterType,
+    GetOrganizationDevicesUplinksLossAndLatencyUplink,
+    GetOrganizationFirmwareUpgradesByDeviceUpgradeStatuses,
+    GetOrganizationInventoryDevicesEoxStatuses,
+    GetOrganizationInventoryDevicesProductTypes,
+    GetOrganizationInventoryDevicesTagsFilterType,
+    GetOrganizationInventoryDevicesUsedState,
+    GetOrganizationInventoryOnboardingCloudMonitoringNetworksDeviceType,
+    GetOrganizationLicensesState,
+    GetOrganizationNetworksProductTypes,
+    GetOrganizationNetworksTagsFilterType,
+    GetOrganizationOpenapiSpecVersion,
+    GetOrganizationWebhooksAlertTypesProductType,
+    UpdateOrganizationAdaptivePolicyAclIpVersion,
+    UpdateOrganizationAdaptivePolicyPolicyLastEntryRule,
+    UpdateOrganizationAdminOrgAccess,
+    UpdateOrganizationAlertsProfileType,
+    UpdateOrganizationSnmpV3AuthMode,
+    UpdateOrganizationSnmpV3PrivMode,
+)
 
 if TYPE_CHECKING:
     from meraki_client._session import PaginatedResponse, Session
@@ -534,7 +603,7 @@ class Organizations:
         )
 
     def get_organization_action_batches(
-        self, organization_id: str, *, status: str | None = None
+        self, organization_id: str, *, status: GetOrganizationActionBatchesStatus | None = None
     ) -> PaginatedResponse[GetOrganizationActionBatchesResponseItem]:
         """Return the list of action batches in the organization.
 
@@ -582,12 +651,6 @@ class Organizations:
             ```
 
         """
-        if status is not None:
-            options = ["completed", "failed", "pending"]
-            assert status in options, (
-                f'"status" cannot be "{status}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/actionBatches"
 
@@ -897,7 +960,7 @@ class Organizations:
         organization_id: str,
         name: str,
         rules: list[CreateOrganizationAdaptivePolicyAclRulesItem],
-        ip_version: str,
+        ip_version: CreateOrganizationAdaptivePolicyAclIpVersion,
         description: str | None = None,
     ) -> CreateOrganizationAdaptivePolicyAclResponse:
         """Creates new adaptive policy ACL.
@@ -937,12 +1000,6 @@ class Organizations:
             ```
 
         """
-        if ip_version is not None:
-            options = ["any", "ipv4", "ipv6"]
-            assert ip_version in options, (
-                f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
@@ -1020,7 +1077,7 @@ class Organizations:
         name: str | None = None,
         description: str | None = None,
         rules: list[UpdateOrganizationAdaptivePolicyAclRulesItem] | None = None,
-        ip_version: str | None = None,
+        ip_version: UpdateOrganizationAdaptivePolicyAclIpVersion | None = None,
     ) -> UpdateOrganizationAdaptivePolicyAclResponse:
         """Updates an adaptive policy ACL.
 
@@ -1061,12 +1118,6 @@ class Organizations:
             ```
 
         """
-        if ip_version is not None:
-            options = ["any", "ipv4", "ipv6"]
-            assert ip_version in options, (
-                f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
@@ -1480,7 +1531,7 @@ class Organizations:
         source_group: CreateOrganizationAdaptivePolicyPolicySourceGroup,
         destination_group: CreateOrganizationAdaptivePolicyPolicyDestinationGroup,
         acls: list[CreateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
-        last_entry_rule: str | None = None,
+        last_entry_rule: CreateOrganizationAdaptivePolicyPolicyLastEntryRule | None = None,
     ) -> CreateOrganizationAdaptivePolicyPolicyResponse:
         """Add an Adaptive Policy.
 
@@ -1525,12 +1576,6 @@ class Organizations:
             ```
 
         """
-        if last_entry_rule is not None:
-            options = ["allow", "default", "deny"]
-            assert last_entry_rule in options, (
-                f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
@@ -1614,7 +1659,7 @@ class Organizations:
         source_group: UpdateOrganizationAdaptivePolicyPolicySourceGroup | None = None,
         destination_group: UpdateOrganizationAdaptivePolicyPolicyDestinationGroup | None = None,
         acls: list[UpdateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
-        last_entry_rule: str | None = None,
+        last_entry_rule: UpdateOrganizationAdaptivePolicyPolicyLastEntryRule | None = None,
     ) -> UpdateOrganizationAdaptivePolicyPolicyResponse:
         """Update an Adaptive Policy.
 
@@ -1660,12 +1705,6 @@ class Organizations:
             ```
 
         """
-        if last_entry_rule is not None:
-            options = ["allow", "default", "deny"]
-            assert last_entry_rule in options, (
-                f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
@@ -1860,10 +1899,10 @@ class Organizations:
         organization_id: str,
         email: str,
         name: str,
-        org_access: str,
+        org_access: CreateOrganizationAdminOrgAccess,
         tags: list[CreateOrganizationAdminTagsItem] | None = None,
         networks: list[CreateOrganizationAdminNetworksItem] | None = None,
-        authentication_method: str | None = None,
+        authentication_method: CreateOrganizationAdminAuthenticationMethod | None = None,
     ) -> CreateOrganizationAdminResponse:
         """Create a new dashboard administrator.
 
@@ -1911,17 +1950,6 @@ class Organizations:
             ```
 
         """
-        if org_access is not None:
-            options = ["enterprise", "full", "none", "read-only"]
-            assert org_access in options, (
-                f'"org_access" cannot be "{org_access}", & must be set to one of: {options}'
-            )
-        if authentication_method is not None:
-            options = ["Email"]
-            assert authentication_method in options, (
-                f'"authentication_method" cannot be "{authentication_method}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/admins"
 
@@ -1955,7 +1983,7 @@ class Organizations:
         organization_id: str,
         admin_id: str,
         name: str | None = None,
-        org_access: str | None = None,
+        org_access: UpdateOrganizationAdminOrgAccess | None = None,
         tags: list[UpdateOrganizationAdminTagsItem] | None = None,
         networks: list[UpdateOrganizationAdminNetworksItem] | None = None,
     ) -> UpdateOrganizationAdminResponse:
@@ -2003,12 +2031,6 @@ class Organizations:
             ```
 
         """
-        if org_access is not None:
-            options = ["enterprise", "full", "none", "read-only"]
-            assert org_access in options, (
-                f'"org_access" cannot be "{org_access}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         admin_id = urllib.parse.quote(str(admin_id), safe="")
         path = f"/organizations/{organization_id}/admins/{admin_id}"
@@ -2117,7 +2139,7 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        type_: str,
+        type_: CreateOrganizationAlertsProfileType,
         alert_condition: CreateOrganizationAlertsProfileAlertCondition,
         recipients: CreateOrganizationAlertsProfileRecipients,
         network_tags: list[str],
@@ -2167,21 +2189,6 @@ class Organizations:
             ```
 
         """
-        if type_ is not None:
-            options = [
-                "appOutage",
-                "voipJitter",
-                "voipMos",
-                "voipPacketLoss",
-                "wanLatency",
-                "wanPacketLoss",
-                "wanStatus",
-                "wanUtilization",
-            ]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/alerts/profiles"
 
@@ -2211,7 +2218,7 @@ class Organizations:
         organization_id: str,
         alert_config_id: str,
         enabled: bool | None = None,
-        type_: str | None = None,
+        type_: UpdateOrganizationAlertsProfileType | None = None,
         alert_condition: UpdateOrganizationAlertsProfileAlertCondition | None = None,
         recipients: UpdateOrganizationAlertsProfileRecipients | None = None,
         network_tags: list[str] | None = None,
@@ -2263,21 +2270,6 @@ class Organizations:
             ```
 
         """
-        if type_ is not None:
-            options = [
-                "appOutage",
-                "voipJitter",
-                "voipMos",
-                "voipPacketLoss",
-                "wanLatency",
-                "wanPacketLoss",
-                "wanStatus",
-                "wanUtilization",
-            ]
-            assert type_ in options, (
-                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
@@ -2339,11 +2331,11 @@ class Organizations:
         ending_before: str | None = None,
         admin_id: str | None = None,
         path: str | None = None,
-        method: str | None = None,
+        method: GetOrganizationApiRequestsMethod | None = None,
         response_code: int | None = None,
         source_ip: str | None = None,
         user_agent: str | None = None,
-        version: int | None = None,
+        version: GetOrganizationApiRequestsVersion | None = None,
         operation_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
@@ -2415,17 +2407,6 @@ class Organizations:
             ```
 
         """
-        if method is not None:
-            options = ["DELETE", "GET", "POST", "PUT"]
-            assert method in options, (
-                f'"method" cannot be "{method}", & must be set to one of: {options}'
-            )
-        if version is not None:
-            options = [0, 1]
-            assert version in options, (
-                f'"version" cannot be "{version}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/apiRequests"
 
@@ -2577,7 +2558,7 @@ class Organizations:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        version: int | None = None,
+        version: GetOrganizationApiRequestsOverviewResponseCodesByIntervalVersion | None = None,
         operation_ids: list[str] | None = None,
         source_ips: list[str] | None = None,
         admin_ids: list[str] | None = None,
@@ -2631,12 +2612,6 @@ class Organizations:
             ```
 
         """
-        if version is not None:
-            options = [0, 1]
-            assert version in options, (
-                f'"version" cannot be "{version}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/apiRequests/overview/responseCodes/byInterval"
 
@@ -2675,16 +2650,16 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        sort_order: str | None = None,
+        sort_order: GetOrganizationAssuranceAlertsSortOrder | None = None,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list[str] | None = None,
+        types: GetOrganizationAssuranceAlertsTypes | None = None,
         ts_start: str | None = None,
         ts_end: str | None = None,
-        category: str | None = None,
-        sort_by: str | None = None,
+        category: GetOrganizationAssuranceAlertsCategory | None = None,
+        sort_by: GetOrganizationAssuranceAlertsSortBy | None = None,
         serials: list[str] | None = None,
-        device_types: list[str] | None = None,
+        device_types: GetOrganizationAssuranceAlertsDeviceTypes | None = None,
         device_tags: list[str] | None = None,
         active: bool | None = None,
         dismissed: bool | None = None,
@@ -2780,22 +2755,6 @@ class Organizations:
             ```
 
         """
-        if sort_order is not None:
-            options = ["ascending", "descending"]
-            assert sort_order in options, (
-                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
-            )
-        if category is not None:
-            options = ["configuration", "connectivity", "device_health", "insights"]
-            assert category in options, (
-                f'"category" cannot be "{category}", & must be set to one of: {options}'
-            )
-        if sort_by is not None:
-            options = ["category", "dismissedAt", "resolvedAt", "severity", "startedAt"]
-            assert sort_by in options, (
-                f'"sort_by" cannot be "{sort_by}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/assurance/alerts"
 
@@ -2882,12 +2841,12 @@ class Organizations:
         *,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list[str] | None = None,
+        types: GetOrganizationAssuranceAlertsOverviewTypes | None = None,
         ts_start: str | None = None,
         ts_end: str | None = None,
-        category: str | None = None,
+        category: GetOrganizationAssuranceAlertsOverviewCategory | None = None,
         serials: list[str] | None = None,
-        device_types: list[str] | None = None,
+        device_types: GetOrganizationAssuranceAlertsOverviewDeviceTypes | None = None,
         device_tags: list[str] | None = None,
         active: bool | None = None,
         dismissed: bool | None = None,
@@ -2937,12 +2896,6 @@ class Organizations:
             ```
 
         """
-        if category is not None:
-            options = ["configuration", "connectivity", "device_health", "insights"]
-            assert category in options, (
-                f'"category" cannot be "{category}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/assurance/alerts/overview"
 
@@ -2989,15 +2942,15 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        sort_order: str | None = None,
+        sort_order: GetOrganizationAssuranceAlertsOverviewByNetworkSortOrder | None = None,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list[str] | None = None,
+        types: GetOrganizationAssuranceAlertsOverviewByNetworkTypes | None = None,
         ts_start: str | None = None,
         ts_end: str | None = None,
-        category: str | None = None,
+        category: GetOrganizationAssuranceAlertsOverviewByNetworkCategory | None = None,
         serials: list[str] | None = None,
-        device_types: list[str] | None = None,
+        device_types: GetOrganizationAssuranceAlertsOverviewByNetworkDeviceTypes | None = None,
         device_tags: list[str] | None = None,
         active: bool | None = None,
         dismissed: bool | None = None,
@@ -3078,17 +3031,6 @@ class Organizations:
             ```
 
         """
-        if sort_order is not None:
-            options = ["ascending", "descending"]
-            assert sort_order in options, (
-                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
-            )
-        if category is not None:
-            options = ["configuration", "connectivity", "device_health", "insights"]
-            assert category in options, (
-                f'"category" cannot be "{category}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/assurance/alerts/overview/byNetwork"
 
@@ -3145,16 +3087,16 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        sort_order: str | None = None,
+        sort_order: GetOrganizationAssuranceAlertsOverviewByTypeSortOrder | None = None,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list[str] | None = None,
+        types: GetOrganizationAssuranceAlertsOverviewByTypeTypes | None = None,
         ts_start: str | None = None,
         ts_end: str | None = None,
-        category: str | None = None,
-        sort_by: str | None = None,
+        category: GetOrganizationAssuranceAlertsOverviewByTypeCategory | None = None,
+        sort_by: GetOrganizationAssuranceAlertsOverviewByTypeSortBy | None = None,
         serials: list[str] | None = None,
-        device_types: list[str] | None = None,
+        device_types: GetOrganizationAssuranceAlertsOverviewByTypeDeviceTypes | None = None,
         device_tags: list[str] | None = None,
         active: bool | None = None,
         dismissed: bool | None = None,
@@ -3230,22 +3172,6 @@ class Organizations:
             ```
 
         """
-        if sort_order is not None:
-            options = ["ascending", "descending"]
-            assert sort_order in options, (
-                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
-            )
-        if category is not None:
-            options = ["configuration", "connectivity", "device_health", "insights"]
-            assert category in options, (
-                f'"category" cannot be "{category}", & must be set to one of: {options}'
-            )
-        if sort_by is not None:
-            options = ["count", "lastAlertedAt", "networkCount", "severity", "startedAt"]
-            assert sort_by in options, (
-                f'"sort_by" cannot be "{sort_by}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/assurance/alerts/overview/byType"
 
@@ -3305,11 +3231,11 @@ class Organizations:
         ts_start: str,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list[str] | None = None,
+        types: GetOrganizationAssuranceAlertsOverviewHistoricalTypes | None = None,
         ts_end: str | None = None,
-        category: str | None = None,
+        category: GetOrganizationAssuranceAlertsOverviewHistoricalCategory | None = None,
         serials: list[str] | None = None,
-        device_types: list[str] | None = None,
+        device_types: GetOrganizationAssuranceAlertsOverviewHistoricalDeviceTypes | None = None,
     ) -> PaginatedResponse[GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem]:
         """Returns historical health alert overviews.
 
@@ -3365,12 +3291,6 @@ class Organizations:
             ```
 
         """
-        if category is not None:
-            options = ["configuration", "connectivity", "device_health", "insights"]
-            assert category in options, (
-                f'"category" cannot be "{category}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/assurance/alerts/overview/historical"
 
@@ -4791,16 +4711,16 @@ class Organizations:
         ending_before: str | None = None,
         configuration_updated_after: str | None = None,
         network_ids: list[str] | None = None,
-        product_types: list[str] | None = None,
+        product_types: GetOrganizationDevicesProductTypes | None = None,
         tags: list[str] | None = None,
-        tags_filter_type: str | None = None,
+        tags_filter_type: GetOrganizationDevicesTagsFilterType | None = None,
         name: str | None = None,
         mac: str | None = None,
         serial: str | None = None,
         model: str | None = None,
         macs: list[str] | None = None,
         serials: list[str] | None = None,
-        sensor_metrics: list[str] | None = None,
+        sensor_metrics: GetOrganizationDevicesSensorMetrics | None = None,
         sensor_alert_profile_ids: list[str] | None = None,
         models: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
@@ -4893,12 +4813,6 @@ class Organizations:
             ```
 
         """
-        if tags_filter_type is not None:
-            options = ["withAllTags", "withAnyTags"]
-            assert tags_filter_type in options, (
-                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices"
 
@@ -4959,8 +4873,8 @@ class Organizations:
         product_types: list[str] | None = None,
         serials: list[str] | None = None,
         tags: list[str] | None = None,
-        tags_filter_type: str | None = None,
-        statuses: list[str] | None = None,
+        tags_filter_type: GetOrganizationDevicesAvailabilitiesTagsFilterType | None = None,
+        statuses: GetOrganizationDevicesAvailabilitiesStatuses | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesAvailabilitiesResponseItem]:
@@ -5029,12 +4943,6 @@ class Organizations:
             ```
 
         """
-        if tags_filter_type is not None:
-            options = ["withAllTags", "withAnyTags"]
-            assert tags_filter_type in options, (
-                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/availabilities"
 
@@ -5081,7 +4989,7 @@ class Organizations:
         serials: list[str] | None = None,
         product_types: list[str] | None = None,
         network_ids: list[str] | None = None,
-        statuses: list[str] | None = None,
+        statuses: GetOrganizationDevicesAvailabilitiesChangeHistoryStatuses | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem]:
@@ -5205,7 +5113,7 @@ class Organizations:
         *,
         serials: list[str] | None = None,
         network_ids: list[str] | None = None,
-        target: str | None = None,
+        target: GetOrganizationDevicesControllerMigrationsTarget | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5266,12 +5174,6 @@ class Organizations:
             ```
 
         """
-        if target is not None:
-            options = ["wirelessController"]
-            assert target in options, (
-                f'"target" cannot be "{target}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/controller/migrations"
 
@@ -5300,7 +5202,11 @@ class Organizations:
         )
 
     def create_organization_devices_controller_migration(
-        self, *, organization_id: str, serials: list[str], target: str
+        self,
+        *,
+        organization_id: str,
+        serials: list[str],
+        target: CreateOrganizationDevicesControllerMigrationTarget,
     ) -> CreateOrganizationDevicesControllerMigrationResponse:
         """Migrate devices to another controller or management mode.
 
@@ -5327,12 +5233,6 @@ class Organizations:
             ```
 
         """
-        if target is not None:
-            options = ["wirelessController"]
-            assert target in options, (
-                f'"target" cannot be "{target}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/controller/migrations"
 
@@ -5406,7 +5306,7 @@ class Organizations:
         *,
         models: list[str] | None = None,
         network_ids: list[str] | None = None,
-        product_types: list[str] | None = None,
+        product_types: GetOrganizationDevicesOverviewByModelProductTypes | None = None,
     ) -> GetOrganizationDevicesOverviewByModelResponse:
         """Lists the count for each device model.
 
@@ -5475,7 +5375,7 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        sort_order: str | None = None,
+        sort_order: GetOrganizationDevicesPacketCaptureCapturesSortOrder | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem]:
@@ -5586,12 +5486,6 @@ class Organizations:
             ```
 
         """
-        if sort_order is not None:
-            options = ["ascending", "descending"]
-            assert sort_order in options, (
-                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/packetCapture/captures"
 
@@ -6435,7 +6329,8 @@ class Organizations:
         product_types: list[str] | None = None,
         serials: list[str] | None = None,
         tags: list[str] | None = None,
-        tags_filter_type: str | None = None,
+        tags_filter_type: GetOrganizationDevicesPowerModulesStatusesByDeviceTagsFilterType
+        | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem]:
@@ -6507,12 +6402,6 @@ class Organizations:
             ```
 
         """
-        if tags_filter_type is not None:
-            options = ["withAllTags", "withAnyTags"]
-            assert tags_filter_type in options, (
-                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/powerModules/statuses/byDevice"
 
@@ -6554,9 +6443,9 @@ class Organizations:
         network_ids: list[str] | None = None,
         product_types: list[str] | None = None,
         serials: list[str] | None = None,
-        status: str | None = None,
+        status: GetOrganizationDevicesProvisioningStatusesStatus | None = None,
         tags: list[str] | None = None,
-        tags_filter_type: str | None = None,
+        tags_filter_type: GetOrganizationDevicesProvisioningStatusesTagsFilterType | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesProvisioningStatusesResponseItem]:
@@ -6623,17 +6512,6 @@ class Organizations:
             ```
 
         """
-        if status is not None:
-            options = ["complete", "incomplete", "unprovisioned"]
-            assert status in options, (
-                f'"status" cannot be "{status}", & must be set to one of: {options}'
-            )
-        if tags_filter_type is not None:
-            options = ["withAllTags", "withAnyTags"]
-            assert tags_filter_type in options, (
-                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/provisioning/statuses"
 
@@ -6676,11 +6554,11 @@ class Organizations:
         ending_before: str | None = None,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
-        statuses: list[str] | None = None,
-        product_types: list[str] | None = None,
+        statuses: GetOrganizationDevicesStatusesStatuses | None = None,
+        product_types: GetOrganizationDevicesStatusesProductTypes | None = None,
         models: list[str] | None = None,
         tags: list[str] | None = None,
-        tags_filter_type: str | None = None,
+        tags_filter_type: GetOrganizationDevicesStatusesTagsFilterType | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesStatusesResponseItem]:
@@ -6768,12 +6646,6 @@ class Organizations:
             ```
 
         """
-        if tags_filter_type is not None:
-            options = ["withAllTags", "withAnyTags"]
-            assert tags_filter_type in options, (
-                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/statuses"
 
@@ -6813,7 +6685,7 @@ class Organizations:
         self,
         organization_id: str,
         *,
-        product_types: list[str] | None = None,
+        product_types: GetOrganizationDevicesStatusesOverviewProductTypes | None = None,
         network_ids: list[str] | None = None,
     ) -> GetOrganizationDevicesStatusesOverviewResponse:
         """Return an overview of current device statuses.
@@ -6876,7 +6748,8 @@ class Organizations:
         interval: int | None = None,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
-        product_types: list[str] | None = None,
+        product_types: GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalProductTypes
+        | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
@@ -7037,7 +6910,8 @@ class Organizations:
         product_types: list[str] | None = None,
         serials: list[str] | None = None,
         tags: list[str] | None = None,
-        tags_filter_type: str | None = None,
+        tags_filter_type: GetOrganizationDevicesUplinksAddressesByDeviceTagsFilterType
+        | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationDevicesUplinksAddressesByDeviceResponseItem]:
@@ -7125,12 +6999,6 @@ class Organizations:
             ```
 
         """
-        if tags_filter_type is not None:
-            options = ["withAllTags", "withAnyTags"]
-            assert tags_filter_type in options, (
-                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/uplinks/addresses/byDevice"
 
@@ -7169,7 +7037,7 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        uplink: str | None = None,
+        uplink: GetOrganizationDevicesUplinksLossAndLatencyUplink | None = None,
         ip: str | None = None,
     ) -> PaginatedResponse[GetOrganizationDevicesUplinksLossAndLatencyResponseItem]:
         """Return the uplink loss and latency for every MX in the organization from at latest 2 minutes ago.
@@ -7219,12 +7087,6 @@ class Organizations:
             ```
 
         """
-        if uplink is not None:
-            options = ["cellular", "wan1", "wan2", "wan3"]
-            assert uplink in options, (
-                f'"uplink" cannot be "{uplink}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/devices/uplinksLossAndLatency"
 
@@ -7652,7 +7514,7 @@ class Organizations:
         serials: list[str] | None = None,
         macs: list[str] | None = None,
         firmware_upgrade_batch_ids: list[str] | None = None,
-        upgrade_statuses: list[str] | None = None,
+        upgrade_statuses: GetOrganizationFirmwareUpgradesByDeviceUpgradeStatuses | None = None,
         current_upgrades_only: bool | None = None,
         limit_per_device: int | None = None,
         total_pages: int | Literal["all"] = "all",
@@ -8276,7 +8138,7 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        used_state: str | None = None,
+        used_state: GetOrganizationInventoryDevicesUsedState | None = None,
         search: str | None = None,
         macs: list[str] | None = None,
         network_ids: list[str] | None = None,
@@ -8284,9 +8146,9 @@ class Organizations:
         models: list[str] | None = None,
         order_numbers: list[str] | None = None,
         tags: list[str] | None = None,
-        tags_filter_type: str | None = None,
-        product_types: list[str] | None = None,
-        eox_statuses: list[str] | None = None,
+        tags_filter_type: GetOrganizationInventoryDevicesTagsFilterType | None = None,
+        product_types: GetOrganizationInventoryDevicesProductTypes | None = None,
+        eox_statuses: GetOrganizationInventoryDevicesEoxStatuses | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationInventoryDevicesResponseItem]:
@@ -8373,17 +8235,6 @@ class Organizations:
             ```
 
         """
-        if used_state is not None:
-            options = ["unused", "used"]
-            assert used_state in options, (
-                f'"used_state" cannot be "{used_state}", & must be set to one of: {options}'
-            )
-        if tags_filter_type is not None:
-            options = ["withAllTags", "withAnyTags"]
-            assert tags_filter_type in options, (
-                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/inventory/devices"
 
@@ -8793,7 +8644,7 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        device_type: str,
+        device_type: GetOrganizationInventoryOnboardingCloudMonitoringNetworksDeviceType,
         search: str | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -8857,12 +8708,6 @@ class Organizations:
             ```
 
         """
-        if device_type is not None:
-            options = ["switch", "wireless_controller"]
-            assert device_type in options, (
-                f'"device_type" cannot be "{device_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/networks"
 
@@ -9149,7 +8994,7 @@ class Organizations:
         ending_before: str | None = None,
         device_serial: str | None = None,
         network_id: str | None = None,
-        state: str | None = None,
+        state: GetOrganizationLicensesState | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationLicensesResponseItem]:
@@ -9218,12 +9063,6 @@ class Organizations:
             ```
 
         """
-        if state is not None:
-            options = ["active", "expired", "expiring", "recentlyQueued", "unused", "unusedActive"]
-            assert state in options, (
-                f'"state" cannot be "{state}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/licenses"
 
@@ -9883,8 +9722,8 @@ class Organizations:
         config_template_id: str | None = None,
         is_bound_to_config_template: bool | None = None,
         tags: list[str] | None = None,
-        tags_filter_type: str | None = None,
-        product_types: list[str] | None = None,
+        tags_filter_type: GetOrganizationNetworksTagsFilterType | None = None,
+        product_types: GetOrganizationNetworksProductTypes | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -9957,12 +9796,6 @@ class Organizations:
             ```
 
         """
-        if tags_filter_type is not None:
-            options = ["withAllTags", "withAnyTags"]
-            assert tags_filter_type in options, (
-                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/networks"
 
@@ -9999,7 +9832,7 @@ class Organizations:
         *,
         organization_id: str,
         name: str,
-        product_types: list[str],
+        product_types: CreateOrganizationNetworkProductTypes,
         tags: list[str] | None = None,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,
@@ -10327,7 +10160,7 @@ class Organizations:
         )
 
     def get_organization_openapi_spec(
-        self, organization_id: str, *, version: int | None = None
+        self, organization_id: str, *, version: GetOrganizationOpenapiSpecVersion | None = None
     ) -> DictResponse:
         """Return the OpenAPI Specification of the organization's API documentation in JSON.
 
@@ -10374,12 +10207,6 @@ class Organizations:
             ```
 
         """
-        if version is not None:
-            options = [2, 3]
-            assert version in options, (
-                f'"version" cannot be "{version}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/openapiSpec"
 
@@ -11717,9 +11544,9 @@ class Organizations:
         *,
         v2c_enabled: bool | None = None,
         v3_enabled: bool | None = None,
-        v3_auth_mode: str | None = None,
+        v3_auth_mode: UpdateOrganizationSnmpV3AuthMode | None = None,
         v3_auth_pass: str | None = None,
-        v3_priv_mode: str | None = None,
+        v3_priv_mode: UpdateOrganizationSnmpV3PrivMode | None = None,
         v3_priv_pass: str | None = None,
         peer_ips: list[str] | None = None,
     ) -> UpdateOrganizationSnmpResponse:
@@ -11760,17 +11587,6 @@ class Organizations:
             ```
 
         """
-        if v3_auth_mode is not None:
-            options = ["MD5", "SHA"]
-            assert v3_auth_mode in options, (
-                f'"v3_auth_mode" cannot be "{v3_auth_mode}", & must be set to one of: {options}'
-            )
-        if v3_priv_mode is not None:
-            options = ["AES128", "DES"]
-            assert v3_priv_mode in options, (
-                f'"v3_priv_mode" cannot be "{v3_priv_mode}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/snmp"
 
@@ -13062,7 +12878,10 @@ class Organizations:
         )
 
     def get_organization_webhooks_alert_types(
-        self, organization_id: str, *, product_type: str | None = None
+        self,
+        organization_id: str,
+        *,
+        product_type: GetOrganizationWebhooksAlertTypesProductType | None = None,
     ) -> PaginatedResponse[GetOrganizationWebhooksAlertTypesResponse]:
         """Return a list of alert types to be used with managing webhook alerts.
 
@@ -13120,21 +12939,6 @@ class Organizations:
             ```
 
         """
-        if product_type is not None:
-            options = [
-                "appliance",
-                "camera",
-                "cellularGateway",
-                "platform",
-                "sensor",
-                "sm",
-                "switch",
-                "wireless",
-            ]
-            assert product_type in options, (
-                f'"product_type" cannot be "{product_type}", & must be set to one of: {options}'
-            )
-
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/webhooks/alertTypes"
 

@@ -5,6 +5,7 @@ import uuid
 import pytest
 
 from meraki_client import MerakiClient
+from meraki_client.types import CreateOrganizationNetworkProductTypes
 
 pytestmark = pytest.mark.mutating
 
@@ -13,7 +14,7 @@ def test_network_lifecycle(client: MerakiClient, organization_id: str) -> None:
     """Test creating, updating, and deleting a network."""
     unique_suffix = uuid.uuid4().hex[:8]
     network_name = f"Test Network {unique_suffix}"
-    product_types = ["switch"]
+    product_types: CreateOrganizationNetworkProductTypes = ["switch"]
     tags = ["test"]
     notes = "Created by automated test"
 
