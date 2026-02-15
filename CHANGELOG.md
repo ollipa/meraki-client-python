@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+-
+
+## v0.10.0
+
 ### Added
 
 - Codegen: Add `force_paginated_items_schema` in `spec_overrides.toml` for endpoints where
