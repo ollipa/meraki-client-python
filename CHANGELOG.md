@@ -25,7 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix invalid cause in MerakiHTTPError
+- Fix invalid cause in MerakiHTTPError.
+- Fixed array item object parameter types for array of objects query parameters.
 
 ## v0.9.0
 

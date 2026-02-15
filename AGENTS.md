@@ -54,6 +54,22 @@ To verify changes, run linters and type checking (never run tests unprompted):
 make lint
 ```
 
+## Changelog Updates
+
+When making behavior changes, generated output changes, or user-visible fixes, update `CHANGELOG.md`.
+
+- Add entries under `## Unreleased` in the appropriate section.
+- Keep entries concise and describe impact (what changed for SDK users/maintainers).
+
+Types of changes:
+
+- `Added` for new features.
+- `Changed` for changes in existing functionality.
+- `Deprecated` for soon-to-be removed features.
+- `Removed` for now removed features.
+- `Fixed` for any bug fixes.
+- `Security` in case of vulnerabilities.
+
 ## Spec Overrides Guidance
 
 When adding new override functionality add a detection check that emits a warning when the spec appears fixed, so maintainers know the override may be obsolete.

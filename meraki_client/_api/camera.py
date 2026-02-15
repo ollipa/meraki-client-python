@@ -1878,7 +1878,7 @@ class Camera:
         *,
         organization_id: str,
         boundary_ids: list[str],
-        ranges: list[dict],
+        ranges: list[dict[str, Any]],
         duration: int | None = None,
         per_page: int | None = None,
         boundary_types: list[str] | None = None,

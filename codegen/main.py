@@ -1046,7 +1046,7 @@ def get_python_type(schema: Schema) -> str:
         case DataType.ARRAY:
             items = schema.items
             if items and isinstance(items, Schema) and items.type:
-                item_type = _get_simple_type(items.type)
+                item_type = get_python_type(items)
                 return f"list[{item_type}]"
             log.warning(f"Unknown array items type: {items}")
             return "list[Any]"
@@ -1060,25 +1060,6 @@ def get_python_type(schema: Schema) -> str:
             return "dict[str, Any]"
         case DataType.STRING:
             return "str"
-        case _:
-            assert_never(data_type)
-
-
-def _get_simple_type(data_type: DataType) -> str:
-    """Get Python type string for a simple data type."""
-    match data_type:
-        case DataType.STRING:
-            return "str"
-        case DataType.INTEGER:
-            return "int"
-        case DataType.NUMBER:
-            return "float"
-        case DataType.BOOLEAN:
-            return "bool"
-        case DataType.OBJECT:
-            return "dict"
-        case DataType.ARRAY:
-            return "list"
         case _:
             assert_never(data_type)
 
