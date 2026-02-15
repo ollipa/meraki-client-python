@@ -50,28 +50,12 @@ class CellularGatewayItemsItem(_BaseSchema):
     account_id: str | None = Field(
         default=None, validation_alias="accountId", serialization_alias="accountId"
     )
-    last_updated_at: str | None = Field(
-        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
-    )
-    service_provider: CellularGatewayServiceProvider2 | None = Field(
-        default=None, validation_alias="serviceProvider", serialization_alias="serviceProvider"
-    )
-    title: str | None = None
-    username: str | None = None
-
-
-class CellularGatewayItemsItem2(_BaseSchema):
-    """Schema for CellularGatewayItemsItem2."""
-
-    account_id: str | None = Field(
-        default=None, validation_alias="accountId", serialization_alias="accountId"
-    )
     apns: list[CellularGatewayApnsItem] = Field(default_factory=list)
     name: str | None = None
 
 
-class CellularGatewayItemsItem3(_BaseSchema):
-    """Schema for CellularGatewayItemsItem3."""
+class CellularGatewayItemsItem2(_BaseSchema):
+    """Schema for CellularGatewayItemsItem2."""
 
     account_id: str | None = Field(
         default=None, validation_alias="accountId", serialization_alias="accountId"
@@ -397,28 +381,37 @@ class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPl
     operation.
     """
 
-    items: list[CellularGatewayItemsItem2] = Field(default_factory=list)
+    items: list[CellularGatewayItemsItem] = Field(default_factory=list)
     meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse(_BaseSchema):
     """Response for getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans operation."""
 
-    items: list[CellularGatewayItemsItem3] = Field(default_factory=list)
+    items: list[CellularGatewayItemsItem2] = Field(default_factory=list)
     meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse(
     RootModel[list["GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem"]]
 ):
-    """Response for getOrganizationCellularGatewayEsimsServiceProvidersAccounts operation."""
+    """IList of Cellular Service Provider Accounts."""
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem(_BaseSchema):
     """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem."""
 
-    items: list[CellularGatewayItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
+    account_id: str | None = Field(
+        default=None, validation_alias="accountId", serialization_alias="accountId"
+    )
+    last_updated_at: str | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    service_provider: CellularGatewayServiceProvider2 | None = Field(
+        default=None, validation_alias="serviceProvider", serialization_alias="serviceProvider"
+    )
+    title: str | None = None
+    username: str | None = None
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersResponse(_BaseSchema):

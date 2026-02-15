@@ -713,16 +713,18 @@ class GetOrganizationSmApnsCertResponse(_BaseSchema):
 class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponse(
     RootModel[list["GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem"]]
 ):
-    """Response for getOrganizationSmSentryPoliciesAssignmentsByNetwork operation."""
+    """Sentry Group Policies for the Organization keyed by the Network or Locale Id the Policy
+    belongs to.
+    """
 
 
 class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem(_BaseSchema):
     """Schema for GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem."""
 
-    items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] = Field(
-        default_factory=list
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
     )
-    meta: GetOrganizationSmAdminsRolesResponseMeta | None = None
+    policies: list[SmPoliciesItem] = Field(default_factory=list)
 
 
 class GetOrganizationSmVppAccountResponse(_BaseSchema):

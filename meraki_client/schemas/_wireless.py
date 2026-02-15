@@ -2180,14 +2180,19 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseIte
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(
     RootModel[list["GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem"]]
 ):
-    """Response for getOrganizationWirelessDevicesRadsecCertificatesAuthorities operation."""
+    """List of Certificate Authorities."""
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem."""
 
-    items: list[WirelessItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
+    certificate_authority_id: str | None = Field(
+        default=None,
+        validation_alias="certificateAuthorityId",
+        serialization_alias="certificateAuthorityId",
+    )
+    status: str | None = None
+    contents: str | None = None
 
 
 class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponse(_BaseSchema):
@@ -2327,14 +2332,19 @@ class GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem(_BaseSchema):
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponse(
     RootModel[list["GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem"]]
 ):
-    """Response for getOrganizationWirelessRfProfilesAssignmentsByDevice operation."""
+    """The top-level propery containing all status data."""
 
 
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem."""
 
-    items: list[WirelessItemsItem2] = Field(default_factory=list)
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
+    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    name: str | None = None
+    serial: str | None = None
+    model: str | None = None
+    rf_profile: WirelessRfProfile | None = Field(
+        default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
+    )
 
 
 class GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponse(_BaseSchema):
@@ -4463,30 +4473,6 @@ class WirelessItems2(_BaseSchema):
 
     total: int | None = None
     remaining: int | None = None
-
-
-class WirelessItemsItem(_BaseSchema):
-    """Schema for WirelessItemsItem."""
-
-    certificate_authority_id: str | None = Field(
-        default=None,
-        validation_alias="certificateAuthorityId",
-        serialization_alias="certificateAuthorityId",
-    )
-    status: str | None = None
-    contents: str | None = None
-
-
-class WirelessItemsItem2(_BaseSchema):
-    """Schema for WirelessItemsItem2."""
-
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
-    name: str | None = None
-    serial: str | None = None
-    model: str | None = None
-    rf_profile: WirelessRfProfile | None = Field(
-        default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
-    )
 
 
 class WirelessLatencyBinsByCategory(_BaseSchema):

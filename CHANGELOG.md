@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Added
+
+- Codegen: Add `force_paginated_items_schema` in `spec_overrides.toml` for endpoints where
+  paginated responses are incorrectly modeled as `array[{items, meta}]` in OpenAPI.
 
 ## v0.9.0
 

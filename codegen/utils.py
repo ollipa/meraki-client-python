@@ -49,6 +49,7 @@ class SpecOverrides:
 
     force_array_response: set[str] = field(default_factory=set)
     force_paginated: set[str] = field(default_factory=set)
+    force_paginated_items_schema: set[str] = field(default_factory=set)
     optional_response: set[str] = field(default_factory=set)
     skip_tests: set[str] = field(default_factory=set)
     response_fields: dict[str, dict[str, str]] = field(default_factory=dict)
@@ -79,6 +80,7 @@ def load_spec_overrides() -> SpecOverrides:
     return SpecOverrides(
         force_array_response=set(data.get("force_array_response", [])),
         force_paginated=set(data.get("force_paginated", [])),
+        force_paginated_items_schema=set(data.get("force_paginated_items_schema", [])),
         optional_response=set(data.get("optional_response", [])),
         skip_tests=set(data.get("skip_tests", [])),
         response_fields=response_fields,

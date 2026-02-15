@@ -2487,27 +2487,49 @@ class GetOrganizationFirmwareUpgradesResponseItem(_BaseSchema):
 class GetOrganizationFloorPlansAutoLocateDevicesResponse(
     RootModel[list["GetOrganizationFloorPlansAutoLocateDevicesResponseItem"]]
 ):
-    """Response for getOrganizationFloorPlansAutoLocateDevices operation."""
+    """Items in the paginated dataset."""
 
 
 class GetOrganizationFloorPlansAutoLocateDevicesResponseItem(_BaseSchema):
     """Schema for GetOrganizationFloorPlansAutoLocateDevicesResponseItem."""
 
-    items: list[OrganizationsItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
+    name: str | None = None
+    serial: str | None = None
+    mac: str | None = None
+    model: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    status: str | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    floor_plan: OrganizationsPolicyObjectsItem | None = Field(
+        default=None, validation_alias="floorPlan", serialization_alias="floorPlan"
+    )
+    lat: float | None = None
+    lng: float | None = None
+    auto_locate: OrganizationsAutoLocate | None = Field(
+        default=None, validation_alias="autoLocate", serialization_alias="autoLocate"
+    )
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    is_anchor: bool | None = Field(
+        default=None, validation_alias="isAnchor", serialization_alias="isAnchor"
+    )
 
 
 class GetOrganizationFloorPlansAutoLocateStatusesResponse(
     RootModel[list["GetOrganizationFloorPlansAutoLocateStatusesResponseItem"]]
 ):
-    """Response for getOrganizationFloorPlansAutoLocateStatuses operation."""
+    """Items in the paginated dataset."""
 
 
 class GetOrganizationFloorPlansAutoLocateStatusesResponseItem(_BaseSchema):
     """Schema for GetOrganizationFloorPlansAutoLocateStatusesResponseItem."""
 
-    items: list[OrganizationsItemsItem2] = Field(default_factory=list)
-    meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    floor_plan_id: str | None = Field(
+        default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
+    )
+    name: str | None = None
+    counts: OrganizationsCounts2 | None = None
+    jobs: list[OrganizationsJobsItem] = Field(default_factory=list)
 
 
 class GetOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
@@ -4139,42 +4161,6 @@ class OrganizationsItems(_BaseSchema):
 
     total: int | None = None
     remaining: int | None = None
-
-
-class OrganizationsItemsItem(_BaseSchema):
-    """Schema for OrganizationsItemsItem."""
-
-    name: str | None = None
-    serial: str | None = None
-    mac: str | None = None
-    model: str | None = None
-    tags: list[str] = Field(default_factory=list)
-    status: str | None = None
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
-    floor_plan: OrganizationsPolicyObjectsItem | None = Field(
-        default=None, validation_alias="floorPlan", serialization_alias="floorPlan"
-    )
-    lat: float | None = None
-    lng: float | None = None
-    auto_locate: OrganizationsAutoLocate | None = Field(
-        default=None, validation_alias="autoLocate", serialization_alias="autoLocate"
-    )
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    is_anchor: bool | None = Field(
-        default=None, validation_alias="isAnchor", serialization_alias="isAnchor"
-    )
-
-
-class OrganizationsItemsItem2(_BaseSchema):
-    """Schema for OrganizationsItemsItem2."""
-
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
-    floor_plan_id: str | None = Field(
-        default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
-    )
-    name: str | None = None
-    counts: OrganizationsCounts2 | None = None
-    jobs: list[OrganizationsJobsItem] = Field(default_factory=list)
 
 
 class OrganizationsJobsItem(_BaseSchema):

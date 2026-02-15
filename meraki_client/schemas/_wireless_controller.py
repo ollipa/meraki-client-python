@@ -162,14 +162,17 @@ class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalRe
 class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponse(
     RootModel[list["GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem"]]
 ):
-    """Response for getOrganizationWirelessControllerDevicesRedundancyFailoverHistory operation."""
+    """Wireless LAN controller HA failover events."""
 
 
 class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem."""
 
-    items: list[WirelessControllerItemsItem6] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    ts: datetime | None = None
+    reason: str | None = None
+    failed: WirelessControllerFailed | None = None
+    active: WirelessControllerFailed | None = None
 
 
 class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponse(_BaseSchema):
@@ -200,7 +203,7 @@ class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval
     operation.
     """
 
-    items: list[WirelessControllerItemsItem7] = Field(default_factory=list)
+    items: list[WirelessControllerItemsItem6] = Field(default_factory=list)
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
@@ -484,16 +487,6 @@ class WirelessControllerItemsItem5(_BaseSchema):
 
 class WirelessControllerItemsItem6(_BaseSchema):
     """Schema for WirelessControllerItemsItem6."""
-
-    serial: str | None = None
-    ts: datetime | None = None
-    reason: str | None = None
-    failed: WirelessControllerFailed | None = None
-    active: WirelessControllerFailed | None = None
-
-
-class WirelessControllerItemsItem7(_BaseSchema):
-    """Schema for WirelessControllerItemsItem7."""
 
     serial: str | None = None
     intervals: list[WirelessControllerIntervalsItem2] = Field(default_factory=list)

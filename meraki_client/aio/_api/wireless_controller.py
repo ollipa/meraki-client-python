@@ -23,7 +23,7 @@ from meraki_client.schemas import (
     WirelessControllerItemsItem3,
     WirelessControllerItemsItem4,
     WirelessControllerItemsItem5,
-    WirelessControllerItemsItem7,
+    WirelessControllerItemsItem6,
 )
 
 if TYPE_CHECKING:
@@ -1482,7 +1482,7 @@ class WirelessController:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[WirelessControllerItemsItem7]:
+    ) -> AsyncPaginatedResponse[WirelessControllerItemsItem6]:
         """List cpu utilization data of wireless LAN controllers in an organization.
 
         [API documentation: getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-system-utilization-history-by-interval)
@@ -1583,7 +1583,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem7,
+            item_schema=WirelessControllerItemsItem6,
         )
 
     def get_organization_wireless_controller_overview_by_device(

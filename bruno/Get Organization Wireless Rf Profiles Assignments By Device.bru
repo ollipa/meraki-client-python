@@ -1,0 +1,16 @@
+meta {
+  name: Get Organization Wireless Rf Profiles Assignments By Device
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/organizations/{{orgId}}/wireless/rfProfiles/assignments/byDevice
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

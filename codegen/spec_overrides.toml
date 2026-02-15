@@ -4,6 +4,8 @@
 # Available overrides:
 # - force_array_response: Endpoints where spec says object but API returns array
 # - force_paginated: Endpoints missing pagination params but return paginated responses
+# - force_paginated_items_schema: Endpoints where paginated wrapper is incorrectly modeled as
+#   array[object{items, meta}] in the spec
 # - optional_response: Endpoints where response can be None
 # - skip_tests: Endpoints to skip in test generation
 # - [operationId.response]: Field type overrides for response schemas
@@ -22,6 +24,17 @@ force_paginated = [
     "getOrganizationWebhooksAlertTypes",
     "getNetworkWirelessRfProfiles",
     "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
+]
+
+# Endpoints where spec incorrectly models paginated wrapper as array[{items, meta}]
+force_paginated_items_schema = [
+    "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
+    "getOrganizationFloorPlansAutoLocateDevices",
+    "getOrganizationFloorPlansAutoLocateStatuses",
+    "getOrganizationSmSentryPoliciesAssignmentsByNetwork",
+    "getOrganizationWirelessDevicesRadsecCertificatesAuthorities",
+    "getOrganizationWirelessRfProfilesAssignmentsByDevice",
+    "getOrganizationWirelessControllerDevicesRedundancyFailoverHistory",
 ]
 
 # Endpoints where response can be None

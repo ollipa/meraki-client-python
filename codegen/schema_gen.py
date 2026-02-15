@@ -182,6 +182,11 @@ def generate_response_schemas(
                 response_schema = _apply_force_array_response(
                     operation_id, response_schema, spec_overrides.force_array_response
                 )
+                response_schema = _normalize_paginated_response_schema(
+                    operation_id=operation_id,
+                    schema=response_schema,
+                    force_paginated_items_schema=spec_overrides.force_paginated_items_schema,
+                )
                 class_name = get_response_schema_name(operation_id)
                 result = _generate_schema_class(
                     ctx,
@@ -377,6 +382,71 @@ def _apply_force_array_response(
 
     # Wrap object schema in array
     return {"type": "array", "items": schema}
+
+
+def _normalize_paginated_response_schema(
+    *,
+    operation_id: str,
+    schema: dict[str, Any],
+    force_paginated_items_schema: set[str],
+) -> dict[str, Any]:
+    """Normalize malformed paginated response schema shapes.
+
+    Some endpoints incorrectly define paginated responses as:
+        array[object{items: array[...], meta: object}]
+    even though the API response body is the wrapper object itself.
+
+    The SDK pagination layer already handles wrapper extraction, so client-visible
+    response models should use the nested `items` schema directly.
+    """
+    if operation_id not in force_paginated_items_schema:
+        return schema
+
+    if schema.get("type") != "array":
+        log.warning(
+            f"{operation_id} in force_paginated_items_schema no longer has array response schema - "
+            "spec may be fixed, check if override still needed"
+        )
+        return schema
+
+    wrapper_schema = schema.get("items")
+    if not isinstance(wrapper_schema, dict):
+        log.warning(
+            f"{operation_id} in force_paginated_items_schema has non-object array item schema - "
+            "spec may be fixed, check if override still needed"
+        )
+        return schema
+
+    wrapper_type = wrapper_schema.get("type")
+    wrapper_props = wrapper_schema.get("properties")
+    if wrapper_type != "object" or not isinstance(wrapper_props, dict):
+        log.warning(
+            f"{operation_id} in force_paginated_items_schema has unexpected wrapper schema - "
+            "spec may be fixed, check if override still needed"
+        )
+        return schema
+
+    # Only unwrap when the wrapper is clearly pagination metadata.
+    if "items" not in wrapper_props or set(wrapper_props).difference({"items", "meta"}):
+        log.warning(
+            f"{operation_id} in force_paginated_items_schema has unexpected wrapper fields - "
+            "spec may be fixed, check if override still needed"
+        )
+        return schema
+
+    items_schema = wrapper_props.get("items")
+    if not isinstance(items_schema, dict) or items_schema.get("type") != "array":
+        log.warning(
+            f"{operation_id} in force_paginated_items_schema has unexpected nested items schema - "
+            "spec may be fixed, check if override still needed"
+        )
+        return schema
+
+    log.debug(
+        f"{operation_id} response schema is wrapped as array[{{items, meta}}] in spec; "
+        "using nested items schema for generated response models"
+    )
+    return items_schema
 
 
 def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:
@@ -1019,6 +1089,14 @@ def _validate_spec_overrides(
         if operation_id not in spec_operation_ids:
             raise ValueError(
                 f"force_paginated references unknown operation '{operation_id}'. "
+                "Check that the operationId exists in the OpenAPI spec."
+            )
+
+    # Validate force_paginated_items_schema
+    for operation_id in spec_overrides.force_paginated_items_schema:
+        if operation_id not in spec_operation_ids:
+            raise ValueError(
+                f"force_paginated_items_schema references unknown operation '{operation_id}'. "
                 "Check that the operationId exists in the OpenAPI spec."
             )
 
