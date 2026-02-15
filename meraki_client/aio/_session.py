@@ -233,7 +233,6 @@ class Session:
                 if redirects >= 3:
                     raise MerakiHTTPError(
                         f"Maximum number of redirects reached: {redirects}",
-                        cause=response,
                         response=response,
                     )
                 url, base_url = handle_3xx(response)

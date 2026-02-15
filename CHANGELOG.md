@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Session: Track page metadata on paginated results via `PaginatedResponse.meta` and
   `PaginatedResponse.meta_pages` (and async equivalent).
 
+### Fixed
+
+- Fix invalid cause in MerakiHTTPError
+
 ## v0.9.0
 
 ### Added
