@@ -1,0 +1,16 @@
+meta {
+  name: Get Organization Assurance Alerts
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/organizations/{{orgId}}/assurance/alerts
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

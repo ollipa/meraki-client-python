@@ -12,7 +12,7 @@ from pydantic import BaseModel, ConfigDict, RootModel
 class _BaseSchema(BaseModel):
     """Base class for all response schemas."""
 
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
+    model_config = ConfigDict(extra="allow", populate_by_name=True, coerce_numbers_to_str=True)
 
 
 class DictResponse(RootModel):

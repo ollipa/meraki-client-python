@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+- Coerce numbers to strings automatically in response schemas.
 
 ## v0.10.1
 
