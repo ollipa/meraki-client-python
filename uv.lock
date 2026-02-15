@@ -443,7 +443,7 @@ wheels = [
 
 [[package]]
 name = "meraki-client"
-version = "0.10.2"
+version = "0.10.3"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
