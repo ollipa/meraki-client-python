@@ -13,15 +13,6 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponse(_BaseSchema):
-    """Response for getOrganizationWirelessControllerAvailabilitiesChangeHistory operation."""
-
-    items: list[GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem] = (
-        Field(default_factory=list)
-    )
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
-
-
 class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem."""
 
@@ -29,30 +20,16 @@ class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsI
     changes: list[WirelessControllerChangesItem] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: WirelessControllerMetaCounts | None = None
-
-
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponse(
+class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItem(
     _BaseSchema
 ):
-    """Response for getOrganizationWirelessControllerClientsOverviewHistoryByDeviceByInterval
-    operation.
+    """Schema for
+    GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItem.
     """
 
-    items: list[WirelessControllerItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
-
-
-class GetOrganizationWirelessControllerConnectionsResponse(_BaseSchema):
-    """Response for getOrganizationWirelessControllerConnections operation."""
-
-    items: list[GetOrganizationWirelessControllerConnectionsResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    network: WirelessControllerNetwork | None = None
+    readings: list[WirelessControllerReadingsItem] = Field(default_factory=list)
 
 
 class GetOrganizationWirelessControllerConnectionsResponseItemsItem(_BaseSchema):
@@ -63,15 +40,6 @@ class GetOrganizationWirelessControllerConnectionsResponseItemsItem(_BaseSchema)
     network: WirelessControllerNetwork2 | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationWirelessControllerDevicesInterfacesL2ByDevice operation."""
-
-    items: list[GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem] = (
-        Field(default_factory=list)
-    )
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
-
-
 class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem."""
 
@@ -79,35 +47,26 @@ class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsI
     interfaces: list[WirelessControllerInterfacesItem] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponse(
+class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem(
     _BaseSchema
 ):
-    """Response for
-    getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice operation.
+    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice
+    ResponseItemsItem.
     """
 
-    items: list[WirelessControllerItemsItem2] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    interfaces: list[WirelessControllerInterfacesItem2] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponse(
+class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem(
     _BaseSchema
 ):
-    """Response for getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval
-    operation.
+    """Schema for
+    GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem.
     """
 
-    items: list[WirelessControllerItemsItem3] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationWirelessControllerDevicesInterfacesL3ByDevice operation."""
-
-    items: list[GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem] = (
-        Field(default_factory=list)
-    )
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    readings: list[WirelessControllerReadingsItem2] = Field(default_factory=list)
 
 
 class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem(_BaseSchema):
@@ -117,46 +76,48 @@ class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsI
     interfaces: list[WirelessControllerInterfacesItem3] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponse(
+class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem(
     _BaseSchema
 ):
-    """Response for
-    getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice operation.
+    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice
+    ResponseItemsItem.
     """
 
-    items: list[WirelessControllerItemsItem2] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    interfaces: list[WirelessControllerInterfacesItem2] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponse(
+class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem(
     _BaseSchema
 ):
-    """Response for getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval
-    operation.
+    """Schema for
+    GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem.
     """
 
-    items: list[WirelessControllerItemsItem3] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    readings: list[WirelessControllerReadingsItem2] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponse(
+class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem(
     _BaseSchema
 ):
-    """Response for getOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDevice
-    operation.
+    """Schema for
+    GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem.
     """
 
-    items: list[WirelessControllerItemsItem4] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    interfaces: list[WirelessControllerInterfacesItem4] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponse(_BaseSchema):
-    """Response for getOrganizationWirelessControllerDevicesInterfacesUsageHistoryByInterval
-    operation.
+class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem.
     """
 
-    items: list[WirelessControllerItemsItem5] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    intervals: list[WirelessControllerIntervalsItem] = Field(default_factory=list)
 
 
 class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponse(
@@ -175,15 +136,6 @@ class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseI
     active: WirelessControllerFailed | None = None
 
 
-class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponse(_BaseSchema):
-    """Response for getOrganizationWirelessControllerDevicesRedundancyStatuses operation."""
-
-    items: list[GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItem] = (
-        Field(default_factory=list)
-    )
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
-
-
 class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItem."""
 
@@ -196,24 +148,15 @@ class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsIte
     )
 
 
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponse(
+class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItem(
     _BaseSchema
 ):
-    """Response for getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval
-    operation.
+    """Schema for
+    GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItem.
     """
 
-    items: list[WirelessControllerItemsItem6] = Field(default_factory=list)
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationWirelessControllerOverviewByDevice operation."""
-
-    items: list[GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+    serial: str | None = None
+    intervals: list[WirelessControllerIntervalsItem2] = Field(default_factory=list)
 
 
 class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem(_BaseSchema):
@@ -442,56 +385,6 @@ class WirelessControllerIntervalsItem2(_BaseSchema):
     )
 
 
-class WirelessControllerItems(_BaseSchema):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class WirelessControllerItemsItem(_BaseSchema):
-    """Schema for WirelessControllerItemsItem."""
-
-    serial: str | None = None
-    network: WirelessControllerNetwork | None = None
-    readings: list[WirelessControllerReadingsItem] = Field(default_factory=list)
-
-
-class WirelessControllerItemsItem2(_BaseSchema):
-    """Schema for WirelessControllerItemsItem2."""
-
-    serial: str | None = None
-    interfaces: list[WirelessControllerInterfacesItem2] = Field(default_factory=list)
-
-
-class WirelessControllerItemsItem3(_BaseSchema):
-    """Schema for WirelessControllerItemsItem3."""
-
-    serial: str | None = None
-    readings: list[WirelessControllerReadingsItem2] = Field(default_factory=list)
-
-
-class WirelessControllerItemsItem4(_BaseSchema):
-    """Schema for WirelessControllerItemsItem4."""
-
-    serial: str | None = None
-    interfaces: list[WirelessControllerInterfacesItem4] = Field(default_factory=list)
-
-
-class WirelessControllerItemsItem5(_BaseSchema):
-    """Schema for WirelessControllerItemsItem5."""
-
-    serial: str | None = None
-    intervals: list[WirelessControllerIntervalsItem] = Field(default_factory=list)
-
-
-class WirelessControllerItemsItem6(_BaseSchema):
-    """Schema for WirelessControllerItemsItem6."""
-
-    serial: str | None = None
-    intervals: list[WirelessControllerIntervalsItem2] = Field(default_factory=list)
-
-
 class WirelessControllerLast(_BaseSchema):
     """Wireless LAN controller last failover information."""
 
@@ -503,12 +396,6 @@ class WirelessControllerManagement(_BaseSchema):
     """Wireless LAN controller redundancy management interface information."""
 
     addresses: list[WirelessControllerAddressesItem2] = Field(default_factory=list)
-
-
-class WirelessControllerMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: WirelessControllerItems | None = None
 
 
 class WirelessControllerModule(_BaseSchema):

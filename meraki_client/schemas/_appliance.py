@@ -2180,15 +2180,6 @@ class GetOrganizationApplianceDnsSplitProfilesResponseItem(_BaseSchema):
     nameservers: ApplianceNameservers | None = None
 
 
-class GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponse(_BaseSchema):
-    """Response for getOrganizationApplianceFirewallMulticastForwardingByNetwork operation."""
-
-    items: list[GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem] = (
-        Field(default_factory=list)
-    )
-    meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
-
-
 class GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem."""
 
@@ -2198,14 +2189,6 @@ class GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsI
 
 class GetOrganizationApplianceSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
     """Response for getOrganizationApplianceSecurityEvents operation."""
-
-
-class GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponse(_BaseSchema):
-    """Response for getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork operation."""
-
-    items: list[GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem] = (
-        Field(default_factory=list)
-    )
 
 
 class GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem(_BaseSchema):

@@ -2292,15 +2292,6 @@ class GetOrganizationSwitchPortsBySwitchResponsePortsItem(_BaseSchema):
     )
 
 
-class GetOrganizationSwitchPortsClientsOverviewByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationSwitchPortsClientsOverviewByDevice operation."""
-
-    items: list[GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
-
-
 class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem."""
 
@@ -2310,12 +2301,6 @@ class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem(_BaseSc
     network: SwitchSchedule | None = None
     model: str | None = None
     ports: list[SwitchPortsItem] = Field(default_factory=list)
-
-
-class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: SwitchMetaCounts | None = None
 
 
 class GetOrganizationSwitchPortsOverviewResponse(_BaseSchema):
@@ -2333,15 +2318,6 @@ class GetOrganizationSwitchPortsOverviewResponseCounts(_BaseSchema):
     )
 
 
-class GetOrganizationSwitchPortsStatusesBySwitchResponse(_BaseSchema):
-    """Response for getOrganizationSwitchPortsStatusesBySwitch operation."""
-
-    items: list[GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
-
-
 class GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem."""
 
@@ -2353,15 +2329,6 @@ class GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem(_BaseSchema):
     ports: list[SwitchPortsItem2] = Field(default_factory=list)
 
 
-class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationSwitchPortsTopologyDiscoveryByDevice operation."""
-
-    items: list[GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
-
-
 class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem."""
 
@@ -2371,15 +2338,6 @@ class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_Base
     network: SwitchSchedule | None = None
     model: str | None = None
     ports: list[SwitchPortsItem3] = Field(default_factory=list)
-
-
-class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponse(_BaseSchema):
-    """Response for getOrganizationSwitchPortsUsageHistoryByDeviceByInterval operation."""
-
-    items: list[GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
 
 
 class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(_BaseSchema):
@@ -2692,13 +2650,6 @@ class SwitchIpv6(_BaseSchema):
     gateway: str | None = None
 
 
-class SwitchItems(_BaseSchema):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
 class SwitchLastAck(_BaseSchema):
     """Attributes of the server's last ack."""
 
@@ -2760,12 +2711,6 @@ class SwitchMembersItem(_BaseSchema):
     model: str | None = None
     mac: str | None = None
     role: str | None = None
-
-
-class SwitchMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: SwitchItems | None = None
 
 
 class SwitchMirror(_BaseSchema):

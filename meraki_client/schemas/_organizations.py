@@ -114,9 +114,41 @@ class BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem(_BaseSchema)
 class BulkOrganizationDevicesPacketCaptureCapturesCreateResponse(_BaseSchema):
     """Response for bulkOrganizationDevicesPacketCaptureCapturesCreate operation."""
 
-    items: list[GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem] = Field(
+    items: list[BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem] = Field(
         default_factory=list
     )
+
+
+class BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem(_BaseSchema):
+    """Schema for BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem."""
+
+    capture_id: str | None = Field(
+        default=None, validation_alias="captureId", serialization_alias="captureId"
+    )
+    network: OrganizationsPolicyObjectsItem | None = None
+    devices: list[dict[str, Any]] = Field(default_factory=list)
+    device: OrganizationsDevice2 | None = None
+    admin: OrganizationsPolicyObjectsItem | None = None
+    client: OrganizationsClient3 | None = None
+    details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
+    name: str | None = None
+    start_ts: str | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    ports: str | None = None
+    status: str | None = None
+    error_message: str | None = Field(
+        default=None, validation_alias="errorMessage", serialization_alias="errorMessage"
+    )
+    destination: str | None = None
+    process: str | None = None
+    file: OrganizationsFile | None = None
+    duration: int | None = None
+    filter_expression: str | None = Field(
+        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
+    )
+    counts: OrganizationsCounts | None = None
+    interface: str | None = None
 
 
 class BulkUpdateOrganizationDevicesDetailsDetailsItem(_BaseSchema):
@@ -1115,8 +1147,24 @@ class DisableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
 class DisableOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
     """Response for disableOrganizationIntegrationsXdrNetworks operation."""
 
-    networks: list[GetOrganizationIntegrationsXdrNetworksResponseItemsItem] = Field(
+    networks: list[DisableOrganizationIntegrationsXdrNetworksResponseNetworksItem] = Field(
         default_factory=list
+    )
+
+
+class DisableOrganizationIntegrationsXdrNetworksResponseNetworksItem(_BaseSchema):
+    """Schema for DisableOrganizationIntegrationsXdrNetworksResponseNetworksItem."""
+
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
+    )
+    name: str | None = None
+    enabled: bool | None = None
+    is_eligible: bool | None = Field(
+        default=None, validation_alias="isEligible", serialization_alias="isEligible"
     )
 
 
@@ -1132,7 +1180,7 @@ class EnableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
 class EnableOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
     """Response for enableOrganizationIntegrationsXdrNetworks operation."""
 
-    networks: list[GetOrganizationIntegrationsXdrNetworksResponseItemsItem] = Field(
+    networks: list[DisableOrganizationIntegrationsXdrNetworksResponseNetworksItem] = Field(
         default_factory=list
     )
 
@@ -1147,13 +1195,6 @@ class GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse(_BaseSc
         default=None, validation_alias="downloadUrl", serialization_alias="downloadUrl"
     )
     url: str | None = None
-
-
-class GetNetworkMovesResponse(_BaseSchema):
-    """Response for getNetworkMoves operation."""
-
-    items: list[GetNetworkMovesResponseItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
 
 
 class GetNetworkMovesResponseItemsItem(_BaseSchema):
@@ -1618,13 +1659,6 @@ class GetOrganizationAssuranceAlertResponse(_BaseSchema):
     scope: OrganizationsScope | None = None
 
 
-class GetOrganizationAssuranceAlertsOverviewByNetworkResponse(_BaseSchema):
-    """Response for getOrganizationAssuranceAlertsOverviewByNetwork operation."""
-
-    items: list[GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem]
-    meta: GetOrganizationAssuranceAlertsOverviewByNetworkResponseMeta
-
-
 class GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem."""
 
@@ -1634,19 +1668,6 @@ class GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem(_BaseSche
     severity_counts: list[OrganizationsSeverityCountsItem] = Field(
         validation_alias="severityCounts", serialization_alias="severityCounts"
     )
-
-
-class GetOrganizationAssuranceAlertsOverviewByNetworkResponseMeta(_BaseSchema):
-    """Metadata about the response."""
-
-    counts: OrganizationsMetaCounts
-
-
-class GetOrganizationAssuranceAlertsOverviewByTypeResponse(_BaseSchema):
-    """Response for getOrganizationAssuranceAlertsOverviewByType operation."""
-
-    items: list[GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem]
-    meta: GetOrganizationAssuranceAlertsOverviewByNetworkResponseMeta
 
 
 class GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem(_BaseSchema):
@@ -1663,7 +1684,7 @@ class GetOrganizationAssuranceAlertsOverviewHistoricalResponse(_BaseSchema):
     """Response for getOrganizationAssuranceAlertsOverviewHistorical operation."""
 
     items: list[GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem]
-    meta: GetOrganizationAssuranceAlertsOverviewByNetworkResponseMeta
+    meta: GetOrganizationAssuranceAlertsOverviewHistoricalResponseMeta
 
 
 class GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem(_BaseSchema):
@@ -1676,6 +1697,12 @@ class GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem(_BaseSch
     by_alert_type: list[OrganizationsByAlertTypeItem] = Field(
         validation_alias="byAlertType", serialization_alias="byAlertType"
     )
+
+
+class GetOrganizationAssuranceAlertsOverviewHistoricalResponseMeta(_BaseSchema):
+    """Metadata about the response."""
+
+    counts: OrganizationsMetaCounts
 
 
 class GetOrganizationAssuranceAlertsOverviewResponse(_BaseSchema):
@@ -1998,15 +2025,6 @@ class GetOrganizationDevicesAvailabilitiesResponseItem(_BaseSchema):
     tags: list[str] = Field(default_factory=list)
 
 
-class GetOrganizationDevicesControllerMigrationsResponse(_BaseSchema):
-    """Response for getOrganizationDevicesControllerMigrations operation."""
-
-    items: list[GetOrganizationDevicesControllerMigrationsResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
-
-
 class GetOrganizationDevicesControllerMigrationsResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesControllerMigrationsResponseItemsItem."""
 
@@ -2018,12 +2036,6 @@ class GetOrganizationDevicesControllerMigrationsResponseItemsItem(_BaseSchema):
     migrated_at: datetime | None = Field(
         default=None, validation_alias="migratedAt", serialization_alias="migratedAt"
     )
-
-
-class GetOrganizationDevicesControllerMigrationsResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: OrganizationsMetaCounts2 | None = None
 
 
 class GetOrganizationDevicesOverviewByModelResponse(_BaseSchema):
@@ -2039,15 +2051,6 @@ class GetOrganizationDevicesOverviewByModelResponseCountsItem(_BaseSchema):
 
     model: str | None = None
     total: int | None = None
-
-
-class GetOrganizationDevicesPacketCaptureCapturesResponse(_BaseSchema):
-    """Response for getOrganizationDevicesPacketCaptureCaptures operation."""
-
-    items: list[GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
 
 
 class GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem(_BaseSchema):
@@ -2126,7 +2129,7 @@ class GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem(_BaseSchema)
 class GetOrganizationDevicesPacketCaptureSchedulesResponseMeta(_BaseSchema):
     """Meta data details about result."""
 
-    counts: OrganizationsMetaCounts3 | None = None
+    counts: OrganizationsMetaCounts2 | None = None
 
 
 class GetOrganizationDevicesPowerModulesStatusesByDeviceResponse(
@@ -2250,15 +2253,6 @@ class GetOrganizationDevicesStatusesResponseItem(_BaseSchema):
     components: OrganizationsComponents | None = None
     model: str | None = None
     tags: list[str] = Field(default_factory=list)
-
-
-class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponse(_BaseSchema):
-    """Response for getOrganizationDevicesSystemMemoryUsageHistoryByInterval operation."""
-
-    items: list[GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
 
 
 class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem(_BaseSchema):
@@ -2530,15 +2524,6 @@ class GetOrganizationFloorPlansAutoLocateStatusesResponseItem(_BaseSchema):
     name: str | None = None
     counts: OrganizationsCounts2 | None = None
     jobs: list[OrganizationsJobsItem] = Field(default_factory=list)
-
-
-class GetOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
-    """Response for getOrganizationIntegrationsXdrNetworks operation."""
-
-    items: list[GetOrganizationIntegrationsXdrNetworksResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
 
 
 class GetOrganizationIntegrationsXdrNetworksResponseItemsItem(_BaseSchema):
@@ -4156,13 +4141,6 @@ class OrganizationsIntervalsItem(_BaseSchema):
     memory: OrganizationsMemory | None = None
 
 
-class OrganizationsItems(_BaseSchema):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
 class OrganizationsJobsItem(_BaseSchema):
     """Schema for OrganizationsJobsItem."""
 
@@ -4222,12 +4200,6 @@ class OrganizationsMetaCounts(_BaseSchema):
 
 
 class OrganizationsMetaCounts2(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: OrganizationsItems | None = None
-
-
-class OrganizationsMetaCounts3(_BaseSchema):
     """Counts of the result."""
 
     items: GetOrganizationClientsOverviewResponseCounts | None = None

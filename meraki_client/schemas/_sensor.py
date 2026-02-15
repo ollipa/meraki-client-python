@@ -277,13 +277,6 @@ class GetNetworkSensorRelationshipsResponseItem(_BaseSchema):
     relationships: SensorRelationships | None = None
 
 
-class GetOrganizationSensorGatewaysConnectionsLatestResponse(_BaseSchema):
-    """Response for getOrganizationSensorGatewaysConnectionsLatest operation."""
-
-    items: list[GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem]
-    meta: GetOrganizationSensorGatewaysConnectionsLatestResponseMeta | None = None
-
-
 class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem."""
 
@@ -297,12 +290,6 @@ class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem(_BaseSchem
     network: SensorNetwork
     sensor: SensorSensor
     gateway: SensorSensor
-
-
-class GetOrganizationSensorGatewaysConnectionsLatestResponseMeta(_BaseSchema):
-    """Other metadata related to this result set."""
-
-    counts: SensorMetaCounts | None = None
 
 
 class GetOrganizationSensorReadingsHistoryResponse(
@@ -523,13 +510,6 @@ class SensorIndoorAirQuality2(_BaseSchema):
     score: int | None = None
 
 
-class SensorItems(_BaseSchema):
-    """The count metadata."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
 class SensorLivestreamRelatedDevicesItem(_BaseSchema):
     """Schema for SensorLivestreamRelatedDevicesItem."""
 
@@ -537,12 +517,6 @@ class SensorLivestreamRelatedDevicesItem(_BaseSchema):
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
-
-
-class SensorMetaCounts(_BaseSchema):
-    """Count metadata related to this result set."""
-
-    items: SensorItems | None = None
 
 
 class SensorNetwork(_BaseSchema):

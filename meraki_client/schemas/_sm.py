@@ -680,13 +680,6 @@ class GetOrganizationSmAdminsRoleResponse(_BaseSchema):
     tags: list[str] = Field(default_factory=list)
 
 
-class GetOrganizationSmAdminsRolesResponse(_BaseSchema):
-    """Response for getOrganizationSmAdminsRoles operation."""
-
-    items: list[GetOrganizationSmAdminsRolesResponseItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationSmAdminsRolesResponseMeta | None = None
-
-
 class GetOrganizationSmAdminsRolesResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSmAdminsRolesResponseItemsItem."""
 
@@ -696,12 +689,6 @@ class GetOrganizationSmAdminsRolesResponseItemsItem(_BaseSchema):
     name: str | None = None
     scope: str | None = None
     tags: list[str] = Field(default_factory=list)
-
-
-class GetOrganizationSmAdminsRolesResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: SmMetaCounts | None = None
 
 
 class GetOrganizationSmApnsCertResponse(_BaseSchema):
@@ -882,19 +869,6 @@ class SmDiskUsage(_BaseSchema):
     """An object containing disk usage details."""
 
     c: SmC | None = None
-
-
-class SmItems(_BaseSchema):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class SmMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: SmItems | None = None
 
 
 class SmParsedToken(_BaseSchema):

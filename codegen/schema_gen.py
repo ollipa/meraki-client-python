@@ -188,6 +188,26 @@ def generate_response_schemas(
                     force_paginated_items_schema=spec_overrides.force_paginated_items_schema,
                 )
                 class_name = get_response_schema_name(operation_id)
+                if _is_paginated_operation(
+                    operation_id=operation_id,
+                    operation=operation,
+                    force_paginated=spec_overrides.force_paginated,
+                ):
+                    item_schema = _get_paginated_wrapper_item_schema(response_schema)
+                    if item_schema is not None:
+                        item_class_name = class_name + "ItemsItem"
+                        item_result = _generate_schema_class(
+                            ctx.nested("items"),
+                            class_name=item_class_name,
+                            schema=item_schema,
+                            description=f"Schema for {item_class_name}.",
+                        )
+                        if item_result.status != SchemaStatus.SKIPPED:
+                            item_schema_map[class_name] = [
+                                item_result.class_name or item_class_name
+                            ]
+                            continue
+
                 result = _generate_schema_class(
                     ctx,
                     class_name=class_name,
@@ -447,6 +467,43 @@ def _normalize_paginated_response_schema(
         "using nested items schema for generated response models"
     )
     return items_schema
+
+
+def _is_paginated_operation(
+    *, operation_id: str, operation: Operation, force_paginated: set[str]
+) -> bool:
+    """Check whether operation is paginated by params or override."""
+    if operation_id in force_paginated:
+        return True
+
+    pagination_params = {"perPage", "startingAfter", "endingBefore"}
+    for param in operation.parameters or []:
+        if isinstance(param, Reference):
+            continue
+        if param.name in pagination_params:
+            return True
+    return False
+
+
+def _get_paginated_wrapper_item_schema(schema: dict[str, Any]) -> dict[str, Any] | None:
+    """Return paginated wrapper item schema for object{items,meta} responses."""
+    if schema.get("type") != "object":
+        return None
+
+    properties = schema.get("properties")
+    if not isinstance(properties, dict) or "items" not in properties:
+        return None
+
+    # Match wrapper-only schemas like {items, meta}.
+    if set(properties).difference({"items", "meta"}):
+        return None
+
+    items_schema = properties.get("items")
+    if not isinstance(items_schema, dict) or items_schema.get("type") != "array":
+        return None
+
+    item_schema = items_schema.get("items")
+    return item_schema if isinstance(item_schema, dict) else None
 
 
 def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:

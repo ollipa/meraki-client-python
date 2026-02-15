@@ -1894,15 +1894,6 @@ class GetNetworkWirelessUsageHistoryResponseItem(_BaseSchema):
     )
 
 
-class GetOrganizationWirelessAirMarshalRulesResponse(_BaseSchema):
-    """Response for getOrganizationWirelessAirMarshalRules operation."""
-
-    items: list[GetOrganizationWirelessAirMarshalRulesResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalRulesResponseMeta | None = None
-
-
 class GetOrganizationWirelessAirMarshalRulesResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessAirMarshalRulesResponseItemsItem."""
 
@@ -1920,21 +1911,6 @@ class GetOrganizationWirelessAirMarshalRulesResponseItemsItem(_BaseSchema):
     match: CreateNetworkWirelessAirMarshalRuleResponseMatch | None = None
 
 
-class GetOrganizationWirelessAirMarshalRulesResponseMeta(_BaseSchema):
-    """Meta details about the result."""
-
-    counts: WirelessMetaCounts | None = None
-
-
-class GetOrganizationWirelessAirMarshalSettingsByNetworkResponse(_BaseSchema):
-    """Response for getOrganizationWirelessAirMarshalSettingsByNetwork operation."""
-
-    items: list[GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
-
-
 class GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem."""
 
@@ -1944,21 +1920,6 @@ class GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem(_BaseS
     default_policy: str | None = Field(
         default=None, validation_alias="defaultPolicy", serialization_alias="defaultPolicy"
     )
-
-
-class GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta(_BaseSchema):
-    """Metadata."""
-
-    counts: WirelessMetaCounts2 | None = None
-
-
-class GetOrganizationWirelessClientsOverviewByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationWirelessClientsOverviewByDevice operation."""
-
-    items: list[GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
 class GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem(_BaseSchema):
@@ -2126,14 +2087,6 @@ class GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem(_BaseSchema)
     network: WirelessDoorLocksNetwork | None = None
 
 
-class GetOrganizationWirelessDevicesPowerModeHistoryResponse(_BaseSchema):
-    """Response for getOrganizationWirelessDevicesPowerModeHistory operation."""
-
-    items: list[GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem] = Field(
-        default_factory=list
-    )
-
-
 class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem."""
 
@@ -2154,7 +2107,7 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasRespo
     items: list[
         GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
     ] = Field(default_factory=list)
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
+    meta: GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseMeta | None = None
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse(_BaseSchema):
@@ -2163,7 +2116,7 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse(_B
     items: list[
         GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
     ] = Field(default_factory=list)
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
+    meta: GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseMeta | None = None
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem(_BaseSchema):
@@ -2175,6 +2128,12 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseIte
         serialization_alias="certificateAuthorityId",
     )
     crl: str | None = None
+
+
+class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseMeta(_BaseSchema):
+    """Metadata about the CRLs."""
+
+    counts: WirelessMetaCounts | None = None
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(
@@ -2195,14 +2154,6 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem(_B
     contents: str | None = None
 
 
-class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponse(_BaseSchema):
-    """Response for getOrganizationWirelessDevicesSystemCpuLoadHistory operation."""
-
-    items: list[GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem] = Field(
-        default_factory=list
-    )
-
-
 class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem."""
 
@@ -2216,15 +2167,6 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
         default=None, validation_alias="cpuCount", serialization_alias="cpuCount"
     )
     series: list[WirelessSeriesItem] = Field(default_factory=list)
-
-
-class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationWirelessDevicesWirelessControllersByDevice operation."""
-
-    items: list[GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
 class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem(_BaseSchema):
@@ -2245,15 +2187,6 @@ class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem
     details: list[WirelessDetailsItem] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessLocationScanningByNetworkResponse(_BaseSchema):
-    """Response for getOrganizationWirelessLocationScanningByNetwork operation."""
-
-    items: list[GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
-
-
 class GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem."""
 
@@ -2263,15 +2196,6 @@ class GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem(_BaseSch
     name: str | None = None
     enabled: bool | None = None
     api: UpdateNetworkWirelessLocationScanningResponseApi | None = None
-
-
-class GetOrganizationWirelessLocationScanningReceiversResponse(_BaseSchema):
-    """Response for getOrganizationWirelessLocationScanningReceivers operation."""
-
-    items: list[GetOrganizationWirelessLocationScanningReceiversResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
 class GetOrganizationWirelessLocationScanningReceiversResponseItemsItem(_BaseSchema):
@@ -2286,13 +2210,6 @@ class GetOrganizationWirelessLocationScanningReceiversResponseItemsItem(_BaseSch
     radio: WirelessRadio | None = None
 
 
-class GetOrganizationWirelessMqttSettingsResponse(_BaseSchema):
-    """Response for getOrganizationWirelessMqttSettings operation."""
-
-    items: list[GetOrganizationWirelessMqttSettingsResponseItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
-
-
 class GetOrganizationWirelessMqttSettingsResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessMqttSettingsResponseItemsItem."""
 
@@ -2300,15 +2217,6 @@ class GetOrganizationWirelessMqttSettingsResponseItemsItem(_BaseSchema):
     mqtt: WirelessMqtt | None = None
     ble: WirelessBle | None = None
     wifi: WirelessWifi2 | None = None
-
-
-class GetOrganizationWirelessRadioRrmByNetworkResponse(_BaseSchema):
-    """Response for getOrganizationWirelessRadioRrmByNetwork operation."""
-
-    items: list[GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
 class GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem(_BaseSchema):
@@ -2347,15 +2255,6 @@ class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem(_BaseSche
     )
 
 
-class GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponse(_BaseSchema):
-    """Response for getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries operation."""
-
-    items: list[GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem] = (
-        Field(default_factory=list)
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
-
-
 class GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem."""
 
@@ -2372,15 +2271,6 @@ class GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItems
     network: WirelessNetwork2 | None = None
 
 
-class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponse(_BaseSchema):
-    """Response for getOrganizationWirelessSsidsOpenRoamingByNetwork operation."""
-
-    items: list[GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
-
-
 class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem."""
 
@@ -2391,15 +2281,6 @@ class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem(_BaseSch
         default=None, validation_alias="networkName", serialization_alias="networkName"
     )
     ssid: list[WirelessSsidItem] = Field(default_factory=list)
-
-
-class GetOrganizationWirelessSsidsStatusesByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationWirelessSsidsStatusesByDevice operation."""
-
-    items: list[GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
 
 
 class GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem(_BaseSchema):
@@ -4463,13 +4344,7 @@ class WirelessHysteresis(_BaseSchema):
 
 
 class WirelessItems(_BaseSchema):
-    """Items."""
-
-    total: int | None = None
-
-
-class WirelessItems2(_BaseSchema):
-    """Items."""
+    """Counts of the CRLs."""
 
     total: int | None = None
     remaining: int | None = None
@@ -4510,15 +4385,9 @@ class WirelessLinkNegotiation(_BaseSchema):
 
 
 class WirelessMetaCounts(_BaseSchema):
-    """Counts."""
+    """Counts of the CRLs."""
 
     items: WirelessItems | None = None
-
-
-class WirelessMetaCounts2(_BaseSchema):
-    """Counts."""
-
-    items: WirelessItems2 | None = None
 
 
 class WirelessMqtt(_BaseSchema):

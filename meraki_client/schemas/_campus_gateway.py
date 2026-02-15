@@ -53,28 +53,6 @@ class CampusGatewayDevicesUplinksItem(_BaseSchema):
     addresses: list[CampusGatewayAddressesItem] = Field(default_factory=list)
 
 
-class CampusGatewayItems(_BaseSchema):
-    """The count metadata."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class CampusGatewayItemsItem(_BaseSchema):
-    """Schema for CampusGatewayItemsItem."""
-
-    serial: str | None = None
-    uplink: CampusGatewayUplink | None = None
-    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
-    sgt: int | None = None
-
-
-class CampusGatewayMetaCounts(_BaseSchema):
-    """Count metadata related to this result set."""
-
-    items: CampusGatewayItems | None = None
-
-
 class CampusGatewayNetwork(_BaseSchema):
     """Network details of the cluster."""
 
@@ -266,13 +244,6 @@ class CreateNetworkCampusGatewayClusterUplinksItemAddressesItem(_BaseSchema):
     )
 
 
-class GetOrganizationCampusGatewayClustersResponse(_BaseSchema):
-    """Response for getOrganizationCampusGatewayClusters operation."""
-
-    items: list[GetOrganizationCampusGatewayClustersResponseItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationCampusGatewayClustersResponseMeta | None = None
-
-
 class GetOrganizationCampusGatewayClustersResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCampusGatewayClustersResponseItemsItem."""
 
@@ -298,17 +269,17 @@ class GetOrganizationCampusGatewayClustersResponseItemsItem(_BaseSchema):
     url: str | None = None
 
 
-class GetOrganizationCampusGatewayClustersResponseMeta(_BaseSchema):
-    """Other metadata related to this result set."""
+class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem.
+    """
 
-    counts: CampusGatewayMetaCounts | None = None
-
-
-class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponse(_BaseSchema):
-    """Response for getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice operation."""
-
-    items: list[CampusGatewayItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationCampusGatewayClustersResponseMeta | None = None
+    serial: str | None = None
+    uplink: CampusGatewayUplink | None = None
+    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
+    sgt: int | None = None
 
 
 class UpdateNetworkCampusGatewayClusterDevicesItem(_BaseSchema):

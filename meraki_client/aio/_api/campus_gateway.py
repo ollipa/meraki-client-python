@@ -11,7 +11,6 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
-    CampusGatewayItemsItem,
     CreateNetworkCampusGatewayClusterDevicesItem,
     CreateNetworkCampusGatewayClusterNameservers,
     CreateNetworkCampusGatewayClusterPortChannelsItem,
@@ -19,6 +18,7 @@ from meraki_client.schemas import (
     CreateNetworkCampusGatewayClusterTunnelsItem,
     CreateNetworkCampusGatewayClusterUplinksItem,
     GetOrganizationCampusGatewayClustersResponseItemsItem,
+    GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem,
     UpdateNetworkCampusGatewayClusterDevicesItem,
     UpdateNetworkCampusGatewayClusterNameservers,
     UpdateNetworkCampusGatewayClusterPortChannelsItem,
@@ -502,7 +502,9 @@ class CampusGateway:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[CampusGatewayItemsItem]:
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem
+    ]:
         """Uplink overrides configured locally on Campus Gateway devices in an organization.
 
         [API documentation: getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-devices-uplinks-local-overrides-by-device)
@@ -588,5 +590,5 @@ class CampusGateway:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=CampusGatewayItemsItem,
+            item_schema=GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem,
         )

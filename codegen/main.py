@@ -405,8 +405,8 @@ def generate_module(  # noqa: PLR0915
             response_schema_name = get_response_schema_name(operation_id)
             if response_schema_name in schema_registry.schema_names:
                 schemas_used.append(response_schema_name)
-                if response_schema_name in schema_registry.item_schema_map:
-                    schemas_used.extend(schema_registry.item_schema_map[response_schema_name])
+            if response_schema_name in schema_registry.item_schema_map:
+                schemas_used.extend(schema_registry.item_schema_map[response_schema_name])
 
     output.write(
         templates.class_template.render(
@@ -456,11 +456,14 @@ def generate_module(  # noqa: PLR0915
                 schema_name = get_response_schema_name(operation_id)
                 if schema_name in schema_registry.schema_names:
                     response_schema_name = schema_name
-                    # For paginated endpoints, use first item schema from map or fallback to response schema
-                    # (some OpenAPI specs incorrectly define array responses as objects)
-                    if is_paginated:
-                        item_schemas = schema_registry.item_schema_map.get(schema_name)
-                        item_schema_name = item_schemas[0] if item_schemas else schema_name
+                # For paginated endpoints, use first item schema from map or fallback to response schema.
+                # (some OpenAPI specs incorrectly define array responses as objects)
+                if is_paginated:
+                    item_schemas = schema_registry.item_schema_map.get(schema_name)
+                    if item_schemas:
+                        item_schema_name = item_schemas[0]
+                    elif response_schema_name:
+                        item_schema_name = response_schema_name
 
             is_list_response = (
                 response_schema_name is not None
@@ -482,7 +485,9 @@ def generate_module(  # noqa: PLR0915
 
             if method != "delete" and not response_schema_name and not has_untyped_response:
                 responses = endpoint.responses or {}
-                if "200" in responses or "201" in responses:
+                if ("200" in responses or "201" in responses) and not (
+                    is_paginated and item_schema_name
+                ):
                     raise ValueError(f"Endpoint {operation_id} has 200/201 response but no schema")
 
             body_params_for_template = [

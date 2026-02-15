@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Codegen: Add `force_paginated_items_schema` in `spec_overrides.toml` for endpoints where
   paginated responses are incorrectly modeled as `array[{items, meta}]` in OpenAPI.
 
+### Changed
+
+- Codegen: Skip generating top-level paginated wrapper schemas with only `items`/`meta` fields;
+  generate only item schemas used by `PaginatedResponse[T]`.
+
 ## v0.9.0
 
 ### Added

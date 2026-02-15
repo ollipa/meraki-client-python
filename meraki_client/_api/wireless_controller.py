@@ -12,18 +12,20 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
     GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem,
+    GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItem,
     GetOrganizationWirelessControllerConnectionsResponseItemsItem,
     GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem,
+    GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem,
+    GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem,
     GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem,
+    GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem,
+    GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem,
+    GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem,
+    GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem,
     GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem,
     GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItem,
+    GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItem,
     GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem,
-    WirelessControllerItemsItem,
-    WirelessControllerItemsItem2,
-    WirelessControllerItemsItem3,
-    WirelessControllerItemsItem4,
-    WirelessControllerItemsItem5,
-    WirelessControllerItemsItem6,
 )
 
 if TYPE_CHECKING:
@@ -154,7 +156,9 @@ class WirelessController:
         resolution: int | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[WirelessControllerItemsItem]:
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItem
+    ]:
         """List wireless client counts of wireless LAN controllers over time in an organization.
 
         [API documentation: getOrganizationWirelessControllerClientsOverviewHistoryByDeviceByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-clients-overview-history-by-device-by-interval)
@@ -254,7 +258,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem,
+            item_schema=GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItem,
         )
 
     def get_organization_wireless_controller_connections(
@@ -479,7 +483,9 @@ class WirelessController:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[WirelessControllerItemsItem2]:
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem
+    ]:
         """List wireless LAN controller layer 2 interfaces history status in an organization.
 
         [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-statuses-change-history-by-device)
@@ -580,7 +586,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem2,
+            item_schema=GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem,
         )
 
     def get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
@@ -596,7 +602,9 @@ class WirelessController:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[WirelessControllerItemsItem3]:
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem
+    ]:
         """List wireless LAN controller layer 2 interfaces history usage in an organization.
 
         [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-usage-history-by-interval)
@@ -682,7 +690,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem3,
+            item_schema=GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem,
         )
 
     def get_organization_wireless_controller_devices_interfaces_l3_by_device(
@@ -823,7 +831,9 @@ class WirelessController:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[WirelessControllerItemsItem2]:
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem
+    ]:
         """List wireless LAN controller layer 3 interfaces history status in an organization.
 
         [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-statuses-change-history-by-device)
@@ -924,7 +934,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem2,
+            item_schema=GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem,
         )
 
     def get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
@@ -940,7 +950,9 @@ class WirelessController:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[WirelessControllerItemsItem3]:
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem
+    ]:
         """List wireless LAN controller layer 3 interfaces history usage in an organization.
 
         [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-usage-history-by-interval)
@@ -1026,7 +1038,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem3,
+            item_schema=GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem,
         )
 
     def get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
@@ -1043,7 +1055,9 @@ class WirelessController:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[WirelessControllerItemsItem4]:
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem
+    ]:
         """Retrieve the packet counters for the interfaces of a Wireless LAN controller.
 
         [API documentation: getOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-packets-overview-by-device)
@@ -1143,7 +1157,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem4,
+            item_schema=GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem,
         )
 
     def get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
@@ -1160,7 +1174,9 @@ class WirelessController:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[WirelessControllerItemsItem5]:
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem
+    ]:
         """Retrieve the traffic for the interfaces of a Wireless LAN controller.
 
         [API documentation: getOrganizationWirelessControllerDevicesInterfacesUsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-usage-history-by-interval)
@@ -1263,7 +1279,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem5,
+            item_schema=GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem,
         )
 
     def get_organization_wireless_controller_devices_redundancy_failover_history(
@@ -1482,7 +1498,9 @@ class WirelessController:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[WirelessControllerItemsItem6]:
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItem
+    ]:
         """List cpu utilization data of wireless LAN controllers in an organization.
 
         [API documentation: getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-system-utilization-history-by-interval)
@@ -1583,7 +1601,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=WirelessControllerItemsItem6,
+            item_schema=GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItem,
         )
 
     def get_organization_wireless_controller_overview_by_device(
