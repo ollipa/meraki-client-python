@@ -103,7 +103,13 @@ required = ["id", "organizationId"]
 required = ["id", "organizationId"]
 
 [getOrganizationDevices]
-required = ["serial"]
+required = ["serial", "mac", "model"]
+
+[getOrganizationInventoryDevices]
+required = ["serial", "mac", "model"]
+
+[getOrganizationDevicesStatuses]
+required = ["serial", "mac", "model", "status"]
 
 [getNetworkWirelessSsids.extra_fields]
 dot11w = "dict[str, Any]"

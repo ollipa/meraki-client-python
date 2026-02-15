@@ -2161,9 +2161,9 @@ class GetOrganizationDevicesResponseItem(_BaseSchema):
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
     serial: str
-    model: str | None = None
+    model: str
     imei: str | None = None
-    mac: str | None = None
+    mac: str
     lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
     firmware: str | None = None
     product_type: str | None = Field(
@@ -2196,15 +2196,15 @@ class GetOrganizationDevicesStatusesResponseItem(_BaseSchema):
     """Schema for GetOrganizationDevicesStatusesResponseItem."""
 
     name: str | None = None
-    serial: str | None = None
-    mac: str | None = None
+    serial: str
+    mac: str
     public_ip: str | None = Field(
         default=None, validation_alias="publicIp", serialization_alias="publicIp"
     )
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
-    status: str | None = None
+    status: str
     last_reported_at: str | None = Field(
         default=None, validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
     )
@@ -2223,7 +2223,7 @@ class GetOrganizationDevicesStatusesResponseItem(_BaseSchema):
         default=None, validation_alias="productType", serialization_alias="productType"
     )
     components: OrganizationsComponents | None = None
-    model: str | None = None
+    model: str
     tags: list[str] = Field(default_factory=list)
 
 
@@ -2569,10 +2569,10 @@ class GetOrganizationInventoryDevicesResponse(
 class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
     """Schema for GetOrganizationInventoryDevicesResponseItem."""
 
-    mac: str | None = None
-    serial: str | None = None
+    mac: str
+    serial: str
     name: str | None = None
-    model: str | None = None
+    model: str
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
