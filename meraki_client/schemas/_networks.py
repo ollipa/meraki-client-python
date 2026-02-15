@@ -1666,7 +1666,7 @@ class GetNetworkResponse(_BaseSchema):
     organization_id: str = Field(
         validation_alias="organizationId", serialization_alias="organizationId"
     )
-    name: str | None = None
+    name: str
     product_types: list[str] = Field(
         default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
@@ -1677,7 +1677,7 @@ class GetNetworkResponse(_BaseSchema):
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
-    url: str | None = None
+    url: str
     notes: str | None = None
     is_bound_to_config_template: bool | None = Field(
         default=None,

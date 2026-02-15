@@ -8,9 +8,9 @@
 #   array[object{items, meta}] in the spec
 # - optional_response: Endpoints where response can be None
 # - skip_tests: Endpoints to skip in test generation
-# - [operationId.response]: Field type overrides for response schemas
-# - [operationId.required]: Fields to mark as required (list of field paths)
-# - [operationId.extra_fields]: Add fields missing from spec (field_name = "type")
+# - [operationId] response = {...}: Field type overrides for response schemas
+# - [operationId] required = [...]: Fields to mark as required (list of field paths)
+# - [operationId] extra_fields = {...}: Add fields missing from spec
 
 # Endpoints where spec says object but API returns array
 force_array_response = ["getAdministeredLicensingSubscriptionEntitlements"]
@@ -70,40 +70,40 @@ skip_tests = [
     "getNetworkFirmwareUpgradesStagedEvents",
 ]
 
-# Field type overrides: [operationId.response] with "field.path" = "python_type"
-[getNetworkClients.response]
-firstSeen = "datetime"
-lastSeen = "datetime"
+[getNetworkClients]
+response = { firstSeen = "datetime", lastSeen = "datetime" }
 
-[getOrganizationClientsBandwidthUsageHistory.response]
-upstream = "float"
-downstream = "float"
-total = "float"
+[getOrganizationClientsBandwidthUsageHistory]
+response = { upstream = "float", downstream = "float", total = "float" }
 
-[getNetworkApplianceVlans.response]
-id = "int"
+[getNetworkApplianceVlans]
+response = { id = "int" }
 
-[getNetworkWirelessMeshStatuses.response]
-"latestMeshPerformance.mbps" = "float"
+[getNetworkWirelessMeshStatuses]
+response = { "latestMeshPerformance.mbps" = "float" }
 
-[getNetworkFirmwareUpgrades.response]
+[getNetworkFirmwareUpgrades]
 # The field is either a datetime or empty string
-"products.wireless.nextUpgrade.time" = "str"
+response = { "products.wireless.nextUpgrade.time" = "str" }
 
 [getOrganization]
-required = ["id"]
+required = ["id", "name", "url"]
 
 [getOrganizations]
-required = ["id"]
+required = ["id", "name", "url"]
 
 [getNetwork]
-required = ["id", "organizationId"]
+required = ["id", "organizationId", "name", "url"]
 
 [getOrganizationNetworks]
-required = ["id", "organizationId"]
+required = ["id", "organizationId", "name", "url"]
 
 [getOrganizationDevices]
 required = ["serial", "mac", "model"]
+extra_fields = { url = "str" }
+
+[getOrganizationAdmins]
+required = ["id", "name", "email"]
 
 [getOrganizationInventoryDevices]
 required = ["serial", "mac", "model"]
@@ -111,6 +111,19 @@ required = ["serial", "mac", "model"]
 [getOrganizationDevicesStatuses]
 required = ["serial", "mac", "model", "status"]
 
-[getNetworkWirelessSsids.extra_fields]
-dot11w = "dict[str, Any]"
-dot11r = "dict[str, Any]"
+[getNetworkWirelessSsids]
+extra_fields = { dot11w = "dict[str, Any]", dot11r = "dict[str, Any]" }
+
+[getDevice]
+required = ["serial", "mac", "model"]
+extra_fields = { url = "str" }
+
+[getOrganizationApplianceUplinkStatuses]
+required = [
+    "networkId",
+    "serial",
+    "model",
+    "lastReportedAt",
+    "uplinks.interface",
+    "uplinks.status",
+]

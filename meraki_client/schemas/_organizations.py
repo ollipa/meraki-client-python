@@ -1469,9 +1469,9 @@ class GetOrganizationAdminsResponse(RootModel[list["GetOrganizationAdminsRespons
 class GetOrganizationAdminsResponseItem(_BaseSchema):
     """Schema for GetOrganizationAdminsResponseItem."""
 
-    id: str | None = None
-    name: str | None = None
-    email: str | None = None
+    id: str
+    name: str
+    email: str
     org_access: str | None = Field(
         default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
     )
@@ -2170,6 +2170,7 @@ class GetOrganizationDevicesResponseItem(_BaseSchema):
         default=None, validation_alias="productType", serialization_alias="productType"
     )
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
+    url: str | None = None
 
 
 class GetOrganizationDevicesStatusesOverviewResponse(_BaseSchema):
@@ -2907,7 +2908,7 @@ class GetOrganizationNetworksResponseItem(_BaseSchema):
     organization_id: str = Field(
         validation_alias="organizationId", serialization_alias="organizationId"
     )
-    name: str | None = None
+    name: str
     product_types: list[str] = Field(
         default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
@@ -2918,7 +2919,7 @@ class GetOrganizationNetworksResponseItem(_BaseSchema):
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
-    url: str | None = None
+    url: str
     notes: str | None = None
     is_bound_to_config_template: bool | None = Field(
         default=None,
@@ -3047,8 +3048,8 @@ class GetOrganizationResponse(_BaseSchema):
     """Response for getOrganization operation."""
 
     id: str
-    name: str | None = None
-    url: str | None = None
+    name: str
+    url: str
     api: OrganizationsApi | None = None
     licensing: OrganizationsLicensing | None = None
     cloud: OrganizationsCloud | None = None
@@ -3555,8 +3556,8 @@ class GetOrganizationsResponseItem(_BaseSchema):
     """Schema for GetOrganizationsResponseItem."""
 
     id: str
-    name: str | None = None
-    url: str | None = None
+    name: str
+    url: str
     api: OrganizationsApi | None = None
     licensing: OrganizationsLicensing | None = None
     cloud: OrganizationsCloud | None = None

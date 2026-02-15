@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- Required fields fixes for `get_organization`, `get_organizations`, `get_organization_networks`, `get_network`, `get_organization_admins`, `get_organization_appliance_uplink_statuses`, `get_device`, `get_organization_devices` responses.
 
 ## v0.10.2
 

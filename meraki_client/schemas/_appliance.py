@@ -663,8 +663,8 @@ class ApplianceTrafficFiltersItem4(_BaseSchema):
 class ApplianceUplinksItem(_BaseSchema):
     """Schema for ApplianceUplinksItem."""
 
-    interface: str | None = None
-    status: str | None = None
+    interface: str
+    status: str
     ip: str | None = None
     gateway: str | None = None
     public_ip: str | None = Field(
@@ -2207,13 +2207,11 @@ class GetOrganizationApplianceUplinkStatusesResponse(
 class GetOrganizationApplianceUplinkStatusesResponseItem(_BaseSchema):
     """Schema for GetOrganizationApplianceUplinkStatusesResponseItem."""
 
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    serial: str | None = None
-    model: str | None = None
-    last_reported_at: datetime | None = Field(
-        default=None, validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
+    network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
+    serial: str
+    model: str
+    last_reported_at: datetime = Field(
+        validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
     )
     high_availability: ApplianceHighAvailability | None = Field(
         default=None, validation_alias="highAvailability", serialization_alias="highAvailability"

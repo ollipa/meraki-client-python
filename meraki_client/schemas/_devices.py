@@ -764,9 +764,9 @@ class GetDeviceResponse(_BaseSchema):
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
-    serial: str | None = None
-    model: str | None = None
-    mac: str | None = None
+    serial: str
+    model: str
+    mac: str
     lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
     firmware: str | None = None
     floor_plan_id: str | None = Field(
@@ -776,6 +776,7 @@ class GetDeviceResponse(_BaseSchema):
     beacon_id_params: GetDeviceResponseBeaconIdParams | None = Field(
         default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
+    url: str | None = None
 
 
 class GetDeviceResponseBeaconIdParams(_BaseSchema):
