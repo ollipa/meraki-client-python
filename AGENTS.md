@@ -34,7 +34,7 @@ Key implications:
 - Package/dependency manager: `uv`.
 - Lint/format: `ruff`.
 - Type checking: `ty`.
-- Docs: MkDocs + mkdocs-material + mkdocstrings.
+- Docs: Zensical + mkdocstrings.
 
 ## Code Generation
 

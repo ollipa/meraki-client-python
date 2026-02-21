@@ -630,7 +630,7 @@ def generate_api_reference_docs(
     batch_modules: list[ModuleInfo],
     templates: Templates,
 ) -> None:
-    """Generate API reference markdown docs for mkdocs."""
+    """Generate API reference markdown docs for Zensical."""
     os.makedirs(DOCS_DIR, exist_ok=True)
 
     # Generate module docs

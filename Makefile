@@ -52,8 +52,8 @@ docs:
 	@printf '\n\n*****************\n'
 	@printf '$(color)Test building docs$(off)\n'
 	@printf '*****************\n'
-	uv run mkdocs build --strict
+	uv run zensical build --strict
 
 .PHONY: serve
 serve:
-	uv run mkdocs serve --open --livereload
+	uv run zensical serve --open

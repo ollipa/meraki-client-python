@@ -37,6 +37,8 @@ nav:
       - Getting started: user_guide/getting_started.md
       - Using pagination: user_guide/pagination.md
       - Using batch endpoints: user_guide/batch_endpoints.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
   - API Reference:
       - Clients: api_reference/index.md
       - Exceptions: api_reference/exceptions.md
@@ -70,8 +72,6 @@ nav:
           - Spaces: api_reference/batch_spaces.md
           - Switch: api_reference/batch_switch.md
           - Wireless: api_reference/batch_wireless.md
-  - Contributing: contributing.md
-  - Changelog: changelog.md
 
 plugins:
   - search

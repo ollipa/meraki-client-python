@@ -1,10 +1,11 @@
-/* mkdocs */
+/* zensical */
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #67b346;
+  --md-default-bg-color--light: #67b346;
 }
 
 [data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #4a8a30;
+  --md-default-bg-color--light: #4a8a30;
+  --md-default-bg-color: hsla(var(--md-hue),15%,14%,1);
 }
 
 /* mkdocstrings */
