@@ -2568,6 +2568,7 @@ class Switch:
             ```json
             {
               "enabled": true,
+              "useOobMgmt": false,
               "vlanId": 100,
               "protocols": [
                 "radius",
@@ -2628,6 +2629,7 @@ class Switch:
             ```json
             {
               "enabled": true,
+              "useOobMgmt": false,
               "vlanId": 100,
               "protocols": [
                 "radius",
@@ -2870,6 +2872,10 @@ class Switch:
                 "00:50:56:00:00:01",
                 "00:50:56:00:00:02"
               ],
+              "alwaysAllowedServers": [
+                "00:50:56:00:00:05",
+                "00:50:56:00:00:06"
+              ],
               "arpInspection": {
                 "enabled": true,
                 "unsupportedModels": [
@@ -2934,6 +2940,10 @@ class Switch:
               "allowedServers": [
                 "00:50:56:00:00:01",
                 "00:50:56:00:00:02"
+              ],
+              "alwaysAllowedServers": [
+                "00:50:56:00:00:05",
+                "00:50:56:00:00:06"
               ],
               "arpInspection": {
                 "enabled": true,

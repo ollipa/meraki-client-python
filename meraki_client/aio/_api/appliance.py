@@ -5107,7 +5107,7 @@ class Appliance:
     def get_network_appliance_vlans(
         self, network_id: str
     ) -> AsyncPaginatedResponse[GetNetworkApplianceVlansResponseItem]:
-        """List the VLANs for a Cisco Secure Router network.
+        """List the VLANs for a Security Appliance network.
 
         [API documentation: getNetworkApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans)
 

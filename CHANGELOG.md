@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+#### Update to Meraki API v1.67.0
+
+- Generated SDK update; review diff for endpoint, parameter, and schema changes.
 
 ## v0.10.3
 

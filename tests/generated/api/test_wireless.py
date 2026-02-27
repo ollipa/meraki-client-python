@@ -345,6 +345,17 @@ def test_get_organization_wireless_mqtt_settings(
     assert isinstance(result, list)
 
 
+def test_get_organization_wireless_radio_rrm_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_radio_rrm_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_radio_rrm_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_wireless_rf_profiles_assignments_by_device(
     client: MerakiClient, organization_id: str
 ) -> None:
