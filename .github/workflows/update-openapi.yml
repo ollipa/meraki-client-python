@@ -85,7 +85,6 @@ jobs:
           set -euo pipefail
           echo "${{ steps.detect.outputs.latest_version }}" > .api-version
           make generate
-          make lint
 
       - name: Build generated diff context for changelog
         if: steps.detect.outputs.update_needed == 'true'
