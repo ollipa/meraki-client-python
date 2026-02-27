@@ -8,7 +8,6 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  models: read
 
 concurrency:
   group: update-openapi-spec
@@ -87,46 +86,13 @@ jobs:
           make generate
           make lint
 
-      - name: Build generated diff context for changelog
-        if: steps.detect.outputs.update_needed == 'true'
-        run: |
-          set -euo pipefail
-          mkdir -p .tmp
-
-          {
-            echo "Current API version: ${{ steps.detect.outputs.current_version }}"
-            echo "Target API version: ${{ steps.detect.outputs.latest_version }}"
-            echo
-            echo "Changed files:"
-            git diff --name-status -- meraki_client tests/generated docs/api_reference
-            echo
-            echo "Unified diff (first 4000 lines):"
-          } > .tmp/meraki-generated-diff.md
-
-          git diff --unified=0 -- meraki_client tests/generated docs/api_reference > .tmp/meraki-generated-diff.patch
-          sed -n '1,4000p' .tmp/meraki-generated-diff.patch >> .tmp/meraki-generated-diff.md
-
-      - name: Draft changelog bullets with AI
-        id: ai_changelog
-        if: steps.detect.outputs.update_needed == 'true'
-        continue-on-error: true
-        uses: actions/ai-inference@v2
-        with:
-          prompt-file: ./.github/prompts/meraki-changelog.prompt.yml
-          input: |
-            old_api_version: ${{ steps.detect.outputs.current_version }}
-            new_api_version: ${{ steps.detect.outputs.latest_version }}
-          file_input: |
-            generated_diff: ./.tmp/meraki-generated-diff.md
-
-      - name: Update changelog
+      - name: Update changelog with placeholder entry
         if: steps.detect.outputs.update_needed == 'true'
         run: |
           set -euo pipefail
           uv run python scripts/update_changelog.py \
             --api-version "${{ steps.detect.outputs.latest_version }}" \
-            --changelog-path CHANGELOG.md \
-            --ai-output-file "${{ steps.ai_changelog.outputs.response-file }}"
+            --changelog-path CHANGELOG.md
 
       - name: Commit and push update branch
         if: steps.detect.outputs.update_needed == 'true'

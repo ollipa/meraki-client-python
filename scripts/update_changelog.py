@@ -1,4 +1,4 @@
-"""Update CHANGELOG.md with AI-generated Meraki OpenAPI entries."""
+"""Update CHANGELOG.md with placeholder Meraki OpenAPI entries."""
 
 from __future__ import annotations
 
@@ -12,7 +12,9 @@ CHANGED_HEADING = "### Changed"
 
 def parse_args() -> argparse.Namespace:
     """Parse command line arguments."""
-    parser = argparse.ArgumentParser(description="Update changelog with AI-generated entries.")
+    parser = argparse.ArgumentParser(
+        description="Update changelog with placeholder Meraki OpenAPI entries."
+    )
     parser.add_argument(
         "--api-version",
         required=True,
@@ -24,58 +26,12 @@ def parse_args() -> argparse.Namespace:
         default=Path("CHANGELOG.md"),
         help="Path to the changelog file.",
     )
-    parser.add_argument(
-        "--ai-output-file",
-        type=Path,
-        default=None,
-        help="Path to ai-inference response file.",
-    )
-    parser.add_argument(
-        "--fallback-bullet",
-        default="- Generated SDK update; review diff for endpoint, parameter, and schema changes.",
-        help="Fallback bullet used when AI output is unavailable or unusable.",
-    )
     return parser.parse_args()
 
 
-def read_text_if_exists(file_path: Path | None) -> str:
-    """Read file content if path exists, otherwise return empty string."""
-    if file_path is None:
-        return ""
-    if not file_path.exists() or not file_path.is_file():
-        return ""
-    return file_path.read_text().strip()
-
-
-def extract_bullets(ai_output: str) -> list[str]:
-    """Extract markdown bullet lines from AI output."""
-    if not ai_output:
-        return []
-
-    code_block_match = re.search(r"```(?:markdown|md)?\s*\n(.*?)\n```", ai_output, re.DOTALL)
-    if code_block_match:
-        ai_output = code_block_match.group(1).strip()
-
-    bullets: list[str] = []
-    for raw_line in ai_output.splitlines():
-        line = raw_line.rstrip()
-        if line.startswith("- "):
-            bullets.append(line)
-            continue
-        if bullets and line.startswith("  "):
-            bullets.append(line)
-
-    while bullets and not bullets[-1].strip():
-        bullets.pop()
-    return bullets
-
-
-def ensure_fallback_bullet(fallback_bullet: str) -> str:
-    """Normalize fallback bullet format."""
-    fallback_bullet = fallback_bullet.strip()
-    if fallback_bullet.startswith("- "):
-        return fallback_bullet
-    return f"- {fallback_bullet}"
+def build_placeholder_bullet(api_version: str) -> str:
+    """Build the default changelog placeholder bullet for an API update."""
+    return f"- TODO: summarize generated SDK changes for Meraki API v{api_version}."
 
 
 def get_unreleased_bounds(changelog: str) -> tuple[int, int, int]:
@@ -157,10 +113,7 @@ def main() -> None:
     args = parse_args()
     changelog = args.changelog_path.read_text()
 
-    ai_output = read_text_if_exists(args.ai_output_file)
-    bullets = extract_bullets(ai_output)
-    if not bullets:
-        bullets = [ensure_fallback_bullet(args.fallback_bullet)]
+    bullets = [build_placeholder_bullet(args.api_version)]
 
     updated = update_changelog(changelog, args.api_version, bullets)
     args.changelog_path.write_text(updated)
