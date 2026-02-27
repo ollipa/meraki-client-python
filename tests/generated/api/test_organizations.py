@@ -445,16 +445,6 @@ def test_get_organization_inventory_devices(client: MerakiClient, organization_i
     assert isinstance(result, list)
 
 
-def test_get_organization_inventory_devices_eox_overview(
-    client: MerakiClient, organization_id: str
-) -> None:
-    """Test get_organization_inventory_devices_eox_overview endpoint."""
-    with skip_on_unsupported():
-        client.organizations.get_organization_inventory_devices_eox_overview(
-            organization_id=organization_id
-        )
-
-
 def test_get_organization_inventory_device(
     client: MerakiClient, organization_id: str, device_serial: str
 ) -> None:
@@ -492,13 +482,6 @@ def test_get_organization_networks(client: MerakiClient, organization_id: str) -
         result = client.organizations.get_organization_networks(
             organization_id=organization_id
         ).collect()
-    assert isinstance(result, list)
-
-
-def test_get_network_moves(client: MerakiClient, organization_id: str) -> None:
-    """Test get_network_moves endpoint."""
-    with skip_on_unsupported():
-        result = client.organizations.get_network_moves(organization_id=organization_id).collect()
     assert isinstance(result, list)
 
 

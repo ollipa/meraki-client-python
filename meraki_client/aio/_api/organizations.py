@@ -25,9 +25,6 @@ from meraki_client.schemas import (
     ClaimOrganizationInventoryOrdersSubscriptionsItem,
     CloneOrganizationResponse,
     CombineOrganizationNetworksResponse,
-    CreateNetworkMoveNetwork,
-    CreateNetworkMoveOrganizations,
-    CreateNetworkMoveResponse,
     CreateOrganizationActionBatchActionsItem,
     CreateOrganizationActionBatchCallback,
     CreateOrganizationActionBatchResponse,
@@ -81,7 +78,6 @@ from meraki_client.schemas import (
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksResponse,
     GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse,
-    GetNetworkMovesResponseItemsItem,
     GetOrganizationActionBatchesResponseItem,
     GetOrganizationActionBatchResponse,
     GetOrganizationAdaptivePolicyAclResponse,
@@ -136,7 +132,6 @@ from meraki_client.schemas import (
     GetOrganizationFloorPlansAutoLocateStatusesResponseItem,
     GetOrganizationIntegrationsXdrNetworksResponseItemsItem,
     GetOrganizationInventoryDeviceResponse,
-    GetOrganizationInventoryDevicesEoxOverviewResponse,
     GetOrganizationInventoryDevicesResponseItem,
     GetOrganizationInventoryDevicesSwapsBulkResponse,
     GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem,
@@ -149,8 +144,8 @@ from meraki_client.schemas import (
     GetOrganizationPoliciesAssignmentsByClientResponseItem,
     GetOrganizationPolicyObjectResponse,
     GetOrganizationPolicyObjectsGroupResponse,
-    GetOrganizationPolicyObjectsGroupsResponseItem,
-    GetOrganizationPolicyObjectsResponseItem,
+    GetOrganizationPolicyObjectsGroupsResponse,
+    GetOrganizationPolicyObjectsResponse,
     GetOrganizationResponse,
     GetOrganizationSamlIdpResponse,
     GetOrganizationSamlIdpsResponseItem,
@@ -278,7 +273,6 @@ from meraki_client.types import (
     GetOrganizationDevicesUplinksAddressesByDeviceTagsFilterType,
     GetOrganizationDevicesUplinksLossAndLatencyUplink,
     GetOrganizationFirmwareUpgradesByDeviceUpgradeStatuses,
-    GetOrganizationInventoryDevicesEoxStatuses,
     GetOrganizationInventoryDevicesProductTypes,
     GetOrganizationInventoryDevicesTagsFilterType,
     GetOrganizationInventoryDevicesUsedState,
@@ -7711,7 +7705,7 @@ class Organizations:
                     },
                     "floorPlan": {
                       "id": "g_2176982374",
-                      "name": "My floor plan"
+                      "status": "My floor plan"
                     },
                     "lat": 37.4180951010362,
                     "lng": -122.098531723022,
@@ -8158,7 +8152,6 @@ class Organizations:
         tags: list[str] | None = None,
         tags_filter_type: GetOrganizationInventoryDevicesTagsFilterType | None = None,
         product_types: GetOrganizationInventoryDevicesProductTypes | None = None,
-        eox_statuses: GetOrganizationInventoryDevicesEoxStatuses | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationInventoryDevicesResponseItem]:
@@ -8195,10 +8188,6 @@ class Organizations:
             product_types: Filter devices by product type. Accepted values are appliance, camera,
                 campusGateway, cellularGateway, secureConnect, sensor, switch,
                 systemsManager, wireless, and wirelessController.
-            eox_statuses: Filter devices by EoX status. Accepted values are 'endOfSale',
-                'endOfSupport', 'nearEndOfSupport', or 'null'. Use 'null' to filter for
-                devices with no EOX data. Supports multiple values for multi-select
-                filtering.
             total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
                 "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -8234,12 +8223,7 @@ class Organizations:
                     "name": "Catalyst serial",
                     "value": "FOC2234432B"
                   }
-                ],
-                "eox": {
-                  "status": "endOfSale",
-                  "endOfSaleAt": "2031-07-29T02:00:00Z",
-                  "endOfSupportAt": "2032-07-29T02:00:00Z"
-                }
+                ]
               }
             ]
             ```
@@ -8275,8 +8259,6 @@ class Organizations:
             params["tagsFilterType"] = tags_filter_type
         if product_types is not None:
             params["productTypes[]"] = product_types
-        if eox_statuses is not None:
-            params["eoxStatuses[]"] = eox_statuses
 
         return self._session.get_pages(
             scope="organizations",
@@ -8286,49 +8268,6 @@ class Organizations:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationInventoryDevicesResponseItem,
-        )
-
-    async def get_organization_inventory_devices_eox_overview(
-        self, organization_id: str
-    ) -> GetOrganizationInventoryDevicesEoxOverviewResponse:
-        """Fetch the EOX summary for an organization, including counts of devices that are end-of-sale, end-of-support, and end-of-support-soon.
-
-        [API documentation: getOrganizationInventoryDevicesEoxOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices-eox-overview)
-
-        Args:
-            organization_id: Organization ID.
-
-        Returns:
-            Successful operation.
-
-        Example API response:
-            ```json
-            {
-              "counts": {
-                "byStatus": {
-                  "endOfSale": {
-                    "total": 5
-                  },
-                  "endOfSupport": {
-                    "total": 3
-                  },
-                  "nearEndOfSupport": {
-                    "total": 7
-                  }
-                }
-              }
-            }
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/inventory/devices/eox/overview"
-
-        return await self._session.get(
-            scope="organizations",
-            operation_id="getOrganizationInventoryDevicesEoxOverview",
-            path=path,
-            response_schema=GetOrganizationInventoryDevicesEoxOverviewResponse,
         )
 
     async def create_organization_inventory_devices_swaps_bulk(
@@ -8488,12 +8427,7 @@ class Organizations:
                   "name": "Catalyst serial",
                   "value": "FOC2234432B"
                 }
-              ],
-              "eox": {
-                "status": "endOfSale",
-                "endOfSaleAt": "2031-07-29T02:00:00Z",
-                "endOfSupportAt": "2032-07-29T02:00:00Z"
-              }
+              ]
             }
             ```
 
@@ -9996,183 +9930,6 @@ class Organizations:
             response_schema=CombineOrganizationNetworksResponse,
         )
 
-    def get_network_moves(
-        self,
-        organization_id: str,
-        *,
-        per_page: int | None = None,
-        starting_after: str | None = None,
-        ending_before: str | None = None,
-        move_ids: list[str] | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetNetworkMovesResponseItemsItem]:
-        """Return a list of network move operations in the organization.
-
-        [API documentation: getNetworkMoves](https://developer.cisco.com/meraki/api-v1/#!get-network-moves)
-
-        Args:
-            organization_id: Organization ID.
-            per_page: The number of entries per page returned. Acceptable range is 10 - 100. Default
-                is 50.
-            starting_after: A token used by the server to indicate the start of the page. Often this
-                is a timestamp or an ID but it is not limited to those. This parameter
-                should not be defined by client applications. The link for the first,
-                last, prev, or next page in the HTTP Link header should define it.
-            ending_before: A token used by the server to indicate the end of the page. Often this is
-                a timestamp or an ID but it is not limited to those. This parameter
-                should not be defined by client applications. The link for the first,
-                last, prev, or next page in the HTTP Link header should define it.
-            move_ids: Array of network move operation IDs to include. If not specified, all network
-                moves will be returned.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-
-        Returns:
-            Successful operation.
-
-        Note:
-            Returns a lazy AsyncPaginatedResponse
-            that can be iterated or collected with `.collect()`.
-            Page metadata is available on `.meta` and `.meta_pages`.
-
-        Example API response:
-            ```json
-            {
-              "items": [
-                {
-                  "moveId": "123456",
-                  "initiator": {
-                    "admin": {
-                      "id": "8590064780"
-                    }
-                  },
-                  "organizations": {
-                    "source": {
-                      "id": "146307"
-                    },
-                    "target": {
-                      "id": "146308"
-                    }
-                  },
-                  "network": {
-                    "id": "N_569142402909112097"
-                  },
-                  "createdAt": "1970-01-20T15:57:36.000Z",
-                  "lastUpdatedAt": "1970-01-20T15:57:36.000Z",
-                  "result": {
-                    "status": "failed",
-                    "reason": "Cannot move network: Target organization is invalid or inaccessible."
-                  }
-                }
-              ],
-              "meta": {
-                "counts": {
-                  "items": {
-                    "total": 42,
-                    "remaining": 12
-                  }
-                }
-              }
-            }
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/networks/moves"
-
-        params: dict[str, Any] = {}
-        if per_page is not None:
-            params["perPage"] = per_page
-        if starting_after is not None:
-            params["startingAfter"] = starting_after
-        if ending_before is not None:
-            params["endingBefore"] = ending_before
-        if move_ids is not None:
-            params["moveIds[]"] = move_ids
-
-        return self._session.get_pages(
-            scope="organizations",
-            operation_id="getNetworkMoves",
-            path=path,
-            params=params,
-            total_pages=total_pages,
-            direction=direction,
-            item_schema=GetNetworkMovesResponseItemsItem,
-        )
-
-    async def create_network_move(
-        self,
-        *,
-        organization_id: str,
-        network: CreateNetworkMoveNetwork,
-        organizations: CreateNetworkMoveOrganizations,
-        simulate: bool | None = None,
-    ) -> CreateNetworkMoveResponse:
-        """Move networks from one organization to another.
-
-        [API documentation: createNetworkMove](https://developer.cisco.com/meraki/api-v1/#!create-network-move)
-
-        Args:
-            organization_id: Organization ID.
-            network: Network to be moved.
-            organizations: Organizations involved in the network move.
-            simulate: If true, simulates the network move and validates the operation without
-                committing changes. The network will remain in the source organization.
-
-        Returns:
-            Successful operation.
-
-        Example API response:
-            ```json
-            {
-              "moveId": "123456",
-              "initiator": {
-                "admin": {
-                  "id": "8590064780"
-                }
-              },
-              "organizations": {
-                "source": {
-                  "id": "146307"
-                },
-                "target": {
-                  "id": "146308"
-                }
-              },
-              "network": {
-                "id": "N_569142402909112097"
-              },
-              "createdAt": "1970-01-20T15:57:36.000Z",
-              "lastUpdatedAt": "1970-01-20T15:57:36.000Z",
-              "result": {
-                "status": "failed",
-                "reason": "Cannot move network: Target organization is invalid or inaccessible."
-              }
-            }
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/networks/moves"
-
-        payload: dict[str, Any] = {}
-        if network is not None:
-            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
-        if organizations is not None:
-            payload["organizations"] = organizations.model_dump(by_alias=True, exclude_none=True)
-        if simulate is not None:
-            payload["simulate"] = simulate
-
-        return await self._session.post(
-            scope="organizations",
-            operation_id="createNetworkMove",
-            path=path,
-            json=payload,
-            response_schema=CreateNetworkMoveResponse,
-        )
-
     async def get_organization_openapi_spec(
         self, organization_id: str, *, version: GetOrganizationOpenapiSpecVersion | None = None
     ) -> DictResponse:
@@ -10354,7 +10111,7 @@ class Organizations:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationPolicyObjectsResponseItem]:
+    ) -> AsyncPaginatedResponse[GetOrganizationPolicyObjectsResponse]:
         """Lists Policy Objects belonging to the organization.
 
         [API documentation: getOrganizationPolicyObjects](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects)
@@ -10385,24 +10142,22 @@ class Organizations:
 
         Example API response:
             ```json
-            [
-              {
-                "id": "1234",
-                "name": "Web Servers - Datacenter 10",
-                "category": "network",
-                "type": "cidr",
-                "cidr": "10.0.0.0/24",
-                "createdAt": "2018-05-12T00:00:00Z",
-                "updatedAt": "2018-05-12T00:00:00Z",
-                "groupIds": [
-                  "8"
-                ],
-                "networkIds": [
-                  "L_12345",
-                  "N_123456"
-                ]
-              }
-            ]
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "network",
+              "type": "cidr",
+              "cidr": "10.0.0.0/24",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "groupIds": [
+                "8"
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
             ```
 
         """
@@ -10424,7 +10179,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationPolicyObjectsResponseItem,
+            item_schema=GetOrganizationPolicyObjectsResponse,
         )
 
     async def create_organization_policy_object(
@@ -10518,7 +10273,7 @@ class Organizations:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationPolicyObjectsGroupsResponseItem]:
+    ) -> AsyncPaginatedResponse[GetOrganizationPolicyObjectsGroupsResponse]:
         """Lists Policy Object Groups belonging to the organization.
 
         [API documentation: getOrganizationPolicyObjectsGroups](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-groups)
@@ -10549,22 +10304,20 @@ class Organizations:
 
         Example API response:
             ```json
-            [
-              {
-                "id": "1234",
-                "name": "Web Servers - Datacenter 10",
-                "category": "NetworkObjectGroup",
-                "createdAt": "2018-05-12T00:00:00Z",
-                "updatedAt": "2018-05-12T00:00:00Z",
-                "objectIds": [
-                  100
-                ],
-                "networkIds": [
-                  "L_12345",
-                  "N_123456"
-                ]
-              }
-            ]
+            {
+              "id": "1234",
+              "name": "Web Servers - Datacenter 10",
+              "category": "NetworkObjectGroup",
+              "createdAt": "2018-05-12T00:00:00Z",
+              "updatedAt": "2018-05-12T00:00:00Z",
+              "objectIds": [
+                100
+              ],
+              "networkIds": [
+                "L_12345",
+                "N_123456"
+              ]
+            }
             ```
 
         """
@@ -10586,7 +10339,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationPolicyObjectsGroupsResponseItem,
+            item_schema=GetOrganizationPolicyObjectsGroupsResponse,
         )
 
     async def create_organization_policy_objects_group(
@@ -10595,7 +10348,7 @@ class Organizations:
         organization_id: str,
         name: str,
         category: str | None = None,
-        object_ids: list[str] | None = None,
+        object_ids: list[int] | None = None,
     ) -> CreateOrganizationPolicyObjectsGroupResponse:
         """Creates a new Policy Object Group.
 
@@ -10702,7 +10455,7 @@ class Organizations:
         organization_id: str,
         policy_object_group_id: str,
         name: str | None = None,
-        object_ids: list[str] | None = None,
+        object_ids: list[int] | None = None,
     ) -> UpdateOrganizationPolicyObjectsGroupResponse:
         """Updates a Policy Object Group.
 

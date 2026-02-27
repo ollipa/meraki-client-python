@@ -10,6 +10,7 @@ from meraki_client._api.batch.campus_gateway import ActionBatchCampusGateway
 from meraki_client._api.batch.cellular_gateway import ActionBatchCellularGateway
 from meraki_client._api.batch.devices import ActionBatchDevices
 from meraki_client._api.batch.insight import ActionBatchInsight
+from meraki_client._api.batch.nac import ActionBatchNac
 from meraki_client._api.batch.networks import ActionBatchNetworks
 from meraki_client._api.batch.organizations import ActionBatchOrganizations
 from meraki_client._api.batch.sensor import ActionBatchSensor
@@ -29,6 +30,7 @@ class Batch:
         self.cellular_gateway = ActionBatchCellularGateway()
         self.devices = ActionBatchDevices()
         self.insight = ActionBatchInsight()
+        self.nac = ActionBatchNac()
         self.networks = ActionBatchNetworks()
         self.organizations = ActionBatchOrganizations()
         self.sensor = ActionBatchSensor()

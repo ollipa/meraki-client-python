@@ -34,10 +34,6 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessEthernetPortsProfilePortsItem,
     UpdateNetworkWirelessEthernetPortsProfileUsbPortsItem,
     UpdateNetworkWirelessLocationScanningApi,
-    UpdateNetworkWirelessRadioRrmAi,
-    UpdateNetworkWirelessRadioRrmBusyHour,
-    UpdateNetworkWirelessRadioRrmChannel,
-    UpdateNetworkWirelessRadioRrmFra,
     UpdateNetworkWirelessRfProfileApBandSettings,
     UpdateNetworkWirelessRfProfileFiveGhzSettings,
     UpdateNetworkWirelessRfProfileFlexRadios,
@@ -45,7 +41,6 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessRfProfileSixGhzSettings,
     UpdateNetworkWirelessRfProfileTransmission,
     UpdateNetworkWirelessRfProfileTwoFourGhzSettings,
-    UpdateNetworkWirelessSettingsMulticastToUnicastConversion,
     UpdateNetworkWirelessSettingsNamedVlans,
     UpdateNetworkWirelessSsidActiveDirectory,
     UpdateNetworkWirelessSsidApTagsAndVlanIdsItem,
@@ -688,46 +683,6 @@ class ActionBatchWireless:
             body=payload,
         )
 
-    def update_network_wireless_radio_rrm(
-        self,
-        network_id: str,
-        *,
-        busy_hour: UpdateNetworkWirelessRadioRrmBusyHour | None = None,
-        channel: UpdateNetworkWirelessRadioRrmChannel | None = None,
-        fra: UpdateNetworkWirelessRadioRrmFra | None = None,
-        ai: UpdateNetworkWirelessRadioRrmAi | None = None,
-    ) -> CreateOrganizationActionBatchActionsItem:
-        """Update the AutoRF settings for a wireless network.
-
-        [API documentation: updateNetworkWirelessRadioRrm](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-radio-rrm)
-
-        Args:
-            network_id: Network ID.
-            busy_hour: Busy Hour settings.
-            channel: Channel settings.
-            fra: FRA settings.
-            ai: AI settings.
-
-        """
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        path = f"/networks/{network_id}/wireless/radio/rrm"
-
-        payload: dict[str, Any] = {}
-        if busy_hour is not None:
-            payload["busyHour"] = busy_hour.model_dump(by_alias=True, exclude_none=True)
-        if channel is not None:
-            payload["channel"] = channel.model_dump(by_alias=True, exclude_none=True)
-        if fra is not None:
-            payload["fra"] = fra.model_dump(by_alias=True, exclude_none=True)
-        if ai is not None:
-            payload["ai"] = ai.model_dump(by_alias=True, exclude_none=True)
-
-        return CreateOrganizationActionBatchActionsItem(
-            resource=path,
-            operation="update",
-            body=payload,
-        )
-
     def create_network_wireless_rf_profile(
         self,
         *,
@@ -935,8 +890,6 @@ class ActionBatchWireless:
         location_analytics_enabled: bool | None = None,
         upgrade_strategy: UpdateNetworkWirelessSettingsUpgradeStrategy | None = None,
         led_lights_on: bool | None = None,
-        multicast_to_unicast_conversion: UpdateNetworkWirelessSettingsMulticastToUnicastConversion
-        | None = None,
         named_vlans: UpdateNetworkWirelessSettingsNamedVlans | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the wireless settings for a network.
@@ -954,8 +907,6 @@ class ActionBatchWireless:
                 upgrade. Requires firmware version MR 26.8 or higher.
             led_lights_on: Toggle for enabling or disabling LED lights on all APs in the network
                 (making them run dark).
-            multicast_to_unicast_conversion: Multicast-to-unicast conversion settings across the
-                network.
             named_vlans: Named VLAN settings for wireless networks.
 
         """
@@ -973,10 +924,6 @@ class ActionBatchWireless:
             payload["upgradeStrategy"] = upgrade_strategy
         if led_lights_on is not None:
             payload["ledLightsOn"] = led_lights_on
-        if multicast_to_unicast_conversion is not None:
-            payload["multicastToUnicastConversion"] = multicast_to_unicast_conversion.model_dump(
-                by_alias=True, exclude_none=True
-            )
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
 

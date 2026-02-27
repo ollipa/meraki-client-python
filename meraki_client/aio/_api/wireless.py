@@ -101,7 +101,6 @@ from meraki_client.schemas import (
     GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem,
     GetOrganizationWirelessLocationScanningReceiversResponseItemsItem,
     GetOrganizationWirelessMqttSettingsResponseItemsItem,
-    GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem,
     GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem,
     GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem,
     GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem,
@@ -132,11 +131,6 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessEthernetPortsProfileUsbPortsItem,
     UpdateNetworkWirelessLocationScanningApi,
     UpdateNetworkWirelessLocationScanningResponse,
-    UpdateNetworkWirelessRadioRrmAi,
-    UpdateNetworkWirelessRadioRrmBusyHour,
-    UpdateNetworkWirelessRadioRrmChannel,
-    UpdateNetworkWirelessRadioRrmFra,
-    UpdateNetworkWirelessRadioRrmResponse,
     UpdateNetworkWirelessRfProfileApBandSettings,
     UpdateNetworkWirelessRfProfileFiveGhzSettings,
     UpdateNetworkWirelessRfProfileFlexRadios,
@@ -145,7 +139,6 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessRfProfileSixGhzSettings,
     UpdateNetworkWirelessRfProfileTransmission,
     UpdateNetworkWirelessRfProfileTwoFourGhzSettings,
-    UpdateNetworkWirelessSettingsMulticastToUnicastConversion,
     UpdateNetworkWirelessSettingsNamedVlans,
     UpdateNetworkWirelessSettingsResponse,
     UpdateNetworkWirelessSsidActiveDirectory,
@@ -220,12 +213,9 @@ from meraki_client.types import (
     CreateNetworkWirelessRfProfileBandSelectionType,
     CreateNetworkWirelessRfProfileMinBitrateType,
     GetDeviceWirelessConnectionStatsBand,
-    GetDeviceWirelessConnectionStatsSsid,
     GetDeviceWirelessLatencyStatsBand,
-    GetDeviceWirelessLatencyStatsSsid,
     GetNetworkWirelessChannelUtilizationHistoryBand,
     GetNetworkWirelessClientConnectionStatsBand,
-    GetNetworkWirelessClientConnectionStatsSsid,
     GetNetworkWirelessClientConnectivityEventsBand,
     GetNetworkWirelessClientConnectivityEventsIncludedSeverities,
     GetNetworkWirelessClientConnectivityEventsSortOrder,
@@ -233,27 +223,18 @@ from meraki_client.types import (
     GetNetworkWirelessClientConnectivityEventsTypes,
     GetNetworkWirelessClientCountHistoryBand,
     GetNetworkWirelessClientLatencyStatsBand,
-    GetNetworkWirelessClientLatencyStatsSsid,
     GetNetworkWirelessClientsConnectionStatsBand,
-    GetNetworkWirelessClientsConnectionStatsSsid,
     GetNetworkWirelessClientsLatencyStatsBand,
-    GetNetworkWirelessClientsLatencyStatsSsid,
     GetNetworkWirelessConnectionStatsBand,
-    GetNetworkWirelessConnectionStatsSsid,
     GetNetworkWirelessDataRateHistoryBand,
     GetNetworkWirelessDevicesConnectionStatsBand,
-    GetNetworkWirelessDevicesConnectionStatsSsid,
     GetNetworkWirelessDevicesLatencyStatsBand,
-    GetNetworkWirelessDevicesLatencyStatsSsid,
     GetNetworkWirelessFailedConnectionsBand,
-    GetNetworkWirelessFailedConnectionsSsid,
     GetNetworkWirelessLatencyHistoryAccessCategory,
     GetNetworkWirelessLatencyHistoryBand,
     GetNetworkWirelessLatencyStatsBand,
-    GetNetworkWirelessLatencyStatsSsid,
     GetNetworkWirelessSignalQualityHistoryBand,
     GetNetworkWirelessUsageHistoryBand,
-    GetOrganizationWirelessRadioRrmByNetworkSortOrder,
     GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes,
     GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesSsids,
     UpdateNetworkWirelessAirMarshalRuleType,
@@ -438,7 +419,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetDeviceWirelessConnectionStatsBand | None = None,
-        ssid: GetDeviceWirelessConnectionStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
     ) -> GetDeviceWirelessConnectionStatsResponse:
         """Aggregated connectivity info for a given AP on this network.
@@ -593,7 +574,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetDeviceWirelessLatencyStatsBand | None = None,
-        ssid: GetDeviceWirelessLatencyStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
@@ -1703,7 +1684,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessClientsConnectionStatsBand | None = None,
-        ssid: GetNetworkWirelessClientsConnectionStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
     ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsConnectionStatsResponse]:
         """Aggregated connectivity info for this network, grouped by clients.
@@ -1801,7 +1782,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessClientsLatencyStatsBand | None = None,
-        ssid: GetNetworkWirelessClientsLatencyStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
@@ -1958,7 +1939,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessClientConnectionStatsBand | None = None,
-        ssid: GetNetworkWirelessClientConnectionStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
     ) -> GetNetworkWirelessClientConnectionStatsResponse:
         """Aggregated connectivity info for a given client on this network.
@@ -2287,7 +2268,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessClientLatencyStatsBand | None = None,
-        ssid: GetNetworkWirelessClientLatencyStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
@@ -2386,7 +2367,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessConnectionStatsBand | None = None,
-        ssid: GetNetworkWirelessConnectionStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
     ) -> GetNetworkWirelessConnectionStatsResponse:
         """Aggregated connectivity info for this network.
@@ -2547,7 +2528,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessDevicesConnectionStatsBand | None = None,
-        ssid: GetNetworkWirelessDevicesConnectionStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
     ) -> AsyncPaginatedResponse[GetNetworkWirelessDevicesConnectionStatsResponseItem]:
         """Aggregated connectivity info for this network, grouped by node.
@@ -2625,7 +2606,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessDevicesLatencyStatsBand | None = None,
-        ssid: GetNetworkWirelessDevicesLatencyStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
@@ -3232,7 +3213,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessFailedConnectionsBand | None = None,
-        ssid: GetNetworkWirelessFailedConnectionsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
         serial: str | None = None,
         client_id: str | None = None,
@@ -3413,7 +3394,7 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         band: GetNetworkWirelessLatencyStatsBand | None = None,
-        ssid: GetNetworkWirelessLatencyStatsSsid | None = None,
+        ssid: int | None = None,
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
@@ -3626,88 +3607,6 @@ class Wireless:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetNetworkWirelessMeshStatusesResponseItem,
-        )
-
-    async def update_network_wireless_radio_rrm(
-        self,
-        network_id: str,
-        *,
-        busy_hour: UpdateNetworkWirelessRadioRrmBusyHour | None = None,
-        channel: UpdateNetworkWirelessRadioRrmChannel | None = None,
-        fra: UpdateNetworkWirelessRadioRrmFra | None = None,
-        ai: UpdateNetworkWirelessRadioRrmAi | None = None,
-    ) -> UpdateNetworkWirelessRadioRrmResponse:
-        """Update the AutoRF settings for a wireless network.
-
-        [API documentation: updateNetworkWirelessRadioRrm](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-radio-rrm)
-
-        Args:
-            network_id: Network ID.
-            busy_hour: Busy Hour settings.
-            channel: Channel settings.
-            fra: FRA settings.
-            ai: AI settings.
-
-        Returns:
-            Successful operation.
-
-        Example API response:
-            ```json
-            {
-              "networkId": "L_12345",
-              "name": "My Network",
-              "timeZone": "America/Los_Angeles",
-              "busyHour": {
-                "schedule": {
-                  "mode": "automatic",
-                  "automatic": {
-                    "start": "08:00",
-                    "end": "17:00"
-                  },
-                  "manual": {
-                    "start": "10:00",
-                    "end": "15:00"
-                  }
-                },
-                "minimizeChanges": {
-                  "enabled": true
-                }
-              },
-              "channel": {
-                "avoidance": {
-                  "enabled": true
-                }
-              },
-              "fra": {
-                "enabled": false
-              },
-              "ai": {
-                "enabled": true,
-                "lastEnabledAt": "2026-01-04T09:07:45Z"
-              }
-            }
-            ```
-
-        """
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        path = f"/networks/{network_id}/wireless/radio/rrm"
-
-        payload: dict[str, Any] = {}
-        if busy_hour is not None:
-            payload["busyHour"] = busy_hour.model_dump(by_alias=True, exclude_none=True)
-        if channel is not None:
-            payload["channel"] = channel.model_dump(by_alias=True, exclude_none=True)
-        if fra is not None:
-            payload["fra"] = fra.model_dump(by_alias=True, exclude_none=True)
-        if ai is not None:
-            payload["ai"] = ai.model_dump(by_alias=True, exclude_none=True)
-
-        return await self._session.put(
-            scope="wireless",
-            operation_id="updateNetworkWirelessRadioRrm",
-            path=path,
-            json=payload,
-            response_schema=UpdateNetworkWirelessRadioRrmResponse,
         )
 
     def get_network_wireless_rf_profiles(
@@ -5297,9 +5196,6 @@ class Wireless:
               "locationAnalyticsEnabled": false,
               "upgradeStrategy": "minimizeUpgradeTime",
               "ledLightsOn": false,
-              "multicastToUnicastConversion": {
-                "enabled": true
-              },
               "namedVlans": {
                 "poolDhcpMonitoring": {
                   "enabled": true,
@@ -5334,8 +5230,6 @@ class Wireless:
         location_analytics_enabled: bool | None = None,
         upgrade_strategy: UpdateNetworkWirelessSettingsUpgradeStrategy | None = None,
         led_lights_on: bool | None = None,
-        multicast_to_unicast_conversion: UpdateNetworkWirelessSettingsMulticastToUnicastConversion
-        | None = None,
         named_vlans: UpdateNetworkWirelessSettingsNamedVlans | None = None,
     ) -> UpdateNetworkWirelessSettingsResponse:
         """Update the wireless settings for a network.
@@ -5353,8 +5247,6 @@ class Wireless:
                 upgrade. Requires firmware version MR 26.8 or higher.
             led_lights_on: Toggle for enabling or disabling LED lights on all APs in the network
                 (making them run dark).
-            multicast_to_unicast_conversion: Multicast-to-unicast conversion settings across the
-                network.
             named_vlans: Named VLAN settings for wireless networks.
 
         Returns:
@@ -5368,9 +5260,6 @@ class Wireless:
               "locationAnalyticsEnabled": false,
               "upgradeStrategy": "minimizeUpgradeTime",
               "ledLightsOn": false,
-              "multicastToUnicastConversion": {
-                "enabled": true
-              },
               "namedVlans": {
                 "poolDhcpMonitoring": {
                   "enabled": true,
@@ -5400,10 +5289,6 @@ class Wireless:
             payload["upgradeStrategy"] = upgrade_strategy
         if led_lights_on is not None:
             payload["ledLightsOn"] = led_lights_on
-        if multicast_to_unicast_conversion is not None:
-            payload["multicastToUnicastConversion"] = multicast_to_unicast_conversion.model_dump(
-                by_alias=True, exclude_none=True
-            )
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
 
@@ -10374,116 +10259,6 @@ class Wireless:
             path=path,
             json=payload,
             response_schema=RecalculateOrganizationWirelessRadioAutoRfChannelsResponse,
-        )
-
-    def get_organization_wireless_radio_rrm_by_network(
-        self,
-        organization_id: str,
-        *,
-        network_ids: list[str] | None = None,
-        starting_after: str | None = None,
-        ending_before: str | None = None,
-        per_page: int | None = None,
-        sort_order: GetOrganizationWirelessRadioRrmByNetworkSortOrder | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem]:
-        """List the AutoRF settings of an organization by network.
-
-        [API documentation: getOrganizationWirelessRadioRrmByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-radio-rrm-by-network)
-
-        Args:
-            organization_id: Organization ID.
-            network_ids: Optional parameter to filter results by network.
-            starting_after: Retrieving items after this network ID.
-            ending_before: Retrieving items before this network ID.
-            per_page: Number of items per page.
-            sort_order: The sort order of items.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-
-        Returns:
-            Successful operation.
-
-        Note:
-            Returns a lazy AsyncPaginatedResponse
-            that can be iterated or collected with `.collect()`.
-            Page metadata is available on `.meta` and `.meta_pages`.
-
-        Example API response:
-            ```json
-            {
-              "items": [
-                {
-                  "networkId": "L_12345",
-                  "name": "My Network",
-                  "timeZone": "America/Los_Angeles",
-                  "busyHour": {
-                    "schedule": {
-                      "mode": "automatic",
-                      "automatic": {
-                        "start": "08:00",
-                        "end": "17:00"
-                      },
-                      "manual": {
-                        "start": "10:00",
-                        "end": "15:00"
-                      }
-                    },
-                    "minimizeChanges": {
-                      "enabled": true
-                    }
-                  },
-                  "channel": {
-                    "avoidance": {
-                      "enabled": true
-                    }
-                  },
-                  "fra": {
-                    "enabled": false
-                  },
-                  "ai": {
-                    "enabled": true,
-                    "lastEnabledAt": "2026-01-04T09:07:45Z"
-                  }
-                }
-              ],
-              "meta": {
-                "counts": {
-                  "items": {
-                    "total": 42,
-                    "remaining": 5
-                  }
-                }
-              }
-            }
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/wireless/radio/rrm/byNetwork"
-
-        params: dict[str, Any] = {}
-        if network_ids is not None:
-            params["networkIds[]"] = network_ids
-        if starting_after is not None:
-            params["startingAfter"] = starting_after
-        if ending_before is not None:
-            params["endingBefore"] = ending_before
-        if per_page is not None:
-            params["perPage"] = per_page
-        if sort_order is not None:
-            params["sortOrder"] = sort_order
-
-        return self._session.get_pages(
-            scope="wireless",
-            operation_id="getOrganizationWirelessRadioRrmByNetwork",
-            path=path,
-            params=params,
-            total_pages=total_pages,
-            direction=direction,
-            item_schema=GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem,
         )
 
     def get_organization_wireless_rf_profiles_assignments_by_device(

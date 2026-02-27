@@ -17,6 +17,7 @@ from meraki_client._api.cellular_gateway import CellularGateway
 from meraki_client._api.devices import Devices
 from meraki_client._api.insight import Insight
 from meraki_client._api.licensing import Licensing
+from meraki_client._api.nac import Nac
 from meraki_client._api.networks import Networks
 from meraki_client._api.organizations import Organizations
 from meraki_client._api.sensor import Sensor
@@ -42,7 +43,7 @@ __all__ = [
     "types",
 ]
 __version__ = "0.10.3"
-__api_version__ = "v1.67.0"
+__api_version__ = "v1.66.0"
 
 
 class MerakiClient:
@@ -110,6 +111,7 @@ class MerakiClient:
         self.devices = Devices(self._session)
         self.insight = Insight(self._session)
         self.licensing = Licensing(self._session)
+        self.nac = Nac(self._session)
         self.networks = Networks(self._session)
         self.organizations = Organizations(self._session)
         self.sensor = Sensor(self._session)
