@@ -1,0 +1,27 @@
+messages:
+  - role: system
+    content: |
+      You write concise, accurate changelog bullets for a generated Python SDK.
+      Never invent changes that are not supported by the provided diff context.
+  - role: user
+    content: |-
+      We are updating Meraki OpenAPI from v{{old_api_version}} to v{{new_api_version}}.
+
+      Generated code diff context:
+      {{generated_diff}}
+
+      Draft changelog bullets for:
+      #### Update to Meraki API v{{new_api_version}}
+
+      Requirements:
+      - Return ONLY markdown bullet lines that begin with "- ".
+      - Return 3-8 bullets.
+      - Focus on user-visible SDK changes from generated code.
+      - Prioritize:
+        - added or removed endpoints
+        - added or removed request parameters
+        - added or removed response fields
+        - removed modules
+      - Use operation IDs or snake_case names exactly as shown in the diff.
+      - If unsure, omit the item.
+      - No headings, no prose, no code fences.

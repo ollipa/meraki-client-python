@@ -1,6 +1,6 @@
 color := $(shell tput setaf 2)
 off := $(shell tput sgr0)
-TARGETS = meraki_client codegen tests
+TARGETS = meraki_client codegen tests scripts
 
 .PHONY: lint
 lint: format linter typecheck docs

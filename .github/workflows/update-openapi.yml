@@ -1,0 +1,174 @@
+name: Auto-update Meraki OpenAPI spec
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  models: read
+
+concurrency:
+  group: update-openapi-spec
+  cancel-in-progress: false
+
+jobs:
+  update-openapi-spec:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Detect target Meraki OpenAPI version
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          CURRENT_VERSION="$(tr -d '[:space:]' < .api-version)"
+          LATEST_VERSION="$(
+            gh api --paginate repos/meraki/openapi/tags --jq '.[].name' \
+              | sed 's/^v//' \
+              | awk '/^[0-9]+\.[0-9]+\.[0-9]+$/' \
+              | sort -V \
+              | tail -n 1
+          )"
+
+          if [ -z "${LATEST_VERSION}" ]; then
+            echo "Could not determine latest stable Meraki OpenAPI version."
+            exit 1
+          fi
+
+          TARGET_BRANCH="chore/meraki-openapi-v${LATEST_VERSION}"
+          UPDATE_NEEDED="true"
+          SKIP_REASON=""
+
+          if [ "${CURRENT_VERSION}" = "${LATEST_VERSION}" ]; then
+            UPDATE_NEEDED="false"
+            SKIP_REASON="Local API version is already ${CURRENT_VERSION}."
+          elif git ls-remote --exit-code --heads origin "${TARGET_BRANCH}" >/dev/null 2>&1; then
+            UPDATE_NEEDED="false"
+            SKIP_REASON="Branch ${TARGET_BRANCH} already exists on origin."
+          fi
+
+          echo "current_version=${CURRENT_VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "latest_version=${LATEST_VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "target_branch=${TARGET_BRANCH}" >> "${GITHUB_OUTPUT}"
+          echo "update_needed=${UPDATE_NEEDED}" >> "${GITHUB_OUTPUT}"
+          echo "skip_reason=${SKIP_REASON}" >> "${GITHUB_OUTPUT}"
+
+      - name: Stop when update is not needed
+        if: steps.detect.outputs.update_needed != 'true'
+        run: |
+          echo "${{ steps.detect.outputs.skip_reason }}"
+          echo "Current version: ${{ steps.detect.outputs.current_version }}"
+          echo "Latest stable version: ${{ steps.detect.outputs.latest_version }}"
+
+      - name: Update API version and regenerate SDK
+        if: steps.detect.outputs.update_needed == 'true'
+        run: |
+          set -euo pipefail
+          echo "${{ steps.detect.outputs.latest_version }}" > .api-version
+          make generate
+          make lint
+
+      - name: Build generated diff context for changelog
+        if: steps.detect.outputs.update_needed == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp
+
+          {
+            echo "Current API version: ${{ steps.detect.outputs.current_version }}"
+            echo "Target API version: ${{ steps.detect.outputs.latest_version }}"
+            echo
+            echo "Changed files:"
+            git diff --name-status -- meraki_client tests/generated docs/api_reference
+            echo
+            echo "Unified diff (first 4000 lines):"
+          } > .tmp/meraki-generated-diff.md
+
+          git diff --unified=0 -- meraki_client tests/generated docs/api_reference > .tmp/meraki-generated-diff.patch
+          sed -n '1,4000p' .tmp/meraki-generated-diff.patch >> .tmp/meraki-generated-diff.md
+
+      - name: Draft changelog bullets with AI
+        id: ai_changelog
+        if: steps.detect.outputs.update_needed == 'true'
+        continue-on-error: true
+        uses: actions/ai-inference@v2
+        with:
+          prompt-file: ./.github/prompts/meraki-changelog.prompt.yml
+          input: |
+            old_api_version: ${{ steps.detect.outputs.current_version }}
+            new_api_version: ${{ steps.detect.outputs.latest_version }}
+          file_input: |
+            generated_diff: ./.tmp/meraki-generated-diff.md
+
+      - name: Update changelog
+        if: steps.detect.outputs.update_needed == 'true'
+        run: |
+          set -euo pipefail
+          uv run python scripts/update_changelog.py \
+            --api-version "${{ steps.detect.outputs.latest_version }}" \
+            --changelog-path CHANGELOG.md \
+            --ai-output-file "${{ steps.ai_changelog.outputs.response-file }}"
+
+      - name: Commit and push update branch
+        if: steps.detect.outputs.update_needed == 'true'
+        id: commit
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          TARGET_BRANCH="${{ steps.detect.outputs.target_branch }}"
+          git switch -c "${TARGET_BRANCH}"
+
+          git add -A .api-version CHANGELOG.md meraki_client tests/generated docs/api_reference
+
+          if git diff --cached --quiet; then
+            echo "No changes detected after generation."
+            echo "has_changes=false" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          git commit -m "Update Meraki OpenAPI to v${{ steps.detect.outputs.latest_version }}"
+          git push --set-upstream origin "${TARGET_BRANCH}"
+          echo "has_changes=true" >> "${GITHUB_OUTPUT}"
+
+      - name: Create or update pull request
+        if: steps.detect.outputs.update_needed == 'true' && steps.commit.outputs.has_changes == 'true'
+        run: |
+          set -euo pipefail
+
+          TARGET_BRANCH="${{ steps.detect.outputs.target_branch }}"
+          PR_TITLE="Update Meraki OpenAPI to v${{ steps.detect.outputs.latest_version }}"
+          PR_BODY=$(cat <<EOF
+          This PR updates generated SDK output to the latest stable Meraki OpenAPI version.
+
+          ## What changed
+          - Updated \`.api-version\` from \`${{ steps.detect.outputs.current_version }}\` to \`${{ steps.detect.outputs.latest_version }}\`
+          EOF
+          )
+          gh pr create \
+            --base main \
+            --head "${TARGET_BRANCH}" \
+            --title "${PR_TITLE}" \
+            --body "${PR_BODY}" \
+            --reviewer ollipa
