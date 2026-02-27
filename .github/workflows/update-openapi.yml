@@ -167,7 +167,7 @@ jobs:
           EOF
           )
           gh pr create \
-            --base main \
+            --base test-spec-update \
             --head "${TARGET_BRANCH}" \
             --title "${PR_TITLE}" \
             --body "${PR_BODY}" \
