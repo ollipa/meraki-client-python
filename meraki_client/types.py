@@ -45,7 +45,9 @@ __all__ = [
     "GetDeviceSwitchRoutingInterfacesMode",
     "GetDeviceSwitchRoutingInterfacesProtocol",
     "GetDeviceWirelessConnectionStatsBand",
+    "GetDeviceWirelessConnectionStatsSsid",
     "GetDeviceWirelessLatencyStatsBand",
+    "GetDeviceWirelessLatencyStatsSsid",
     "GetNetworkApplianceClientSecurityEventsSortOrder",
     "GetNetworkApplianceSecurityEventsSortOrder",
     "GetNetworkClientsApplicationUsageSsidNumber",
@@ -60,6 +62,7 @@ __all__ = [
     "GetNetworkVlanProfilesAssignmentsByDeviceProductTypes",
     "GetNetworkWirelessChannelUtilizationHistoryBand",
     "GetNetworkWirelessClientConnectionStatsBand",
+    "GetNetworkWirelessClientConnectionStatsSsid",
     "GetNetworkWirelessClientConnectivityEventsBand",
     "GetNetworkWirelessClientConnectivityEventsIncludedSeverities",
     "GetNetworkWirelessClientConnectivityEventsSortOrder",
@@ -67,16 +70,24 @@ __all__ = [
     "GetNetworkWirelessClientConnectivityEventsTypes",
     "GetNetworkWirelessClientCountHistoryBand",
     "GetNetworkWirelessClientLatencyStatsBand",
+    "GetNetworkWirelessClientLatencyStatsSsid",
     "GetNetworkWirelessClientsConnectionStatsBand",
+    "GetNetworkWirelessClientsConnectionStatsSsid",
     "GetNetworkWirelessClientsLatencyStatsBand",
+    "GetNetworkWirelessClientsLatencyStatsSsid",
     "GetNetworkWirelessConnectionStatsBand",
+    "GetNetworkWirelessConnectionStatsSsid",
     "GetNetworkWirelessDataRateHistoryBand",
     "GetNetworkWirelessDevicesConnectionStatsBand",
+    "GetNetworkWirelessDevicesConnectionStatsSsid",
     "GetNetworkWirelessDevicesLatencyStatsBand",
+    "GetNetworkWirelessDevicesLatencyStatsSsid",
     "GetNetworkWirelessFailedConnectionsBand",
+    "GetNetworkWirelessFailedConnectionsSsid",
     "GetNetworkWirelessLatencyHistoryAccessCategory",
     "GetNetworkWirelessLatencyHistoryBand",
     "GetNetworkWirelessLatencyStatsBand",
+    "GetNetworkWirelessLatencyStatsSsid",
     "GetNetworkWirelessSignalQualityHistoryBand",
     "GetNetworkWirelessUsageHistoryBand",
     "GetOrganizationActionBatchesStatus",
@@ -125,6 +136,7 @@ __all__ = [
     "GetOrganizationDevicesUplinksAddressesByDeviceTagsFilterType",
     "GetOrganizationDevicesUplinksLossAndLatencyUplink",
     "GetOrganizationFirmwareUpgradesByDeviceUpgradeStatuses",
+    "GetOrganizationInventoryDevicesEoxStatuses",
     "GetOrganizationInventoryDevicesProductTypes",
     "GetOrganizationInventoryDevicesTagsFilterType",
     "GetOrganizationInventoryDevicesUsedState",
@@ -136,6 +148,7 @@ __all__ = [
     "GetOrganizationSensorReadingsHistoryMetrics",
     "GetOrganizationSensorReadingsLatestMetrics",
     "GetOrganizationWebhooksAlertTypesProductType",
+    "GetOrganizationWirelessRadioRrmByNetworkSortOrder",
     "GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes",
     "GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesSsids",
     "ProvisionNetworkClientsDevicePolicy",
@@ -313,7 +326,13 @@ GetDeviceSwitchRoutingInterfacesMode: TypeAlias = Literal[
 ]
 GetDeviceSwitchRoutingInterfacesProtocol: TypeAlias = Literal["ipv4", "ipv6"]
 GetDeviceWirelessConnectionStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetDeviceWirelessConnectionStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetDeviceWirelessLatencyStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetDeviceWirelessLatencyStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkApplianceClientSecurityEventsSortOrder: TypeAlias = Literal["ascending", "descending"]
 GetNetworkApplianceSecurityEventsSortOrder: TypeAlias = Literal["ascending", "descending"]
 GetNetworkClientsApplicationUsageSsidNumber: TypeAlias = Literal[
@@ -348,6 +367,9 @@ GetNetworkVlanProfilesAssignmentsByDeviceProductTypes: TypeAlias = list[
 ]
 GetNetworkWirelessChannelUtilizationHistoryBand: TypeAlias = Literal["2.4", "5", "6"]
 GetNetworkWirelessClientConnectionStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessClientConnectionStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessClientConnectivityEventsBand: TypeAlias = Literal["2.4", "5", "6"]
 GetNetworkWirelessClientConnectivityEventsIncludedSeverities: TypeAlias = list[
     Literal["bad", "good", "info", "warn"]
@@ -361,18 +383,42 @@ GetNetworkWirelessClientConnectivityEventsTypes: TypeAlias = list[
 ]
 GetNetworkWirelessClientCountHistoryBand: TypeAlias = Literal["2.4", "5", "6"]
 GetNetworkWirelessClientLatencyStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessClientLatencyStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessClientsConnectionStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessClientsConnectionStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessClientsLatencyStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessClientsLatencyStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessConnectionStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessConnectionStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessDataRateHistoryBand: TypeAlias = Literal["2.4", "5", "6"]
 GetNetworkWirelessDevicesConnectionStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessDevicesConnectionStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessDevicesLatencyStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessDevicesLatencyStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessFailedConnectionsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessFailedConnectionsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessLatencyHistoryAccessCategory: TypeAlias = Literal[
     "backgroundTraffic", "bestEffortTraffic", "videoTraffic", "voiceTraffic"
 ]
 GetNetworkWirelessLatencyHistoryBand: TypeAlias = Literal["2.4", "5", "6"]
 GetNetworkWirelessLatencyStatsBand: TypeAlias = Literal["2.4", "5", "6"]
+GetNetworkWirelessLatencyStatsSsid: TypeAlias = Literal[
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+]
 GetNetworkWirelessSignalQualityHistoryBand: TypeAlias = Literal["2.4", "5", "6"]
 GetNetworkWirelessUsageHistoryBand: TypeAlias = Literal["2.4", "5", "6"]
 GetOrganizationActionBatchesStatus: TypeAlias = Literal["completed", "failed", "pending"]
@@ -486,9 +532,11 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
+        "iot_orchestrator_grpc_down",
         "ip_conflict",
         "isp_issue_local_branch",
         "jabbers_errors",
@@ -714,9 +762,11 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
+        "iot_orchestrator_grpc_down",
         "ip_conflict",
         "isp_issue_local_branch",
         "jabbers_errors",
@@ -957,9 +1007,11 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
+        "iot_orchestrator_grpc_down",
         "ip_conflict",
         "isp_issue_local_branch",
         "jabbers_errors",
@@ -1158,9 +1210,11 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
+        "iot_orchestrator_grpc_down",
         "ip_conflict",
         "isp_issue_local_branch",
         "jabbers_errors",
@@ -1363,9 +1417,11 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
+        "iot_orchestrator_grpc_down",
         "ip_conflict",
         "isp_issue_local_branch",
         "jabbers_errors",
@@ -1634,6 +1690,9 @@ GetOrganizationDevicesUplinksLossAndLatencyUplink: TypeAlias = Literal[
 GetOrganizationFirmwareUpgradesByDeviceUpgradeStatuses: TypeAlias = list[
     Literal["canceled", "completed", "scheduled", "started"]
 ]
+GetOrganizationInventoryDevicesEoxStatuses: TypeAlias = list[
+    Literal["endOfSale", "endOfSupport", "nearEndOfSupport", "null"]
+]
 GetOrganizationInventoryDevicesProductTypes: TypeAlias = list[
     Literal[
         "appliance",
@@ -1722,6 +1781,7 @@ GetOrganizationSensorReadingsLatestMetrics: TypeAlias = list[
 GetOrganizationWebhooksAlertTypesProductType: TypeAlias = Literal[
     "appliance", "camera", "cellularGateway", "platform", "sensor", "sm", "switch", "wireless"
 ]
+GetOrganizationWirelessRadioRrmByNetworkSortOrder: TypeAlias = Literal["ascending", "descending"]
 GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes: TypeAlias = list[
     Literal[
         "appliance",

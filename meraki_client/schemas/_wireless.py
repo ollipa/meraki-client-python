@@ -266,7 +266,7 @@ class CreateNetworkWirelessRfProfileResponse(_BaseSchema):
     six_ghz_settings: GetNetworkWirelessRfProfilesResponseFiveGhzSettings | None = Field(
         default=None, validation_alias="sixGhzSettings", serialization_alias="sixGhzSettings"
     )
-    transmission: GetNetworkWirelessRfProfilesResponseTransmission | None = None
+    transmission: WirelessBusyHourMinimizeChanges | None = None
     per_ssid_settings: GetNetworkWirelessRfProfilesResponsePerSsidSettings | None = Field(
         default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
     )
@@ -1005,7 +1005,7 @@ class GetNetworkWirelessRfProfileResponse(_BaseSchema):
     six_ghz_settings: GetNetworkWirelessRfProfilesResponseFiveGhzSettings | None = Field(
         default=None, validation_alias="sixGhzSettings", serialization_alias="sixGhzSettings"
     )
-    transmission: GetNetworkWirelessRfProfilesResponseTransmission | None = None
+    transmission: WirelessBusyHourMinimizeChanges | None = None
     per_ssid_settings: GetNetworkWirelessRfProfilesResponsePerSsidSettings | None = Field(
         default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
     )
@@ -1050,7 +1050,7 @@ class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
     six_ghz_settings: GetNetworkWirelessRfProfilesResponseFiveGhzSettings | None = Field(
         default=None, validation_alias="sixGhzSettings", serialization_alias="sixGhzSettings"
     )
-    transmission: GetNetworkWirelessRfProfilesResponseTransmission | None = None
+    transmission: WirelessBusyHourMinimizeChanges | None = None
     per_ssid_settings: GetNetworkWirelessRfProfilesResponsePerSsidSettings | None = Field(
         default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
     )
@@ -1149,12 +1149,6 @@ class GetNetworkWirelessRfProfilesResponsePerSsidSettings(_BaseSchema):
     )
 
 
-class GetNetworkWirelessRfProfilesResponseTransmission(_BaseSchema):
-    """Settings related to radio transmission."""
-
-    enabled: bool | None = None
-
-
 class GetNetworkWirelessRfProfilesResponseTwoFourGhzSettings(_BaseSchema):
     """Settings related to 2.4Ghz band."""
 
@@ -1197,6 +1191,11 @@ class GetNetworkWirelessSettingsResponse(_BaseSchema):
     )
     led_lights_on: bool | None = Field(
         default=None, validation_alias="ledLightsOn", serialization_alias="ledLightsOn"
+    )
+    multicast_to_unicast_conversion: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None,
+        validation_alias="multicastToUnicastConversion",
+        serialization_alias="multicastToUnicastConversion",
     )
     named_vlans: GetNetworkWirelessSettingsResponseNamedVlans | None = Field(
         default=None, validation_alias="namedVlans", serialization_alias="namedVlans"
@@ -1249,7 +1248,7 @@ class GetNetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
     """Response for getNetworkWirelessSsidBonjourForwarding operation."""
 
     enabled: bool | None = None
-    exception: GetNetworkWirelessRfProfilesResponseTransmission | None = None
+    exception: WirelessBusyHourMinimizeChanges | None = None
     rules: list[GetNetworkWirelessSsidBonjourForwardingResponseRulesItem] = Field(
         default_factory=list
     )
@@ -2209,6 +2208,24 @@ class GetOrganizationWirelessMqttSettingsResponseItemsItem(_BaseSchema):
     wifi: WirelessWifi2 | None = None
 
 
+class GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem."""
+
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    name: str | None = None
+    time_zone: str | None = Field(
+        default=None, validation_alias="timeZone", serialization_alias="timeZone"
+    )
+    busy_hour: UpdateNetworkWirelessRadioRrmResponseBusyHour | None = Field(
+        default=None, validation_alias="busyHour", serialization_alias="busyHour"
+    )
+    channel: UpdateNetworkWirelessRadioRrmResponseChannel | None = None
+    fra: WirelessBusyHourMinimizeChanges | None = None
+    ai: UpdateNetworkWirelessRadioRrmResponseAi | None = None
+
+
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponse(
     RootModel[list["GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem"]]
 ):
@@ -2633,6 +2650,82 @@ class UpdateNetworkWirelessLocationScanningResponseApi(_BaseSchema):
     validator: WirelessApiValidator | None = None
 
 
+class UpdateNetworkWirelessRadioRrmAi(_BaseSchema):
+    """AI settings."""
+
+    enabled: bool | None = None
+
+
+class UpdateNetworkWirelessRadioRrmBusyHour(_BaseSchema):
+    """Busy Hour settings."""
+
+    schedule: UpdateNetworkWirelessRadioRrmBusyHourSchedule | None = None
+    minimize_changes: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None, validation_alias="minimizeChanges", serialization_alias="minimizeChanges"
+    )
+
+
+class UpdateNetworkWirelessRadioRrmBusyHourSchedule(_BaseSchema):
+    """Busy hour mode settings."""
+
+    mode: str | None = None
+    manual: WirelessAutomatic | None = None
+
+
+class UpdateNetworkWirelessRadioRrmChannel(_BaseSchema):
+    """Channel settings."""
+
+    avoidance: WirelessBusyHourMinimizeChanges | None = None
+
+
+class UpdateNetworkWirelessRadioRrmFra(_BaseSchema):
+    """FRA settings."""
+
+    enabled: bool | None = None
+
+
+class UpdateNetworkWirelessRadioRrmResponse(_BaseSchema):
+    """Response for updateNetworkWirelessRadioRrm operation."""
+
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    name: str | None = None
+    time_zone: str | None = Field(
+        default=None, validation_alias="timeZone", serialization_alias="timeZone"
+    )
+    busy_hour: UpdateNetworkWirelessRadioRrmResponseBusyHour | None = Field(
+        default=None, validation_alias="busyHour", serialization_alias="busyHour"
+    )
+    channel: UpdateNetworkWirelessRadioRrmResponseChannel | None = None
+    fra: WirelessBusyHourMinimizeChanges | None = None
+    ai: UpdateNetworkWirelessRadioRrmResponseAi | None = None
+
+
+class UpdateNetworkWirelessRadioRrmResponseAi(_BaseSchema):
+    """AI settings."""
+
+    enabled: bool | None = None
+    last_enabled_at: str | None = Field(
+        default=None, validation_alias="lastEnabledAt", serialization_alias="lastEnabledAt"
+    )
+
+
+class UpdateNetworkWirelessRadioRrmResponseBusyHour(_BaseSchema):
+    """Busy Hour settings."""
+
+    schedule: WirelessBusyHourSchedule | None = None
+    minimize_changes: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None, validation_alias="minimizeChanges", serialization_alias="minimizeChanges"
+    )
+
+
+class UpdateNetworkWirelessRadioRrmResponseChannel(_BaseSchema):
+    """Channel settings."""
+
+    avoidance: WirelessBusyHourMinimizeChanges | None = None
+
+
 class UpdateNetworkWirelessRfProfileApBandSettings(_BaseSchema):
     """Settings that will be enabled if selectionType is set to 'ap'."""
 
@@ -2761,7 +2854,7 @@ class UpdateNetworkWirelessRfProfileResponse(_BaseSchema):
     six_ghz_settings: GetNetworkWirelessRfProfilesResponseFiveGhzSettings | None = Field(
         default=None, validation_alias="sixGhzSettings", serialization_alias="sixGhzSettings"
     )
-    transmission: GetNetworkWirelessRfProfilesResponseTransmission | None = None
+    transmission: WirelessBusyHourMinimizeChanges | None = None
     per_ssid_settings: GetNetworkWirelessRfProfilesResponsePerSsidSettings | None = Field(
         default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
     )
@@ -2825,6 +2918,12 @@ class UpdateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
     rxsop: int | None = None
 
 
+class UpdateNetworkWirelessSettingsMulticastToUnicastConversion(_BaseSchema):
+    """Multicast-to-unicast conversion settings across the network."""
+
+    enabled: bool | None = None
+
+
 class UpdateNetworkWirelessSettingsNamedVlans(_BaseSchema):
     """Named VLAN settings for wireless networks."""
 
@@ -2854,6 +2953,11 @@ class UpdateNetworkWirelessSettingsResponse(_BaseSchema):
     )
     led_lights_on: bool | None = Field(
         default=None, validation_alias="ledLightsOn", serialization_alias="ledLightsOn"
+    )
+    multicast_to_unicast_conversion: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None,
+        validation_alias="multicastToUnicastConversion",
+        serialization_alias="multicastToUnicastConversion",
     )
     named_vlans: GetNetworkWirelessSettingsResponseNamedVlans | None = Field(
         default=None, validation_alias="namedVlans", serialization_alias="namedVlans"
@@ -2911,7 +3015,7 @@ class UpdateNetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
     """Response for updateNetworkWirelessSsidBonjourForwarding operation."""
 
     enabled: bool | None = None
-    exception: GetNetworkWirelessRfProfilesResponseTransmission | None = None
+    exception: WirelessBusyHourMinimizeChanges | None = None
     rules: list[GetNetworkWirelessSsidBonjourForwardingResponseRulesItem] = Field(
         default_factory=list
     )
@@ -3174,7 +3278,7 @@ class UpdateNetworkWirelessSsidLocalRadius(_BaseSchema):
     cache_timeout: int | None = Field(
         default=None, validation_alias="cacheTimeout", serialization_alias="cacheTimeout"
     )
-    password_authentication: GetNetworkWirelessRfProfilesResponseTransmission | None = Field(
+    password_authentication: WirelessBusyHourMinimizeChanges | None = Field(
         default=None,
         validation_alias="passwordAuthentication",
         serialization_alias="passwordAuthentication",
@@ -3983,6 +4087,13 @@ class WirelessAuthenticationTypes(_BaseSchema):
     )
 
 
+class WirelessAutomatic(_BaseSchema):
+    """Automatic Busy Hour settings."""
+
+    start: str | None = None
+    end: str | None = None
+
+
 class WirelessBackgroundTraffic(_BaseSchema):
     """The time bucket's background traffic latency history."""
 
@@ -4042,6 +4153,20 @@ class WirelessBssidsItem(_BaseSchema):
     detected_by: list[WirelessDetectedByItem] = Field(
         default_factory=list, validation_alias="detectedBy", serialization_alias="detectedBy"
     )
+
+
+class WirelessBusyHourMinimizeChanges(_BaseSchema):
+    """Minimize Changes settings."""
+
+    enabled: bool | None = None
+
+
+class WirelessBusyHourSchedule(_BaseSchema):
+    """Busy hour mode settings."""
+
+    mode: str | None = None
+    automatic: WirelessAutomatic | None = None
+    manual: WirelessAutomatic | None = None
 
 
 class WirelessByApTagsItem(_BaseSchema):
