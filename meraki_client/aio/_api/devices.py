@@ -964,6 +964,9 @@ class Devices:
                 {
                   "ip": "1.2.3.4",
                   "name": "Vlan20",
+                  "vrf": "IPv4 default",
+                  "vrfType": "vrf",
+                  "ipVersion": "ipv4",
                   "subnet": "192.168.1.0/24",
                   "flags": [
                     "PIM"
@@ -977,6 +980,8 @@ class Devices:
                 {
                   "source": "1.2.3.4",
                   "group": "1.2.3.5",
+                  "vrf": "IPv4 default",
+                  "ipVersion": "ipv4",
                   "rendezvousPoint": "10.0.0.0/24",
                   "incomingInterfaceName": "Vlan100",
                   "outgoingInterfaceNames": [

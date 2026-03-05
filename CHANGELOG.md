@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+#### Update to Meraki API v1.68.0
+
+- Added `connect_network_appliance_umbrella_account` and `disconnect_network_appliance_umbrella_account` endpoints to connect/disconnect a Cisco Umbrella account from a network.
+- Added `get_organization_integrations_deployable` and `get_organization_integrations_deployed` endpoints to list available and active integrations for an organization.
+- Added `get_organization_wireless_devices_provisioning_deployments`, `create_organization_wireless_devices_provisioning_deployment`, `update_organization_wireless_devices_provisioning_deployments`, and `delete_organization_wireless_devices_provisioning_deployment` endpoints for zero touch wireless AP provisioning deployments.
+- Camera endpoints `get_device_camera_quality_and_retention`, `update_device_camera_quality_and_retention`, `get_device_camera_sense`, `update_device_camera_sense`, `get_device_camera_video_link`, `get_device_camera_wireless_profiles`, `update_device_camera_wireless_profiles`, and `update_organization_camera_onboarding_statuses` now return typed response schemas instead of `DictResponse`.
+- Added `ecmpUplinkConfigs` field to appliance VPN peer responses (`get_network_appliance_vpn_bgp`, `update_network_appliance_vpn_bgp`).
+- Added `vrf`, `vrfType`, and `ipVersion` fields to device multicast routing response.
+- Added `model` field to network clients response; added `open-enhanced-with-radius` as a valid SSID `auth_mode` value.
 
 ## v0.10.3
 

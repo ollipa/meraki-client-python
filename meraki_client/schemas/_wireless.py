@@ -350,6 +350,44 @@ class CreateNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
     )
 
 
+class CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    deployment_id: str | None = Field(
+        default=None, validation_alias="deploymentId", serialization_alias="deploymentId"
+    )
+    devices: UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItemDevices
+    status: str
+    type_: str = Field(validation_alias="type", serialization_alias="type")
+    network: WirelessDoorLocksNetwork | None = None
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    requested_at: datetime | None = Field(
+        default=None, validation_alias="requestedAt", serialization_alias="requestedAt"
+    )
+    last_updated_at: datetime | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    completed_at: datetime | None = Field(
+        default=None, validation_alias="completedAt", serialization_alias="completedAt"
+    )
+    errors: list[str] = Field(default_factory=list)
+
+
+class CreateOrganizationWirelessDevicesProvisioningDeploymentMeta(_BaseSchema):
+    """Metadata relevant to the paginated dataset."""
+
+    counts: WirelessCounts2 | None = None
+
+
+class CreateOrganizationWirelessDevicesProvisioningDeploymentResponse(_BaseSchema):
+    """Response for createOrganizationWirelessDevicesProvisioningDeployment operation."""
+
+    items: list[WirelessItemsItem]
+    meta: WirelessMeta | None = None
+
+
 class CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse(_BaseSchema):
     """Response for createOrganizationWirelessDevicesRadsecCertificatesAuthority operation."""
 
@@ -2099,6 +2137,19 @@ class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchem
     events: list[WirelessEventsItem] = Field(default_factory=list)
 
 
+class GetOrganizationWirelessDevicesProvisioningDeploymentsResponse(
+    RootModel[list["GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem"]]
+):
+    """Response for getOrganizationWirelessDevicesProvisioningDeployments operation."""
+
+
+class GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem."""
+
+    items: list[WirelessItemsItem]
+    meta: WirelessMeta | None = None
+
+
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem(
     _BaseSchema
 ):
@@ -2325,7 +2376,7 @@ class GetOrganizationWirelessZigbeeDevicesResponseItem(_BaseSchema):
     enrolled: bool | None = None
     status: str | None = None
     gateway: WirelessGateway | None = None
-    counts: WirelessCounts2 | None = None
+    counts: WirelessCounts3 | None = None
 
 
 class GetOrganizationWirelessZigbeeDisenrollmentResponse(_BaseSchema):
@@ -3874,6 +3925,51 @@ class UpdateNetworkWirelessZigbeeResponseLockManagement(_BaseSchema):
     status: str | None = None
 
 
+class UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    deployment_id: str | None = Field(
+        default=None, validation_alias="deploymentId", serialization_alias="deploymentId"
+    )
+    devices: UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItemDevices
+    status: str
+    type_: str = Field(validation_alias="type", serialization_alias="type")
+    network: WirelessDoorLocksNetwork | None = None
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    requested_at: datetime | None = Field(
+        default=None, validation_alias="requestedAt", serialization_alias="requestedAt"
+    )
+    last_updated_at: datetime | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    completed_at: datetime | None = Field(
+        default=None, validation_alias="completedAt", serialization_alias="completedAt"
+    )
+    errors: list[str] = Field(default_factory=list)
+
+
+class UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItemDevices(_BaseSchema):
+    """An array composed of old and new devices."""
+
+    old: WirelessOld | None = None
+    new: WirelessNew2
+
+
+class UpdateOrganizationWirelessDevicesProvisioningDeploymentsMeta(_BaseSchema):
+    """Metadata relevant to the paginated dataset."""
+
+    counts: WirelessCounts2 | None = None
+
+
+class UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse(_BaseSchema):
+    """Response for updateOrganizationWirelessDevicesProvisioningDeployments operation."""
+
+    items: list[WirelessItemsItem]
+    meta: WirelessMeta | None = None
+
+
 class UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(_BaseSchema):
     """Response for updateOrganizationWirelessDevicesRadsecCertificatesAuthorities operation."""
 
@@ -3991,7 +4087,7 @@ class UpdateOrganizationWirelessZigbeeDeviceResponse(_BaseSchema):
     enrolled: bool | None = None
     status: str | None = None
     gateway: WirelessGateway | None = None
-    counts: WirelessCounts2 | None = None
+    counts: WirelessCounts3 | None = None
 
 
 class UpdateOrganizationWirelessZigbeeDoorLockResponse(_BaseSchema):
@@ -4231,6 +4327,12 @@ class WirelessCounts(_BaseSchema):
 
 
 class WirelessCounts2(_BaseSchema):
+    """Counts relating to the paginated dataset."""
+
+    items: WirelessItems | None = None
+
+
+class WirelessCounts3(_BaseSchema):
     """Stats."""
 
     door_locks: WirelessDoorLocks | None = Field(
@@ -4258,6 +4360,13 @@ class WirelessDevice(_BaseSchema):
     name: str | None = None
     serial: str | None = None
     mac: str | None = None
+
+
+class WirelessDevices(_BaseSchema):
+    """An array composed of old and new devices."""
+
+    old: WirelessOld | None = None
+    new: WirelessNew
 
 
 class WirelessDoorLocks(_BaseSchema):
@@ -4332,6 +4441,36 @@ class WirelessHysteresis(_BaseSchema):
     threshold: int | None = None
 
 
+class WirelessItems(_BaseSchema):
+    """Counts relating to the paginated items."""
+
+    total: int | None = None
+    remaining: int | None = None
+
+
+class WirelessItemsItem(_BaseSchema):
+    """Schema for WirelessItemsItem."""
+
+    deployment_id: str = Field(validation_alias="deploymentId", serialization_alias="deploymentId")
+    devices: WirelessDevices
+    status: str
+    type_: str = Field(validation_alias="type", serialization_alias="type")
+    network: WirelessDoorLocksNetwork | None = None
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    requested_at: datetime | None = Field(
+        default=None, validation_alias="requestedAt", serialization_alias="requestedAt"
+    )
+    last_updated_at: datetime | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    completed_at: datetime | None = Field(
+        default=None, validation_alias="completedAt", serialization_alias="completedAt"
+    )
+    errors: list[str] = Field(default_factory=list)
+
+
 class WirelessLatencyBinsByCategory(_BaseSchema):
     """The latency buckets by category."""
 
@@ -4364,6 +4503,12 @@ class WirelessLinkNegotiation(_BaseSchema):
 
     duplex: str | None = None
     speed: int | None = None
+
+
+class WirelessMeta(_BaseSchema):
+    """Metadata relevant to the paginated dataset."""
+
+    counts: WirelessCounts2 | None = None
 
 
 class WirelessMqtt(_BaseSchema):
@@ -4412,6 +4557,48 @@ class WirelessNetwork2(_BaseSchema):
 
     id: str
     name: str | None = None
+
+
+class WirelessNew(_BaseSchema):
+    """New device."""
+
+    serial: str
+    name: str
+    model: str
+    mac: str
+    tags: list[str] = Field(default_factory=list)
+    rf_profile: WirelessDoorLocksNetwork | None = Field(
+        default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
+    )
+
+
+class WirelessNew2(_BaseSchema):
+    """New device."""
+
+    serial: str | None = None
+    name: str | None = None
+    model: str | None = None
+    mac: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    rf_profile: WirelessDoorLocksNetwork | None = Field(
+        default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
+    )
+
+
+class WirelessOld(_BaseSchema):
+    """Old device."""
+
+    serial: str | None = None
+    after_action: str | None = Field(
+        default=None, validation_alias="afterAction", serialization_alias="afterAction"
+    )
+    name: str | None = None
+    model: str | None = None
+    mac: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    rf_profile: WirelessDoorLocksNetwork | None = Field(
+        default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
+    )
 
 
 class WirelessOpenRoaming(_BaseSchema):

@@ -167,6 +167,17 @@ class ApplianceDhcpOptionsItem(_BaseSchema):
     value: str
 
 
+class ApplianceEbgpNeighbor(_BaseSchema):
+    """[optional] The eBGP neighbor configuration associated with this ECMP uplink configuration."""
+
+    neighbor_ip: str | None = Field(
+        default=None, validation_alias="neighborIp", serialization_alias="neighborIp"
+    )
+    source_ip: str | None = Field(
+        default=None, validation_alias="sourceIp", serialization_alias="sourceIp"
+    )
+
+
 class ApplianceExportedSubnetsItem(_BaseSchema):
     """Schema for ApplianceExportedSubnetsItem."""
 
@@ -395,12 +406,6 @@ class ApplianceNeighborsIpv6(_BaseSchema):
     address: str | None = None
 
 
-class ApplianceNetwork(_BaseSchema):
-    """The network attached to the profile."""
-
-    id: str | None = None
-
-
 class ApplianceOrigin(_BaseSchema):
     """WAN1/WAN2/Independent prefix."""
 
@@ -457,6 +462,21 @@ class AppliancePeersEbgpNeighbor(_BaseSchema):
         serialization_alias="multiExitDiscriminator",
     )
     weight: int | None = None
+
+
+class AppliancePeersEcmpUplinkConfigsItem(_BaseSchema):
+    """Schema for AppliancePeersEcmpUplinkConfigsItem."""
+
+    id: str | None = None
+    wan: str | None = None
+    private_subnets: list[str] = Field(
+        default_factory=list,
+        validation_alias="privateSubnets",
+        serialization_alias="privateSubnets",
+    )
+    ebgp_neighbor: ApplianceEbgpNeighbor | None = Field(
+        default=None, validation_alias="ebgpNeighbor", serialization_alias="ebgpNeighbor"
+    )
 
 
 class AppliancePeersGroup(_BaseSchema):
@@ -660,6 +680,12 @@ class ApplianceTrafficFiltersItem4(_BaseSchema):
     value: ApplianceValue3
 
 
+class ApplianceUmbrellaOrganization(_BaseSchema):
+    """Organization details."""
+
+    id: str | None = None
+
+
 class ApplianceUplinksItem(_BaseSchema):
     """Schema for ApplianceUplinksItem."""
 
@@ -785,8 +811,8 @@ class ApplianceWanTrafficUplinkPreferencesItem2(_BaseSchema):
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: ApplianceNetwork | None = None
-    profile: ApplianceNetwork | None = None
+    network: ApplianceUmbrellaOrganization | None = None
+    profile: ApplianceUmbrellaOrganization | None = None
 
 
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse(_BaseSchema):
@@ -803,8 +829,27 @@ class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsIte
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    network: ApplianceNetwork | None = None
-    profile: ApplianceNetwork | None = None
+    network: ApplianceUmbrellaOrganization | None = None
+    profile: ApplianceUmbrellaOrganization | None = None
+
+
+class ConnectNetworkApplianceUmbrellaAccountApi(_BaseSchema):
+    """Umbrella API credentials."""
+
+    key: str | None = None
+    secret: str | None = None
+
+
+class ConnectNetworkApplianceUmbrellaAccountResponse(_BaseSchema):
+    """Response for connectNetworkApplianceUmbrellaAccount operation."""
+
+    umbrella: ConnectNetworkApplianceUmbrellaAccountResponseUmbrella | None = None
+
+
+class ConnectNetworkApplianceUmbrellaAccountResponseUmbrella(_BaseSchema):
+    """Umbrella configuration."""
+
+    organization: ApplianceUmbrellaOrganization | None = None
 
 
 class CreateDeviceApplianceVmxAuthenticationTokenResponse(_BaseSchema):
@@ -1046,7 +1091,7 @@ class CreateOrganizationApplianceDnsLocalRecordResponseItem(_BaseSchema):
     )
     hostname: str | None = None
     address: str | None = None
-    profile: ApplianceNetwork | None = None
+    profile: ApplianceUmbrellaOrganization | None = None
 
 
 class CreateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
@@ -1069,8 +1114,8 @@ class CreateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: ApplianceNetwork | None = None
-    profile: ApplianceNetwork | None = None
+    network: ApplianceUmbrellaOrganization | None = None
+    profile: ApplianceUmbrellaOrganization | None = None
 
 
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse(_BaseSchema):
@@ -2113,8 +2158,8 @@ class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_Base
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    network: ApplianceNetwork | None = None
-    profile: ApplianceNetwork | None = None
+    network: ApplianceUmbrellaOrganization | None = None
+    profile: ApplianceUmbrellaOrganization | None = None
 
 
 class GetOrganizationApplianceDnsLocalProfilesResponse(
@@ -2146,7 +2191,7 @@ class GetOrganizationApplianceDnsLocalRecordsResponseItem(_BaseSchema):
     )
     hostname: str | None = None
     address: str | None = None
-    profile: ApplianceNetwork | None = None
+    profile: ApplianceUmbrellaOrganization | None = None
 
 
 class GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem(_BaseSchema):
@@ -2155,8 +2200,8 @@ class GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem(_Base
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    network: ApplianceNetwork | None = None
-    profile: ApplianceNetwork | None = None
+    network: ApplianceUmbrellaOrganization | None = None
+    profile: ApplianceUmbrellaOrganization | None = None
 
 
 class GetOrganizationApplianceDnsSplitProfilesResponse(
@@ -2357,7 +2402,7 @@ class GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema
     ipsec_policies: AppliancePeersIpsecPolicies | None = Field(
         default=None, validation_alias="ipsecPolicies", serialization_alias="ipsecPolicies"
     )
-    sla_policy: ApplianceNetwork | None = Field(
+    sla_policy: ApplianceUmbrellaOrganization | None = Field(
         default=None, validation_alias="slaPolicy", serialization_alias="slaPolicy"
     )
     ipsec_policies_preset: str | None = Field(
@@ -2377,6 +2422,11 @@ class GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema
     )
     ebgp_neighbor: AppliancePeersEbgpNeighbor | None = Field(
         default=None, validation_alias="ebgpNeighbor", serialization_alias="ebgpNeighbor"
+    )
+    ecmp_uplink_configs: list[AppliancePeersEcmpUplinkConfigsItem] = Field(
+        default_factory=list,
+        validation_alias="ecmpUplinkConfigs",
+        serialization_alias="ecmpUplinkConfigs",
     )
     priority_in_group: int | None = Field(
         default=None, validation_alias="priorityInGroup", serialization_alias="priorityInGroup"
@@ -3045,7 +3095,9 @@ class UpdateNetworkApplianceSsidResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceStaticRouteFixedIpAssignmentsValue(_BaseSchema):
-    """An object mapping MAC addresses to IP addresses and client names."""
+    """An object representing MAC address to IP address and client name mapping. This should be the
+    MAC address.
+    """
 
     ip: str | None = None
     name: str | None = None
@@ -3540,7 +3592,7 @@ class UpdateOrganizationApplianceDnsLocalRecordResponse(_BaseSchema):
     )
     hostname: str | None = None
     address: str | None = None
-    profile: ApplianceNetwork | None = None
+    profile: ApplianceUmbrellaOrganization | None = None
 
 
 class UpdateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
@@ -3628,7 +3680,7 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem(_BaseSchema):
         validation_alias="ipsecPoliciesPreset",
         serialization_alias="ipsecPoliciesPreset",
     )
-    sla_policy: ApplianceNetwork | None = Field(
+    sla_policy: ApplianceUmbrellaOrganization | None = Field(
         default=None, validation_alias="slaPolicy", serialization_alias="slaPolicy"
     )
     secret: str
@@ -3644,6 +3696,11 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem(_BaseSchema):
     )
     ebgp_neighbor: UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemEbgpNeighbor | None = (
         Field(default=None, validation_alias="ebgpNeighbor", serialization_alias="ebgpNeighbor")
+    )
+    ecmp_uplink_configs: list[AppliancePeersEcmpUplinkConfigsItem] = Field(
+        default_factory=list,
+        validation_alias="ecmpUplinkConfigs",
+        serialization_alias="ecmpUplinkConfigs",
     )
     priority_in_group: int | None = Field(
         default=None, validation_alias="priorityInGroup", serialization_alias="priorityInGroup"

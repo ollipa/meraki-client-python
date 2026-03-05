@@ -10,6 +10,7 @@ from typing import Any
 
 from meraki_client.schemas import (
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
+    ConnectNetworkApplianceUmbrellaAccountApi,
     CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
     CreateNetworkApplianceRfProfileFiveGhzSettings,
     CreateNetworkApplianceRfProfilePerSsidSettings,
@@ -269,7 +270,7 @@ class ActionBatchAppliance:
         allowed_vlans: str | None = None,
         access_policy: str | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
-        """Update the per-port VLAN settings for a single MX port.
+        """Update the per-port VLAN settings for a single secure router or security appliance port.
 
         [API documentation: updateNetworkAppliancePort](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port)
 
@@ -1001,6 +1002,50 @@ class ActionBatchAppliance:
             resource=path,
             operation="update",
             body=payload,
+        )
+
+    def connect_network_appliance_umbrella_account(
+        self, *, network_id: str, api: ConnectNetworkApplianceUmbrellaAccountApi
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Connect a Cisco Umbrella account to this network.
+
+        [API documentation: connectNetworkApplianceUmbrellaAccount](https://developer.cisco.com/meraki/api-v1/#!connect-network-appliance-umbrella-account)
+
+        Args:
+            network_id: Network ID.
+            api: Umbrella API credentials.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/account/connect"
+
+        payload: dict[str, Any] = {}
+        if api is not None:
+            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="action",
+            body=payload,
+        )
+
+    def disconnect_network_appliance_umbrella_account(
+        self, network_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Disconnect Umbrella account from this network.
+
+        [API documentation: disconnectNetworkApplianceUmbrellaAccount](https://developer.cisco.com/meraki/api-v1/#!disconnect-network-appliance-umbrella-account)
+
+        Args:
+            network_id: Network ID.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/account/disconnect"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="disconnect",
         )
 
     def create_network_appliance_vlan(

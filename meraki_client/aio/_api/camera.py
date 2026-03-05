@@ -22,7 +22,6 @@ from meraki_client.schemas import (
     CreateOrganizationCameraRoleAppliedOnNetworksItem,
     CreateOrganizationCameraRoleAppliedOrgWideItem,
     CreateOrganizationCameraRoleResponse,
-    DictResponse,
     GenerateDeviceCameraSnapshotResponse,
     GetDeviceCameraAnalyticsLiveResponse,
     GetDeviceCameraAnalyticsOverviewResponseItem,
@@ -30,8 +29,12 @@ from meraki_client.schemas import (
     GetDeviceCameraAnalyticsZoneHistoryResponseItem,
     GetDeviceCameraAnalyticsZonesResponseItem,
     GetDeviceCameraCustomAnalyticsResponse,
-    GetDeviceCameraSenseObjectDetectionModelsResponse,
+    GetDeviceCameraQualityAndRetentionResponse,
+    GetDeviceCameraSenseObjectDetectionModelsResponseItem,
+    GetDeviceCameraSenseResponse,
+    GetDeviceCameraVideoLinkResponse,
     GetDeviceCameraVideoSettingsResponse,
+    GetDeviceCameraWirelessProfilesResponse,
     GetNetworkCameraQualityRetentionProfileResponse,
     GetNetworkCameraQualityRetentionProfilesResponseItem,
     GetNetworkCameraSchedulesResponseItem,
@@ -42,22 +45,26 @@ from meraki_client.schemas import (
     GetOrganizationCameraCustomAnalyticsArtifactResponse,
     GetOrganizationCameraCustomAnalyticsArtifactsResponseItem,
     GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem,
-    GetOrganizationCameraOnboardingStatusesResponse,
+    GetOrganizationCameraOnboardingStatusesResponseItem,
     GetOrganizationCameraPermissionResponse,
     GetOrganizationCameraPermissionsResponseItem,
     GetOrganizationCameraRoleResponse,
     GetOrganizationCameraRolesResponseItem,
     UpdateDeviceCameraCustomAnalyticsParametersItem,
     UpdateDeviceCameraCustomAnalyticsResponse,
+    UpdateDeviceCameraQualityAndRetentionResponse,
     UpdateDeviceCameraSenseAudioDetection,
+    UpdateDeviceCameraSenseResponse,
     UpdateDeviceCameraVideoSettingsResponse,
     UpdateDeviceCameraWirelessProfilesIds,
+    UpdateDeviceCameraWirelessProfilesResponse,
     UpdateNetworkCameraQualityRetentionProfileResponse,
     UpdateNetworkCameraQualityRetentionProfileSmartRetention,
     UpdateNetworkCameraQualityRetentionProfileVideoSettings,
     UpdateNetworkCameraWirelessProfileIdentity,
     UpdateNetworkCameraWirelessProfileResponse,
     UpdateNetworkCameraWirelessProfileSsid,
+    UpdateOrganizationCameraOnboardingStatusesResponse,
     UpdateOrganizationCameraRoleAppliedOnDevicesItem,
     UpdateOrganizationCameraRoleAppliedOnNetworksItem,
     UpdateOrganizationCameraRoleAppliedOrgWideItem,
@@ -497,7 +504,9 @@ class Camera:
             response_schema=GenerateDeviceCameraSnapshotResponse,
         )
 
-    async def get_device_camera_quality_and_retention(self, serial: str) -> DictResponse:
+    async def get_device_camera_quality_and_retention(
+        self, serial: str
+    ) -> GetDeviceCameraQualityAndRetentionResponse:
         """Returns quality and retention settings for the given camera.
 
         [API documentation: getDeviceCameraQualityAndRetention](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention)
@@ -511,13 +520,13 @@ class Camera:
         Example API response:
             ```json
             {
+              "profileId": "1234",
               "motionBasedRetentionEnabled": false,
               "audioRecordingEnabled": false,
               "restrictedBandwidthModeEnabled": false,
-              "profileId": "1234",
               "quality": "Standard",
-              "motionDetectorVersion": 2,
-              "resolution": "1280x720"
+              "resolution": "1280x720",
+              "motionDetectorVersion": 2
             }
             ```
 
@@ -529,7 +538,7 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraQualityAndRetention",
             path=path,
-            response_schema=DictResponse,
+            response_schema=GetDeviceCameraQualityAndRetentionResponse,
         )
 
     async def update_device_camera_quality_and_retention(
@@ -544,7 +553,7 @@ class Camera:
         resolution: UpdateDeviceCameraQualityAndRetentionResolution | None = None,
         motion_detector_version: UpdateDeviceCameraQualityAndRetentionMotionDetectorVersion
         | None = None,
-    ) -> DictResponse:
+    ) -> UpdateDeviceCameraQualityAndRetentionResponse:
         """Update quality and retention settings for the given camera.
 
         [API documentation: updateDeviceCameraQualityAndRetention](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention)
@@ -576,13 +585,13 @@ class Camera:
         Example API response:
             ```json
             {
+              "profileId": "1234",
               "motionBasedRetentionEnabled": false,
               "audioRecordingEnabled": false,
               "restrictedBandwidthModeEnabled": false,
-              "profileId": "1234",
               "quality": "Standard",
-              "motionDetectorVersion": 2,
-              "resolution": "1280x720"
+              "resolution": "1280x720",
+              "motionDetectorVersion": 2
             }
             ```
 
@@ -611,10 +620,10 @@ class Camera:
             operation_id="updateDeviceCameraQualityAndRetention",
             path=path,
             json=payload,
-            response_schema=DictResponse,
+            response_schema=UpdateDeviceCameraQualityAndRetentionResponse,
         )
 
-    async def get_device_camera_sense(self, serial: str) -> DictResponse:
+    async def get_device_camera_sense(self, serial: str) -> GetDeviceCameraSenseResponse:
         """Returns sense settings for a given camera.
 
         [API documentation: getDeviceCameraSense](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense)
@@ -629,14 +638,15 @@ class Camera:
             ```json
             {
               "senseEnabled": true,
-              "audioDetection": {
-                "enabled": false
-              },
               "mqttBrokerId": "1234",
               "mqttTopics": [
                 "/merakimv/Q2AA-AAAA-1111/raw_detections",
                 "/merakimv/Q2AA-AAAA-1111/light"
-              ]
+              ],
+              "audioDetection": {
+                "enabled": false
+              },
+              "detectionModelId": "1234"
             }
             ```
 
@@ -648,7 +658,7 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraSense",
             path=path,
-            response_schema=DictResponse,
+            response_schema=GetDeviceCameraSenseResponse,
         )
 
     async def update_device_camera_sense(
@@ -659,7 +669,7 @@ class Camera:
         mqtt_broker_id: str | None = None,
         audio_detection: UpdateDeviceCameraSenseAudioDetection | None = None,
         detection_model_id: str | None = None,
-    ) -> DictResponse:
+    ) -> UpdateDeviceCameraSenseResponse:
         """Update sense settings for the given camera.
 
         [API documentation: updateDeviceCameraSense](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense)
@@ -680,14 +690,15 @@ class Camera:
             ```json
             {
               "senseEnabled": true,
-              "audioDetection": {
-                "enabled": false
-              },
               "mqttBrokerId": "1234",
               "mqttTopics": [
                 "/merakimv/Q2AA-AAAA-1111/raw_detections",
                 "/merakimv/Q2AA-AAAA-1111/light"
-              ]
+              ],
+              "audioDetection": {
+                "enabled": false
+              },
+              "detectionModelId": "1234"
             }
             ```
 
@@ -710,12 +721,12 @@ class Camera:
             operation_id="updateDeviceCameraSense",
             path=path,
             json=payload,
-            response_schema=DictResponse,
+            response_schema=UpdateDeviceCameraSenseResponse,
         )
 
     def get_device_camera_sense_object_detection_models(
         self, serial: str
-    ) -> AsyncPaginatedResponse[GetDeviceCameraSenseObjectDetectionModelsResponse]:
+    ) -> AsyncPaginatedResponse[GetDeviceCameraSenseObjectDetectionModelsResponseItem]:
         """Returns the MV Sense object detection model list for the given camera.
 
         [API documentation: getDeviceCameraSenseObjectDetectionModels](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense-object-detection-models)
@@ -749,7 +760,7 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraSenseObjectDetectionModels",
             path=path,
-            item_schema=GetDeviceCameraSenseObjectDetectionModelsResponse,
+            item_schema=GetDeviceCameraSenseObjectDetectionModelsResponseItem,
         )
 
     async def get_device_camera_video_settings(
@@ -824,7 +835,7 @@ class Camera:
 
     async def get_device_camera_video_link(
         self, serial: str, *, timestamp: str | None = None
-    ) -> DictResponse:
+    ) -> GetDeviceCameraVideoLinkResponse:
         """Returns video link to the specified camera.
 
         [API documentation: getDeviceCameraVideoLink](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-link)
@@ -841,8 +852,8 @@ class Camera:
         Example API response:
             ```json
             {
-              "url": "https://nxx.meraki.com/office-cameras/n/bs0a1k/manage/nodes/new_list/29048243992402?timestamp=1535732570077",
-              "visionUrl": "https://vision.meraki.com/n/6482158978508419/cameras/29048243992402?ts=1535732570077"
+              "url": "https://n1.meraki.com/office-cameras/n/sample/manage/nodes/new_list/1284392014819?timestamp=1284392014819",
+              "visionUrl": "https://vision.meraki.com/n/2930418/cameras/1284392014819?ts=1284392014819"
             }
             ```
 
@@ -859,10 +870,12 @@ class Camera:
             operation_id="getDeviceCameraVideoLink",
             path=path,
             params=params,
-            response_schema=DictResponse,
+            response_schema=GetDeviceCameraVideoLinkResponse,
         )
 
-    async def get_device_camera_wireless_profiles(self, serial: str) -> DictResponse:
+    async def get_device_camera_wireless_profiles(
+        self, serial: str
+    ) -> GetDeviceCameraWirelessProfilesResponse:
         """Returns wireless profile assigned to the given camera.
 
         [API documentation: getDeviceCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles)
@@ -892,12 +905,12 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraWirelessProfiles",
             path=path,
-            response_schema=DictResponse,
+            response_schema=GetDeviceCameraWirelessProfilesResponse,
         )
 
     async def update_device_camera_wireless_profiles(
         self, *, serial: str, ids: UpdateDeviceCameraWirelessProfilesIds
-    ) -> DictResponse:
+    ) -> UpdateDeviceCameraWirelessProfilesResponse:
         """Assign wireless profiles to the given camera.
 
         [API documentation: updateDeviceCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles)
@@ -933,7 +946,7 @@ class Camera:
             operation_id="updateDeviceCameraWirelessProfiles",
             path=path,
             json=payload,
-            response_schema=DictResponse,
+            response_schema=UpdateDeviceCameraWirelessProfilesResponse,
         )
 
     def get_network_camera_quality_retention_profiles(
@@ -1935,7 +1948,7 @@ class Camera:
         *,
         serials: list[str] | None = None,
         network_ids: list[str] | None = None,
-    ) -> AsyncPaginatedResponse[GetOrganizationCameraOnboardingStatusesResponse]:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraOnboardingStatusesResponseItem]:
         """Fetch onboarding status of cameras.
 
         [API documentation: getOrganizationCameraOnboardingStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-onboarding-statuses)
@@ -1960,9 +1973,9 @@ class Camera:
             [
               {
                 "networkId": "N_12345",
-                "serial": "Q2AB-CDEF-GHIJ",
+                "serial": "Q234-ABCD-5678",
                 "status": "pending onboarding",
-                "updatedAt": "2021/03/24 15:23:47.101068 -0700"
+                "updatedAt": "2018-02-11T00:00:00.090210Z"
               }
             ]
             ```
@@ -1982,7 +1995,7 @@ class Camera:
             operation_id="getOrganizationCameraOnboardingStatuses",
             path=path,
             params=params,
-            item_schema=GetOrganizationCameraOnboardingStatusesResponse,
+            item_schema=GetOrganizationCameraOnboardingStatusesResponseItem,
         )
 
     async def update_organization_camera_onboarding_statuses(
@@ -1991,7 +2004,7 @@ class Camera:
         *,
         serial: str | None = None,
         wireless_credentials_sent: bool | None = None,
-    ) -> DictResponse:
+    ) -> UpdateOrganizationCameraOnboardingStatusesResponse:
         """Notify that credential handoff to camera has completed.
 
         [API documentation: updateOrganizationCameraOnboardingStatuses](https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-onboarding-statuses)
@@ -2026,7 +2039,7 @@ class Camera:
             operation_id="updateOrganizationCameraOnboardingStatuses",
             path=path,
             json=payload,
-            response_schema=DictResponse,
+            response_schema=UpdateOrganizationCameraOnboardingStatusesResponse,
         )
 
     def get_organization_camera_permissions(

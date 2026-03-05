@@ -148,6 +148,9 @@ __all__ = [
     "GetOrganizationSensorReadingsHistoryMetrics",
     "GetOrganizationSensorReadingsLatestMetrics",
     "GetOrganizationWebhooksAlertTypesProductType",
+    "GetOrganizationWirelessDevicesProvisioningDeploymentsDeploymentType",
+    "GetOrganizationWirelessDevicesProvisioningDeploymentsSortBy",
+    "GetOrganizationWirelessDevicesProvisioningDeploymentsSortOrder",
     "GetOrganizationWirelessRadioRrmByNetworkSortOrder",
     "GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes",
     "GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesSsids",
@@ -483,7 +486,9 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "arp_failure",
         "asymmetry",
         "aurora1_subnet_overlap",
+        "aurora2_consilience",
         "auto_vpn_failure",
+        "auto_vpn_uplink_decision",
         "bad_connectivity",
         "bad_gateway",
         "bad_ip6conf",
@@ -713,7 +718,9 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "arp_failure",
         "asymmetry",
         "aurora1_subnet_overlap",
+        "aurora2_consilience",
         "auto_vpn_failure",
+        "auto_vpn_uplink_decision",
         "bad_connectivity",
         "bad_gateway",
         "bad_ip6conf",
@@ -958,7 +965,9 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "arp_failure",
         "asymmetry",
         "aurora1_subnet_overlap",
+        "aurora2_consilience",
         "auto_vpn_failure",
+        "auto_vpn_uplink_decision",
         "bad_connectivity",
         "bad_gateway",
         "bad_ip6conf",
@@ -1161,7 +1170,9 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "arp_failure",
         "asymmetry",
         "aurora1_subnet_overlap",
+        "aurora2_consilience",
         "auto_vpn_failure",
+        "auto_vpn_uplink_decision",
         "bad_connectivity",
         "bad_gateway",
         "bad_ip6conf",
@@ -1368,7 +1379,9 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "arp_failure",
         "asymmetry",
         "aurora1_subnet_overlap",
+        "aurora2_consilience",
         "auto_vpn_failure",
+        "auto_vpn_uplink_decision",
         "bad_connectivity",
         "bad_gateway",
         "bad_ip6conf",
@@ -1781,6 +1794,13 @@ GetOrganizationSensorReadingsLatestMetrics: TypeAlias = list[
 GetOrganizationWebhooksAlertTypesProductType: TypeAlias = Literal[
     "appliance", "camera", "cellularGateway", "platform", "sensor", "sm", "switch", "wireless"
 ]
+GetOrganizationWirelessDevicesProvisioningDeploymentsDeploymentType: TypeAlias = Literal[
+    "deploy", "replace"
+]
+GetOrganizationWirelessDevicesProvisioningDeploymentsSortBy: TypeAlias = Literal[
+    "afterAction", "createdAt", "deploymentId", "name", "status"
+]
+GetOrganizationWirelessDevicesProvisioningDeploymentsSortOrder: TypeAlias = Literal["asc", "desc"]
 GetOrganizationWirelessRadioRrmByNetworkSortOrder: TypeAlias = Literal["ascending", "descending"]
 GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes: TypeAlias = list[
     Literal[
@@ -1914,6 +1934,7 @@ UpdateNetworkWirelessSsidAuthMode: TypeAlias = Literal[
     "ipsk-without-radius",
     "open",
     "open-enhanced",
+    "open-enhanced-with-radius",
     "open-with-nac",
     "open-with-radius",
     "psk",

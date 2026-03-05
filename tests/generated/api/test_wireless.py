@@ -260,6 +260,17 @@ def test_get_organization_wireless_devices_power_mode_history(
     assert isinstance(result, list)
 
 
+def test_get_organization_wireless_devices_provisioning_deployments(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_devices_provisioning_deployments endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_devices_provisioning_deployments(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_wireless_devices_radsec_certificates_authorities(
     client: MerakiClient, organization_id: str
 ) -> None:

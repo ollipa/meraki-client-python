@@ -837,6 +837,7 @@ class GetNetworkClientResponse(_BaseSchema):
         default=None, validation_alias="lastSeen", serialization_alias="lastSeen"
     )
     manufacturer: str | None = None
+    model: str | None = None
     os: str | None = None
     user: str | None = None
     vlan: str | None = None

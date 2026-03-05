@@ -27,6 +27,9 @@ from meraki_client.schemas import (
     CreateNetworkWirelessRfProfileTransmission,
     CreateNetworkWirelessRfProfileTwoFourGhzSettings,
     CreateNetworkWirelessSsidIdentityPskResponse,
+    CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem,
+    CreateOrganizationWirelessDevicesProvisioningDeploymentMeta,
+    CreateOrganizationWirelessDevicesProvisioningDeploymentResponse,
     CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse,
     CreateOrganizationWirelessLocationScanningReceiverNetwork,
     CreateOrganizationWirelessLocationScanningReceiverRadio,
@@ -93,6 +96,7 @@ from meraki_client.schemas import (
     GetOrganizationWirelessDevicesPacketLossByDeviceResponseItem,
     GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem,
     GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem,
+    GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem,
     GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem,
     GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem,
     GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem,
@@ -202,6 +206,9 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessZigbeeIotController,
     UpdateNetworkWirelessZigbeeLockManagement,
     UpdateNetworkWirelessZigbeeResponse,
+    UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItem,
+    UpdateOrganizationWirelessDevicesProvisioningDeploymentsMeta,
+    UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse,
     UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse,
     UpdateOrganizationWirelessLocationScanningReceiverRadio,
     UpdateOrganizationWirelessLocationScanningReceiverResponse,
@@ -253,6 +260,9 @@ from meraki_client.types import (
     GetNetworkWirelessLatencyStatsSsid,
     GetNetworkWirelessSignalQualityHistoryBand,
     GetNetworkWirelessUsageHistoryBand,
+    GetOrganizationWirelessDevicesProvisioningDeploymentsDeploymentType,
+    GetOrganizationWirelessDevicesProvisioningDeploymentsSortBy,
+    GetOrganizationWirelessDevicesProvisioningDeploymentsSortOrder,
     GetOrganizationWirelessRadioRrmByNetworkSortOrder,
     GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes,
     GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesSsids,
@@ -3675,7 +3685,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-01-04T09:07:45Z"
+                "lastEnabledAt": "2026-02-04T09:08:48Z"
               }
             }
             ```
@@ -5749,10 +5759,10 @@ class Wireless:
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
             auth_mode: The association control method for the SSID ('open', 'open-enhanced', 'psk',
-                'open-with-radius', 'open-with-nac', '8021x-meraki', '8021x-nac',
-                '8021x-radius', '8021x-google', '8021x-entra', '8021x-localradius',
-                'ipsk-with-radius', 'ipsk-without-radius', 'ipsk-with-nac' or 'ipsk-
-                with-radius-easy-psk').
+                'open-with-radius', 'open-enhanced-with-radius', 'open-with-nac',
+                '8021x-meraki', '8021x-nac', '8021x-radius', '8021x-google',
+                '8021x-entra', '8021x-localradius', 'ipsk-with-radius', 'ipsk-without-
+                radius', 'ipsk-with-nac' or 'ipsk-with-radius-easy-psk').
             enterprise_admin_access: Whether or not an SSID is accessible by 'enterprise'
                 administrators ('access disabled' or 'access enabled').
             encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
@@ -9231,6 +9241,377 @@ class Wireless:
             item_schema=GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem,
         )
 
+    def get_organization_wireless_devices_provisioning_deployments(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        search: str | None = None,
+        sort_by: GetOrganizationWirelessDevicesProvisioningDeploymentsSortBy | None = None,
+        sort_order: GetOrganizationWirelessDevicesProvisioningDeploymentsSortOrder | None = None,
+        deployment_type: GetOrganizationWirelessDevicesProvisioningDeploymentsDeploymentType
+        | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem]:
+        """List the zero touch deployments for wireless access points in an organization.
+
+        [API documentation: getOrganizationWirelessDevicesProvisioningDeployments](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-provisioning-deployments)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 20.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            search: Filter by MAC address, serial number, new device name, old device name, or
+                model.
+            sort_by: Field used to sort results. Default is 'status'.
+            sort_order: Sort order. Default is 'asc'.
+            deployment_type: Filter deployments by type.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            [
+              {
+                "items": [
+                  {
+                    "deploymentId": "1284392014819",
+                    "devices": {
+                      "old": {
+                        "serial": "Q234-ABCD-5678",
+                        "afterAction": "unclaim",
+                        "name": "My AP",
+                        "model": "MR34",
+                        "mac": "00:11:22:33:44:55",
+                        "tags": [
+                          "tag1",
+                          "tag2"
+                        ],
+                        "rfProfile": {
+                          "id": "1284392014819",
+                          "name": "RF Profile Name"
+                        }
+                      },
+                      "new": {
+                        "serial": "Q234-ABCD-5678",
+                        "name": "My AP",
+                        "model": "CW9166I",
+                        "mac": "00:11:22:33:44:55",
+                        "tags": [
+                          "tag1",
+                          "tag2"
+                        ],
+                        "rfProfile": {
+                          "id": "1284392014819",
+                          "name": "RF Profile Name"
+                        }
+                      }
+                    },
+                    "status": "ready",
+                    "type": "replace",
+                    "network": {
+                      "id": "N_24329156",
+                      "name": "Main Office"
+                    },
+                    "createdAt": "2018-02-11T00:00:00.090210Z",
+                    "requestedAt": "2018-02-11T00:00:00.090210Z",
+                    "lastUpdatedAt": "2018-02-11T00:00:00.090210Z",
+                    "completedAt": "2018-02-11T00:00:00.090210Z",
+                    "errors": [
+                      "error message1",
+                      "error message2"
+                    ]
+                  }
+                ],
+                "meta": {
+                  "counts": {
+                    "items": {
+                      "total": 20,
+                      "remaining": 0
+                    }
+                  }
+                }
+              }
+            ]
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/devices/provisioning/deployments"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if search is not None:
+            params["search"] = search
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if deployment_type is not None:
+            params["deploymentType"] = deployment_type
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessDevicesProvisioningDeployments",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem,
+        )
+
+    def update_organization_wireless_devices_provisioning_deployments(
+        self,
+        *,
+        organization_id: str,
+        items: list[UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItem],
+        meta: UpdateOrganizationWirelessDevicesProvisioningDeploymentsMeta | None = None,
+    ) -> UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse:
+        """Update a zero touch deployment.
+
+        [API documentation: updateOrganizationWirelessDevicesProvisioningDeployments](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-devices-provisioning-deployments)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of zero touch deployments to create.
+            meta: Metadata relevant to the paginated dataset.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "deploymentId": "1284392014819",
+                  "devices": {
+                    "old": {
+                      "serial": "Q234-ABCD-5678",
+                      "afterAction": "unclaim",
+                      "name": "My AP",
+                      "model": "MR34",
+                      "mac": "00:11:22:33:44:55",
+                      "tags": [
+                        "tag1",
+                        "tag2"
+                      ],
+                      "rfProfile": {
+                        "id": "1284392014819",
+                        "name": "RF Profile Name"
+                      }
+                    },
+                    "new": {
+                      "serial": "Q234-ABCD-5678",
+                      "name": "My AP",
+                      "model": "CW9166I",
+                      "mac": "00:11:22:33:44:55",
+                      "tags": [
+                        "tag1",
+                        "tag2"
+                      ],
+                      "rfProfile": {
+                        "id": "1284392014819",
+                        "name": "RF Profile Name"
+                      }
+                    }
+                  },
+                  "status": "ready",
+                  "type": "replace",
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office"
+                  },
+                  "createdAt": "2018-02-11T00:00:00.090210Z",
+                  "requestedAt": "2018-02-11T00:00:00.090210Z",
+                  "lastUpdatedAt": "2018-02-11T00:00:00.090210Z",
+                  "completedAt": "2018-02-11T00:00:00.090210Z",
+                  "errors": [
+                    "error message1",
+                    "error message2"
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 20,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/devices/provisioning/deployments"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+        if meta is not None:
+            payload["meta"] = meta.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="wireless",
+            operation_id="updateOrganizationWirelessDevicesProvisioningDeployments",
+            path=path,
+            json=payload,
+            response_schema=UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse,
+        )
+
+    def create_organization_wireless_devices_provisioning_deployment(
+        self,
+        *,
+        organization_id: str,
+        items: list[CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem],
+        meta: CreateOrganizationWirelessDevicesProvisioningDeploymentMeta | None = None,
+    ) -> CreateOrganizationWirelessDevicesProvisioningDeploymentResponse:
+        """Create a zero touch deployment for a wireless access point.
+
+        [API documentation: createOrganizationWirelessDevicesProvisioningDeployment](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-provisioning-deployment)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of zero touch deployments to create.
+            meta: Metadata relevant to the paginated dataset.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "deploymentId": "1284392014819",
+                  "devices": {
+                    "old": {
+                      "serial": "Q234-ABCD-5678",
+                      "afterAction": "unclaim",
+                      "name": "My AP",
+                      "model": "MR34",
+                      "mac": "00:11:22:33:44:55",
+                      "tags": [
+                        "tag1",
+                        "tag2"
+                      ],
+                      "rfProfile": {
+                        "id": "1284392014819",
+                        "name": "RF Profile Name"
+                      }
+                    },
+                    "new": {
+                      "serial": "Q234-ABCD-5678",
+                      "name": "My AP",
+                      "model": "CW9166I",
+                      "mac": "00:11:22:33:44:55",
+                      "tags": [
+                        "tag1",
+                        "tag2"
+                      ],
+                      "rfProfile": {
+                        "id": "1284392014819",
+                        "name": "RF Profile Name"
+                      }
+                    }
+                  },
+                  "status": "ready",
+                  "type": "replace",
+                  "network": {
+                    "id": "N_24329156",
+                    "name": "Main Office"
+                  },
+                  "createdAt": "2018-02-11T00:00:00.090210Z",
+                  "requestedAt": "2018-02-11T00:00:00.090210Z",
+                  "lastUpdatedAt": "2018-02-11T00:00:00.090210Z",
+                  "completedAt": "2018-02-11T00:00:00.090210Z",
+                  "errors": [
+                    "error message1",
+                    "error message2"
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 20,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/devices/provisioning/deployments"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+        if meta is not None:
+            payload["meta"] = meta.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="wireless",
+            operation_id="createOrganizationWirelessDevicesProvisioningDeployment",
+            path=path,
+            json=payload,
+            response_schema=CreateOrganizationWirelessDevicesProvisioningDeploymentResponse,
+        )
+
+    def delete_organization_wireless_devices_provisioning_deployment(
+        self, *, organization_id: str, deployment_id: str
+    ) -> None:
+        """Delete a zero touch deployment.
+
+        [API documentation: deleteOrganizationWirelessDevicesProvisioningDeployment](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-devices-provisioning-deployment)
+
+        Args:
+            organization_id: Organization ID.
+            deployment_id: Deployment ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        deployment_id = urllib.parse.quote(str(deployment_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/devices/provisioning/deployments/{deployment_id}"
+
+        return self._session.delete(
+            scope="wireless",
+            operation_id="deleteOrganizationWirelessDevicesProvisioningDeployment",
+            path=path,
+        )
+
     def get_organization_wireless_devices_radsec_certificates_authorities(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> PaginatedResponse[GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem]:
@@ -10423,7 +10804,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-01-04T09:07:45Z"
+                    "lastEnabledAt": "2026-02-04T09:08:48Z"
                   }
                 }
               ],
