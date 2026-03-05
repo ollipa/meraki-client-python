@@ -1475,6 +1475,7 @@ class Networks:
               "firstSeen": 1518365681,
               "lastSeen": 1526087474,
               "manufacturer": "Apple",
+              "model": "iPhone",
               "os": "iOS",
               "user": "milesmeraki",
               "vlan": "100",

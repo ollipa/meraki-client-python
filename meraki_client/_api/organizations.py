@@ -134,6 +134,8 @@ from meraki_client.schemas import (
     GetOrganizationFirmwareUpgradesResponseItem,
     GetOrganizationFloorPlansAutoLocateDevicesResponseItem,
     GetOrganizationFloorPlansAutoLocateStatusesResponseItem,
+    GetOrganizationIntegrationsDeployableResponseItemsItem,
+    GetOrganizationIntegrationsDeployedResponseItemsItem,
     GetOrganizationIntegrationsXdrNetworksResponseItemsItem,
     GetOrganizationInventoryDeviceResponse,
     GetOrganizationInventoryDevicesEoxOverviewResponse,
@@ -157,6 +159,7 @@ from meraki_client.schemas import (
     GetOrganizationSamlResponse,
     GetOrganizationSamlRoleResponse,
     GetOrganizationSamlRolesResponseItem,
+    GetOrganizationSaseNetworksEligibleResponseItemsItem,
     GetOrganizationSnmpResponse,
     GetOrganizationSplashAssetResponse,
     GetOrganizationSplashThemesResponseItem,
@@ -4621,8 +4624,8 @@ class Organizations:
             timespan: The timespan for which the information will be fetched. If specifying
                 timespan, do not specify parameters t0 and t1. The value must be in
                 seconds and be less than or equal to 365 days. The default is 365 days.
-            per_page: The number of entries per page returned. Acceptable range is 3 - 5000. Default
-                is 5000.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100000.
+                Default is 5000.
             starting_after: A token used by the server to indicate the start of the page. Often this
                 is a timestamp or an ID but it is not limited to those. This parameter
                 should not be defined by client applications. The link for the first,
@@ -7875,6 +7878,120 @@ class Organizations:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationFloorPlansAutoLocateStatusesResponseItem,
+        )
+
+    def get_organization_integrations_deployable(
+        self, organization_id: str
+    ) -> PaginatedResponse[GetOrganizationIntegrationsDeployableResponseItemsItem]:
+        """Provides a list of integrations that can be enabled for an Organization.
+
+        [API documentation: getOrganizationIntegrationsDeployable](https://developer.cisco.com/meraki/api-v1/#!get-organization-integrations-deployable)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "type": "Catalyst SD-WAN",
+                  "name": "Catalyst SD-WAN",
+                  "provider": "Cisco",
+                  "tags": [
+                    "SD-WAN"
+                  ],
+                  "shortDescription": "Connect to a Catalyst SD-WAN overlay to enable simple SD-WAN interconnects.",
+                  "isDeployable": true,
+                  "releaseType": "Beta",
+                  "logoUrl": "https://example.com",
+                  "redirectUrl": "https://example.com",
+                  "isCiscoProduct": true
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/integrations/deployable"
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationIntegrationsDeployable",
+            path=path,
+            item_schema=GetOrganizationIntegrationsDeployableResponseItemsItem,
+        )
+
+    def get_organization_integrations_deployed(
+        self, organization_id: str
+    ) -> PaginatedResponse[GetOrganizationIntegrationsDeployedResponseItemsItem]:
+        """Provides a list of integrations enabled for an Organization.
+
+        [API documentation: getOrganizationIntegrationsDeployed](https://developer.cisco.com/meraki/api-v1/#!get-organization-integrations-deployed)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "id": "98765",
+                  "type": "OAuth",
+                  "name": "OAuth Application",
+                  "provider": "partner",
+                  "tags": [
+                    "Wayfinding",
+                    "OAuth"
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/integrations/deployed"
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationIntegrationsDeployed",
+            path=path,
+            item_schema=GetOrganizationIntegrationsDeployedResponseItemsItem,
         )
 
     def get_organization_integrations_xdr_networks(
@@ -11499,6 +11616,110 @@ class Organizations:
             scope="organizations", operation_id="deleteOrganizationSamlRole", path=path
         )
 
+    def get_organization_sase_networks_eligible(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        search: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationSaseNetworksEligibleResponseItemsItem]:
+        """List of MX networks or templates that can be enrolled into Secure Access.
+
+        [API documentation: getOrganizationSaseNetworksEligible](https://developer.cisco.com/meraki/api-v1/#!get-organization-sase-networks-eligible)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 5.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            search: If provided, filters results by network name.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "N_123",
+                  "type": "Meraki spoke",
+                  "name": "London Office",
+                  "region": {
+                    "name": "US East"
+                  },
+                  "device": {
+                    "primary": {
+                      "model": "MX95"
+                    }
+                  },
+                  "address": {
+                    "street": "123 Main St"
+                  },
+                  "vpn": {
+                    "type": "hub"
+                  },
+                  "routing": {
+                    "defaultRoute": {
+                      "enabled": true
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/networks/eligible"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if search is not None:
+            params["search"] = search
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationSaseNetworksEligible",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationSaseNetworksEligibleResponseItemsItem,
+        )
+
     def get_organization_snmp(self, organization_id: str) -> GetOrganizationSnmpResponse:
         """Return the SNMP settings for an organization.
 
@@ -11694,6 +11915,7 @@ class Organizations:
               {
                 "id": "482367494044dbbb1d2cc8579d967cef5b4ce59f",
                 "name": "My Custom Splash Theme",
+                "isSystemTheme": false,
                 "themeAssets": [
                   {
                     "id": "1284392014819",
@@ -11735,6 +11957,7 @@ class Organizations:
             {
               "id": "482367494044dbbb1d2cc8579d967cef5b4ce59f",
               "name": "My Custom Splash Theme",
+              "isSystemTheme": false,
               "themeAssets": [
                 {
                   "id": "1284392014819",
@@ -12507,6 +12730,9 @@ class Organizations:
                   "tag1",
                   "tag2"
                 ],
+                "group": {
+                  "id": "1284392014819"
+                },
                 "clients": {
                   "counts": {
                     "total": 72

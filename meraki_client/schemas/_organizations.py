@@ -1130,6 +1130,9 @@ class CreateOrganizationSplashThemeResponse(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
+    is_system_theme: bool | None = Field(
+        default=None, validation_alias="isSystemTheme", serialization_alias="isSystemTheme"
+    )
     theme_assets: list[OrganizationsPolicyObjectsItem] = Field(
         default_factory=list, validation_alias="themeAssets", serialization_alias="themeAssets"
     )
@@ -2499,6 +2502,43 @@ class GetOrganizationFloorPlansAutoLocateStatusesResponseItem(_BaseSchema):
     jobs: list[OrganizationsJobsItem] = Field(default_factory=list)
 
 
+class GetOrganizationIntegrationsDeployableResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationIntegrationsDeployableResponseItemsItem."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    name: str | None = None
+    provider: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    short_description: str | None = Field(
+        default=None, validation_alias="shortDescription", serialization_alias="shortDescription"
+    )
+    is_deployable: bool | None = Field(
+        default=None, validation_alias="isDeployable", serialization_alias="isDeployable"
+    )
+    release_type: str | None = Field(
+        default=None, validation_alias="releaseType", serialization_alias="releaseType"
+    )
+    logo_url: str | None = Field(
+        default=None, validation_alias="logoUrl", serialization_alias="logoUrl"
+    )
+    redirect_url: str | None = Field(
+        default=None, validation_alias="redirectUrl", serialization_alias="redirectUrl"
+    )
+    is_cisco_product: bool | None = Field(
+        default=None, validation_alias="isCiscoProduct", serialization_alias="isCiscoProduct"
+    )
+
+
+class GetOrganizationIntegrationsDeployedResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationIntegrationsDeployedResponseItemsItem."""
+
+    id: str | None = None
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    name: str | None = None
+    provider: str | None = None
+    tags: list[str] = Field(default_factory=list)
+
+
 class GetOrganizationIntegrationsXdrNetworksResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationIntegrationsXdrNetworksResponseItemsItem."""
 
@@ -3152,6 +3192,21 @@ class GetOrganizationSamlRolesResponseItem(_BaseSchema):
     camera: list[OrganizationsCameraItem] = Field(default_factory=list)
 
 
+class GetOrganizationSaseNetworksEligibleResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationSaseNetworksEligibleResponseItemsItem."""
+
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    name: str | None = None
+    region: OrganizationsHost | None = None
+    device: OrganizationsDevice5 | None = None
+    address: OrganizationsAddress | None = None
+    vpn: OrganizationsVpn | None = None
+    routing: OrganizationsRouting | None = None
+
+
 class GetOrganizationSnmpResponse(_BaseSchema):
     """Response for getOrganizationSnmp operation."""
 
@@ -3201,6 +3256,9 @@ class GetOrganizationSplashThemesResponseItem(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
+    is_system_theme: bool | None = Field(
+        default=None, validation_alias="isSystemTheme", serialization_alias="isSystemTheme"
+    )
     theme_assets: list[OrganizationsPolicyObjectsItem] = Field(
         default_factory=list, validation_alias="themeAssets", serialization_alias="themeAssets"
     )
@@ -3335,6 +3393,7 @@ class GetOrganizationSummaryTopNetworksByStatusResponseItem(_BaseSchema):
     name: str | None = None
     url: str | None = None
     tags: list[str] = Field(default_factory=list)
+    group: CreateOrganizationActionBatchCallbackHttpServer | None = None
     clients: OrganizationsClients2 | None = None
     statuses: OrganizationsStatuses | None = None
     devices: OrganizationsDevices | None = None
@@ -3610,6 +3669,12 @@ class OrganizationsActionsItem(_BaseSchema):
     resource: str
     operation: str
     body: dict[str, Any] | None = None
+
+
+class OrganizationsAddress(_BaseSchema):
+    """The address of the site."""
+
+    street: str | None = None
 
 
 class OrganizationsAddressesItem(_BaseSchema):
@@ -3924,6 +3989,12 @@ class OrganizationsDevice4(_BaseSchema):
     url: str | None = None
     created: bool | None = None
     status: str | None = None
+
+
+class OrganizationsDevice5(_BaseSchema):
+    """Device information for the network."""
+
+    primary: OrganizationsPrimary | None = None
 
 
 class OrganizationsDevices(_BaseSchema):
@@ -4294,6 +4365,12 @@ class OrganizationsPreview(_BaseSchema):
     )
 
 
+class OrganizationsPrimary(_BaseSchema):
+    """The primary MX device."""
+
+    model: str | None = None
+
+
 class OrganizationsPublic(_BaseSchema):
     """Public interface information."""
 
@@ -4382,6 +4459,14 @@ class OrganizationsRootCertificate(_BaseSchema):
 
     content: str | None = None
     name: str | None = None
+
+
+class OrganizationsRouting(_BaseSchema):
+    """Routing configuration for the site."""
+
+    default_route: OrganizationsApi | None = Field(
+        default=None, validation_alias="defaultRoute", serialization_alias="defaultRoute"
+    )
 
 
 class OrganizationsRulesItem(_BaseSchema):
@@ -4792,6 +4877,12 @@ class OrganizationsUtilization(_BaseSchema):
     """Utilization of the appliance."""
 
     average: OrganizationsAverage | None = None
+
+
+class OrganizationsVpn(_BaseSchema):
+    """VPN configuration for the site."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
 
 
 class PreviewOrganizationInventoryOrdersResponse(_BaseSchema):

@@ -425,6 +425,22 @@ def test_get_organization_floor_plans_auto_locate_statuses(
     assert isinstance(result, list)
 
 
+def test_get_organization_integrations_deployable(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_integrations_deployable endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_integrations_deployable(
+            organization_id=organization_id
+        )
+
+
+def test_get_organization_integrations_deployed(client: MerakiClient, organization_id: str) -> None:
+    """Test get_organization_integrations_deployed endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_integrations_deployed(organization_id=organization_id)
+
+
 def test_get_organization_integrations_xdr_networks(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -542,6 +558,17 @@ def test_get_organization_saml_roles(client: MerakiClient, organization_id: str)
     """Test get_organization_saml_roles endpoint."""
     with skip_on_unsupported():
         client.organizations.get_organization_saml_roles(organization_id=organization_id)
+
+
+def test_get_organization_sase_networks_eligible(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_sase_networks_eligible endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_sase_networks_eligible(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
 
 
 def test_get_organization_snmp(client: MerakiClient, organization_id: str) -> None:

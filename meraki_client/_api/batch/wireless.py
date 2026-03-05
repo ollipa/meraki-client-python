@@ -20,6 +20,8 @@ from meraki_client.schemas import (
     CreateNetworkWirelessRfProfileTransmission,
     CreateNetworkWirelessRfProfileTwoFourGhzSettings,
     CreateOrganizationActionBatchActionsItem,
+    CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem,
+    CreateOrganizationWirelessDevicesProvisioningDeploymentMeta,
     CreateOrganizationWirelessLocationScanningReceiverNetwork,
     CreateOrganizationWirelessLocationScanningReceiverRadio,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
@@ -89,6 +91,8 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessZigbeeDefaults,
     UpdateNetworkWirelessZigbeeIotController,
     UpdateNetworkWirelessZigbeeLockManagement,
+    UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItem,
+    UpdateOrganizationWirelessDevicesProvisioningDeploymentsMeta,
     UpdateOrganizationWirelessLocationScanningReceiverRadio,
     UpdateOrganizationWirelessMqttSettingsBle,
     UpdateOrganizationWirelessMqttSettingsMqtt,
@@ -1068,10 +1072,10 @@ class ActionBatchWireless:
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
             auth_mode: The association control method for the SSID ('open', 'open-enhanced', 'psk',
-                'open-with-radius', 'open-with-nac', '8021x-meraki', '8021x-nac',
-                '8021x-radius', '8021x-google', '8021x-entra', '8021x-localradius',
-                'ipsk-with-radius', 'ipsk-without-radius', 'ipsk-with-nac' or 'ipsk-
-                with-radius-easy-psk').
+                'open-with-radius', 'open-enhanced-with-radius', 'open-with-nac',
+                '8021x-meraki', '8021x-nac', '8021x-radius', '8021x-google',
+                '8021x-entra', '8021x-localradius', 'ipsk-with-radius', 'ipsk-without-
+                radius', 'ipsk-with-nac' or 'ipsk-with-radius-easy-psk').
             enterprise_admin_access: Whether or not an SSID is accessible by 'enterprise'
                 administrators ('access disabled' or 'access enabled').
             encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
@@ -2061,6 +2065,91 @@ class ActionBatchWireless:
             resource=path,
             operation="update",
             body=payload,
+        )
+
+    def update_organization_wireless_devices_provisioning_deployments(
+        self,
+        *,
+        organization_id: str,
+        items: list[UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItem],
+        meta: UpdateOrganizationWirelessDevicesProvisioningDeploymentsMeta | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update a zero touch deployment.
+
+        [API documentation: updateOrganizationWirelessDevicesProvisioningDeployments](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-devices-provisioning-deployments)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of zero touch deployments to create.
+            meta: Metadata relevant to the paginated dataset.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/devices/provisioning/deployments"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+        if meta is not None:
+            payload["meta"] = meta.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def create_organization_wireless_devices_provisioning_deployment(
+        self,
+        *,
+        organization_id: str,
+        items: list[CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem],
+        meta: CreateOrganizationWirelessDevicesProvisioningDeploymentMeta | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create a zero touch deployment for a wireless access point.
+
+        [API documentation: createOrganizationWirelessDevicesProvisioningDeployment](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-provisioning-deployment)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of zero touch deployments to create.
+            meta: Metadata relevant to the paginated dataset.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/devices/provisioning/deployments"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+        if meta is not None:
+            payload["meta"] = meta.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def delete_organization_wireless_devices_provisioning_deployment(
+        self, *, organization_id: str, deployment_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete a zero touch deployment.
+
+        [API documentation: deleteOrganizationWirelessDevicesProvisioningDeployment](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-devices-provisioning-deployment)
+
+        Args:
+            organization_id: Organization ID.
+            deployment_id: Deployment ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        deployment_id = urllib.parse.quote(str(deployment_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/devices/provisioning/deployments/{deployment_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
         )
 
     def create_organization_wireless_location_scanning_receiver(

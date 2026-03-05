@@ -581,6 +581,13 @@ class GetDeviceLiveToolsMulticastRoutingResponseInterfacesItem(_BaseSchema):
 
     ip: str | None = None
     name: str | None = None
+    vrf: str | None = None
+    vrf_type: str | None = Field(
+        default=None, validation_alias="vrfType", serialization_alias="vrfType"
+    )
+    ip_version: str | None = Field(
+        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
+    )
     subnet: str | None = None
     flags: list[str] = Field(default_factory=list)
     neighbors: list[str] = Field(default_factory=list)
@@ -591,6 +598,10 @@ class GetDeviceLiveToolsMulticastRoutingResponseRoutesItem(_BaseSchema):
 
     source: str | None = None
     group: str | None = None
+    vrf: str | None = None
+    ip_version: str | None = Field(
+        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
+    )
     rendezvous_point: str | None = Field(
         default=None, validation_alias="rendezvousPoint", serialization_alias="rendezvousPoint"
     )

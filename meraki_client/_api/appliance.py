@@ -13,6 +13,8 @@ from typing import TYPE_CHECKING, Any, Literal
 from meraki_client.schemas import (
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
+    ConnectNetworkApplianceUmbrellaAccountApi,
+    ConnectNetworkApplianceUmbrellaAccountResponse,
     CreateDeviceApplianceVmxAuthenticationTokenResponse,
     CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
     CreateNetworkApplianceRfProfileFiveGhzSettings,
@@ -2286,7 +2288,7 @@ class Appliance:
     def get_network_appliance_ports(
         self, network_id: str
     ) -> PaginatedResponse[GetNetworkAppliancePortsResponseItem]:
-        """List per-port VLAN settings for all ports of a MX.
+        """List per-port VLAN settings for all ports of a secure router or security appliance.
 
         [API documentation: getNetworkAppliancePorts](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports)
 
@@ -2330,7 +2332,7 @@ class Appliance:
     def get_network_appliance_port(
         self, *, network_id: str, port_id: str
     ) -> GetNetworkAppliancePortResponse:
-        """Return per-port VLAN settings for a single MX port.
+        """Return per-port VLAN settings for a single secure router or security appliance port.
 
         [API documentation: getNetworkAppliancePort](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port)
 
@@ -2378,7 +2380,7 @@ class Appliance:
         allowed_vlans: str | None = None,
         access_policy: str | None = None,
     ) -> UpdateNetworkAppliancePortResponse:
-        """Update the per-port VLAN settings for a single MX port.
+        """Update the per-port VLAN settings for a single secure router or security appliance port.
 
         [API documentation: updateNetworkAppliancePort](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port)
 
@@ -5017,6 +5019,66 @@ class Appliance:
             path=path,
             json=payload,
             response_schema=UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse,
+        )
+
+    def connect_network_appliance_umbrella_account(
+        self, *, network_id: str, api: ConnectNetworkApplianceUmbrellaAccountApi
+    ) -> ConnectNetworkApplianceUmbrellaAccountResponse:
+        """Connect a Cisco Umbrella account to this network.
+
+        [API documentation: connectNetworkApplianceUmbrellaAccount](https://developer.cisco.com/meraki/api-v1/#!connect-network-appliance-umbrella-account)
+
+        Args:
+            network_id: Network ID.
+            api: Umbrella API credentials.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "umbrella": {
+                "organization": {
+                  "id": "8769012"
+                }
+              }
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/account/connect"
+
+        payload: dict[str, Any] = {}
+        if api is not None:
+            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="connectNetworkApplianceUmbrellaAccount",
+            path=path,
+            json=payload,
+            response_schema=ConnectNetworkApplianceUmbrellaAccountResponse,
+        )
+
+    def disconnect_network_appliance_umbrella_account(self, network_id: str) -> None:
+        """Disconnect Umbrella account from this network.
+
+        [API documentation: disconnectNetworkApplianceUmbrellaAccount](https://developer.cisco.com/meraki/api-v1/#!disconnect-network-appliance-umbrella-account)
+
+        Args:
+            network_id: Network ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/account/disconnect"
+
+        return self._session.post(
+            scope="appliance", operation_id="disconnectNetworkApplianceUmbrellaAccount", path=path
         )
 
     def get_network_appliance_uplinks_usage_history(
@@ -8072,6 +8134,19 @@ class Appliance:
                     "multiExitDiscriminator": 1,
                     "weight": 10
                   },
+                  "ecmpUplinkConfigs": [
+                    {
+                      "id": "7890",
+                      "wan": "WAN 1",
+                      "privateSubnets": [
+                        "169.254.10.0/30"
+                      ],
+                      "ebgpNeighbor": {
+                        "neighborIp": "169.254.10.2",
+                        "sourceIp": "169.254.10.1"
+                      }
+                    }
+                  ],
                   "priorityInGroup": 1,
                   "group": {
                     "number": 1,
@@ -8189,6 +8264,19 @@ class Appliance:
                     "multiExitDiscriminator": 1,
                     "weight": 10
                   },
+                  "ecmpUplinkConfigs": [
+                    {
+                      "id": "7890",
+                      "wan": "WAN 1",
+                      "privateSubnets": [
+                        "169.254.10.0/30"
+                      ],
+                      "ebgpNeighbor": {
+                        "neighborIp": "169.254.10.2",
+                        "sourceIp": "169.254.10.1"
+                      }
+                    }
+                  ],
                   "priorityInGroup": 1,
                   "group": {
                     "number": 1,
