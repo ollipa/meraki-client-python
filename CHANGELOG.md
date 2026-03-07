@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+-
+
+## v0.11.1
+
 ### Added
 
 - Added `inject_response_schema` codegen override for endpoints with bare `{type: object}` response schemas in the spec. Used to type `get_network_appliance_firewall_l3_firewall_rules`, which now returns `GetNetworkApplianceFirewallL3FirewallRulesResponse` instead of `DictResponse`.

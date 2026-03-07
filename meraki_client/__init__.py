@@ -41,7 +41,7 @@ __all__ = [
     "PaginatedResponse",
     "types",
 ]
-__version__ = "0.11.0"
+__version__ = "0.11.1"
 __api_version__ = "v1.68.0"
 
 
