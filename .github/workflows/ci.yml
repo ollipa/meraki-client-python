@@ -41,9 +41,31 @@ jobs:
   publish:
     if: github.event_name == 'release'
     needs: lint
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
-    uses: ./.github/workflows/publish.yml
-    with:
-      release_tag: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Verify version matches tag
+        run: |
+          UV_VERSION=$(uv run python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
+          RELEASE_TAG=${{ github.event.release.tag_name }}
+          CLEAN_TAG=${RELEASE_TAG#v}
+          if [ "$UV_VERSION" != "$CLEAN_TAG" ]; then
+            echo "Version mismatch!"
+            echo "pyproject.toml version: $UV_VERSION"
+            echo "Release tag: $RELEASE_TAG"
+            exit 1
+          fi
+
+      - name: Build package
+        run: uv build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
