@@ -52,6 +52,7 @@ from meraki_client.schemas import (
     GetNetworkApplianceFirewallFirewalledServicesResponseItem,
     GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
     GetNetworkApplianceFirewallInboundFirewallRulesResponse,
+    GetNetworkApplianceFirewallL3FirewallRulesResponse,
     GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse,
     GetNetworkApplianceFirewallPortForwardingRulesResponse,
     GetNetworkAppliancePortResponse,
@@ -1562,7 +1563,7 @@ class Appliance:
 
     async def get_network_appliance_firewall_l3_firewall_rules(
         self, network_id: str
-    ) -> DictResponse:
+    ) -> GetNetworkApplianceFirewallL3FirewallRulesResponse:
         """Return the L3 firewall rules for an MX network.
 
         [API documentation: getNetworkApplianceFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-3-firewall-rules)
@@ -1599,7 +1600,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceFirewallL3FirewallRules",
             path=path,
-            response_schema=DictResponse,
+            response_schema=GetNetworkApplianceFirewallL3FirewallRulesResponse,
         )
 
     async def update_network_appliance_firewall_l3_firewall_rules(

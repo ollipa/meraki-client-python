@@ -1,9 +1,11 @@
 """Shared utility functions for code generation."""
 
+import json
 import os
 import re
 import tomllib
 from dataclasses import dataclass, field
+from typing import Any
 
 from codegen.constants import RESERVED_NAMES, SPEC_OVERRIDES_FILE
 
@@ -55,6 +57,7 @@ class SpecOverrides:
     response_fields: dict[str, dict[str, str]] = field(default_factory=dict)
     required_fields: dict[str, set[str]] = field(default_factory=dict)
     extra_fields: dict[str, dict[str, str]] = field(default_factory=dict)
+    inject_response_schema: dict[str, dict[str, Any]] = field(default_factory=dict)
 
 
 def load_spec_overrides() -> SpecOverrides:
@@ -68,6 +71,7 @@ def load_spec_overrides() -> SpecOverrides:
     response_fields: dict[str, dict[str, str]] = {}
     required_fields: dict[str, set[str]] = {}
     extra_fields: dict[str, dict[str, str]] = {}
+    inject_response_schema: dict[str, dict[str, Any]] = {}
     for key, value in data.items():
         if isinstance(value, dict):
             if "response" in value:
@@ -76,6 +80,8 @@ def load_spec_overrides() -> SpecOverrides:
                 required_fields[key] = set(value["required"])
             if "extra_fields" in value:
                 extra_fields[key] = value["extra_fields"]
+            if "inject_response_schema" in value:
+                inject_response_schema[key] = json.loads(value["inject_response_schema"])
 
     return SpecOverrides(
         force_array_response=set(data.get("force_array_response", [])),
@@ -86,4 +92,5 @@ def load_spec_overrides() -> SpecOverrides:
         response_fields=response_fields,
         required_fields=required_fields,
         extra_fields=extra_fields,
+        inject_response_schema=inject_response_schema,
     )

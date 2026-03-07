@@ -1352,6 +1352,14 @@ class GetNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
     )
 
 
+class GetNetworkApplianceFirewallL3FirewallRulesResponse(_BaseSchema):
+    """Response for getNetworkApplianceFirewallL3FirewallRules operation."""
+
+    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
+
+
 class GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse(_BaseSchema):
     """Response for getNetworkApplianceFirewallL7FirewallRulesApplicationCategories operation."""
 

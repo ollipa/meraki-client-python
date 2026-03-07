@@ -179,6 +179,9 @@ def generate_response_schemas(
             # Generate response schemas
             response_schema = _extract_response_schema(operation)
             if response_schema:
+                response_schema = _apply_inject_response_schema(
+                    operation_id, response_schema, spec_overrides.inject_response_schema
+                )
                 response_schema = _apply_force_array_response(
                     operation_id, response_schema, spec_overrides.force_array_response
                 )
@@ -376,6 +379,27 @@ def _generate_request_body_array_schema(
             item_class_name=result.class_name or item_class_name,
         )
     return None
+
+
+def _apply_inject_response_schema(
+    operation_id: str, schema: dict[str, Any], inject_response_schema: dict[str, dict[str, Any]]
+) -> dict[str, Any]:
+    """Apply inject_response_schema override if needed.
+
+    For endpoints where spec has a bare {type: object} with no properties.
+    Logs warning if endpoint appears to be fixed in spec.
+    """
+    if operation_id not in inject_response_schema:
+        return schema
+
+    if schema.get("properties"):
+        log.warning(
+            f"{operation_id} in inject_response_schema already has properties in spec - "
+            "spec may be fixed, check if override still needed"
+        )
+        return schema
+
+    return inject_response_schema[operation_id]
 
 
 def _apply_force_array_response(
@@ -1172,6 +1196,14 @@ def _validate_spec_overrides(
         if operation_id not in spec_operation_ids:
             raise ValueError(
                 f"Extra field override references unknown operation '{operation_id}'. "
+                "Check that the operationId exists in the OpenAPI spec."
+            )
+
+    # Validate inject_response_schema overrides
+    for operation_id in spec_overrides.inject_response_schema:
+        if operation_id not in spec_operation_ids:
+            raise ValueError(
+                f"inject_response_schema references unknown operation '{operation_id}'. "
                 "Check that the operationId exists in the OpenAPI spec."
             )
 

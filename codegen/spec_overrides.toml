@@ -11,6 +11,8 @@
 # - [operationId] response = {...}: Field type overrides for response schemas
 # - [operationId] required = [...]: Fields to mark as required (list of field paths)
 # - [operationId] extra_fields = {...}: Add fields missing from spec
+# - [operationId] inject_response_schema = "...": JSON string defining the full response schema
+#   when the spec has a bare {type: object} with no properties
 
 # Endpoints where spec says object but API returns array
 force_array_response = ["getAdministeredLicensingSubscriptionEntitlements"]
@@ -117,6 +119,32 @@ extra_fields = { dot11w = "dict[str, Any]", dot11r = "dict[str, Any]" }
 [getDevice]
 required = ["serial", "mac", "model"]
 extra_fields = { url = "str" }
+
+[getNetworkApplianceFirewallL3FirewallRules]
+# Response schema is missing from spec (bare {type: object})
+inject_response_schema = """
+{
+  "type": "object",
+  "properties": {
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comment":        {"type": "string"},
+          "policy":         {"type": "string"},
+          "protocol":       {"type": "string"},
+          "destPort":       {"type": "string"},
+          "destCidr":       {"type": "string"},
+          "srcPort":        {"type": "string"},
+          "srcCidr":        {"type": "string"},
+          "syslogEnabled":  {"type": "boolean"}
+        }
+      }
+    }
+  }
+}
+"""
 
 [getOrganizationApplianceUplinkStatuses]
 required = [
