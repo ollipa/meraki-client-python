@@ -1880,18 +1880,6 @@ class GetOrganizationPolicyObjectsResponse(RootModel[list["OrganizationPolicyObj
     """Response for getOrganizationPolicyObjects operation."""
 
 
-class GetOrganizationResponse(_BaseSchema):
-    """Response for getOrganization operation."""
-
-    id: str
-    name: str
-    url: str
-    api: OrganizationsApi | None = None
-    licensing: OrganizationsLicensing | None = None
-    cloud: OrganizationsCloud | None = None
-    management: OrganizationsManagement | None = None
-
-
 class GetOrganizationSamlIdpResponse(_BaseSchema):
     """Response for getOrganizationSamlIdp operation."""
 
@@ -2295,7 +2283,7 @@ class GetOrganizationWebhooksLogsResponseItem(_BaseSchema):
     url: str | None = None
 
 
-class GetOrganizationsResponse(RootModel[list["GetOrganizationResponse"]]):
+class GetOrganizationsResponse(RootModel[list["OrganizationResponse"]]):
     """Response for getOrganizations operation."""
 
 
@@ -2866,9 +2854,9 @@ class OrganizationPolicyObjectsGroupResponse(_BaseSchema):
 class OrganizationResponse(_BaseSchema):
     """Schema for OrganizationResponse."""
 
-    id: str | None = None
-    name: str | None = None
-    url: str | None = None
+    id: str
+    name: str
+    url: str
     api: OrganizationsApi | None = None
     licensing: OrganizationsLicensing | None = None
     cloud: OrganizationsCloud | None = None

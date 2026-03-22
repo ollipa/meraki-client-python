@@ -75,10 +75,19 @@ skip_tests = [
 [getNetworkClients]
 response = { firstSeen = "datetime", lastSeen = "datetime" }
 
+[getNetworkClient]
+response = { firstSeen = "datetime", lastSeen = "datetime" }
+
 [getOrganizationClientsBandwidthUsageHistory]
 response = { upstream = "float", downstream = "float", total = "float" }
 
 [getNetworkApplianceVlans]
+response = { id = "int" }
+
+[getNetworkApplianceVlan]
+response = { id = "int" }
+
+[updateNetworkApplianceVlan]
 response = { id = "int" }
 
 [getNetworkWirelessMeshStatuses]
@@ -91,10 +100,25 @@ response = { "products.wireless.nextUpgrade.time" = "str" }
 [getOrganization]
 required = ["id", "name", "url"]
 
+[createOrganization]
+required = ["id", "name", "url"]
+
+[updateOrganization]
+required = ["id", "name", "url"]
+
+[cloneOrganization]
+required = ["id", "name", "url"]
+
 [getOrganizations]
 required = ["id", "name", "url"]
 
 [getNetwork]
+required = ["id", "organizationId", "name", "url"]
+
+[updateNetwork]
+required = ["id", "organizationId", "name", "url"]
+
+[unbindNetwork]
 required = ["id", "organizationId", "name", "url"]
 
 [getOrganizationNetworks]
@@ -119,6 +143,22 @@ extra_fields = { dot11w = "dict[str, Any]", dot11r = "dict[str, Any]" }
 [getDevice]
 required = ["serial", "mac", "model"]
 extra_fields = { url = "str" }
+
+[getNetworkDevices]
+required = ["serial", "mac", "model"]
+extra_fields = { url = "str" }
+
+[createNetworkWebhooksHttpServer]
+required = ["id", "networkId", "name", "url"]
+
+[getNetworkWebhooksHttpServer]
+required = ["id", "networkId", "name", "url"]
+
+[getNetworkWebhooksHttpServers]
+required = ["id", "networkId", "name", "url"]
+
+[updateNetworkWebhooksHttpServer]
+required = ["id", "networkId", "name", "url"]
 
 [getNetworkApplianceFirewallL3FirewallRules]
 # Response schema is missing from spec (bare {type: object})

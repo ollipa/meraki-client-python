@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Codegen now deduplicates identical top-level response schemas and reuses a shared resource-style name when duplicate operations differ only by action, such as `NetworkWebhooksHttpServerResponse`.
 
+### Fixed
+
+- Fix spec overrides so response-only overrides no longer leak into request body parameter schemas, and correct response typing/required fields for network client, VLAN, organization, network, device, and webhook server responses.
+
 ## v0.11.1
 
 ### Added

@@ -653,6 +653,19 @@ def _generate_request_body_schemas(
     if isinstance(content_schema, Reference) or not content_schema:
         raise ValueError(f"Operation {operation_id} has no schema or schema is a reference")
 
+    # Response-specific overrides (required_fields, response_fields, extra_fields) must not
+    # influence request body parameter schemas.
+    req_ctx = GenerationContext(
+        schemas=ctx.schemas,
+        schema_to_scope=ctx.schema_to_scope,
+        schema_fingerprints=ctx.schema_fingerprints,
+        scope=ctx.scope,
+        operation_id=ctx.operation_id,
+        spec_overrides=None,
+        consumed_overrides=ctx.consumed_overrides,
+        consumed_required_overrides=ctx.consumed_required_overrides,
+    )
+
     properties = content_schema.properties or {}
     for property_name, property_schema in properties.items():
         if isinstance(property_schema, Reference):
@@ -662,7 +675,7 @@ def _generate_request_body_schemas(
         base_class_name = get_request_param_schema_name(operation_id, property_name)
 
         param_schema = _generate_request_body_param_schema(
-            ctx,
+            req_ctx,
             base_class_name=base_class_name,
             schema_dict=schema_dict,
             property_name=property_name,

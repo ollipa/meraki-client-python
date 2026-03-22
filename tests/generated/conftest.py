@@ -56,6 +56,7 @@ SKIP_ERROR_MESSAGES = [
     "Static routes are unavailable for L2 switches",
     "This endpoint only supports MR devices",
     "This device does not support ESL.",
+    "Missing SSE configuration on Meraki Dashboard",
 ]
 
 # Error message patterns that should skip the test (regex)

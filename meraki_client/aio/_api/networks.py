@@ -62,7 +62,6 @@ from meraki_client.schemas import (
     GetNetworkPiiPiiKeysResponse,
     GetNetworkPiiSmDevicesForKeyResponse,
     GetNetworkPoliciesByClientResponseItem,
-    GetNetworkResponse,
     GetNetworkSplashLoginAttemptsResponseItem,
     GetNetworkTopologyLinkLayerResponse,
     GetNetworkTrafficResponseItem,
@@ -166,7 +165,7 @@ class Networks:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_network(self, network_id: str) -> GetNetworkResponse:
+    async def get_network(self, network_id: str) -> NetworkResponse:
         """Return a network.
 
         [API documentation: getNetwork](https://developer.cisco.com/meraki/api-v1/#!get-network)
@@ -205,10 +204,7 @@ class Networks:
         path = f"/networks/{network_id}"
 
         return await self._session.get(
-            scope="networks",
-            operation_id="getNetwork",
-            path=path,
-            response_schema=GetNetworkResponse,
+            scope="networks", operation_id="getNetwork", path=path, response_schema=NetworkResponse
         )
 
     async def update_network(

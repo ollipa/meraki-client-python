@@ -102,7 +102,6 @@ from meraki_client.schemas import (
     GetOrganizationLicensesOverviewResponse,
     GetOrganizationNetworksResponseItem,
     GetOrganizationPoliciesAssignmentsByClientResponseItem,
-    GetOrganizationResponse,
     GetOrganizationSamlIdpResponse,
     GetOrganizationSamlIdpsResponse,
     GetOrganizationSaseNetworksEligibleResponseItemsItem,
@@ -261,7 +260,7 @@ class Organizations:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationResponse]:
+    ) -> AsyncPaginatedResponse[OrganizationResponse]:
         """List the organizations that the user has privileges on.
 
         [API documentation: getOrganizations](https://developer.cisco.com/meraki/api-v1/#!get-organizations)
@@ -340,7 +339,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationResponse,
+            item_schema=OrganizationResponse,
         )
 
     async def create_organization(
@@ -405,7 +404,7 @@ class Organizations:
             response_schema=OrganizationResponse,
         )
 
-    async def get_organization(self, organization_id: str) -> GetOrganizationResponse:
+    async def get_organization(self, organization_id: str) -> OrganizationResponse:
         """Return an organization.
 
         [API documentation: getOrganization](https://developer.cisco.com/meraki/api-v1/#!get-organization)
@@ -455,7 +454,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganization",
             path=path,
-            response_schema=GetOrganizationResponse,
+            response_schema=OrganizationResponse,
         )
 
     async def update_organization(

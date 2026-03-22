@@ -1254,77 +1254,8 @@ class GetNetworkApplianceUplinksUsageHistoryResponseItem(_BaseSchema):
     )
 
 
-class GetNetworkApplianceVlansResponse(RootModel[list["GetNetworkApplianceVlansResponseItem"]]):
+class GetNetworkApplianceVlansResponse(RootModel[list["NetworkApplianceVlanResponse"]]):
     """Response for getNetworkApplianceVlans operation."""
-
-
-class GetNetworkApplianceVlansResponseItem(_BaseSchema):
-    """Schema for GetNetworkApplianceVlansResponseItem."""
-
-    id: int | None = None
-    interface_id: str | None = Field(
-        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
-    )
-    name: str | None = None
-    subnet: str | None = None
-    appliance_ip: str | None = Field(
-        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
-    )
-    group_policy_id: str | None = Field(
-        default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
-    )
-    template_vlan_type: str | None = Field(
-        default=None, validation_alias="templateVlanType", serialization_alias="templateVlanType"
-    )
-    cidr: str | None = None
-    mask: int | None = None
-    dhcp_relay_server_ips: list[str] = Field(
-        default_factory=list,
-        validation_alias="dhcpRelayServerIps",
-        serialization_alias="dhcpRelayServerIps",
-    )
-    dhcp_handling: str | None = Field(
-        default=None, validation_alias="dhcpHandling", serialization_alias="dhcpHandling"
-    )
-    dhcp_lease_time: str | None = Field(
-        default=None, validation_alias="dhcpLeaseTime", serialization_alias="dhcpLeaseTime"
-    )
-    dhcp_boot_options_enabled: bool | None = Field(
-        default=None,
-        validation_alias="dhcpBootOptionsEnabled",
-        serialization_alias="dhcpBootOptionsEnabled",
-    )
-    dhcp_boot_next_server: str | None = Field(
-        default=None,
-        validation_alias="dhcpBootNextServer",
-        serialization_alias="dhcpBootNextServer",
-    )
-    dhcp_boot_filename: str | None = Field(
-        default=None, validation_alias="dhcpBootFilename", serialization_alias="dhcpBootFilename"
-    )
-    fixed_ip_assignments: dict[str, Any] | None = Field(
-        default=None,
-        validation_alias="fixedIpAssignments",
-        serialization_alias="fixedIpAssignments",
-    )
-    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
-        default_factory=list,
-        validation_alias="reservedIpRanges",
-        serialization_alias="reservedIpRanges",
-    )
-    dns_nameservers: str | None = Field(
-        default=None, validation_alias="dnsNameservers", serialization_alias="dnsNameservers"
-    )
-    dhcp_options: list[ApplianceDhcpOptionsItem] = Field(
-        default_factory=list, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
-    )
-    vpn_nat_subnet: str | None = Field(
-        default=None, validation_alias="vpnNatSubnet", serialization_alias="vpnNatSubnet"
-    )
-    mandatory_dhcp: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
-        default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
-    )
-    ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
 
 
 class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_BaseSchema):
@@ -1838,7 +1769,7 @@ class NetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailback(_
 class NetworkApplianceVlanResponse(_BaseSchema):
     """Schema for NetworkApplianceVlanResponse."""
 
-    id: str | None = None
+    id: int | None = None
     interface_id: str | None = Field(
         default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
     )

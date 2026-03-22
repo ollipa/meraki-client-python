@@ -42,7 +42,6 @@ from meraki_client.schemas import (
     GetNetworkApplianceRfProfilesResponse,
     GetNetworkApplianceTrafficShapingUplinkBandwidthResponse,
     GetNetworkApplianceUplinksUsageHistoryResponseItem,
-    GetNetworkApplianceVlansResponseItem,
     GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem,
     GetOrganizationApplianceDnsLocalRecordsResponse,
     GetOrganizationApplianceUplinksStatusesOverviewResponse,
@@ -5116,7 +5115,7 @@ class Appliance:
 
     def get_network_appliance_vlans(
         self, network_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkApplianceVlansResponseItem]:
+    ) -> AsyncPaginatedResponse[NetworkApplianceVlanResponse]:
         """List the VLANs for a Security Appliance network.
 
         [API documentation: getNetworkApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans)
@@ -5207,7 +5206,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceVlans",
             path=path,
-            item_schema=GetNetworkApplianceVlansResponseItem,
+            item_schema=NetworkApplianceVlanResponse,
         )
 
     async def create_network_appliance_vlan(

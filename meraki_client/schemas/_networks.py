@@ -470,10 +470,10 @@ class GetNetworkClientResponse(_BaseSchema):
         default=None, validation_alias="ip6Local", serialization_alias="ip6Local"
     )
     description: str | None = None
-    first_seen: int | None = Field(
+    first_seen: datetime | None = Field(
         default=None, validation_alias="firstSeen", serialization_alias="firstSeen"
     )
-    last_seen: int | None = Field(
+    last_seen: datetime | None = Field(
         default=None, validation_alias="lastSeen", serialization_alias="lastSeen"
     )
     manufacturer: str | None = None
@@ -759,9 +759,9 @@ class GetNetworkDevicesResponseItem(_BaseSchema):
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
-    serial: str | None = None
-    model: str | None = None
-    mac: str | None = None
+    serial: str
+    model: str
+    mac: str
     lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
     firmware: str | None = None
     floor_plan_id: str | None = Field(
@@ -771,6 +771,7 @@ class GetNetworkDevicesResponseItem(_BaseSchema):
     beacon_id_params: NetworksBeaconIdParams | None = Field(
         default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
+    url: str | None = None
 
 
 class GetNetworkEventsEventTypesResponse(RootModel[list["GetNetworkEventsEventTypesResponseItem"]]):
@@ -990,33 +991,6 @@ class GetNetworkPoliciesByClientResponseItem(_BaseSchema):
         default=None, validation_alias="clientId", serialization_alias="clientId"
     )
     assigned: list[NetworksAssignedItem] = Field(default_factory=list)
-
-
-class GetNetworkResponse(_BaseSchema):
-    """Response for getNetwork operation."""
-
-    id: str
-    organization_id: str = Field(
-        validation_alias="organizationId", serialization_alias="organizationId"
-    )
-    name: str
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
-    tags: list[str] = Field(default_factory=list)
-    enrollment_string: str | None = Field(
-        default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
-    )
-    url: str
-    notes: str | None = None
-    is_bound_to_config_template: bool | None = Field(
-        default=None,
-        validation_alias="isBoundToConfigTemplate",
-        serialization_alias="isBoundToConfigTemplate",
-    )
 
 
 class GetNetworkSplashLoginAttemptsResponse(
@@ -1384,11 +1358,11 @@ class NetworkPiiRequestResponse(_BaseSchema):
 class NetworkResponse(_BaseSchema):
     """Schema for NetworkResponse."""
 
-    id: str | None = None
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
+    id: str
+    organization_id: str = Field(
+        validation_alias="organizationId", serialization_alias="organizationId"
     )
-    name: str | None = None
+    name: str
     product_types: list[str] = Field(
         default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
@@ -1399,7 +1373,7 @@ class NetworkResponse(_BaseSchema):
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
-    url: str | None = None
+    url: str
     notes: str | None = None
     is_bound_to_config_template: bool | None = Field(
         default=None,
@@ -1514,12 +1488,10 @@ class NetworkVlanProfileResponse(_BaseSchema):
 class NetworkWebhooksHttpServerResponse(_BaseSchema):
     """Schema for NetworkWebhooksHttpServerResponse."""
 
-    id: str | None = None
-    name: str | None = None
-    url: str | None = None
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
+    id: str
+    name: str
+    url: str
+    network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
     payload_template: NetworksPayloadTemplate | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
