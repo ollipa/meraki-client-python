@@ -14,15 +14,14 @@ from meraki_client.schemas import (
     CreateNetworkCampusGatewayClusterDevicesItem,
     CreateNetworkCampusGatewayClusterNameservers,
     CreateNetworkCampusGatewayClusterPortChannelsItem,
-    CreateNetworkCampusGatewayClusterResponse,
     CreateNetworkCampusGatewayClusterTunnelsItem,
     CreateNetworkCampusGatewayClusterUplinksItem,
     GetOrganizationCampusGatewayClustersResponseItemsItem,
     GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem,
+    NetworkCampusGatewayClusterResponse,
     UpdateNetworkCampusGatewayClusterDevicesItem,
     UpdateNetworkCampusGatewayClusterNameservers,
     UpdateNetworkCampusGatewayClusterPortChannelsItem,
-    UpdateNetworkCampusGatewayClusterResponse,
     UpdateNetworkCampusGatewayClusterTunnelsItem,
     UpdateNetworkCampusGatewayClusterUplinksItem,
 )
@@ -48,7 +47,7 @@ class CampusGateway:
         port_channels: list[CreateNetworkCampusGatewayClusterPortChannelsItem],
         devices: list[CreateNetworkCampusGatewayClusterDevicesItem] | None = None,
         notes: str | None = None,
-    ) -> CreateNetworkCampusGatewayClusterResponse:
+    ) -> NetworkCampusGatewayClusterResponse:
         """Create a cluster and add campus gateways to it.
 
         [API documentation: createNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster)
@@ -182,7 +181,7 @@ class CampusGateway:
             operation_id="createNetworkCampusGatewayCluster",
             path=path,
             json=payload,
-            response_schema=CreateNetworkCampusGatewayClusterResponse,
+            response_schema=NetworkCampusGatewayClusterResponse,
         )
 
     async def update_network_campus_gateway_cluster(
@@ -197,7 +196,7 @@ class CampusGateway:
         port_channels: list[UpdateNetworkCampusGatewayClusterPortChannelsItem] | None = None,
         devices: list[UpdateNetworkCampusGatewayClusterDevicesItem] | None = None,
         notes: str | None = None,
-    ) -> UpdateNetworkCampusGatewayClusterResponse:
+    ) -> NetworkCampusGatewayClusterResponse:
         """Update a cluster and add/remove campus gateways to/from it.
 
         [API documentation: updateNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster)
@@ -333,7 +332,7 @@ class CampusGateway:
             operation_id="updateNetworkCampusGatewayCluster",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkCampusGatewayClusterResponse,
+            response_schema=NetworkCampusGatewayClusterResponse,
         )
 
     def get_organization_campus_gateway_clusters(

@@ -11,31 +11,23 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
-    CreateDeviceSensorCommandResponse,
     CreateNetworkSensorAlertsProfileConditionsItem,
     CreateNetworkSensorAlertsProfileRecipients,
-    CreateNetworkSensorAlertsProfileResponse,
     CreateNetworkSensorAlertsProfileSchedule,
-    GetDeviceSensorCommandResponse,
-    GetDeviceSensorCommandsResponseItem,
-    GetDeviceSensorRelationshipsResponse,
+    DeviceSensorCommandResponse,
+    DeviceSensorRelationshipsResponse,
     GetNetworkSensorAlertsCurrentOverviewByMetricResponse,
     GetNetworkSensorAlertsOverviewByMetricResponseItem,
-    GetNetworkSensorAlertsProfileResponse,
-    GetNetworkSensorAlertsProfilesResponseItem,
-    GetNetworkSensorMqttBrokerResponse,
-    GetNetworkSensorMqttBrokersResponseItem,
     GetNetworkSensorRelationshipsResponseItem,
     GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem,
     GetOrganizationSensorReadingsHistoryResponseItem,
     GetOrganizationSensorReadingsLatestResponseItem,
+    NetworkSensorAlertsProfileResponse,
+    NetworkSensorMqttBrokerResponse,
     UpdateDeviceSensorRelationshipsLivestream,
-    UpdateDeviceSensorRelationshipsResponse,
     UpdateNetworkSensorAlertsProfileConditionsItem,
     UpdateNetworkSensorAlertsProfileRecipients,
-    UpdateNetworkSensorAlertsProfileResponse,
     UpdateNetworkSensorAlertsProfileSchedule,
-    UpdateNetworkSensorMqttBrokerResponse,
 )
 from meraki_client.types import (
     CreateDeviceSensorCommandOperation,
@@ -68,7 +60,7 @@ class Sensor:
         timespan: float | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetDeviceSensorCommandsResponseItem]:
+    ) -> AsyncPaginatedResponse[DeviceSensorCommandResponse]:
         """Returns a historical log of all commands.
 
         [API documentation: getDeviceSensorCommands](https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-commands)
@@ -156,12 +148,12 @@ class Sensor:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetDeviceSensorCommandsResponseItem,
+            item_schema=DeviceSensorCommandResponse,
         )
 
     async def create_device_sensor_command(
         self, *, serial: str, operation: CreateDeviceSensorCommandOperation
-    ) -> CreateDeviceSensorCommandResponse:
+    ) -> DeviceSensorCommandResponse:
         """Sends a command to a sensor.
 
         [API documentation: createDeviceSensorCommand](https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command)
@@ -207,12 +199,12 @@ class Sensor:
             operation_id="createDeviceSensorCommand",
             path=path,
             json=payload,
-            response_schema=CreateDeviceSensorCommandResponse,
+            response_schema=DeviceSensorCommandResponse,
         )
 
     async def get_device_sensor_command(
         self, *, serial: str, command_id: str
-    ) -> GetDeviceSensorCommandResponse:
+    ) -> DeviceSensorCommandResponse:
         """Returns information about the command's execution, including the status.
 
         [API documentation: getDeviceSensorCommand](https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-command)
@@ -250,12 +242,12 @@ class Sensor:
             scope="sensor",
             operation_id="getDeviceSensorCommand",
             path=path,
-            response_schema=GetDeviceSensorCommandResponse,
+            response_schema=DeviceSensorCommandResponse,
         )
 
     async def get_device_sensor_relationships(
         self, serial: str
-    ) -> GetDeviceSensorRelationshipsResponse:
+    ) -> DeviceSensorRelationshipsResponse:
         """List the sensor roles for a given sensor or camera device.
 
         [API documentation: getDeviceSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-relationships)
@@ -288,12 +280,12 @@ class Sensor:
             scope="sensor",
             operation_id="getDeviceSensorRelationships",
             path=path,
-            response_schema=GetDeviceSensorRelationshipsResponse,
+            response_schema=DeviceSensorRelationshipsResponse,
         )
 
     async def update_device_sensor_relationships(
         self, serial: str, *, livestream: UpdateDeviceSensorRelationshipsLivestream | None = None
-    ) -> UpdateDeviceSensorRelationshipsResponse:
+    ) -> DeviceSensorRelationshipsResponse:
         """Assign one or more sensor roles to a given sensor or camera device.
 
         [API documentation: updateDeviceSensorRelationships](https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships)
@@ -334,7 +326,7 @@ class Sensor:
             operation_id="updateDeviceSensorRelationships",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceSensorRelationshipsResponse,
+            response_schema=DeviceSensorRelationshipsResponse,
         )
 
     async def get_network_sensor_alerts_current_overview_by_metric(
@@ -480,7 +472,7 @@ class Sensor:
 
     def get_network_sensor_alerts_profiles(
         self, network_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkSensorAlertsProfilesResponseItem]:
+    ) -> AsyncPaginatedResponse[NetworkSensorAlertsProfileResponse]:
         """Lists all sensor alert profiles for a network.
 
         [API documentation: getNetworkSensorAlertsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles)
@@ -603,7 +595,7 @@ class Sensor:
             scope="sensor",
             operation_id="getNetworkSensorAlertsProfiles",
             path=path,
-            item_schema=GetNetworkSensorAlertsProfilesResponseItem,
+            item_schema=NetworkSensorAlertsProfileResponse,
         )
 
     async def create_network_sensor_alerts_profile(
@@ -617,7 +609,7 @@ class Sensor:
         serials: list[str] | None = None,
         include_sensor_url: bool | None = None,
         message: str | None = None,
-    ) -> CreateNetworkSensorAlertsProfileResponse:
+    ) -> NetworkSensorAlertsProfileResponse:
         """Creates a sensor alert profile for a network.
 
         [API documentation: createNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile)
@@ -759,12 +751,12 @@ class Sensor:
             operation_id="createNetworkSensorAlertsProfile",
             path=path,
             json=payload,
-            response_schema=CreateNetworkSensorAlertsProfileResponse,
+            response_schema=NetworkSensorAlertsProfileResponse,
         )
 
     async def get_network_sensor_alerts_profile(
         self, *, network_id: str, id: str
-    ) -> GetNetworkSensorAlertsProfileResponse:
+    ) -> NetworkSensorAlertsProfileResponse:
         """Show details of a sensor alert profile for a network.
 
         [API documentation: getNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profile)
@@ -882,7 +874,7 @@ class Sensor:
             scope="sensor",
             operation_id="getNetworkSensorAlertsProfile",
             path=path,
-            response_schema=GetNetworkSensorAlertsProfileResponse,
+            response_schema=NetworkSensorAlertsProfileResponse,
         )
 
     async def update_network_sensor_alerts_profile(
@@ -897,7 +889,7 @@ class Sensor:
         serials: list[str] | None = None,
         include_sensor_url: bool | None = None,
         message: str | None = None,
-    ) -> UpdateNetworkSensorAlertsProfileResponse:
+    ) -> NetworkSensorAlertsProfileResponse:
         """Updates a sensor alert profile for a network.
 
         [API documentation: updateNetworkSensorAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile)
@@ -1041,7 +1033,7 @@ class Sensor:
             operation_id="updateNetworkSensorAlertsProfile",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkSensorAlertsProfileResponse,
+            response_schema=NetworkSensorAlertsProfileResponse,
         )
 
     async def delete_network_sensor_alerts_profile(self, *, network_id: str, id: str) -> None:
@@ -1067,7 +1059,7 @@ class Sensor:
 
     def get_network_sensor_mqtt_brokers(
         self, network_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkSensorMqttBrokersResponseItem]:
+    ) -> AsyncPaginatedResponse[NetworkSensorMqttBrokerResponse]:
         """List the sensor settings of all MQTT brokers for this network.
 
         [API documentation: getNetworkSensorMqttBrokers](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers)
@@ -1101,12 +1093,12 @@ class Sensor:
             scope="sensor",
             operation_id="getNetworkSensorMqttBrokers",
             path=path,
-            item_schema=GetNetworkSensorMqttBrokersResponseItem,
+            item_schema=NetworkSensorMqttBrokerResponse,
         )
 
     async def get_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str
-    ) -> GetNetworkSensorMqttBrokerResponse:
+    ) -> NetworkSensorMqttBrokerResponse:
         """Return the sensor settings of an MQTT broker.
 
         [API documentation: getNetworkSensorMqttBroker](https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-broker)
@@ -1135,12 +1127,12 @@ class Sensor:
             scope="sensor",
             operation_id="getNetworkSensorMqttBroker",
             path=path,
-            response_schema=GetNetworkSensorMqttBrokerResponse,
+            response_schema=NetworkSensorMqttBrokerResponse,
         )
 
     async def update_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str, enabled: bool
-    ) -> UpdateNetworkSensorMqttBrokerResponse:
+    ) -> NetworkSensorMqttBrokerResponse:
         """Update the sensor settings of an MQTT broker.
 
         [API documentation: updateNetworkSensorMqttBroker](https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker)
@@ -1175,7 +1167,7 @@ class Sensor:
             operation_id="updateNetworkSensorMqttBroker",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkSensorMqttBrokerResponse,
+            response_schema=NetworkSensorMqttBrokerResponse,
         )
 
     def get_network_sensor_relationships(

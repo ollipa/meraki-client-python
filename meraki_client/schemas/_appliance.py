@@ -32,7 +32,7 @@ class ApplianceApplicationCategoriesItem(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    applications: list[GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem] = Field(
+    applications: list[NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem] = Field(
         default_factory=list
     )
 
@@ -816,7 +816,7 @@ class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem(_BaseS
 
 
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse(_BaseSchema):
-    """Response for bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate operation."""
+    """Schema for BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse."""
 
     items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
         Field(default_factory=list)
@@ -909,27 +909,6 @@ class CreateNetworkApplianceRfProfilePerSsidSettings1(_BaseSchema):
     )
 
 
-class CreateNetworkApplianceRfProfileResponse(_BaseSchema):
-    """Response for createNetworkApplianceRfProfile operation."""
-
-    id: str | None = None
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    name: str | None = None
-    two_four_ghz_settings: ApplianceAssignedTwoFourGhzSettings | None = Field(
-        default=None,
-        validation_alias="twoFourGhzSettings",
-        serialization_alias="twoFourGhzSettings",
-    )
-    five_ghz_settings: ApplianceAssignedFiveGhzSettings | None = Field(
-        default=None, validation_alias="fiveGhzSettings", serialization_alias="fiveGhzSettings"
-    )
-    per_ssid_settings: ApplianceAssignedPerSsidSettings | None = Field(
-        default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
-    )
-
-
 class CreateNetworkApplianceRfProfileTwoFourGhzSettings(_BaseSchema):
     """Settings related to 2.4Ghz band."""
 
@@ -938,57 +917,6 @@ class CreateNetworkApplianceRfProfileTwoFourGhzSettings(_BaseSchema):
     )
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
-    )
-
-
-class CreateNetworkApplianceStaticRouteResponse(_BaseSchema):
-    """Response for createNetworkApplianceStaticRoute operation."""
-
-    id: str | None = None
-    ip_version: int | None = Field(
-        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    enabled: bool | None = None
-    name: str | None = None
-    subnet: str | None = None
-    gateway_ip: str | None = Field(
-        default=None, validation_alias="gatewayIp", serialization_alias="gatewayIp"
-    )
-    fixed_ip_assignments: dict[str, Any] | None = Field(
-        default=None,
-        validation_alias="fixedIpAssignments",
-        serialization_alias="fixedIpAssignments",
-    )
-    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
-        default_factory=list,
-        validation_alias="reservedIpRanges",
-        serialization_alias="reservedIpRanges",
-    )
-    gateway_vlan_id: int | None = Field(
-        default=None, validation_alias="gatewayVlanId", serialization_alias="gatewayVlanId"
-    )
-
-
-class CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
-    """Response for createNetworkApplianceTrafficShapingCustomPerformanceClass operation."""
-
-    name: str | None = None
-    custom_performance_class_id: str | None = Field(
-        default=None,
-        validation_alias="customPerformanceClassId",
-        serialization_alias="customPerformanceClassId",
-    )
-    max_latency: int | None = Field(
-        default=None, validation_alias="maxLatency", serialization_alias="maxLatency"
-    )
-    max_jitter: int | None = Field(
-        default=None, validation_alias="maxJitter", serialization_alias="maxJitter"
-    )
-    max_loss_percentage: int | None = Field(
-        default=None, validation_alias="maxLossPercentage", serialization_alias="maxLossPercentage"
     )
 
 
@@ -1040,19 +968,10 @@ class CreateNetworkApplianceVlanResponse(_BaseSchema):
     )
     cidr: str | None = None
     mask: int | None = None
-    mandatory_dhcp: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+    mandatory_dhcp: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
-    ipv6: GetNetworkApplianceSingleLanResponseIpv6 | None = None
-
-
-class CreateOrganizationApplianceDnsLocalProfileResponse(_BaseSchema):
-    """Response for createOrganizationApplianceDnsLocalProfile operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
+    ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
 
 
 class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem(_BaseSchema):
@@ -1063,35 +982,10 @@ class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem(
     )
 
 
-class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse(_BaseSchema):
-    """Response for createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete operation."""
-
-    items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
-        Field(default_factory=list)
-    )
-
-
 class CreateOrganizationApplianceDnsLocalRecordProfile(_BaseSchema):
     """The profile the DNS record is associated with."""
 
     id: str | None = None
-
-
-class CreateOrganizationApplianceDnsLocalRecordResponse(
-    RootModel[list["CreateOrganizationApplianceDnsLocalRecordResponseItem"]]
-):
-    """Response for createOrganizationApplianceDnsLocalRecord operation."""
-
-
-class CreateOrganizationApplianceDnsLocalRecordResponseItem(_BaseSchema):
-    """Schema for CreateOrganizationApplianceDnsLocalRecordResponseItem."""
-
-    record_id: str | None = Field(
-        default=None, validation_alias="recordId", serialization_alias="recordId"
-    )
-    hostname: str | None = None
-    address: str | None = None
-    profile: ApplianceUmbrellaOrganization | None = None
 
 
 class CreateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
@@ -1100,30 +994,11 @@ class CreateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
     addresses: list[str] = Field(default_factory=list)
 
 
-class CreateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
-    """Response for createOrganizationApplianceDnsSplitProfile operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
-    hostnames: list[str] = Field(default_factory=list)
-    nameservers: ApplianceNameservers | None = None
-
-
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
     network: ApplianceUmbrellaOrganization | None = None
     profile: ApplianceUmbrellaOrganization | None = None
-
-
-class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse(_BaseSchema):
-    """Response for createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate operation."""
-
-    items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
-        Field(default_factory=list)
-    )
 
 
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem(_BaseSchema):
@@ -1134,12 +1009,55 @@ class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem(
     )
 
 
-class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse(_BaseSchema):
-    """Response for createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete operation."""
+class DeviceApplianceRadioSettingsResponse(_BaseSchema):
+    """Schema for DeviceApplianceRadioSettingsResponse."""
 
-    items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
-        Field(default_factory=list)
+    serial: str | None = None
+    rf_profile_id: str | None = Field(
+        default=None, validation_alias="rfProfileId", serialization_alias="rfProfileId"
     )
+    two_four_ghz_settings: DeviceApplianceRadioSettingsResponseTwoFourGhzSettings | None = Field(
+        default=None,
+        validation_alias="twoFourGhzSettings",
+        serialization_alias="twoFourGhzSettings",
+    )
+    five_ghz_settings: DeviceApplianceRadioSettingsResponseFiveGhzSettings | None = Field(
+        default=None, validation_alias="fiveGhzSettings", serialization_alias="fiveGhzSettings"
+    )
+
+
+class DeviceApplianceRadioSettingsResponseFiveGhzSettings(_BaseSchema):
+    """Manual radio settings for 5 GHz."""
+
+    channel: int | None = None
+    channel_width: int | None = Field(
+        default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
+    )
+    target_power: int | None = Field(
+        default=None, validation_alias="targetPower", serialization_alias="targetPower"
+    )
+
+
+class DeviceApplianceRadioSettingsResponseTwoFourGhzSettings(_BaseSchema):
+    """Manual radio settings for 2.4 GHz."""
+
+    channel: int | None = None
+    target_power: int | None = Field(
+        default=None, validation_alias="targetPower", serialization_alias="targetPower"
+    )
+
+
+class DeviceApplianceUplinksSettingsResponse(_BaseSchema):
+    """Schema for DeviceApplianceUplinksSettingsResponse."""
+
+    interfaces: DeviceApplianceUplinksSettingsResponseInterfaces | None = None
+
+
+class DeviceApplianceUplinksSettingsResponseInterfaces(_BaseSchema):
+    """Interface settings."""
+
+    wan1: ApplianceInterfacesWan1 | None = None
+    wan2: ApplianceInterfacesWan1 | None = None
 
 
 class GetDeviceApplianceDhcpSubnetsResponse(
@@ -1172,146 +1090,21 @@ class GetDeviceAppliancePerformanceResponse(_BaseSchema):
 
 
 class GetDeviceAppliancePrefixesDelegatedResponse(RootModel[list[dict[str, Any]]]):
-    """Response for getDeviceAppliancePrefixesDelegated operation."""
-
-
-class GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse(RootModel[list[dict[str, Any]]]):
-    """Response for getDeviceAppliancePrefixesDelegatedVlanAssignments operation."""
-
-
-class GetDeviceApplianceRadioSettingsResponse(_BaseSchema):
-    """Response for getDeviceApplianceRadioSettings operation."""
-
-    serial: str | None = None
-    rf_profile_id: str | None = Field(
-        default=None, validation_alias="rfProfileId", serialization_alias="rfProfileId"
-    )
-    two_four_ghz_settings: GetDeviceApplianceRadioSettingsResponseTwoFourGhzSettings | None = Field(
-        default=None,
-        validation_alias="twoFourGhzSettings",
-        serialization_alias="twoFourGhzSettings",
-    )
-    five_ghz_settings: GetDeviceApplianceRadioSettingsResponseFiveGhzSettings | None = Field(
-        default=None, validation_alias="fiveGhzSettings", serialization_alias="fiveGhzSettings"
-    )
-
-
-class GetDeviceApplianceRadioSettingsResponseFiveGhzSettings(_BaseSchema):
-    """Manual radio settings for 5 GHz."""
-
-    channel: int | None = None
-    channel_width: int | None = Field(
-        default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
-    )
-    target_power: int | None = Field(
-        default=None, validation_alias="targetPower", serialization_alias="targetPower"
-    )
-
-
-class GetDeviceApplianceRadioSettingsResponseTwoFourGhzSettings(_BaseSchema):
-    """Manual radio settings for 2.4 GHz."""
-
-    channel: int | None = None
-    target_power: int | None = Field(
-        default=None, validation_alias="targetPower", serialization_alias="targetPower"
-    )
-
-
-class GetDeviceApplianceUplinksSettingsResponse(_BaseSchema):
-    """Response for getDeviceApplianceUplinksSettings operation."""
-
-    interfaces: GetDeviceApplianceUplinksSettingsResponseInterfaces | None = None
-
-
-class GetDeviceApplianceUplinksSettingsResponseInterfaces(_BaseSchema):
-    """Interface settings."""
-
-    wan1: ApplianceInterfacesWan1 | None = None
-    wan2: ApplianceInterfacesWan1 | None = None
+    """Schema for GetDeviceAppliancePrefixesDelegatedResponse."""
 
 
 class GetNetworkApplianceClientSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
-    """Response for getNetworkApplianceClientSecurityEvents operation."""
-
-
-class GetNetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSchema):
-    """Response for getNetworkApplianceConnectivityMonitoringDestinations operation."""
-
-    destinations: list[
-        GetNetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem
-    ] = Field(default_factory=list)
-
-
-class GetNetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem(_BaseSchema):
-    """Schema for GetNetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem."""
-
-    ip: str | None = None
-    description: str | None = None
-    default: bool | None = None
-
-
-class GetNetworkApplianceContentFilteringResponse(_BaseSchema):
-    """Response for getNetworkApplianceContentFiltering operation."""
-
-    allowed_url_patterns: list[str] = Field(
-        default_factory=list,
-        validation_alias="allowedUrlPatterns",
-        serialization_alias="allowedUrlPatterns",
-    )
-    blocked_url_patterns: list[str] = Field(
-        default_factory=list,
-        validation_alias="blockedUrlPatterns",
-        serialization_alias="blockedUrlPatterns",
-    )
-    blocked_url_categories: list[
-        GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem
-    ] = Field(
-        default_factory=list,
-        validation_alias="blockedUrlCategories",
-        serialization_alias="blockedUrlCategories",
-    )
-    url_category_list_size: str | None = Field(
-        default=None,
-        validation_alias="urlCategoryListSize",
-        serialization_alias="urlCategoryListSize",
-    )
-
-
-class GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem(_BaseSchema):
-    """Schema for GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem."""
-
-    id: str | None = None
-    name: str | None = None
-
-
-class GetNetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
-    """Response for getNetworkApplianceFirewallFirewalledService operation."""
-
-    service: str | None = None
-    access: str | None = None
-    allowed_ips: list[str] = Field(
-        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
-    )
+    """Schema for GetNetworkApplianceClientSecurityEventsResponse."""
 
 
 class GetNetworkApplianceFirewallFirewalledServicesResponse(
-    RootModel[list["GetNetworkApplianceFirewallFirewalledServicesResponseItem"]]
+    RootModel[list["NetworkApplianceFirewallFirewalledServiceResponse"]]
 ):
     """Response for getNetworkApplianceFirewallFirewalledServices operation."""
 
 
-class GetNetworkApplianceFirewallFirewalledServicesResponseItem(_BaseSchema):
-    """Schema for GetNetworkApplianceFirewallFirewalledServicesResponseItem."""
-
-    service: str | None = None
-    access: str | None = None
-    allowed_ips: list[str] = Field(
-        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
-    )
-
-
 class GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse(_BaseSchema):
-    """Response for getNetworkApplianceFirewallInboundCellularFirewallRules operation."""
+    """Schema for GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse."""
 
     rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
         default_factory=list
@@ -1341,25 +1134,6 @@ class GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem(_
     )
 
 
-class GetNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
-    """Response for getNetworkApplianceFirewallInboundFirewallRules operation."""
-
-    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
-    syslog_default_rule: bool | None = Field(
-        default=None, validation_alias="syslogDefaultRule", serialization_alias="syslogDefaultRule"
-    )
-
-
-class GetNetworkApplianceFirewallL3FirewallRulesResponse(_BaseSchema):
-    """Response for getNetworkApplianceFirewallL3FirewallRules operation."""
-
-    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
-
-
 class GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse(_BaseSchema):
     """Response for getNetworkApplianceFirewallL7FirewallRulesApplicationCategories operation."""
 
@@ -1370,74 +1144,8 @@ class GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse(_B
     )
 
 
-class GetNetworkApplianceFirewallPortForwardingRulesResponse(_BaseSchema):
-    """Response for getNetworkApplianceFirewallPortForwardingRules operation."""
-
-    rules: list[GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
-
-
-class GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem(_BaseSchema):
-    """Schema for GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem."""
-
-    lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
-    allowed_ips: list[str] = Field(
-        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
-    )
-    name: str | None = None
-    protocol: str | None = None
-    public_port: str | None = Field(
-        default=None, validation_alias="publicPort", serialization_alias="publicPort"
-    )
-    local_port: str | None = Field(
-        default=None, validation_alias="localPort", serialization_alias="localPort"
-    )
-    uplink: str | None = None
-
-
-class GetNetworkAppliancePortResponse(_BaseSchema):
-    """Response for getNetworkAppliancePort operation."""
-
-    number: int | None = None
-    enabled: bool | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    drop_untagged_traffic: bool | None = Field(
-        default=None,
-        validation_alias="dropUntaggedTraffic",
-        serialization_alias="dropUntaggedTraffic",
-    )
-    vlan: int | None = None
-    allowed_vlans: str | None = Field(
-        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
-    )
-    access_policy: str | None = Field(
-        default=None, validation_alias="accessPolicy", serialization_alias="accessPolicy"
-    )
-
-
-class GetNetworkAppliancePortsResponse(RootModel[list["GetNetworkAppliancePortsResponseItem"]]):
+class GetNetworkAppliancePortsResponse(RootModel[list["NetworkAppliancePortResponse"]]):
     """Response for getNetworkAppliancePorts operation."""
-
-
-class GetNetworkAppliancePortsResponseItem(_BaseSchema):
-    """Schema for GetNetworkAppliancePortsResponseItem."""
-
-    number: int | None = None
-    enabled: bool | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    drop_untagged_traffic: bool | None = Field(
-        default=None,
-        validation_alias="dropUntaggedTraffic",
-        serialization_alias="dropUntaggedTraffic",
-    )
-    vlan: int | None = None
-    allowed_vlans: str | None = Field(
-        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
-    )
-    access_policy: str | None = Field(
-        default=None, validation_alias="accessPolicy", serialization_alias="accessPolicy"
-    )
 
 
 class GetNetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
@@ -1460,49 +1168,9 @@ class GetNetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
 
 
 class GetNetworkAppliancePrefixesDelegatedStaticsResponse(
-    RootModel[list["GetNetworkAppliancePrefixesDelegatedStaticsResponseItem"]]
+    RootModel[list["GetNetworkAppliancePrefixesDelegatedStaticResponse"]]
 ):
     """Response for getNetworkAppliancePrefixesDelegatedStatics operation."""
-
-
-class GetNetworkAppliancePrefixesDelegatedStaticsResponseItem(_BaseSchema):
-    """Schema for GetNetworkAppliancePrefixesDelegatedStaticsResponseItem."""
-
-    static_delegated_prefix_id: str | None = Field(
-        default=None,
-        validation_alias="staticDelegatedPrefixId",
-        serialization_alias="staticDelegatedPrefixId",
-    )
-    prefix: str | None = None
-    origin: ApplianceOrigin | None = None
-    description: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
-class GetNetworkApplianceRfProfileResponse(_BaseSchema):
-    """Response for getNetworkApplianceRfProfile operation."""
-
-    id: str | None = None
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    name: str | None = None
-    two_four_ghz_settings: ApplianceAssignedTwoFourGhzSettings | None = Field(
-        default=None,
-        validation_alias="twoFourGhzSettings",
-        serialization_alias="twoFourGhzSettings",
-    )
-    five_ghz_settings: ApplianceAssignedFiveGhzSettings | None = Field(
-        default=None, validation_alias="fiveGhzSettings", serialization_alias="fiveGhzSettings"
-    )
-    per_ssid_settings: ApplianceAssignedPerSsidSettings | None = Field(
-        default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
-    )
 
 
 class GetNetworkApplianceRfProfilesResponse(_BaseSchema):
@@ -1532,287 +1200,20 @@ class GetNetworkApplianceRfProfilesResponseAssignedItem(_BaseSchema):
     )
 
 
-class GetNetworkApplianceSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
-    """Response for getNetworkApplianceSecurityEvents operation."""
-
-
-class GetNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
-    """Response for getNetworkApplianceSecurityIntrusion operation."""
-
-    mode: str | None = None
-    ids_rulesets: str | None = Field(
-        default=None, validation_alias="idsRulesets", serialization_alias="idsRulesets"
-    )
-    protected_networks: GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = (
-        Field(
-            default=None,
-            validation_alias="protectedNetworks",
-            serialization_alias="protectedNetworks",
-        )
-    )
-
-
-class GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks(_BaseSchema):
-    """Networks included in and excluded from the detection engine."""
-
-    use_default: bool | None = Field(
-        default=None, validation_alias="useDefault", serialization_alias="useDefault"
-    )
-    included_cidr: list[str] = Field(
-        default_factory=list, validation_alias="includedCidr", serialization_alias="includedCidr"
-    )
-    excluded_cidr: list[str] = Field(
-        default_factory=list, validation_alias="excludedCidr", serialization_alias="excludedCidr"
-    )
-
-
-class GetNetworkApplianceSecurityMalwareResponse(_BaseSchema):
-    """Response for getNetworkApplianceSecurityMalware operation."""
-
-    mode: str | None = None
-    allowed_urls: list[GetNetworkApplianceSecurityMalwareResponseAllowedUrlsItem] = Field(
-        default_factory=list, validation_alias="allowedUrls", serialization_alias="allowedUrls"
-    )
-    allowed_files: list[GetNetworkApplianceSecurityMalwareResponseAllowedFilesItem] = Field(
-        default_factory=list, validation_alias="allowedFiles", serialization_alias="allowedFiles"
-    )
-
-
-class GetNetworkApplianceSecurityMalwareResponseAllowedFilesItem(_BaseSchema):
-    """Schema for GetNetworkApplianceSecurityMalwareResponseAllowedFilesItem."""
-
-    sha256: str | None = None
-    comment: str | None = None
-
-
-class GetNetworkApplianceSecurityMalwareResponseAllowedUrlsItem(_BaseSchema):
-    """Schema for GetNetworkApplianceSecurityMalwareResponseAllowedUrlsItem."""
-
-    url: str | None = None
-    comment: str | None = None
-
-
-class GetNetworkApplianceSettingsResponse(_BaseSchema):
-    """Response for getNetworkApplianceSettings operation."""
-
-    client_tracking_method: str | None = Field(
-        default=None,
-        validation_alias="clientTrackingMethod",
-        serialization_alias="clientTrackingMethod",
-    )
-    deployment_mode: str | None = Field(
-        default=None, validation_alias="deploymentMode", serialization_alias="deploymentMode"
-    )
-    dynamic_dns: GetNetworkApplianceSettingsResponseDynamicDns | None = Field(
-        default=None, validation_alias="dynamicDns", serialization_alias="dynamicDns"
-    )
-
-
-class GetNetworkApplianceSettingsResponseDynamicDns(_BaseSchema):
-    """Dynamic DNS settings for a network."""
-
-    enabled: bool | None = None
-    prefix: str | None = None
-    url: str | None = None
-
-
-class GetNetworkApplianceSingleLanResponse(_BaseSchema):
-    """Response for getNetworkApplianceSingleLan operation."""
-
-    subnet: str | None = None
-    appliance_ip: str | None = Field(
-        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
-    )
-    mandatory_dhcp: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
-        default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
-    )
-    ipv6: GetNetworkApplianceSingleLanResponseIpv6 | None = None
-
-
-class GetNetworkApplianceSingleLanResponseIpv6(_BaseSchema):
-    """IPv6 configuration on the single LAN."""
-
-    enabled: bool | None = None
-    prefix_assignments: list[ApplianceIpv6PrefixAssignmentsItem] = Field(
-        default_factory=list,
-        validation_alias="prefixAssignments",
-        serialization_alias="prefixAssignments",
-    )
-
-
-class GetNetworkApplianceSingleLanResponseMandatoryDhcp(_BaseSchema):
-    """Mandatory DHCP will enforce that clients connecting to this single LAN must use the IP
-    address assigned by the DHCP server. Clients who use a static IP address won't be able to
-    associate. Only available on firmware versions 17.0 and above.
-    """
-
-    enabled: bool | None = None
-
-
-class GetNetworkApplianceSsidResponse(_BaseSchema):
-    """Response for getNetworkApplianceSsid operation."""
-
-    number: int | None = None
-    name: str | None = None
-    enabled: bool | None = None
-    default_vlan_id: int | None = Field(
-        default=None, validation_alias="defaultVlanId", serialization_alias="defaultVlanId"
-    )
-    auth_mode: str | None = Field(
-        default=None, validation_alias="authMode", serialization_alias="authMode"
-    )
-    radius_servers: list[ApplianceRadiusServersItem] = Field(
-        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
-    )
-    encryption_mode: str | None = Field(
-        default=None, validation_alias="encryptionMode", serialization_alias="encryptionMode"
-    )
-    wpa_encryption_mode: str | None = Field(
-        default=None, validation_alias="wpaEncryptionMode", serialization_alias="wpaEncryptionMode"
-    )
-    visible: bool | None = None
-
-
-class GetNetworkApplianceSsidsResponse(RootModel[list["GetNetworkApplianceSsidsResponseItem"]]):
+class GetNetworkApplianceSsidsResponse(RootModel[list["NetworkApplianceSsidResponse"]]):
     """Response for getNetworkApplianceSsids operation."""
 
 
-class GetNetworkApplianceSsidsResponseItem(_BaseSchema):
-    """Schema for GetNetworkApplianceSsidsResponseItem."""
-
-    number: int | None = None
-    name: str | None = None
-    enabled: bool | None = None
-    default_vlan_id: int | None = Field(
-        default=None, validation_alias="defaultVlanId", serialization_alias="defaultVlanId"
-    )
-    auth_mode: str | None = Field(
-        default=None, validation_alias="authMode", serialization_alias="authMode"
-    )
-    radius_servers: list[ApplianceRadiusServersItem] = Field(
-        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
-    )
-    encryption_mode: str | None = Field(
-        default=None, validation_alias="encryptionMode", serialization_alias="encryptionMode"
-    )
-    wpa_encryption_mode: str | None = Field(
-        default=None, validation_alias="wpaEncryptionMode", serialization_alias="wpaEncryptionMode"
-    )
-    visible: bool | None = None
-
-
-class GetNetworkApplianceStaticRouteResponse(_BaseSchema):
-    """Response for getNetworkApplianceStaticRoute operation."""
-
-    id: str | None = None
-    ip_version: int | None = Field(
-        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    enabled: bool | None = None
-    name: str | None = None
-    subnet: str | None = None
-    gateway_ip: str | None = Field(
-        default=None, validation_alias="gatewayIp", serialization_alias="gatewayIp"
-    )
-    fixed_ip_assignments: dict[str, Any] | None = Field(
-        default=None,
-        validation_alias="fixedIpAssignments",
-        serialization_alias="fixedIpAssignments",
-    )
-    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
-        default_factory=list,
-        validation_alias="reservedIpRanges",
-        serialization_alias="reservedIpRanges",
-    )
-    gateway_vlan_id: int | None = Field(
-        default=None, validation_alias="gatewayVlanId", serialization_alias="gatewayVlanId"
-    )
-
-
 class GetNetworkApplianceStaticRoutesResponse(
-    RootModel[list["GetNetworkApplianceStaticRoutesResponseItem"]]
+    RootModel[list["NetworkApplianceStaticRouteResponse"]]
 ):
     """Response for getNetworkApplianceStaticRoutes operation."""
 
 
-class GetNetworkApplianceStaticRoutesResponseItem(_BaseSchema):
-    """Schema for GetNetworkApplianceStaticRoutesResponseItem."""
-
-    id: str | None = None
-    ip_version: int | None = Field(
-        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    enabled: bool | None = None
-    name: str | None = None
-    subnet: str | None = None
-    gateway_ip: str | None = Field(
-        default=None, validation_alias="gatewayIp", serialization_alias="gatewayIp"
-    )
-    fixed_ip_assignments: dict[str, Any] | None = Field(
-        default=None,
-        validation_alias="fixedIpAssignments",
-        serialization_alias="fixedIpAssignments",
-    )
-    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
-        default_factory=list,
-        validation_alias="reservedIpRanges",
-        serialization_alias="reservedIpRanges",
-    )
-    gateway_vlan_id: int | None = Field(
-        default=None, validation_alias="gatewayVlanId", serialization_alias="gatewayVlanId"
-    )
-
-
-class GetNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
-    """Response for getNetworkApplianceTrafficShapingCustomPerformanceClass operation."""
-
-    name: str | None = None
-    custom_performance_class_id: str | None = Field(
-        default=None,
-        validation_alias="customPerformanceClassId",
-        serialization_alias="customPerformanceClassId",
-    )
-    max_latency: int | None = Field(
-        default=None, validation_alias="maxLatency", serialization_alias="maxLatency"
-    )
-    max_jitter: int | None = Field(
-        default=None, validation_alias="maxJitter", serialization_alias="maxJitter"
-    )
-    max_loss_percentage: int | None = Field(
-        default=None, validation_alias="maxLossPercentage", serialization_alias="maxLossPercentage"
-    )
-
-
 class GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponse(
-    RootModel[list["GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem"]]
+    RootModel[list["NetworkApplianceTrafficShapingCustomPerformanceClassResponse"]]
 ):
     """Response for getNetworkApplianceTrafficShapingCustomPerformanceClasses operation."""
-
-
-class GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem(_BaseSchema):
-    """Schema for GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem."""
-
-    name: str | None = None
-    custom_performance_class_id: str | None = Field(
-        default=None,
-        validation_alias="customPerformanceClassId",
-        serialization_alias="customPerformanceClassId",
-    )
-    max_latency: int | None = Field(
-        default=None, validation_alias="maxLatency", serialization_alias="maxLatency"
-    )
-    max_jitter: int | None = Field(
-        default=None, validation_alias="maxJitter", serialization_alias="maxJitter"
-    )
-    max_loss_percentage: int | None = Field(
-        default=None, validation_alias="maxLossPercentage", serialization_alias="maxLossPercentage"
-    )
 
 
 class GetNetworkApplianceTrafficShapingUplinkBandwidthResponse(_BaseSchema):
@@ -1833,47 +1234,6 @@ class GetNetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimits(_B
     cellular: ApplianceBandwidthLimits | None = None
 
 
-class GetNetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
-    """Response for getNetworkApplianceTrafficShapingUplinkSelection operation."""
-
-    active_active_auto_vpn_enabled: bool | None = Field(
-        default=None,
-        validation_alias="activeActiveAutoVpnEnabled",
-        serialization_alias="activeActiveAutoVpnEnabled",
-    )
-    default_uplink: str | None = Field(
-        default=None, validation_alias="defaultUplink", serialization_alias="defaultUplink"
-    )
-    load_balancing_enabled: bool | None = Field(
-        default=None,
-        validation_alias="loadBalancingEnabled",
-        serialization_alias="loadBalancingEnabled",
-    )
-    failover_and_failback: (
-        GetNetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailback | None
-    ) = Field(
-        default=None,
-        validation_alias="failoverAndFailback",
-        serialization_alias="failoverAndFailback",
-    )
-    wan_traffic_uplink_preferences: list[ApplianceWanTrafficUplinkPreferencesItem2] = Field(
-        default_factory=list,
-        validation_alias="wanTrafficUplinkPreferences",
-        serialization_alias="wanTrafficUplinkPreferences",
-    )
-    vpn_traffic_uplink_preferences: list[ApplianceVpnTrafficUplinkPreferencesItem] = Field(
-        default_factory=list,
-        validation_alias="vpnTrafficUplinkPreferences",
-        serialization_alias="vpnTrafficUplinkPreferences",
-    )
-
-
-class GetNetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailback(_BaseSchema):
-    """WAN failover and failback."""
-
-    immediate: ApplianceFailoverAndFailbackImmediate | None = None
-
-
 class GetNetworkApplianceUplinksUsageHistoryResponse(
     RootModel[list["GetNetworkApplianceUplinksUsageHistoryResponseItem"]]
 ):
@@ -1892,75 +1252,6 @@ class GetNetworkApplianceUplinksUsageHistoryResponseItem(_BaseSchema):
     by_interface: list[ApplianceByInterfaceItem] = Field(
         default_factory=list, validation_alias="byInterface", serialization_alias="byInterface"
     )
-
-
-class GetNetworkApplianceVlanResponse(_BaseSchema):
-    """Response for getNetworkApplianceVlan operation."""
-
-    id: str | None = None
-    interface_id: str | None = Field(
-        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
-    )
-    name: str | None = None
-    subnet: str | None = None
-    appliance_ip: str | None = Field(
-        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
-    )
-    group_policy_id: str | None = Field(
-        default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
-    )
-    template_vlan_type: str | None = Field(
-        default=None, validation_alias="templateVlanType", serialization_alias="templateVlanType"
-    )
-    cidr: str | None = None
-    mask: int | None = None
-    dhcp_relay_server_ips: list[str] = Field(
-        default_factory=list,
-        validation_alias="dhcpRelayServerIps",
-        serialization_alias="dhcpRelayServerIps",
-    )
-    dhcp_handling: str | None = Field(
-        default=None, validation_alias="dhcpHandling", serialization_alias="dhcpHandling"
-    )
-    dhcp_lease_time: str | None = Field(
-        default=None, validation_alias="dhcpLeaseTime", serialization_alias="dhcpLeaseTime"
-    )
-    dhcp_boot_options_enabled: bool | None = Field(
-        default=None,
-        validation_alias="dhcpBootOptionsEnabled",
-        serialization_alias="dhcpBootOptionsEnabled",
-    )
-    dhcp_boot_next_server: str | None = Field(
-        default=None,
-        validation_alias="dhcpBootNextServer",
-        serialization_alias="dhcpBootNextServer",
-    )
-    dhcp_boot_filename: str | None = Field(
-        default=None, validation_alias="dhcpBootFilename", serialization_alias="dhcpBootFilename"
-    )
-    fixed_ip_assignments: dict[str, Any] | None = Field(
-        default=None,
-        validation_alias="fixedIpAssignments",
-        serialization_alias="fixedIpAssignments",
-    )
-    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
-        default_factory=list,
-        validation_alias="reservedIpRanges",
-        serialization_alias="reservedIpRanges",
-    )
-    dns_nameservers: str | None = Field(
-        default=None, validation_alias="dnsNameservers", serialization_alias="dnsNameservers"
-    )
-    dhcp_options: list[ApplianceDhcpOptionsItem] = Field(
-        default_factory=list, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
-    )
-    vpn_nat_subnet: str | None = Field(
-        default=None, validation_alias="vpnNatSubnet", serialization_alias="vpnNatSubnet"
-    )
-    mandatory_dhcp: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
-        default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
-    )
-    ipv6: GetNetworkApplianceSingleLanResponseIpv6 | None = None
 
 
 class GetNetworkApplianceVlansResponse(RootModel[list["GetNetworkApplianceVlansResponseItem"]]):
@@ -2030,134 +1321,10 @@ class GetNetworkApplianceVlansResponseItem(_BaseSchema):
     vpn_nat_subnet: str | None = Field(
         default=None, validation_alias="vpnNatSubnet", serialization_alias="vpnNatSubnet"
     )
-    mandatory_dhcp: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+    mandatory_dhcp: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
-    ipv6: GetNetworkApplianceSingleLanResponseIpv6 | None = None
-
-
-class GetNetworkApplianceVlansSettingsResponse(_BaseSchema):
-    """Response for getNetworkApplianceVlansSettings operation."""
-
-    vlans_enabled: bool | None = Field(
-        default=None, validation_alias="vlansEnabled", serialization_alias="vlansEnabled"
-    )
-
-
-class GetNetworkApplianceVpnBgpResponse(_BaseSchema):
-    """Response for getNetworkApplianceVpnBgp operation."""
-
-    enabled: bool | None = None
-    as_number: int | None = Field(
-        default=None, validation_alias="asNumber", serialization_alias="asNumber"
-    )
-    ibgp_hold_timer: int | None = Field(
-        default=None, validation_alias="ibgpHoldTimer", serialization_alias="ibgpHoldTimer"
-    )
-    neighbors: list[GetNetworkApplianceVpnBgpResponseNeighborsItem] = Field(default_factory=list)
-
-
-class GetNetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
-    """Schema for GetNetworkApplianceVpnBgpResponseNeighborsItem."""
-
-    ip: str | None = None
-    ipv6: ApplianceNeighborsIpv6 | None = None
-    remote_as_number: int | None = Field(
-        default=None, validation_alias="remoteAsNumber", serialization_alias="remoteAsNumber"
-    )
-    receive_limit: int | None = Field(
-        default=None, validation_alias="receiveLimit", serialization_alias="receiveLimit"
-    )
-    allow_transit: bool | None = Field(
-        default=None, validation_alias="allowTransit", serialization_alias="allowTransit"
-    )
-    ebgp_hold_timer: int | None = Field(
-        default=None, validation_alias="ebgpHoldTimer", serialization_alias="ebgpHoldTimer"
-    )
-    ebgp_multihop: int | None = Field(
-        default=None, validation_alias="ebgpMultihop", serialization_alias="ebgpMultihop"
-    )
-    source_interface: str | None = Field(
-        default=None, validation_alias="sourceInterface", serialization_alias="sourceInterface"
-    )
-    next_hop_ip: str | None = Field(
-        default=None, validation_alias="nextHopIp", serialization_alias="nextHopIp"
-    )
-    ttl_security: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
-        default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
-    )
-    authentication: ApplianceNeighborsAuthentication | None = None
-    multi_exit_discriminator: int | None = Field(
-        default=None,
-        validation_alias="multiExitDiscriminator",
-        serialization_alias="multiExitDiscriminator",
-    )
-    path_prepend: list[int] = Field(
-        default_factory=list, validation_alias="pathPrepend", serialization_alias="pathPrepend"
-    )
-    weight: int | None = None
-
-
-class GetNetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
-    """Response for getNetworkApplianceVpnSiteToSiteVpn operation."""
-
-    mode: str | None = None
-    hubs: list[GetNetworkApplianceVpnSiteToSiteVpnResponseHubsItem] = Field(default_factory=list)
-    subnets: list[GetNetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem] = Field(
-        default_factory=list
-    )
-    subnet: GetNetworkApplianceVpnSiteToSiteVpnResponseSubnet | None = None
-
-
-class GetNetworkApplianceVpnSiteToSiteVpnResponseHubsItem(_BaseSchema):
-    """Schema for GetNetworkApplianceVpnSiteToSiteVpnResponseHubsItem."""
-
-    hub_id: str | None = Field(default=None, validation_alias="hubId", serialization_alias="hubId")
-    use_default_route: bool | None = Field(
-        default=None, validation_alias="useDefaultRoute", serialization_alias="useDefaultRoute"
-    )
-
-
-class GetNetworkApplianceVpnSiteToSiteVpnResponseSubnet(_BaseSchema):
-    """Configuration of subnet features."""
-
-    nat: ApplianceSubnetNat | None = None
-
-
-class GetNetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem(_BaseSchema):
-    """Schema for GetNetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem."""
-
-    local_subnet: str | None = Field(
-        default=None, validation_alias="localSubnet", serialization_alias="localSubnet"
-    )
-    use_vpn: bool | None = Field(
-        default=None, validation_alias="useVpn", serialization_alias="useVpn"
-    )
-    nat: ApplianceSubnetsNat | None = None
-
-
-class GetNetworkApplianceWarmSpareResponse(_BaseSchema):
-    """Response for getNetworkApplianceWarmSpare operation."""
-
-    enabled: bool | None = None
-    primary_serial: str | None = Field(
-        default=None, validation_alias="primarySerial", serialization_alias="primarySerial"
-    )
-    spare_serial: str | None = Field(
-        default=None, validation_alias="spareSerial", serialization_alias="spareSerial"
-    )
-    uplink_mode: str | None = Field(
-        default=None, validation_alias="uplinkMode", serialization_alias="uplinkMode"
-    )
-    wan1: GetNetworkApplianceWarmSpareResponseWan1 | None = None
-    wan2: GetNetworkApplianceWarmSpareResponseWan1 | None = None
-
-
-class GetNetworkApplianceWarmSpareResponseWan1(_BaseSchema):
-    """WAN 1 IP and subnet."""
-
-    ip: str | None = None
-    subnet: str | None = None
+    ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
 
 
 class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_BaseSchema):
@@ -2171,84 +1338,21 @@ class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_Base
 
 
 class GetOrganizationApplianceDnsLocalProfilesResponse(
-    RootModel[list["GetOrganizationApplianceDnsLocalProfilesResponseItem"]]
+    RootModel[list["OrganizationApplianceDnsLocalProfileResponse"]]
 ):
     """Response for getOrganizationApplianceDnsLocalProfiles operation."""
 
 
-class GetOrganizationApplianceDnsLocalProfilesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceDnsLocalProfilesResponseItem."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
-
-
 class GetOrganizationApplianceDnsLocalRecordsResponse(
-    RootModel[list["GetOrganizationApplianceDnsLocalRecordsResponseItem"]]
+    RootModel[list["UpdateOrganizationApplianceDnsLocalRecordResponse"]]
 ):
-    """Response for getOrganizationApplianceDnsLocalRecords operation."""
-
-
-class GetOrganizationApplianceDnsLocalRecordsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceDnsLocalRecordsResponseItem."""
-
-    record_id: str | None = Field(
-        default=None, validation_alias="recordId", serialization_alias="recordId"
-    )
-    hostname: str | None = None
-    address: str | None = None
-    profile: ApplianceUmbrellaOrganization | None = None
-
-
-class GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem."""
-
-    assignment_id: str | None = Field(
-        default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
-    )
-    network: ApplianceUmbrellaOrganization | None = None
-    profile: ApplianceUmbrellaOrganization | None = None
+    """Schema for GetOrganizationApplianceDnsLocalRecordsResponse."""
 
 
 class GetOrganizationApplianceDnsSplitProfilesResponse(
-    RootModel[list["GetOrganizationApplianceDnsSplitProfilesResponseItem"]]
+    RootModel[list["OrganizationApplianceDnsSplitProfileResponse"]]
 ):
     """Response for getOrganizationApplianceDnsSplitProfiles operation."""
-
-
-class GetOrganizationApplianceDnsSplitProfilesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceDnsSplitProfilesResponseItem."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
-    hostnames: list[str] = Field(default_factory=list)
-    nameservers: ApplianceNameservers | None = None
-
-
-class GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem."""
-
-    network: UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork
-    rules: list[UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem]
-
-
-class GetOrganizationApplianceSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
-    """Response for getOrganizationApplianceSecurityEvents operation."""
-
-
-class GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem."""
-
-    network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
-    network_name: str = Field(validation_alias="networkName", serialization_alias="networkName")
-    custom: list[UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseCustomItem]
-    major_applications: list[
-        UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseMajorApplicationsItem
-    ] = Field(validation_alias="majorApplications", serialization_alias="majorApplications")
 
 
 class GetOrganizationApplianceUplinkStatusesResponse(
@@ -2302,15 +1406,6 @@ class GetOrganizationApplianceUplinksUsageByNetworkResponseItem(_BaseSchema):
     by_uplink: list[ApplianceByUplinkItem] = Field(
         default_factory=list, validation_alias="byUplink", serialization_alias="byUplink"
     )
-
-
-class GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem."""
-
-    id: str | None = None
-    name: str | None = None
-    uri: str | None = None
-    ipsec: ApplianceIpsec | None = None
 
 
 class GetOrganizationApplianceVpnStatsResponse(
@@ -2377,16 +1472,614 @@ class GetOrganizationApplianceVpnStatusesResponseItem(_BaseSchema):
     )
 
 
-class GetOrganizationApplianceVpnThirdPartyVPNPeersResponse(_BaseSchema):
-    """Response for getOrganizationApplianceVpnThirdPartyVPNPeers operation."""
+class NetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSchema):
+    """Schema for NetworkApplianceConnectivityMonitoringDestinationsResponse."""
 
-    peers: list[GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem] = Field(
+    destinations: list[
+        NetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem
+    ] = Field(default_factory=list)
+
+
+class NetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem(_BaseSchema):
+    """Schema for NetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem."""
+
+    ip: str | None = None
+    description: str | None = None
+    default: bool | None = None
+
+
+class NetworkApplianceContentFilteringResponse(_BaseSchema):
+    """Schema for NetworkApplianceContentFilteringResponse."""
+
+    allowed_url_patterns: list[str] = Field(
+        default_factory=list,
+        validation_alias="allowedUrlPatterns",
+        serialization_alias="allowedUrlPatterns",
+    )
+    blocked_url_patterns: list[str] = Field(
+        default_factory=list,
+        validation_alias="blockedUrlPatterns",
+        serialization_alias="blockedUrlPatterns",
+    )
+    blocked_url_categories: list[
+        NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem
+    ] = Field(
+        default_factory=list,
+        validation_alias="blockedUrlCategories",
+        serialization_alias="blockedUrlCategories",
+    )
+    url_category_list_size: str | None = Field(
+        default=None,
+        validation_alias="urlCategoryListSize",
+        serialization_alias="urlCategoryListSize",
+    )
+
+
+class NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem(_BaseSchema):
+    """Schema for NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem."""
+
+    id: str | None = None
+    name: str | None = None
+
+
+class NetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
+    """Schema for NetworkApplianceFirewallFirewalledServiceResponse."""
+
+    service: str | None = None
+    access: str | None = None
+    allowed_ips: list[str] = Field(
+        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
+    )
+
+
+class NetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
+    """Schema for NetworkApplianceFirewallInboundFirewallRulesResponse."""
+
+    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
+    syslog_default_rule: bool | None = Field(
+        default=None, validation_alias="syslogDefaultRule", serialization_alias="syslogDefaultRule"
+    )
+
+
+class NetworkApplianceFirewallPortForwardingRulesResponse(_BaseSchema):
+    """Schema for NetworkApplianceFirewallPortForwardingRulesResponse."""
+
+    rules: list[NetworkApplianceFirewallPortForwardingRulesResponseRulesItem] = Field(
         default_factory=list
     )
 
 
-class GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem."""
+class NetworkApplianceFirewallPortForwardingRulesResponseRulesItem(_BaseSchema):
+    """Schema for NetworkApplianceFirewallPortForwardingRulesResponseRulesItem."""
+
+    lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
+    allowed_ips: list[str] = Field(
+        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
+    )
+    name: str | None = None
+    protocol: str | None = None
+    public_port: str | None = Field(
+        default=None, validation_alias="publicPort", serialization_alias="publicPort"
+    )
+    local_port: str | None = Field(
+        default=None, validation_alias="localPort", serialization_alias="localPort"
+    )
+    uplink: str | None = None
+
+
+class NetworkAppliancePortResponse(_BaseSchema):
+    """Schema for NetworkAppliancePortResponse."""
+
+    number: int | None = None
+    enabled: bool | None = None
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    drop_untagged_traffic: bool | None = Field(
+        default=None,
+        validation_alias="dropUntaggedTraffic",
+        serialization_alias="dropUntaggedTraffic",
+    )
+    vlan: int | None = None
+    allowed_vlans: str | None = Field(
+        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
+    )
+    access_policy: str | None = Field(
+        default=None, validation_alias="accessPolicy", serialization_alias="accessPolicy"
+    )
+
+
+class NetworkApplianceRfProfileResponse(_BaseSchema):
+    """Schema for NetworkApplianceRfProfileResponse."""
+
+    id: str | None = None
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    name: str | None = None
+    two_four_ghz_settings: ApplianceAssignedTwoFourGhzSettings | None = Field(
+        default=None,
+        validation_alias="twoFourGhzSettings",
+        serialization_alias="twoFourGhzSettings",
+    )
+    five_ghz_settings: ApplianceAssignedFiveGhzSettings | None = Field(
+        default=None, validation_alias="fiveGhzSettings", serialization_alias="fiveGhzSettings"
+    )
+    per_ssid_settings: ApplianceAssignedPerSsidSettings | None = Field(
+        default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
+    )
+
+
+class NetworkApplianceSecurityIntrusionResponse(_BaseSchema):
+    """Schema for NetworkApplianceSecurityIntrusionResponse."""
+
+    mode: str | None = None
+    ids_rulesets: str | None = Field(
+        default=None, validation_alias="idsRulesets", serialization_alias="idsRulesets"
+    )
+    protected_networks: NetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = Field(
+        default=None, validation_alias="protectedNetworks", serialization_alias="protectedNetworks"
+    )
+
+
+class NetworkApplianceSecurityIntrusionResponseProtectedNetworks(_BaseSchema):
+    """Networks included in and excluded from the detection engine."""
+
+    use_default: bool | None = Field(
+        default=None, validation_alias="useDefault", serialization_alias="useDefault"
+    )
+    included_cidr: list[str] = Field(
+        default_factory=list, validation_alias="includedCidr", serialization_alias="includedCidr"
+    )
+    excluded_cidr: list[str] = Field(
+        default_factory=list, validation_alias="excludedCidr", serialization_alias="excludedCidr"
+    )
+
+
+class NetworkApplianceSecurityMalwareResponse(_BaseSchema):
+    """Schema for NetworkApplianceSecurityMalwareResponse."""
+
+    mode: str | None = None
+    allowed_urls: list[NetworkApplianceSecurityMalwareResponseAllowedUrlsItem] = Field(
+        default_factory=list, validation_alias="allowedUrls", serialization_alias="allowedUrls"
+    )
+    allowed_files: list[NetworkApplianceSecurityMalwareResponseAllowedFilesItem] = Field(
+        default_factory=list, validation_alias="allowedFiles", serialization_alias="allowedFiles"
+    )
+
+
+class NetworkApplianceSecurityMalwareResponseAllowedFilesItem(_BaseSchema):
+    """Schema for NetworkApplianceSecurityMalwareResponseAllowedFilesItem."""
+
+    sha256: str | None = None
+    comment: str | None = None
+
+
+class NetworkApplianceSecurityMalwareResponseAllowedUrlsItem(_BaseSchema):
+    """Schema for NetworkApplianceSecurityMalwareResponseAllowedUrlsItem."""
+
+    url: str | None = None
+    comment: str | None = None
+
+
+class NetworkApplianceSettingsResponse(_BaseSchema):
+    """Schema for NetworkApplianceSettingsResponse."""
+
+    client_tracking_method: str | None = Field(
+        default=None,
+        validation_alias="clientTrackingMethod",
+        serialization_alias="clientTrackingMethod",
+    )
+    deployment_mode: str | None = Field(
+        default=None, validation_alias="deploymentMode", serialization_alias="deploymentMode"
+    )
+    dynamic_dns: NetworkApplianceSettingsResponseDynamicDns | None = Field(
+        default=None, validation_alias="dynamicDns", serialization_alias="dynamicDns"
+    )
+
+
+class NetworkApplianceSettingsResponseDynamicDns(_BaseSchema):
+    """Dynamic DNS settings for a network."""
+
+    enabled: bool | None = None
+    prefix: str | None = None
+    url: str | None = None
+
+
+class NetworkApplianceSingleLanResponse(_BaseSchema):
+    """Schema for NetworkApplianceSingleLanResponse."""
+
+    subnet: str | None = None
+    appliance_ip: str | None = Field(
+        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
+    )
+    mandatory_dhcp: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+        default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
+    )
+    ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
+
+
+class NetworkApplianceSingleLanResponseIpv6(_BaseSchema):
+    """IPv6 configuration on the single LAN."""
+
+    enabled: bool | None = None
+    prefix_assignments: list[ApplianceIpv6PrefixAssignmentsItem] = Field(
+        default_factory=list,
+        validation_alias="prefixAssignments",
+        serialization_alias="prefixAssignments",
+    )
+
+
+class NetworkApplianceSingleLanResponseMandatoryDhcp(_BaseSchema):
+    """Mandatory DHCP will enforce that clients connecting to this single LAN must use the IP
+    address assigned by the DHCP server. Clients who use a static IP address won't be able to
+    associate. Only available on firmware versions 17.0 and above.
+    """
+
+    enabled: bool | None = None
+
+
+class NetworkApplianceSsidResponse(_BaseSchema):
+    """Schema for NetworkApplianceSsidResponse."""
+
+    number: int | None = None
+    name: str | None = None
+    enabled: bool | None = None
+    default_vlan_id: int | None = Field(
+        default=None, validation_alias="defaultVlanId", serialization_alias="defaultVlanId"
+    )
+    auth_mode: str | None = Field(
+        default=None, validation_alias="authMode", serialization_alias="authMode"
+    )
+    radius_servers: list[ApplianceRadiusServersItem] = Field(
+        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
+    )
+    encryption_mode: str | None = Field(
+        default=None, validation_alias="encryptionMode", serialization_alias="encryptionMode"
+    )
+    wpa_encryption_mode: str | None = Field(
+        default=None, validation_alias="wpaEncryptionMode", serialization_alias="wpaEncryptionMode"
+    )
+    visible: bool | None = None
+
+
+class NetworkApplianceStaticRouteResponse(_BaseSchema):
+    """Schema for NetworkApplianceStaticRouteResponse."""
+
+    id: str | None = None
+    ip_version: int | None = Field(
+        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
+    )
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    enabled: bool | None = None
+    name: str | None = None
+    subnet: str | None = None
+    gateway_ip: str | None = Field(
+        default=None, validation_alias="gatewayIp", serialization_alias="gatewayIp"
+    )
+    fixed_ip_assignments: dict[str, Any] | None = Field(
+        default=None,
+        validation_alias="fixedIpAssignments",
+        serialization_alias="fixedIpAssignments",
+    )
+    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
+        default_factory=list,
+        validation_alias="reservedIpRanges",
+        serialization_alias="reservedIpRanges",
+    )
+    gateway_vlan_id: int | None = Field(
+        default=None, validation_alias="gatewayVlanId", serialization_alias="gatewayVlanId"
+    )
+
+
+class NetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
+    """Schema for NetworkApplianceTrafficShapingCustomPerformanceClassResponse."""
+
+    name: str | None = None
+    custom_performance_class_id: str | None = Field(
+        default=None,
+        validation_alias="customPerformanceClassId",
+        serialization_alias="customPerformanceClassId",
+    )
+    max_latency: int | None = Field(
+        default=None, validation_alias="maxLatency", serialization_alias="maxLatency"
+    )
+    max_jitter: int | None = Field(
+        default=None, validation_alias="maxJitter", serialization_alias="maxJitter"
+    )
+    max_loss_percentage: int | None = Field(
+        default=None, validation_alias="maxLossPercentage", serialization_alias="maxLossPercentage"
+    )
+
+
+class NetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
+    """Schema for NetworkApplianceTrafficShapingUplinkSelectionResponse."""
+
+    active_active_auto_vpn_enabled: bool | None = Field(
+        default=None,
+        validation_alias="activeActiveAutoVpnEnabled",
+        serialization_alias="activeActiveAutoVpnEnabled",
+    )
+    default_uplink: str | None = Field(
+        default=None, validation_alias="defaultUplink", serialization_alias="defaultUplink"
+    )
+    load_balancing_enabled: bool | None = Field(
+        default=None,
+        validation_alias="loadBalancingEnabled",
+        serialization_alias="loadBalancingEnabled",
+    )
+    failover_and_failback: (
+        NetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailback | None
+    ) = Field(
+        default=None,
+        validation_alias="failoverAndFailback",
+        serialization_alias="failoverAndFailback",
+    )
+    wan_traffic_uplink_preferences: list[ApplianceWanTrafficUplinkPreferencesItem2] = Field(
+        default_factory=list,
+        validation_alias="wanTrafficUplinkPreferences",
+        serialization_alias="wanTrafficUplinkPreferences",
+    )
+    vpn_traffic_uplink_preferences: list[ApplianceVpnTrafficUplinkPreferencesItem] = Field(
+        default_factory=list,
+        validation_alias="vpnTrafficUplinkPreferences",
+        serialization_alias="vpnTrafficUplinkPreferences",
+    )
+
+
+class NetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailback(_BaseSchema):
+    """WAN failover and failback."""
+
+    immediate: ApplianceFailoverAndFailbackImmediate | None = None
+
+
+class NetworkApplianceVlanResponse(_BaseSchema):
+    """Schema for NetworkApplianceVlanResponse."""
+
+    id: str | None = None
+    interface_id: str | None = Field(
+        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
+    )
+    name: str | None = None
+    subnet: str | None = None
+    appliance_ip: str | None = Field(
+        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
+    )
+    group_policy_id: str | None = Field(
+        default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
+    )
+    template_vlan_type: str | None = Field(
+        default=None, validation_alias="templateVlanType", serialization_alias="templateVlanType"
+    )
+    cidr: str | None = None
+    mask: int | None = None
+    dhcp_relay_server_ips: list[str] = Field(
+        default_factory=list,
+        validation_alias="dhcpRelayServerIps",
+        serialization_alias="dhcpRelayServerIps",
+    )
+    dhcp_handling: str | None = Field(
+        default=None, validation_alias="dhcpHandling", serialization_alias="dhcpHandling"
+    )
+    dhcp_lease_time: str | None = Field(
+        default=None, validation_alias="dhcpLeaseTime", serialization_alias="dhcpLeaseTime"
+    )
+    dhcp_boot_options_enabled: bool | None = Field(
+        default=None,
+        validation_alias="dhcpBootOptionsEnabled",
+        serialization_alias="dhcpBootOptionsEnabled",
+    )
+    dhcp_boot_next_server: str | None = Field(
+        default=None,
+        validation_alias="dhcpBootNextServer",
+        serialization_alias="dhcpBootNextServer",
+    )
+    dhcp_boot_filename: str | None = Field(
+        default=None, validation_alias="dhcpBootFilename", serialization_alias="dhcpBootFilename"
+    )
+    fixed_ip_assignments: dict[str, Any] | None = Field(
+        default=None,
+        validation_alias="fixedIpAssignments",
+        serialization_alias="fixedIpAssignments",
+    )
+    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
+        default_factory=list,
+        validation_alias="reservedIpRanges",
+        serialization_alias="reservedIpRanges",
+    )
+    dns_nameservers: str | None = Field(
+        default=None, validation_alias="dnsNameservers", serialization_alias="dnsNameservers"
+    )
+    dhcp_options: list[ApplianceDhcpOptionsItem] = Field(
+        default_factory=list, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
+    )
+    vpn_nat_subnet: str | None = Field(
+        default=None, validation_alias="vpnNatSubnet", serialization_alias="vpnNatSubnet"
+    )
+    mandatory_dhcp: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+        default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
+    )
+    ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
+
+
+class NetworkApplianceVlansSettingsResponse(_BaseSchema):
+    """Schema for NetworkApplianceVlansSettingsResponse."""
+
+    vlans_enabled: bool | None = Field(
+        default=None, validation_alias="vlansEnabled", serialization_alias="vlansEnabled"
+    )
+
+
+class NetworkApplianceVpnBgpResponse(_BaseSchema):
+    """Schema for NetworkApplianceVpnBgpResponse."""
+
+    enabled: bool | None = None
+    as_number: int | None = Field(
+        default=None, validation_alias="asNumber", serialization_alias="asNumber"
+    )
+    ibgp_hold_timer: int | None = Field(
+        default=None, validation_alias="ibgpHoldTimer", serialization_alias="ibgpHoldTimer"
+    )
+    neighbors: list[NetworkApplianceVpnBgpResponseNeighborsItem] = Field(default_factory=list)
+
+
+class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
+    """Schema for NetworkApplianceVpnBgpResponseNeighborsItem."""
+
+    ip: str | None = None
+    ipv6: ApplianceNeighborsIpv6 | None = None
+    remote_as_number: int | None = Field(
+        default=None, validation_alias="remoteAsNumber", serialization_alias="remoteAsNumber"
+    )
+    receive_limit: int | None = Field(
+        default=None, validation_alias="receiveLimit", serialization_alias="receiveLimit"
+    )
+    allow_transit: bool | None = Field(
+        default=None, validation_alias="allowTransit", serialization_alias="allowTransit"
+    )
+    ebgp_hold_timer: int | None = Field(
+        default=None, validation_alias="ebgpHoldTimer", serialization_alias="ebgpHoldTimer"
+    )
+    ebgp_multihop: int | None = Field(
+        default=None, validation_alias="ebgpMultihop", serialization_alias="ebgpMultihop"
+    )
+    source_interface: str | None = Field(
+        default=None, validation_alias="sourceInterface", serialization_alias="sourceInterface"
+    )
+    next_hop_ip: str | None = Field(
+        default=None, validation_alias="nextHopIp", serialization_alias="nextHopIp"
+    )
+    ttl_security: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+        default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
+    )
+    authentication: ApplianceNeighborsAuthentication | None = None
+    multi_exit_discriminator: int | None = Field(
+        default=None,
+        validation_alias="multiExitDiscriminator",
+        serialization_alias="multiExitDiscriminator",
+    )
+    path_prepend: list[int] = Field(
+        default_factory=list, validation_alias="pathPrepend", serialization_alias="pathPrepend"
+    )
+    weight: int | None = None
+
+
+class NetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
+    """Schema for NetworkApplianceVpnSiteToSiteVpnResponse."""
+
+    mode: str | None = None
+    hubs: list[NetworkApplianceVpnSiteToSiteVpnResponseHubsItem] = Field(default_factory=list)
+    subnets: list[NetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem] = Field(default_factory=list)
+    subnet: NetworkApplianceVpnSiteToSiteVpnResponseSubnet | None = None
+
+
+class NetworkApplianceVpnSiteToSiteVpnResponseHubsItem(_BaseSchema):
+    """Schema for NetworkApplianceVpnSiteToSiteVpnResponseHubsItem."""
+
+    hub_id: str | None = Field(default=None, validation_alias="hubId", serialization_alias="hubId")
+    use_default_route: bool | None = Field(
+        default=None, validation_alias="useDefaultRoute", serialization_alias="useDefaultRoute"
+    )
+
+
+class NetworkApplianceVpnSiteToSiteVpnResponseSubnet(_BaseSchema):
+    """Configuration of subnet features."""
+
+    nat: ApplianceSubnetNat | None = None
+
+
+class NetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem(_BaseSchema):
+    """Schema for NetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem."""
+
+    local_subnet: str | None = Field(
+        default=None, validation_alias="localSubnet", serialization_alias="localSubnet"
+    )
+    use_vpn: bool | None = Field(
+        default=None, validation_alias="useVpn", serialization_alias="useVpn"
+    )
+    nat: ApplianceSubnetsNat | None = None
+
+
+class NetworkApplianceWarmSpareResponse(_BaseSchema):
+    """Schema for NetworkApplianceWarmSpareResponse."""
+
+    enabled: bool | None = None
+    primary_serial: str | None = Field(
+        default=None, validation_alias="primarySerial", serialization_alias="primarySerial"
+    )
+    spare_serial: str | None = Field(
+        default=None, validation_alias="spareSerial", serialization_alias="spareSerial"
+    )
+    uplink_mode: str | None = Field(
+        default=None, validation_alias="uplinkMode", serialization_alias="uplinkMode"
+    )
+    wan1: NetworkApplianceWarmSpareResponseWan1 | None = None
+    wan2: NetworkApplianceWarmSpareResponseWan1 | None = None
+
+
+class NetworkApplianceWarmSpareResponseWan1(_BaseSchema):
+    """WAN 1 IP and subnet."""
+
+    ip: str | None = None
+    subnet: str | None = None
+
+
+class OrganizationApplianceDnsLocalProfileResponse(_BaseSchema):
+    """Schema for OrganizationApplianceDnsLocalProfileResponse."""
+
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
+    name: str | None = None
+
+
+class OrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
+    """Schema for OrganizationApplianceDnsSplitProfileResponse."""
+
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
+    name: str | None = None
+    hostnames: list[str] = Field(default_factory=list)
+    nameservers: ApplianceNameservers | None = None
+
+
+class OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
+    """Schema for OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse."""
+
+    items: list[OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem] = Field(
+        default_factory=list
+    )
+    meta: OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseMeta | None = None
+
+
+class OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem(_BaseSchema):
+    """Schema for OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem."""
+
+    id: str | None = None
+    name: str | None = None
+    uri: str | None = None
+    ipsec: ApplianceIpsec | None = None
+
+
+class OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseMeta(_BaseSchema):
+    """Metadata relevant to the paginated dataset."""
+
+    counts: ApplianceMetaCounts | None = None
+
+
+class OrganizationApplianceVpnThirdPartyVPNPeersResponse(_BaseSchema):
+    """Schema for OrganizationApplianceVpnThirdPartyVPNPeersResponse."""
+
+    peers: list[OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem] = Field(
+        default_factory=list
+    )
+
+
+class OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema):
+    """Schema for OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem."""
 
     peer_id: str | None = Field(
         default=None, validation_alias="peerId", serialization_alias="peerId"
@@ -2442,31 +2135,6 @@ class GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema
     group: AppliancePeersGroup | None = None
 
 
-class GetOrganizationApplianceVpnVpnFirewallRulesResponse(_BaseSchema):
-    """Response for getOrganizationApplianceVpnVpnFirewallRules operation."""
-
-    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
-
-
-class SwapNetworkApplianceWarmSpareResponse(_BaseSchema):
-    """Response for swapNetworkApplianceWarmSpare operation."""
-
-    enabled: bool | None = None
-    primary_serial: str | None = Field(
-        default=None, validation_alias="primarySerial", serialization_alias="primarySerial"
-    )
-    spare_serial: str | None = Field(
-        default=None, validation_alias="spareSerial", serialization_alias="spareSerial"
-    )
-    uplink_mode: str | None = Field(
-        default=None, validation_alias="uplinkMode", serialization_alias="uplinkMode"
-    )
-    wan1: GetNetworkApplianceWarmSpareResponseWan1 | None = None
-    wan2: GetNetworkApplianceWarmSpareResponseWan1 | None = None
-
-
 class UpdateDeviceApplianceRadioSettingsFiveGhzSettings(_BaseSchema):
     """Manual radio settings for 5 GHz."""
 
@@ -2476,23 +2144,6 @@ class UpdateDeviceApplianceRadioSettingsFiveGhzSettings(_BaseSchema):
     )
     target_power: int | None = Field(
         default=None, validation_alias="targetPower", serialization_alias="targetPower"
-    )
-
-
-class UpdateDeviceApplianceRadioSettingsResponse(_BaseSchema):
-    """Response for updateDeviceApplianceRadioSettings operation."""
-
-    serial: str | None = None
-    rf_profile_id: str | None = Field(
-        default=None, validation_alias="rfProfileId", serialization_alias="rfProfileId"
-    )
-    two_four_ghz_settings: GetDeviceApplianceRadioSettingsResponseTwoFourGhzSettings | None = Field(
-        default=None,
-        validation_alias="twoFourGhzSettings",
-        serialization_alias="twoFourGhzSettings",
-    )
-    five_ghz_settings: GetDeviceApplianceRadioSettingsResponseFiveGhzSettings | None = Field(
-        default=None, validation_alias="fiveGhzSettings", serialization_alias="fiveGhzSettings"
     )
 
 
@@ -2523,53 +2174,12 @@ class UpdateDeviceApplianceUplinksSettingsInterfacesWan1(_BaseSchema):
     pppoe: AppliancePppoe2 | None = None
 
 
-class UpdateDeviceApplianceUplinksSettingsResponse(_BaseSchema):
-    """Response for updateDeviceApplianceUplinksSettings operation."""
-
-    interfaces: GetDeviceApplianceUplinksSettingsResponseInterfaces | None = None
-
-
 class UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem(_BaseSchema):
     """Item schema for destinations."""
 
     ip: str
     description: str | None = None
     default: bool | None = None
-
-
-class UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSchema):
-    """Response for updateNetworkApplianceConnectivityMonitoringDestinations operation."""
-
-    destinations: list[
-        GetNetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem
-    ] = Field(default_factory=list)
-
-
-class UpdateNetworkApplianceContentFilteringResponse(_BaseSchema):
-    """Response for updateNetworkApplianceContentFiltering operation."""
-
-    allowed_url_patterns: list[str] = Field(
-        default_factory=list,
-        validation_alias="allowedUrlPatterns",
-        serialization_alias="allowedUrlPatterns",
-    )
-    blocked_url_patterns: list[str] = Field(
-        default_factory=list,
-        validation_alias="blockedUrlPatterns",
-        serialization_alias="blockedUrlPatterns",
-    )
-    blocked_url_categories: list[
-        GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem
-    ] = Field(
-        default_factory=list,
-        validation_alias="blockedUrlCategories",
-        serialization_alias="blockedUrlCategories",
-    )
-    url_category_list_size: str | None = Field(
-        default=None,
-        validation_alias="urlCategoryListSize",
-        serialization_alias="urlCategoryListSize",
-    )
 
 
 class UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem(_BaseSchema):
@@ -2591,24 +2201,6 @@ class UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem(_BaseSchema):
     )
 
 
-class UpdateNetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
-    """Response for updateNetworkApplianceFirewallFirewalledService operation."""
-
-    service: str | None = None
-    access: str | None = None
-    allowed_ips: list[str] = Field(
-        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
-    )
-
-
-class UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse(_BaseSchema):
-    """Response for updateNetworkApplianceFirewallInboundCellularFirewallRules operation."""
-
-    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
-
-
 class UpdateNetworkApplianceFirewallInboundCellularFirewallRulesRulesItem(_BaseSchema):
     """Item schema for rules."""
 
@@ -2625,17 +2217,6 @@ class UpdateNetworkApplianceFirewallInboundCellularFirewallRulesRulesItem(_BaseS
     dest_cidr: str = Field(validation_alias="destCidr", serialization_alias="destCidr")
     syslog_enabled: bool | None = Field(
         default=None, validation_alias="syslogEnabled", serialization_alias="syslogEnabled"
-    )
-
-
-class UpdateNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
-    """Response for updateNetworkApplianceFirewallInboundFirewallRules operation."""
-
-    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
-    syslog_default_rule: bool | None = Field(
-        default=None, validation_alias="syslogDefaultRule", serialization_alias="syslogDefaultRule"
     )
 
 
@@ -2776,14 +2357,6 @@ class UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItemAllowedInboundItem(
     )
 
 
-class UpdateNetworkApplianceFirewallPortForwardingRulesResponse(_BaseSchema):
-    """Response for updateNetworkApplianceFirewallPortForwardingRules operation."""
-
-    rules: list[GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
-
-
 class UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem(_BaseSchema):
     """Item schema for rules."""
 
@@ -2808,26 +2381,6 @@ class UpdateNetworkApplianceFirewallSettingsSpoofingProtectionIpSourceGuard(_Bas
     """IP source address spoofing settings."""
 
     mode: str | None = None
-
-
-class UpdateNetworkAppliancePortResponse(_BaseSchema):
-    """Response for updateNetworkAppliancePort operation."""
-
-    number: int | None = None
-    enabled: bool | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    drop_untagged_traffic: bool | None = Field(
-        default=None,
-        validation_alias="dropUntaggedTraffic",
-        serialization_alias="dropUntaggedTraffic",
-    )
-    vlan: int | None = None
-    allowed_vlans: str | None = Field(
-        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
-    )
-    access_policy: str | None = Field(
-        default=None, validation_alias="accessPolicy", serialization_alias="accessPolicy"
-    )
 
 
 class UpdateNetworkAppliancePrefixesDelegatedStaticOrigin(_BaseSchema):
@@ -2862,27 +2415,6 @@ class UpdateNetworkApplianceRfProfilePerSsidSettings(_BaseSchema):
     )
     n_4: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(
         default=None, validation_alias="4", serialization_alias="4"
-    )
-
-
-class UpdateNetworkApplianceRfProfileResponse(_BaseSchema):
-    """Response for updateNetworkApplianceRfProfile operation."""
-
-    id: str | None = None
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    name: str | None = None
-    two_four_ghz_settings: ApplianceAssignedTwoFourGhzSettings | None = Field(
-        default=None,
-        validation_alias="twoFourGhzSettings",
-        serialization_alias="twoFourGhzSettings",
-    )
-    five_ghz_settings: ApplianceAssignedFiveGhzSettings | None = Field(
-        default=None, validation_alias="fiveGhzSettings", serialization_alias="fiveGhzSettings"
-    )
-    per_ssid_settings: ApplianceAssignedPerSsidSettings | None = Field(
-        default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
     )
 
 
@@ -2940,22 +2472,6 @@ class UpdateNetworkApplianceSecurityIntrusionProtectedNetworks(_BaseSchema):
     )
 
 
-class UpdateNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
-    """Response for updateNetworkApplianceSecurityIntrusion operation."""
-
-    mode: str | None = None
-    ids_rulesets: str | None = Field(
-        default=None, validation_alias="idsRulesets", serialization_alias="idsRulesets"
-    )
-    protected_networks: GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = (
-        Field(
-            default=None,
-            validation_alias="protectedNetworks",
-            serialization_alias="protectedNetworks",
-        )
-    )
-
-
 class UpdateNetworkApplianceSecurityMalwareAllowedFilesItem(_BaseSchema):
     """Item schema for allowedFiles."""
 
@@ -2970,39 +2486,11 @@ class UpdateNetworkApplianceSecurityMalwareAllowedUrlsItem(_BaseSchema):
     comment: str
 
 
-class UpdateNetworkApplianceSecurityMalwareResponse(_BaseSchema):
-    """Response for updateNetworkApplianceSecurityMalware operation."""
-
-    mode: str | None = None
-    allowed_urls: list[GetNetworkApplianceSecurityMalwareResponseAllowedUrlsItem] = Field(
-        default_factory=list, validation_alias="allowedUrls", serialization_alias="allowedUrls"
-    )
-    allowed_files: list[GetNetworkApplianceSecurityMalwareResponseAllowedFilesItem] = Field(
-        default_factory=list, validation_alias="allowedFiles", serialization_alias="allowedFiles"
-    )
-
-
 class UpdateNetworkApplianceSettingsDynamicDns(_BaseSchema):
     """Dynamic DNS settings for a network."""
 
     prefix: str | None = None
     enabled: bool | None = None
-
-
-class UpdateNetworkApplianceSettingsResponse(_BaseSchema):
-    """Response for updateNetworkApplianceSettings operation."""
-
-    client_tracking_method: str | None = Field(
-        default=None,
-        validation_alias="clientTrackingMethod",
-        serialization_alias="clientTrackingMethod",
-    )
-    deployment_mode: str | None = Field(
-        default=None, validation_alias="deploymentMode", serialization_alias="deploymentMode"
-    )
-    dynamic_dns: GetNetworkApplianceSettingsResponseDynamicDns | None = Field(
-        default=None, validation_alias="dynamicDns", serialization_alias="dynamicDns"
-    )
 
 
 class UpdateNetworkApplianceSingleLanIpv6(_BaseSchema):
@@ -3041,19 +2529,6 @@ class UpdateNetworkApplianceSingleLanMandatoryDhcp(_BaseSchema):
     enabled: bool | None = None
 
 
-class UpdateNetworkApplianceSingleLanResponse(_BaseSchema):
-    """Response for updateNetworkApplianceSingleLan operation."""
-
-    subnet: str | None = None
-    appliance_ip: str | None = Field(
-        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
-    )
-    mandatory_dhcp: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
-        default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
-    )
-    ipv6: GetNetworkApplianceSingleLanResponseIpv6 | None = None
-
-
 class UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication(_BaseSchema):
     """DHCP Enforced Deauthentication enables the disassociation of wireless clients in addition to
     Mandatory DHCP. This param is only valid on firmware versions >= MX 17.0 where the
@@ -3078,30 +2553,6 @@ class UpdateNetworkApplianceSsidRadiusServersItem(_BaseSchema):
     secret: str | None = None
 
 
-class UpdateNetworkApplianceSsidResponse(_BaseSchema):
-    """Response for updateNetworkApplianceSsid operation."""
-
-    number: int | None = None
-    name: str | None = None
-    enabled: bool | None = None
-    default_vlan_id: int | None = Field(
-        default=None, validation_alias="defaultVlanId", serialization_alias="defaultVlanId"
-    )
-    auth_mode: str | None = Field(
-        default=None, validation_alias="authMode", serialization_alias="authMode"
-    )
-    radius_servers: list[ApplianceRadiusServersItem] = Field(
-        default_factory=list, validation_alias="radiusServers", serialization_alias="radiusServers"
-    )
-    encryption_mode: str | None = Field(
-        default=None, validation_alias="encryptionMode", serialization_alias="encryptionMode"
-    )
-    wpa_encryption_mode: str | None = Field(
-        default=None, validation_alias="wpaEncryptionMode", serialization_alias="wpaEncryptionMode"
-    )
-    visible: bool | None = None
-
-
 class UpdateNetworkApplianceStaticRouteFixedIpAssignmentsValue(_BaseSchema):
     """An object representing MAC address to IP address and client name mapping. This should be the
     MAC address.
@@ -3117,57 +2568,6 @@ class UpdateNetworkApplianceStaticRouteReservedIpRangesItem(_BaseSchema):
     start: str
     end: str
     comment: str
-
-
-class UpdateNetworkApplianceStaticRouteResponse(_BaseSchema):
-    """Response for updateNetworkApplianceStaticRoute operation."""
-
-    id: str | None = None
-    ip_version: int | None = Field(
-        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    enabled: bool | None = None
-    name: str | None = None
-    subnet: str | None = None
-    gateway_ip: str | None = Field(
-        default=None, validation_alias="gatewayIp", serialization_alias="gatewayIp"
-    )
-    fixed_ip_assignments: dict[str, Any] | None = Field(
-        default=None,
-        validation_alias="fixedIpAssignments",
-        serialization_alias="fixedIpAssignments",
-    )
-    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
-        default_factory=list,
-        validation_alias="reservedIpRanges",
-        serialization_alias="reservedIpRanges",
-    )
-    gateway_vlan_id: int | None = Field(
-        default=None, validation_alias="gatewayVlanId", serialization_alias="gatewayVlanId"
-    )
-
-
-class UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
-    """Response for updateNetworkApplianceTrafficShapingCustomPerformanceClass operation."""
-
-    name: str | None = None
-    custom_performance_class_id: str | None = Field(
-        default=None,
-        validation_alias="customPerformanceClassId",
-        serialization_alias="customPerformanceClassId",
-    )
-    max_latency: int | None = Field(
-        default=None, validation_alias="maxLatency", serialization_alias="maxLatency"
-    )
-    max_jitter: int | None = Field(
-        default=None, validation_alias="maxJitter", serialization_alias="maxJitter"
-    )
-    max_loss_percentage: int | None = Field(
-        default=None, validation_alias="maxLossPercentage", serialization_alias="maxLossPercentage"
-    )
 
 
 class UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits(_BaseSchema):
@@ -3228,41 +2628,6 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionFailoverAndFailback(_Ba
     """WAN failover and failback behavior."""
 
     immediate: ApplianceFailoverAndFailbackImmediate | None = None
-
-
-class UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
-    """Response for updateNetworkApplianceTrafficShapingUplinkSelection operation."""
-
-    active_active_auto_vpn_enabled: bool | None = Field(
-        default=None,
-        validation_alias="activeActiveAutoVpnEnabled",
-        serialization_alias="activeActiveAutoVpnEnabled",
-    )
-    default_uplink: str | None = Field(
-        default=None, validation_alias="defaultUplink", serialization_alias="defaultUplink"
-    )
-    load_balancing_enabled: bool | None = Field(
-        default=None,
-        validation_alias="loadBalancingEnabled",
-        serialization_alias="loadBalancingEnabled",
-    )
-    failover_and_failback: (
-        GetNetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailback | None
-    ) = Field(
-        default=None,
-        validation_alias="failoverAndFailback",
-        serialization_alias="failoverAndFailback",
-    )
-    wan_traffic_uplink_preferences: list[ApplianceWanTrafficUplinkPreferencesItem2] = Field(
-        default_factory=list,
-        validation_alias="wanTrafficUplinkPreferences",
-        serialization_alias="wanTrafficUplinkPreferences",
-    )
-    vpn_traffic_uplink_preferences: list[ApplianceVpnTrafficUplinkPreferencesItem] = Field(
-        default_factory=list,
-        validation_alias="vpnTrafficUplinkPreferences",
-        serialization_alias="vpnTrafficUplinkPreferences",
-    )
 
 
 class UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesItem(
@@ -3389,83 +2754,6 @@ class UpdateNetworkApplianceVlanReservedIpRangesItem(_BaseSchema):
     comment: str
 
 
-class UpdateNetworkApplianceVlanResponse(_BaseSchema):
-    """Response for updateNetworkApplianceVlan operation."""
-
-    id: str | None = None
-    interface_id: str | None = Field(
-        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
-    )
-    name: str | None = None
-    subnet: str | None = None
-    appliance_ip: str | None = Field(
-        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
-    )
-    group_policy_id: str | None = Field(
-        default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
-    )
-    template_vlan_type: str | None = Field(
-        default=None, validation_alias="templateVlanType", serialization_alias="templateVlanType"
-    )
-    cidr: str | None = None
-    mask: int | None = None
-    dhcp_relay_server_ips: list[str] = Field(
-        default_factory=list,
-        validation_alias="dhcpRelayServerIps",
-        serialization_alias="dhcpRelayServerIps",
-    )
-    dhcp_handling: str | None = Field(
-        default=None, validation_alias="dhcpHandling", serialization_alias="dhcpHandling"
-    )
-    dhcp_lease_time: str | None = Field(
-        default=None, validation_alias="dhcpLeaseTime", serialization_alias="dhcpLeaseTime"
-    )
-    dhcp_boot_options_enabled: bool | None = Field(
-        default=None,
-        validation_alias="dhcpBootOptionsEnabled",
-        serialization_alias="dhcpBootOptionsEnabled",
-    )
-    dhcp_boot_next_server: str | None = Field(
-        default=None,
-        validation_alias="dhcpBootNextServer",
-        serialization_alias="dhcpBootNextServer",
-    )
-    dhcp_boot_filename: str | None = Field(
-        default=None, validation_alias="dhcpBootFilename", serialization_alias="dhcpBootFilename"
-    )
-    fixed_ip_assignments: dict[str, Any] | None = Field(
-        default=None,
-        validation_alias="fixedIpAssignments",
-        serialization_alias="fixedIpAssignments",
-    )
-    reserved_ip_ranges: list[ApplianceReservedIpRangesItem] = Field(
-        default_factory=list,
-        validation_alias="reservedIpRanges",
-        serialization_alias="reservedIpRanges",
-    )
-    dns_nameservers: str | None = Field(
-        default=None, validation_alias="dnsNameservers", serialization_alias="dnsNameservers"
-    )
-    dhcp_options: list[ApplianceDhcpOptionsItem] = Field(
-        default_factory=list, validation_alias="dhcpOptions", serialization_alias="dhcpOptions"
-    )
-    vpn_nat_subnet: str | None = Field(
-        default=None, validation_alias="vpnNatSubnet", serialization_alias="vpnNatSubnet"
-    )
-    mandatory_dhcp: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
-        default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
-    )
-    ipv6: GetNetworkApplianceSingleLanResponseIpv6 | None = None
-
-
-class UpdateNetworkApplianceVlansSettingsResponse(_BaseSchema):
-    """Response for updateNetworkApplianceVlansSettings operation."""
-
-    vlans_enabled: bool | None = Field(
-        default=None, validation_alias="vlansEnabled", serialization_alias="vlansEnabled"
-    )
-
-
 class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
     """Item schema for neighbors."""
 
@@ -3490,7 +2778,7 @@ class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
     next_hop_ip: str | None = Field(
         default=None, validation_alias="nextHopIp", serialization_alias="nextHopIp"
     )
-    ttl_security: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+    ttl_security: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
         default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
     )
     authentication: ApplianceNeighborsAuthentication | None = None
@@ -3511,19 +2799,6 @@ class UpdateNetworkApplianceVpnBgpNeighborsItemIpv6(_BaseSchema):
     address: str
 
 
-class UpdateNetworkApplianceVpnBgpResponse(_BaseSchema):
-    """Response for updateNetworkApplianceVpnBgp operation."""
-
-    enabled: bool | None = None
-    as_number: int | None = Field(
-        default=None, validation_alias="asNumber", serialization_alias="asNumber"
-    )
-    ibgp_hold_timer: int | None = Field(
-        default=None, validation_alias="ibgpHoldTimer", serialization_alias="ibgpHoldTimer"
-    )
-    neighbors: list[GetNetworkApplianceVpnBgpResponseNeighborsItem] = Field(default_factory=list)
-
-
 class UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem(_BaseSchema):
     """Item schema for hubs."""
 
@@ -3531,17 +2806,6 @@ class UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem(_BaseSchema):
     use_default_route: bool | None = Field(
         default=None, validation_alias="useDefaultRoute", serialization_alias="useDefaultRoute"
     )
-
-
-class UpdateNetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
-    """Response for updateNetworkApplianceVpnSiteToSiteVpn operation."""
-
-    mode: str | None = None
-    hubs: list[GetNetworkApplianceVpnSiteToSiteVpnResponseHubsItem] = Field(default_factory=list)
-    subnets: list[GetNetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem] = Field(
-        default_factory=list
-    )
-    subnet: GetNetworkApplianceVpnSiteToSiteVpnResponseSubnet | None = None
 
 
 class UpdateNetworkApplianceVpnSiteToSiteVpnSubnet(_BaseSchema):
@@ -3558,32 +2822,6 @@ class UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem(_BaseSchema):
         default=None, validation_alias="useVpn", serialization_alias="useVpn"
     )
     nat: ApplianceSubnetsNat | None = None
-
-
-class UpdateNetworkApplianceWarmSpareResponse(_BaseSchema):
-    """Response for updateNetworkApplianceWarmSpare operation."""
-
-    enabled: bool | None = None
-    primary_serial: str | None = Field(
-        default=None, validation_alias="primarySerial", serialization_alias="primarySerial"
-    )
-    spare_serial: str | None = Field(
-        default=None, validation_alias="spareSerial", serialization_alias="spareSerial"
-    )
-    uplink_mode: str | None = Field(
-        default=None, validation_alias="uplinkMode", serialization_alias="uplinkMode"
-    )
-    wan1: GetNetworkApplianceWarmSpareResponseWan1 | None = None
-    wan2: GetNetworkApplianceWarmSpareResponseWan1 | None = None
-
-
-class UpdateOrganizationApplianceDnsLocalProfileResponse(_BaseSchema):
-    """Response for updateOrganizationApplianceDnsLocalProfile operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
 
 
 class UpdateOrganizationApplianceDnsLocalRecordProfile(_BaseSchema):
@@ -3609,17 +2847,6 @@ class UpdateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
     addresses: list[str] = Field(default_factory=list)
 
 
-class UpdateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
-    """Response for updateOrganizationApplianceDnsSplitProfile operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
-    hostnames: list[str] = Field(default_factory=list)
-    nameservers: ApplianceNameservers | None = None
-
-
 class UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem(_BaseSchema):
     """Item schema for allowedRules."""
 
@@ -3632,30 +2859,6 @@ class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem(_BaseSchem
 
     name: str | None = None
     uri: str | None = None
-
-
-class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
-    """Response for updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas operation."""
-
-    items: list[UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseMeta | None = None
-
-
-class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem(_BaseSchema):
-    """Schema for UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem."""
-
-    id: str | None = None
-    name: str | None = None
-    uri: str | None = None
-    ipsec: ApplianceIpsec | None = None
-
-
-class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: ApplianceMetaCounts | None = None
 
 
 class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem(_BaseSchema):
@@ -3756,22 +2959,6 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemNetwork(_BaseSche
     """
 
     ids: list[str] = Field(default_factory=list)
-
-
-class UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse(_BaseSchema):
-    """Response for updateOrganizationApplianceVpnThirdPartyVPNPeers operation."""
-
-    peers: list[GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem] = Field(
-        default_factory=list
-    )
-
-
-class UpdateOrganizationApplianceVpnVpnFirewallRulesResponse(_BaseSchema):
-    """Response for updateOrganizationApplianceVpnVpnFirewallRules operation."""
-
-    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
 
 
 class UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem(_BaseSchema):

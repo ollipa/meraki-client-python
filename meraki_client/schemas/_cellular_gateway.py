@@ -19,14 +19,6 @@ class CellularGatewayApnsItem(_BaseSchema):
     name: str | None = None
 
 
-class CellularGatewayDestinationsItem(_BaseSchema):
-    """Schema for CellularGatewayDestinationsItem."""
-
-    ip: str | None = None
-    description: str | None = None
-    default: bool | None = None
-
-
 class CellularGatewayDevice(_BaseSchema):
     """Meraki Device properties."""
 
@@ -136,34 +128,10 @@ class CellularGatewayUplinksItem(_BaseSchema):
     msisdn: str | None = None
 
 
-class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
-    """Response for createOrganizationCellularGatewayEsimsServiceProvidersAccount operation."""
-
-    account_id: str | None = Field(
-        default=None, validation_alias="accountId", serialization_alias="accountId"
-    )
-    last_updated_at: str | None = Field(
-        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
-    )
-    service_provider: CellularGatewayServiceProvider2 | None = Field(
-        default=None, validation_alias="serviceProvider", serialization_alias="serviceProvider"
-    )
-    title: str | None = None
-    username: str | None = None
-
-
 class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountServiceProvider(_BaseSchema):
     """Service Provider information."""
 
     name: str | None = None
-
-
-class CreateOrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
-    """Response for createOrganizationCellularGatewayEsimsSwap operation."""
-
-    eid: str
-    iccid: str
-    status: str
 
 
 class CreateOrganizationCellularGatewayEsimsSwapSwapsItem(_BaseSchema):
@@ -183,8 +151,8 @@ class CreateOrganizationCellularGatewayEsimsSwapSwapsItemTarget(_BaseSchema):
     rate_plan: str = Field(validation_alias="ratePlan", serialization_alias="ratePlan")
 
 
-class GetDeviceCellularGatewayLanResponse(_BaseSchema):
-    """Response for getDeviceCellularGatewayLan operation."""
+class DeviceCellularGatewayLanResponse(_BaseSchema):
+    """Schema for DeviceCellularGatewayLanResponse."""
 
     device_name: str | None = Field(
         default=None, validation_alias="deviceName", serialization_alias="deviceName"
@@ -195,44 +163,44 @@ class GetDeviceCellularGatewayLanResponse(_BaseSchema):
     device_subnet: str | None = Field(
         default=None, validation_alias="deviceSubnet", serialization_alias="deviceSubnet"
     )
-    fixed_ip_assignments: list[GetDeviceCellularGatewayLanResponseFixedIpAssignmentsItem] = Field(
+    fixed_ip_assignments: list[DeviceCellularGatewayLanResponseFixedIpAssignmentsItem] = Field(
         default_factory=list,
         validation_alias="fixedIpAssignments",
         serialization_alias="fixedIpAssignments",
     )
-    reserved_ip_ranges: list[GetDeviceCellularGatewayLanResponseReservedIpRangesItem] = Field(
+    reserved_ip_ranges: list[DeviceCellularGatewayLanResponseReservedIpRangesItem] = Field(
         default_factory=list,
         validation_alias="reservedIpRanges",
         serialization_alias="reservedIpRanges",
     )
 
 
-class GetDeviceCellularGatewayLanResponseFixedIpAssignmentsItem(_BaseSchema):
-    """Schema for GetDeviceCellularGatewayLanResponseFixedIpAssignmentsItem."""
+class DeviceCellularGatewayLanResponseFixedIpAssignmentsItem(_BaseSchema):
+    """Schema for DeviceCellularGatewayLanResponseFixedIpAssignmentsItem."""
 
     name: str | None = None
     ip: str | None = None
     mac: str | None = None
 
 
-class GetDeviceCellularGatewayLanResponseReservedIpRangesItem(_BaseSchema):
-    """Schema for GetDeviceCellularGatewayLanResponseReservedIpRangesItem."""
+class DeviceCellularGatewayLanResponseReservedIpRangesItem(_BaseSchema):
+    """Schema for DeviceCellularGatewayLanResponseReservedIpRangesItem."""
 
     start: str | None = None
     end: str | None = None
     comment: str | None = None
 
 
-class GetDeviceCellularGatewayPortForwardingRulesResponse(_BaseSchema):
-    """Response for getDeviceCellularGatewayPortForwardingRules operation."""
+class DeviceCellularGatewayPortForwardingRulesResponse(_BaseSchema):
+    """Schema for DeviceCellularGatewayPortForwardingRulesResponse."""
 
-    rules: list[GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem] = Field(
+    rules: list[DeviceCellularGatewayPortForwardingRulesResponseRulesItem] = Field(
         default_factory=list
     )
 
 
-class GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem(_BaseSchema):
-    """Schema for GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem."""
+class DeviceCellularGatewayPortForwardingRulesResponseRulesItem(_BaseSchema):
+    """Schema for DeviceCellularGatewayPortForwardingRulesResponseRulesItem."""
 
     name: str | None = None
     lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
@@ -247,84 +215,6 @@ class GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem(_BaseSchema):
     )
     protocol: str | None = None
     access: str | None = None
-
-
-class GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse(_BaseSchema):
-    """Response for getNetworkCellularGatewayConnectivityMonitoringDestinations operation."""
-
-    destinations: list[CellularGatewayDestinationsItem] = Field(default_factory=list)
-
-
-class GetNetworkCellularGatewayDhcpResponse(_BaseSchema):
-    """Response for getNetworkCellularGatewayDhcp operation."""
-
-    dhcp_lease_time: str | None = Field(
-        default=None, validation_alias="dhcpLeaseTime", serialization_alias="dhcpLeaseTime"
-    )
-    dns_nameservers: str | None = Field(
-        default=None, validation_alias="dnsNameservers", serialization_alias="dnsNameservers"
-    )
-    dns_custom_nameservers: list[str] = Field(
-        default_factory=list,
-        validation_alias="dnsCustomNameservers",
-        serialization_alias="dnsCustomNameservers",
-    )
-
-
-class GetNetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
-    """Response for getNetworkCellularGatewaySubnetPool operation."""
-
-    deployment_mode: str | None = Field(
-        default=None, validation_alias="deploymentMode", serialization_alias="deploymentMode"
-    )
-    cidr: str | None = None
-    mask: int | None = None
-    subnets: list[GetNetworkCellularGatewaySubnetPoolResponseSubnetsItem] = Field(
-        default_factory=list
-    )
-
-
-class GetNetworkCellularGatewaySubnetPoolResponseSubnetsItem(_BaseSchema):
-    """Schema for GetNetworkCellularGatewaySubnetPoolResponseSubnetsItem."""
-
-    serial: str | None = None
-    name: str | None = None
-    appliance_ip: str | None = Field(
-        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
-    )
-    subnet: str | None = None
-
-
-class GetNetworkCellularGatewayUplinkResponse(_BaseSchema):
-    """Response for getNetworkCellularGatewayUplink operation."""
-
-    bandwidth_limits: GetNetworkCellularGatewayUplinkResponseBandwidthLimits | None = Field(
-        default=None, validation_alias="bandwidthLimits", serialization_alias="bandwidthLimits"
-    )
-
-
-class GetNetworkCellularGatewayUplinkResponseBandwidthLimits(_BaseSchema):
-    """The bandwidth settings for the 'cellular' uplink."""
-
-    limit_up: int | None = Field(
-        default=None, validation_alias="limitUp", serialization_alias="limitUp"
-    )
-    limit_down: int | None = Field(
-        default=None, validation_alias="limitDown", serialization_alias="limitDown"
-    )
-
-
-class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem."""
-
-    device: CellularGatewayDevice | None = None
-    active: bool | None = None
-    eid: str | None = None
-    last_updated_at: str | None = Field(
-        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
-    )
-    network: CellularGatewayNetwork | None = None
-    profiles: list[CellularGatewayProfilesItem] = Field(default_factory=list)
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItem(
@@ -355,25 +245,9 @@ class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansRespon
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse(
-    RootModel[list["GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem"]]
+    RootModel[list["OrganizationCellularGatewayEsimsServiceProvidersAccountResponse"]]
 ):
     """IList of Cellular Service Provider Accounts."""
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem."""
-
-    account_id: str | None = Field(
-        default=None, validation_alias="accountId", serialization_alias="accountId"
-    )
-    last_updated_at: str | None = Field(
-        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
-    )
-    service_provider: CellularGatewayServiceProvider2 | None = Field(
-        default=None, validation_alias="serviceProvider", serialization_alias="serviceProvider"
-    )
-    title: str | None = None
-    username: str | None = None
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem(_BaseSchema):
@@ -407,6 +281,103 @@ class GetOrganizationCellularGatewayUplinkStatusesResponseItem(_BaseSchema):
     uplinks: list[CellularGatewayUplinksItem] = Field(default_factory=list)
 
 
+class NetworkCellularGatewayConnectivityMonitoringDestinationsResponse(_BaseSchema):
+    """Schema for NetworkCellularGatewayConnectivityMonitoringDestinationsResponse."""
+
+    destinations: list[
+        NetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem
+    ] = Field(default_factory=list)
+
+
+class NetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem(_BaseSchema):
+    """Schema for NetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem."""
+
+    ip: str | None = None
+    description: str | None = None
+    default: bool | None = None
+
+
+class NetworkCellularGatewayDhcpResponse(_BaseSchema):
+    """Schema for NetworkCellularGatewayDhcpResponse."""
+
+    dhcp_lease_time: str | None = Field(
+        default=None, validation_alias="dhcpLeaseTime", serialization_alias="dhcpLeaseTime"
+    )
+    dns_nameservers: str | None = Field(
+        default=None, validation_alias="dnsNameservers", serialization_alias="dnsNameservers"
+    )
+    dns_custom_nameservers: list[str] = Field(
+        default_factory=list,
+        validation_alias="dnsCustomNameservers",
+        serialization_alias="dnsCustomNameservers",
+    )
+
+
+class NetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
+    """Schema for NetworkCellularGatewaySubnetPoolResponse."""
+
+    deployment_mode: str | None = Field(
+        default=None, validation_alias="deploymentMode", serialization_alias="deploymentMode"
+    )
+    cidr: str | None = None
+    mask: int | None = None
+    subnets: list[NetworkCellularGatewaySubnetPoolResponseSubnetsItem] = Field(default_factory=list)
+
+
+class NetworkCellularGatewaySubnetPoolResponseSubnetsItem(_BaseSchema):
+    """Schema for NetworkCellularGatewaySubnetPoolResponseSubnetsItem."""
+
+    serial: str | None = None
+    name: str | None = None
+    appliance_ip: str | None = Field(
+        default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
+    )
+    subnet: str | None = None
+
+
+class NetworkCellularGatewayUplinkResponse(_BaseSchema):
+    """Schema for NetworkCellularGatewayUplinkResponse."""
+
+    bandwidth_limits: NetworkCellularGatewayUplinkResponseBandwidthLimits | None = Field(
+        default=None, validation_alias="bandwidthLimits", serialization_alias="bandwidthLimits"
+    )
+
+
+class NetworkCellularGatewayUplinkResponseBandwidthLimits(_BaseSchema):
+    """The bandwidth settings for the 'cellular' uplink."""
+
+    limit_up: int | None = Field(
+        default=None, validation_alias="limitUp", serialization_alias="limitUp"
+    )
+    limit_down: int | None = Field(
+        default=None, validation_alias="limitDown", serialization_alias="limitDown"
+    )
+
+
+class OrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
+    """Schema for OrganizationCellularGatewayEsimsServiceProvidersAccountResponse."""
+
+    account_id: str | None = Field(
+        default=None, validation_alias="accountId", serialization_alias="accountId"
+    )
+    last_updated_at: str | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    service_provider: CellularGatewayServiceProvider2 | None = Field(
+        default=None, validation_alias="serviceProvider", serialization_alias="serviceProvider"
+    )
+    title: str | None = None
+    username: str | None = None
+
+
+class OrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
+    """Schema for OrganizationCellularGatewayEsimsSwapResponse."""
+
+    eid: str
+    iccid: str
+    status: str
+
+
 class UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem(_BaseSchema):
     """Item schema for fixedIpAssignments."""
 
@@ -421,38 +392,6 @@ class UpdateDeviceCellularGatewayLanReservedIpRangesItem(_BaseSchema):
     start: str
     end: str
     comment: str
-
-
-class UpdateDeviceCellularGatewayLanResponse(_BaseSchema):
-    """Response for updateDeviceCellularGatewayLan operation."""
-
-    device_name: str | None = Field(
-        default=None, validation_alias="deviceName", serialization_alias="deviceName"
-    )
-    device_lan_ip: str | None = Field(
-        default=None, validation_alias="deviceLanIp", serialization_alias="deviceLanIp"
-    )
-    device_subnet: str | None = Field(
-        default=None, validation_alias="deviceSubnet", serialization_alias="deviceSubnet"
-    )
-    fixed_ip_assignments: list[GetDeviceCellularGatewayLanResponseFixedIpAssignmentsItem] = Field(
-        default_factory=list,
-        validation_alias="fixedIpAssignments",
-        serialization_alias="fixedIpAssignments",
-    )
-    reserved_ip_ranges: list[GetDeviceCellularGatewayLanResponseReservedIpRangesItem] = Field(
-        default_factory=list,
-        validation_alias="reservedIpRanges",
-        serialization_alias="reservedIpRanges",
-    )
-
-
-class UpdateDeviceCellularGatewayPortForwardingRulesResponse(_BaseSchema):
-    """Response for updateDeviceCellularGatewayPortForwardingRules operation."""
-
-    rules: list[GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem] = Field(
-        default_factory=list
-    )
 
 
 class UpdateDeviceCellularGatewayPortForwardingRulesRulesItem(_BaseSchema):
@@ -477,41 +416,6 @@ class UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinations
     default: bool | None = None
 
 
-class UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse(_BaseSchema):
-    """Response for updateNetworkCellularGatewayConnectivityMonitoringDestinations operation."""
-
-    destinations: list[CellularGatewayDestinationsItem] = Field(default_factory=list)
-
-
-class UpdateNetworkCellularGatewayDhcpResponse(_BaseSchema):
-    """Response for updateNetworkCellularGatewayDhcp operation."""
-
-    dhcp_lease_time: str | None = Field(
-        default=None, validation_alias="dhcpLeaseTime", serialization_alias="dhcpLeaseTime"
-    )
-    dns_nameservers: str | None = Field(
-        default=None, validation_alias="dnsNameservers", serialization_alias="dnsNameservers"
-    )
-    dns_custom_nameservers: list[str] = Field(
-        default_factory=list,
-        validation_alias="dnsCustomNameservers",
-        serialization_alias="dnsCustomNameservers",
-    )
-
-
-class UpdateNetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
-    """Response for updateNetworkCellularGatewaySubnetPool operation."""
-
-    deployment_mode: str | None = Field(
-        default=None, validation_alias="deploymentMode", serialization_alias="deploymentMode"
-    )
-    cidr: str | None = None
-    mask: int | None = None
-    subnets: list[GetNetworkCellularGatewaySubnetPoolResponseSubnetsItem] = Field(
-        default_factory=list
-    )
-
-
 class UpdateNetworkCellularGatewayUplinkBandwidthLimits(_BaseSchema):
     """The bandwidth settings for the 'cellular' uplink."""
 
@@ -520,14 +424,6 @@ class UpdateNetworkCellularGatewayUplinkBandwidthLimits(_BaseSchema):
     )
     limit_down: int | None = Field(
         default=None, validation_alias="limitDown", serialization_alias="limitDown"
-    )
-
-
-class UpdateNetworkCellularGatewayUplinkResponse(_BaseSchema):
-    """Response for updateNetworkCellularGatewayUplink operation."""
-
-    bandwidth_limits: GetNetworkCellularGatewayUplinkResponseBandwidthLimits | None = Field(
-        default=None, validation_alias="bandwidthLimits", serialization_alias="bandwidthLimits"
     )
 
 
@@ -542,27 +438,3 @@ class UpdateOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
     )
     network: CellularGatewayNetwork | None = None
     profiles: list[CellularGatewayProfilesItem] = Field(default_factory=list)
-
-
-class UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
-    """Response for updateOrganizationCellularGatewayEsimsServiceProvidersAccount operation."""
-
-    account_id: str | None = Field(
-        default=None, validation_alias="accountId", serialization_alias="accountId"
-    )
-    last_updated_at: str | None = Field(
-        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
-    )
-    service_provider: CellularGatewayServiceProvider2 | None = Field(
-        default=None, validation_alias="serviceProvider", serialization_alias="serviceProvider"
-    )
-    title: str | None = None
-    username: str | None = None
-
-
-class UpdateOrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
-    """Response for updateOrganizationCellularGatewayEsimsSwap operation."""
-
-    eid: str
-    iccid: str
-    status: str

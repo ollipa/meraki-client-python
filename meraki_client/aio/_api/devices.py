@@ -30,7 +30,8 @@ from meraki_client.schemas import (
     CreateDeviceLiveToolsThroughputTestResponse,
     CreateDeviceLiveToolsWakeOnLanCallback,
     CreateDeviceLiveToolsWakeOnLanResponse,
-    GetDeviceCellularSimsResponse,
+    DeviceCellularSimsResponse,
+    DeviceManagementInterfaceResponse,
     GetDeviceClientsResponseItem,
     GetDeviceLiveToolsArpTableResponse,
     GetDeviceLiveToolsCableTestResponse,
@@ -43,13 +44,10 @@ from meraki_client.schemas import (
     GetDeviceLiveToolsWakeOnLanResponse,
     GetDeviceLldpCdpResponse,
     GetDeviceLossAndLatencyHistoryResponseItem,
-    GetDeviceManagementInterfaceResponse,
     GetDeviceResponse,
     RebootDeviceResponse,
-    UpdateDeviceCellularSimsResponse,
     UpdateDeviceCellularSimsSimFailover,
     UpdateDeviceCellularSimsSimsItem,
-    UpdateDeviceManagementInterfaceResponse,
     UpdateDeviceManagementInterfaceWan1,
     UpdateDeviceManagementInterfaceWan2,
     UpdateDeviceResponse,
@@ -273,7 +271,7 @@ class Devices:
             response_schema=BlinkDeviceLedsResponse,
         )
 
-    async def get_device_cellular_sims(self, serial: str) -> GetDeviceCellularSimsResponse:
+    async def get_device_cellular_sims(self, serial: str) -> DeviceCellularSimsResponse:
         """Return the SIM and APN configurations for a cellular device.
 
         [API documentation: getDeviceCellularSims](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims)
@@ -331,7 +329,7 @@ class Devices:
             scope="devices",
             operation_id="getDeviceCellularSims",
             path=path,
-            response_schema=GetDeviceCellularSimsResponse,
+            response_schema=DeviceCellularSimsResponse,
         )
 
     async def update_device_cellular_sims(
@@ -341,7 +339,7 @@ class Devices:
         sims: list[UpdateDeviceCellularSimsSimsItem] | None = None,
         sim_ordering: list[str] | None = None,
         sim_failover: UpdateDeviceCellularSimsSimFailover | None = None,
-    ) -> UpdateDeviceCellularSimsResponse:
+    ) -> DeviceCellularSimsResponse:
         """Updates the SIM and APN configurations for a cellular device.
 
         [API documentation: updateDeviceCellularSims](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-sims)
@@ -416,7 +414,7 @@ class Devices:
             operation_id="updateDeviceCellularSims",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCellularSimsResponse,
+            response_schema=DeviceCellularSimsResponse,
         )
 
     def get_device_clients(
@@ -1589,7 +1587,7 @@ class Devices:
 
     async def get_device_management_interface(
         self, serial: str
-    ) -> GetDeviceManagementInterfaceResponse:
+    ) -> DeviceManagementInterfaceResponse:
         """Return the management interface settings for a device.
 
         [API documentation: getDeviceManagementInterface](https://developer.cisco.com/meraki/api-v1/#!get-device-management-interface)
@@ -1649,7 +1647,7 @@ class Devices:
             scope="devices",
             operation_id="getDeviceManagementInterface",
             path=path,
-            response_schema=GetDeviceManagementInterfaceResponse,
+            response_schema=DeviceManagementInterfaceResponse,
         )
 
     async def update_device_management_interface(
@@ -1658,7 +1656,7 @@ class Devices:
         *,
         wan1: UpdateDeviceManagementInterfaceWan1 | None = None,
         wan2: UpdateDeviceManagementInterfaceWan2 | None = None,
-    ) -> UpdateDeviceManagementInterfaceResponse:
+    ) -> DeviceManagementInterfaceResponse:
         """Update the management interface settings for a device.
 
         [API documentation: updateDeviceManagementInterface](https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface)
@@ -1727,7 +1725,7 @@ class Devices:
             operation_id="updateDeviceManagementInterface",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceManagementInterfaceResponse,
+            response_schema=DeviceManagementInterfaceResponse,
         )
 
     async def reboot_device(self, serial: str) -> RebootDeviceResponse:

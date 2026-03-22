@@ -11,64 +11,47 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
-    CreateNetworkCameraQualityRetentionProfileResponse,
     CreateNetworkCameraQualityRetentionProfileSmartRetention,
     CreateNetworkCameraQualityRetentionProfileVideoSettings,
     CreateNetworkCameraWirelessProfileIdentity,
-    CreateNetworkCameraWirelessProfileResponse,
     CreateNetworkCameraWirelessProfileSsid,
     CreateOrganizationCameraCustomAnalyticsArtifactResponse,
     CreateOrganizationCameraRoleAppliedOnDevicesItem,
     CreateOrganizationCameraRoleAppliedOnNetworksItem,
     CreateOrganizationCameraRoleAppliedOrgWideItem,
-    CreateOrganizationCameraRoleResponse,
+    DeviceCameraCustomAnalyticsResponse,
+    DeviceCameraQualityAndRetentionResponse,
+    DeviceCameraSenseResponse,
+    DeviceCameraVideoSettingsResponse,
+    DeviceCameraWirelessProfilesResponse,
     GenerateDeviceCameraSnapshotResponse,
     GetDeviceCameraAnalyticsLiveResponse,
     GetDeviceCameraAnalyticsOverviewResponseItem,
-    GetDeviceCameraAnalyticsRecentResponseItem,
     GetDeviceCameraAnalyticsZoneHistoryResponseItem,
     GetDeviceCameraAnalyticsZonesResponseItem,
-    GetDeviceCameraCustomAnalyticsResponse,
-    GetDeviceCameraQualityAndRetentionResponse,
     GetDeviceCameraSenseObjectDetectionModelsResponseItem,
-    GetDeviceCameraSenseResponse,
     GetDeviceCameraVideoLinkResponse,
-    GetDeviceCameraVideoSettingsResponse,
-    GetDeviceCameraWirelessProfilesResponse,
-    GetNetworkCameraQualityRetentionProfileResponse,
-    GetNetworkCameraQualityRetentionProfilesResponseItem,
     GetNetworkCameraSchedulesResponseItem,
-    GetNetworkCameraWirelessProfileResponse,
-    GetNetworkCameraWirelessProfilesResponseItem,
     GetOrganizationCameraBoundariesAreasByDeviceResponseItem,
     GetOrganizationCameraBoundariesLinesByDeviceResponseItem,
     GetOrganizationCameraCustomAnalyticsArtifactResponse,
-    GetOrganizationCameraCustomAnalyticsArtifactsResponseItem,
     GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem,
     GetOrganizationCameraOnboardingStatusesResponseItem,
     GetOrganizationCameraPermissionResponse,
-    GetOrganizationCameraPermissionsResponseItem,
-    GetOrganizationCameraRoleResponse,
-    GetOrganizationCameraRolesResponseItem,
+    NetworkCameraQualityRetentionProfileResponse,
+    NetworkCameraWirelessProfileResponse,
+    OrganizationCameraRoleResponse,
     UpdateDeviceCameraCustomAnalyticsParametersItem,
-    UpdateDeviceCameraCustomAnalyticsResponse,
-    UpdateDeviceCameraQualityAndRetentionResponse,
     UpdateDeviceCameraSenseAudioDetection,
-    UpdateDeviceCameraSenseResponse,
-    UpdateDeviceCameraVideoSettingsResponse,
     UpdateDeviceCameraWirelessProfilesIds,
-    UpdateDeviceCameraWirelessProfilesResponse,
-    UpdateNetworkCameraQualityRetentionProfileResponse,
     UpdateNetworkCameraQualityRetentionProfileSmartRetention,
     UpdateNetworkCameraQualityRetentionProfileVideoSettings,
     UpdateNetworkCameraWirelessProfileIdentity,
-    UpdateNetworkCameraWirelessProfileResponse,
     UpdateNetworkCameraWirelessProfileSsid,
     UpdateOrganizationCameraOnboardingStatusesResponse,
     UpdateOrganizationCameraRoleAppliedOnDevicesItem,
     UpdateOrganizationCameraRoleAppliedOnNetworksItem,
     UpdateOrganizationCameraRoleAppliedOrgWideItem,
-    UpdateOrganizationCameraRoleResponse,
 )
 from meraki_client.types import (
     GetDeviceCameraAnalyticsOverviewObjectType,
@@ -196,7 +179,7 @@ class Camera:
 
     def get_device_camera_analytics_recent(
         self, serial: str, *, object_type: GetDeviceCameraAnalyticsRecentObjectType | None = None
-    ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsRecentResponseItem]:
+    ) -> AsyncPaginatedResponse[GetDeviceCameraAnalyticsOverviewResponseItem]:
         """Returns most recent record for analytics zones.
 
         [API documentation: getDeviceCameraAnalyticsRecent](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-recent)
@@ -241,7 +224,7 @@ class Camera:
             operation_id="getDeviceCameraAnalyticsRecent",
             path=path,
             params=params,
-            item_schema=GetDeviceCameraAnalyticsRecentResponseItem,
+            item_schema=GetDeviceCameraAnalyticsOverviewResponseItem,
         )
 
     def get_device_camera_analytics_zones(
@@ -367,7 +350,7 @@ class Camera:
 
     async def get_device_camera_custom_analytics(
         self, serial: str
-    ) -> GetDeviceCameraCustomAnalyticsResponse:
+    ) -> DeviceCameraCustomAnalyticsResponse:
         """Return custom analytics settings for a camera.
 
         [API documentation: getDeviceCameraCustomAnalytics](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-custom-analytics)
@@ -400,7 +383,7 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraCustomAnalytics",
             path=path,
-            response_schema=GetDeviceCameraCustomAnalyticsResponse,
+            response_schema=DeviceCameraCustomAnalyticsResponse,
         )
 
     async def update_device_camera_custom_analytics(
@@ -410,7 +393,7 @@ class Camera:
         enabled: bool | None = None,
         artifact_id: str | None = None,
         parameters: list[UpdateDeviceCameraCustomAnalyticsParametersItem] | None = None,
-    ) -> UpdateDeviceCameraCustomAnalyticsResponse:
+    ) -> DeviceCameraCustomAnalyticsResponse:
         """Update custom analytics settings for a camera.
 
         [API documentation: updateDeviceCameraCustomAnalytics](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics)
@@ -457,7 +440,7 @@ class Camera:
             operation_id="updateDeviceCameraCustomAnalytics",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCameraCustomAnalyticsResponse,
+            response_schema=DeviceCameraCustomAnalyticsResponse,
         )
 
     async def generate_device_camera_snapshot(
@@ -506,7 +489,7 @@ class Camera:
 
     async def get_device_camera_quality_and_retention(
         self, serial: str
-    ) -> GetDeviceCameraQualityAndRetentionResponse:
+    ) -> DeviceCameraQualityAndRetentionResponse:
         """Returns quality and retention settings for the given camera.
 
         [API documentation: getDeviceCameraQualityAndRetention](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention)
@@ -538,7 +521,7 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraQualityAndRetention",
             path=path,
-            response_schema=GetDeviceCameraQualityAndRetentionResponse,
+            response_schema=DeviceCameraQualityAndRetentionResponse,
         )
 
     async def update_device_camera_quality_and_retention(
@@ -553,7 +536,7 @@ class Camera:
         resolution: UpdateDeviceCameraQualityAndRetentionResolution | None = None,
         motion_detector_version: UpdateDeviceCameraQualityAndRetentionMotionDetectorVersion
         | None = None,
-    ) -> UpdateDeviceCameraQualityAndRetentionResponse:
+    ) -> DeviceCameraQualityAndRetentionResponse:
         """Update quality and retention settings for the given camera.
 
         [API documentation: updateDeviceCameraQualityAndRetention](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention)
@@ -620,10 +603,10 @@ class Camera:
             operation_id="updateDeviceCameraQualityAndRetention",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCameraQualityAndRetentionResponse,
+            response_schema=DeviceCameraQualityAndRetentionResponse,
         )
 
-    async def get_device_camera_sense(self, serial: str) -> GetDeviceCameraSenseResponse:
+    async def get_device_camera_sense(self, serial: str) -> DeviceCameraSenseResponse:
         """Returns sense settings for a given camera.
 
         [API documentation: getDeviceCameraSense](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense)
@@ -658,7 +641,7 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraSense",
             path=path,
-            response_schema=GetDeviceCameraSenseResponse,
+            response_schema=DeviceCameraSenseResponse,
         )
 
     async def update_device_camera_sense(
@@ -669,7 +652,7 @@ class Camera:
         mqtt_broker_id: str | None = None,
         audio_detection: UpdateDeviceCameraSenseAudioDetection | None = None,
         detection_model_id: str | None = None,
-    ) -> UpdateDeviceCameraSenseResponse:
+    ) -> DeviceCameraSenseResponse:
         """Update sense settings for the given camera.
 
         [API documentation: updateDeviceCameraSense](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense)
@@ -721,7 +704,7 @@ class Camera:
             operation_id="updateDeviceCameraSense",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCameraSenseResponse,
+            response_schema=DeviceCameraSenseResponse,
         )
 
     def get_device_camera_sense_object_detection_models(
@@ -765,7 +748,7 @@ class Camera:
 
     async def get_device_camera_video_settings(
         self, serial: str
-    ) -> GetDeviceCameraVideoSettingsResponse:
+    ) -> DeviceCameraVideoSettingsResponse:
         """Returns video settings for the given camera.
 
         [API documentation: getDeviceCameraVideoSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-settings)
@@ -792,12 +775,12 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraVideoSettings",
             path=path,
-            response_schema=GetDeviceCameraVideoSettingsResponse,
+            response_schema=DeviceCameraVideoSettingsResponse,
         )
 
     async def update_device_camera_video_settings(
         self, serial: str, *, external_rtsp_enabled: bool | None = None
-    ) -> UpdateDeviceCameraVideoSettingsResponse:
+    ) -> DeviceCameraVideoSettingsResponse:
         """Update video settings for the given camera.
 
         [API documentation: updateDeviceCameraVideoSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings)
@@ -830,7 +813,7 @@ class Camera:
             operation_id="updateDeviceCameraVideoSettings",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCameraVideoSettingsResponse,
+            response_schema=DeviceCameraVideoSettingsResponse,
         )
 
     async def get_device_camera_video_link(
@@ -875,7 +858,7 @@ class Camera:
 
     async def get_device_camera_wireless_profiles(
         self, serial: str
-    ) -> GetDeviceCameraWirelessProfilesResponse:
+    ) -> DeviceCameraWirelessProfilesResponse:
         """Returns wireless profile assigned to the given camera.
 
         [API documentation: getDeviceCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles)
@@ -905,12 +888,12 @@ class Camera:
             scope="camera",
             operation_id="getDeviceCameraWirelessProfiles",
             path=path,
-            response_schema=GetDeviceCameraWirelessProfilesResponse,
+            response_schema=DeviceCameraWirelessProfilesResponse,
         )
 
     async def update_device_camera_wireless_profiles(
         self, *, serial: str, ids: UpdateDeviceCameraWirelessProfilesIds
-    ) -> UpdateDeviceCameraWirelessProfilesResponse:
+    ) -> DeviceCameraWirelessProfilesResponse:
         """Assign wireless profiles to the given camera.
 
         [API documentation: updateDeviceCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles)
@@ -946,12 +929,12 @@ class Camera:
             operation_id="updateDeviceCameraWirelessProfiles",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCameraWirelessProfilesResponse,
+            response_schema=DeviceCameraWirelessProfilesResponse,
         )
 
     def get_network_camera_quality_retention_profiles(
         self, network_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkCameraQualityRetentionProfilesResponseItem]:
+    ) -> AsyncPaginatedResponse[NetworkCameraQualityRetentionProfileResponse]:
         """List the quality retention profiles for this network.
 
         [API documentation: getNetworkCameraQualityRetentionProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profiles)
@@ -1002,7 +985,7 @@ class Camera:
             scope="camera",
             operation_id="getNetworkCameraQualityRetentionProfiles",
             path=path,
-            item_schema=GetNetworkCameraQualityRetentionProfilesResponseItem,
+            item_schema=NetworkCameraQualityRetentionProfileResponse,
         )
 
     async def create_network_camera_quality_retention_profile(
@@ -1019,7 +1002,7 @@ class Camera:
         schedule_id: str | None = None,
         max_retention_days: int | None = None,
         video_settings: CreateNetworkCameraQualityRetentionProfileVideoSettings | None = None,
-    ) -> CreateNetworkCameraQualityRetentionProfileResponse:
+    ) -> NetworkCameraQualityRetentionProfileResponse:
         """Creates new quality retention profile for this network.
 
         [API documentation: createNetworkCameraQualityRetentionProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-camera-quality-retention-profile)
@@ -1107,12 +1090,12 @@ class Camera:
             operation_id="createNetworkCameraQualityRetentionProfile",
             path=path,
             json=payload,
-            response_schema=CreateNetworkCameraQualityRetentionProfileResponse,
+            response_schema=NetworkCameraQualityRetentionProfileResponse,
         )
 
     async def get_network_camera_quality_retention_profile(
         self, *, network_id: str, quality_retention_profile_id: str
-    ) -> GetNetworkCameraQualityRetentionProfileResponse:
+    ) -> NetworkCameraQualityRetentionProfileResponse:
         """Retrieve a single quality retention profile.
 
         [API documentation: getNetworkCameraQualityRetentionProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profile)
@@ -1162,7 +1145,7 @@ class Camera:
             scope="camera",
             operation_id="getNetworkCameraQualityRetentionProfile",
             path=path,
-            response_schema=GetNetworkCameraQualityRetentionProfileResponse,
+            response_schema=NetworkCameraQualityRetentionProfileResponse,
         )
 
     async def update_network_camera_quality_retention_profile(
@@ -1180,7 +1163,7 @@ class Camera:
         schedule_id: str | None = None,
         max_retention_days: int | None = None,
         video_settings: UpdateNetworkCameraQualityRetentionProfileVideoSettings | None = None,
-    ) -> UpdateNetworkCameraQualityRetentionProfileResponse:
+    ) -> NetworkCameraQualityRetentionProfileResponse:
         """Update an existing quality retention profile for this network.
 
         [API documentation: updateNetworkCameraQualityRetentionProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-camera-quality-retention-profile)
@@ -1274,7 +1257,7 @@ class Camera:
             operation_id="updateNetworkCameraQualityRetentionProfile",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkCameraQualityRetentionProfileResponse,
+            response_schema=NetworkCameraQualityRetentionProfileResponse,
         )
 
     async def delete_network_camera_quality_retention_profile(
@@ -1345,7 +1328,7 @@ class Camera:
 
     def get_network_camera_wireless_profiles(
         self, network_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkCameraWirelessProfilesResponseItem]:
+    ) -> AsyncPaginatedResponse[NetworkCameraWirelessProfileResponse]:
         """List the camera wireless profiles for this network.
 
         [API documentation: getNetworkCameraWirelessProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles)
@@ -1390,7 +1373,7 @@ class Camera:
             scope="camera",
             operation_id="getNetworkCameraWirelessProfiles",
             path=path,
-            item_schema=GetNetworkCameraWirelessProfilesResponseItem,
+            item_schema=NetworkCameraWirelessProfileResponse,
         )
 
     async def create_network_camera_wireless_profile(
@@ -1400,7 +1383,7 @@ class Camera:
         name: str,
         ssid: CreateNetworkCameraWirelessProfileSsid,
         identity: CreateNetworkCameraWirelessProfileIdentity | None = None,
-    ) -> CreateNetworkCameraWirelessProfileResponse:
+    ) -> NetworkCameraWirelessProfileResponse:
         """Creates a new camera wireless profile for this network.
 
         [API documentation: createNetworkCameraWirelessProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-camera-wireless-profile)
@@ -1451,12 +1434,12 @@ class Camera:
             operation_id="createNetworkCameraWirelessProfile",
             path=path,
             json=payload,
-            response_schema=CreateNetworkCameraWirelessProfileResponse,
+            response_schema=NetworkCameraWirelessProfileResponse,
         )
 
     async def get_network_camera_wireless_profile(
         self, *, network_id: str, wireless_profile_id: str
-    ) -> GetNetworkCameraWirelessProfileResponse:
+    ) -> NetworkCameraWirelessProfileResponse:
         """Retrieve a single camera wireless profile.
 
         [API documentation: getNetworkCameraWirelessProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profile)
@@ -1496,7 +1479,7 @@ class Camera:
             scope="camera",
             operation_id="getNetworkCameraWirelessProfile",
             path=path,
-            response_schema=GetNetworkCameraWirelessProfileResponse,
+            response_schema=NetworkCameraWirelessProfileResponse,
         )
 
     async def update_network_camera_wireless_profile(
@@ -1507,7 +1490,7 @@ class Camera:
         name: str | None = None,
         ssid: UpdateNetworkCameraWirelessProfileSsid | None = None,
         identity: UpdateNetworkCameraWirelessProfileIdentity | None = None,
-    ) -> UpdateNetworkCameraWirelessProfileResponse:
+    ) -> NetworkCameraWirelessProfileResponse:
         """Update an existing camera wireless profile in this network.
 
         [API documentation: updateNetworkCameraWirelessProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-camera-wireless-profile)
@@ -1560,7 +1543,7 @@ class Camera:
             operation_id="updateNetworkCameraWirelessProfile",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkCameraWirelessProfileResponse,
+            response_schema=NetworkCameraWirelessProfileResponse,
         )
 
     async def delete_network_camera_wireless_profile(
@@ -1706,7 +1689,7 @@ class Camera:
 
     def get_organization_camera_custom_analytics_artifacts(
         self, organization_id: str
-    ) -> AsyncPaginatedResponse[GetOrganizationCameraCustomAnalyticsArtifactsResponseItem]:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraCustomAnalyticsArtifactResponse]:
         """List Custom Analytics Artifacts.
 
         [API documentation: getOrganizationCameraCustomAnalyticsArtifacts](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifacts)
@@ -1745,7 +1728,7 @@ class Camera:
             scope="camera",
             operation_id="getOrganizationCameraCustomAnalyticsArtifacts",
             path=path,
-            item_schema=GetOrganizationCameraCustomAnalyticsArtifactsResponseItem,
+            item_schema=GetOrganizationCameraCustomAnalyticsArtifactResponse,
         )
 
     async def create_organization_camera_custom_analytics_artifact(
@@ -2044,7 +2027,7 @@ class Camera:
 
     def get_organization_camera_permissions(
         self, organization_id: str
-    ) -> AsyncPaginatedResponse[GetOrganizationCameraPermissionsResponseItem]:
+    ) -> AsyncPaginatedResponse[GetOrganizationCameraPermissionResponse]:
         """List the permissions scopes for this organization.
 
         [API documentation: getOrganizationCameraPermissions](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions)
@@ -2079,7 +2062,7 @@ class Camera:
             scope="camera",
             operation_id="getOrganizationCameraPermissions",
             path=path,
-            item_schema=GetOrganizationCameraPermissionsResponseItem,
+            item_schema=GetOrganizationCameraPermissionResponse,
         )
 
     async def get_organization_camera_permission(
@@ -2119,7 +2102,7 @@ class Camera:
 
     def get_organization_camera_roles(
         self, organization_id: str
-    ) -> AsyncPaginatedResponse[GetOrganizationCameraRolesResponseItem]:
+    ) -> AsyncPaginatedResponse[OrganizationCameraRoleResponse]:
         """List all the roles in this organization.
 
         [API documentation: getOrganizationCameraRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles)
@@ -2178,7 +2161,7 @@ class Camera:
             scope="camera",
             operation_id="getOrganizationCameraRoles",
             path=path,
-            item_schema=GetOrganizationCameraRolesResponseItem,
+            item_schema=OrganizationCameraRoleResponse,
         )
 
     async def create_organization_camera_role(
@@ -2189,7 +2172,7 @@ class Camera:
         applied_on_devices: list[CreateOrganizationCameraRoleAppliedOnDevicesItem] | None = None,
         applied_on_networks: list[CreateOrganizationCameraRoleAppliedOnNetworksItem] | None = None,
         applied_org_wide: list[CreateOrganizationCameraRoleAppliedOrgWideItem] | None = None,
-    ) -> CreateOrganizationCameraRoleResponse:
+    ) -> OrganizationCameraRoleResponse:
         """Creates new role for this organization.
 
         [API documentation: createOrganizationCameraRole](https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-role)
@@ -2262,12 +2245,12 @@ class Camera:
             operation_id="createOrganizationCameraRole",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationCameraRoleResponse,
+            response_schema=OrganizationCameraRoleResponse,
         )
 
     async def get_organization_camera_role(
         self, *, organization_id: str, role_id: str
-    ) -> GetOrganizationCameraRoleResponse:
+    ) -> OrganizationCameraRoleResponse:
         """Retrieve a single role.
 
         [API documentation: getOrganizationCameraRole](https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-role)
@@ -2321,7 +2304,7 @@ class Camera:
             scope="camera",
             operation_id="getOrganizationCameraRole",
             path=path,
-            response_schema=GetOrganizationCameraRoleResponse,
+            response_schema=OrganizationCameraRoleResponse,
         )
 
     async def update_organization_camera_role(
@@ -2333,7 +2316,7 @@ class Camera:
         applied_on_devices: list[UpdateOrganizationCameraRoleAppliedOnDevicesItem] | None = None,
         applied_on_networks: list[UpdateOrganizationCameraRoleAppliedOnNetworksItem] | None = None,
         applied_org_wide: list[UpdateOrganizationCameraRoleAppliedOrgWideItem] | None = None,
-    ) -> UpdateOrganizationCameraRoleResponse:
+    ) -> OrganizationCameraRoleResponse:
         """Update an existing role in this organization.
 
         [API documentation: updateOrganizationCameraRole](https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-role)
@@ -2408,7 +2391,7 @@ class Camera:
             operation_id="updateOrganizationCameraRole",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationCameraRoleResponse,
+            response_schema=OrganizationCameraRoleResponse,
         )
 
     async def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:

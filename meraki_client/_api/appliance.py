@@ -19,98 +19,68 @@ from meraki_client.schemas import (
     CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
     CreateNetworkApplianceRfProfileFiveGhzSettings,
     CreateNetworkApplianceRfProfilePerSsidSettings,
-    CreateNetworkApplianceRfProfileResponse,
     CreateNetworkApplianceRfProfileTwoFourGhzSettings,
-    CreateNetworkApplianceStaticRouteResponse,
-    CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse,
     CreateNetworkApplianceVlanDhcpOptionsItem,
     CreateNetworkApplianceVlanIpv6,
     CreateNetworkApplianceVlanMandatoryDhcp,
     CreateNetworkApplianceVlanResponse,
-    CreateOrganizationApplianceDnsLocalProfileResponse,
     CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem,
-    CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse,
     CreateOrganizationApplianceDnsLocalRecordProfile,
-    CreateOrganizationApplianceDnsLocalRecordResponse,
     CreateOrganizationApplianceDnsSplitProfileNameservers,
-    CreateOrganizationApplianceDnsSplitProfileResponse,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem,
-    CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem,
-    CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse,
+    DeviceApplianceRadioSettingsResponse,
+    DeviceApplianceUplinksSettingsResponse,
     DictResponse,
     GetDeviceApplianceDhcpSubnetsResponseItem,
     GetDeviceAppliancePerformanceResponse,
     GetDeviceAppliancePrefixesDelegatedResponse,
-    GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse,
-    GetDeviceApplianceRadioSettingsResponse,
-    GetDeviceApplianceUplinksSettingsResponse,
     GetNetworkApplianceClientSecurityEventsResponse,
-    GetNetworkApplianceConnectivityMonitoringDestinationsResponse,
-    GetNetworkApplianceContentFilteringResponse,
-    GetNetworkApplianceFirewallFirewalledServiceResponse,
-    GetNetworkApplianceFirewallFirewalledServicesResponseItem,
     GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
-    GetNetworkApplianceFirewallInboundFirewallRulesResponse,
-    GetNetworkApplianceFirewallL3FirewallRulesResponse,
     GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse,
-    GetNetworkApplianceFirewallPortForwardingRulesResponse,
-    GetNetworkAppliancePortResponse,
-    GetNetworkAppliancePortsResponseItem,
     GetNetworkAppliancePrefixesDelegatedStaticResponse,
-    GetNetworkAppliancePrefixesDelegatedStaticsResponseItem,
-    GetNetworkApplianceRfProfileResponse,
     GetNetworkApplianceRfProfilesResponse,
-    GetNetworkApplianceSecurityEventsResponse,
-    GetNetworkApplianceSecurityIntrusionResponse,
-    GetNetworkApplianceSecurityMalwareResponse,
-    GetNetworkApplianceSettingsResponse,
-    GetNetworkApplianceSingleLanResponse,
-    GetNetworkApplianceSsidResponse,
-    GetNetworkApplianceSsidsResponseItem,
-    GetNetworkApplianceStaticRouteResponse,
-    GetNetworkApplianceStaticRoutesResponseItem,
-    GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem,
-    GetNetworkApplianceTrafficShapingCustomPerformanceClassResponse,
     GetNetworkApplianceTrafficShapingUplinkBandwidthResponse,
-    GetNetworkApplianceTrafficShapingUplinkSelectionResponse,
     GetNetworkApplianceUplinksUsageHistoryResponseItem,
-    GetNetworkApplianceVlanResponse,
     GetNetworkApplianceVlansResponseItem,
-    GetNetworkApplianceVlansSettingsResponse,
-    GetNetworkApplianceVpnBgpResponse,
-    GetNetworkApplianceVpnSiteToSiteVpnResponse,
-    GetNetworkApplianceWarmSpareResponse,
     GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem,
-    GetOrganizationApplianceDnsLocalProfilesResponseItem,
-    GetOrganizationApplianceDnsLocalRecordsResponseItem,
-    GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem,
-    GetOrganizationApplianceDnsSplitProfilesResponseItem,
-    GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem,
-    GetOrganizationApplianceSecurityEventsResponse,
-    GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem,
+    GetOrganizationApplianceDnsLocalRecordsResponse,
     GetOrganizationApplianceUplinksStatusesOverviewResponse,
     GetOrganizationApplianceUplinkStatusesResponseItem,
     GetOrganizationApplianceUplinksUsageByNetworkResponseItem,
-    GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
     GetOrganizationApplianceVpnStatsResponseItem,
     GetOrganizationApplianceVpnStatusesResponseItem,
-    GetOrganizationApplianceVpnThirdPartyVPNPeersResponse,
-    GetOrganizationApplianceVpnVpnFirewallRulesResponse,
-    SwapNetworkApplianceWarmSpareResponse,
+    NetworkApplianceConnectivityMonitoringDestinationsResponse,
+    NetworkApplianceContentFilteringResponse,
+    NetworkApplianceFirewallFirewalledServiceResponse,
+    NetworkApplianceFirewallInboundFirewallRulesResponse,
+    NetworkApplianceFirewallPortForwardingRulesResponse,
+    NetworkAppliancePortResponse,
+    NetworkApplianceRfProfileResponse,
+    NetworkApplianceSecurityIntrusionResponse,
+    NetworkApplianceSecurityMalwareResponse,
+    NetworkApplianceSettingsResponse,
+    NetworkApplianceSingleLanResponse,
+    NetworkApplianceSsidResponse,
+    NetworkApplianceStaticRouteResponse,
+    NetworkApplianceTrafficShapingCustomPerformanceClassResponse,
+    NetworkApplianceTrafficShapingUplinkSelectionResponse,
+    NetworkApplianceVlanResponse,
+    NetworkApplianceVlansSettingsResponse,
+    NetworkApplianceVpnBgpResponse,
+    NetworkApplianceVpnSiteToSiteVpnResponse,
+    NetworkApplianceWarmSpareResponse,
+    OrganizationApplianceDnsLocalProfileResponse,
+    OrganizationApplianceDnsSplitProfileResponse,
+    OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
+    OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
+    OrganizationApplianceVpnThirdPartyVPNPeersResponse,
     UpdateDeviceApplianceRadioSettingsFiveGhzSettings,
-    UpdateDeviceApplianceRadioSettingsResponse,
     UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings,
     UpdateDeviceApplianceUplinksSettingsInterfaces,
-    UpdateDeviceApplianceUplinksSettingsResponse,
     UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem,
-    UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse,
-    UpdateNetworkApplianceContentFilteringResponse,
     UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem,
-    UpdateNetworkApplianceFirewallFirewalledServiceResponse,
-    UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
     UpdateNetworkApplianceFirewallInboundCellularFirewallRulesRulesItem,
-    UpdateNetworkApplianceFirewallInboundFirewallRulesResponse,
     UpdateNetworkApplianceFirewallInboundFirewallRulesRulesItem,
     UpdateNetworkApplianceFirewallL3FirewallRulesRulesItem,
     UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem,
@@ -118,40 +88,29 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceFirewallMulticastForwardingRulesItem,
     UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItem,
     UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItem,
-    UpdateNetworkApplianceFirewallPortForwardingRulesResponse,
     UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem,
     UpdateNetworkApplianceFirewallSettingsSpoofingProtection,
-    UpdateNetworkAppliancePortResponse,
     UpdateNetworkAppliancePrefixesDelegatedStaticOrigin,
     UpdateNetworkApplianceRfProfileFiveGhzSettings,
     UpdateNetworkApplianceRfProfilePerSsidSettings,
-    UpdateNetworkApplianceRfProfileResponse,
     UpdateNetworkApplianceRfProfileTwoFourGhzSettings,
     UpdateNetworkApplianceSdwanInternetPoliciesResponse,
     UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem,
     UpdateNetworkApplianceSecurityIntrusionProtectedNetworks,
-    UpdateNetworkApplianceSecurityIntrusionResponse,
     UpdateNetworkApplianceSecurityMalwareAllowedFilesItem,
     UpdateNetworkApplianceSecurityMalwareAllowedUrlsItem,
-    UpdateNetworkApplianceSecurityMalwareResponse,
     UpdateNetworkApplianceSettingsDynamicDns,
-    UpdateNetworkApplianceSettingsResponse,
     UpdateNetworkApplianceSingleLanIpv6,
     UpdateNetworkApplianceSingleLanMandatoryDhcp,
-    UpdateNetworkApplianceSingleLanResponse,
     UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication,
     UpdateNetworkApplianceSsidDot11w,
     UpdateNetworkApplianceSsidRadiusServersItem,
-    UpdateNetworkApplianceSsidResponse,
     UpdateNetworkApplianceStaticRouteFixedIpAssignmentsValue,
     UpdateNetworkApplianceStaticRouteReservedIpRangesItem,
-    UpdateNetworkApplianceStaticRouteResponse,
-    UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse,
     UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits,
     UpdateNetworkApplianceTrafficShapingRulesRulesItem,
     UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits,
     UpdateNetworkApplianceTrafficShapingUplinkSelectionFailoverAndFailback,
-    UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse,
     UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesItem,
     UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesItem,
     UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem,
@@ -161,26 +120,16 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceVlanIpv6,
     UpdateNetworkApplianceVlanMandatoryDhcp,
     UpdateNetworkApplianceVlanReservedIpRangesItem,
-    UpdateNetworkApplianceVlanResponse,
-    UpdateNetworkApplianceVlansSettingsResponse,
     UpdateNetworkApplianceVpnBgpNeighborsItem,
-    UpdateNetworkApplianceVpnBgpResponse,
     UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
-    UpdateNetworkApplianceVpnSiteToSiteVpnResponse,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnet,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem,
-    UpdateNetworkApplianceWarmSpareResponse,
-    UpdateOrganizationApplianceDnsLocalProfileResponse,
     UpdateOrganizationApplianceDnsLocalRecordProfile,
     UpdateOrganizationApplianceDnsLocalRecordResponse,
     UpdateOrganizationApplianceDnsSplitProfileNameservers,
-    UpdateOrganizationApplianceDnsSplitProfileResponse,
     UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem,
     UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem,
-    UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
     UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem,
-    UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse,
-    UpdateOrganizationApplianceVpnVpnFirewallRulesResponse,
     UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem,
 )
 from meraki_client.types import (
@@ -361,7 +310,7 @@ class Appliance:
 
     def get_device_appliance_prefixes_delegated_vlan_assignments(
         self, serial: str
-    ) -> PaginatedResponse[GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse]:
+    ) -> PaginatedResponse[GetDeviceAppliancePrefixesDelegatedResponse]:
         """Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
 
         [API documentation: getDeviceAppliancePrefixesDelegatedVlanAssignments](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated-vlan-assignments)
@@ -412,12 +361,12 @@ class Appliance:
             scope="appliance",
             operation_id="getDeviceAppliancePrefixesDelegatedVlanAssignments",
             path=path,
-            item_schema=GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse,
+            item_schema=GetDeviceAppliancePrefixesDelegatedResponse,
         )
 
     def get_device_appliance_radio_settings(
         self, serial: str
-    ) -> GetDeviceApplianceRadioSettingsResponse:
+    ) -> DeviceApplianceRadioSettingsResponse:
         """Return the radio settings of an appliance.
 
         [API documentation: getDeviceApplianceRadioSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-radio-settings)
@@ -453,7 +402,7 @@ class Appliance:
             scope="appliance",
             operation_id="getDeviceApplianceRadioSettings",
             path=path,
-            response_schema=GetDeviceApplianceRadioSettingsResponse,
+            response_schema=DeviceApplianceRadioSettingsResponse,
         )
 
     def update_device_appliance_radio_settings(
@@ -463,7 +412,7 @@ class Appliance:
         rf_profile_id: str | None = None,
         two_four_ghz_settings: UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceApplianceRadioSettingsFiveGhzSettings | None = None,
-    ) -> UpdateDeviceApplianceRadioSettingsResponse:
+    ) -> DeviceApplianceRadioSettingsResponse:
         """Update the radio settings of an appliance.
 
         [API documentation: updateDeviceApplianceRadioSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings)
@@ -519,12 +468,12 @@ class Appliance:
             operation_id="updateDeviceApplianceRadioSettings",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceApplianceRadioSettingsResponse,
+            response_schema=DeviceApplianceRadioSettingsResponse,
         )
 
     def get_device_appliance_uplinks_settings(
         self, serial: str
-    ) -> GetDeviceApplianceUplinksSettingsResponse:
+    ) -> DeviceApplianceUplinksSettingsResponse:
         """Return the uplink settings for an MX appliance.
 
         [API documentation: getDeviceApplianceUplinksSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-uplinks-settings)
@@ -625,12 +574,12 @@ class Appliance:
             scope="appliance",
             operation_id="getDeviceApplianceUplinksSettings",
             path=path,
-            response_schema=GetDeviceApplianceUplinksSettingsResponse,
+            response_schema=DeviceApplianceUplinksSettingsResponse,
         )
 
     def update_device_appliance_uplinks_settings(
         self, *, serial: str, interfaces: UpdateDeviceApplianceUplinksSettingsInterfaces
-    ) -> UpdateDeviceApplianceUplinksSettingsResponse:
+    ) -> DeviceApplianceUplinksSettingsResponse:
         """Update the uplink settings for an MX appliance.
 
         [API documentation: updateDeviceApplianceUplinksSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings)
@@ -737,7 +686,7 @@ class Appliance:
             operation_id="updateDeviceApplianceUplinksSettings",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceApplianceUplinksSettingsResponse,
+            response_schema=DeviceApplianceUplinksSettingsResponse,
         )
 
     def create_device_appliance_vmx_authentication_token(
@@ -897,7 +846,7 @@ class Appliance:
 
     def get_network_appliance_connectivity_monitoring_destinations(
         self, network_id: str
-    ) -> GetNetworkApplianceConnectivityMonitoringDestinationsResponse:
+    ) -> NetworkApplianceConnectivityMonitoringDestinationsResponse:
         """Return the connectivity testing destinations for an MX network.
 
         [API documentation: getNetworkApplianceConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-connectivity-monitoring-destinations)
@@ -929,7 +878,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceConnectivityMonitoringDestinations",
             path=path,
-            response_schema=GetNetworkApplianceConnectivityMonitoringDestinationsResponse,
+            response_schema=NetworkApplianceConnectivityMonitoringDestinationsResponse,
         )
 
     def update_network_appliance_connectivity_monitoring_destinations(
@@ -938,7 +887,7 @@ class Appliance:
         *,
         destinations: list[UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem]
         | None = None,
-    ) -> UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse:
+    ) -> NetworkApplianceConnectivityMonitoringDestinationsResponse:
         """Update the connectivity testing destinations for an MX network.
 
         [API documentation: updateNetworkApplianceConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations)
@@ -978,12 +927,12 @@ class Appliance:
             operation_id="updateNetworkApplianceConnectivityMonitoringDestinations",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse,
+            response_schema=NetworkApplianceConnectivityMonitoringDestinationsResponse,
         )
 
     def get_network_appliance_content_filtering(
         self, network_id: str
-    ) -> GetNetworkApplianceContentFilteringResponse:
+    ) -> NetworkApplianceContentFilteringResponse:
         """Return the content filtering settings for an MX network.
 
         [API documentation: getNetworkApplianceContentFiltering](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering)
@@ -1023,7 +972,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceContentFiltering",
             path=path,
-            response_schema=GetNetworkApplianceContentFilteringResponse,
+            response_schema=NetworkApplianceContentFilteringResponse,
         )
 
     def update_network_appliance_content_filtering(
@@ -1035,7 +984,7 @@ class Appliance:
         blocked_url_categories: list[str] | None = None,
         url_category_list_size: UpdateNetworkApplianceContentFilteringUrlCategoryListSize
         | None = None,
-    ) -> UpdateNetworkApplianceContentFilteringResponse:
+    ) -> NetworkApplianceContentFilteringResponse:
         """Update the content filtering settings for an MX network.
 
         [API documentation: updateNetworkApplianceContentFiltering](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-content-filtering)
@@ -1090,7 +1039,7 @@ class Appliance:
             operation_id="updateNetworkApplianceContentFiltering",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceContentFilteringResponse,
+            response_schema=NetworkApplianceContentFilteringResponse,
         )
 
     def get_network_appliance_content_filtering_categories(self, network_id: str) -> DictResponse:
@@ -1231,7 +1180,7 @@ class Appliance:
 
     def get_network_appliance_firewall_firewalled_services(
         self, network_id: str
-    ) -> PaginatedResponse[GetNetworkApplianceFirewallFirewalledServicesResponseItem]:
+    ) -> PaginatedResponse[NetworkApplianceFirewallFirewalledServiceResponse]:
         """List the appliance services and their accessibility rules.
 
         [API documentation: getNetworkApplianceFirewallFirewalledServices](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-services)
@@ -1268,12 +1217,12 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceFirewallFirewalledServices",
             path=path,
-            item_schema=GetNetworkApplianceFirewallFirewalledServicesResponseItem,
+            item_schema=NetworkApplianceFirewallFirewalledServiceResponse,
         )
 
     def get_network_appliance_firewall_firewalled_service(
         self, *, network_id: str, service: str
-    ) -> GetNetworkApplianceFirewallFirewalledServiceResponse:
+    ) -> NetworkApplianceFirewallFirewalledServiceResponse:
         """Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP').
 
         [API documentation: getNetworkApplianceFirewallFirewalledService](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-service)
@@ -1305,7 +1254,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceFirewallFirewalledService",
             path=path,
-            response_schema=GetNetworkApplianceFirewallFirewalledServiceResponse,
+            response_schema=NetworkApplianceFirewallFirewalledServiceResponse,
         )
 
     def update_network_appliance_firewall_firewalled_service(
@@ -1315,7 +1264,7 @@ class Appliance:
         service: str,
         access: UpdateNetworkApplianceFirewallFirewalledServiceAccess,
         allowed_ips: list[str] | None = None,
-    ) -> UpdateNetworkApplianceFirewallFirewalledServiceResponse:
+    ) -> NetworkApplianceFirewallFirewalledServiceResponse:
         """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP').
 
         [API documentation: updateNetworkApplianceFirewallFirewalledService](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-firewalled-service)
@@ -1362,7 +1311,7 @@ class Appliance:
             operation_id="updateNetworkApplianceFirewallFirewalledService",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceFirewallFirewalledServiceResponse,
+            response_schema=NetworkApplianceFirewallFirewalledServiceResponse,
         )
 
     def get_network_appliance_firewall_inbound_cellular_firewall_rules(
@@ -1413,7 +1362,7 @@ class Appliance:
         *,
         rules: list[UpdateNetworkApplianceFirewallInboundCellularFirewallRulesRulesItem]
         | None = None,
-    ) -> UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse:
+    ) -> GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse:
         """Update the inbound cellular firewall rules of an MX network.
 
         [API documentation: updateNetworkApplianceFirewallInboundCellularFirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-cellular-firewall-rules)
@@ -1456,12 +1405,12 @@ class Appliance:
             operation_id="updateNetworkApplianceFirewallInboundCellularFirewallRules",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
+            response_schema=GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
         )
 
     def get_network_appliance_firewall_inbound_firewall_rules(
         self, network_id: str
-    ) -> GetNetworkApplianceFirewallInboundFirewallRulesResponse:
+    ) -> NetworkApplianceFirewallInboundFirewallRulesResponse:
         """Return the inbound firewall rules for an MX network.
 
         [API documentation: getNetworkApplianceFirewallInboundFirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-firewall-rules)
@@ -1499,7 +1448,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceFirewallInboundFirewallRules",
             path=path,
-            response_schema=GetNetworkApplianceFirewallInboundFirewallRulesResponse,
+            response_schema=NetworkApplianceFirewallInboundFirewallRulesResponse,
         )
 
     def update_network_appliance_firewall_inbound_firewall_rules(
@@ -1508,7 +1457,7 @@ class Appliance:
         *,
         rules: list[UpdateNetworkApplianceFirewallInboundFirewallRulesRulesItem] | None = None,
         syslog_default_rule: bool | None = None,
-    ) -> UpdateNetworkApplianceFirewallInboundFirewallRulesResponse:
+    ) -> NetworkApplianceFirewallInboundFirewallRulesResponse:
         """Update the inbound firewall rules of an MX network.
 
         [API documentation: updateNetworkApplianceFirewallInboundFirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-firewall-rules)
@@ -1556,12 +1505,12 @@ class Appliance:
             operation_id="updateNetworkApplianceFirewallInboundFirewallRules",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceFirewallInboundFirewallRulesResponse,
+            response_schema=NetworkApplianceFirewallInboundFirewallRulesResponse,
         )
 
     def get_network_appliance_firewall_l3_firewall_rules(
         self, network_id: str
-    ) -> GetNetworkApplianceFirewallL3FirewallRulesResponse:
+    ) -> GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse:
         """Return the L3 firewall rules for an MX network.
 
         [API documentation: getNetworkApplianceFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-3-firewall-rules)
@@ -1598,7 +1547,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceFirewallL3FirewallRules",
             path=path,
-            response_schema=GetNetworkApplianceFirewallL3FirewallRulesResponse,
+            response_schema=GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
         )
 
     def update_network_appliance_firewall_l3_firewall_rules(
@@ -2116,7 +2065,7 @@ class Appliance:
 
     def get_network_appliance_firewall_port_forwarding_rules(
         self, network_id: str
-    ) -> GetNetworkApplianceFirewallPortForwardingRulesResponse:
+    ) -> NetworkApplianceFirewallPortForwardingRulesResponse:
         """Return the port forwarding rules for an MX network.
 
         [API documentation: getNetworkApplianceFirewallPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-port-forwarding-rules)
@@ -2154,7 +2103,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceFirewallPortForwardingRules",
             path=path,
-            response_schema=GetNetworkApplianceFirewallPortForwardingRulesResponse,
+            response_schema=NetworkApplianceFirewallPortForwardingRulesResponse,
         )
 
     def update_network_appliance_firewall_port_forwarding_rules(
@@ -2162,7 +2111,7 @@ class Appliance:
         *,
         network_id: str,
         rules: list[UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem],
-    ) -> UpdateNetworkApplianceFirewallPortForwardingRulesResponse:
+    ) -> NetworkApplianceFirewallPortForwardingRulesResponse:
         """Update the port forwarding rules for an MX network.
 
         [API documentation: updateNetworkApplianceFirewallPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-port-forwarding-rules)
@@ -2206,7 +2155,7 @@ class Appliance:
             operation_id="updateNetworkApplianceFirewallPortForwardingRules",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceFirewallPortForwardingRulesResponse,
+            response_schema=NetworkApplianceFirewallPortForwardingRulesResponse,
         )
 
     def get_network_appliance_firewall_settings(self, network_id: str) -> DictResponse:
@@ -2290,7 +2239,7 @@ class Appliance:
 
     def get_network_appliance_ports(
         self, network_id: str
-    ) -> PaginatedResponse[GetNetworkAppliancePortsResponseItem]:
+    ) -> PaginatedResponse[NetworkAppliancePortResponse]:
         """List per-port VLAN settings for all ports of a secure router or security appliance.
 
         [API documentation: getNetworkAppliancePorts](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports)
@@ -2329,12 +2278,12 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkAppliancePorts",
             path=path,
-            item_schema=GetNetworkAppliancePortsResponseItem,
+            item_schema=NetworkAppliancePortResponse,
         )
 
     def get_network_appliance_port(
         self, *, network_id: str, port_id: str
-    ) -> GetNetworkAppliancePortResponse:
+    ) -> NetworkAppliancePortResponse:
         """Return per-port VLAN settings for a single secure router or security appliance port.
 
         [API documentation: getNetworkAppliancePort](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port)
@@ -2368,7 +2317,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkAppliancePort",
             path=path,
-            response_schema=GetNetworkAppliancePortResponse,
+            response_schema=NetworkAppliancePortResponse,
         )
 
     def update_network_appliance_port(
@@ -2382,7 +2331,7 @@ class Appliance:
         vlan: int | None = None,
         allowed_vlans: str | None = None,
         access_policy: str | None = None,
-    ) -> UpdateNetworkAppliancePortResponse:
+    ) -> NetworkAppliancePortResponse:
         """Update the per-port VLAN settings for a single secure router or security appliance port.
 
         [API documentation: updateNetworkAppliancePort](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port)
@@ -2444,12 +2393,12 @@ class Appliance:
             operation_id="updateNetworkAppliancePort",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkAppliancePortResponse,
+            response_schema=NetworkAppliancePortResponse,
         )
 
     def get_network_appliance_prefixes_delegated_statics(
         self, network_id: str
-    ) -> PaginatedResponse[GetNetworkAppliancePrefixesDelegatedStaticsResponseItem]:
+    ) -> PaginatedResponse[GetNetworkAppliancePrefixesDelegatedStaticResponse]:
         """List static delegated prefixes for a network.
 
         [API documentation: getNetworkAppliancePrefixesDelegatedStatics](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-statics)
@@ -2492,7 +2441,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkAppliancePrefixesDelegatedStatics",
             path=path,
-            item_schema=GetNetworkAppliancePrefixesDelegatedStaticsResponseItem,
+            item_schema=GetNetworkAppliancePrefixesDelegatedStaticResponse,
         )
 
     def create_network_appliance_prefixes_delegated_static(
@@ -2753,7 +2702,7 @@ class Appliance:
         two_four_ghz_settings: CreateNetworkApplianceRfProfileTwoFourGhzSettings | None = None,
         five_ghz_settings: CreateNetworkApplianceRfProfileFiveGhzSettings | None = None,
         per_ssid_settings: CreateNetworkApplianceRfProfilePerSsidSettings | None = None,
-    ) -> CreateNetworkApplianceRfProfileResponse:
+    ) -> NetworkApplianceRfProfileResponse:
         """Creates new RF profile for this network.
 
         [API documentation: createNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile)
@@ -2828,12 +2777,12 @@ class Appliance:
             operation_id="createNetworkApplianceRfProfile",
             path=path,
             json=payload,
-            response_schema=CreateNetworkApplianceRfProfileResponse,
+            response_schema=NetworkApplianceRfProfileResponse,
         )
 
     def get_network_appliance_rf_profile(
         self, *, network_id: str, rf_profile_id: str
-    ) -> GetNetworkApplianceRfProfileResponse:
+    ) -> NetworkApplianceRfProfileResponse:
         """Return a RF profile.
 
         [API documentation: getNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profile)
@@ -2889,7 +2838,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceRfProfile",
             path=path,
-            response_schema=GetNetworkApplianceRfProfileResponse,
+            response_schema=NetworkApplianceRfProfileResponse,
         )
 
     def update_network_appliance_rf_profile(
@@ -2901,7 +2850,7 @@ class Appliance:
         two_four_ghz_settings: UpdateNetworkApplianceRfProfileTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateNetworkApplianceRfProfileFiveGhzSettings | None = None,
         per_ssid_settings: UpdateNetworkApplianceRfProfilePerSsidSettings | None = None,
-    ) -> UpdateNetworkApplianceRfProfileResponse:
+    ) -> NetworkApplianceRfProfileResponse:
         """Updates specified RF profile for this network.
 
         [API documentation: updateNetworkApplianceRfProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile)
@@ -2978,7 +2927,7 @@ class Appliance:
             operation_id="updateNetworkApplianceRfProfile",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceRfProfileResponse,
+            response_schema=NetworkApplianceRfProfileResponse,
         )
 
     def delete_network_appliance_rf_profile(self, *, network_id: str, rf_profile_id: str) -> None:
@@ -3097,7 +3046,7 @@ class Appliance:
         sort_order: GetNetworkApplianceSecurityEventsSortOrder | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetNetworkApplianceSecurityEventsResponse]:
+    ) -> PaginatedResponse[GetNetworkApplianceClientSecurityEventsResponse]:
         """List the security events for a network.
 
         [API documentation: getNetworkApplianceSecurityEvents](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events)
@@ -3201,12 +3150,12 @@ class Appliance:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetNetworkApplianceSecurityEventsResponse,
+            item_schema=GetNetworkApplianceClientSecurityEventsResponse,
         )
 
     def get_network_appliance_security_intrusion(
         self, network_id: str
-    ) -> GetNetworkApplianceSecurityIntrusionResponse:
+    ) -> NetworkApplianceSecurityIntrusionResponse:
         """Returns all supported intrusion settings for an MX network.
 
         [API documentation: getNetworkApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion)
@@ -3246,7 +3195,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceSecurityIntrusion",
             path=path,
-            response_schema=GetNetworkApplianceSecurityIntrusionResponse,
+            response_schema=NetworkApplianceSecurityIntrusionResponse,
         )
 
     def update_network_appliance_security_intrusion(
@@ -3256,7 +3205,7 @@ class Appliance:
         mode: UpdateNetworkApplianceSecurityIntrusionMode | None = None,
         ids_rulesets: UpdateNetworkApplianceSecurityIntrusionIdsRulesets | None = None,
         protected_networks: UpdateNetworkApplianceSecurityIntrusionProtectedNetworks | None = None,
-    ) -> UpdateNetworkApplianceSecurityIntrusionResponse:
+    ) -> NetworkApplianceSecurityIntrusionResponse:
         """Set the supported intrusion settings for an MX network.
 
         [API documentation: updateNetworkApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-intrusion)
@@ -3315,12 +3264,12 @@ class Appliance:
             operation_id="updateNetworkApplianceSecurityIntrusion",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceSecurityIntrusionResponse,
+            response_schema=NetworkApplianceSecurityIntrusionResponse,
         )
 
     def get_network_appliance_security_malware(
         self, network_id: str
-    ) -> GetNetworkApplianceSecurityMalwareResponse:
+    ) -> NetworkApplianceSecurityMalwareResponse:
         """Returns all supported malware settings for an MX network.
 
         [API documentation: getNetworkApplianceSecurityMalware](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-malware)
@@ -3358,7 +3307,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceSecurityMalware",
             path=path,
-            response_schema=GetNetworkApplianceSecurityMalwareResponse,
+            response_schema=NetworkApplianceSecurityMalwareResponse,
         )
 
     def update_network_appliance_security_malware(
@@ -3368,7 +3317,7 @@ class Appliance:
         mode: UpdateNetworkApplianceSecurityMalwareMode,
         allowed_urls: list[UpdateNetworkApplianceSecurityMalwareAllowedUrlsItem] | None = None,
         allowed_files: list[UpdateNetworkApplianceSecurityMalwareAllowedFilesItem] | None = None,
-    ) -> UpdateNetworkApplianceSecurityMalwareResponse:
+    ) -> NetworkApplianceSecurityMalwareResponse:
         """Set the supported malware settings for an MX network.
 
         [API documentation: updateNetworkApplianceSecurityMalware](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-malware)
@@ -3426,12 +3375,10 @@ class Appliance:
             operation_id="updateNetworkApplianceSecurityMalware",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceSecurityMalwareResponse,
+            response_schema=NetworkApplianceSecurityMalwareResponse,
         )
 
-    def get_network_appliance_settings(
-        self, network_id: str
-    ) -> GetNetworkApplianceSettingsResponse:
+    def get_network_appliance_settings(self, network_id: str) -> NetworkApplianceSettingsResponse:
         """Return the appliance settings for a network.
 
         [API documentation: getNetworkApplianceSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-settings)
@@ -3463,7 +3410,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceSettings",
             path=path,
-            response_schema=GetNetworkApplianceSettingsResponse,
+            response_schema=NetworkApplianceSettingsResponse,
         )
 
     def update_network_appliance_settings(
@@ -3473,7 +3420,7 @@ class Appliance:
         client_tracking_method: UpdateNetworkApplianceSettingsClientTrackingMethod | None = None,
         deployment_mode: UpdateNetworkApplianceSettingsDeploymentMode | None = None,
         dynamic_dns: UpdateNetworkApplianceSettingsDynamicDns | None = None,
-    ) -> UpdateNetworkApplianceSettingsResponse:
+    ) -> NetworkApplianceSettingsResponse:
         """Update the appliance settings for a network.
 
         [API documentation: updateNetworkApplianceSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings)
@@ -3517,12 +3464,12 @@ class Appliance:
             operation_id="updateNetworkApplianceSettings",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceSettingsResponse,
+            response_schema=NetworkApplianceSettingsResponse,
         )
 
     def get_network_appliance_single_lan(
         self, network_id: str
-    ) -> GetNetworkApplianceSingleLanResponse:
+    ) -> NetworkApplianceSingleLanResponse:
         """Return single LAN configuration.
 
         [API documentation: getNetworkApplianceSingleLan](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-single-lan)
@@ -3568,7 +3515,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceSingleLan",
             path=path,
-            response_schema=GetNetworkApplianceSingleLanResponse,
+            response_schema=NetworkApplianceSingleLanResponse,
         )
 
     def update_network_appliance_single_lan(
@@ -3579,7 +3526,7 @@ class Appliance:
         appliance_ip: str | None = None,
         ipv6: UpdateNetworkApplianceSingleLanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceSingleLanMandatoryDhcp | None = None,
-    ) -> UpdateNetworkApplianceSingleLanResponse:
+    ) -> NetworkApplianceSingleLanResponse:
         """Update single LAN configuration.
 
         [API documentation: updateNetworkApplianceSingleLan](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan)
@@ -3643,12 +3590,12 @@ class Appliance:
             operation_id="updateNetworkApplianceSingleLan",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceSingleLanResponse,
+            response_schema=NetworkApplianceSingleLanResponse,
         )
 
     def get_network_appliance_ssids(
         self, network_id: str
-    ) -> PaginatedResponse[GetNetworkApplianceSsidsResponseItem]:
+    ) -> PaginatedResponse[NetworkApplianceSsidResponse]:
         """List the MX SSIDs in a network.
 
         [API documentation: getNetworkApplianceSsids](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids)
@@ -3694,12 +3641,12 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceSsids",
             path=path,
-            item_schema=GetNetworkApplianceSsidsResponseItem,
+            item_schema=NetworkApplianceSsidResponse,
         )
 
     def get_network_appliance_ssid(
         self, *, network_id: str, number: str
-    ) -> GetNetworkApplianceSsidResponse:
+    ) -> NetworkApplianceSsidResponse:
         """Return a single MX SSID.
 
         [API documentation: getNetworkApplianceSsid](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssid)
@@ -3740,7 +3687,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceSsid",
             path=path,
-            response_schema=GetNetworkApplianceSsidResponse,
+            response_schema=NetworkApplianceSsidResponse,
         )
 
     def update_network_appliance_ssid(
@@ -3760,7 +3707,7 @@ class Appliance:
         dhcp_enforced_deauthentication: UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication
         | None = None,
         dot11w: UpdateNetworkApplianceSsidDot11w | None = None,
-    ) -> UpdateNetworkApplianceSsidResponse:
+    ) -> NetworkApplianceSsidResponse:
         """Update the attributes of an MX SSID.
 
         [API documentation: updateNetworkApplianceSsid](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid)
@@ -3851,12 +3798,12 @@ class Appliance:
             operation_id="updateNetworkApplianceSsid",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceSsidResponse,
+            response_schema=NetworkApplianceSsidResponse,
         )
 
     def get_network_appliance_static_routes(
         self, network_id: str
-    ) -> PaginatedResponse[GetNetworkApplianceStaticRoutesResponseItem]:
+    ) -> PaginatedResponse[NetworkApplianceStaticRouteResponse]:
         """List the static routes for an MX or teleworker network.
 
         [API documentation: getNetworkApplianceStaticRoutes](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes)
@@ -3909,7 +3856,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceStaticRoutes",
             path=path,
-            item_schema=GetNetworkApplianceStaticRoutesResponseItem,
+            item_schema=NetworkApplianceStaticRouteResponse,
         )
 
     def create_network_appliance_static_route(
@@ -3920,7 +3867,7 @@ class Appliance:
         subnet: str,
         gateway_ip: str,
         gateway_vlan_id: str | None = None,
-    ) -> CreateNetworkApplianceStaticRouteResponse:
+    ) -> NetworkApplianceStaticRouteResponse:
         """Add a static route for an MX or teleworker network.
 
         [API documentation: createNetworkApplianceStaticRoute](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-static-route)
@@ -3981,12 +3928,12 @@ class Appliance:
             operation_id="createNetworkApplianceStaticRoute",
             path=path,
             json=payload,
-            response_schema=CreateNetworkApplianceStaticRouteResponse,
+            response_schema=NetworkApplianceStaticRouteResponse,
         )
 
     def get_network_appliance_static_route(
         self, *, network_id: str, static_route_id: str
-    ) -> GetNetworkApplianceStaticRouteResponse:
+    ) -> NetworkApplianceStaticRouteResponse:
         """Return a static route for an MX or teleworker network.
 
         [API documentation: getNetworkApplianceStaticRoute](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-route)
@@ -4034,7 +3981,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceStaticRoute",
             path=path,
-            response_schema=GetNetworkApplianceStaticRouteResponse,
+            response_schema=NetworkApplianceStaticRouteResponse,
         )
 
     def update_network_appliance_static_route(
@@ -4051,7 +3998,7 @@ class Appliance:
         | None = None,
         reserved_ip_ranges: list[UpdateNetworkApplianceStaticRouteReservedIpRangesItem]
         | None = None,
-    ) -> UpdateNetworkApplianceStaticRouteResponse:
+    ) -> NetworkApplianceStaticRouteResponse:
         """Update a static route for an MX or teleworker network.
 
         [API documentation: updateNetworkApplianceStaticRoute](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-static-route)
@@ -4128,7 +4075,7 @@ class Appliance:
             operation_id="updateNetworkApplianceStaticRoute",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceStaticRouteResponse,
+            response_schema=NetworkApplianceStaticRouteResponse,
         )
 
     def delete_network_appliance_static_route(
@@ -4234,7 +4181,7 @@ class Appliance:
 
     def get_network_appliance_traffic_shaping_custom_performance_classes(
         self, network_id: str
-    ) -> PaginatedResponse[GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem]:
+    ) -> PaginatedResponse[NetworkApplianceTrafficShapingCustomPerformanceClassResponse]:
         """List all custom performance classes for an MX network.
 
         [API documentation: getNetworkApplianceTrafficShapingCustomPerformanceClasses](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-classes)
@@ -4271,7 +4218,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceTrafficShapingCustomPerformanceClasses",
             path=path,
-            item_schema=GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem,
+            item_schema=NetworkApplianceTrafficShapingCustomPerformanceClassResponse,
         )
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
@@ -4282,7 +4229,7 @@ class Appliance:
         max_latency: int | None = None,
         max_jitter: int | None = None,
         max_loss_percentage: int | None = None,
-    ) -> CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse:
+    ) -> NetworkApplianceTrafficShapingCustomPerformanceClassResponse:
         """Add a custom performance class for an MX network.
 
         [API documentation: createNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class)
@@ -4327,12 +4274,12 @@ class Appliance:
             operation_id="createNetworkApplianceTrafficShapingCustomPerformanceClass",
             path=path,
             json=payload,
-            response_schema=CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse,
+            response_schema=NetworkApplianceTrafficShapingCustomPerformanceClassResponse,
         )
 
     def get_network_appliance_traffic_shaping_custom_performance_class(
         self, *, network_id: str, custom_performance_class_id: str
-    ) -> GetNetworkApplianceTrafficShapingCustomPerformanceClassResponse:
+    ) -> NetworkApplianceTrafficShapingCustomPerformanceClassResponse:
         """Return a custom performance class for an MX network.
 
         [API documentation: getNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-class)
@@ -4364,7 +4311,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceTrafficShapingCustomPerformanceClass",
             path=path,
-            response_schema=GetNetworkApplianceTrafficShapingCustomPerformanceClassResponse,
+            response_schema=NetworkApplianceTrafficShapingCustomPerformanceClassResponse,
         )
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
@@ -4376,7 +4323,7 @@ class Appliance:
         max_latency: int | None = None,
         max_jitter: int | None = None,
         max_loss_percentage: int | None = None,
-    ) -> UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse:
+    ) -> NetworkApplianceTrafficShapingCustomPerformanceClassResponse:
         """Update a custom performance class for an MX network.
 
         [API documentation: updateNetworkApplianceTrafficShapingCustomPerformanceClass](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class)
@@ -4423,7 +4370,7 @@ class Appliance:
             operation_id="updateNetworkApplianceTrafficShapingCustomPerformanceClass",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse,
+            response_schema=NetworkApplianceTrafficShapingCustomPerformanceClassResponse,
         )
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
@@ -4710,7 +4657,7 @@ class Appliance:
 
     def get_network_appliance_traffic_shaping_uplink_selection(
         self, network_id: str
-    ) -> GetNetworkApplianceTrafficShapingUplinkSelectionResponse:
+    ) -> NetworkApplianceTrafficShapingUplinkSelectionResponse:
         """Show uplink selection settings for an MX network.
 
         [API documentation: getNetworkApplianceTrafficShapingUplinkSelection](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-selection)
@@ -4808,7 +4755,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceTrafficShapingUplinkSelection",
             path=path,
-            response_schema=GetNetworkApplianceTrafficShapingUplinkSelectionResponse,
+            response_schema=NetworkApplianceTrafficShapingUplinkSelectionResponse,
         )
 
     def update_network_appliance_traffic_shaping_uplink_selection(
@@ -4828,7 +4775,7 @@ class Appliance:
             UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesItem
         ]
         | None = None,
-    ) -> UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse:
+    ) -> NetworkApplianceTrafficShapingUplinkSelectionResponse:
         """Update uplink selection settings for an MX network.
 
         [API documentation: updateNetworkApplianceTrafficShapingUplinkSelection](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection)
@@ -4955,7 +4902,7 @@ class Appliance:
             operation_id="updateNetworkApplianceTrafficShapingUplinkSelection",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse,
+            response_schema=NetworkApplianceTrafficShapingUplinkSelectionResponse,
         )
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
@@ -5400,7 +5347,7 @@ class Appliance:
 
     def get_network_appliance_vlans_settings(
         self, network_id: str
-    ) -> GetNetworkApplianceVlansSettingsResponse:
+    ) -> NetworkApplianceVlansSettingsResponse:
         """Returns the enabled status of VLANs for the network.
 
         [API documentation: getNetworkApplianceVlansSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans-settings)
@@ -5426,12 +5373,12 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceVlansSettings",
             path=path,
-            response_schema=GetNetworkApplianceVlansSettingsResponse,
+            response_schema=NetworkApplianceVlansSettingsResponse,
         )
 
     def update_network_appliance_vlans_settings(
         self, network_id: str, *, vlans_enabled: bool | None = None
-    ) -> UpdateNetworkApplianceVlansSettingsResponse:
+    ) -> NetworkApplianceVlansSettingsResponse:
         """Enable/Disable VLANs for the given network.
 
         [API documentation: updateNetworkApplianceVlansSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings)
@@ -5464,12 +5411,12 @@ class Appliance:
             operation_id="updateNetworkApplianceVlansSettings",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceVlansSettingsResponse,
+            response_schema=NetworkApplianceVlansSettingsResponse,
         )
 
     def get_network_appliance_vlan(
         self, *, network_id: str, vlan_id: str
-    ) -> GetNetworkApplianceVlanResponse:
+    ) -> NetworkApplianceVlanResponse:
         """Return a VLAN.
 
         [API documentation: getNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlan)
@@ -5555,7 +5502,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceVlan",
             path=path,
-            response_schema=GetNetworkApplianceVlanResponse,
+            response_schema=NetworkApplianceVlanResponse,
         )
 
     def update_network_appliance_vlan(
@@ -5583,7 +5530,7 @@ class Appliance:
         mask: int | None = None,
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
-    ) -> UpdateNetworkApplianceVlanResponse:
+    ) -> NetworkApplianceVlanResponse:
         """Update a VLAN.
 
         [API documentation: updateNetworkApplianceVlan](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan)
@@ -5756,7 +5703,7 @@ class Appliance:
             operation_id="updateNetworkApplianceVlan",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceVlanResponse,
+            response_schema=NetworkApplianceVlanResponse,
         )
 
     def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> None:
@@ -5780,7 +5727,7 @@ class Appliance:
             scope="appliance", operation_id="deleteNetworkApplianceVlan", path=path
         )
 
-    def get_network_appliance_vpn_bgp(self, network_id: str) -> GetNetworkApplianceVpnBgpResponse:
+    def get_network_appliance_vpn_bgp(self, network_id: str) -> NetworkApplianceVpnBgpResponse:
         """Return a Hub BGP Configuration.
 
         [API documentation: getNetworkApplianceVpnBgp](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-bgp)
@@ -5835,7 +5782,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceVpnBgp",
             path=path,
-            response_schema=GetNetworkApplianceVpnBgpResponse,
+            response_schema=NetworkApplianceVpnBgpResponse,
         )
 
     def update_network_appliance_vpn_bgp(
@@ -5846,7 +5793,7 @@ class Appliance:
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
         neighbors: list[UpdateNetworkApplianceVpnBgpNeighborsItem] | None = None,
-    ) -> UpdateNetworkApplianceVpnBgpResponse:
+    ) -> NetworkApplianceVpnBgpResponse:
         """Update a Hub BGP Configuration.
 
         [API documentation: updateNetworkApplianceVpnBgp](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp)
@@ -5928,12 +5875,12 @@ class Appliance:
             operation_id="updateNetworkApplianceVpnBgp",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceVpnBgpResponse,
+            response_schema=NetworkApplianceVpnBgpResponse,
         )
 
     def get_network_appliance_vpn_site_to_site_vpn(
         self, network_id: str
-    ) -> GetNetworkApplianceVpnSiteToSiteVpnResponse:
+    ) -> NetworkApplianceVpnSiteToSiteVpnResponse:
         """Return the site-to-site VPN settings of a network.
 
         [API documentation: getNetworkApplianceVpnSiteToSiteVpn](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-site-to-site-vpn)
@@ -5980,7 +5927,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceVpnSiteToSiteVpn",
             path=path,
-            response_schema=GetNetworkApplianceVpnSiteToSiteVpnResponse,
+            response_schema=NetworkApplianceVpnSiteToSiteVpnResponse,
         )
 
     def update_network_appliance_vpn_site_to_site_vpn(
@@ -5991,7 +5938,7 @@ class Appliance:
         hubs: list[UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem] | None = None,
         subnets: list[UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem] | None = None,
         subnet: UpdateNetworkApplianceVpnSiteToSiteVpnSubnet | None = None,
-    ) -> UpdateNetworkApplianceVpnSiteToSiteVpnResponse:
+    ) -> NetworkApplianceVpnSiteToSiteVpnResponse:
         """Update the site-to-site VPN settings of a network.
 
         [API documentation: updateNetworkApplianceVpnSiteToSiteVpn](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn)
@@ -6056,12 +6003,12 @@ class Appliance:
             operation_id="updateNetworkApplianceVpnSiteToSiteVpn",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceVpnSiteToSiteVpnResponse,
+            response_schema=NetworkApplianceVpnSiteToSiteVpnResponse,
         )
 
     def get_network_appliance_warm_spare(
         self, network_id: str
-    ) -> GetNetworkApplianceWarmSpareResponse:
+    ) -> NetworkApplianceWarmSpareResponse:
         """Return MX warm spare settings.
 
         [API documentation: getNetworkApplianceWarmSpare](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-warm-spare)
@@ -6098,7 +6045,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceWarmSpare",
             path=path,
-            response_schema=GetNetworkApplianceWarmSpareResponse,
+            response_schema=NetworkApplianceWarmSpareResponse,
         )
 
     def update_network_appliance_warm_spare(
@@ -6110,7 +6057,7 @@ class Appliance:
         uplink_mode: str | None = None,
         virtual_ip1: str | None = None,
         virtual_ip2: str | None = None,
-    ) -> UpdateNetworkApplianceWarmSpareResponse:
+    ) -> NetworkApplianceWarmSpareResponse:
         """Update MX warm spare settings.
 
         [API documentation: updateNetworkApplianceWarmSpare](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare)
@@ -6165,12 +6112,12 @@ class Appliance:
             operation_id="updateNetworkApplianceWarmSpare",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkApplianceWarmSpareResponse,
+            response_schema=NetworkApplianceWarmSpareResponse,
         )
 
     def swap_network_appliance_warm_spare(
         self, network_id: str
-    ) -> SwapNetworkApplianceWarmSpareResponse:
+    ) -> NetworkApplianceWarmSpareResponse:
         """Swap MX primary and warm spare appliances.
 
         [API documentation: swapNetworkApplianceWarmSpare](https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare)
@@ -6207,12 +6154,12 @@ class Appliance:
             scope="appliance",
             operation_id="swapNetworkApplianceWarmSpare",
             path=path,
-            response_schema=SwapNetworkApplianceWarmSpareResponse,
+            response_schema=NetworkApplianceWarmSpareResponse,
         )
 
     def get_organization_appliance_dns_local_profiles(
         self, organization_id: str, *, profile_ids: list[str] | None = None
-    ) -> PaginatedResponse[GetOrganizationApplianceDnsLocalProfilesResponseItem]:
+    ) -> PaginatedResponse[OrganizationApplianceDnsLocalProfileResponse]:
         """Fetch the local DNS profiles used in the organization.
 
         [API documentation: getOrganizationApplianceDnsLocalProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles)
@@ -6252,12 +6199,12 @@ class Appliance:
             operation_id="getOrganizationApplianceDnsLocalProfiles",
             path=path,
             params=params,
-            item_schema=GetOrganizationApplianceDnsLocalProfilesResponseItem,
+            item_schema=OrganizationApplianceDnsLocalProfileResponse,
         )
 
     def create_organization_appliance_dns_local_profile(
         self, *, organization_id: str, name: str
-    ) -> CreateOrganizationApplianceDnsLocalProfileResponse:
+    ) -> OrganizationApplianceDnsLocalProfileResponse:
         """Create a new local DNS profile.
 
         [API documentation: createOrganizationApplianceDnsLocalProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile)
@@ -6290,7 +6237,7 @@ class Appliance:
             operation_id="createOrganizationApplianceDnsLocalProfile",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationApplianceDnsLocalProfileResponse,
+            response_schema=OrganizationApplianceDnsLocalProfileResponse,
         )
 
     def get_organization_appliance_dns_local_profiles_assignments(
@@ -6417,7 +6364,7 @@ class Appliance:
         *,
         organization_id: str,
         items: list[CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem],
-    ) -> CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse:
+    ) -> BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse:
         """Unassign the local DNS profile to networks in the organization.
 
         [API documentation: createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete)
@@ -6461,12 +6408,12 @@ class Appliance:
             operation_id="createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse,
+            response_schema=BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
         )
 
     def update_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str, name: str
-    ) -> UpdateOrganizationApplianceDnsLocalProfileResponse:
+    ) -> OrganizationApplianceDnsLocalProfileResponse:
         """Update a local DNS profile.
 
         [API documentation: updateOrganizationApplianceDnsLocalProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile)
@@ -6501,7 +6448,7 @@ class Appliance:
             operation_id="updateOrganizationApplianceDnsLocalProfile",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationApplianceDnsLocalProfileResponse,
+            response_schema=OrganizationApplianceDnsLocalProfileResponse,
         )
 
     def delete_organization_appliance_dns_local_profile(
@@ -6529,7 +6476,7 @@ class Appliance:
 
     def get_organization_appliance_dns_local_records(
         self, organization_id: str, *, profile_ids: list[str] | None = None
-    ) -> PaginatedResponse[GetOrganizationApplianceDnsLocalRecordsResponseItem]:
+    ) -> PaginatedResponse[UpdateOrganizationApplianceDnsLocalRecordResponse]:
         """Fetch the DNS records used in local DNS profiles.
 
         [API documentation: getOrganizationApplianceDnsLocalRecords](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-records)
@@ -6573,7 +6520,7 @@ class Appliance:
             operation_id="getOrganizationApplianceDnsLocalRecords",
             path=path,
             params=params,
-            item_schema=GetOrganizationApplianceDnsLocalRecordsResponseItem,
+            item_schema=UpdateOrganizationApplianceDnsLocalRecordResponse,
         )
 
     def create_organization_appliance_dns_local_record(
@@ -6583,7 +6530,7 @@ class Appliance:
         hostname: str,
         address: str,
         profile: CreateOrganizationApplianceDnsLocalRecordProfile,
-    ) -> CreateOrganizationApplianceDnsLocalRecordResponse:
+    ) -> GetOrganizationApplianceDnsLocalRecordsResponse:
         """Create a new local DNS record.
 
         [API documentation: createOrganizationApplianceDnsLocalRecord](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record)
@@ -6628,7 +6575,7 @@ class Appliance:
             operation_id="createOrganizationApplianceDnsLocalRecord",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationApplianceDnsLocalRecordResponse,
+            response_schema=GetOrganizationApplianceDnsLocalRecordsResponse,
         )
 
     def update_organization_appliance_dns_local_record(
@@ -6712,7 +6659,7 @@ class Appliance:
 
     def get_organization_appliance_dns_split_profiles(
         self, organization_id: str, *, profile_ids: list[str] | None = None
-    ) -> PaginatedResponse[GetOrganizationApplianceDnsSplitProfilesResponseItem]:
+    ) -> PaginatedResponse[OrganizationApplianceDnsSplitProfileResponse]:
         """Fetch the split DNS profiles used in the organization.
 
         [API documentation: getOrganizationApplianceDnsSplitProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles)
@@ -6761,7 +6708,7 @@ class Appliance:
             operation_id="getOrganizationApplianceDnsSplitProfiles",
             path=path,
             params=params,
-            item_schema=GetOrganizationApplianceDnsSplitProfilesResponseItem,
+            item_schema=OrganizationApplianceDnsSplitProfileResponse,
         )
 
     def create_organization_appliance_dns_split_profile(
@@ -6771,7 +6718,7 @@ class Appliance:
         name: str,
         hostnames: list[str],
         nameservers: CreateOrganizationApplianceDnsSplitProfileNameservers,
-    ) -> CreateOrganizationApplianceDnsSplitProfileResponse:
+    ) -> OrganizationApplianceDnsSplitProfileResponse:
         """Create a new split DNS profile.
 
         [API documentation: createOrganizationApplianceDnsSplitProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile)
@@ -6820,7 +6767,7 @@ class Appliance:
             operation_id="createOrganizationApplianceDnsSplitProfile",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationApplianceDnsSplitProfileResponse,
+            response_schema=OrganizationApplianceDnsSplitProfileResponse,
         )
 
     def get_organization_appliance_dns_split_profiles_assignments(
@@ -6829,7 +6776,7 @@ class Appliance:
         *,
         profile_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
-    ) -> PaginatedResponse[GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem]:
+    ) -> PaginatedResponse[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem]:
         """Fetch the split DNS profile assignments in the organization.
 
         [API documentation: getOrganizationApplianceDnsSplitProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles-assignments)
@@ -6887,7 +6834,7 @@ class Appliance:
             operation_id="getOrganizationApplianceDnsSplitProfilesAssignments",
             path=path,
             params=params,
-            item_schema=GetOrganizationApplianceDnsSplitProfilesAssignmentsResponseItemsItem,
+            item_schema=GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem,
         )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
@@ -6895,7 +6842,7 @@ class Appliance:
         *,
         organization_id: str,
         items: list[CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem],
-    ) -> CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse:
+    ) -> BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse:
         """Assign the split DNS profile to networks in the organization.
 
         [API documentation: createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create)
@@ -6939,7 +6886,7 @@ class Appliance:
             operation_id="createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse,
+            response_schema=BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
         )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
@@ -6947,7 +6894,7 @@ class Appliance:
         *,
         organization_id: str,
         items: list[CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem],
-    ) -> CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse:
+    ) -> BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse:
         """Unassign the split DNS profile to networks in the organization.
 
         [API documentation: createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete)
@@ -6991,7 +6938,7 @@ class Appliance:
             operation_id="createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse,
+            response_schema=BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
         )
 
     def update_organization_appliance_dns_split_profile(
@@ -7002,7 +6949,7 @@ class Appliance:
         name: str | None = None,
         hostnames: list[str] | None = None,
         nameservers: UpdateOrganizationApplianceDnsSplitProfileNameservers | None = None,
-    ) -> UpdateOrganizationApplianceDnsSplitProfileResponse:
+    ) -> OrganizationApplianceDnsSplitProfileResponse:
         """Update a split DNS profile.
 
         [API documentation: updateOrganizationApplianceDnsSplitProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile)
@@ -7053,7 +7000,7 @@ class Appliance:
             operation_id="updateOrganizationApplianceDnsSplitProfile",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationApplianceDnsSplitProfileResponse,
+            response_schema=OrganizationApplianceDnsSplitProfileResponse,
         )
 
     def delete_organization_appliance_dns_split_profile(
@@ -7089,9 +7036,7 @@ class Appliance:
         network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[
-        GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem
-    ]:
+    ) -> PaginatedResponse[UpdateNetworkApplianceFirewallMulticastForwardingResponse]:
         """List Static Multicasting forwarding settings for MX networks.
 
         [API documentation: getOrganizationApplianceFirewallMulticastForwardingByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network)
@@ -7173,7 +7118,7 @@ class Appliance:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem,
+            item_schema=UpdateNetworkApplianceFirewallMulticastForwardingResponse,
         )
 
     def get_organization_appliance_security_events(
@@ -7189,7 +7134,7 @@ class Appliance:
         sort_order: GetOrganizationApplianceSecurityEventsSortOrder | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationApplianceSecurityEventsResponse]:
+    ) -> PaginatedResponse[GetNetworkApplianceClientSecurityEventsResponse]:
         """List the security events for an organization.
 
         [API documentation: getOrganizationApplianceSecurityEvents](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events)
@@ -7293,7 +7238,7 @@ class Appliance:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationApplianceSecurityEventsResponse,
+            item_schema=GetNetworkApplianceClientSecurityEventsResponse,
         )
 
     def get_organization_appliance_security_intrusion(self, organization_id: str) -> DictResponse:
@@ -7395,9 +7340,7 @@ class Appliance:
         network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[
-        GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem
-    ]:
+    ) -> PaginatedResponse[UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse]:
         """Display VPN exclusion rules for MX networks.
 
         [API documentation: getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network)
@@ -7473,7 +7416,7 @@ class Appliance:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem,
+            item_schema=UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse,
         )
 
     def get_organization_appliance_uplink_statuses(
@@ -7694,7 +7637,7 @@ class Appliance:
 
     def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem]:
+    ) -> PaginatedResponse[OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem]:
         """Get the list of available IPsec SLA policies for an organization.
 
         [API documentation: getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-site-to-site-ipsec-peers-slas)
@@ -7745,7 +7688,7 @@ class Appliance:
             scope="appliance",
             operation_id="getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
             path=path,
-            item_schema=GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
+            item_schema=OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
         )
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
@@ -7753,7 +7696,7 @@ class Appliance:
         organization_id: str,
         *,
         items: list[UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem] | None = None,
-    ) -> UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse:
+    ) -> OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse:
         """Update the IPsec SLA policies for an organization.
 
         [API documentation: updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas)
@@ -7805,7 +7748,7 @@ class Appliance:
             operation_id="updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
+            response_schema=OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
         )
 
     def get_organization_appliance_vpn_stats(
@@ -8050,7 +7993,7 @@ class Appliance:
 
     def get_organization_appliance_vpn_third_party_vpn_peers(
         self, organization_id: str
-    ) -> GetOrganizationApplianceVpnThirdPartyVPNPeersResponse:
+    ) -> OrganizationApplianceVpnThirdPartyVPNPeersResponse:
         """Return the third party VPN peers for an organization.
 
         [API documentation: getOrganizationApplianceVpnThirdPartyVPNPeers](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-third-party-vpn-peers)
@@ -8171,7 +8114,7 @@ class Appliance:
             scope="appliance",
             operation_id="getOrganizationApplianceVpnThirdPartyVPNPeers",
             path=path,
-            response_schema=GetOrganizationApplianceVpnThirdPartyVPNPeersResponse,
+            response_schema=OrganizationApplianceVpnThirdPartyVPNPeersResponse,
         )
 
     def update_organization_appliance_vpn_third_party_vpn_peers(
@@ -8179,7 +8122,7 @@ class Appliance:
         *,
         organization_id: str,
         peers: list[UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem],
-    ) -> UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse:
+    ) -> OrganizationApplianceVpnThirdPartyVPNPeersResponse:
         """Update the third party VPN peers for an organization.
 
         [API documentation: updateOrganizationApplianceVpnThirdPartyVPNPeers](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-vpn-peers)
@@ -8306,12 +8249,12 @@ class Appliance:
             operation_id="updateOrganizationApplianceVpnThirdPartyVPNPeers",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse,
+            response_schema=OrganizationApplianceVpnThirdPartyVPNPeersResponse,
         )
 
     def get_organization_appliance_vpn_vpn_firewall_rules(
         self, organization_id: str
-    ) -> GetOrganizationApplianceVpnVpnFirewallRulesResponse:
+    ) -> GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse:
         """Return the firewall rules for an organization's site-to-site VPN.
 
         [API documentation: getOrganizationApplianceVpnVpnFirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-vpn-firewall-rules)
@@ -8348,7 +8291,7 @@ class Appliance:
             scope="appliance",
             operation_id="getOrganizationApplianceVpnVpnFirewallRules",
             path=path,
-            response_schema=GetOrganizationApplianceVpnVpnFirewallRulesResponse,
+            response_schema=GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
         )
 
     def update_organization_appliance_vpn_vpn_firewall_rules(
@@ -8357,7 +8300,7 @@ class Appliance:
         *,
         rules: list[UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem] | None = None,
         syslog_default_rule: bool | None = None,
-    ) -> UpdateOrganizationApplianceVpnVpnFirewallRulesResponse:
+    ) -> GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse:
         """Update the firewall rules of an organization's site-to-site VPN.
 
         [API documentation: updateOrganizationApplianceVpnVpnFirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-vpn-firewall-rules)
@@ -8404,5 +8347,5 @@ class Appliance:
             operation_id="updateOrganizationApplianceVpnVpnFirewallRules",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationApplianceVpnVpnFirewallRulesResponse,
+            response_schema=GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
         )

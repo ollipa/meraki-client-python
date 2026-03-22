@@ -19,24 +19,24 @@ force_array_response = ["getAdministeredLicensingSubscriptionEntitlements"]
 
 # Endpoints missing pagination params but return paginated responses
 force_paginated = [
-    "getOrganizationApplianceDnsLocalProfiles",
-    "getOrganizationApplianceDnsLocalRecords",
-    "getOrganizationApplianceDnsSplitProfiles",
-    "getOrganizationEarlyAccessFeaturesOptIns",
-    "getOrganizationWebhooksAlertTypes",
-    "getNetworkWirelessRfProfiles",
-    "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
+  "getOrganizationApplianceDnsLocalProfiles",
+  "getOrganizationApplianceDnsLocalRecords",
+  "getOrganizationApplianceDnsSplitProfiles",
+  "getOrganizationEarlyAccessFeaturesOptIns",
+  "getOrganizationWebhooksAlertTypes",
+  "getNetworkWirelessRfProfiles",
+  "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
 ]
 
 # Endpoints where spec incorrectly models paginated wrapper as array[{items, meta}]
 force_paginated_items_schema = [
-    "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
-    "getOrganizationFloorPlansAutoLocateDevices",
-    "getOrganizationFloorPlansAutoLocateStatuses",
-    "getOrganizationSmSentryPoliciesAssignmentsByNetwork",
-    "getOrganizationWirelessDevicesRadsecCertificatesAuthorities",
-    "getOrganizationWirelessRfProfilesAssignmentsByDevice",
-    "getOrganizationWirelessControllerDevicesRedundancyFailoverHistory",
+  "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
+  "getOrganizationFloorPlansAutoLocateDevices",
+  "getOrganizationFloorPlansAutoLocateStatuses",
+  "getOrganizationSmSentryPoliciesAssignmentsByNetwork",
+  "getOrganizationWirelessDevicesRadsecCertificatesAuthorities",
+  "getOrganizationWirelessRfProfilesAssignmentsByDevice",
+  "getOrganizationWirelessControllerDevicesRedundancyFailoverHistory",
 ]
 
 # Endpoints where response can be None
@@ -45,31 +45,31 @@ optional_response = ["getDeviceAppliancePerformance"]
 
 # Endpoints to skip in test generation
 skip_tests = [
-    # Test data difficult to provide
-    # Requires one of: username, email, mac...
-    "getNetworkPiiPiiKeys",
-    "getNetworkPiiRequests",
-    "getNetworkPiiSmDevicesForKey",
-    "getNetworkPiiSmOwnersForKey",
-    # Please specify either timespan or t0
-    "getNetworkTraffic",
-    "getDeviceWirelessConnectionStats",
-    "getDeviceWirelessLatencyStats",
-    "getNetworkWirelessClientsConnectionStats",
-    "getNetworkWirelessClientsLatencyStats",
-    "getNetworkWirelessConnectionStats",
-    "getNetworkWirelessDevicesConnectionStats",
-    "getNetworkWirelessDevicesLatencyStats",
-    "getNetworkWirelessFailedConnections",
-    "getNetworkWirelessLatencyStats",
-    # Must specify a device or network client
-    "getNetworkWirelessChannelUtilizationHistory",
-    "getNetworkWirelessSignalQualityHistory",
-    "getNetworkWirelessUsageHistory",
-    # productType is required
-    "getNetworkEvents",
-    # Event not found or network not authorized
-    "getNetworkFirmwareUpgradesStagedEvents",
+  # Test data difficult to provide
+  # Requires one of: username, email, mac...
+  "getNetworkPiiPiiKeys",
+  "getNetworkPiiRequests",
+  "getNetworkPiiSmDevicesForKey",
+  "getNetworkPiiSmOwnersForKey",
+  # Please specify either timespan or t0
+  "getNetworkTraffic",
+  "getDeviceWirelessConnectionStats",
+  "getDeviceWirelessLatencyStats",
+  "getNetworkWirelessClientsConnectionStats",
+  "getNetworkWirelessClientsLatencyStats",
+  "getNetworkWirelessConnectionStats",
+  "getNetworkWirelessDevicesConnectionStats",
+  "getNetworkWirelessDevicesLatencyStats",
+  "getNetworkWirelessFailedConnections",
+  "getNetworkWirelessLatencyStats",
+  # Must specify a device or network client
+  "getNetworkWirelessChannelUtilizationHistory",
+  "getNetworkWirelessSignalQualityHistory",
+  "getNetworkWirelessUsageHistory",
+  # productType is required
+  "getNetworkEvents",
+  # Event not found or network not authorized
+  "getNetworkFirmwareUpgradesStagedEvents",
 ]
 
 [getNetworkClients]
@@ -148,10 +148,10 @@ inject_response_schema = """
 
 [getOrganizationApplianceUplinkStatuses]
 required = [
-    "networkId",
-    "serial",
-    "model",
-    "lastReportedAt",
-    "uplinks.interface",
-    "uplinks.status",
+  "networkId",
+  "serial",
+  "model",
+  "lastReportedAt",
+  "uplinks.interface",
+  "uplinks.status",
 ]

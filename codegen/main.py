@@ -38,7 +38,6 @@ from codegen.schema_gen import (
     SchemaRegistry,
     generate_response_schemas,
     get_request_param_schema_name,
-    get_response_schema_name,
 )
 from codegen.schemas import BatchableAction
 from codegen.test_gen import generate_tests
@@ -421,11 +420,12 @@ def generate_module(  # noqa: PLR0915
             if method == "delete":
                 continue
 
-            response_schema_name = get_response_schema_name(operation_id)
-            if response_schema_name in schema_registry.schema_names:
+            response_schema_name = schema_registry.response_schemas.get(operation_id)
+            if response_schema_name:
                 schemas_used.append(response_schema_name)
-            if response_schema_name in schema_registry.item_schema_map:
-                schemas_used.extend(schema_registry.item_schema_map[response_schema_name])
+            item_schemas = schema_registry.response_item_schemas.get(operation_id)
+            if item_schemas:
+                schemas_used.extend(item_schemas)
 
     output.write(
         templates.class_template.render(
@@ -481,25 +481,21 @@ def generate_module(  # noqa: PLR0915
             response_schema_name = None
             item_schema_name = None
             has_untyped_response = operation_id in schema_registry.untyped_response_ops
+            item_schemas = schema_registry.response_item_schemas.get(operation_id)
             if has_untyped_response:
                 response_schema_name = "DictResponse"
             if method != "delete":
-                schema_name = get_response_schema_name(operation_id)
+                planned_response_schema_name = schema_registry.response_schemas.get(operation_id)
+                if planned_response_schema_name is not None:
+                    response_schema_name = planned_response_schema_name
                 # GET endpoints with wrapper shape {items, meta} are generated as paginated item
                 # schemas only, so treat them as paginated responses.
-                if (
-                    method == "get"
-                    and schema_name not in schema_registry.schema_names
-                    and schema_name in schema_registry.item_schema_map
-                ):
+                if method == "get" and response_schema_name is None and item_schemas:
                     is_paginated = True
 
-                if schema_name in schema_registry.schema_names:
-                    response_schema_name = schema_name
                 # For paginated endpoints, use first item schema from map or fallback to response schema.
                 # (some OpenAPI specs incorrectly define array responses as objects)
                 if is_paginated:
-                    item_schemas = schema_registry.item_schema_map.get(schema_name)
                     if item_schemas:
                         item_schema_name = item_schemas[0]
                     elif response_schema_name:
@@ -513,7 +509,6 @@ def generate_module(  # noqa: PLR0915
                 is_paginated = True
                 # Get item schema for list response
                 assert response_schema_name is not None
-                item_schemas = schema_registry.item_schema_map.get(response_schema_name)
                 item_schema_name = item_schemas[0] if item_schemas else response_schema_name
 
             definition = build_function_definition(

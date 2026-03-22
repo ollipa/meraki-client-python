@@ -14,32 +14,6 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class CheckinNetworkSmDevicesResponse(_BaseSchema):
-    """Response for checkinNetworkSmDevices operation."""
-
-    ids: list[str] = Field(default_factory=list)
-
-
-class CreateNetworkSmTargetGroupResponse(_BaseSchema):
-    """Response for createNetworkSmTargetGroup operation."""
-
-    id: str | None = None
-    name: str | None = None
-    scope: str | None = None
-    tags: list[str] = Field(default_factory=list)
-
-
-class CreateOrganizationSmAdminsRoleResponse(_BaseSchema):
-    """Response for createOrganizationSmAdminsRole operation."""
-
-    role_id: str | None = Field(
-        default=None, validation_alias="roleId", serialization_alias="roleId"
-    )
-    name: str | None = None
-    scope: str | None = None
-    tags: list[str] = Field(default_factory=list)
-
-
 class GetNetworkSmDeviceCellularUsageHistoryResponse(
     RootModel[list["GetNetworkSmDeviceCellularUsageHistoryResponseItem"]]
 ):
@@ -172,7 +146,7 @@ class GetNetworkSmDeviceDeviceCommandLogsResponseItem(_BaseSchema):
 class GetNetworkSmDeviceDeviceProfilesResponse(
     RootModel[list["GetNetworkSmDeviceDeviceProfilesResponseItem"]]
 ):
-    """Response for getNetworkSmDeviceDeviceProfiles operation."""
+    """Schema for GetNetworkSmDeviceDeviceProfilesResponse."""
 
 
 class GetNetworkSmDeviceDeviceProfilesResponseItem(_BaseSchema):
@@ -321,7 +295,7 @@ class GetNetworkSmDeviceSecurityCentersResponseItem(_BaseSchema):
 class GetNetworkSmDeviceSoftwaresResponse(
     RootModel[list["GetNetworkSmDeviceSoftwaresResponseItem"]]
 ):
-    """Response for getNetworkSmDeviceSoftwares operation."""
+    """Schema for GetNetworkSmDeviceSoftwaresResponse."""
 
 
 class GetNetworkSmDeviceSoftwaresResponseItem(_BaseSchema):
@@ -444,26 +418,8 @@ class GetNetworkSmProfilesResponseItem(_BaseSchema):
     )
 
 
-class GetNetworkSmTargetGroupResponse(_BaseSchema):
-    """Response for getNetworkSmTargetGroup operation."""
-
-    id: str | None = None
-    name: str | None = None
-    scope: str | None = None
-    tags: list[str] = Field(default_factory=list)
-
-
-class GetNetworkSmTargetGroupsResponse(RootModel[list["GetNetworkSmTargetGroupsResponseItem"]]):
+class GetNetworkSmTargetGroupsResponse(RootModel[list["NetworkSmTargetGroupResponse"]]):
     """Response for getNetworkSmTargetGroups operation."""
-
-
-class GetNetworkSmTargetGroupsResponseItem(_BaseSchema):
-    """Schema for GetNetworkSmTargetGroupsResponseItem."""
-
-    id: str | None = None
-    name: str | None = None
-    scope: str | None = None
-    tags: list[str] = Field(default_factory=list)
 
 
 class GetNetworkSmTrustedAccessConfigsResponse(
@@ -533,97 +489,6 @@ class GetNetworkSmUserAccessDevicesResponseItem(_BaseSchema):
     )
 
 
-class GetNetworkSmUserDeviceProfilesResponse(
-    RootModel[list["GetNetworkSmUserDeviceProfilesResponseItem"]]
-):
-    """Response for getNetworkSmUserDeviceProfiles operation."""
-
-
-class GetNetworkSmUserDeviceProfilesResponseItem(_BaseSchema):
-    """Schema for GetNetworkSmUserDeviceProfilesResponseItem."""
-
-    device_id: str | None = Field(
-        default=None, validation_alias="deviceId", serialization_alias="deviceId"
-    )
-    id: str | None = None
-    is_encrypted: bool | None = Field(
-        default=None, validation_alias="isEncrypted", serialization_alias="isEncrypted"
-    )
-    is_managed: bool | None = Field(
-        default=None, validation_alias="isManaged", serialization_alias="isManaged"
-    )
-    profile_data: str | None = Field(
-        default=None, validation_alias="profileData", serialization_alias="profileData"
-    )
-    profile_identifier: str | None = Field(
-        default=None, validation_alias="profileIdentifier", serialization_alias="profileIdentifier"
-    )
-    name: str | None = None
-    version: str | None = None
-
-
-class GetNetworkSmUserSoftwaresResponse(RootModel[list["GetNetworkSmUserSoftwaresResponseItem"]]):
-    """Response for getNetworkSmUserSoftwares operation."""
-
-
-class GetNetworkSmUserSoftwaresResponseItem(_BaseSchema):
-    """Schema for GetNetworkSmUserSoftwaresResponseItem."""
-
-    app_id: str | None = Field(default=None, validation_alias="appId", serialization_alias="appId")
-    bundle_size: int | None = Field(
-        default=None, validation_alias="bundleSize", serialization_alias="bundleSize"
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    device_id: str | None = Field(
-        default=None, validation_alias="deviceId", serialization_alias="deviceId"
-    )
-    dynamic_size: int | None = Field(
-        default=None, validation_alias="dynamicSize", serialization_alias="dynamicSize"
-    )
-    id: str | None = None
-    identifier: str | None = None
-    installed_at: str | None = Field(
-        default=None, validation_alias="installedAt", serialization_alias="installedAt"
-    )
-    to_install: bool | None = Field(
-        default=None, validation_alias="toInstall", serialization_alias="toInstall"
-    )
-    ios_redemption_code: bool | None = Field(
-        default=None, validation_alias="iosRedemptionCode", serialization_alias="iosRedemptionCode"
-    )
-    is_managed: bool | None = Field(
-        default=None, validation_alias="isManaged", serialization_alias="isManaged"
-    )
-    itunes_id: str | None = Field(
-        default=None, validation_alias="itunesId", serialization_alias="itunesId"
-    )
-    license_key: str | None = Field(
-        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
-    )
-    name: str | None = None
-    path: str | None = None
-    redemption_code: int | None = Field(
-        default=None, validation_alias="redemptionCode", serialization_alias="redemptionCode"
-    )
-    short_version: str | None = Field(
-        default=None, validation_alias="shortVersion", serialization_alias="shortVersion"
-    )
-    status: str | None = None
-    to_uninstall: bool | None = Field(
-        default=None, validation_alias="toUninstall", serialization_alias="toUninstall"
-    )
-    uninstalled_at: str | None = Field(
-        default=None, validation_alias="uninstalledAt", serialization_alias="uninstalledAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    vendor: str | None = None
-    version: str | None = None
-
-
 class GetNetworkSmUsersResponse(RootModel[list["GetNetworkSmUsersResponseItem"]]):
     """Response for getNetworkSmUsers operation."""
 
@@ -667,28 +532,6 @@ class GetNetworkSmUsersResponseItem(_BaseSchema):
     user_thumbnail: str | None = Field(
         default=None, validation_alias="userThumbnail", serialization_alias="userThumbnail"
     )
-
-
-class GetOrganizationSmAdminsRoleResponse(_BaseSchema):
-    """Response for getOrganizationSmAdminsRole operation."""
-
-    role_id: str | None = Field(
-        default=None, validation_alias="roleId", serialization_alias="roleId"
-    )
-    name: str | None = None
-    scope: str | None = None
-    tags: list[str] = Field(default_factory=list)
-
-
-class GetOrganizationSmAdminsRolesResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationSmAdminsRolesResponseItemsItem."""
-
-    role_id: str | None = Field(
-        default=None, validation_alias="roleId", serialization_alias="roleId"
-    )
-    name: str | None = None
-    scope: str | None = None
-    tags: list[str] = Field(default_factory=list)
 
 
 class GetOrganizationSmApnsCertResponse(_BaseSchema):
@@ -762,64 +605,8 @@ class GetOrganizationSmVppAccountResponse(_BaseSchema):
     )
 
 
-class GetOrganizationSmVppAccountsResponse(
-    RootModel[list["GetOrganizationSmVppAccountsResponseItem"]]
-):
+class GetOrganizationSmVppAccountsResponse(RootModel[list["GetOrganizationSmVppAccountResponse"]]):
     """Response for getOrganizationSmVppAccounts operation."""
-
-
-class GetOrganizationSmVppAccountsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationSmVppAccountsResponseItem."""
-
-    vpp_account_id: str | None = Field(
-        default=None, validation_alias="vppAccountId", serialization_alias="vppAccountId"
-    )
-    content_token: str | None = Field(
-        default=None, validation_alias="contentToken", serialization_alias="contentToken"
-    )
-    email: str | None = None
-    name: str | None = None
-    allowed_admins: str | None = Field(
-        default=None, validation_alias="allowedAdmins", serialization_alias="allowedAdmins"
-    )
-    network_id_admins: str | None = Field(
-        default=None, validation_alias="networkIdAdmins", serialization_alias="networkIdAdmins"
-    )
-    assignable_networks: str | None = Field(
-        default=None,
-        validation_alias="assignableNetworks",
-        serialization_alias="assignableNetworks",
-    )
-    assignable_network_ids: list[str] = Field(
-        default_factory=list,
-        validation_alias="assignableNetworkIds",
-        serialization_alias="assignableNetworkIds",
-    )
-    vpp_location_id: str | None = Field(
-        default=None, validation_alias="vppLocationId", serialization_alias="vppLocationId"
-    )
-    vpp_location_name: str | None = Field(
-        default=None, validation_alias="vppLocationName", serialization_alias="vppLocationName"
-    )
-    last_synced_at: str | None = Field(
-        default=None, validation_alias="lastSyncedAt", serialization_alias="lastSyncedAt"
-    )
-    last_force_synced_at: str | None = Field(
-        default=None, validation_alias="lastForceSyncedAt", serialization_alias="lastForceSyncedAt"
-    )
-    parsed_token: SmParsedToken | None = Field(
-        default=None, validation_alias="parsedToken", serialization_alias="parsedToken"
-    )
-    id: str | None = None
-    vpp_service_token: str | None = Field(
-        default=None, validation_alias="vppServiceToken", serialization_alias="vppServiceToken"
-    )
-
-
-class LockNetworkSmDevicesResponse(_BaseSchema):
-    """Response for lockNetworkSmDevices operation."""
-
-    ids: list[str] = Field(default_factory=list)
 
 
 class ModifyNetworkSmDevicesTagsResponse(RootModel[list["ModifyNetworkSmDevicesTagsResponseItem"]]):
@@ -846,16 +633,30 @@ class MoveNetworkSmDevicesResponse(_BaseSchema):
     )
 
 
-class RebootNetworkSmDevicesResponse(_BaseSchema):
-    """Response for rebootNetworkSmDevices operation."""
+class NetworkSmDevicesResponse(_BaseSchema):
+    """Schema for NetworkSmDevicesResponse."""
 
     ids: list[str] = Field(default_factory=list)
 
 
-class ShutdownNetworkSmDevicesResponse(_BaseSchema):
-    """Response for shutdownNetworkSmDevices operation."""
+class NetworkSmTargetGroupResponse(_BaseSchema):
+    """Schema for NetworkSmTargetGroupResponse."""
 
-    ids: list[str] = Field(default_factory=list)
+    id: str | None = None
+    name: str | None = None
+    scope: str | None = None
+    tags: list[str] = Field(default_factory=list)
+
+
+class OrganizationSmAdminsRoleResponse(_BaseSchema):
+    """Schema for OrganizationSmAdminsRoleResponse."""
+
+    role_id: str | None = Field(
+        default=None, validation_alias="roleId", serialization_alias="roleId"
+    )
+    name: str | None = None
+    scope: str | None = None
+    tags: list[str] = Field(default_factory=list)
 
 
 class SmC(_BaseSchema):
@@ -962,26 +763,6 @@ class UpdateNetworkSmDevicesFieldsResponseItem(_BaseSchema):
     )
     serial: str | None = None
     notes: str | None = None
-
-
-class UpdateNetworkSmTargetGroupResponse(_BaseSchema):
-    """Response for updateNetworkSmTargetGroup operation."""
-
-    id: str | None = None
-    name: str | None = None
-    scope: str | None = None
-    tags: list[str] = Field(default_factory=list)
-
-
-class UpdateOrganizationSmAdminsRoleResponse(_BaseSchema):
-    """Response for updateOrganizationSmAdminsRole operation."""
-
-    role_id: str | None = Field(
-        default=None, validation_alias="roleId", serialization_alias="roleId"
-    )
-    name: str | None = None
-    scope: str | None = None
-    tags: list[str] = Field(default_factory=list)
 
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem(_BaseSchema):

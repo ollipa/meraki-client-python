@@ -18,8 +18,6 @@ from meraki_client.schemas import (
     GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem,
     GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem,
     GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem,
-    GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem,
-    GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem,
     GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem,
     GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem,
     GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem,
@@ -867,7 +865,7 @@ class WirelessController:
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
-        GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem
+        GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem
     ]:
         """List wireless LAN controller layer 3 interfaces history status in an organization.
 
@@ -974,7 +972,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem,
+            item_schema=GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem,
         )
 
     def get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
@@ -991,7 +989,7 @@ class WirelessController:
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
-        GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem
+        GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem
     ]:
         """List wireless LAN controller layer 3 interfaces history usage in an organization.
 
@@ -1083,7 +1081,7 @@ class WirelessController:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem,
+            item_schema=GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem,
         )
 
     def get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(

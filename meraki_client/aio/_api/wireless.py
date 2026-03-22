@@ -14,78 +14,46 @@ from meraki_client.schemas import (
     AssignNetworkWirelessEthernetPortsProfilesResponse,
     CreateDeviceWirelessZigbeeEnrollmentResponse,
     CreateNetworkWirelessAirMarshalRuleMatch,
-    CreateNetworkWirelessAirMarshalRuleResponse,
     CreateNetworkWirelessEthernetPortsProfilePortsItem,
-    CreateNetworkWirelessEthernetPortsProfileResponse,
     CreateNetworkWirelessEthernetPortsProfileUsbPortsItem,
     CreateNetworkWirelessRfProfileApBandSettings,
     CreateNetworkWirelessRfProfileFiveGhzSettings,
     CreateNetworkWirelessRfProfileFlexRadios,
     CreateNetworkWirelessRfProfilePerSsidSettings,
-    CreateNetworkWirelessRfProfileResponse,
     CreateNetworkWirelessRfProfileSixGhzSettings,
     CreateNetworkWirelessRfProfileTransmission,
     CreateNetworkWirelessRfProfileTwoFourGhzSettings,
-    CreateNetworkWirelessSsidIdentityPskResponse,
     CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem,
     CreateOrganizationWirelessDevicesProvisioningDeploymentMeta,
-    CreateOrganizationWirelessDevicesProvisioningDeploymentResponse,
-    CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse,
     CreateOrganizationWirelessLocationScanningReceiverNetwork,
     CreateOrganizationWirelessLocationScanningReceiverRadio,
-    CreateOrganizationWirelessLocationScanningReceiverResponse,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryNetwork,
-    CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntrySsid,
     CreateOrganizationWirelessZigbeeDisenrollmentResponse,
+    DeviceWirelessBluetoothSettingsResponse,
+    DeviceWirelessElectronicShelfLabelResponse,
+    DeviceWirelessRadioSettingsResponse,
     DictResponse,
-    GetDeviceWirelessBluetoothSettingsResponse,
     GetDeviceWirelessConnectionStatsResponse,
-    GetDeviceWirelessElectronicShelfLabelResponse,
-    GetDeviceWirelessRadioSettingsResponse,
     GetDeviceWirelessStatusResponse,
     GetDeviceWirelessZigbeeEnrollmentResponse,
     GetNetworkWirelessAirMarshalResponseItem,
-    GetNetworkWirelessBillingResponse,
-    GetNetworkWirelessBluetoothSettingsResponse,
     GetNetworkWirelessChannelUtilizationHistoryResponseItem,
     GetNetworkWirelessClientConnectionStatsResponse,
     GetNetworkWirelessClientConnectivityEventsResponseItem,
     GetNetworkWirelessClientCountHistoryResponseItem,
     GetNetworkWirelessClientLatencyHistoryResponseItem,
     GetNetworkWirelessClientsConnectionStatsResponse,
-    GetNetworkWirelessClientsLatencyStatsResponse,
     GetNetworkWirelessConnectionStatsResponse,
     GetNetworkWirelessDataRateHistoryResponseItem,
-    GetNetworkWirelessDevicesConnectionStatsResponseItem,
-    GetNetworkWirelessDevicesLatencyStatsResponse,
-    GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem,
-    GetNetworkWirelessElectronicShelfLabelResponse,
-    GetNetworkWirelessEthernetPortsProfileResponse,
-    GetNetworkWirelessEthernetPortsProfilesResponseItem,
     GetNetworkWirelessFailedConnectionsResponseItem,
     GetNetworkWirelessLatencyHistoryResponseItem,
     GetNetworkWirelessMeshStatusesResponseItem,
-    GetNetworkWirelessRfProfileResponse,
     GetNetworkWirelessRfProfilesResponse,
-    GetNetworkWirelessSettingsResponse,
     GetNetworkWirelessSignalQualityHistoryResponseItem,
-    GetNetworkWirelessSsidBonjourForwardingResponse,
-    GetNetworkWirelessSsidEapOverrideResponse,
-    GetNetworkWirelessSsidFirewallL3FirewallRulesResponse,
-    GetNetworkWirelessSsidFirewallL7FirewallRulesResponse,
-    GetNetworkWirelessSsidHotspot20Response,
-    GetNetworkWirelessSsidIdentityPskResponse,
-    GetNetworkWirelessSsidIdentityPsksResponseItem,
-    GetNetworkWirelessSsidResponse,
-    GetNetworkWirelessSsidSchedulesResponse,
-    GetNetworkWirelessSsidSplashSettingsResponse,
     GetNetworkWirelessSsidsResponseItem,
-    GetNetworkWirelessSsidTrafficShapingRulesResponse,
     GetNetworkWirelessUsageHistoryResponseItem,
-    GetOrganizationWirelessAirMarshalRulesResponseItemsItem,
-    GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem,
     GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem,
     GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem,
     GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem,
@@ -96,43 +64,43 @@ from meraki_client.schemas import (
     GetOrganizationWirelessDevicesPacketLossByDeviceResponseItem,
     GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem,
     GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem,
-    GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem,
-    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem,
     GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem,
-    GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem,
     GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem,
     GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem,
     GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem,
-    GetOrganizationWirelessLocationScanningReceiversResponseItemsItem,
-    GetOrganizationWirelessMqttSettingsResponseItemsItem,
-    GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem,
     GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem,
-    GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem,
     GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem,
     GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem,
-    GetOrganizationWirelessZigbeeByNetworkResponseItem,
-    GetOrganizationWirelessZigbeeDevicesResponseItem,
     GetOrganizationWirelessZigbeeDisenrollmentResponse,
-    GetOrganizationWirelessZigbeeDoorLocksResponseItem,
+    NetworkWirelessAirMarshalRuleResponse,
+    NetworkWirelessBillingResponse,
+    NetworkWirelessBluetoothSettingsResponse,
+    NetworkWirelessElectronicShelfLabelResponse,
+    NetworkWirelessEthernetPortsProfileResponse,
+    NetworkWirelessSettingsResponse,
+    NetworkWirelessSsidBonjourForwardingResponse,
+    NetworkWirelessSsidEapOverrideResponse,
+    NetworkWirelessSsidFirewallL3FirewallRulesResponse,
+    NetworkWirelessSsidFirewallL7FirewallRulesResponse,
+    NetworkWirelessSsidHotspot20Response,
+    NetworkWirelessSsidIdentityPskResponse,
+    NetworkWirelessSsidResponse,
+    NetworkWirelessSsidSchedulesResponse,
+    NetworkWirelessSsidSplashSettingsResponse,
+    NetworkWirelessSsidTrafficShapingRulesResponse,
+    OrganizationWirelessLocationScanningReceiverResponse,
+    OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
     RecalculateOrganizationWirelessRadioAutoRfChannelsResponse,
     SetNetworkWirelessEthernetPortsProfilesDefaultResponse,
     UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem,
     UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response,
-    UpdateDeviceWirelessBluetoothSettingsResponse,
-    UpdateDeviceWirelessElectronicShelfLabelResponse,
     UpdateDeviceWirelessRadioSettingsFiveGhzSettings,
-    UpdateDeviceWirelessRadioSettingsResponse,
     UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings,
     UpdateNetworkWirelessAirMarshalRuleMatch,
-    UpdateNetworkWirelessAirMarshalRuleResponse,
     UpdateNetworkWirelessAirMarshalSettingsResponse,
     UpdateNetworkWirelessAlternateManagementInterfaceAccessPointsItem,
     UpdateNetworkWirelessBillingPlansItem,
-    UpdateNetworkWirelessBillingResponse,
-    UpdateNetworkWirelessBluetoothSettingsResponse,
-    UpdateNetworkWirelessElectronicShelfLabelResponse,
     UpdateNetworkWirelessEthernetPortsProfilePortsItem,
-    UpdateNetworkWirelessEthernetPortsProfileResponse,
     UpdateNetworkWirelessEthernetPortsProfileUsbPortsItem,
     UpdateNetworkWirelessLocationScanningApi,
     UpdateNetworkWirelessLocationScanningResponse,
@@ -145,17 +113,14 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessRfProfileFiveGhzSettings,
     UpdateNetworkWirelessRfProfileFlexRadios,
     UpdateNetworkWirelessRfProfilePerSsidSettings,
-    UpdateNetworkWirelessRfProfileResponse,
     UpdateNetworkWirelessRfProfileSixGhzSettings,
     UpdateNetworkWirelessRfProfileTransmission,
     UpdateNetworkWirelessRfProfileTwoFourGhzSettings,
     UpdateNetworkWirelessSettingsMulticastToUnicastConversion,
     UpdateNetworkWirelessSettingsNamedVlans,
-    UpdateNetworkWirelessSettingsResponse,
     UpdateNetworkWirelessSsidActiveDirectory,
     UpdateNetworkWirelessSsidApTagsAndVlanIdsItem,
     UpdateNetworkWirelessSsidBonjourForwardingException,
-    UpdateNetworkWirelessSsidBonjourForwardingResponse,
     UpdateNetworkWirelessSsidBonjourForwardingRulesItem,
     UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem,
     UpdateNetworkWirelessSsidDnsRewrite,
@@ -163,18 +128,13 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidDot11w,
     UpdateNetworkWirelessSsidEapOverrideEapolKey,
     UpdateNetworkWirelessSsidEapOverrideIdentity,
-    UpdateNetworkWirelessSsidEapOverrideResponse,
-    UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse,
     UpdateNetworkWirelessSsidFirewallL3FirewallRulesRulesItem,
-    UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse,
     UpdateNetworkWirelessSsidFirewallL7FirewallRulesRulesItem,
     UpdateNetworkWirelessSsidGre,
     UpdateNetworkWirelessSsidHotspot20MccMncsItem,
     UpdateNetworkWirelessSsidHotspot20NaiRealmsItem,
     UpdateNetworkWirelessSsidHotspot20Operator,
-    UpdateNetworkWirelessSsidHotspot20Response,
     UpdateNetworkWirelessSsidHotspot20Venue,
-    UpdateNetworkWirelessSsidIdentityPskResponse,
     UpdateNetworkWirelessSsidLdap,
     UpdateNetworkWirelessSsidLocalAuthFallback,
     UpdateNetworkWirelessSsidLocalRadius,
@@ -184,20 +144,16 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidRadiusAccountingServersItem,
     UpdateNetworkWirelessSsidRadiusRadsec,
     UpdateNetworkWirelessSsidRadiusServersItem,
-    UpdateNetworkWirelessSsidResponse,
     UpdateNetworkWirelessSsidSchedulesRangesInSecondsItem,
     UpdateNetworkWirelessSsidSchedulesRangesItem,
-    UpdateNetworkWirelessSsidSchedulesResponse,
     UpdateNetworkWirelessSsidSpeedBurst,
     UpdateNetworkWirelessSsidSplashSettingsBilling,
     UpdateNetworkWirelessSsidSplashSettingsGuestSponsorship,
-    UpdateNetworkWirelessSsidSplashSettingsResponse,
     UpdateNetworkWirelessSsidSplashSettingsSelfRegistration,
     UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment,
     UpdateNetworkWirelessSsidSplashSettingsSplashImage,
     UpdateNetworkWirelessSsidSplashSettingsSplashLogo,
     UpdateNetworkWirelessSsidSplashSettingsSplashPrepaidFront,
-    UpdateNetworkWirelessSsidTrafficShapingRulesResponse,
     UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem,
     UpdateNetworkWirelessSsidVpnConcentrator,
     UpdateNetworkWirelessSsidVpnFailover,
@@ -211,14 +167,12 @@ from meraki_client.schemas import (
     UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse,
     UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse,
     UpdateOrganizationWirelessLocationScanningReceiverRadio,
-    UpdateOrganizationWirelessLocationScanningReceiverResponse,
     UpdateOrganizationWirelessMqttSettingsBle,
     UpdateOrganizationWirelessMqttSettingsMqtt,
     UpdateOrganizationWirelessMqttSettingsNetwork,
     UpdateOrganizationWirelessMqttSettingsResponse,
     UpdateOrganizationWirelessMqttSettingsWifi,
     UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
-    UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
     UpdateOrganizationWirelessZigbeeDeviceResponse,
     UpdateOrganizationWirelessZigbeeDoorLockResponse,
 )
@@ -356,7 +310,7 @@ class Wireless:
 
     async def get_device_wireless_bluetooth_settings(
         self, serial: str
-    ) -> GetDeviceWirelessBluetoothSettingsResponse:
+    ) -> DeviceWirelessBluetoothSettingsResponse:
         """Return the bluetooth settings for a wireless device.
 
         [API documentation: getDeviceWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-bluetooth-settings)
@@ -384,7 +338,7 @@ class Wireless:
             scope="wireless",
             operation_id="getDeviceWirelessBluetoothSettings",
             path=path,
-            response_schema=GetDeviceWirelessBluetoothSettingsResponse,
+            response_schema=DeviceWirelessBluetoothSettingsResponse,
         )
 
     async def update_device_wireless_bluetooth_settings(
@@ -394,7 +348,7 @@ class Wireless:
         uuid: str | None = None,
         major: int | None = None,
         minor: int | None = None,
-    ) -> UpdateDeviceWirelessBluetoothSettingsResponse:
+    ) -> DeviceWirelessBluetoothSettingsResponse:
         """Update the bluetooth settings for a wireless device.
 
         [API documentation: updateDeviceWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings)
@@ -437,7 +391,7 @@ class Wireless:
             operation_id="updateDeviceWirelessBluetoothSettings",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceWirelessBluetoothSettingsResponse,
+            response_schema=DeviceWirelessBluetoothSettingsResponse,
         )
 
     async def get_device_wireless_connection_stats(
@@ -513,7 +467,7 @@ class Wireless:
 
     async def get_device_wireless_electronic_shelf_label(
         self, serial: str
-    ) -> GetDeviceWirelessElectronicShelfLabelResponse:
+    ) -> DeviceWirelessElectronicShelfLabelResponse:
         """Return the ESL settings of a device.
 
         [API documentation: getDeviceWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-electronic-shelf-label)
@@ -545,12 +499,12 @@ class Wireless:
             scope="wireless",
             operation_id="getDeviceWirelessElectronicShelfLabel",
             path=path,
-            response_schema=GetDeviceWirelessElectronicShelfLabelResponse,
+            response_schema=DeviceWirelessElectronicShelfLabelResponse,
         )
 
     async def update_device_wireless_electronic_shelf_label(
         self, serial: str, *, channel: str | None = None, enabled: bool | None = None
-    ) -> UpdateDeviceWirelessElectronicShelfLabelResponse:
+    ) -> DeviceWirelessElectronicShelfLabelResponse:
         """Update the ESL settings of a device.
 
         [API documentation: updateDeviceWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label)
@@ -592,7 +546,7 @@ class Wireless:
             operation_id="updateDeviceWirelessElectronicShelfLabel",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceWirelessElectronicShelfLabelResponse,
+            response_schema=DeviceWirelessElectronicShelfLabelResponse,
         )
 
     async def get_device_wireless_latency_stats(
@@ -694,7 +648,7 @@ class Wireless:
 
     async def get_device_wireless_radio_settings(
         self, serial: str
-    ) -> GetDeviceWirelessRadioSettingsResponse:
+    ) -> DeviceWirelessRadioSettingsResponse:
         """Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.
 
         [API documentation: getDeviceWirelessRadioSettings](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-radio-settings)
@@ -730,7 +684,7 @@ class Wireless:
             scope="wireless",
             operation_id="getDeviceWirelessRadioSettings",
             path=path,
-            response_schema=GetDeviceWirelessRadioSettingsResponse,
+            response_schema=DeviceWirelessRadioSettingsResponse,
         )
 
     async def update_device_wireless_radio_settings(
@@ -740,7 +694,7 @@ class Wireless:
         rf_profile_id: str | None = None,
         two_four_ghz_settings: UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceWirelessRadioSettingsFiveGhzSettings | None = None,
-    ) -> UpdateDeviceWirelessRadioSettingsResponse:
+    ) -> DeviceWirelessRadioSettingsResponse:
         """Update the radio settings overrides of a device, which take precedence over RF profiles.
 
         [API documentation: updateDeviceWirelessRadioSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings)
@@ -796,7 +750,7 @@ class Wireless:
             operation_id="updateDeviceWirelessRadioSettings",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceWirelessRadioSettingsResponse,
+            response_schema=DeviceWirelessRadioSettingsResponse,
         )
 
     async def get_device_wireless_status(self, serial: str) -> GetDeviceWirelessStatusResponse:
@@ -1019,7 +973,7 @@ class Wireless:
         network_id: str,
         type_: CreateNetworkWirelessAirMarshalRuleType,
         match: CreateNetworkWirelessAirMarshalRuleMatch,
-    ) -> CreateNetworkWirelessAirMarshalRuleResponse:
+    ) -> NetworkWirelessAirMarshalRuleResponse:
         """Creates a new rule.
 
         [API documentation: createNetworkWirelessAirMarshalRule](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule)
@@ -1065,7 +1019,7 @@ class Wireless:
             operation_id="createNetworkWirelessAirMarshalRule",
             path=path,
             json=payload,
-            response_schema=CreateNetworkWirelessAirMarshalRuleResponse,
+            response_schema=NetworkWirelessAirMarshalRuleResponse,
         )
 
     async def update_network_wireless_air_marshal_rule(
@@ -1075,7 +1029,7 @@ class Wireless:
         rule_id: str,
         type_: UpdateNetworkWirelessAirMarshalRuleType | None = None,
         match: UpdateNetworkWirelessAirMarshalRuleMatch | None = None,
-    ) -> UpdateNetworkWirelessAirMarshalRuleResponse:
+    ) -> NetworkWirelessAirMarshalRuleResponse:
         """Update a rule.
 
         [API documentation: updateNetworkWirelessAirMarshalRule](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule)
@@ -1123,7 +1077,7 @@ class Wireless:
             operation_id="updateNetworkWirelessAirMarshalRule",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessAirMarshalRuleResponse,
+            response_schema=NetworkWirelessAirMarshalRuleResponse,
         )
 
     async def delete_network_wireless_air_marshal_rule(
@@ -1315,9 +1269,7 @@ class Wireless:
             response_schema=DictResponse,
         )
 
-    async def get_network_wireless_billing(
-        self, network_id: str
-    ) -> GetNetworkWirelessBillingResponse:
+    async def get_network_wireless_billing(self, network_id: str) -> NetworkWirelessBillingResponse:
         """Return the billing settings of this network.
 
         [API documentation: getNetworkWirelessBilling](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-billing)
@@ -1354,7 +1306,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessBilling",
             path=path,
-            response_schema=GetNetworkWirelessBillingResponse,
+            response_schema=NetworkWirelessBillingResponse,
         )
 
     async def update_network_wireless_billing(
@@ -1363,7 +1315,7 @@ class Wireless:
         *,
         currency: str | None = None,
         plans: list[UpdateNetworkWirelessBillingPlansItem] | None = None,
-    ) -> UpdateNetworkWirelessBillingResponse:
+    ) -> NetworkWirelessBillingResponse:
         """Update the billing settings.
 
         [API documentation: updateNetworkWirelessBilling](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing)
@@ -1409,12 +1361,12 @@ class Wireless:
             operation_id="updateNetworkWirelessBilling",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessBillingResponse,
+            response_schema=NetworkWirelessBillingResponse,
         )
 
     async def get_network_wireless_bluetooth_settings(
         self, network_id: str
-    ) -> GetNetworkWirelessBluetoothSettingsResponse:
+    ) -> NetworkWirelessBluetoothSettingsResponse:
         """Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
 
         [API documentation: getNetworkWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-bluetooth-settings)
@@ -1446,7 +1398,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessBluetoothSettings",
             path=path,
-            response_schema=GetNetworkWirelessBluetoothSettingsResponse,
+            response_schema=NetworkWirelessBluetoothSettingsResponse,
         )
 
     async def update_network_wireless_bluetooth_settings(
@@ -1460,7 +1412,7 @@ class Wireless:
         | None = None,
         major: int | None = None,
         minor: int | None = None,
-    ) -> UpdateNetworkWirelessBluetoothSettingsResponse:
+    ) -> NetworkWirelessBluetoothSettingsResponse:
         """Update the Bluetooth settings for a network.
 
         [API documentation: updateNetworkWirelessBluetoothSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-bluetooth-settings)
@@ -1516,7 +1468,7 @@ class Wireless:
             operation_id="updateNetworkWirelessBluetoothSettings",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessBluetoothSettingsResponse,
+            response_schema=NetworkWirelessBluetoothSettingsResponse,
         )
 
     def get_network_wireless_channel_utilization_history(
@@ -1815,7 +1767,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsLatencyStatsResponse]:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsConnectionStatsResponse]:
         """Aggregated latency info for this network, grouped by clients.
 
         [API documentation: getNetworkWirelessClientsLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats)
@@ -1956,7 +1908,7 @@ class Wireless:
             operation_id="getNetworkWirelessClientsLatencyStats",
             path=path,
             params=params,
-            item_schema=GetNetworkWirelessClientsLatencyStatsResponse,
+            item_schema=GetNetworkWirelessClientsConnectionStatsResponse,
         )
 
     async def get_network_wireless_client_connection_stats(
@@ -2559,7 +2511,7 @@ class Wireless:
         band: GetNetworkWirelessDevicesConnectionStatsBand | None = None,
         ssid: GetNetworkWirelessDevicesConnectionStatsSsid | None = None,
         ap_tag: str | None = None,
-    ) -> AsyncPaginatedResponse[GetNetworkWirelessDevicesConnectionStatsResponseItem]:
+    ) -> AsyncPaginatedResponse[GetDeviceWirelessConnectionStatsResponse]:
         """Aggregated connectivity info for this network, grouped by node.
 
         [API documentation: getNetworkWirelessDevicesConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-connection-stats)
@@ -2624,7 +2576,7 @@ class Wireless:
             operation_id="getNetworkWirelessDevicesConnectionStats",
             path=path,
             params=params,
-            item_schema=GetNetworkWirelessDevicesConnectionStatsResponseItem,
+            item_schema=GetDeviceWirelessConnectionStatsResponse,
         )
 
     def get_network_wireless_devices_latency_stats(
@@ -2639,7 +2591,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> AsyncPaginatedResponse[GetNetworkWirelessDevicesLatencyStatsResponse]:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsConnectionStatsResponse]:
         """Aggregated latency info for this network, grouped by node.
 
         [API documentation: getNetworkWirelessDevicesLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats)
@@ -2754,12 +2706,12 @@ class Wireless:
             operation_id="getNetworkWirelessDevicesLatencyStats",
             path=path,
             params=params,
-            item_schema=GetNetworkWirelessDevicesLatencyStatsResponse,
+            item_schema=GetNetworkWirelessClientsConnectionStatsResponse,
         )
 
     async def get_network_wireless_electronic_shelf_label(
         self, network_id: str
-    ) -> GetNetworkWirelessElectronicShelfLabelResponse:
+    ) -> NetworkWirelessElectronicShelfLabelResponse:
         """Return the ESL settings of a wireless network.
 
         [API documentation: getNetworkWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label)
@@ -2787,7 +2739,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessElectronicShelfLabel",
             path=path,
-            response_schema=GetNetworkWirelessElectronicShelfLabelResponse,
+            response_schema=NetworkWirelessElectronicShelfLabelResponse,
         )
 
     async def update_network_wireless_electronic_shelf_label(
@@ -2797,7 +2749,7 @@ class Wireless:
         hostname: str | None = None,
         enabled: bool | None = None,
         mode: UpdateNetworkWirelessElectronicShelfLabelMode | None = None,
-    ) -> UpdateNetworkWirelessElectronicShelfLabelResponse:
+    ) -> NetworkWirelessElectronicShelfLabelResponse:
         """Update the ESL settings of a wireless network.
 
         [API documentation: updateNetworkWirelessElectronicShelfLabel](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label)
@@ -2838,14 +2790,12 @@ class Wireless:
             operation_id="updateNetworkWirelessElectronicShelfLabel",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessElectronicShelfLabelResponse,
+            response_schema=NetworkWirelessElectronicShelfLabelResponse,
         )
 
     def get_network_wireless_electronic_shelf_label_configured_devices(
         self, network_id: str
-    ) -> AsyncPaginatedResponse[
-        GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem
-    ]:
+    ) -> AsyncPaginatedResponse[NetworkWirelessElectronicShelfLabelResponse]:
         """Get a list of all ESL eligible devices of a network.
 
         [API documentation: getNetworkWirelessElectronicShelfLabelConfiguredDevices](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label-configured-devices)
@@ -2880,12 +2830,12 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessElectronicShelfLabelConfiguredDevices",
             path=path,
-            item_schema=GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem,
+            item_schema=NetworkWirelessElectronicShelfLabelResponse,
         )
 
     def get_network_wireless_ethernet_ports_profiles(
         self, network_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkWirelessEthernetPortsProfilesResponseItem]:
+    ) -> AsyncPaginatedResponse[NetworkWirelessEthernetPortsProfileResponse]:
         """List the AP port profiles for this network.
 
         [API documentation: getNetworkWirelessEthernetPortsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profiles)
@@ -2936,7 +2886,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessEthernetPortsProfiles",
             path=path,
-            item_schema=GetNetworkWirelessEthernetPortsProfilesResponseItem,
+            item_schema=NetworkWirelessEthernetPortsProfileResponse,
         )
 
     async def create_network_wireless_ethernet_ports_profile(
@@ -2946,7 +2896,7 @@ class Wireless:
         name: str,
         ports: list[CreateNetworkWirelessEthernetPortsProfilePortsItem],
         usb_ports: list[CreateNetworkWirelessEthernetPortsProfileUsbPortsItem] | None = None,
-    ) -> CreateNetworkWirelessEthernetPortsProfileResponse:
+    ) -> NetworkWirelessEthernetPortsProfileResponse:
         """Create an AP port profile.
 
         [API documentation: createNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile)
@@ -3004,7 +2954,7 @@ class Wireless:
             operation_id="createNetworkWirelessEthernetPortsProfile",
             path=path,
             json=payload,
-            response_schema=CreateNetworkWirelessEthernetPortsProfileResponse,
+            response_schema=NetworkWirelessEthernetPortsProfileResponse,
         )
 
     async def assign_network_wireless_ethernet_ports_profiles(
@@ -3091,7 +3041,7 @@ class Wireless:
 
     async def get_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, profile_id: str
-    ) -> GetNetworkWirelessEthernetPortsProfileResponse:
+    ) -> NetworkWirelessEthernetPortsProfileResponse:
         """Show the AP port profile by ID for this network.
 
         [API documentation: getNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profile)
@@ -3137,7 +3087,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessEthernetPortsProfile",
             path=path,
-            response_schema=GetNetworkWirelessEthernetPortsProfileResponse,
+            response_schema=NetworkWirelessEthernetPortsProfileResponse,
         )
 
     async def update_network_wireless_ethernet_ports_profile(
@@ -3148,7 +3098,7 @@ class Wireless:
         name: str | None = None,
         ports: list[UpdateNetworkWirelessEthernetPortsProfilePortsItem] | None = None,
         usb_ports: list[UpdateNetworkWirelessEthernetPortsProfileUsbPortsItem] | None = None,
-    ) -> UpdateNetworkWirelessEthernetPortsProfileResponse:
+    ) -> NetworkWirelessEthernetPortsProfileResponse:
         """Update the AP port profile by ID for this network.
 
         [API documentation: updateNetworkWirelessEthernetPortsProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile)
@@ -3208,7 +3158,7 @@ class Wireless:
             operation_id="updateNetworkWirelessEthernetPortsProfile",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessEthernetPortsProfileResponse,
+            response_schema=NetworkWirelessEthernetPortsProfileResponse,
         )
 
     async def delete_network_wireless_ethernet_ports_profile(
@@ -4096,7 +4046,7 @@ class Wireless:
         transmission: CreateNetworkWirelessRfProfileTransmission | None = None,
         per_ssid_settings: CreateNetworkWirelessRfProfilePerSsidSettings | None = None,
         flex_radios: CreateNetworkWirelessRfProfileFlexRadios | None = None,
-    ) -> CreateNetworkWirelessRfProfileResponse:
+    ) -> GetNetworkWirelessRfProfilesResponse:
         """Creates new RF profile for this network.
 
         [API documentation: createNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile)
@@ -4488,12 +4438,12 @@ class Wireless:
             operation_id="createNetworkWirelessRfProfile",
             path=path,
             json=payload,
-            response_schema=CreateNetworkWirelessRfProfileResponse,
+            response_schema=GetNetworkWirelessRfProfilesResponse,
         )
 
     async def get_network_wireless_rf_profile(
         self, *, network_id: str, rf_profile_id: str
-    ) -> GetNetworkWirelessRfProfileResponse:
+    ) -> GetNetworkWirelessRfProfilesResponse:
         """Return a RF profile.
 
         [API documentation: getNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profile)
@@ -4837,7 +4787,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessRfProfile",
             path=path,
-            response_schema=GetNetworkWirelessRfProfileResponse,
+            response_schema=GetNetworkWirelessRfProfilesResponse,
         )
 
     async def update_network_wireless_rf_profile(
@@ -4858,7 +4808,7 @@ class Wireless:
         transmission: UpdateNetworkWirelessRfProfileTransmission | None = None,
         per_ssid_settings: UpdateNetworkWirelessRfProfilePerSsidSettings | None = None,
         flex_radios: UpdateNetworkWirelessRfProfileFlexRadios | None = None,
-    ) -> UpdateNetworkWirelessRfProfileResponse:
+    ) -> GetNetworkWirelessRfProfilesResponse:
         """Updates specified RF profile for this network.
 
         [API documentation: updateNetworkWirelessRfProfile](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile)
@@ -5260,7 +5210,7 @@ class Wireless:
             operation_id="updateNetworkWirelessRfProfile",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessRfProfileResponse,
+            response_schema=GetNetworkWirelessRfProfilesResponse,
         )
 
     async def delete_network_wireless_rf_profile(
@@ -5288,7 +5238,7 @@ class Wireless:
 
     async def get_network_wireless_settings(
         self, network_id: str
-    ) -> GetNetworkWirelessSettingsResponse:
+    ) -> NetworkWirelessSettingsResponse:
         """Return the wireless settings for a network.
 
         [API documentation: getNetworkWirelessSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-settings)
@@ -5332,7 +5282,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSettings",
             path=path,
-            response_schema=GetNetworkWirelessSettingsResponse,
+            response_schema=NetworkWirelessSettingsResponse,
         )
 
     async def update_network_wireless_settings(
@@ -5347,7 +5297,7 @@ class Wireless:
         multicast_to_unicast_conversion: UpdateNetworkWirelessSettingsMulticastToUnicastConversion
         | None = None,
         named_vlans: UpdateNetworkWirelessSettingsNamedVlans | None = None,
-    ) -> UpdateNetworkWirelessSettingsResponse:
+    ) -> NetworkWirelessSettingsResponse:
         """Update the wireless settings for a network.
 
         [API documentation: updateNetworkWirelessSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings)
@@ -5422,7 +5372,7 @@ class Wireless:
             operation_id="updateNetworkWirelessSettings",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSettingsResponse,
+            response_schema=NetworkWirelessSettingsResponse,
         )
 
     def get_network_wireless_signal_quality_history(
@@ -5608,7 +5558,7 @@ class Wireless:
 
     async def get_network_wireless_ssid(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidResponse:
+    ) -> NetworkWirelessSsidResponse:
         r"""Return a single MR SSID.
 
         [API documentation: getNetworkWirelessSsid](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid)
@@ -5686,7 +5636,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsid",
             path=path,
-            response_schema=GetNetworkWirelessSsidResponse,
+            response_schema=NetworkWirelessSsidResponse,
         )
 
     async def update_network_wireless_ssid(
@@ -5760,7 +5710,7 @@ class Wireless:
         named_vlans: UpdateNetworkWirelessSsidNamedVlans | None = None,
         local_auth_fallback: UpdateNetworkWirelessSsidLocalAuthFallback | None = None,
         radius_accounting_start_delay: int | None = None,
-    ) -> UpdateNetworkWirelessSsidResponse:
+    ) -> NetworkWirelessSsidResponse:
         r"""Update the attributes of an MR SSID.
 
         [API documentation: updateNetworkWirelessSsid](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid)
@@ -6127,12 +6077,12 @@ class Wireless:
             operation_id="updateNetworkWirelessSsid",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidResponse,
+            response_schema=NetworkWirelessSsidResponse,
         )
 
     async def get_network_wireless_ssid_bonjour_forwarding(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidBonjourForwardingResponse:
+    ) -> NetworkWirelessSsidBonjourForwardingResponse:
         """List the Bonjour forwarding setting and rules for the SSID.
 
         [API documentation: getNetworkWirelessSsidBonjourForwarding](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-bonjour-forwarding)
@@ -6172,7 +6122,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidBonjourForwarding",
             path=path,
-            response_schema=GetNetworkWirelessSsidBonjourForwardingResponse,
+            response_schema=NetworkWirelessSsidBonjourForwardingResponse,
         )
 
     async def update_network_wireless_ssid_bonjour_forwarding(
@@ -6183,7 +6133,7 @@ class Wireless:
         enabled: bool | None = None,
         rules: list[UpdateNetworkWirelessSsidBonjourForwardingRulesItem] | None = None,
         exception: UpdateNetworkWirelessSsidBonjourForwardingException | None = None,
-    ) -> UpdateNetworkWirelessSsidBonjourForwardingResponse:
+    ) -> NetworkWirelessSsidBonjourForwardingResponse:
         """Update the bonjour forwarding setting and rules for the SSID.
 
         [API documentation: updateNetworkWirelessSsidBonjourForwarding](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding)
@@ -6235,7 +6185,7 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidBonjourForwarding",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidBonjourForwardingResponse,
+            response_schema=NetworkWirelessSsidBonjourForwardingResponse,
         )
 
     async def get_network_wireless_ssid_device_type_group_policies(
@@ -6347,7 +6297,7 @@ class Wireless:
 
     async def get_network_wireless_ssid_eap_override(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidEapOverrideResponse:
+    ) -> NetworkWirelessSsidEapOverrideResponse:
         """Return the EAP overridden parameters for an SSID.
 
         [API documentation: getNetworkWirelessSsidEapOverride](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-eap-override)
@@ -6384,7 +6334,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidEapOverride",
             path=path,
-            response_schema=GetNetworkWirelessSsidEapOverrideResponse,
+            response_schema=NetworkWirelessSsidEapOverrideResponse,
         )
 
     async def update_network_wireless_ssid_eap_override(
@@ -6396,7 +6346,7 @@ class Wireless:
         identity: UpdateNetworkWirelessSsidEapOverrideIdentity | None = None,
         max_retries: int | None = None,
         eapol_key: UpdateNetworkWirelessSsidEapOverrideEapolKey | None = None,
-    ) -> UpdateNetworkWirelessSsidEapOverrideResponse:
+    ) -> NetworkWirelessSsidEapOverrideResponse:
         """Update the EAP overridden parameters for an SSID.
 
         [API documentation: updateNetworkWirelessSsidEapOverride](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override)
@@ -6448,12 +6398,12 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidEapOverride",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidEapOverrideResponse,
+            response_schema=NetworkWirelessSsidEapOverrideResponse,
         )
 
     async def get_network_wireless_ssid_firewall_l3_firewall_rules(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidFirewallL3FirewallRulesResponse:
+    ) -> NetworkWirelessSsidFirewallL3FirewallRulesResponse:
         """Return the L3 firewall rules for an SSID on an MR network.
 
         [API documentation: getNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-3-firewall-rules)
@@ -6491,7 +6441,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidFirewallL3FirewallRules",
             path=path,
-            response_schema=GetNetworkWirelessSsidFirewallL3FirewallRulesResponse,
+            response_schema=NetworkWirelessSsidFirewallL3FirewallRulesResponse,
         )
 
     async def update_network_wireless_ssid_firewall_l3_firewall_rules(
@@ -6501,7 +6451,7 @@ class Wireless:
         number: str,
         rules: list[UpdateNetworkWirelessSsidFirewallL3FirewallRulesRulesItem] | None = None,
         allow_lan_access: bool | None = None,
-    ) -> UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse:
+    ) -> NetworkWirelessSsidFirewallL3FirewallRulesResponse:
         """Update the L3 firewall rules of an SSID on an MR network.
 
         [API documentation: updateNetworkWirelessSsidFirewallL3FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules)
@@ -6549,12 +6499,12 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidFirewallL3FirewallRules",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse,
+            response_schema=NetworkWirelessSsidFirewallL3FirewallRulesResponse,
         )
 
     async def get_network_wireless_ssid_firewall_l7_firewall_rules(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidFirewallL7FirewallRulesResponse:
+    ) -> NetworkWirelessSsidFirewallL7FirewallRulesResponse:
         """Return the L7 firewall rules for an SSID on an MR network.
 
         [API documentation: getNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-7-firewall-rules)
@@ -6588,7 +6538,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidFirewallL7FirewallRules",
             path=path,
-            response_schema=GetNetworkWirelessSsidFirewallL7FirewallRulesResponse,
+            response_schema=NetworkWirelessSsidFirewallL7FirewallRulesResponse,
         )
 
     async def update_network_wireless_ssid_firewall_l7_firewall_rules(
@@ -6597,7 +6547,7 @@ class Wireless:
         network_id: str,
         number: str,
         rules: list[UpdateNetworkWirelessSsidFirewallL7FirewallRulesRulesItem] | None = None,
-    ) -> UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse:
+    ) -> NetworkWirelessSsidFirewallL7FirewallRulesResponse:
         """Update the L7 firewall rules of an SSID on an MR network.
 
         [API documentation: updateNetworkWirelessSsidFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules)
@@ -6639,12 +6589,12 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidFirewallL7FirewallRules",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse,
+            response_schema=NetworkWirelessSsidFirewallL7FirewallRulesResponse,
         )
 
     async def get_network_wireless_ssid_hotspot20(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidHotspot20Response:
+    ) -> NetworkWirelessSsidHotspot20Response:
         """Return the Hotspot 2.0 settings for an SSID.
 
         [API documentation: getNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-hotspot-20)
@@ -6715,7 +6665,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidHotspot20",
             path=path,
-            response_schema=GetNetworkWirelessSsidHotspot20Response,
+            response_schema=NetworkWirelessSsidHotspot20Response,
         )
 
     async def update_network_wireless_ssid_hotspot20(
@@ -6731,7 +6681,7 @@ class Wireless:
         roam_consort_ois: list[str] | None = None,
         mcc_mncs: list[UpdateNetworkWirelessSsidHotspot20MccMncsItem] | None = None,
         nai_realms: list[UpdateNetworkWirelessSsidHotspot20NaiRealmsItem] | None = None,
-    ) -> UpdateNetworkWirelessSsidHotspot20Response:
+    ) -> NetworkWirelessSsidHotspot20Response:
         """Update the Hotspot 2.0 settings of an SSID.
 
         [API documentation: updateNetworkWirelessSsidHotspot20](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-20)
@@ -6837,12 +6787,12 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidHotspot20",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidHotspot20Response,
+            response_schema=NetworkWirelessSsidHotspot20Response,
         )
 
     def get_network_wireless_ssid_identity_psks(
         self, *, network_id: str, number: str
-    ) -> AsyncPaginatedResponse[GetNetworkWirelessSsidIdentityPsksResponseItem]:
+    ) -> AsyncPaginatedResponse[NetworkWirelessSsidIdentityPskResponse]:
         """List all Identity PSKs in a wireless network.
 
         [API documentation: getNetworkWirelessSsidIdentityPsks](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psks)
@@ -6883,7 +6833,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidIdentityPsks",
             path=path,
-            item_schema=GetNetworkWirelessSsidIdentityPsksResponseItem,
+            item_schema=NetworkWirelessSsidIdentityPskResponse,
         )
 
     async def create_network_wireless_ssid_identity_psk(
@@ -6895,7 +6845,7 @@ class Wireless:
         group_policy_id: str,
         passphrase: str | None = None,
         expires_at: str | None = None,
-    ) -> CreateNetworkWirelessSsidIdentityPskResponse:
+    ) -> NetworkWirelessSsidIdentityPskResponse:
         """Create an Identity PSK.
 
         [API documentation: createNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk)
@@ -6945,12 +6895,12 @@ class Wireless:
             operation_id="createNetworkWirelessSsidIdentityPsk",
             path=path,
             json=payload,
-            response_schema=CreateNetworkWirelessSsidIdentityPskResponse,
+            response_schema=NetworkWirelessSsidIdentityPskResponse,
         )
 
     async def get_network_wireless_ssid_identity_psk(
         self, *, network_id: str, number: str, identity_psk_id: str
-    ) -> GetNetworkWirelessSsidIdentityPskResponse:
+    ) -> NetworkWirelessSsidIdentityPskResponse:
         """Return an Identity PSK.
 
         [API documentation: getNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psk)
@@ -6986,7 +6936,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidIdentityPsk",
             path=path,
-            response_schema=GetNetworkWirelessSsidIdentityPskResponse,
+            response_schema=NetworkWirelessSsidIdentityPskResponse,
         )
 
     async def update_network_wireless_ssid_identity_psk(
@@ -6999,7 +6949,7 @@ class Wireless:
         passphrase: str | None = None,
         group_policy_id: str | None = None,
         expires_at: str | None = None,
-    ) -> UpdateNetworkWirelessSsidIdentityPskResponse:
+    ) -> NetworkWirelessSsidIdentityPskResponse:
         """Update an Identity PSK.
 
         [API documentation: updateNetworkWirelessSsidIdentityPsk](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk)
@@ -7050,7 +7000,7 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidIdentityPsk",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidIdentityPskResponse,
+            response_schema=NetworkWirelessSsidIdentityPskResponse,
         )
 
     async def delete_network_wireless_ssid_identity_psk(
@@ -7128,7 +7078,7 @@ class Wireless:
 
     async def get_network_wireless_ssid_schedules(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidSchedulesResponse:
+    ) -> NetworkWirelessSsidSchedulesResponse:
         """List the outage schedule for the SSID.
 
         [API documentation: getNetworkWirelessSsidSchedules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-schedules)
@@ -7170,7 +7120,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidSchedules",
             path=path,
-            response_schema=GetNetworkWirelessSsidSchedulesResponse,
+            response_schema=NetworkWirelessSsidSchedulesResponse,
         )
 
     async def update_network_wireless_ssid_schedules(
@@ -7182,7 +7132,7 @@ class Wireless:
         ranges: list[UpdateNetworkWirelessSsidSchedulesRangesItem] | None = None,
         ranges_in_seconds: list[UpdateNetworkWirelessSsidSchedulesRangesInSecondsItem]
         | None = None,
-    ) -> UpdateNetworkWirelessSsidSchedulesResponse:
+    ) -> NetworkWirelessSsidSchedulesResponse:
         """Update the outage schedule for the SSID.
 
         [API documentation: updateNetworkWirelessSsidSchedules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules)
@@ -7244,12 +7194,12 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidSchedules",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidSchedulesResponse,
+            response_schema=NetworkWirelessSsidSchedulesResponse,
         )
 
     async def get_network_wireless_ssid_splash_settings(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidSplashSettingsResponse:
+    ) -> NetworkWirelessSsidSplashSettingsResponse:
         """Display the splash page settings for the given SSID.
 
         [API documentation: getNetworkWirelessSsidSplashSettings](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-splash-settings)
@@ -7325,7 +7275,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidSplashSettings",
             path=path,
-            response_schema=GetNetworkWirelessSsidSplashSettingsResponse,
+            response_schema=NetworkWirelessSsidSplashSettingsResponse,
         )
 
     async def update_network_wireless_ssid_splash_settings(
@@ -7352,7 +7302,7 @@ class Wireless:
         billing: UpdateNetworkWirelessSsidSplashSettingsBilling | None = None,
         sentry_enrollment: UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment | None = None,
         self_registration: UpdateNetworkWirelessSsidSplashSettingsSelfRegistration | None = None,
-    ) -> UpdateNetworkWirelessSsidSplashSettingsResponse:
+    ) -> NetworkWirelessSsidSplashSettingsResponse:
         """Modify the splash page settings for the given SSID.
 
         [API documentation: updateNetworkWirelessSsidSplashSettings](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings)
@@ -7504,12 +7454,12 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidSplashSettings",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidSplashSettingsResponse,
+            response_schema=NetworkWirelessSsidSplashSettingsResponse,
         )
 
     async def get_network_wireless_ssid_traffic_shaping_rules(
         self, *, network_id: str, number: str
-    ) -> GetNetworkWirelessSsidTrafficShapingRulesResponse:
+    ) -> NetworkWirelessSsidTrafficShapingRulesResponse:
         """Display the traffic shaping settings for a SSID on an MR network.
 
         [API documentation: getNetworkWirelessSsidTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-traffic-shaping-rules)
@@ -7557,7 +7507,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidTrafficShapingRules",
             path=path,
-            response_schema=GetNetworkWirelessSsidTrafficShapingRulesResponse,
+            response_schema=NetworkWirelessSsidTrafficShapingRulesResponse,
         )
 
     async def update_network_wireless_ssid_traffic_shaping_rules(
@@ -7568,7 +7518,7 @@ class Wireless:
         traffic_shaping_enabled: bool | None = None,
         default_rules_enabled: bool | None = None,
         rules: list[UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem] | None = None,
-    ) -> UpdateNetworkWirelessSsidTrafficShapingRulesResponse:
+    ) -> NetworkWirelessSsidTrafficShapingRulesResponse:
         """Update the traffic shaping rules for an SSID on an MR network.
 
         [API documentation: updateNetworkWirelessSsidTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules)
@@ -7634,7 +7584,7 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidTrafficShapingRules",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkWirelessSsidTrafficShapingRulesResponse,
+            response_schema=NetworkWirelessSsidTrafficShapingRulesResponse,
         )
 
     async def get_network_wireless_ssid_vpn(self, *, network_id: str, number: str) -> DictResponse:
@@ -7949,7 +7899,7 @@ class Wireless:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessAirMarshalRulesResponseItemsItem]:
+    ) -> AsyncPaginatedResponse[NetworkWirelessAirMarshalRuleResponse]:
         """Returns the current Air Marshal rules for this organization.
 
         [API documentation: getOrganizationWirelessAirMarshalRules](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-rules)
@@ -8029,7 +7979,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessAirMarshalRulesResponseItemsItem,
+            item_schema=NetworkWirelessAirMarshalRuleResponse,
         )
 
     def get_organization_wireless_air_marshal_settings_by_network(
@@ -8042,9 +7992,7 @@ class Wireless:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[
-        GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem
-    ]:
+    ) -> AsyncPaginatedResponse[UpdateNetworkWirelessAirMarshalSettingsResponse]:
         """Returns the current Air Marshal settings for this network.
 
         [API documentation: getOrganizationWirelessAirMarshalSettingsByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-settings-by-network)
@@ -8115,7 +8063,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem,
+            item_schema=UpdateNetworkWirelessAirMarshalSettingsResponse,
         )
 
     def get_organization_wireless_clients_overview_by_device(
@@ -9273,7 +9221,7 @@ class Wireless:
         | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem]:
+    ) -> AsyncPaginatedResponse[UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse]:
         """List the zero touch deployments for wireless access points in an organization.
 
         [API documentation: getOrganizationWirelessDevicesProvisioningDeployments](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-provisioning-deployments)
@@ -9400,7 +9348,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessDevicesProvisioningDeploymentsResponseItem,
+            item_schema=UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse,
         )
 
     async def update_organization_wireless_devices_provisioning_deployments(
@@ -9510,7 +9458,7 @@ class Wireless:
         organization_id: str,
         items: list[CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem],
         meta: CreateOrganizationWirelessDevicesProvisioningDeploymentMeta | None = None,
-    ) -> CreateOrganizationWirelessDevicesProvisioningDeploymentResponse:
+    ) -> UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse:
         """Create a zero touch deployment for a wireless access point.
 
         [API documentation: createOrganizationWirelessDevicesProvisioningDeployment](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-provisioning-deployment)
@@ -9602,7 +9550,7 @@ class Wireless:
             operation_id="createOrganizationWirelessDevicesProvisioningDeployment",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationWirelessDevicesProvisioningDeploymentResponse,
+            response_schema=UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse,
         )
 
     async def delete_organization_wireless_devices_provisioning_deployment(
@@ -9633,7 +9581,7 @@ class Wireless:
     def get_organization_wireless_devices_radsec_certificates_authorities(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> AsyncPaginatedResponse[
-        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem
+        UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse
     ]:
         r"""Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
 
@@ -9688,7 +9636,7 @@ class Wireless:
             operation_id="getOrganizationWirelessDevicesRadsecCertificatesAuthorities",
             path=path,
             params=params,
-            item_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem,
+            item_schema=UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse,
         )
 
     async def update_organization_wireless_devices_radsec_certificates_authorities(
@@ -9740,7 +9688,7 @@ class Wireless:
 
     async def create_organization_wireless_devices_radsec_certificates_authority(
         self, organization_id: str
-    ) -> CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse:
+    ) -> UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse:
         r"""Create an organization's RADSEC device Certificate Authority (CA).
 
         [API documentation: createOrganizationWirelessDevicesRadsecCertificatesAuthority](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-radsec-certificates-authority)
@@ -9768,7 +9716,7 @@ class Wireless:
             scope="wireless",
             operation_id="createOrganizationWirelessDevicesRadsecCertificatesAuthority",
             path=path,
-            response_schema=CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse,
+            response_schema=UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse,
         )
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls(
@@ -9832,7 +9780,7 @@ class Wireless:
     def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> AsyncPaginatedResponse[
-        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem
+        GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
     ]:
         r"""Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
 
@@ -9884,7 +9832,7 @@ class Wireless:
             operation_id="getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas",
             path=path,
             params=params,
-            item_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponseItemsItem,
+            item_schema=GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem,
         )
 
     def get_organization_wireless_devices_system_cpu_load_history(
@@ -10227,7 +10175,7 @@ class Wireless:
         network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessLocationScanningReceiversResponseItemsItem]:
+    ) -> AsyncPaginatedResponse[OrganizationWirelessLocationScanningReceiverResponse]:
         """Return scanning API receivers.
 
         [API documentation: getOrganizationWirelessLocationScanningReceivers](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-receivers)
@@ -10306,7 +10254,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessLocationScanningReceiversResponseItemsItem,
+            item_schema=OrganizationWirelessLocationScanningReceiverResponse,
         )
 
     async def create_organization_wireless_location_scanning_receiver(
@@ -10318,7 +10266,7 @@ class Wireless:
         version: str,
         radio: CreateOrganizationWirelessLocationScanningReceiverRadio,
         shared_secret: str,
-    ) -> CreateOrganizationWirelessLocationScanningReceiverResponse:
+    ) -> OrganizationWirelessLocationScanningReceiverResponse:
         """Add new receiver for scanning API.
 
         [API documentation: createOrganizationWirelessLocationScanningReceiver](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver)
@@ -10371,7 +10319,7 @@ class Wireless:
             operation_id="createOrganizationWirelessLocationScanningReceiver",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationWirelessLocationScanningReceiverResponse,
+            response_schema=OrganizationWirelessLocationScanningReceiverResponse,
         )
 
     async def update_organization_wireless_location_scanning_receiver(
@@ -10382,7 +10330,7 @@ class Wireless:
         url: str | None = None,
         version: str | None = None,
         radio: UpdateOrganizationWirelessLocationScanningReceiverRadio | None = None,
-    ) -> UpdateOrganizationWirelessLocationScanningReceiverResponse:
+    ) -> OrganizationWirelessLocationScanningReceiverResponse:
         """Change scanning API receiver settings.
 
         [API documentation: updateOrganizationWirelessLocationScanningReceiver](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver)
@@ -10433,7 +10381,7 @@ class Wireless:
             operation_id="updateOrganizationWirelessLocationScanningReceiver",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationWirelessLocationScanningReceiverResponse,
+            response_schema=OrganizationWirelessLocationScanningReceiverResponse,
         )
 
     async def delete_organization_wireless_location_scanning_receiver(
@@ -10473,7 +10421,7 @@ class Wireless:
         network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessMqttSettingsResponseItemsItem]:
+    ) -> AsyncPaginatedResponse[UpdateOrganizationWirelessMqttSettingsResponse]:
         """Return MQTT Settings for networks.
 
         [API documentation: getOrganizationWirelessMqttSettings](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-mqtt-settings)
@@ -10604,7 +10552,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessMqttSettingsResponseItemsItem,
+            item_schema=UpdateOrganizationWirelessMqttSettingsResponse,
         )
 
     async def update_organization_wireless_mqtt_settings(
@@ -10768,7 +10716,7 @@ class Wireless:
         sort_order: GetOrganizationWirelessRadioRrmByNetworkSortOrder | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem]:
+    ) -> AsyncPaginatedResponse[UpdateNetworkWirelessRadioRrmResponse]:
         """List the AutoRF settings of an organization by network.
 
         [API documentation: getOrganizationWirelessRadioRrmByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-radio-rrm-by-network)
@@ -10864,7 +10812,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessRadioRrmByNetworkResponseItemsItem,
+            item_schema=UpdateNetworkWirelessRadioRrmResponse,
         )
 
     def get_organization_wireless_rf_profiles_assignments_by_device(
@@ -11018,9 +10966,7 @@ class Wireless:
         ssids: GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesSsids | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[
-        GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem
-    ]:
+    ) -> AsyncPaginatedResponse[OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse]:
         """List the L2 isolation allow list MAC entry in an organization.
 
         [API documentation: getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-firewall-isolation-allowlist-entries)
@@ -11110,7 +11056,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem,
+            item_schema=OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
         )
 
     async def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
@@ -11121,7 +11067,7 @@ class Wireless:
         ssid: CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntrySsid,
         network: CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryNetwork,
         description: str | None = None,
-    ) -> CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse:
+    ) -> OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse:
         """Create isolation allow list MAC entry for this organization.
 
         [API documentation: createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry)
@@ -11179,7 +11125,7 @@ class Wireless:
             operation_id="createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
+            response_schema=OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
         )
 
     async def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
@@ -11189,7 +11135,7 @@ class Wireless:
         entry_id: str,
         description: str | None = None,
         client: UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient | None = None,
-    ) -> UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse:
+    ) -> OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse:
         """Update isolation allow list MAC entry info.
 
         [API documentation: updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry)
@@ -11241,7 +11187,7 @@ class Wireless:
             operation_id="updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
+            response_schema=OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
         )
 
     async def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
@@ -11502,7 +11448,7 @@ class Wireless:
         network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessZigbeeByNetworkResponseItem]:
+    ) -> AsyncPaginatedResponse[UpdateNetworkWirelessZigbeeResponse]:
         """Return list of Zigbee configs.
 
         [API documentation: getOrganizationWirelessZigbeeByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-by-network)
@@ -11580,7 +11526,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessZigbeeByNetworkResponseItem,
+            item_schema=UpdateNetworkWirelessZigbeeResponse,
         )
 
     def get_organization_wireless_zigbee_devices(
@@ -11595,7 +11541,7 @@ class Wireless:
         search: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessZigbeeDevicesResponseItem]:
+    ) -> AsyncPaginatedResponse[UpdateOrganizationWirelessZigbeeDeviceResponse]:
         """List the Zigbee wireless devices for an organization or the supplied network(s).
 
         [API documentation: getOrganizationWirelessZigbeeDevices](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-devices)
@@ -11688,7 +11634,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessZigbeeDevicesResponseItem,
+            item_schema=UpdateOrganizationWirelessZigbeeDeviceResponse,
         )
 
     async def update_organization_wireless_zigbee_device(
@@ -11860,7 +11806,7 @@ class Wireless:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessZigbeeDoorLocksResponseItem]:
+    ) -> AsyncPaginatedResponse[UpdateOrganizationWirelessZigbeeDoorLockResponse]:
         """Return the list of door locks for a network.
 
         [API documentation: getOrganizationWirelessZigbeeDoorLocks](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-door-locks)
@@ -11939,7 +11885,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessZigbeeDoorLocksResponseItem,
+            item_schema=UpdateOrganizationWirelessZigbeeDoorLockResponse,
         )
 
     async def update_organization_wireless_zigbee_door_lock(

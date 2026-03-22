@@ -15,12 +15,10 @@ from meraki_client.schemas import (
     ClaimAdministeredLicensingSubscriptionSubscriptionsResponse,
     GetAdministeredLicensingSubscriptionEntitlementsResponseItem,
     GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItem,
-    GetAdministeredLicensingSubscriptionSubscriptionsResponseItem,
     GetOrganizationLicensingCotermLicensesResponseItem,
     MoveOrganizationLicensingCotermLicensesDestination,
     MoveOrganizationLicensingCotermLicensesLicensesItem,
     MoveOrganizationLicensingCotermLicensesResponse,
-    ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse,
 )
 from meraki_client.types import (
     GetAdministeredLicensingSubscriptionSubscriptionsProductTypes,
@@ -99,7 +97,7 @@ class Licensing:
         end_date: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetAdministeredLicensingSubscriptionSubscriptionsResponseItem]:
+    ) -> PaginatedResponse[ClaimAdministeredLicensingSubscriptionSubscriptionsResponse]:
         """List available subscriptions.
 
         [API documentation: getAdministeredLicensingSubscriptionSubscriptions](https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions)
@@ -227,7 +225,7 @@ class Licensing:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetAdministeredLicensingSubscriptionSubscriptionsResponseItem,
+            item_schema=ClaimAdministeredLicensingSubscriptionSubscriptionsResponse,
         )
 
     def claim_administered_licensing_subscription_subscriptions(
@@ -332,7 +330,7 @@ class Licensing:
 
     def validate_administered_licensing_subscription_subscriptions_claim_key(
         self, claim_key: str
-    ) -> ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse:
+    ) -> ClaimAdministeredLicensingSubscriptionSubscriptionsResponse:
         """Find a subscription by claim key.
 
         [API documentation: validateAdministeredLicensingSubscriptionSubscriptionsClaimKey](https://developer.cisco.com/meraki/api-v1/#!validate-administered-licensing-subscription-subscriptions-claim-key)
@@ -406,7 +404,7 @@ class Licensing:
             operation_id="validateAdministeredLicensingSubscriptionSubscriptionsClaimKey",
             path=path,
             json=payload,
-            response_schema=ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse,
+            response_schema=ClaimAdministeredLicensingSubscriptionSubscriptionsResponse,
         )
 
     def get_administered_licensing_subscription_subscriptions_compliance_statuses(

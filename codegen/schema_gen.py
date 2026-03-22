@@ -36,6 +36,7 @@ FORMAT_MAP = {
     "byte": "str",  # base64 encoded, keep as string
     "float": "float",  # redundant with type: number
 }
+IDENTIFIER_PARTS_RE = re.compile(r"[A-Z]+(?=[A-Z][a-z0-9]|$)|[A-Z]?[a-z0-9]+")
 
 
 class SchemaStatus(Enum):
@@ -66,12 +67,51 @@ class RequestBodyParamSchema:
     item_class_name: str | None = None
 
 
+@dataclass(frozen=True)
+class PreparedResponseSchema:
+    """Prepared response schema ready for naming and generation."""
+
+    operation_id: str
+    scope: str
+    schema: dict[str, Any]
+
+
+@dataclass(frozen=True)
+class PreparedResponseItemSchema:
+    """Prepared response item schema ready for naming and generation."""
+
+    operation_id: str
+    scope: str
+    schema: dict[str, Any]
+    name_suffix: str
+    field_path: tuple[str, ...] = ()
+    include_extra_fields: bool = True
+
+
+@dataclass(frozen=True)
+class ResponseSchemaPlan:
+    """Planned response schema generation details for an operation."""
+
+    schema: dict[str, Any]
+    class_name: str
+    description: str
+
+
+@dataclass(frozen=True)
+class PlannedResponseSchemas:
+    """Planned response and response-item schema generation details."""
+
+    response_plans: dict[str, ResponseSchemaPlan]
+    response_item_plans: dict[str, ResponseSchemaPlan]
+
+
 @dataclass
 class SchemaRegistry:
     """Registry of generated response schemas."""
 
     schema_names: set[str]
-    item_schema_map: dict[str, list[str]]
+    response_schemas: dict[str, str]
+    response_item_schemas: dict[str, list[str]]
     untyped_response_ops: set[str]
     # Map of (operation_id, property_name) -> RequestBodyParamSchema
     request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema]
@@ -93,6 +133,7 @@ class GenerationContext:
     spec_overrides: SpecOverrides | None = None
     consumed_overrides: set[tuple[str, str]] | None = None
     consumed_required_overrides: set[tuple[str, str]] | None = None
+    planned_response_item_plan: ResponseSchemaPlan | None = None
 
     def nested(self, path_segment: str | None = None) -> GenerationContext:
         """Create a new context for nested schema generation."""
@@ -108,6 +149,25 @@ class GenerationContext:
             spec_overrides=self.spec_overrides,
             consumed_overrides=self.consumed_overrides,
             consumed_required_overrides=self.consumed_required_overrides,
+            planned_response_item_plan=self.planned_response_item_plan,
+        )
+
+    def with_planned_response_item_plan(
+        self, planned_response_item_plan: ResponseSchemaPlan | None
+    ) -> GenerationContext:
+        """Create a new context with a planned top-level response item schema."""
+        return GenerationContext(
+            schemas=self.schemas,
+            schema_to_scope=self.schema_to_scope,
+            schema_fingerprints=self.schema_fingerprints,
+            scope=self.scope,
+            depth=self.depth,
+            operation_id=self.operation_id,
+            field_path=self.field_path,
+            spec_overrides=self.spec_overrides,
+            consumed_overrides=self.consumed_overrides,
+            consumed_required_overrides=self.consumed_required_overrides,
+            planned_response_item_plan=planned_response_item_plan,
         )
 
 
@@ -130,6 +190,317 @@ def get_request_param_schema_name(operation_id: str, property_name: str) -> str:
     return f"{capitalize_first(operation_id)}{sanitized_prop}"
 
 
+def _plan_response_schemas(spec: OpenAPI, spec_overrides: SpecOverrides) -> PlannedResponseSchemas:
+    """Plan canonical response and response-item schema names before generating code."""
+    prepared_responses: list[PreparedResponseSchema] = []
+    prepared_response_items: list[PreparedResponseItemSchema] = []
+
+    for path_item in spec.paths.values():
+        operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
+            "get": path_item.get,
+            "put": path_item.put,
+            "post": path_item.post,
+            "delete": path_item.delete,
+        }
+        for method, operation in operations.items():
+            if not operation or not operation.operationId:
+                continue
+
+            operation_id = operation.operationId
+            scope = operation.tags[0] if operation.tags else None
+            if not scope:
+                continue
+
+            response_schema = _prepare_response_schema(
+                operation=operation,
+                operation_id=operation_id,
+                spec_overrides=spec_overrides,
+            )
+            if response_schema is None:
+                continue
+
+            prepared_responses.append(
+                PreparedResponseSchema(
+                    operation_id=operation_id,
+                    scope=scope,
+                    schema=response_schema,
+                )
+            )
+            prepared_item = _prepare_response_item_schema(
+                method=method,
+                operation_id=operation_id,
+                scope=scope,
+                response_schema=response_schema,
+            )
+            if prepared_item is not None:
+                prepared_response_items.append(prepared_item)
+
+    response_groups: dict[str, list[PreparedResponseSchema]] = {}
+    for prepared in prepared_responses:
+        fingerprint = _compute_response_schema_fingerprint(
+            operation_id=prepared.operation_id,
+            scope=prepared.scope,
+            schema=prepared.schema,
+            spec_overrides=spec_overrides,
+        )
+        response_groups.setdefault(fingerprint, []).append(prepared)
+
+    used_class_names: set[str] = set()
+    response_plans: dict[str, ResponseSchemaPlan] = {}
+    canonical_object_plans: dict[str, ResponseSchemaPlan] = {}
+    for grouped_responses in response_groups.values():
+        class_name = _get_grouped_response_schema_name(grouped_responses, used_class_names)
+        description = _build_response_schema_description(class_name, grouped_responses)
+        used_class_names.add(class_name)
+
+        for prepared in grouped_responses:
+            plan = ResponseSchemaPlan(
+                schema=prepared.schema,
+                class_name=class_name,
+                description=description,
+            )
+            response_plans[prepared.operation_id] = plan
+            if _is_object_schema(prepared.schema):
+                fingerprint = _compute_response_schema_fingerprint(
+                    operation_id=prepared.operation_id,
+                    scope=prepared.scope,
+                    schema=prepared.schema,
+                    spec_overrides=spec_overrides,
+                )
+                canonical_object_plans[fingerprint] = plan
+
+    response_item_plans = _build_response_item_plans(
+        prepared_response_items=prepared_response_items,
+        response_plans=response_plans,
+        spec_overrides=spec_overrides,
+        used_class_names=used_class_names,
+        canonical_object_plans=canonical_object_plans,
+    )
+    return PlannedResponseSchemas(
+        response_plans=response_plans,
+        response_item_plans=response_item_plans,
+    )
+
+
+def _prepare_response_schema(
+    *, operation: Operation, operation_id: str, spec_overrides: SpecOverrides
+) -> dict[str, Any] | None:
+    """Extract and normalize a response schema for planning or generation."""
+    response_schema = _extract_response_schema(operation)
+    if response_schema is None:
+        return None
+
+    response_schema = _apply_inject_response_schema(
+        operation_id, response_schema, spec_overrides.inject_response_schema
+    )
+    response_schema = _apply_force_array_response(
+        operation_id, response_schema, spec_overrides.force_array_response
+    )
+    return _normalize_paginated_response_schema(
+        operation_id=operation_id,
+        schema=response_schema,
+        force_paginated_items_schema=spec_overrides.force_paginated_items_schema,
+    )
+
+
+def _prepare_response_item_schema(
+    *,
+    method: Literal["get", "put", "post", "delete"],
+    operation_id: str,
+    scope: str,
+    response_schema: dict[str, Any],
+) -> PreparedResponseItemSchema | None:
+    """Prepare a top-level response item schema for canonical naming."""
+    items_schema = response_schema.get("items")
+    if isinstance(items_schema, dict) and _has_nested_properties(items_schema):
+        return PreparedResponseItemSchema(
+            operation_id=operation_id,
+            scope=scope,
+            schema=items_schema,
+            name_suffix="Item",
+        )
+
+    if method != "get":
+        return None
+
+    item_schema = _get_paginated_wrapper_item_schema(response_schema)
+    if item_schema is None or not _has_nested_properties(item_schema):
+        return None
+
+    return PreparedResponseItemSchema(
+        operation_id=operation_id,
+        scope=scope,
+        schema=item_schema,
+        name_suffix="ItemsItem",
+        field_path=("items",),
+        include_extra_fields=False,
+    )
+
+
+def _compute_response_schema_fingerprint(
+    *,
+    operation_id: str,
+    scope: str,
+    schema: dict[str, Any],
+    spec_overrides: SpecOverrides,
+    field_path: tuple[str, ...] = (),
+    include_extra_fields: bool = True,
+) -> str:
+    """Compute a response fingerprint, including applicable operation overrides."""
+    normalized = {
+        "scope": scope,
+        "schema": _normalize_schema(schema),
+        "response_fields": _normalize_override_map(
+            spec_overrides.response_fields.get(operation_id, {}),
+            field_path=field_path,
+        ),
+        "required_fields": _normalize_override_set(
+            spec_overrides.required_fields.get(operation_id, set()),
+            field_path=field_path,
+        ),
+        "extra_fields": (
+            dict(sorted(spec_overrides.extra_fields.get(operation_id, {}).items()))
+            if include_extra_fields and not field_path
+            else {}
+        ),
+    }
+    return json.dumps(normalized, sort_keys=True)
+
+
+def _build_response_item_plans(
+    *,
+    prepared_response_items: list[PreparedResponseItemSchema],
+    response_plans: dict[str, ResponseSchemaPlan],
+    spec_overrides: SpecOverrides,
+    used_class_names: set[str],
+    canonical_object_plans: dict[str, ResponseSchemaPlan],
+) -> dict[str, ResponseSchemaPlan]:
+    """Plan canonical response item schema names before generating code."""
+    response_item_plans: dict[str, ResponseSchemaPlan] = {}
+    item_groups: dict[str, list[PreparedResponseItemSchema]] = {}
+
+    for prepared in prepared_response_items:
+        fingerprint = _compute_response_schema_fingerprint(
+            operation_id=prepared.operation_id,
+            scope=prepared.scope,
+            schema=prepared.schema,
+            spec_overrides=spec_overrides,
+            field_path=prepared.field_path,
+            include_extra_fields=prepared.include_extra_fields,
+        )
+        canonical_object_plan = canonical_object_plans.get(fingerprint)
+        if canonical_object_plan is not None:
+            response_item_plans[prepared.operation_id] = ResponseSchemaPlan(
+                schema=prepared.schema,
+                class_name=canonical_object_plan.class_name,
+                description=canonical_object_plan.description,
+            )
+            continue
+
+        item_groups.setdefault(fingerprint, []).append(prepared)
+
+    for grouped_items in item_groups.values():
+        first_item = grouped_items[0]
+        default_name = response_plans[first_item.operation_id].class_name + first_item.name_suffix
+        class_name = _make_unique_class_name(default_name, used_class_names)
+        used_class_names.add(class_name)
+        plan = ResponseSchemaPlan(
+            schema=first_item.schema,
+            class_name=class_name,
+            description=f"Schema for {class_name}.",
+        )
+        for prepared in grouped_items:
+            response_item_plans[prepared.operation_id] = plan
+
+    return response_item_plans
+
+
+def _normalize_override_map(
+    overrides: dict[str, str], *, field_path: tuple[str, ...]
+) -> dict[str, str]:
+    """Normalize field override paths relative to a schema fingerprint scope."""
+    if not field_path:
+        return dict(sorted(overrides.items()))
+
+    prefix = ".".join(field_path) + "."
+    normalized = {
+        path[len(prefix) :]: override_type
+        for path, override_type in overrides.items()
+        if path.startswith(prefix)
+    }
+    return dict(sorted(normalized.items()))
+
+
+def _normalize_override_set(overrides: set[str], *, field_path: tuple[str, ...]) -> list[str]:
+    """Normalize required-field override paths relative to a schema fingerprint scope."""
+    if not field_path:
+        return sorted(overrides)
+
+    prefix = ".".join(field_path) + "."
+    return sorted(path[len(prefix) :] for path in overrides if path.startswith(prefix))
+
+
+def _get_grouped_response_schema_name(
+    grouped_responses: list[PreparedResponseSchema], used_class_names: set[str]
+) -> str:
+    """Choose a canonical response schema name for a deduped group."""
+    operation_ids = [prepared.operation_id for prepared in grouped_responses]
+    shared_name = _get_shared_response_schema_name(operation_ids)
+    if shared_name and shared_name not in used_class_names:
+        return shared_name
+
+    default_name = get_response_schema_name(operation_ids[0])
+    return _make_unique_class_name(default_name, used_class_names)
+
+
+def _get_shared_response_schema_name(operation_ids: list[str]) -> str | None:
+    """Derive a shared resource-style response name when CRUD tails match."""
+    if len(operation_ids) < 2:
+        return None
+
+    identifier_parts = [_split_identifier_parts(operation_id) for operation_id in operation_ids]
+    if any(len(parts) < 2 for parts in identifier_parts):
+        return None
+
+    shared_suffix = identifier_parts[0][1:]
+    if not shared_suffix:
+        return None
+    if not all(parts[1:] == shared_suffix for parts in identifier_parts[1:]):
+        return None
+
+    return "".join(shared_suffix) + "Response"
+
+
+def _build_response_schema_description(
+    class_name: str, grouped_responses: list[PreparedResponseSchema]
+) -> str:
+    """Build a stable docstring for a response schema group."""
+    if len(grouped_responses) == 1:
+        operation_id = grouped_responses[0].operation_id
+        if class_name == get_response_schema_name(operation_id):
+            return f"Response for {operation_id} operation."
+    return f"Schema for {class_name}."
+
+
+def _split_identifier_parts(name: str) -> list[str]:
+    """Split a camelCase/PascalCase identifier into component words."""
+    parts = IDENTIFIER_PARTS_RE.findall(capitalize_first(name))
+    return parts or [capitalize_first(name)]
+
+
+def _make_unique_class_name(base_name: str, used_class_names: set[str]) -> str:
+    """Return a class name that is unique within the planned response schema set."""
+    if base_name not in used_class_names:
+        return base_name
+
+    for i in range(2, 100):
+        candidate = f"{base_name}{i}"
+        if candidate not in used_class_names:
+            return candidate
+
+    raise ValueError(f"Could not generate unique class name for {base_name}")
+
+
 def generate_response_schemas(
     spec: OpenAPI, templates: Templates, output_dir: str
 ) -> SchemaRegistry:
@@ -137,7 +508,8 @@ def generate_response_schemas(
     schemas: dict[str, str] = {}
     schema_to_scope: dict[str, str] = {}
     schema_fingerprints: dict[str, str] = {}
-    item_schema_map: dict[str, list[str]] = {}
+    response_schemas: dict[str, str] = {}
+    response_item_schemas: dict[str, list[str]] = {}
     untyped_response_operations: set[str] = set()
     request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema] = {}
     list_response_schemas: set[str] = set()
@@ -146,6 +518,7 @@ def generate_response_schemas(
     consumed_overrides: set[tuple[str, str]] = set()
     consumed_required_overrides: set[tuple[str, str]] = set()
     spec_operation_ids: set[str] = set()
+    planned_response_schemas = _plan_response_schemas(spec, spec_overrides)
 
     for path_item in spec.paths.values():
         operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
@@ -177,45 +550,48 @@ def generate_response_schemas(
             )
 
             # Generate response schemas
-            response_schema = _extract_response_schema(operation)
-            if response_schema:
-                response_schema = _apply_inject_response_schema(
-                    operation_id, response_schema, spec_overrides.inject_response_schema
+            response_plan = planned_response_schemas.response_plans.get(operation_id)
+            if response_plan:
+                response_schema = response_plan.schema
+                class_name = response_plan.class_name
+                response_ctx = ctx.with_planned_response_item_plan(
+                    planned_response_schemas.response_item_plans.get(operation_id)
                 )
-                response_schema = _apply_force_array_response(
-                    operation_id, response_schema, spec_overrides.force_array_response
-                )
-                response_schema = _normalize_paginated_response_schema(
-                    operation_id=operation_id,
-                    schema=response_schema,
-                    force_paginated_items_schema=spec_overrides.force_paginated_items_schema,
-                )
-                class_name = get_response_schema_name(operation_id)
                 if method == "get":
                     item_schema = _get_paginated_wrapper_item_schema(response_schema)
                     if item_schema is not None:
-                        item_class_name = class_name + "ItemsItem"
+                        item_plan = planned_response_schemas.response_item_plans.get(operation_id)
+                        item_class_name = (
+                            item_plan.class_name
+                            if item_plan is not None
+                            else class_name + "ItemsItem"
+                        )
                         item_result = _generate_schema_class(
-                            ctx.nested("items"),
+                            response_ctx.nested("items"),
                             class_name=item_class_name,
                             schema=item_schema,
-                            description=f"Schema for {item_class_name}.",
+                            description=(
+                                item_plan.description
+                                if item_plan is not None
+                                else f"Schema for {item_class_name}."
+                            ),
                         )
                         if item_result.status != SchemaStatus.SKIPPED:
-                            item_schema_map[class_name] = [
+                            response_item_schemas[operation_id] = [
                                 item_result.class_name or item_class_name
                             ]
                             continue
 
                 result = _generate_schema_class(
-                    ctx,
+                    response_ctx,
                     class_name=class_name,
                     schema=response_schema,
-                    description=f"Response for {operation_id} operation.",
+                    description=response_plan.description,
                 )
                 if result.status != SchemaStatus.SKIPPED:
+                    response_schemas[operation_id] = class_name
                     if result.item_class_names:
-                        item_schema_map[class_name] = result.item_class_names
+                        response_item_schemas[operation_id] = result.item_class_names
                     if result.is_array:
                         list_response_schemas.add(class_name)
                 else:
@@ -243,7 +619,8 @@ def generate_response_schemas(
     )
     return SchemaRegistry(
         schema_names=set(schemas.keys()),
-        item_schema_map=item_schema_map,
+        response_schemas=response_schemas,
+        response_item_schemas=response_item_schemas,
         untyped_response_ops=untyped_response_operations,
         request_body_schemas=request_body_schemas,
         list_response_schemas=list_response_schemas,
@@ -640,11 +1017,21 @@ def _resolve_inner_type(
     Returns (type_string, nested_class_name_if_generated).
     """
     if should_generate_nested:
+        item_plan = (
+            ctx.planned_response_item_plan
+            if ctx.depth == 0 and not ctx.field_path and ctx.planned_response_item_plan is not None
+            else None
+        )
+        planned_class_name = item_plan.class_name if item_plan is not None else nested_class_name
         result = _generate_schema_class(
-            ctx.nested(), class_name=nested_class_name, schema=inner_schema
+            ctx.nested(),
+            class_name=planned_class_name,
+            schema=inner_schema,
+            description=item_plan.description if item_plan is not None else None,
         )
         if result.status != SchemaStatus.SKIPPED:
-            return f'"{nested_class_name}"', nested_class_name
+            generated_class_name = result.class_name or planned_class_name
+            return f'"{generated_class_name}"', generated_class_name
         return "dict[str, Any]", None
 
     return _get_simple_type(inner_schema), None
@@ -1028,6 +1415,11 @@ def _build_nested_class_name(
             return numbered_name
 
     return full_name
+
+
+def _is_object_schema(schema: dict[str, Any]) -> bool:
+    """Check if schema generates an object model class."""
+    return schema.get("type") == "object" or "properties" in schema
 
 
 def _has_nested_properties(schema: dict[str, Any]) -> bool:

@@ -14,66 +14,6 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class AssignOrganizationLicensesSeatsResponse(_BaseSchema):
-    """Response for assignOrganizationLicensesSeats operation."""
-
-    resulting_licenses: list[AssignOrganizationLicensesSeatsResponseResultingLicensesItem] = Field(
-        default_factory=list,
-        validation_alias="resultingLicenses",
-        serialization_alias="resultingLicenses",
-    )
-
-
-class AssignOrganizationLicensesSeatsResponseResultingLicensesItem(_BaseSchema):
-    """Schema for AssignOrganizationLicensesSeatsResponseResultingLicensesItem."""
-
-    id: str | None = None
-    license_type: str | None = Field(
-        default=None, validation_alias="licenseType", serialization_alias="licenseType"
-    )
-    license_key: str | None = Field(
-        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
-    )
-    order_number: str | None = Field(
-        default=None, validation_alias="orderNumber", serialization_alias="orderNumber"
-    )
-    device_serial: str | None = Field(
-        default=None, validation_alias="deviceSerial", serialization_alias="deviceSerial"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    state: str | None = None
-    seat_count: int | None = Field(
-        default=None, validation_alias="seatCount", serialization_alias="seatCount"
-    )
-    total_duration_in_days: int | None = Field(
-        default=None,
-        validation_alias="totalDurationInDays",
-        serialization_alias="totalDurationInDays",
-    )
-    duration_in_days: int | None = Field(
-        default=None, validation_alias="durationInDays", serialization_alias="durationInDays"
-    )
-    permanently_queued_licenses: list[OrganizationsPermanentlyQueuedLicensesItem] = Field(
-        default_factory=list,
-        validation_alias="permanentlyQueuedLicenses",
-        serialization_alias="permanentlyQueuedLicenses",
-    )
-    claim_date: str | None = Field(
-        default=None, validation_alias="claimDate", serialization_alias="claimDate"
-    )
-    activation_date: str | None = Field(
-        default=None, validation_alias="activationDate", serialization_alias="activationDate"
-    )
-    expiration_date: str | None = Field(
-        default=None, validation_alias="expirationDate", serialization_alias="expirationDate"
-    )
-    head_license_id: str | None = Field(
-        default=None, validation_alias="headLicenseId", serialization_alias="headLicenseId"
-    )
-
-
 class BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced(_BaseSchema):
     """Advanced capture options (optional)."""
 
@@ -171,14 +111,6 @@ class ClaimIntoOrganizationInventoryLicensesItem(_BaseSchema):
     mode: str | None = None
 
 
-class ClaimIntoOrganizationInventoryResponse(_BaseSchema):
-    """Response for claimIntoOrganizationInventory operation."""
-
-    orders: list[str] = Field(default_factory=list)
-    serials: list[str] = Field(default_factory=list)
-    licenses: list[ClaimIntoOrganizationResponseLicensesItem] = Field(default_factory=list)
-
-
 class ClaimIntoOrganizationLicensesItem(_BaseSchema):
     """Item schema for licenses."""
 
@@ -187,7 +119,7 @@ class ClaimIntoOrganizationLicensesItem(_BaseSchema):
 
 
 class ClaimIntoOrganizationResponse(_BaseSchema):
-    """Response for claimIntoOrganization operation."""
+    """Schema for ClaimIntoOrganizationResponse."""
 
     orders: list[str] = Field(default_factory=list)
     serials: list[str] = Field(default_factory=list)
@@ -242,18 +174,6 @@ class ClaimOrganizationInventoryOrdersSubscriptionsItem(_BaseSchema):
     )
     name: str | None = None
     description: str | None = None
-
-
-class CloneOrganizationResponse(_BaseSchema):
-    """Response for cloneOrganization operation."""
-
-    id: str | None = None
-    name: str | None = None
-    url: str | None = None
-    api: OrganizationsApi | None = None
-    licensing: OrganizationsLicensing | None = None
-    cloud: OrganizationsCloud | None = None
-    management: OrganizationsManagement | None = None
 
 
 class CombineOrganizationNetworksResponse(_BaseSchema):
@@ -329,46 +249,6 @@ class CreateOrganizationActionBatchCallbackHttpServer(_BaseSchema):
     id: str | None = None
 
 
-class CreateOrganizationActionBatchResponse(_BaseSchema):
-    """Response for createOrganizationActionBatch operation."""
-
-    id: str | None = None
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
-    )
-    confirmed: bool | None = None
-    synchronous: bool | None = None
-    status: OrganizationsStatus | None = None
-    actions: list[OrganizationsActionsItem]
-    callback: CreateOrganizationActionBatchResponseCallback | None = None
-
-
-class CreateOrganizationActionBatchResponseCallback(_BaseSchema):
-    """Information for callback used to send back results."""
-
-    id: str | None = None
-    url: str | None = None
-    status: str | None = None
-
-
-class CreateOrganizationAdaptivePolicyAclResponse(_BaseSchema):
-    """Response for createOrganizationAdaptivePolicyAcl operation."""
-
-    acl_id: str | None = Field(default=None, validation_alias="aclId", serialization_alias="aclId")
-    name: str | None = None
-    description: str | None = None
-    ip_version: str | None = Field(
-        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
-    )
-    rules: list[OrganizationsRulesItem] = Field(default_factory=list)
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
 class CreateOrganizationAdaptivePolicyAclRulesItem(_BaseSchema):
     """Item schema for rules."""
 
@@ -393,34 +273,6 @@ class CreateOrganizationAdaptivePolicyGroupPolicyObjectsItem(_BaseSchema):
     name: str | None = None
 
 
-class CreateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
-    """Response for createOrganizationAdaptivePolicyGroup operation."""
-
-    group_id: str | None = Field(
-        default=None, validation_alias="groupId", serialization_alias="groupId"
-    )
-    name: str | None = None
-    sgt: int | None = None
-    description: str | None = None
-    policy_objects: list[OrganizationsPolicyObjectsItem] = Field(
-        default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
-    )
-    is_default_group: bool | None = Field(
-        default=None, validation_alias="isDefaultGroup", serialization_alias="isDefaultGroup"
-    )
-    required_ip_mappings: list[str] = Field(
-        default_factory=list,
-        validation_alias="requiredIpMappings",
-        serialization_alias="requiredIpMappings",
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
 class CreateOrganizationAdaptivePolicyPolicyAclsItem(_BaseSchema):
     """Item schema for acls."""
 
@@ -436,30 +288,6 @@ class CreateOrganizationAdaptivePolicyPolicyDestinationGroup(_BaseSchema):
     sgt: int | None = None
 
 
-class CreateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
-    """Response for createOrganizationAdaptivePolicyPolicy operation."""
-
-    adaptive_policy_id: str | None = Field(
-        default=None, validation_alias="adaptivePolicyId", serialization_alias="adaptivePolicyId"
-    )
-    source_group: OrganizationsSourceGroup | None = Field(
-        default=None, validation_alias="sourceGroup", serialization_alias="sourceGroup"
-    )
-    destination_group: OrganizationsSourceGroup | None = Field(
-        default=None, validation_alias="destinationGroup", serialization_alias="destinationGroup"
-    )
-    acls: list[OrganizationsPolicyObjectsItem] = Field(default_factory=list)
-    last_entry_rule: str | None = Field(
-        default=None, validation_alias="lastEntryRule", serialization_alias="lastEntryRule"
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
 class CreateOrganizationAdaptivePolicyPolicySourceGroup(_BaseSchema):
     """The source adaptive policy group (requires one unique attribute)."""
 
@@ -473,38 +301,6 @@ class CreateOrganizationAdminNetworksItem(_BaseSchema):
 
     id: str
     access: str
-
-
-class CreateOrganizationAdminResponse(_BaseSchema):
-    """Response for createOrganizationAdmin operation."""
-
-    id: str | None = None
-    name: str | None = None
-    email: str | None = None
-    org_access: str | None = Field(
-        default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
-    )
-    account_status: str | None = Field(
-        default=None, validation_alias="accountStatus", serialization_alias="accountStatus"
-    )
-    two_factor_auth_enabled: bool | None = Field(
-        default=None,
-        validation_alias="twoFactorAuthEnabled",
-        serialization_alias="twoFactorAuthEnabled",
-    )
-    has_api_key: bool | None = Field(
-        default=None, validation_alias="hasApiKey", serialization_alias="hasApiKey"
-    )
-    last_active: datetime | None = Field(
-        default=None, validation_alias="lastActive", serialization_alias="lastActive"
-    )
-    tags: list[OrganizationsTagsItem] = Field(default_factory=list)
-    networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
-    authentication_method: str | None = Field(
-        default=None,
-        validation_alias="authenticationMethod",
-        serialization_alias="authenticationMethod",
-    )
 
 
 class CreateOrganizationAdminTagsItem(_BaseSchema):
@@ -534,22 +330,6 @@ class CreateOrganizationAlertsProfileRecipients(_BaseSchema):
     http_server_ids: list[str] = Field(
         default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
-
-
-class CreateOrganizationAlertsProfileResponse(_BaseSchema):
-    """Response for createOrganizationAlertsProfile operation."""
-
-    id: str | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    enabled: bool | None = None
-    alert_condition: OrganizationsAlertCondition | None = Field(
-        default=None, validation_alias="alertCondition", serialization_alias="alertCondition"
-    )
-    recipients: OrganizationsRecipients | None = None
-    network_tags: list[str] = Field(
-        default_factory=list, validation_alias="networkTags", serialization_alias="networkTags"
-    )
-    description: str | None = None
 
 
 class CreateOrganizationBrandingPolicyAdminSettings(_BaseSchema):
@@ -647,52 +427,10 @@ class CreateOrganizationBrandingPolicyHelpSettings(_BaseSchema):
     )
 
 
-class CreateOrganizationBrandingPolicyResponse(_BaseSchema):
-    """Response for createOrganizationBrandingPolicy operation."""
-
-    name: str | None = None
-    enabled: bool | None = None
-    admin_settings: OrganizationsAdminSettings | None = Field(
-        default=None, validation_alias="adminSettings", serialization_alias="adminSettings"
-    )
-    help_settings: OrganizationsHelpSettings | None = Field(
-        default=None, validation_alias="helpSettings", serialization_alias="helpSettings"
-    )
-    custom_logo: OrganizationsCustomLogo | None = Field(
-        default=None, validation_alias="customLogo", serialization_alias="customLogo"
-    )
-
-
-class CreateOrganizationConfigTemplateResponse(_BaseSchema):
-    """Response for createOrganizationConfigTemplate operation."""
-
-    id: str | None = None
-    name: str | None = None
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
-
-
 class CreateOrganizationDevicesControllerMigrationResponse(
-    RootModel[list["CreateOrganizationDevicesControllerMigrationResponseItem"]]
+    RootModel[list["GetOrganizationDevicesControllerMigrationsResponseItemsItem"]]
 ):
     """Response for createOrganizationDevicesControllerMigration operation."""
-
-
-class CreateOrganizationDevicesControllerMigrationResponseItem(_BaseSchema):
-    """Schema for CreateOrganizationDevicesControllerMigrationResponseItem."""
-
-    serial: str | None = None
-    target: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    migrated_at: datetime | None = Field(
-        default=None, validation_alias="migratedAt", serialization_alias="migratedAt"
-    )
 
 
 class CreateOrganizationDevicesPacketCaptureCaptureAdvanced(_BaseSchema):
@@ -727,76 +465,12 @@ class CreateOrganizationDevicesPacketCaptureCaptureAdvanced(_BaseSchema):
     )
 
 
-class CreateOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
-    """Response for createOrganizationDevicesPacketCaptureCapture operation."""
-
-    capture_id: str | None = Field(
-        default=None, validation_alias="captureId", serialization_alias="captureId"
-    )
-    network: OrganizationsPolicyObjectsItem | None = None
-    devices: list[dict[str, Any]] = Field(default_factory=list)
-    device: OrganizationsDevice2 | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
-    client: OrganizationsClient3 | None = None
-    details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
-    name: str | None = None
-    start_ts: str | None = Field(
-        default=None, validation_alias="startTs", serialization_alias="startTs"
-    )
-    ports: str | None = None
-    status: str | None = None
-    error_message: str | None = Field(
-        default=None, validation_alias="errorMessage", serialization_alias="errorMessage"
-    )
-    destination: str | None = None
-    process: str | None = None
-    file: OrganizationsFile | None = None
-    duration: int | None = None
-    filter_expression: str | None = Field(
-        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
-    )
-    counts: OrganizationsCounts | None = None
-    interface: str | None = None
-
-
 class CreateOrganizationDevicesPacketCaptureScheduleDevicesItem(_BaseSchema):
     """Item schema for devices."""
 
     serial: str | None = None
     switchports: str | None = None
     interface: str | None = None
-
-
-class CreateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
-    """Response for createOrganizationDevicesPacketCaptureSchedule operation."""
-
-    schedule_id: str | None = Field(
-        default=None, validation_alias="scheduleId", serialization_alias="scheduleId"
-    )
-    devices: list[OrganizationsDevicesItem2] = Field(default_factory=list)
-    name: str | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
-    notes: str | None = None
-    duration: int | None = None
-    filter_expression: str | None = Field(
-        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    capture_count: int | None = Field(
-        default=None, validation_alias="captureCount", serialization_alias="captureCount"
-    )
-    last_capture_id: str | None = Field(
-        default=None, validation_alias="lastCaptureId", serialization_alias="lastCaptureId"
-    )
-    enabled: bool | None = None
-    priority: int | None = None
-    schedule: OrganizationsSchedule | None = None
-    warnings: list[str] = Field(default_factory=list)
 
 
 class CreateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
@@ -810,51 +484,6 @@ class CreateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
     frequency: str | None = None
     weekdays: list[str] = Field(default_factory=list)
     recurrence: int | None = None
-
-
-class CreateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
-    """Response for createOrganizationEarlyAccessFeaturesOptIn operation."""
-
-    id: str | None = None
-    short_name: str | None = Field(
-        default=None, validation_alias="shortName", serialization_alias="shortName"
-    )
-    limit_scope_to_networks: list[OrganizationsPolicyObjectsItem] = Field(
-        default_factory=list,
-        validation_alias="limitScopeToNetworks",
-        serialization_alias="limitScopeToNetworks",
-    )
-    opt_out_eligibility: (
-        GetOrganizationEarlyAccessFeaturesOptInsResponseOptOutEligibility | None
-    ) = Field(
-        default=None, validation_alias="optOutEligibility", serialization_alias="optOutEligibility"
-    )
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-
-
-class CreateOrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
-    """Response for createOrganizationInventoryDevicesSwapsBulk operation."""
-
-    job_id: str | None = Field(default=None, validation_alias="jobId", serialization_alias="jobId")
-    swaps: list[CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem] = Field(
-        default_factory=list
-    )
-
-
-class CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem(_BaseSchema):
-    """Schema for CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem."""
-
-    id: str
-    devices: OrganizationsSwapsDevices
-    status: str
-    after_action: str = Field(validation_alias="afterAction", serialization_alias="afterAction")
-    created_at: str = Field(validation_alias="createdAt", serialization_alias="createdAt")
-    completed_at: str | None = Field(
-        default=None, validation_alias="completedAt", serialization_alias="completedAt"
-    )
-    errors: list[str] = Field(default_factory=list)
 
 
 class CreateOrganizationInventoryDevicesSwapsBulkSwapsItem(_BaseSchema):
@@ -1007,87 +636,6 @@ class CreateOrganizationNetworkResponse(_BaseSchema):
     )
 
 
-class CreateOrganizationPolicyObjectResponse(_BaseSchema):
-    """Response for createOrganizationPolicyObject operation."""
-
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    cidr: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    group_ids: list[str] = Field(
-        default_factory=list, validation_alias="groupIds", serialization_alias="groupIds"
-    )
-    network_ids: list[str] = Field(
-        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
-    )
-
-
-class CreateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
-    """Response for createOrganizationPolicyObjectsGroup operation."""
-
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    object_ids: list[int] = Field(
-        default_factory=list, validation_alias="objectIds", serialization_alias="objectIds"
-    )
-    network_ids: list[str] = Field(
-        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
-    )
-
-
-class CreateOrganizationResponse(_BaseSchema):
-    """Response for createOrganization operation."""
-
-    id: str | None = None
-    name: str | None = None
-    url: str | None = None
-    api: OrganizationsApi | None = None
-    licensing: OrganizationsLicensing | None = None
-    cloud: OrganizationsCloud | None = None
-    management: OrganizationsManagement | None = None
-
-
-class CreateOrganizationSamlIdpResponse(RootModel[list["CreateOrganizationSamlIdpResponseItem"]]):
-    """Response for createOrganizationSamlIdp operation."""
-
-
-class CreateOrganizationSamlIdpResponseItem(_BaseSchema):
-    """Schema for CreateOrganizationSamlIdpResponseItem."""
-
-    idp_id: str | None = Field(default=None, validation_alias="idpId", serialization_alias="idpId")
-    consumer_url: str | None = Field(
-        default=None, validation_alias="consumerUrl", serialization_alias="consumerUrl"
-    )
-    vision_consumer_url: str | None = Field(
-        default=None, validation_alias="visionConsumerUrl", serialization_alias="visionConsumerUrl"
-    )
-    x509cert_sha1_fingerprint: str | None = Field(
-        default=None,
-        validation_alias="x509certSha1Fingerprint",
-        serialization_alias="x509certSha1Fingerprint",
-    )
-    sso_login_url: str | None = Field(
-        default=None, validation_alias="ssoLoginUrl", serialization_alias="ssoLoginUrl"
-    )
-    slo_logout_url: str | None = Field(
-        default=None, validation_alias="sloLogoutUrl", serialization_alias="sloLogoutUrl"
-    )
-
-
 class CreateOrganizationSamlRoleNetworksItem(_BaseSchema):
     """Item schema for networks."""
 
@@ -1095,34 +643,11 @@ class CreateOrganizationSamlRoleNetworksItem(_BaseSchema):
     access: str
 
 
-class CreateOrganizationSamlRoleResponse(_BaseSchema):
-    """Response for createOrganizationSamlRole operation."""
-
-    id: str | None = None
-    role: str | None = None
-    org_access: str | None = Field(
-        default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
-    )
-    networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
-    tags: list[OrganizationsTagsItem] = Field(default_factory=list)
-    camera: list[OrganizationsCameraItem] = Field(default_factory=list)
-
-
 class CreateOrganizationSamlRoleTagsItem(_BaseSchema):
     """Item schema for tags."""
 
     tag: str
     access: str
-
-
-class CreateOrganizationSplashThemeAssetResponse(_BaseSchema):
-    """Response for createOrganizationSplashThemeAsset operation."""
-
-    id: str | None = None
-    name: str | None = None
-    file_data: str | None = Field(
-        default=None, validation_alias="fileData", serialization_alias="fileData"
-    )
 
 
 class CreateOrganizationSplashThemeResponse(_BaseSchema):
@@ -1147,44 +672,12 @@ class DisableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
     )
 
 
-class DisableOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
-    """Response for disableOrganizationIntegrationsXdrNetworks operation."""
-
-    networks: list[DisableOrganizationIntegrationsXdrNetworksResponseNetworksItem] = Field(
-        default_factory=list
-    )
-
-
-class DisableOrganizationIntegrationsXdrNetworksResponseNetworksItem(_BaseSchema):
-    """Schema for DisableOrganizationIntegrationsXdrNetworksResponseNetworksItem."""
-
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    name: str | None = None
-    enabled: bool | None = None
-    is_eligible: bool | None = Field(
-        default=None, validation_alias="isEligible", serialization_alias="isEligible"
-    )
-
-
 class EnableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
     """Item schema for networks."""
 
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
     product_types: list[str] = Field(
         validation_alias="productTypes", serialization_alias="productTypes"
-    )
-
-
-class EnableOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
-    """Response for enableOrganizationIntegrationsXdrNetworks operation."""
-
-    networks: list[DisableOrganizationIntegrationsXdrNetworksResponseNetworksItem] = Field(
-        default_factory=list
     )
 
 
@@ -1200,159 +693,22 @@ class GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse(_BaseSc
     url: str | None = None
 
 
-class GetNetworkMovesResponseItemsItem(_BaseSchema):
-    """Schema for GetNetworkMovesResponseItemsItem."""
-
-    move_id: str | None = Field(
-        default=None, validation_alias="moveId", serialization_alias="moveId"
-    )
-    initiator: OrganizationsInitiator | None = None
-    organizations: OrganizationsOrganizations | None = None
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    last_updated_at: datetime | None = Field(
-        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
-    )
-    result: OrganizationsResult | None = None
-
-
-class GetOrganizationActionBatchResponse(_BaseSchema):
-    """Response for getOrganizationActionBatch operation."""
-
-    id: str | None = None
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
-    )
-    confirmed: bool | None = None
-    synchronous: bool | None = None
-    status: OrganizationsStatus | None = None
-    actions: list[OrganizationsActionsItem]
-    callback: CreateOrganizationActionBatchResponseCallback | None = None
-
-
 class GetOrganizationActionBatchesResponse(
-    RootModel[list["GetOrganizationActionBatchesResponseItem"]]
+    RootModel[list["UpdateOrganizationActionBatchResponse"]]
 ):
     """Response for getOrganizationActionBatches operation."""
 
 
-class GetOrganizationActionBatchesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationActionBatchesResponseItem."""
-
-    id: str | None = None
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
-    )
-    confirmed: bool | None = None
-    synchronous: bool | None = None
-    status: OrganizationsStatus | None = None
-    actions: list[OrganizationsActionsItem]
-
-
-class GetOrganizationAdaptivePolicyAclResponse(_BaseSchema):
-    """Response for getOrganizationAdaptivePolicyAcl operation."""
-
-    acl_id: str | None = Field(default=None, validation_alias="aclId", serialization_alias="aclId")
-    name: str | None = None
-    description: str | None = None
-    ip_version: str | None = Field(
-        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
-    )
-    rules: list[OrganizationsRulesItem] = Field(default_factory=list)
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
 class GetOrganizationAdaptivePolicyAclsResponse(
-    RootModel[list["GetOrganizationAdaptivePolicyAclsResponseItem"]]
+    RootModel[list["OrganizationAdaptivePolicyAclResponse"]]
 ):
     """Response for getOrganizationAdaptivePolicyAcls operation."""
 
 
-class GetOrganizationAdaptivePolicyAclsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationAdaptivePolicyAclsResponseItem."""
-
-    acl_id: str | None = Field(default=None, validation_alias="aclId", serialization_alias="aclId")
-    name: str | None = None
-    description: str | None = None
-    ip_version: str | None = Field(
-        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
-    )
-    rules: list[OrganizationsRulesItem] = Field(default_factory=list)
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
-class GetOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
-    """Response for getOrganizationAdaptivePolicyGroup operation."""
-
-    group_id: str | None = Field(
-        default=None, validation_alias="groupId", serialization_alias="groupId"
-    )
-    name: str | None = None
-    sgt: int | None = None
-    description: str | None = None
-    policy_objects: list[OrganizationsPolicyObjectsItem] = Field(
-        default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
-    )
-    is_default_group: bool | None = Field(
-        default=None, validation_alias="isDefaultGroup", serialization_alias="isDefaultGroup"
-    )
-    required_ip_mappings: list[str] = Field(
-        default_factory=list,
-        validation_alias="requiredIpMappings",
-        serialization_alias="requiredIpMappings",
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
 class GetOrganizationAdaptivePolicyGroupsResponse(
-    RootModel[list["GetOrganizationAdaptivePolicyGroupsResponseItem"]]
+    RootModel[list["OrganizationAdaptivePolicyGroupResponse"]]
 ):
     """Response for getOrganizationAdaptivePolicyGroups operation."""
-
-
-class GetOrganizationAdaptivePolicyGroupsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationAdaptivePolicyGroupsResponseItem."""
-
-    group_id: str | None = Field(
-        default=None, validation_alias="groupId", serialization_alias="groupId"
-    )
-    name: str | None = None
-    sgt: int | None = None
-    description: str | None = None
-    policy_objects: list[OrganizationsPolicyObjectsItem] = Field(
-        default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
-    )
-    is_default_group: bool | None = Field(
-        default=None, validation_alias="isDefaultGroup", serialization_alias="isDefaultGroup"
-    )
-    required_ip_mappings: list[str] = Field(
-        default_factory=list,
-        validation_alias="requiredIpMappings",
-        serialization_alias="requiredIpMappings",
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
 
 
 class GetOrganizationAdaptivePolicyOverviewResponse(_BaseSchema):
@@ -1402,67 +758,9 @@ class GetOrganizationAdaptivePolicyOverviewResponseLimits(_BaseSchema):
 
 
 class GetOrganizationAdaptivePolicyPoliciesResponse(
-    RootModel[list["GetOrganizationAdaptivePolicyPoliciesResponseItem"]]
+    RootModel[list["OrganizationAdaptivePolicyPolicyResponse"]]
 ):
     """Response for getOrganizationAdaptivePolicyPolicies operation."""
-
-
-class GetOrganizationAdaptivePolicyPoliciesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationAdaptivePolicyPoliciesResponseItem."""
-
-    adaptive_policy_id: str | None = Field(
-        default=None, validation_alias="adaptivePolicyId", serialization_alias="adaptivePolicyId"
-    )
-    source_group: OrganizationsSourceGroup | None = Field(
-        default=None, validation_alias="sourceGroup", serialization_alias="sourceGroup"
-    )
-    destination_group: OrganizationsSourceGroup | None = Field(
-        default=None, validation_alias="destinationGroup", serialization_alias="destinationGroup"
-    )
-    acls: list[OrganizationsPolicyObjectsItem] = Field(default_factory=list)
-    last_entry_rule: str | None = Field(
-        default=None, validation_alias="lastEntryRule", serialization_alias="lastEntryRule"
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
-class GetOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
-    """Response for getOrganizationAdaptivePolicyPolicy operation."""
-
-    adaptive_policy_id: str | None = Field(
-        default=None, validation_alias="adaptivePolicyId", serialization_alias="adaptivePolicyId"
-    )
-    source_group: OrganizationsSourceGroup | None = Field(
-        default=None, validation_alias="sourceGroup", serialization_alias="sourceGroup"
-    )
-    destination_group: OrganizationsSourceGroup | None = Field(
-        default=None, validation_alias="destinationGroup", serialization_alias="destinationGroup"
-    )
-    acls: list[OrganizationsPolicyObjectsItem] = Field(default_factory=list)
-    last_entry_rule: str | None = Field(
-        default=None, validation_alias="lastEntryRule", serialization_alias="lastEntryRule"
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
-class GetOrganizationAdaptivePolicySettingsResponse(_BaseSchema):
-    """Response for getOrganizationAdaptivePolicySettings operation."""
-
-    enabled_networks: list[str] = Field(
-        default_factory=list,
-        validation_alias="enabledNetworks",
-        serialization_alias="enabledNetworks",
-    )
 
 
 class GetOrganizationAdminsResponse(RootModel[list["GetOrganizationAdminsResponseItem"]]):
@@ -1501,26 +799,8 @@ class GetOrganizationAdminsResponseItem(_BaseSchema):
     )
 
 
-class GetOrganizationAlertsProfilesResponse(
-    RootModel[list["GetOrganizationAlertsProfilesResponseItem"]]
-):
+class GetOrganizationAlertsProfilesResponse(RootModel[list["OrganizationAlertsProfileResponse"]]):
     """Response for getOrganizationAlertsProfiles operation."""
-
-
-class GetOrganizationAlertsProfilesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationAlertsProfilesResponseItem."""
-
-    id: str | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    enabled: bool | None = None
-    alert_condition: OrganizationsAlertCondition | None = Field(
-        default=None, validation_alias="alertCondition", serialization_alias="alertCondition"
-    )
-    recipients: OrganizationsRecipients | None = None
-    network_tags: list[str] = Field(
-        default_factory=list, validation_alias="networkTags", serialization_alias="networkTags"
-    )
-    description: str | None = None
 
 
 class GetOrganizationApiRequestsOverviewResponse(_BaseSchema):
@@ -1711,32 +991,9 @@ class GetOrganizationAssuranceAlertsOverviewResponseCounts(_BaseSchema):
 
 
 class GetOrganizationAssuranceAlertsResponse(
-    RootModel[list["GetOrganizationAssuranceAlertsResponseItem"]]
+    RootModel[list["GetOrganizationAssuranceAlertResponse"]]
 ):
     """Response for getOrganizationAssuranceAlerts operation."""
-
-
-class GetOrganizationAssuranceAlertsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationAssuranceAlertsResponseItem."""
-
-    id: str
-    category_type: str = Field(validation_alias="categoryType", serialization_alias="categoryType")
-    network: OrganizationsNetwork
-    started_at: datetime = Field(validation_alias="startedAt", serialization_alias="startedAt")
-    resolved_at: datetime | None = Field(
-        default=None, validation_alias="resolvedAt", serialization_alias="resolvedAt"
-    )
-    dismissed_at: datetime | None = Field(
-        default=None, validation_alias="dismissedAt", serialization_alias="dismissedAt"
-    )
-    device_type: str | None = Field(
-        default=None, validation_alias="deviceType", serialization_alias="deviceType"
-    )
-    type_: str = Field(validation_alias="type", serialization_alias="type")
-    title: str
-    description: str | None = None
-    severity: str
-    scope: OrganizationsScope | None = None
 
 
 class GetOrganizationAssuranceAlertsTaxonomyCategoriesResponse(
@@ -1770,52 +1027,10 @@ class GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem(_BaseSchema):
     )
 
 
-class GetOrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
-    """Response for getOrganizationBrandingPoliciesPriorities operation."""
-
-    branding_policy_ids: list[str] = Field(
-        default_factory=list,
-        validation_alias="brandingPolicyIds",
-        serialization_alias="brandingPolicyIds",
-    )
-
-
 class GetOrganizationBrandingPoliciesResponse(
-    RootModel[list["GetOrganizationBrandingPoliciesResponseItem"]]
+    RootModel[list["OrganizationBrandingPolicyResponse"]]
 ):
     """Response for getOrganizationBrandingPolicies operation."""
-
-
-class GetOrganizationBrandingPoliciesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationBrandingPoliciesResponseItem."""
-
-    name: str | None = None
-    enabled: bool | None = None
-    admin_settings: OrganizationsAdminSettings | None = Field(
-        default=None, validation_alias="adminSettings", serialization_alias="adminSettings"
-    )
-    help_settings: OrganizationsHelpSettings | None = Field(
-        default=None, validation_alias="helpSettings", serialization_alias="helpSettings"
-    )
-    custom_logo: OrganizationsCustomLogo | None = Field(
-        default=None, validation_alias="customLogo", serialization_alias="customLogo"
-    )
-
-
-class GetOrganizationBrandingPolicyResponse(_BaseSchema):
-    """Response for getOrganizationBrandingPolicy operation."""
-
-    name: str | None = None
-    enabled: bool | None = None
-    admin_settings: OrganizationsAdminSettings | None = Field(
-        default=None, validation_alias="adminSettings", serialization_alias="adminSettings"
-    )
-    help_settings: OrganizationsHelpSettings | None = Field(
-        default=None, validation_alias="helpSettings", serialization_alias="helpSettings"
-    )
-    custom_logo: OrganizationsCustomLogo | None = Field(
-        default=None, validation_alias="customLogo", serialization_alias="customLogo"
-    )
 
 
 class GetOrganizationClientsBandwidthUsageHistoryResponse(
@@ -1903,36 +1118,8 @@ class GetOrganizationClientsSearchResponseRecordsItem(_BaseSchema):
     status: str | None = None
 
 
-class GetOrganizationConfigTemplateResponse(_BaseSchema):
-    """Response for getOrganizationConfigTemplate operation."""
-
-    id: str | None = None
-    name: str | None = None
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
-
-
-class GetOrganizationConfigTemplatesResponse(
-    RootModel[list["GetOrganizationConfigTemplatesResponseItem"]]
-):
+class GetOrganizationConfigTemplatesResponse(RootModel[list["OrganizationConfigTemplateResponse"]]):
     """Response for getOrganizationConfigTemplates operation."""
-
-
-class GetOrganizationConfigTemplatesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationConfigTemplatesResponseItem."""
-
-    id: str | None = None
-    name: str | None = None
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
 
 
 class GetOrganizationConfigurationChangesResponse(
@@ -2041,70 +1228,6 @@ class GetOrganizationDevicesOverviewByModelResponseCountsItem(_BaseSchema):
 
     model: str | None = None
     total: int | None = None
-
-
-class GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem."""
-
-    capture_id: str | None = Field(
-        default=None, validation_alias="captureId", serialization_alias="captureId"
-    )
-    network: OrganizationsPolicyObjectsItem | None = None
-    devices: list[dict[str, Any]] = Field(default_factory=list)
-    device: OrganizationsDevice2 | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
-    client: OrganizationsClient3 | None = None
-    details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
-    name: str | None = None
-    start_ts: str | None = Field(
-        default=None, validation_alias="startTs", serialization_alias="startTs"
-    )
-    ports: str | None = None
-    status: str | None = None
-    error_message: str | None = Field(
-        default=None, validation_alias="errorMessage", serialization_alias="errorMessage"
-    )
-    destination: str | None = None
-    process: str | None = None
-    file: OrganizationsFile | None = None
-    duration: int | None = None
-    filter_expression: str | None = Field(
-        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
-    )
-    counts: OrganizationsCounts | None = None
-    interface: str | None = None
-
-
-class GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem."""
-
-    schedule_id: str | None = Field(
-        default=None, validation_alias="scheduleId", serialization_alias="scheduleId"
-    )
-    devices: list[OrganizationsDevicesItem2] = Field(default_factory=list)
-    name: str | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
-    notes: str | None = None
-    duration: int | None = None
-    filter_expression: str | None = Field(
-        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    capture_count: int | None = Field(
-        default=None, validation_alias="captureCount", serialization_alias="captureCount"
-    )
-    last_capture_id: str | None = Field(
-        default=None, validation_alias="lastCaptureId", serialization_alias="lastCaptureId"
-    )
-    enabled: bool | None = None
-    priority: int | None = None
-    schedule: OrganizationsSchedule | None = None
-    warnings: list[str] = Field(default_factory=list)
 
 
 class GetOrganizationDevicesPowerModulesStatusesByDeviceResponse(
@@ -2286,30 +1409,8 @@ class GetOrganizationDevicesUplinksLossAndLatencyResponseItem(_BaseSchema):
     )
 
 
-class GetOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
-    """Response for getOrganizationEarlyAccessFeaturesOptIn operation."""
-
-    id: str | None = None
-    short_name: str | None = Field(
-        default=None, validation_alias="shortName", serialization_alias="shortName"
-    )
-    limit_scope_to_networks: list[OrganizationsPolicyObjectsItem] = Field(
-        default_factory=list,
-        validation_alias="limitScopeToNetworks",
-        serialization_alias="limitScopeToNetworks",
-    )
-    opt_out_eligibility: (
-        GetOrganizationEarlyAccessFeaturesOptInsResponseOptOutEligibility | None
-    ) = Field(
-        default=None, validation_alias="optOutEligibility", serialization_alias="optOutEligibility"
-    )
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-
-
 class GetOrganizationEarlyAccessFeaturesOptInsResponse(_BaseSchema):
-    """Response for getOrganizationEarlyAccessFeaturesOptIns operation."""
+    """Schema for GetOrganizationEarlyAccessFeaturesOptInsResponse."""
 
     id: str | None = None
     short_name: str | None = Field(
@@ -2639,15 +1740,6 @@ class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
     eox: OrganizationsEox | None = None
 
 
-class GetOrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
-    """Response for getOrganizationInventoryDevicesSwapsBulk operation."""
-
-    job_id: str | None = Field(default=None, validation_alias="jobId", serialization_alias="jobId")
-    swaps: list[CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem] = Field(
-        default_factory=list
-    )
-
-
 class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponse(
     RootModel[list["GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem"]]
 ):
@@ -2664,86 +1756,9 @@ class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem(_Base
 
 
 class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponse(
-    RootModel[list["GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem"]]
+    RootModel[list["CreateOrganizationNetworkResponse"]]
 ):
     """Response for getOrganizationInventoryOnboardingCloudMonitoringNetworks operation."""
-
-
-class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem(_BaseSchema):
-    """Schema for GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem."""
-
-    id: str | None = None
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
-    )
-    name: str | None = None
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
-    tags: list[str] = Field(default_factory=list)
-    enrollment_string: str | None = Field(
-        default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
-    )
-    url: str | None = None
-    notes: str | None = None
-    is_bound_to_config_template: bool | None = Field(
-        default=None,
-        validation_alias="isBoundToConfigTemplate",
-        serialization_alias="isBoundToConfigTemplate",
-    )
-
-
-class GetOrganizationLicenseResponse(_BaseSchema):
-    """Response for getOrganizationLicense operation."""
-
-    id: str | None = None
-    license_type: str | None = Field(
-        default=None, validation_alias="licenseType", serialization_alias="licenseType"
-    )
-    license_key: str | None = Field(
-        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
-    )
-    order_number: str | None = Field(
-        default=None, validation_alias="orderNumber", serialization_alias="orderNumber"
-    )
-    device_serial: str | None = Field(
-        default=None, validation_alias="deviceSerial", serialization_alias="deviceSerial"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    state: str | None = None
-    seat_count: int | None = Field(
-        default=None, validation_alias="seatCount", serialization_alias="seatCount"
-    )
-    total_duration_in_days: int | None = Field(
-        default=None,
-        validation_alias="totalDurationInDays",
-        serialization_alias="totalDurationInDays",
-    )
-    duration_in_days: int | None = Field(
-        default=None, validation_alias="durationInDays", serialization_alias="durationInDays"
-    )
-    permanently_queued_licenses: list[OrganizationsPermanentlyQueuedLicensesItem] = Field(
-        default_factory=list,
-        validation_alias="permanentlyQueuedLicenses",
-        serialization_alias="permanentlyQueuedLicenses",
-    )
-    claim_date: str | None = Field(
-        default=None, validation_alias="claimDate", serialization_alias="claimDate"
-    )
-    activation_date: str | None = Field(
-        default=None, validation_alias="activationDate", serialization_alias="activationDate"
-    )
-    expiration_date: str | None = Field(
-        default=None, validation_alias="expirationDate", serialization_alias="expirationDate"
-    )
-    head_license_id: str | None = Field(
-        default=None, validation_alias="headLicenseId", serialization_alias="headLicenseId"
-    )
 
 
 class GetOrganizationLicensesOverviewResponse(_BaseSchema):
@@ -2800,141 +1815,8 @@ class GetOrganizationLicensesOverviewResponseSystemsManager(_BaseSchema):
     counts: OrganizationsSystemsManagerCounts | None = None
 
 
-class GetOrganizationLicensesResponse(RootModel[list["GetOrganizationLicensesResponseItem"]]):
+class GetOrganizationLicensesResponse(RootModel[list["OrganizationLicenseResponse"]]):
     """Response for getOrganizationLicenses operation."""
-
-
-class GetOrganizationLicensesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationLicensesResponseItem."""
-
-    id: str | None = None
-    license_type: str | None = Field(
-        default=None, validation_alias="licenseType", serialization_alias="licenseType"
-    )
-    license_key: str | None = Field(
-        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
-    )
-    order_number: str | None = Field(
-        default=None, validation_alias="orderNumber", serialization_alias="orderNumber"
-    )
-    device_serial: str | None = Field(
-        default=None, validation_alias="deviceSerial", serialization_alias="deviceSerial"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    state: str | None = None
-    seat_count: int | None = Field(
-        default=None, validation_alias="seatCount", serialization_alias="seatCount"
-    )
-    total_duration_in_days: int | None = Field(
-        default=None,
-        validation_alias="totalDurationInDays",
-        serialization_alias="totalDurationInDays",
-    )
-    duration_in_days: int | None = Field(
-        default=None, validation_alias="durationInDays", serialization_alias="durationInDays"
-    )
-    permanently_queued_licenses: list[OrganizationsPermanentlyQueuedLicensesItem] = Field(
-        default_factory=list,
-        validation_alias="permanentlyQueuedLicenses",
-        serialization_alias="permanentlyQueuedLicenses",
-    )
-    claim_date: str | None = Field(
-        default=None, validation_alias="claimDate", serialization_alias="claimDate"
-    )
-    activation_date: str | None = Field(
-        default=None, validation_alias="activationDate", serialization_alias="activationDate"
-    )
-    expiration_date: str | None = Field(
-        default=None, validation_alias="expirationDate", serialization_alias="expirationDate"
-    )
-    head_license_id: str | None = Field(
-        default=None, validation_alias="headLicenseId", serialization_alias="headLicenseId"
-    )
-
-
-class GetOrganizationLoginSecurityResponse(_BaseSchema):
-    """Response for getOrganizationLoginSecurity operation."""
-
-    enforce_password_expiration: bool | None = Field(
-        default=None,
-        validation_alias="enforcePasswordExpiration",
-        serialization_alias="enforcePasswordExpiration",
-    )
-    password_expiration_days: int | None = Field(
-        default=None,
-        validation_alias="passwordExpirationDays",
-        serialization_alias="passwordExpirationDays",
-    )
-    enforce_different_passwords: bool | None = Field(
-        default=None,
-        validation_alias="enforceDifferentPasswords",
-        serialization_alias="enforceDifferentPasswords",
-    )
-    num_different_passwords: int | None = Field(
-        default=None,
-        validation_alias="numDifferentPasswords",
-        serialization_alias="numDifferentPasswords",
-    )
-    enforce_strong_passwords: bool | None = Field(
-        default=None,
-        validation_alias="enforceStrongPasswords",
-        serialization_alias="enforceStrongPasswords",
-    )
-    minimum_password_length: int | None = Field(
-        default=None,
-        validation_alias="minimumPasswordLength",
-        serialization_alias="minimumPasswordLength",
-    )
-    enforce_account_lockout: bool | None = Field(
-        default=None,
-        validation_alias="enforceAccountLockout",
-        serialization_alias="enforceAccountLockout",
-    )
-    account_lockout_attempts: int | None = Field(
-        default=None,
-        validation_alias="accountLockoutAttempts",
-        serialization_alias="accountLockoutAttempts",
-    )
-    enforce_idle_timeout: bool | None = Field(
-        default=None,
-        validation_alias="enforceIdleTimeout",
-        serialization_alias="enforceIdleTimeout",
-    )
-    idle_timeout_minutes: int | None = Field(
-        default=None,
-        validation_alias="idleTimeoutMinutes",
-        serialization_alias="idleTimeoutMinutes",
-    )
-    enforce_two_factor_auth: bool | None = Field(
-        default=None,
-        validation_alias="enforceTwoFactorAuth",
-        serialization_alias="enforceTwoFactorAuth",
-    )
-    enforce_login_ip_ranges: bool | None = Field(
-        default=None,
-        validation_alias="enforceLoginIpRanges",
-        serialization_alias="enforceLoginIpRanges",
-    )
-    login_ip_ranges: list[str] = Field(
-        default_factory=list, validation_alias="loginIpRanges", serialization_alias="loginIpRanges"
-    )
-    api_authentication: GetOrganizationLoginSecurityResponseApiAuthentication | None = Field(
-        default=None, validation_alias="apiAuthentication", serialization_alias="apiAuthentication"
-    )
-
-
-class GetOrganizationLoginSecurityResponseApiAuthentication(_BaseSchema):
-    """Details for indicating whether organization will restrict access to API (but not Dashboard)
-    to certain IP addresses.
-    """
-
-    ip_restrictions_for_keys: OrganizationsApiAuthenticationIpRestrictionsForKeys | None = Field(
-        default=None,
-        validation_alias="ipRestrictionsForKeys",
-        serialization_alias="ipRestrictionsForKeys",
-    )
 
 
 class GetOrganizationNetworksResponse(RootModel[list["GetOrganizationNetworksResponseItem"]]):
@@ -2988,100 +1870,14 @@ class GetOrganizationPoliciesAssignmentsByClientResponseItem(_BaseSchema):
     assigned: list[OrganizationsAssignedItem] = Field(default_factory=list)
 
 
-class GetOrganizationPolicyObjectResponse(_BaseSchema):
-    """Response for getOrganizationPolicyObject operation."""
-
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    cidr: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    group_ids: list[str] = Field(
-        default_factory=list, validation_alias="groupIds", serialization_alias="groupIds"
-    )
-    network_ids: list[str] = Field(
-        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
-    )
-
-
-class GetOrganizationPolicyObjectsGroupResponse(_BaseSchema):
-    """Response for getOrganizationPolicyObjectsGroup operation."""
-
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    object_ids: list[int] = Field(
-        default_factory=list, validation_alias="objectIds", serialization_alias="objectIds"
-    )
-    network_ids: list[str] = Field(
-        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
-    )
-
-
 class GetOrganizationPolicyObjectsGroupsResponse(
-    RootModel[list["GetOrganizationPolicyObjectsGroupsResponseItem"]]
+    RootModel[list["OrganizationPolicyObjectsGroupResponse"]]
 ):
     """Response for getOrganizationPolicyObjectsGroups operation."""
 
 
-class GetOrganizationPolicyObjectsGroupsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationPolicyObjectsGroupsResponseItem."""
-
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    object_ids: list[int] = Field(
-        default_factory=list, validation_alias="objectIds", serialization_alias="objectIds"
-    )
-    network_ids: list[str] = Field(
-        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
-    )
-
-
-class GetOrganizationPolicyObjectsResponse(
-    RootModel[list["GetOrganizationPolicyObjectsResponseItem"]]
-):
+class GetOrganizationPolicyObjectsResponse(RootModel[list["OrganizationPolicyObjectResponse"]]):
     """Response for getOrganizationPolicyObjects operation."""
-
-
-class GetOrganizationPolicyObjectsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationPolicyObjectsResponseItem."""
-
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    cidr: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    group_ids: list[str] = Field(
-        default_factory=list, validation_alias="groupIds", serialization_alias="groupIds"
-    )
-    network_ids: list[str] = Field(
-        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
-    )
 
 
 class GetOrganizationResponse(_BaseSchema):
@@ -3119,77 +1915,12 @@ class GetOrganizationSamlIdpResponse(_BaseSchema):
     )
 
 
-class GetOrganizationSamlIdpsResponse(RootModel[list["GetOrganizationSamlIdpsResponseItem"]]):
-    """Response for getOrganizationSamlIdps operation."""
+class GetOrganizationSamlIdpsResponse(RootModel[list["GetOrganizationSamlIdpResponse"]]):
+    """Schema for GetOrganizationSamlIdpsResponse."""
 
 
-class GetOrganizationSamlIdpsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationSamlIdpsResponseItem."""
-
-    idp_id: str | None = Field(default=None, validation_alias="idpId", serialization_alias="idpId")
-    consumer_url: str | None = Field(
-        default=None, validation_alias="consumerUrl", serialization_alias="consumerUrl"
-    )
-    vision_consumer_url: str | None = Field(
-        default=None, validation_alias="visionConsumerUrl", serialization_alias="visionConsumerUrl"
-    )
-    x509cert_sha1_fingerprint: str | None = Field(
-        default=None,
-        validation_alias="x509certSha1Fingerprint",
-        serialization_alias="x509certSha1Fingerprint",
-    )
-    sso_login_url: str | None = Field(
-        default=None, validation_alias="ssoLoginUrl", serialization_alias="ssoLoginUrl"
-    )
-    slo_logout_url: str | None = Field(
-        default=None, validation_alias="sloLogoutUrl", serialization_alias="sloLogoutUrl"
-    )
-
-
-class GetOrganizationSamlResponse(_BaseSchema):
-    """Response for getOrganizationSaml operation."""
-
-    enabled: bool | None = None
-    sp_initiated: GetOrganizationSamlResponseSpInitiated | None = Field(
-        default=None, validation_alias="spInitiated", serialization_alias="spInitiated"
-    )
-
-
-class GetOrganizationSamlResponseSpInitiated(_BaseSchema):
-    """SP-Initiated SSO settings."""
-
-    subdomain: str | None = None
-    idp_id: str | None = Field(default=None, validation_alias="idpId", serialization_alias="idpId")
-
-
-class GetOrganizationSamlRoleResponse(_BaseSchema):
-    """Response for getOrganizationSamlRole operation."""
-
-    id: str | None = None
-    role: str | None = None
-    org_access: str | None = Field(
-        default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
-    )
-    networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
-    tags: list[OrganizationsTagsItem] = Field(default_factory=list)
-    camera: list[OrganizationsCameraItem] = Field(default_factory=list)
-
-
-class GetOrganizationSamlRolesResponse(RootModel[list["GetOrganizationSamlRolesResponseItem"]]):
+class GetOrganizationSamlRolesResponse(RootModel[list["OrganizationSamlRoleResponse"]]):
     """Response for getOrganizationSamlRoles operation."""
-
-
-class GetOrganizationSamlRolesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationSamlRolesResponseItem."""
-
-    id: str | None = None
-    role: str | None = None
-    org_access: str | None = Field(
-        default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
-    )
-    networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
-    tags: list[OrganizationsTagsItem] = Field(default_factory=list)
-    camera: list[OrganizationsCameraItem] = Field(default_factory=list)
 
 
 class GetOrganizationSaseNetworksEligibleResponseItemsItem(_BaseSchema):
@@ -3207,36 +1938,8 @@ class GetOrganizationSaseNetworksEligibleResponseItemsItem(_BaseSchema):
     routing: OrganizationsRouting | None = None
 
 
-class GetOrganizationSnmpResponse(_BaseSchema):
-    """Response for getOrganizationSnmp operation."""
-
-    v2c_enabled: bool | None = Field(
-        default=None, validation_alias="v2cEnabled", serialization_alias="v2cEnabled"
-    )
-    v2_community_string: str | None = Field(
-        default=None, validation_alias="v2CommunityString", serialization_alias="v2CommunityString"
-    )
-    v3_enabled: bool | None = Field(
-        default=None, validation_alias="v3Enabled", serialization_alias="v3Enabled"
-    )
-    v3_user: str | None = Field(
-        default=None, validation_alias="v3User", serialization_alias="v3User"
-    )
-    v3_auth_mode: str | None = Field(
-        default=None, validation_alias="v3AuthMode", serialization_alias="v3AuthMode"
-    )
-    v3_priv_mode: str | None = Field(
-        default=None, validation_alias="v3PrivMode", serialization_alias="v3PrivMode"
-    )
-    peer_ips: list[str] = Field(
-        default_factory=list, validation_alias="peerIps", serialization_alias="peerIps"
-    )
-    hostname: str | None = None
-    port: int | None = None
-
-
 class GetOrganizationSplashAssetResponse(_BaseSchema):
-    """Response for getOrganizationSplashAsset operation."""
+    """Schema for GetOrganizationSplashAssetResponse."""
 
     id: str | None = None
     name: str | None = None
@@ -3245,23 +1948,8 @@ class GetOrganizationSplashAssetResponse(_BaseSchema):
     )
 
 
-class GetOrganizationSplashThemesResponse(
-    RootModel[list["GetOrganizationSplashThemesResponseItem"]]
-):
+class GetOrganizationSplashThemesResponse(RootModel[list["CreateOrganizationSplashThemeResponse"]]):
     """Response for getOrganizationSplashThemes operation."""
-
-
-class GetOrganizationSplashThemesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationSplashThemesResponseItem."""
-
-    id: str | None = None
-    name: str | None = None
-    is_system_theme: bool | None = Field(
-        default=None, validation_alias="isSystemTheme", serialization_alias="isSystemTheme"
-    )
-    theme_assets: list[OrganizationsPolicyObjectsItem] = Field(
-        default_factory=list, validation_alias="themeAssets", serialization_alias="themeAssets"
-    )
 
 
 class GetOrganizationSummaryTopAppliancesByUtilizationResponse(
@@ -3607,20 +2295,8 @@ class GetOrganizationWebhooksLogsResponseItem(_BaseSchema):
     url: str | None = None
 
 
-class GetOrganizationsResponse(RootModel[list["GetOrganizationsResponseItem"]]):
+class GetOrganizationsResponse(RootModel[list["GetOrganizationResponse"]]):
     """Response for getOrganizations operation."""
-
-
-class GetOrganizationsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationsResponseItem."""
-
-    id: str
-    name: str
-    url: str
-    api: OrganizationsApi | None = None
-    licensing: OrganizationsLicensing | None = None
-    cloud: OrganizationsCloud | None = None
-    management: OrganizationsManagement | None = None
 
 
 class MoveOrganizationLicensesResponse(_BaseSchema):
@@ -3650,6 +2326,610 @@ class MoveOrganizationLicensesSeatsResponse(_BaseSchema):
     seat_count: int | None = Field(
         default=None, validation_alias="seatCount", serialization_alias="seatCount"
     )
+
+
+class OrganizationActionBatchResponse(_BaseSchema):
+    """Schema for OrganizationActionBatchResponse."""
+
+    id: str | None = None
+    organization_id: str | None = Field(
+        default=None, validation_alias="organizationId", serialization_alias="organizationId"
+    )
+    confirmed: bool | None = None
+    synchronous: bool | None = None
+    status: OrganizationsStatus | None = None
+    actions: list[OrganizationsActionsItem]
+    callback: OrganizationActionBatchResponseCallback | None = None
+
+
+class OrganizationActionBatchResponseCallback(_BaseSchema):
+    """Information for callback used to send back results."""
+
+    id: str | None = None
+    url: str | None = None
+    status: str | None = None
+
+
+class OrganizationAdaptivePolicyAclResponse(_BaseSchema):
+    """Schema for OrganizationAdaptivePolicyAclResponse."""
+
+    acl_id: str | None = Field(default=None, validation_alias="aclId", serialization_alias="aclId")
+    name: str | None = None
+    description: str | None = None
+    ip_version: str | None = Field(
+        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
+    )
+    rules: list[OrganizationsRulesItem] = Field(default_factory=list)
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    updated_at: datetime | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
+    )
+
+
+class OrganizationAdaptivePolicyGroupResponse(_BaseSchema):
+    """Schema for OrganizationAdaptivePolicyGroupResponse."""
+
+    group_id: str | None = Field(
+        default=None, validation_alias="groupId", serialization_alias="groupId"
+    )
+    name: str | None = None
+    sgt: int | None = None
+    description: str | None = None
+    policy_objects: list[OrganizationsPolicyObjectsItem] = Field(
+        default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
+    )
+    is_default_group: bool | None = Field(
+        default=None, validation_alias="isDefaultGroup", serialization_alias="isDefaultGroup"
+    )
+    required_ip_mappings: list[str] = Field(
+        default_factory=list,
+        validation_alias="requiredIpMappings",
+        serialization_alias="requiredIpMappings",
+    )
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    updated_at: str | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
+    )
+
+
+class OrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
+    """Schema for OrganizationAdaptivePolicyPolicyResponse."""
+
+    adaptive_policy_id: str | None = Field(
+        default=None, validation_alias="adaptivePolicyId", serialization_alias="adaptivePolicyId"
+    )
+    source_group: OrganizationsSourceGroup | None = Field(
+        default=None, validation_alias="sourceGroup", serialization_alias="sourceGroup"
+    )
+    destination_group: OrganizationsSourceGroup | None = Field(
+        default=None, validation_alias="destinationGroup", serialization_alias="destinationGroup"
+    )
+    acls: list[OrganizationsPolicyObjectsItem] = Field(default_factory=list)
+    last_entry_rule: str | None = Field(
+        default=None, validation_alias="lastEntryRule", serialization_alias="lastEntryRule"
+    )
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    updated_at: str | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
+    )
+
+
+class OrganizationAdaptivePolicySettingsResponse(_BaseSchema):
+    """Schema for OrganizationAdaptivePolicySettingsResponse."""
+
+    enabled_networks: list[str] = Field(
+        default_factory=list,
+        validation_alias="enabledNetworks",
+        serialization_alias="enabledNetworks",
+    )
+
+
+class OrganizationAdminResponse(_BaseSchema):
+    """Schema for OrganizationAdminResponse."""
+
+    id: str | None = None
+    name: str | None = None
+    email: str | None = None
+    org_access: str | None = Field(
+        default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
+    )
+    account_status: str | None = Field(
+        default=None, validation_alias="accountStatus", serialization_alias="accountStatus"
+    )
+    two_factor_auth_enabled: bool | None = Field(
+        default=None,
+        validation_alias="twoFactorAuthEnabled",
+        serialization_alias="twoFactorAuthEnabled",
+    )
+    has_api_key: bool | None = Field(
+        default=None, validation_alias="hasApiKey", serialization_alias="hasApiKey"
+    )
+    last_active: datetime | None = Field(
+        default=None, validation_alias="lastActive", serialization_alias="lastActive"
+    )
+    tags: list[OrganizationsTagsItem] = Field(default_factory=list)
+    networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
+    authentication_method: str | None = Field(
+        default=None,
+        validation_alias="authenticationMethod",
+        serialization_alias="authenticationMethod",
+    )
+
+
+class OrganizationAlertsProfileResponse(_BaseSchema):
+    """Schema for OrganizationAlertsProfileResponse."""
+
+    id: str | None = None
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    enabled: bool | None = None
+    alert_condition: OrganizationsAlertCondition | None = Field(
+        default=None, validation_alias="alertCondition", serialization_alias="alertCondition"
+    )
+    recipients: OrganizationsRecipients | None = None
+    network_tags: list[str] = Field(
+        default_factory=list, validation_alias="networkTags", serialization_alias="networkTags"
+    )
+    description: str | None = None
+
+
+class OrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
+    """Schema for OrganizationBrandingPoliciesPrioritiesResponse."""
+
+    branding_policy_ids: list[str] = Field(
+        default_factory=list,
+        validation_alias="brandingPolicyIds",
+        serialization_alias="brandingPolicyIds",
+    )
+
+
+class OrganizationBrandingPolicyResponse(_BaseSchema):
+    """Schema for OrganizationBrandingPolicyResponse."""
+
+    name: str | None = None
+    enabled: bool | None = None
+    admin_settings: OrganizationsAdminSettings | None = Field(
+        default=None, validation_alias="adminSettings", serialization_alias="adminSettings"
+    )
+    help_settings: OrganizationsHelpSettings | None = Field(
+        default=None, validation_alias="helpSettings", serialization_alias="helpSettings"
+    )
+    custom_logo: OrganizationsCustomLogo | None = Field(
+        default=None, validation_alias="customLogo", serialization_alias="customLogo"
+    )
+
+
+class OrganizationConfigTemplateResponse(_BaseSchema):
+    """Schema for OrganizationConfigTemplateResponse."""
+
+    id: str | None = None
+    name: str | None = None
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
+    )
+    time_zone: str | None = Field(
+        default=None, validation_alias="timeZone", serialization_alias="timeZone"
+    )
+
+
+class OrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
+    """Schema for OrganizationDevicesPacketCaptureCaptureResponse."""
+
+    capture_id: str | None = Field(
+        default=None, validation_alias="captureId", serialization_alias="captureId"
+    )
+    network: OrganizationsPolicyObjectsItem | None = None
+    devices: list[dict[str, Any]] = Field(default_factory=list)
+    device: OrganizationsDevice2 | None = None
+    admin: OrganizationsPolicyObjectsItem | None = None
+    client: OrganizationsClient3 | None = None
+    details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
+    name: str | None = None
+    start_ts: str | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    ports: str | None = None
+    status: str | None = None
+    error_message: str | None = Field(
+        default=None, validation_alias="errorMessage", serialization_alias="errorMessage"
+    )
+    destination: str | None = None
+    process: str | None = None
+    file: OrganizationsFile | None = None
+    duration: int | None = None
+    filter_expression: str | None = Field(
+        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
+    )
+    counts: OrganizationsCounts | None = None
+    interface: str | None = None
+
+
+class OrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
+    """Schema for OrganizationDevicesPacketCaptureScheduleResponse."""
+
+    schedule_id: str | None = Field(
+        default=None, validation_alias="scheduleId", serialization_alias="scheduleId"
+    )
+    devices: list[OrganizationsDevicesItem2] = Field(default_factory=list)
+    name: str | None = None
+    admin: OrganizationsPolicyObjectsItem | None = None
+    notes: str | None = None
+    duration: int | None = None
+    filter_expression: str | None = Field(
+        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
+    )
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    updated_at: str | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
+    )
+    capture_count: int | None = Field(
+        default=None, validation_alias="captureCount", serialization_alias="captureCount"
+    )
+    last_capture_id: str | None = Field(
+        default=None, validation_alias="lastCaptureId", serialization_alias="lastCaptureId"
+    )
+    enabled: bool | None = None
+    priority: int | None = None
+    schedule: OrganizationsSchedule | None = None
+    warnings: list[str] = Field(default_factory=list)
+
+
+class OrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
+    """Schema for OrganizationIntegrationsXdrNetworksResponse."""
+
+    networks: list[OrganizationIntegrationsXdrNetworksResponseNetworksItem] = Field(
+        default_factory=list
+    )
+
+
+class OrganizationIntegrationsXdrNetworksResponseNetworksItem(_BaseSchema):
+    """Schema for OrganizationIntegrationsXdrNetworksResponseNetworksItem."""
+
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
+    )
+    name: str | None = None
+    enabled: bool | None = None
+    is_eligible: bool | None = Field(
+        default=None, validation_alias="isEligible", serialization_alias="isEligible"
+    )
+
+
+class OrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
+    """Schema for OrganizationInventoryDevicesSwapsBulkResponse."""
+
+    job_id: str | None = Field(default=None, validation_alias="jobId", serialization_alias="jobId")
+    swaps: list[OrganizationInventoryDevicesSwapsBulkResponseSwapsItem] = Field(
+        default_factory=list
+    )
+
+
+class OrganizationInventoryDevicesSwapsBulkResponseSwapsItem(_BaseSchema):
+    """Schema for OrganizationInventoryDevicesSwapsBulkResponseSwapsItem."""
+
+    id: str
+    devices: OrganizationsSwapsDevices
+    status: str
+    after_action: str = Field(validation_alias="afterAction", serialization_alias="afterAction")
+    created_at: str = Field(validation_alias="createdAt", serialization_alias="createdAt")
+    completed_at: str | None = Field(
+        default=None, validation_alias="completedAt", serialization_alias="completedAt"
+    )
+    errors: list[str] = Field(default_factory=list)
+
+
+class OrganizationLicenseResponse(_BaseSchema):
+    """Schema for OrganizationLicenseResponse."""
+
+    id: str | None = None
+    license_type: str | None = Field(
+        default=None, validation_alias="licenseType", serialization_alias="licenseType"
+    )
+    license_key: str | None = Field(
+        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
+    )
+    order_number: str | None = Field(
+        default=None, validation_alias="orderNumber", serialization_alias="orderNumber"
+    )
+    device_serial: str | None = Field(
+        default=None, validation_alias="deviceSerial", serialization_alias="deviceSerial"
+    )
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    state: str | None = None
+    seat_count: int | None = Field(
+        default=None, validation_alias="seatCount", serialization_alias="seatCount"
+    )
+    total_duration_in_days: int | None = Field(
+        default=None,
+        validation_alias="totalDurationInDays",
+        serialization_alias="totalDurationInDays",
+    )
+    duration_in_days: int | None = Field(
+        default=None, validation_alias="durationInDays", serialization_alias="durationInDays"
+    )
+    permanently_queued_licenses: list[OrganizationsPermanentlyQueuedLicensesItem] = Field(
+        default_factory=list,
+        validation_alias="permanentlyQueuedLicenses",
+        serialization_alias="permanentlyQueuedLicenses",
+    )
+    claim_date: str | None = Field(
+        default=None, validation_alias="claimDate", serialization_alias="claimDate"
+    )
+    activation_date: str | None = Field(
+        default=None, validation_alias="activationDate", serialization_alias="activationDate"
+    )
+    expiration_date: str | None = Field(
+        default=None, validation_alias="expirationDate", serialization_alias="expirationDate"
+    )
+    head_license_id: str | None = Field(
+        default=None, validation_alias="headLicenseId", serialization_alias="headLicenseId"
+    )
+
+
+class OrganizationLicensesSeatsResponse(_BaseSchema):
+    """Schema for OrganizationLicensesSeatsResponse."""
+
+    resulting_licenses: list[OrganizationLicensesSeatsResponseResultingLicensesItem] = Field(
+        default_factory=list,
+        validation_alias="resultingLicenses",
+        serialization_alias="resultingLicenses",
+    )
+
+
+class OrganizationLicensesSeatsResponseResultingLicensesItem(_BaseSchema):
+    """Schema for OrganizationLicensesSeatsResponseResultingLicensesItem."""
+
+    id: str | None = None
+    license_type: str | None = Field(
+        default=None, validation_alias="licenseType", serialization_alias="licenseType"
+    )
+    license_key: str | None = Field(
+        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
+    )
+    order_number: str | None = Field(
+        default=None, validation_alias="orderNumber", serialization_alias="orderNumber"
+    )
+    device_serial: str | None = Field(
+        default=None, validation_alias="deviceSerial", serialization_alias="deviceSerial"
+    )
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    state: str | None = None
+    seat_count: int | None = Field(
+        default=None, validation_alias="seatCount", serialization_alias="seatCount"
+    )
+    total_duration_in_days: int | None = Field(
+        default=None,
+        validation_alias="totalDurationInDays",
+        serialization_alias="totalDurationInDays",
+    )
+    duration_in_days: int | None = Field(
+        default=None, validation_alias="durationInDays", serialization_alias="durationInDays"
+    )
+    permanently_queued_licenses: list[OrganizationsPermanentlyQueuedLicensesItem] = Field(
+        default_factory=list,
+        validation_alias="permanentlyQueuedLicenses",
+        serialization_alias="permanentlyQueuedLicenses",
+    )
+    claim_date: str | None = Field(
+        default=None, validation_alias="claimDate", serialization_alias="claimDate"
+    )
+    activation_date: str | None = Field(
+        default=None, validation_alias="activationDate", serialization_alias="activationDate"
+    )
+    expiration_date: str | None = Field(
+        default=None, validation_alias="expirationDate", serialization_alias="expirationDate"
+    )
+    head_license_id: str | None = Field(
+        default=None, validation_alias="headLicenseId", serialization_alias="headLicenseId"
+    )
+
+
+class OrganizationLoginSecurityResponse(_BaseSchema):
+    """Schema for OrganizationLoginSecurityResponse."""
+
+    enforce_password_expiration: bool | None = Field(
+        default=None,
+        validation_alias="enforcePasswordExpiration",
+        serialization_alias="enforcePasswordExpiration",
+    )
+    password_expiration_days: int | None = Field(
+        default=None,
+        validation_alias="passwordExpirationDays",
+        serialization_alias="passwordExpirationDays",
+    )
+    enforce_different_passwords: bool | None = Field(
+        default=None,
+        validation_alias="enforceDifferentPasswords",
+        serialization_alias="enforceDifferentPasswords",
+    )
+    num_different_passwords: int | None = Field(
+        default=None,
+        validation_alias="numDifferentPasswords",
+        serialization_alias="numDifferentPasswords",
+    )
+    enforce_strong_passwords: bool | None = Field(
+        default=None,
+        validation_alias="enforceStrongPasswords",
+        serialization_alias="enforceStrongPasswords",
+    )
+    minimum_password_length: int | None = Field(
+        default=None,
+        validation_alias="minimumPasswordLength",
+        serialization_alias="minimumPasswordLength",
+    )
+    enforce_account_lockout: bool | None = Field(
+        default=None,
+        validation_alias="enforceAccountLockout",
+        serialization_alias="enforceAccountLockout",
+    )
+    account_lockout_attempts: int | None = Field(
+        default=None,
+        validation_alias="accountLockoutAttempts",
+        serialization_alias="accountLockoutAttempts",
+    )
+    enforce_idle_timeout: bool | None = Field(
+        default=None,
+        validation_alias="enforceIdleTimeout",
+        serialization_alias="enforceIdleTimeout",
+    )
+    idle_timeout_minutes: int | None = Field(
+        default=None,
+        validation_alias="idleTimeoutMinutes",
+        serialization_alias="idleTimeoutMinutes",
+    )
+    enforce_two_factor_auth: bool | None = Field(
+        default=None,
+        validation_alias="enforceTwoFactorAuth",
+        serialization_alias="enforceTwoFactorAuth",
+    )
+    enforce_login_ip_ranges: bool | None = Field(
+        default=None,
+        validation_alias="enforceLoginIpRanges",
+        serialization_alias="enforceLoginIpRanges",
+    )
+    login_ip_ranges: list[str] = Field(
+        default_factory=list, validation_alias="loginIpRanges", serialization_alias="loginIpRanges"
+    )
+    api_authentication: OrganizationLoginSecurityResponseApiAuthentication | None = Field(
+        default=None, validation_alias="apiAuthentication", serialization_alias="apiAuthentication"
+    )
+
+
+class OrganizationLoginSecurityResponseApiAuthentication(_BaseSchema):
+    """Details for indicating whether organization will restrict access to API (but not Dashboard)
+    to certain IP addresses.
+    """
+
+    ip_restrictions_for_keys: OrganizationsApiAuthenticationIpRestrictionsForKeys | None = Field(
+        default=None,
+        validation_alias="ipRestrictionsForKeys",
+        serialization_alias="ipRestrictionsForKeys",
+    )
+
+
+class OrganizationPolicyObjectResponse(_BaseSchema):
+    """Schema for OrganizationPolicyObjectResponse."""
+
+    id: str | None = None
+    name: str | None = None
+    category: str | None = None
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    cidr: str | None = None
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    updated_at: datetime | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
+    )
+    group_ids: list[str] = Field(
+        default_factory=list, validation_alias="groupIds", serialization_alias="groupIds"
+    )
+    network_ids: list[str] = Field(
+        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
+    )
+
+
+class OrganizationPolicyObjectsGroupResponse(_BaseSchema):
+    """Schema for OrganizationPolicyObjectsGroupResponse."""
+
+    id: str | None = None
+    name: str | None = None
+    category: str | None = None
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    updated_at: datetime | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
+    )
+    object_ids: list[int] = Field(
+        default_factory=list, validation_alias="objectIds", serialization_alias="objectIds"
+    )
+    network_ids: list[str] = Field(
+        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
+    )
+
+
+class OrganizationResponse(_BaseSchema):
+    """Schema for OrganizationResponse."""
+
+    id: str | None = None
+    name: str | None = None
+    url: str | None = None
+    api: OrganizationsApi | None = None
+    licensing: OrganizationsLicensing | None = None
+    cloud: OrganizationsCloud | None = None
+    management: OrganizationsManagement | None = None
+
+
+class OrganizationSamlResponse(_BaseSchema):
+    """Schema for OrganizationSamlResponse."""
+
+    enabled: bool | None = None
+    sp_initiated: OrganizationSamlResponseSpInitiated | None = Field(
+        default=None, validation_alias="spInitiated", serialization_alias="spInitiated"
+    )
+
+
+class OrganizationSamlResponseSpInitiated(_BaseSchema):
+    """SP-Initiated SSO settings."""
+
+    subdomain: str | None = None
+    idp_id: str | None = Field(default=None, validation_alias="idpId", serialization_alias="idpId")
+
+
+class OrganizationSamlRoleResponse(_BaseSchema):
+    """Schema for OrganizationSamlRoleResponse."""
+
+    id: str | None = None
+    role: str | None = None
+    org_access: str | None = Field(
+        default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
+    )
+    networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
+    tags: list[OrganizationsTagsItem] = Field(default_factory=list)
+    camera: list[OrganizationsCameraItem] = Field(default_factory=list)
+
+
+class OrganizationSnmpResponse(_BaseSchema):
+    """Schema for OrganizationSnmpResponse."""
+
+    v2c_enabled: bool | None = Field(
+        default=None, validation_alias="v2cEnabled", serialization_alias="v2cEnabled"
+    )
+    v2_community_string: str | None = Field(
+        default=None, validation_alias="v2CommunityString", serialization_alias="v2CommunityString"
+    )
+    v3_enabled: bool | None = Field(
+        default=None, validation_alias="v3Enabled", serialization_alias="v3Enabled"
+    )
+    v3_user: str | None = Field(
+        default=None, validation_alias="v3User", serialization_alias="v3User"
+    )
+    v3_auth_mode: str | None = Field(
+        default=None, validation_alias="v3AuthMode", serialization_alias="v3AuthMode"
+    )
+    v3_priv_mode: str | None = Field(
+        default=None, validation_alias="v3PrivMode", serialization_alias="v3PrivMode"
+    )
+    peer_ips: list[str] = Field(
+        default_factory=list, validation_alias="peerIps", serialization_alias="peerIps"
+    )
+    hostname: str | None = None
+    port: int | None = None
 
 
 class OrganizationsAccessList(_BaseSchema):
@@ -4911,16 +4191,6 @@ class ReleaseFromOrganizationInventoryResponse(_BaseSchema):
     serials: list[str] = Field(default_factory=list)
 
 
-class RenewOrganizationLicensesSeatsResponse(_BaseSchema):
-    """Response for renewOrganizationLicensesSeats operation."""
-
-    resulting_licenses: list[AssignOrganizationLicensesSeatsResponseResultingLicensesItem] = Field(
-        default_factory=list,
-        validation_alias="resultingLicenses",
-        serialization_alias="resultingLicenses",
-    )
-
-
 class ReorderOrganizationDevicesPacketCaptureSchedulesOrderItem(_BaseSchema):
     """Item schema for order."""
 
@@ -4951,38 +4221,6 @@ class ReorderOrganizationDevicesPacketCaptureSchedulesResponseUpdatedPrioritiesI
     priority: int | None = None
 
 
-class StopOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
-    """Response for stopOrganizationDevicesPacketCaptureCapture operation."""
-
-    capture_id: str | None = Field(
-        default=None, validation_alias="captureId", serialization_alias="captureId"
-    )
-    network: OrganizationsPolicyObjectsItem | None = None
-    devices: list[dict[str, Any]] = Field(default_factory=list)
-    device: OrganizationsDevice2 | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
-    client: OrganizationsClient3 | None = None
-    details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
-    name: str | None = None
-    start_ts: str | None = Field(
-        default=None, validation_alias="startTs", serialization_alias="startTs"
-    )
-    ports: str | None = None
-    status: str | None = None
-    error_message: str | None = Field(
-        default=None, validation_alias="errorMessage", serialization_alias="errorMessage"
-    )
-    destination: str | None = None
-    process: str | None = None
-    file: OrganizationsFile | None = None
-    duration: int | None = None
-    filter_expression: str | None = Field(
-        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
-    )
-    counts: OrganizationsCounts | None = None
-    interface: str | None = None
-
-
 class UpdateOrganizationActionBatchResponse(_BaseSchema):
     """Response for updateOrganizationActionBatch operation."""
 
@@ -4994,24 +4232,6 @@ class UpdateOrganizationActionBatchResponse(_BaseSchema):
     synchronous: bool | None = None
     status: OrganizationsStatus | None = None
     actions: list[OrganizationsActionsItem]
-
-
-class UpdateOrganizationAdaptivePolicyAclResponse(_BaseSchema):
-    """Response for updateOrganizationAdaptivePolicyAcl operation."""
-
-    acl_id: str | None = Field(default=None, validation_alias="aclId", serialization_alias="aclId")
-    name: str | None = None
-    description: str | None = None
-    ip_version: str | None = Field(
-        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
-    )
-    rules: list[OrganizationsRulesItem] = Field(default_factory=list)
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
 
 
 class UpdateOrganizationAdaptivePolicyAclRulesItem(_BaseSchema):
@@ -5038,34 +4258,6 @@ class UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem(_BaseSchema):
     name: str | None = None
 
 
-class UpdateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
-    """Response for updateOrganizationAdaptivePolicyGroup operation."""
-
-    group_id: str | None = Field(
-        default=None, validation_alias="groupId", serialization_alias="groupId"
-    )
-    name: str | None = None
-    sgt: int | None = None
-    description: str | None = None
-    policy_objects: list[OrganizationsPolicyObjectsItem] = Field(
-        default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
-    )
-    is_default_group: bool | None = Field(
-        default=None, validation_alias="isDefaultGroup", serialization_alias="isDefaultGroup"
-    )
-    required_ip_mappings: list[str] = Field(
-        default_factory=list,
-        validation_alias="requiredIpMappings",
-        serialization_alias="requiredIpMappings",
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
 class UpdateOrganizationAdaptivePolicyPolicyAclsItem(_BaseSchema):
     """Item schema for acls."""
 
@@ -5081,30 +4273,6 @@ class UpdateOrganizationAdaptivePolicyPolicyDestinationGroup(_BaseSchema):
     sgt: int | None = None
 
 
-class UpdateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
-    """Response for updateOrganizationAdaptivePolicyPolicy operation."""
-
-    adaptive_policy_id: str | None = Field(
-        default=None, validation_alias="adaptivePolicyId", serialization_alias="adaptivePolicyId"
-    )
-    source_group: OrganizationsSourceGroup | None = Field(
-        default=None, validation_alias="sourceGroup", serialization_alias="sourceGroup"
-    )
-    destination_group: OrganizationsSourceGroup | None = Field(
-        default=None, validation_alias="destinationGroup", serialization_alias="destinationGroup"
-    )
-    acls: list[OrganizationsPolicyObjectsItem] = Field(default_factory=list)
-    last_entry_rule: str | None = Field(
-        default=None, validation_alias="lastEntryRule", serialization_alias="lastEntryRule"
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
 class UpdateOrganizationAdaptivePolicyPolicySourceGroup(_BaseSchema):
     """The source adaptive policy group (requires one unique attribute)."""
 
@@ -5113,53 +4281,11 @@ class UpdateOrganizationAdaptivePolicyPolicySourceGroup(_BaseSchema):
     sgt: int | None = None
 
 
-class UpdateOrganizationAdaptivePolicySettingsResponse(_BaseSchema):
-    """Response for updateOrganizationAdaptivePolicySettings operation."""
-
-    enabled_networks: list[str] = Field(
-        default_factory=list,
-        validation_alias="enabledNetworks",
-        serialization_alias="enabledNetworks",
-    )
-
-
 class UpdateOrganizationAdminNetworksItem(_BaseSchema):
     """Item schema for networks."""
 
     id: str
     access: str
-
-
-class UpdateOrganizationAdminResponse(_BaseSchema):
-    """Response for updateOrganizationAdmin operation."""
-
-    id: str | None = None
-    name: str | None = None
-    email: str | None = None
-    org_access: str | None = Field(
-        default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
-    )
-    account_status: str | None = Field(
-        default=None, validation_alias="accountStatus", serialization_alias="accountStatus"
-    )
-    two_factor_auth_enabled: bool | None = Field(
-        default=None,
-        validation_alias="twoFactorAuthEnabled",
-        serialization_alias="twoFactorAuthEnabled",
-    )
-    has_api_key: bool | None = Field(
-        default=None, validation_alias="hasApiKey", serialization_alias="hasApiKey"
-    )
-    last_active: datetime | None = Field(
-        default=None, validation_alias="lastActive", serialization_alias="lastActive"
-    )
-    tags: list[OrganizationsTagsItem] = Field(default_factory=list)
-    networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
-    authentication_method: str | None = Field(
-        default=None,
-        validation_alias="authenticationMethod",
-        serialization_alias="authenticationMethod",
-    )
 
 
 class UpdateOrganizationAdminTagsItem(_BaseSchema):
@@ -5191,36 +4317,10 @@ class UpdateOrganizationAlertsProfileRecipients(_BaseSchema):
     )
 
 
-class UpdateOrganizationAlertsProfileResponse(_BaseSchema):
-    """Response for updateOrganizationAlertsProfile operation."""
-
-    id: str | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    enabled: bool | None = None
-    alert_condition: OrganizationsAlertCondition | None = Field(
-        default=None, validation_alias="alertCondition", serialization_alias="alertCondition"
-    )
-    recipients: OrganizationsRecipients | None = None
-    network_tags: list[str] = Field(
-        default_factory=list, validation_alias="networkTags", serialization_alias="networkTags"
-    )
-    description: str | None = None
-
-
 class UpdateOrganizationApi(_BaseSchema):
     """API-specific settings."""
 
     enabled: bool | None = None
-
-
-class UpdateOrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
-    """Response for updateOrganizationBrandingPoliciesPriorities operation."""
-
-    branding_policy_ids: list[str] = Field(
-        default_factory=list,
-        validation_alias="brandingPolicyIds",
-        serialization_alias="brandingPolicyIds",
-    )
 
 
 class UpdateOrganizationBrandingPolicyAdminSettings(_BaseSchema):
@@ -5308,73 +4408,12 @@ class UpdateOrganizationBrandingPolicyHelpSettings(_BaseSchema):
     )
 
 
-class UpdateOrganizationBrandingPolicyResponse(_BaseSchema):
-    """Response for updateOrganizationBrandingPolicy operation."""
-
-    name: str | None = None
-    enabled: bool | None = None
-    admin_settings: OrganizationsAdminSettings | None = Field(
-        default=None, validation_alias="adminSettings", serialization_alias="adminSettings"
-    )
-    help_settings: OrganizationsHelpSettings | None = Field(
-        default=None, validation_alias="helpSettings", serialization_alias="helpSettings"
-    )
-    custom_logo: OrganizationsCustomLogo | None = Field(
-        default=None, validation_alias="customLogo", serialization_alias="customLogo"
-    )
-
-
-class UpdateOrganizationConfigTemplateResponse(_BaseSchema):
-    """Response for updateOrganizationConfigTemplate operation."""
-
-    id: str | None = None
-    name: str | None = None
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
-
-
 class UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem(_BaseSchema):
     """Item schema for devices."""
 
     serial: str | None = None
     switchports: str | None = None
     interface: str | None = None
-
-
-class UpdateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
-    """Response for updateOrganizationDevicesPacketCaptureSchedule operation."""
-
-    schedule_id: str | None = Field(
-        default=None, validation_alias="scheduleId", serialization_alias="scheduleId"
-    )
-    devices: list[OrganizationsDevicesItem2] = Field(default_factory=list)
-    name: str | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
-    notes: str | None = None
-    duration: int | None = None
-    filter_expression: str | None = Field(
-        default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
-    )
-    created_at: str | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: str | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    capture_count: int | None = Field(
-        default=None, validation_alias="captureCount", serialization_alias="captureCount"
-    )
-    last_capture_id: str | None = Field(
-        default=None, validation_alias="lastCaptureId", serialization_alias="lastCaptureId"
-    )
-    enabled: bool | None = None
-    priority: int | None = None
-    schedule: OrganizationsSchedule | None = None
-    warnings: list[str] = Field(default_factory=list)
 
 
 class UpdateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
@@ -5390,78 +4429,6 @@ class UpdateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
     recurrence: int | None = None
 
 
-class UpdateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
-    """Response for updateOrganizationEarlyAccessFeaturesOptIn operation."""
-
-    id: str | None = None
-    short_name: str | None = Field(
-        default=None, validation_alias="shortName", serialization_alias="shortName"
-    )
-    limit_scope_to_networks: list[OrganizationsPolicyObjectsItem] = Field(
-        default_factory=list,
-        validation_alias="limitScopeToNetworks",
-        serialization_alias="limitScopeToNetworks",
-    )
-    opt_out_eligibility: (
-        GetOrganizationEarlyAccessFeaturesOptInsResponseOptOutEligibility | None
-    ) = Field(
-        default=None, validation_alias="optOutEligibility", serialization_alias="optOutEligibility"
-    )
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-
-
-class UpdateOrganizationLicenseResponse(_BaseSchema):
-    """Response for updateOrganizationLicense operation."""
-
-    id: str | None = None
-    license_type: str | None = Field(
-        default=None, validation_alias="licenseType", serialization_alias="licenseType"
-    )
-    license_key: str | None = Field(
-        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
-    )
-    order_number: str | None = Field(
-        default=None, validation_alias="orderNumber", serialization_alias="orderNumber"
-    )
-    device_serial: str | None = Field(
-        default=None, validation_alias="deviceSerial", serialization_alias="deviceSerial"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    state: str | None = None
-    seat_count: int | None = Field(
-        default=None, validation_alias="seatCount", serialization_alias="seatCount"
-    )
-    total_duration_in_days: int | None = Field(
-        default=None,
-        validation_alias="totalDurationInDays",
-        serialization_alias="totalDurationInDays",
-    )
-    duration_in_days: int | None = Field(
-        default=None, validation_alias="durationInDays", serialization_alias="durationInDays"
-    )
-    permanently_queued_licenses: list[OrganizationsPermanentlyQueuedLicensesItem] = Field(
-        default_factory=list,
-        validation_alias="permanentlyQueuedLicenses",
-        serialization_alias="permanentlyQueuedLicenses",
-    )
-    claim_date: str | None = Field(
-        default=None, validation_alias="claimDate", serialization_alias="claimDate"
-    )
-    activation_date: str | None = Field(
-        default=None, validation_alias="activationDate", serialization_alias="activationDate"
-    )
-    expiration_date: str | None = Field(
-        default=None, validation_alias="expirationDate", serialization_alias="expirationDate"
-    )
-    head_license_id: str | None = Field(
-        default=None, validation_alias="headLicenseId", serialization_alias="headLicenseId"
-    )
-
-
 class UpdateOrganizationLoginSecurityApiAuthentication(_BaseSchema):
     """Details for indicating whether organization will restrict access to API (but not Dashboard)
     to certain IP addresses.
@@ -5474,171 +4441,10 @@ class UpdateOrganizationLoginSecurityApiAuthentication(_BaseSchema):
     )
 
 
-class UpdateOrganizationLoginSecurityResponse(_BaseSchema):
-    """Response for updateOrganizationLoginSecurity operation."""
-
-    enforce_password_expiration: bool | None = Field(
-        default=None,
-        validation_alias="enforcePasswordExpiration",
-        serialization_alias="enforcePasswordExpiration",
-    )
-    password_expiration_days: int | None = Field(
-        default=None,
-        validation_alias="passwordExpirationDays",
-        serialization_alias="passwordExpirationDays",
-    )
-    enforce_different_passwords: bool | None = Field(
-        default=None,
-        validation_alias="enforceDifferentPasswords",
-        serialization_alias="enforceDifferentPasswords",
-    )
-    num_different_passwords: int | None = Field(
-        default=None,
-        validation_alias="numDifferentPasswords",
-        serialization_alias="numDifferentPasswords",
-    )
-    enforce_strong_passwords: bool | None = Field(
-        default=None,
-        validation_alias="enforceStrongPasswords",
-        serialization_alias="enforceStrongPasswords",
-    )
-    minimum_password_length: int | None = Field(
-        default=None,
-        validation_alias="minimumPasswordLength",
-        serialization_alias="minimumPasswordLength",
-    )
-    enforce_account_lockout: bool | None = Field(
-        default=None,
-        validation_alias="enforceAccountLockout",
-        serialization_alias="enforceAccountLockout",
-    )
-    account_lockout_attempts: int | None = Field(
-        default=None,
-        validation_alias="accountLockoutAttempts",
-        serialization_alias="accountLockoutAttempts",
-    )
-    enforce_idle_timeout: bool | None = Field(
-        default=None,
-        validation_alias="enforceIdleTimeout",
-        serialization_alias="enforceIdleTimeout",
-    )
-    idle_timeout_minutes: int | None = Field(
-        default=None,
-        validation_alias="idleTimeoutMinutes",
-        serialization_alias="idleTimeoutMinutes",
-    )
-    enforce_two_factor_auth: bool | None = Field(
-        default=None,
-        validation_alias="enforceTwoFactorAuth",
-        serialization_alias="enforceTwoFactorAuth",
-    )
-    enforce_login_ip_ranges: bool | None = Field(
-        default=None,
-        validation_alias="enforceLoginIpRanges",
-        serialization_alias="enforceLoginIpRanges",
-    )
-    login_ip_ranges: list[str] = Field(
-        default_factory=list, validation_alias="loginIpRanges", serialization_alias="loginIpRanges"
-    )
-    api_authentication: GetOrganizationLoginSecurityResponseApiAuthentication | None = Field(
-        default=None, validation_alias="apiAuthentication", serialization_alias="apiAuthentication"
-    )
-
-
 class UpdateOrganizationManagement(_BaseSchema):
     """Information about the organization's management system."""
 
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
-
-
-class UpdateOrganizationPolicyObjectResponse(_BaseSchema):
-    """Response for updateOrganizationPolicyObject operation."""
-
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    cidr: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    group_ids: list[str] = Field(
-        default_factory=list, validation_alias="groupIds", serialization_alias="groupIds"
-    )
-    network_ids: list[str] = Field(
-        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
-    )
-
-
-class UpdateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
-    """Response for updateOrganizationPolicyObjectsGroup operation."""
-
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    object_ids: list[int] = Field(
-        default_factory=list, validation_alias="objectIds", serialization_alias="objectIds"
-    )
-    network_ids: list[str] = Field(
-        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
-    )
-
-
-class UpdateOrganizationResponse(_BaseSchema):
-    """Response for updateOrganization operation."""
-
-    id: str | None = None
-    name: str | None = None
-    url: str | None = None
-    api: OrganizationsApi | None = None
-    licensing: OrganizationsLicensing | None = None
-    cloud: OrganizationsCloud | None = None
-    management: OrganizationsManagement | None = None
-
-
-class UpdateOrganizationSamlIdpResponse(RootModel[list["UpdateOrganizationSamlIdpResponseItem"]]):
-    """Response for updateOrganizationSamlIdp operation."""
-
-
-class UpdateOrganizationSamlIdpResponseItem(_BaseSchema):
-    """Schema for UpdateOrganizationSamlIdpResponseItem."""
-
-    idp_id: str | None = Field(default=None, validation_alias="idpId", serialization_alias="idpId")
-    consumer_url: str | None = Field(
-        default=None, validation_alias="consumerUrl", serialization_alias="consumerUrl"
-    )
-    vision_consumer_url: str | None = Field(
-        default=None, validation_alias="visionConsumerUrl", serialization_alias="visionConsumerUrl"
-    )
-    x509cert_sha1_fingerprint: str | None = Field(
-        default=None,
-        validation_alias="x509certSha1Fingerprint",
-        serialization_alias="x509certSha1Fingerprint",
-    )
-    sso_login_url: str | None = Field(
-        default=None, validation_alias="ssoLoginUrl", serialization_alias="ssoLoginUrl"
-    )
-    slo_logout_url: str | None = Field(
-        default=None, validation_alias="sloLogoutUrl", serialization_alias="sloLogoutUrl"
-    )
-
-
-class UpdateOrganizationSamlResponse(_BaseSchema):
-    """Response for updateOrganizationSaml operation."""
-
-    enabled: bool | None = None
-    sp_initiated: GetOrganizationSamlResponseSpInitiated | None = Field(
-        default=None, validation_alias="spInitiated", serialization_alias="spInitiated"
-    )
 
 
 class UpdateOrganizationSamlRoleNetworksItem(_BaseSchema):
@@ -5646,19 +4452,6 @@ class UpdateOrganizationSamlRoleNetworksItem(_BaseSchema):
 
     id: str
     access: str
-
-
-class UpdateOrganizationSamlRoleResponse(_BaseSchema):
-    """Response for updateOrganizationSamlRole operation."""
-
-    id: str | None = None
-    role: str | None = None
-    org_access: str | None = Field(
-        default=None, validation_alias="orgAccess", serialization_alias="orgAccess"
-    )
-    networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
-    tags: list[OrganizationsTagsItem] = Field(default_factory=list)
-    camera: list[OrganizationsCameraItem] = Field(default_factory=list)
 
 
 class UpdateOrganizationSamlRoleTagsItem(_BaseSchema):
@@ -5673,31 +4466,3 @@ class UpdateOrganizationSamlSpInitiated(_BaseSchema):
 
     subdomain: str | None = None
     idp_id: str | None = Field(default=None, validation_alias="idpId", serialization_alias="idpId")
-
-
-class UpdateOrganizationSnmpResponse(_BaseSchema):
-    """Response for updateOrganizationSnmp operation."""
-
-    v2c_enabled: bool | None = Field(
-        default=None, validation_alias="v2cEnabled", serialization_alias="v2cEnabled"
-    )
-    v2_community_string: str | None = Field(
-        default=None, validation_alias="v2CommunityString", serialization_alias="v2CommunityString"
-    )
-    v3_enabled: bool | None = Field(
-        default=None, validation_alias="v3Enabled", serialization_alias="v3Enabled"
-    )
-    v3_user: str | None = Field(
-        default=None, validation_alias="v3User", serialization_alias="v3User"
-    )
-    v3_auth_mode: str | None = Field(
-        default=None, validation_alias="v3AuthMode", serialization_alias="v3AuthMode"
-    )
-    v3_priv_mode: str | None = Field(
-        default=None, validation_alias="v3PrivMode", serialization_alias="v3PrivMode"
-    )
-    peer_ips: list[str] = Field(
-        default_factory=list, validation_alias="peerIps", serialization_alias="peerIps"
-    )
-    hostname: str | None = None
-    port: int | None = None

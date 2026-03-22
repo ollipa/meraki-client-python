@@ -13,19 +13,6 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class CreateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
-    """Response for createOrganizationInsightMonitoredMediaServer operation."""
-
-    id: str | None = None
-    name: str | None = None
-    address: str | None = None
-    best_effort_monitoring_enabled: bool | None = Field(
-        default=None,
-        validation_alias="bestEffortMonitoringEnabled",
-        serialization_alias="bestEffortMonitoringEnabled",
-    )
-
-
 class GetNetworkInsightApplicationHealthByTimeResponse(
     RootModel[list["GetNetworkInsightApplicationHealthByTimeResponseItem"]]
 ):
@@ -85,36 +72,10 @@ class GetOrganizationInsightApplicationsResponseItem(_BaseSchema):
     thresholds: InsightThresholds | None = None
 
 
-class GetOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
-    """Response for getOrganizationInsightMonitoredMediaServer operation."""
-
-    id: str | None = None
-    name: str | None = None
-    address: str | None = None
-    best_effort_monitoring_enabled: bool | None = Field(
-        default=None,
-        validation_alias="bestEffortMonitoringEnabled",
-        serialization_alias="bestEffortMonitoringEnabled",
-    )
-
-
 class GetOrganizationInsightMonitoredMediaServersResponse(
-    RootModel[list["GetOrganizationInsightMonitoredMediaServersResponseItem"]]
+    RootModel[list["OrganizationInsightMonitoredMediaServerResponse"]]
 ):
     """Response for getOrganizationInsightMonitoredMediaServers operation."""
-
-
-class GetOrganizationInsightMonitoredMediaServersResponseItem(_BaseSchema):
-    """Schema for GetOrganizationInsightMonitoredMediaServersResponseItem."""
-
-    id: str | None = None
-    name: str | None = None
-    address: str | None = None
-    best_effort_monitoring_enabled: bool | None = Field(
-        default=None,
-        validation_alias="bestEffortMonitoringEnabled",
-        serialization_alias="bestEffortMonitoringEnabled",
-    )
 
 
 class InsightByNetworkItem(_BaseSchema):
@@ -138,8 +99,8 @@ class InsightThresholds(_BaseSchema):
     )
 
 
-class UpdateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
-    """Response for updateOrganizationInsightMonitoredMediaServer operation."""
+class OrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
+    """Schema for OrganizationInsightMonitoredMediaServerResponse."""
 
     id: str | None = None
     name: str | None = None

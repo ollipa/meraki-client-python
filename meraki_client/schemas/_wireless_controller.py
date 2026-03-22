@@ -76,28 +76,6 @@ class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsI
     interfaces: list[WirelessControllerInterfacesItem3] = Field(default_factory=list)
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice
-    ResponseItemsItem.
-    """
-
-    serial: str | None = None
-    interfaces: list[WirelessControllerInterfacesItem2] = Field(default_factory=list)
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem.
-    """
-
-    serial: str | None = None
-    readings: list[WirelessControllerReadingsItem2] = Field(default_factory=list)
-
-
 class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem(
     _BaseSchema
 ):

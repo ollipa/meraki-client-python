@@ -13,26 +13,6 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class CreateDeviceSensorCommandResponse(_BaseSchema):
-    """Response for createDeviceSensorCommand operation."""
-
-    command_id: str | None = Field(
-        default=None, validation_alias="commandId", serialization_alias="commandId"
-    )
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    completed_at: datetime | None = Field(
-        default=None, validation_alias="completedAt", serialization_alias="completedAt"
-    )
-    created_by: SensorCreatedBy | None = Field(
-        default=None, validation_alias="createdBy", serialization_alias="createdBy"
-    )
-    operation: str | None = None
-    status: str | None = None
-    errors: list[str] = Field(default_factory=list)
-
-
 class CreateNetworkSensorAlertsProfileConditionsItem(_BaseSchema):
     """Item schema for conditions."""
 
@@ -54,31 +34,14 @@ class CreateNetworkSensorAlertsProfileRecipients(_BaseSchema):
     )
 
 
-class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Response for createNetworkSensorAlertsProfile operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
-    schedule: SensorSchedule | None = None
-    conditions: list[SensorConditionsItem]
-    recipients: SensorRecipients | None = None
-    serials: list[str] = Field(default_factory=list)
-    include_sensor_url: bool | None = Field(
-        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
-    )
-    message: str | None = None
-
-
 class CreateNetworkSensorAlertsProfileSchedule(_BaseSchema):
     """The sensor schedule to use with the alert profile."""
 
     id: str | None = None
 
 
-class GetDeviceSensorCommandResponse(_BaseSchema):
-    """Response for getDeviceSensorCommand operation."""
+class DeviceSensorCommandResponse(_BaseSchema):
+    """Schema for DeviceSensorCommandResponse."""
 
     command_id: str | None = Field(
         default=None, validation_alias="commandId", serialization_alias="commandId"
@@ -97,37 +60,13 @@ class GetDeviceSensorCommandResponse(_BaseSchema):
     errors: list[str] = Field(default_factory=list)
 
 
-class GetDeviceSensorCommandsResponse(RootModel[list["GetDeviceSensorCommandsResponseItem"]]):
-    """Response for getDeviceSensorCommands operation."""
+class DeviceSensorRelationshipsResponse(_BaseSchema):
+    """Schema for DeviceSensorRelationshipsResponse."""
+
+    livestream: DeviceSensorRelationshipsResponseLivestream | None = None
 
 
-class GetDeviceSensorCommandsResponseItem(_BaseSchema):
-    """Schema for GetDeviceSensorCommandsResponseItem."""
-
-    command_id: str | None = Field(
-        default=None, validation_alias="commandId", serialization_alias="commandId"
-    )
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    completed_at: datetime | None = Field(
-        default=None, validation_alias="completedAt", serialization_alias="completedAt"
-    )
-    created_by: SensorCreatedBy | None = Field(
-        default=None, validation_alias="createdBy", serialization_alias="createdBy"
-    )
-    operation: str | None = None
-    status: str | None = None
-    errors: list[str] = Field(default_factory=list)
-
-
-class GetDeviceSensorRelationshipsResponse(_BaseSchema):
-    """Response for getDeviceSensorRelationships operation."""
-
-    livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
-
-
-class GetDeviceSensorRelationshipsResponseLivestream(_BaseSchema):
+class DeviceSensorRelationshipsResponseLivestream(_BaseSchema):
     """A role defined between an MT sensor and an MV camera that adds the camera's livestream to
     the sensor's details page. Snapshots from the camera will also appear in alert notifications
     that the sensor triggers.
@@ -138,6 +77,10 @@ class GetDeviceSensorRelationshipsResponseLivestream(_BaseSchema):
         validation_alias="relatedDevices",
         serialization_alias="relatedDevices",
     )
+
+
+class GetDeviceSensorCommandsResponse(RootModel[list["DeviceSensorCommandResponse"]]):
+    """Response for getDeviceSensorCommands operation."""
 
 
 class GetNetworkSensorAlertsCurrentOverviewByMetricResponse(_BaseSchema):
@@ -200,68 +143,12 @@ class GetNetworkSensorAlertsOverviewByMetricResponseItem(_BaseSchema):
     counts: GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts | None = None
 
 
-class GetNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Response for getNetworkSensorAlertsProfile operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
-    schedule: SensorSchedule | None = None
-    conditions: list[SensorConditionsItem]
-    recipients: SensorRecipients | None = None
-    serials: list[str] = Field(default_factory=list)
-    include_sensor_url: bool | None = Field(
-        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
-    )
-    message: str | None = None
-
-
-class GetNetworkSensorAlertsProfilesResponse(
-    RootModel[list["GetNetworkSensorAlertsProfilesResponseItem"]]
-):
+class GetNetworkSensorAlertsProfilesResponse(RootModel[list["NetworkSensorAlertsProfileResponse"]]):
     """Response for getNetworkSensorAlertsProfiles operation."""
 
 
-class GetNetworkSensorAlertsProfilesResponseItem(_BaseSchema):
-    """Schema for GetNetworkSensorAlertsProfilesResponseItem."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
-    schedule: SensorSchedule | None = None
-    conditions: list[SensorConditionsItem]
-    recipients: SensorRecipients | None = None
-    serials: list[str] = Field(default_factory=list)
-    include_sensor_url: bool | None = Field(
-        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
-    )
-    message: str | None = None
-
-
-class GetNetworkSensorMqttBrokerResponse(_BaseSchema):
-    """Response for getNetworkSensorMqttBroker operation."""
-
-    mqtt_broker_id: str | None = Field(
-        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
-    )
-    enabled: bool | None = None
-
-
-class GetNetworkSensorMqttBrokersResponse(
-    RootModel[list["GetNetworkSensorMqttBrokersResponseItem"]]
-):
+class GetNetworkSensorMqttBrokersResponse(RootModel[list["NetworkSensorMqttBrokerResponse"]]):
     """Response for getNetworkSensorMqttBrokers operation."""
-
-
-class GetNetworkSensorMqttBrokersResponseItem(_BaseSchema):
-    """Schema for GetNetworkSensorMqttBrokersResponseItem."""
-
-    mqtt_broker_id: str | None = Field(
-        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
-    )
-    enabled: bool | None = None
 
 
 class GetNetworkSensorRelationshipsResponse(
@@ -358,6 +245,32 @@ class GetOrganizationSensorReadingsLatestResponseItem(_BaseSchema):
     serial: str | None = None
     network: SensorSchedule | None = None
     readings: list[SensorReadingsItem] = Field(default_factory=list)
+
+
+class NetworkSensorAlertsProfileResponse(_BaseSchema):
+    """Schema for NetworkSensorAlertsProfileResponse."""
+
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
+    name: str | None = None
+    schedule: SensorSchedule | None = None
+    conditions: list[SensorConditionsItem]
+    recipients: SensorRecipients | None = None
+    serials: list[str] = Field(default_factory=list)
+    include_sensor_url: bool | None = Field(
+        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
+    )
+    message: str | None = None
+
+
+class NetworkSensorMqttBrokerResponse(_BaseSchema):
+    """Schema for NetworkSensorMqttBrokerResponse."""
+
+    mqtt_broker_id: str | None = Field(
+        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
+    )
+    enabled: bool | None = None
 
 
 class SensorAmbient(_BaseSchema):
@@ -613,7 +526,7 @@ class SensorRecipients(_BaseSchema):
 class SensorRelationships(_BaseSchema):
     """An object describing the relationships defined between the device and other devices."""
 
-    livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
+    livestream: DeviceSensorRelationshipsResponseLivestream | None = None
 
 
 class SensorRemoteLockoutSwitch(_BaseSchema):
@@ -743,12 +656,6 @@ class UpdateDeviceSensorRelationshipsLivestreamRelatedDevicesItem(_BaseSchema):
     serial: str
 
 
-class UpdateDeviceSensorRelationshipsResponse(_BaseSchema):
-    """Response for updateDeviceSensorRelationships operation."""
-
-    livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
-
-
 class UpdateNetworkSensorAlertsProfileConditionsItem(_BaseSchema):
     """Item schema for conditions."""
 
@@ -770,33 +677,7 @@ class UpdateNetworkSensorAlertsProfileRecipients(_BaseSchema):
     )
 
 
-class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Response for updateNetworkSensorAlertsProfile operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    name: str | None = None
-    schedule: SensorSchedule | None = None
-    conditions: list[SensorConditionsItem]
-    recipients: SensorRecipients | None = None
-    serials: list[str] = Field(default_factory=list)
-    include_sensor_url: bool | None = Field(
-        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
-    )
-    message: str | None = None
-
-
 class UpdateNetworkSensorAlertsProfileSchedule(_BaseSchema):
     """The sensor schedule to use with the alert profile."""
 
     id: str | None = None
-
-
-class UpdateNetworkSensorMqttBrokerResponse(_BaseSchema):
-    """Response for updateNetworkSensorMqttBroker operation."""
-
-    mqtt_broker_id: str | None = Field(
-        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
-    )
-    enabled: bool | None = None

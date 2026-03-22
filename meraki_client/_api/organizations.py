@@ -11,53 +11,38 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
-    AssignOrganizationLicensesSeatsResponse,
     BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced,
     BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateResponse,
     BulkUpdateOrganizationDevicesDetailsDetailsItem,
     BulkUpdateOrganizationDevicesDetailsResponse,
     ClaimIntoOrganizationInventoryLicensesItem,
-    ClaimIntoOrganizationInventoryResponse,
     ClaimIntoOrganizationLicensesItem,
     ClaimIntoOrganizationResponse,
     ClaimOrganizationInventoryOrdersResponse,
     ClaimOrganizationInventoryOrdersSubscriptionsItem,
-    CloneOrganizationResponse,
     CombineOrganizationNetworksResponse,
     CreateNetworkMoveNetwork,
     CreateNetworkMoveOrganizations,
     CreateNetworkMoveResponse,
     CreateOrganizationActionBatchActionsItem,
     CreateOrganizationActionBatchCallback,
-    CreateOrganizationActionBatchResponse,
-    CreateOrganizationAdaptivePolicyAclResponse,
     CreateOrganizationAdaptivePolicyAclRulesItem,
     CreateOrganizationAdaptivePolicyGroupPolicyObjectsItem,
-    CreateOrganizationAdaptivePolicyGroupResponse,
     CreateOrganizationAdaptivePolicyPolicyAclsItem,
     CreateOrganizationAdaptivePolicyPolicyDestinationGroup,
-    CreateOrganizationAdaptivePolicyPolicyResponse,
     CreateOrganizationAdaptivePolicyPolicySourceGroup,
     CreateOrganizationAdminNetworksItem,
-    CreateOrganizationAdminResponse,
     CreateOrganizationAdminTagsItem,
     CreateOrganizationAlertsProfileAlertCondition,
     CreateOrganizationAlertsProfileRecipients,
-    CreateOrganizationAlertsProfileResponse,
     CreateOrganizationBrandingPolicyAdminSettings,
     CreateOrganizationBrandingPolicyCustomLogo,
     CreateOrganizationBrandingPolicyHelpSettings,
-    CreateOrganizationBrandingPolicyResponse,
-    CreateOrganizationConfigTemplateResponse,
     CreateOrganizationDevicesControllerMigrationResponse,
     CreateOrganizationDevicesPacketCaptureCaptureAdvanced,
-    CreateOrganizationDevicesPacketCaptureCaptureResponse,
     CreateOrganizationDevicesPacketCaptureScheduleDevicesItem,
-    CreateOrganizationDevicesPacketCaptureScheduleResponse,
     CreateOrganizationDevicesPacketCaptureScheduleSchedule,
-    CreateOrganizationEarlyAccessFeaturesOptInResponse,
-    CreateOrganizationInventoryDevicesSwapsBulkResponse,
     CreateOrganizationInventoryDevicesSwapsBulkSwapsItem,
     CreateOrganizationInventoryOnboardingCloudMonitoringImportDevicesItem,
     CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse,
@@ -66,34 +51,15 @@ from meraki_client.schemas import (
     CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse,
     CreateOrganizationManagement,
     CreateOrganizationNetworkResponse,
-    CreateOrganizationPolicyObjectResponse,
-    CreateOrganizationPolicyObjectsGroupResponse,
-    CreateOrganizationResponse,
-    CreateOrganizationSamlIdpResponse,
     CreateOrganizationSamlRoleNetworksItem,
-    CreateOrganizationSamlRoleResponse,
     CreateOrganizationSamlRoleTagsItem,
-    CreateOrganizationSplashThemeAssetResponse,
     CreateOrganizationSplashThemeResponse,
     DictResponse,
     DisableOrganizationIntegrationsXdrNetworksNetworksItem,
-    DisableOrganizationIntegrationsXdrNetworksResponse,
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
-    EnableOrganizationIntegrationsXdrNetworksResponse,
     GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse,
-    GetNetworkMovesResponseItemsItem,
-    GetOrganizationActionBatchesResponseItem,
-    GetOrganizationActionBatchResponse,
-    GetOrganizationAdaptivePolicyAclResponse,
-    GetOrganizationAdaptivePolicyAclsResponseItem,
-    GetOrganizationAdaptivePolicyGroupResponse,
-    GetOrganizationAdaptivePolicyGroupsResponseItem,
     GetOrganizationAdaptivePolicyOverviewResponse,
-    GetOrganizationAdaptivePolicyPoliciesResponseItem,
-    GetOrganizationAdaptivePolicyPolicyResponse,
-    GetOrganizationAdaptivePolicySettingsResponse,
     GetOrganizationAdminsResponseItem,
-    GetOrganizationAlertsProfilesResponseItem,
     GetOrganizationApiRequestsOverviewResponse,
     GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem,
     GetOrganizationApiRequestsResponseItem,
@@ -102,24 +68,16 @@ from meraki_client.schemas import (
     GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem,
     GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem,
     GetOrganizationAssuranceAlertsOverviewResponse,
-    GetOrganizationAssuranceAlertsResponseItem,
     GetOrganizationAssuranceAlertsTaxonomyCategoriesResponseItem,
     GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem,
-    GetOrganizationBrandingPoliciesPrioritiesResponse,
-    GetOrganizationBrandingPoliciesResponseItem,
-    GetOrganizationBrandingPolicyResponse,
     GetOrganizationClientsBandwidthUsageHistoryResponseItem,
     GetOrganizationClientsOverviewResponse,
     GetOrganizationClientsSearchResponseRecordsItem,
-    GetOrganizationConfigTemplateResponse,
-    GetOrganizationConfigTemplatesResponseItem,
     GetOrganizationConfigurationChangesResponseItem,
     GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem,
     GetOrganizationDevicesAvailabilitiesResponseItem,
     GetOrganizationDevicesControllerMigrationsResponseItemsItem,
     GetOrganizationDevicesOverviewByModelResponse,
-    GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem,
-    GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem,
     GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem,
     GetOrganizationDevicesProvisioningStatusesResponseItem,
     GetOrganizationDevicesResponseItem,
@@ -128,7 +86,7 @@ from meraki_client.schemas import (
     GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem,
     GetOrganizationDevicesUplinksAddressesByDeviceResponseItem,
     GetOrganizationDevicesUplinksLossAndLatencyResponseItem,
-    GetOrganizationEarlyAccessFeaturesOptInResponse,
+    GetOrganizationEarlyAccessFeaturesOptInsResponse,
     GetOrganizationEarlyAccessFeaturesResponseItem,
     GetOrganizationFirmwareUpgradesByDeviceResponseItem,
     GetOrganizationFirmwareUpgradesResponseItem,
@@ -140,30 +98,15 @@ from meraki_client.schemas import (
     GetOrganizationInventoryDeviceResponse,
     GetOrganizationInventoryDevicesEoxOverviewResponse,
     GetOrganizationInventoryDevicesResponseItem,
-    GetOrganizationInventoryDevicesSwapsBulkResponse,
     GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem,
-    GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem,
-    GetOrganizationLicenseResponse,
     GetOrganizationLicensesOverviewResponse,
-    GetOrganizationLicensesResponseItem,
-    GetOrganizationLoginSecurityResponse,
     GetOrganizationNetworksResponseItem,
     GetOrganizationPoliciesAssignmentsByClientResponseItem,
-    GetOrganizationPolicyObjectResponse,
-    GetOrganizationPolicyObjectsGroupResponse,
-    GetOrganizationPolicyObjectsGroupsResponseItem,
-    GetOrganizationPolicyObjectsResponseItem,
     GetOrganizationResponse,
     GetOrganizationSamlIdpResponse,
-    GetOrganizationSamlIdpsResponseItem,
-    GetOrganizationSamlResponse,
-    GetOrganizationSamlRoleResponse,
-    GetOrganizationSamlRolesResponseItem,
+    GetOrganizationSamlIdpsResponse,
     GetOrganizationSaseNetworksEligibleResponseItemsItem,
-    GetOrganizationSnmpResponse,
     GetOrganizationSplashAssetResponse,
-    GetOrganizationSplashThemesResponseItem,
-    GetOrganizationsResponseItem,
     GetOrganizationSummaryTopAppliancesByUtilizationResponseItem,
     GetOrganizationSummaryTopApplicationsByUsageResponseItem,
     GetOrganizationSummaryTopApplicationsCategoriesByUsageResponseItem,
@@ -180,54 +123,55 @@ from meraki_client.schemas import (
     GetOrganizationWebhooksLogsResponseItem,
     MoveOrganizationLicensesResponse,
     MoveOrganizationLicensesSeatsResponse,
+    OrganizationActionBatchResponse,
+    OrganizationAdaptivePolicyAclResponse,
+    OrganizationAdaptivePolicyGroupResponse,
+    OrganizationAdaptivePolicyPolicyResponse,
+    OrganizationAdaptivePolicySettingsResponse,
+    OrganizationAdminResponse,
+    OrganizationAlertsProfileResponse,
+    OrganizationBrandingPoliciesPrioritiesResponse,
+    OrganizationBrandingPolicyResponse,
+    OrganizationConfigTemplateResponse,
+    OrganizationDevicesPacketCaptureCaptureResponse,
+    OrganizationDevicesPacketCaptureScheduleResponse,
+    OrganizationIntegrationsXdrNetworksResponse,
+    OrganizationInventoryDevicesSwapsBulkResponse,
+    OrganizationLicenseResponse,
+    OrganizationLicensesSeatsResponse,
+    OrganizationLoginSecurityResponse,
+    OrganizationPolicyObjectResponse,
+    OrganizationPolicyObjectsGroupResponse,
+    OrganizationResponse,
+    OrganizationSamlResponse,
+    OrganizationSamlRoleResponse,
+    OrganizationSnmpResponse,
     OrganizationsPolicyObjectsItem,
     PreviewOrganizationInventoryOrdersResponse,
     ReleaseFromOrganizationInventoryResponse,
-    RenewOrganizationLicensesSeatsResponse,
     ReorderOrganizationDevicesPacketCaptureSchedulesOrderItem,
     ReorderOrganizationDevicesPacketCaptureSchedulesResponse,
-    StopOrganizationDevicesPacketCaptureCaptureResponse,
     UpdateOrganizationActionBatchResponse,
-    UpdateOrganizationAdaptivePolicyAclResponse,
     UpdateOrganizationAdaptivePolicyAclRulesItem,
     UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem,
-    UpdateOrganizationAdaptivePolicyGroupResponse,
     UpdateOrganizationAdaptivePolicyPolicyAclsItem,
     UpdateOrganizationAdaptivePolicyPolicyDestinationGroup,
-    UpdateOrganizationAdaptivePolicyPolicyResponse,
     UpdateOrganizationAdaptivePolicyPolicySourceGroup,
-    UpdateOrganizationAdaptivePolicySettingsResponse,
     UpdateOrganizationAdminNetworksItem,
-    UpdateOrganizationAdminResponse,
     UpdateOrganizationAdminTagsItem,
     UpdateOrganizationAlertsProfileAlertCondition,
     UpdateOrganizationAlertsProfileRecipients,
-    UpdateOrganizationAlertsProfileResponse,
     UpdateOrganizationApi,
-    UpdateOrganizationBrandingPoliciesPrioritiesResponse,
     UpdateOrganizationBrandingPolicyAdminSettings,
     UpdateOrganizationBrandingPolicyCustomLogo,
     UpdateOrganizationBrandingPolicyHelpSettings,
-    UpdateOrganizationBrandingPolicyResponse,
-    UpdateOrganizationConfigTemplateResponse,
     UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem,
-    UpdateOrganizationDevicesPacketCaptureScheduleResponse,
     UpdateOrganizationDevicesPacketCaptureScheduleSchedule,
-    UpdateOrganizationEarlyAccessFeaturesOptInResponse,
-    UpdateOrganizationLicenseResponse,
     UpdateOrganizationLoginSecurityApiAuthentication,
-    UpdateOrganizationLoginSecurityResponse,
     UpdateOrganizationManagement,
-    UpdateOrganizationPolicyObjectResponse,
-    UpdateOrganizationPolicyObjectsGroupResponse,
-    UpdateOrganizationResponse,
-    UpdateOrganizationSamlIdpResponse,
-    UpdateOrganizationSamlResponse,
     UpdateOrganizationSamlRoleNetworksItem,
-    UpdateOrganizationSamlRoleResponse,
     UpdateOrganizationSamlRoleTagsItem,
     UpdateOrganizationSamlSpInitiated,
-    UpdateOrganizationSnmpResponse,
 )
 from meraki_client.types import (
     CreateOrganizationAdaptivePolicyAclIpVersion,
@@ -317,7 +261,7 @@ class Organizations:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationsResponseItem]:
+    ) -> PaginatedResponse[GetOrganizationResponse]:
         """List the organizations that the user has privileges on.
 
         [API documentation: getOrganizations](https://developer.cisco.com/meraki/api-v1/#!get-organizations)
@@ -396,12 +340,12 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationsResponseItem,
+            item_schema=GetOrganizationResponse,
         )
 
     def create_organization(
         self, name: str, *, management: CreateOrganizationManagement | None = None
-    ) -> CreateOrganizationResponse:
+    ) -> OrganizationResponse:
         """Create a new organization.
 
         [API documentation: createOrganization](https://developer.cisco.com/meraki/api-v1/#!create-organization)
@@ -458,7 +402,7 @@ class Organizations:
             operation_id="createOrganization",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationResponse,
+            response_schema=OrganizationResponse,
         )
 
     def get_organization(self, organization_id: str) -> GetOrganizationResponse:
@@ -521,7 +465,7 @@ class Organizations:
         name: str | None = None,
         management: UpdateOrganizationManagement | None = None,
         api: UpdateOrganizationApi | None = None,
-    ) -> UpdateOrganizationResponse:
+    ) -> OrganizationResponse:
         """Update an organization.
 
         [API documentation: updateOrganization](https://developer.cisco.com/meraki/api-v1/#!update-organization)
@@ -583,7 +527,7 @@ class Organizations:
             operation_id="updateOrganization",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationResponse,
+            response_schema=OrganizationResponse,
         )
 
     def delete_organization(self, organization_id: str) -> None:
@@ -607,7 +551,7 @@ class Organizations:
 
     def get_organization_action_batches(
         self, organization_id: str, *, status: GetOrganizationActionBatchesStatus | None = None
-    ) -> PaginatedResponse[GetOrganizationActionBatchesResponseItem]:
+    ) -> PaginatedResponse[UpdateOrganizationActionBatchResponse]:
         """Return the list of action batches in the organization.
 
         [API documentation: getOrganizationActionBatches](https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches)
@@ -666,7 +610,7 @@ class Organizations:
             operation_id="getOrganizationActionBatches",
             path=path,
             params=params,
-            item_schema=GetOrganizationActionBatchesResponseItem,
+            item_schema=UpdateOrganizationActionBatchResponse,
         )
 
     def create_organization_action_batch(
@@ -677,7 +621,7 @@ class Organizations:
         confirmed: bool | None = None,
         synchronous: bool | None = None,
         callback: CreateOrganizationActionBatchCallback | None = None,
-    ) -> CreateOrganizationActionBatchResponse:
+    ) -> OrganizationActionBatchResponse:
         """Create an action batch.
 
         [API documentation: createOrganizationActionBatch](https://developer.cisco.com/meraki/api-v1/#!create-organization-action-batch)
@@ -751,12 +695,12 @@ class Organizations:
             operation_id="createOrganizationActionBatch",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationActionBatchResponse,
+            response_schema=OrganizationActionBatchResponse,
         )
 
     def get_organization_action_batch(
         self, *, organization_id: str, action_batch_id: str
-    ) -> GetOrganizationActionBatchResponse:
+    ) -> OrganizationActionBatchResponse:
         """Return an action batch.
 
         [API documentation: getOrganizationActionBatch](https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batch)
@@ -809,7 +753,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationActionBatch",
             path=path,
-            response_schema=GetOrganizationActionBatchResponse,
+            response_schema=OrganizationActionBatchResponse,
         )
 
     def update_organization_action_batch(
@@ -906,7 +850,7 @@ class Organizations:
 
     def get_organization_adaptive_policy_acls(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationAdaptivePolicyAclsResponseItem]:
+    ) -> PaginatedResponse[OrganizationAdaptivePolicyAclResponse]:
         """List adaptive policy ACLs in a organization.
 
         [API documentation: getOrganizationAdaptivePolicyAcls](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acls)
@@ -954,7 +898,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyAcls",
             path=path,
-            item_schema=GetOrganizationAdaptivePolicyAclsResponseItem,
+            item_schema=OrganizationAdaptivePolicyAclResponse,
         )
 
     def create_organization_adaptive_policy_acl(
@@ -965,7 +909,7 @@ class Organizations:
         rules: list[CreateOrganizationAdaptivePolicyAclRulesItem],
         ip_version: CreateOrganizationAdaptivePolicyAclIpVersion,
         description: str | None = None,
-    ) -> CreateOrganizationAdaptivePolicyAclResponse:
+    ) -> OrganizationAdaptivePolicyAclResponse:
         """Creates new adaptive policy ACL.
 
         [API documentation: createOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl)
@@ -1021,12 +965,12 @@ class Organizations:
             operation_id="createOrganizationAdaptivePolicyAcl",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationAdaptivePolicyAclResponse,
+            response_schema=OrganizationAdaptivePolicyAclResponse,
         )
 
     def get_organization_adaptive_policy_acl(
         self, *, organization_id: str, acl_id: str
-    ) -> GetOrganizationAdaptivePolicyAclResponse:
+    ) -> OrganizationAdaptivePolicyAclResponse:
         """Returns the adaptive policy ACL information.
 
         [API documentation: getOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acl)
@@ -1069,7 +1013,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyAcl",
             path=path,
-            response_schema=GetOrganizationAdaptivePolicyAclResponse,
+            response_schema=OrganizationAdaptivePolicyAclResponse,
         )
 
     def update_organization_adaptive_policy_acl(
@@ -1081,7 +1025,7 @@ class Organizations:
         description: str | None = None,
         rules: list[UpdateOrganizationAdaptivePolicyAclRulesItem] | None = None,
         ip_version: UpdateOrganizationAdaptivePolicyAclIpVersion | None = None,
-    ) -> UpdateOrganizationAdaptivePolicyAclResponse:
+    ) -> OrganizationAdaptivePolicyAclResponse:
         """Updates an adaptive policy ACL.
 
         [API documentation: updateOrganizationAdaptivePolicyAcl](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl)
@@ -1140,7 +1084,7 @@ class Organizations:
             operation_id="updateOrganizationAdaptivePolicyAcl",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationAdaptivePolicyAclResponse,
+            response_schema=OrganizationAdaptivePolicyAclResponse,
         )
 
     def delete_organization_adaptive_policy_acl(self, *, organization_id: str, acl_id: str) -> None:
@@ -1166,7 +1110,7 @@ class Organizations:
 
     def get_organization_adaptive_policy_groups(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationAdaptivePolicyGroupsResponseItem]:
+    ) -> PaginatedResponse[OrganizationAdaptivePolicyGroupResponse]:
         """List adaptive policy groups in a organization.
 
         [API documentation: getOrganizationAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-groups)
@@ -1212,7 +1156,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyGroups",
             path=path,
-            item_schema=GetOrganizationAdaptivePolicyGroupsResponseItem,
+            item_schema=OrganizationAdaptivePolicyGroupResponse,
         )
 
     def create_organization_adaptive_policy_group(
@@ -1223,7 +1167,7 @@ class Organizations:
         sgt: int,
         description: str | None = None,
         policy_objects: list[CreateOrganizationAdaptivePolicyGroupPolicyObjectsItem] | None = None,
-    ) -> CreateOrganizationAdaptivePolicyGroupResponse:
+    ) -> OrganizationAdaptivePolicyGroupResponse:
         """Creates a new adaptive policy group.
 
         [API documentation: createOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group)
@@ -1282,12 +1226,12 @@ class Organizations:
             operation_id="createOrganizationAdaptivePolicyGroup",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationAdaptivePolicyGroupResponse,
+            response_schema=OrganizationAdaptivePolicyGroupResponse,
         )
 
     def get_organization_adaptive_policy_group(
         self, *, organization_id: str, id: str
-    ) -> GetOrganizationAdaptivePolicyGroupResponse:
+    ) -> OrganizationAdaptivePolicyGroupResponse:
         """Returns an adaptive policy group.
 
         [API documentation: getOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-group)
@@ -1328,7 +1272,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyGroup",
             path=path,
-            response_schema=GetOrganizationAdaptivePolicyGroupResponse,
+            response_schema=OrganizationAdaptivePolicyGroupResponse,
         )
 
     def update_organization_adaptive_policy_group(
@@ -1340,7 +1284,7 @@ class Organizations:
         sgt: int | None = None,
         description: str | None = None,
         policy_objects: list[UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem] | None = None,
-    ) -> UpdateOrganizationAdaptivePolicyGroupResponse:
+    ) -> OrganizationAdaptivePolicyGroupResponse:
         """Updates an adaptive policy group.
 
         [API documentation: updateOrganizationAdaptivePolicyGroup](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group)
@@ -1401,7 +1345,7 @@ class Organizations:
             operation_id="updateOrganizationAdaptivePolicyGroup",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationAdaptivePolicyGroupResponse,
+            response_schema=OrganizationAdaptivePolicyGroupResponse,
         )
 
     def delete_organization_adaptive_policy_group(self, *, organization_id: str, id: str) -> None:
@@ -1472,7 +1416,7 @@ class Organizations:
 
     def get_organization_adaptive_policy_policies(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationAdaptivePolicyPoliciesResponseItem]:
+    ) -> PaginatedResponse[OrganizationAdaptivePolicyPolicyResponse]:
         """List adaptive policies in an organization.
 
         [API documentation: getOrganizationAdaptivePolicyPolicies](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policies)
@@ -1524,7 +1468,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyPolicies",
             path=path,
-            item_schema=GetOrganizationAdaptivePolicyPoliciesResponseItem,
+            item_schema=OrganizationAdaptivePolicyPolicyResponse,
         )
 
     def create_organization_adaptive_policy_policy(
@@ -1535,7 +1479,7 @@ class Organizations:
         destination_group: CreateOrganizationAdaptivePolicyPolicyDestinationGroup,
         acls: list[CreateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
         last_entry_rule: CreateOrganizationAdaptivePolicyPolicyLastEntryRule | None = None,
-    ) -> CreateOrganizationAdaptivePolicyPolicyResponse:
+    ) -> OrganizationAdaptivePolicyPolicyResponse:
         """Add an Adaptive Policy.
 
         [API documentation: createOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy)
@@ -1599,12 +1543,12 @@ class Organizations:
             operation_id="createOrganizationAdaptivePolicyPolicy",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationAdaptivePolicyPolicyResponse,
+            response_schema=OrganizationAdaptivePolicyPolicyResponse,
         )
 
     def get_organization_adaptive_policy_policy(
         self, *, organization_id: str, id: str
-    ) -> GetOrganizationAdaptivePolicyPolicyResponse:
+    ) -> OrganizationAdaptivePolicyPolicyResponse:
         """Return an adaptive policy.
 
         [API documentation: getOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policy)
@@ -1651,7 +1595,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicyPolicy",
             path=path,
-            response_schema=GetOrganizationAdaptivePolicyPolicyResponse,
+            response_schema=OrganizationAdaptivePolicyPolicyResponse,
         )
 
     def update_organization_adaptive_policy_policy(
@@ -1663,7 +1607,7 @@ class Organizations:
         destination_group: UpdateOrganizationAdaptivePolicyPolicyDestinationGroup | None = None,
         acls: list[UpdateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
         last_entry_rule: UpdateOrganizationAdaptivePolicyPolicyLastEntryRule | None = None,
-    ) -> UpdateOrganizationAdaptivePolicyPolicyResponse:
+    ) -> OrganizationAdaptivePolicyPolicyResponse:
         """Update an Adaptive Policy.
 
         [API documentation: updateOrganizationAdaptivePolicyPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy)
@@ -1729,7 +1673,7 @@ class Organizations:
             operation_id="updateOrganizationAdaptivePolicyPolicy",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationAdaptivePolicyPolicyResponse,
+            response_schema=OrganizationAdaptivePolicyPolicyResponse,
         )
 
     def delete_organization_adaptive_policy_policy(self, *, organization_id: str, id: str) -> None:
@@ -1755,7 +1699,7 @@ class Organizations:
 
     def get_organization_adaptive_policy_settings(
         self, organization_id: str
-    ) -> GetOrganizationAdaptivePolicySettingsResponse:
+    ) -> OrganizationAdaptivePolicySettingsResponse:
         """Returns global adaptive policy settings in an organization.
 
         [API documentation: getOrganizationAdaptivePolicySettings](https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-settings)
@@ -1786,12 +1730,12 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationAdaptivePolicySettings",
             path=path,
-            response_schema=GetOrganizationAdaptivePolicySettingsResponse,
+            response_schema=OrganizationAdaptivePolicySettingsResponse,
         )
 
     def update_organization_adaptive_policy_settings(
         self, organization_id: str, *, enabled_networks: list[str] | None = None
-    ) -> UpdateOrganizationAdaptivePolicySettingsResponse:
+    ) -> OrganizationAdaptivePolicySettingsResponse:
         """Update global adaptive policy settings.
 
         [API documentation: updateOrganizationAdaptivePolicySettings](https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings)
@@ -1828,7 +1772,7 @@ class Organizations:
             operation_id="updateOrganizationAdaptivePolicySettings",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationAdaptivePolicySettingsResponse,
+            response_schema=OrganizationAdaptivePolicySettingsResponse,
         )
 
     def get_organization_admins(
@@ -1906,7 +1850,7 @@ class Organizations:
         tags: list[CreateOrganizationAdminTagsItem] | None = None,
         networks: list[CreateOrganizationAdminNetworksItem] | None = None,
         authentication_method: CreateOrganizationAdminAuthenticationMethod | None = None,
-    ) -> CreateOrganizationAdminResponse:
+    ) -> OrganizationAdminResponse:
         """Create a new dashboard administrator.
 
         [API documentation: createOrganizationAdmin](https://developer.cisco.com/meraki/api-v1/#!create-organization-admin)
@@ -1977,7 +1921,7 @@ class Organizations:
             operation_id="createOrganizationAdmin",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationAdminResponse,
+            response_schema=OrganizationAdminResponse,
         )
 
     def update_organization_admin(
@@ -1989,7 +1933,7 @@ class Organizations:
         org_access: UpdateOrganizationAdminOrgAccess | None = None,
         tags: list[UpdateOrganizationAdminTagsItem] | None = None,
         networks: list[UpdateOrganizationAdminNetworksItem] | None = None,
-    ) -> UpdateOrganizationAdminResponse:
+    ) -> OrganizationAdminResponse:
         """Update an administrator.
 
         [API documentation: updateOrganizationAdmin](https://developer.cisco.com/meraki/api-v1/#!update-organization-admin)
@@ -2055,7 +1999,7 @@ class Organizations:
             operation_id="updateOrganizationAdmin",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationAdminResponse,
+            response_schema=OrganizationAdminResponse,
         )
 
     def delete_organization_admin(self, *, organization_id: str, admin_id: str) -> None:
@@ -2081,7 +2025,7 @@ class Organizations:
 
     def get_organization_alerts_profiles(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationAlertsProfilesResponseItem]:
+    ) -> PaginatedResponse[OrganizationAlertsProfileResponse]:
         """List all organization-wide alert configurations.
 
         [API documentation: getOrganizationAlertsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-alerts-profiles)
@@ -2135,7 +2079,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationAlertsProfiles",
             path=path,
-            item_schema=GetOrganizationAlertsProfilesResponseItem,
+            item_schema=OrganizationAlertsProfileResponse,
         )
 
     def create_organization_alerts_profile(
@@ -2147,7 +2091,7 @@ class Organizations:
         recipients: CreateOrganizationAlertsProfileRecipients,
         network_tags: list[str],
         description: str | None = None,
-    ) -> CreateOrganizationAlertsProfileResponse:
+    ) -> OrganizationAlertsProfileResponse:
         """Create an organization-wide alert configuration.
 
         [API documentation: createOrganizationAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile)
@@ -2212,7 +2156,7 @@ class Organizations:
             operation_id="createOrganizationAlertsProfile",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationAlertsProfileResponse,
+            response_schema=OrganizationAlertsProfileResponse,
         )
 
     def update_organization_alerts_profile(
@@ -2226,7 +2170,7 @@ class Organizations:
         recipients: UpdateOrganizationAlertsProfileRecipients | None = None,
         network_tags: list[str] | None = None,
         description: str | None = None,
-    ) -> UpdateOrganizationAlertsProfileResponse:
+    ) -> OrganizationAlertsProfileResponse:
         """Update an organization-wide alert config.
 
         [API documentation: updateOrganizationAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile)
@@ -2296,7 +2240,7 @@ class Organizations:
             operation_id="updateOrganizationAlertsProfile",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationAlertsProfileResponse,
+            response_schema=OrganizationAlertsProfileResponse,
         )
 
     def delete_organization_alerts_profile(
@@ -2670,7 +2614,7 @@ class Organizations:
         suppress_alerts_for_offline_nodes: bool | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationAssuranceAlertsResponseItem]:
+    ) -> PaginatedResponse[GetOrganizationAssuranceAlertResponse]:
         """Return all health alerts for an organization.
 
         [API documentation: getOrganizationAssuranceAlerts](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts)
@@ -2806,7 +2750,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationAssuranceAlertsResponseItem,
+            item_schema=GetOrganizationAssuranceAlertResponse,
         )
 
     def dismiss_organization_assurance_alerts(
@@ -3516,7 +3460,7 @@ class Organizations:
 
     def get_organization_branding_policies(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationBrandingPoliciesResponseItem]:
+    ) -> PaginatedResponse[OrganizationBrandingPolicyResponse]:
         """List the branding policies of an organization.
 
         [API documentation: getOrganizationBrandingPolicies](https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies)
@@ -3583,7 +3527,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationBrandingPolicies",
             path=path,
-            item_schema=GetOrganizationBrandingPoliciesResponseItem,
+            item_schema=OrganizationBrandingPolicyResponse,
         )
 
     def create_organization_branding_policy(
@@ -3595,7 +3539,7 @@ class Organizations:
         admin_settings: CreateOrganizationBrandingPolicyAdminSettings | None = None,
         help_settings: CreateOrganizationBrandingPolicyHelpSettings | None = None,
         custom_logo: CreateOrganizationBrandingPolicyCustomLogo | None = None,
-    ) -> CreateOrganizationBrandingPolicyResponse:
+    ) -> OrganizationBrandingPolicyResponse:
         """Add a new branding policy to an organization.
 
         [API documentation: createOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy)
@@ -3679,12 +3623,12 @@ class Organizations:
             operation_id="createOrganizationBrandingPolicy",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationBrandingPolicyResponse,
+            response_schema=OrganizationBrandingPolicyResponse,
         )
 
     def get_organization_branding_policies_priorities(
         self, organization_id: str
-    ) -> GetOrganizationBrandingPoliciesPrioritiesResponse:
+    ) -> OrganizationBrandingPoliciesPrioritiesResponse:
         """Return the branding policy IDs of an organization in priority order.
 
         [API documentation: getOrganizationBrandingPoliciesPriorities](https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies-priorities)
@@ -3714,12 +3658,12 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationBrandingPoliciesPriorities",
             path=path,
-            response_schema=GetOrganizationBrandingPoliciesPrioritiesResponse,
+            response_schema=OrganizationBrandingPoliciesPrioritiesResponse,
         )
 
     def update_organization_branding_policies_priorities(
         self, organization_id: str, *, branding_policy_ids: list[str] | None = None
-    ) -> UpdateOrganizationBrandingPoliciesPrioritiesResponse:
+    ) -> OrganizationBrandingPoliciesPrioritiesResponse:
         """Update the priority ordering of an organization's branding policies.
 
         [API documentation: updateOrganizationBrandingPoliciesPriorities](https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities)
@@ -3756,12 +3700,12 @@ class Organizations:
             operation_id="updateOrganizationBrandingPoliciesPriorities",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationBrandingPoliciesPrioritiesResponse,
+            response_schema=OrganizationBrandingPoliciesPrioritiesResponse,
         )
 
     def get_organization_branding_policy(
         self, *, organization_id: str, branding_policy_id: str
-    ) -> GetOrganizationBrandingPolicyResponse:
+    ) -> OrganizationBrandingPolicyResponse:
         """Return a branding policy.
 
         [API documentation: getOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policy)
@@ -3823,7 +3767,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationBrandingPolicy",
             path=path,
-            response_schema=GetOrganizationBrandingPolicyResponse,
+            response_schema=OrganizationBrandingPolicyResponse,
         )
 
     def update_organization_branding_policy(
@@ -3836,7 +3780,7 @@ class Organizations:
         admin_settings: UpdateOrganizationBrandingPolicyAdminSettings | None = None,
         help_settings: UpdateOrganizationBrandingPolicyHelpSettings | None = None,
         custom_logo: UpdateOrganizationBrandingPolicyCustomLogo | None = None,
-    ) -> UpdateOrganizationBrandingPolicyResponse:
+    ) -> OrganizationBrandingPolicyResponse:
         """Update a branding policy.
 
         [API documentation: updateOrganizationBrandingPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy)
@@ -3921,7 +3865,7 @@ class Organizations:
             operation_id="updateOrganizationBrandingPolicy",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationBrandingPolicyResponse,
+            response_schema=OrganizationBrandingPolicyResponse,
         )
 
     def delete_organization_branding_policy(
@@ -4313,7 +4257,7 @@ class Organizations:
             item_schema=GetOrganizationClientsSearchResponseRecordsItem,
         )
 
-    def clone_organization(self, *, organization_id: str, name: str) -> CloneOrganizationResponse:
+    def clone_organization(self, *, organization_id: str, name: str) -> OrganizationResponse:
         """Create a new organization by cloning the addressed organization.
 
         [API documentation: cloneOrganization](https://developer.cisco.com/meraki/api-v1/#!clone-organization)
@@ -4369,12 +4313,12 @@ class Organizations:
             operation_id="cloneOrganization",
             path=path,
             json=payload,
-            response_schema=CloneOrganizationResponse,
+            response_schema=OrganizationResponse,
         )
 
     def get_organization_config_templates(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationConfigTemplatesResponseItem]:
+    ) -> PaginatedResponse[OrganizationConfigTemplateResponse]:
         """List the configuration templates for this organization.
 
         [API documentation: getOrganizationConfigTemplates](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-templates)
@@ -4414,7 +4358,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationConfigTemplates",
             path=path,
-            item_schema=GetOrganizationConfigTemplatesResponseItem,
+            item_schema=OrganizationConfigTemplateResponse,
         )
 
     def create_organization_config_template(
@@ -4424,7 +4368,7 @@ class Organizations:
         name: str,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,
-    ) -> CreateOrganizationConfigTemplateResponse:
+    ) -> OrganizationConfigTemplateResponse:
         """Create a new configuration template.
 
         [API documentation: createOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template)
@@ -4474,12 +4418,12 @@ class Organizations:
             operation_id="createOrganizationConfigTemplate",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationConfigTemplateResponse,
+            response_schema=OrganizationConfigTemplateResponse,
         )
 
     def get_organization_config_template(
         self, *, organization_id: str, config_template_id: str
-    ) -> GetOrganizationConfigTemplateResponse:
+    ) -> OrganizationConfigTemplateResponse:
         """Return a single configuration template.
 
         [API documentation: getOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template)
@@ -4514,7 +4458,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationConfigTemplate",
             path=path,
-            response_schema=GetOrganizationConfigTemplateResponse,
+            response_schema=OrganizationConfigTemplateResponse,
         )
 
     def update_organization_config_template(
@@ -4524,7 +4468,7 @@ class Organizations:
         config_template_id: str,
         name: str | None = None,
         time_zone: str | None = None,
-    ) -> UpdateOrganizationConfigTemplateResponse:
+    ) -> OrganizationConfigTemplateResponse:
         """Update a configuration template.
 
         [API documentation: updateOrganizationConfigTemplate](https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template)
@@ -4571,7 +4515,7 @@ class Organizations:
             operation_id="updateOrganizationConfigTemplate",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationConfigTemplateResponse,
+            response_schema=OrganizationConfigTemplateResponse,
         )
 
     def delete_organization_config_template(
@@ -5381,7 +5325,7 @@ class Organizations:
         sort_order: GetOrganizationDevicesPacketCaptureCapturesSortOrder | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem]:
+    ) -> PaginatedResponse[OrganizationDevicesPacketCaptureCaptureResponse]:
         """List Packet Captures.
 
         [API documentation: getOrganizationDevicesPacketCaptureCaptures](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-captures)
@@ -5535,7 +5479,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem,
+            item_schema=OrganizationDevicesPacketCaptureCaptureResponse,
         )
 
     def create_organization_devices_packet_capture_capture(
@@ -5552,7 +5496,7 @@ class Organizations:
         filter_expression: str | None = None,
         interface: str | None = None,
         advanced: CreateOrganizationDevicesPacketCaptureCaptureAdvanced | None = None,
-    ) -> CreateOrganizationDevicesPacketCaptureCaptureResponse:
+    ) -> OrganizationDevicesPacketCaptureCaptureResponse:
         """Perform a packet capture on a device and store in Meraki Cloud.
 
         [API documentation: createOrganizationDevicesPacketCaptureCapture](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-capture)
@@ -5654,7 +5598,7 @@ class Organizations:
             operation_id="createOrganizationDevicesPacketCaptureCapture",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationDevicesPacketCaptureCaptureResponse,
+            response_schema=OrganizationDevicesPacketCaptureCaptureResponse,
         )
 
     def bulk_organization_devices_packet_capture_captures_create(
@@ -5855,7 +5799,7 @@ class Organizations:
 
     def stop_organization_devices_packet_capture_capture(
         self, *, organization_id: str, capture_id: str, serials: list[str]
-    ) -> StopOrganizationDevicesPacketCaptureCaptureResponse:
+    ) -> OrganizationDevicesPacketCaptureCaptureResponse:
         """Stop a specific packet capture (not supported for Catalyst devices).
 
         [API documentation: stopOrganizationDevicesPacketCaptureCapture](https://developer.cisco.com/meraki/api-v1/#!stop-organization-devices-packet-capture-capture)
@@ -5930,7 +5874,7 @@ class Organizations:
             operation_id="stopOrganizationDevicesPacketCaptureCapture",
             path=path,
             json=payload,
-            response_schema=StopOrganizationDevicesPacketCaptureCaptureResponse,
+            response_schema=OrganizationDevicesPacketCaptureCaptureResponse,
         )
 
     def get_organization_devices_packet_capture_schedules(
@@ -5940,7 +5884,7 @@ class Organizations:
         schedule_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
         device_ids: list[str] | None = None,
-    ) -> PaginatedResponse[GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem]:
+    ) -> PaginatedResponse[OrganizationDevicesPacketCaptureScheduleResponse]:
         """List the Packet Capture Schedules.
 
         [API documentation: getOrganizationDevicesPacketCaptureSchedules](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-schedules)
@@ -6033,7 +5977,7 @@ class Organizations:
             operation_id="getOrganizationDevicesPacketCaptureSchedules",
             path=path,
             params=params,
-            item_schema=GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem,
+            item_schema=OrganizationDevicesPacketCaptureScheduleResponse,
         )
 
     def create_organization_devices_packet_capture_schedule(
@@ -6047,7 +5991,7 @@ class Organizations:
         filter_expression: str | None = None,
         enabled: bool | None = None,
         schedule: CreateOrganizationDevicesPacketCaptureScheduleSchedule | None = None,
-    ) -> CreateOrganizationDevicesPacketCaptureScheduleResponse:
+    ) -> OrganizationDevicesPacketCaptureScheduleResponse:
         """Create a schedule for packet capture.
 
         [API documentation: createOrganizationDevicesPacketCaptureSchedule](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule)
@@ -6137,7 +6081,7 @@ class Organizations:
             operation_id="createOrganizationDevicesPacketCaptureSchedule",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationDevicesPacketCaptureScheduleResponse,
+            response_schema=OrganizationDevicesPacketCaptureScheduleResponse,
         )
 
     def reorder_organization_devices_packet_capture_schedules(
@@ -6197,7 +6141,7 @@ class Organizations:
         filter_expression: str | None = None,
         enabled: bool | None = None,
         schedule: UpdateOrganizationDevicesPacketCaptureScheduleSchedule | None = None,
-    ) -> UpdateOrganizationDevicesPacketCaptureScheduleResponse:
+    ) -> OrganizationDevicesPacketCaptureScheduleResponse:
         """Update a schedule for packet capture.
 
         [API documentation: updateOrganizationDevicesPacketCaptureSchedule](https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule)
@@ -6289,7 +6233,7 @@ class Organizations:
             operation_id="updateOrganizationDevicesPacketCaptureSchedule",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationDevicesPacketCaptureScheduleResponse,
+            response_schema=OrganizationDevicesPacketCaptureScheduleResponse,
         )
 
     def delete_organization_devices_packet_capture_schedule(
@@ -7219,7 +7163,7 @@ class Organizations:
         organization_id: str,
         short_name: str,
         limit_scope_to_networks: list[str] | None = None,
-    ) -> CreateOrganizationEarlyAccessFeaturesOptInResponse:
+    ) -> GetOrganizationEarlyAccessFeaturesOptInsResponse:
         """Create a new early access feature opt-in for an organization.
 
         [API documentation: createOrganizationEarlyAccessFeaturesOptIn](https://developer.cisco.com/meraki/api-v1/#!create-organization-early-access-features-opt-in)
@@ -7270,12 +7214,12 @@ class Organizations:
             operation_id="createOrganizationEarlyAccessFeaturesOptIn",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationEarlyAccessFeaturesOptInResponse,
+            response_schema=GetOrganizationEarlyAccessFeaturesOptInsResponse,
         )
 
     def get_organization_early_access_features_opt_in(
         self, *, organization_id: str, opt_in_id: str
-    ) -> GetOrganizationEarlyAccessFeaturesOptInResponse:
+    ) -> GetOrganizationEarlyAccessFeaturesOptInsResponse:
         """Show an early access feature opt-in for an organization.
 
         [API documentation: getOrganizationEarlyAccessFeaturesOptIn](https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-in)
@@ -7319,7 +7263,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationEarlyAccessFeaturesOptIn",
             path=path,
-            response_schema=GetOrganizationEarlyAccessFeaturesOptInResponse,
+            response_schema=GetOrganizationEarlyAccessFeaturesOptInsResponse,
         )
 
     def update_organization_early_access_features_opt_in(
@@ -7328,7 +7272,7 @@ class Organizations:
         organization_id: str,
         opt_in_id: str,
         limit_scope_to_networks: list[str] | None = None,
-    ) -> UpdateOrganizationEarlyAccessFeaturesOptInResponse:
+    ) -> GetOrganizationEarlyAccessFeaturesOptInsResponse:
         """Update an early access feature opt-in for an organization.
 
         [API documentation: updateOrganizationEarlyAccessFeaturesOptIn](https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in)
@@ -7378,7 +7322,7 @@ class Organizations:
             operation_id="updateOrganizationEarlyAccessFeaturesOptIn",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationEarlyAccessFeaturesOptInResponse,
+            response_schema=GetOrganizationEarlyAccessFeaturesOptInsResponse,
         )
 
     def delete_organization_early_access_features_opt_in(
@@ -8088,7 +8032,7 @@ class Organizations:
         *,
         organization_id: str,
         networks: list[DisableOrganizationIntegrationsXdrNetworksNetworksItem],
-    ) -> DisableOrganizationIntegrationsXdrNetworksResponse:
+    ) -> OrganizationIntegrationsXdrNetworksResponse:
         """Disable XDR on networks.
 
         [API documentation: disableOrganizationIntegrationsXdrNetworks](https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks)
@@ -8132,7 +8076,7 @@ class Organizations:
             operation_id="disableOrganizationIntegrationsXdrNetworks",
             path=path,
             json=payload,
-            response_schema=DisableOrganizationIntegrationsXdrNetworksResponse,
+            response_schema=OrganizationIntegrationsXdrNetworksResponse,
         )
 
     def enable_organization_integrations_xdr_networks(
@@ -8140,7 +8084,7 @@ class Organizations:
         *,
         organization_id: str,
         networks: list[EnableOrganizationIntegrationsXdrNetworksNetworksItem],
-    ) -> EnableOrganizationIntegrationsXdrNetworksResponse:
+    ) -> OrganizationIntegrationsXdrNetworksResponse:
         """Enable XDR on networks.
 
         [API documentation: enableOrganizationIntegrationsXdrNetworks](https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks)
@@ -8184,7 +8128,7 @@ class Organizations:
             operation_id="enableOrganizationIntegrationsXdrNetworks",
             path=path,
             json=payload,
-            response_schema=EnableOrganizationIntegrationsXdrNetworksResponse,
+            response_schema=OrganizationIntegrationsXdrNetworksResponse,
         )
 
     def claim_into_organization_inventory(
@@ -8194,7 +8138,7 @@ class Organizations:
         orders: list[str] | None = None,
         serials: list[str] | None = None,
         licenses: list[ClaimIntoOrganizationInventoryLicensesItem] | None = None,
-    ) -> ClaimIntoOrganizationInventoryResponse:
+    ) -> ClaimIntoOrganizationResponse:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
         [API documentation: claimIntoOrganizationInventory](https://developer.cisco.com/meraki/api-v1/#!claim-into-organization-inventory)
@@ -8245,7 +8189,7 @@ class Organizations:
             operation_id="claimIntoOrganizationInventory",
             path=path,
             json=payload,
-            response_schema=ClaimIntoOrganizationInventoryResponse,
+            response_schema=ClaimIntoOrganizationResponse,
         )
 
     def get_organization_inventory_devices(
@@ -8443,7 +8387,7 @@ class Organizations:
         *,
         organization_id: str,
         swaps: list[CreateOrganizationInventoryDevicesSwapsBulkSwapsItem],
-    ) -> CreateOrganizationInventoryDevicesSwapsBulkResponse:
+    ) -> OrganizationInventoryDevicesSwapsBulkResponse:
         """Swap the devices identified by devices.old with a devices.new, then perform the :afterAction on the devices.old.
 
         [API documentation: createOrganizationInventoryDevicesSwapsBulk](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-devices-swaps-bulk)
@@ -8499,12 +8443,12 @@ class Organizations:
             operation_id="createOrganizationInventoryDevicesSwapsBulk",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationInventoryDevicesSwapsBulkResponse,
+            response_schema=OrganizationInventoryDevicesSwapsBulkResponse,
         )
 
     def get_organization_inventory_devices_swaps_bulk(
         self, *, organization_id: str, id: str
-    ) -> GetOrganizationInventoryDevicesSwapsBulkResponse:
+    ) -> OrganizationInventoryDevicesSwapsBulkResponse:
         """List of device swaps for a given request ID ({id}).
 
         [API documentation: getOrganizationInventoryDevicesSwapsBulk](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices-swaps-bulk)
@@ -8556,7 +8500,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationInventoryDevicesSwapsBulk",
             path=path,
-            response_schema=GetOrganizationInventoryDevicesSwapsBulkResponse,
+            response_schema=OrganizationInventoryDevicesSwapsBulkResponse,
         )
 
     def get_organization_inventory_device(
@@ -8768,7 +8712,7 @@ class Organizations:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem]:
+    ) -> PaginatedResponse[CreateOrganizationNetworkResponse]:
         """Returns list of networks eligible for adding cloud monitored device.
 
         [API documentation: getOrganizationInventoryOnboardingCloudMonitoringNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-networks)
@@ -8847,7 +8791,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem,
+            item_schema=CreateOrganizationNetworkResponse,
         )
 
     def create_organization_inventory_onboarding_cloud_monitoring_prepare(
@@ -9114,7 +9058,7 @@ class Organizations:
         state: GetOrganizationLicensesState | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationLicensesResponseItem]:
+    ) -> PaginatedResponse[OrganizationLicenseResponse]:
         """List the licenses for an organization.
 
         [API documentation: getOrganizationLicenses](https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses)
@@ -9204,12 +9148,12 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationLicensesResponseItem,
+            item_schema=OrganizationLicenseResponse,
         )
 
     def assign_organization_licenses_seats(
         self, *, organization_id: str, license_id: str, network_id: str, seat_count: int
-    ) -> AssignOrganizationLicensesSeatsResponse:
+    ) -> OrganizationLicensesSeatsResponse:
         """Assign SM seats to a network.
 
         [API documentation: assignOrganizationLicensesSeats](https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats)
@@ -9274,7 +9218,7 @@ class Organizations:
             operation_id="assignOrganizationLicensesSeats",
             path=path,
             json=payload,
-            response_schema=AssignOrganizationLicensesSeatsResponse,
+            response_schema=OrganizationLicensesSeatsResponse,
         )
 
     def move_organization_licenses(
@@ -9457,7 +9401,7 @@ class Organizations:
 
     def renew_organization_licenses_seats(
         self, *, organization_id: str, license_id_to_renew: str, unused_license_id: str
-    ) -> RenewOrganizationLicensesSeatsResponse:
+    ) -> OrganizationLicensesSeatsResponse:
         """Renew SM seats of a license.
 
         [API documentation: renewOrganizationLicensesSeats](https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats)
@@ -9521,12 +9465,12 @@ class Organizations:
             operation_id="renewOrganizationLicensesSeats",
             path=path,
             json=payload,
-            response_schema=RenewOrganizationLicensesSeatsResponse,
+            response_schema=OrganizationLicensesSeatsResponse,
         )
 
     def get_organization_license(
         self, *, organization_id: str, license_id: str
-    ) -> GetOrganizationLicenseResponse:
+    ) -> OrganizationLicenseResponse:
         """Display a license.
 
         [API documentation: getOrganizationLicense](https://developer.cisco.com/meraki/api-v1/#!get-organization-license)
@@ -9576,12 +9520,12 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationLicense",
             path=path,
-            response_schema=GetOrganizationLicenseResponse,
+            response_schema=OrganizationLicenseResponse,
         )
 
     def update_organization_license(
         self, *, organization_id: str, license_id: str, device_serial: str | None = None
-    ) -> UpdateOrganizationLicenseResponse:
+    ) -> OrganizationLicenseResponse:
         """Update a license.
 
         [API documentation: updateOrganizationLicense](https://developer.cisco.com/meraki/api-v1/#!update-organization-license)
@@ -9640,12 +9584,12 @@ class Organizations:
             operation_id="updateOrganizationLicense",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationLicenseResponse,
+            response_schema=OrganizationLicenseResponse,
         )
 
     def get_organization_login_security(
         self, organization_id: str
-    ) -> GetOrganizationLoginSecurityResponse:
+    ) -> OrganizationLoginSecurityResponse:
         """Returns the login security settings for an organization.
 
         [API documentation: getOrganizationLoginSecurity](https://developer.cisco.com/meraki/api-v1/#!get-organization-login-security)
@@ -9695,7 +9639,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationLoginSecurity",
             path=path,
-            response_schema=GetOrganizationLoginSecurityResponse,
+            response_schema=OrganizationLoginSecurityResponse,
         )
 
     def update_organization_login_security(
@@ -9716,7 +9660,7 @@ class Organizations:
         enforce_login_ip_ranges: bool | None = None,
         login_ip_ranges: list[str] | None = None,
         api_authentication: UpdateOrganizationLoginSecurityApiAuthentication | None = None,
-    ) -> UpdateOrganizationLoginSecurityResponse:
+    ) -> OrganizationLoginSecurityResponse:
         """Update the login security settings for an organization.
 
         [API documentation: updateOrganizationLoginSecurity](https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security)
@@ -9829,7 +9773,7 @@ class Organizations:
             operation_id="updateOrganizationLoginSecurity",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationLoginSecurityResponse,
+            response_schema=OrganizationLoginSecurityResponse,
         )
 
     def get_organization_networks(
@@ -10109,7 +10053,7 @@ class Organizations:
         move_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetNetworkMovesResponseItemsItem]:
+    ) -> PaginatedResponse[CreateNetworkMoveResponse]:
         """Return a list of network move operations in the organization.
 
         [API documentation: getNetworkMoves](https://developer.cisco.com/meraki/api-v1/#!get-network-moves)
@@ -10202,7 +10146,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetNetworkMovesResponseItemsItem,
+            item_schema=CreateNetworkMoveResponse,
         )
 
     def create_network_move(
@@ -10457,7 +10401,7 @@ class Organizations:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationPolicyObjectsResponseItem]:
+    ) -> PaginatedResponse[OrganizationPolicyObjectResponse]:
         """Lists Policy Objects belonging to the organization.
 
         [API documentation: getOrganizationPolicyObjects](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects)
@@ -10527,7 +10471,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationPolicyObjectsResponseItem,
+            item_schema=OrganizationPolicyObjectResponse,
         )
 
     def create_organization_policy_object(
@@ -10542,7 +10486,7 @@ class Organizations:
         mask: str | None = None,
         ip: str | None = None,
         group_ids: list[str] | None = None,
-    ) -> CreateOrganizationPolicyObjectResponse:
+    ) -> OrganizationPolicyObjectResponse:
         """Creates a new Policy Object.
 
         [API documentation: createOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object)
@@ -10609,7 +10553,7 @@ class Organizations:
             operation_id="createOrganizationPolicyObject",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationPolicyObjectResponse,
+            response_schema=OrganizationPolicyObjectResponse,
         )
 
     def get_organization_policy_objects_groups(
@@ -10621,7 +10565,7 @@ class Organizations:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationPolicyObjectsGroupsResponseItem]:
+    ) -> PaginatedResponse[OrganizationPolicyObjectsGroupResponse]:
         """Lists Policy Object Groups belonging to the organization.
 
         [API documentation: getOrganizationPolicyObjectsGroups](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-groups)
@@ -10689,7 +10633,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationPolicyObjectsGroupsResponseItem,
+            item_schema=OrganizationPolicyObjectsGroupResponse,
         )
 
     def create_organization_policy_objects_group(
@@ -10699,7 +10643,7 @@ class Organizations:
         name: str,
         category: str | None = None,
         object_ids: list[str] | None = None,
-    ) -> CreateOrganizationPolicyObjectsGroupResponse:
+    ) -> OrganizationPolicyObjectsGroupResponse:
         """Creates a new Policy Object Group.
 
         [API documentation: createOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group)
@@ -10752,12 +10696,12 @@ class Organizations:
             operation_id="createOrganizationPolicyObjectsGroup",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationPolicyObjectsGroupResponse,
+            response_schema=OrganizationPolicyObjectsGroupResponse,
         )
 
     def get_organization_policy_objects_group(
         self, *, organization_id: str, policy_object_group_id: str
-    ) -> GetOrganizationPolicyObjectsGroupResponse:
+    ) -> OrganizationPolicyObjectsGroupResponse:
         """Shows details of a Policy Object Group.
 
         [API documentation: getOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-group)
@@ -10796,7 +10740,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationPolicyObjectsGroup",
             path=path,
-            response_schema=GetOrganizationPolicyObjectsGroupResponse,
+            response_schema=OrganizationPolicyObjectsGroupResponse,
         )
 
     def update_organization_policy_objects_group(
@@ -10806,7 +10750,7 @@ class Organizations:
         policy_object_group_id: str,
         name: str | None = None,
         object_ids: list[str] | None = None,
-    ) -> UpdateOrganizationPolicyObjectsGroupResponse:
+    ) -> OrganizationPolicyObjectsGroupResponse:
         """Updates a Policy Object Group.
 
         [API documentation: updateOrganizationPolicyObjectsGroup](https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group)
@@ -10857,7 +10801,7 @@ class Organizations:
             operation_id="updateOrganizationPolicyObjectsGroup",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationPolicyObjectsGroupResponse,
+            response_schema=OrganizationPolicyObjectsGroupResponse,
         )
 
     def delete_organization_policy_objects_group(
@@ -10885,7 +10829,7 @@ class Organizations:
 
     def get_organization_policy_object(
         self, *, organization_id: str, policy_object_id: str
-    ) -> GetOrganizationPolicyObjectResponse:
+    ) -> OrganizationPolicyObjectResponse:
         """Shows details of a Policy Object.
 
         [API documentation: getOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-object)
@@ -10926,7 +10870,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationPolicyObject",
             path=path,
-            response_schema=GetOrganizationPolicyObjectResponse,
+            response_schema=OrganizationPolicyObjectResponse,
         )
 
     def update_organization_policy_object(
@@ -10940,7 +10884,7 @@ class Organizations:
         mask: str | None = None,
         ip: str | None = None,
         group_ids: list[str] | None = None,
-    ) -> UpdateOrganizationPolicyObjectResponse:
+    ) -> OrganizationPolicyObjectResponse:
         """Updates a Policy Object.
 
         [API documentation: updateOrganizationPolicyObject](https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object)
@@ -11003,7 +10947,7 @@ class Organizations:
             operation_id="updateOrganizationPolicyObject",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationPolicyObjectResponse,
+            response_schema=OrganizationPolicyObjectResponse,
         )
 
     def delete_organization_policy_object(
@@ -11029,7 +10973,7 @@ class Organizations:
             scope="organizations", operation_id="deleteOrganizationPolicyObject", path=path
         )
 
-    def get_organization_saml(self, organization_id: str) -> GetOrganizationSamlResponse:
+    def get_organization_saml(self, organization_id: str) -> OrganizationSamlResponse:
         """Returns the SAML SSO enabled settings for an organization.
 
         [API documentation: getOrganizationSaml](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml)
@@ -11059,7 +11003,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationSaml",
             path=path,
-            response_schema=GetOrganizationSamlResponse,
+            response_schema=OrganizationSamlResponse,
         )
 
     def update_organization_saml(
@@ -11068,7 +11012,7 @@ class Organizations:
         *,
         enabled: bool | None = None,
         sp_initiated: UpdateOrganizationSamlSpInitiated | None = None,
-    ) -> UpdateOrganizationSamlResponse:
+    ) -> OrganizationSamlResponse:
         """Updates the SAML SSO enabled settings for an organization.
 
         [API documentation: updateOrganizationSaml](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml)
@@ -11107,12 +11051,12 @@ class Organizations:
             operation_id="updateOrganizationSaml",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationSamlResponse,
+            response_schema=OrganizationSamlResponse,
         )
 
     def get_organization_saml_idps(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationSamlIdpsResponseItem]:
+    ) -> PaginatedResponse[GetOrganizationSamlIdpResponse]:
         """List the SAML IdPs in your organization.
 
         [API documentation: getOrganizationSamlIdps](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps)
@@ -11150,7 +11094,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationSamlIdps",
             path=path,
-            item_schema=GetOrganizationSamlIdpsResponseItem,
+            item_schema=GetOrganizationSamlIdpResponse,
         )
 
     def create_organization_saml_idp(
@@ -11160,7 +11104,7 @@ class Organizations:
         x509cert_sha1_fingerprint: str,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
-    ) -> CreateOrganizationSamlIdpResponse:
+    ) -> GetOrganizationSamlIdpsResponse:
         """Create a SAML IdP for your organization.
 
         [API documentation: createOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp)
@@ -11207,7 +11151,7 @@ class Organizations:
             operation_id="createOrganizationSamlIdp",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationSamlIdpResponse,
+            response_schema=GetOrganizationSamlIdpsResponse,
         )
 
     def get_organization_saml_idp(
@@ -11256,7 +11200,7 @@ class Organizations:
         x509cert_sha1_fingerprint: str | None = None,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
-    ) -> UpdateOrganizationSamlIdpResponse:
+    ) -> GetOrganizationSamlIdpsResponse:
         """Update a SAML IdP in your organization.
 
         [API documentation: updateOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp)
@@ -11305,7 +11249,7 @@ class Organizations:
             operation_id="updateOrganizationSamlIdp",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationSamlIdpResponse,
+            response_schema=GetOrganizationSamlIdpsResponse,
         )
 
     def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> None:
@@ -11331,7 +11275,7 @@ class Organizations:
 
     def get_organization_saml_roles(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationSamlRolesResponseItem]:
+    ) -> PaginatedResponse[OrganizationSamlRoleResponse]:
         """List the SAML roles for this organization.
 
         [API documentation: getOrganizationSamlRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-roles)
@@ -11384,7 +11328,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationSamlRoles",
             path=path,
-            item_schema=GetOrganizationSamlRolesResponseItem,
+            item_schema=OrganizationSamlRoleResponse,
         )
 
     def create_organization_saml_role(
@@ -11395,7 +11339,7 @@ class Organizations:
         org_access: str,
         tags: list[CreateOrganizationSamlRoleTagsItem] | None = None,
         networks: list[CreateOrganizationSamlRoleNetworksItem] | None = None,
-    ) -> CreateOrganizationSamlRoleResponse:
+    ) -> OrganizationSamlRoleResponse:
         """Create a SAML role.
 
         [API documentation: createOrganizationSamlRole](https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-role)
@@ -11460,12 +11404,12 @@ class Organizations:
             operation_id="createOrganizationSamlRole",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationSamlRoleResponse,
+            response_schema=OrganizationSamlRoleResponse,
         )
 
     def get_organization_saml_role(
         self, *, organization_id: str, saml_role_id: str
-    ) -> GetOrganizationSamlRoleResponse:
+    ) -> OrganizationSamlRoleResponse:
         """Return a SAML role.
 
         [API documentation: getOrganizationSamlRole](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-role)
@@ -11513,7 +11457,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationSamlRole",
             path=path,
-            response_schema=GetOrganizationSamlRoleResponse,
+            response_schema=OrganizationSamlRoleResponse,
         )
 
     def update_organization_saml_role(
@@ -11525,7 +11469,7 @@ class Organizations:
         org_access: str | None = None,
         tags: list[UpdateOrganizationSamlRoleTagsItem] | None = None,
         networks: list[UpdateOrganizationSamlRoleNetworksItem] | None = None,
-    ) -> UpdateOrganizationSamlRoleResponse:
+    ) -> OrganizationSamlRoleResponse:
         """Update a SAML role.
 
         [API documentation: updateOrganizationSamlRole](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-role)
@@ -11592,7 +11536,7 @@ class Organizations:
             operation_id="updateOrganizationSamlRole",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationSamlRoleResponse,
+            response_schema=OrganizationSamlRoleResponse,
         )
 
     def delete_organization_saml_role(self, *, organization_id: str, saml_role_id: str) -> None:
@@ -11720,7 +11664,7 @@ class Organizations:
             item_schema=GetOrganizationSaseNetworksEligibleResponseItemsItem,
         )
 
-    def get_organization_snmp(self, organization_id: str) -> GetOrganizationSnmpResponse:
+    def get_organization_snmp(self, organization_id: str) -> OrganizationSnmpResponse:
         """Return the SNMP settings for an organization.
 
         [API documentation: getOrganizationSnmp](https://developer.cisco.com/meraki/api-v1/#!get-organization-snmp)
@@ -11756,7 +11700,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationSnmp",
             path=path,
-            response_schema=GetOrganizationSnmpResponse,
+            response_schema=OrganizationSnmpResponse,
         )
 
     def update_organization_snmp(
@@ -11770,7 +11714,7 @@ class Organizations:
         v3_priv_mode: UpdateOrganizationSnmpV3PrivMode | None = None,
         v3_priv_pass: str | None = None,
         peer_ips: list[str] | None = None,
-    ) -> UpdateOrganizationSnmpResponse:
+    ) -> OrganizationSnmpResponse:
         """Update the SNMP settings for an organization.
 
         [API documentation: updateOrganizationSnmp](https://developer.cisco.com/meraki/api-v1/#!update-organization-snmp)
@@ -11832,7 +11776,7 @@ class Organizations:
             operation_id="updateOrganizationSnmp",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationSnmpResponse,
+            response_schema=OrganizationSnmpResponse,
         )
 
     def get_organization_splash_asset(
@@ -11893,7 +11837,7 @@ class Organizations:
 
     def get_organization_splash_themes(
         self, organization_id: str
-    ) -> PaginatedResponse[GetOrganizationSplashThemesResponseItem]:
+    ) -> PaginatedResponse[CreateOrganizationSplashThemeResponse]:
         """List Splash Themes.
 
         [API documentation: getOrganizationSplashThemes](https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-themes)
@@ -11934,7 +11878,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationSplashThemes",
             path=path,
-            item_schema=GetOrganizationSplashThemesResponseItem,
+            item_schema=CreateOrganizationSplashThemeResponse,
         )
 
     def create_organization_splash_theme(
@@ -12013,7 +11957,7 @@ class Organizations:
         theme_identifier: str,
         name: str | None = None,
         content: str | None = None,
-    ) -> CreateOrganizationSplashThemeAssetResponse:
+    ) -> GetOrganizationSplashAssetResponse:
         r"""Create a Splash Theme Asset.
 
         [API documentation: createOrganizationSplashThemeAsset](https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset)
@@ -12052,7 +11996,7 @@ class Organizations:
             operation_id="createOrganizationSplashThemeAsset",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationSplashThemeAssetResponse,
+            response_schema=GetOrganizationSplashAssetResponse,
         )
 
     def get_organization_summary_top_appliances_by_utilization(

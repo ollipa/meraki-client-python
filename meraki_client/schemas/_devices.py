@@ -336,6 +336,90 @@ class CreateDeviceLiveToolsWakeOnLanResponseRequest(_BaseSchema):
     mac: str | None = None
 
 
+class DeviceCellularSimsResponse(_BaseSchema):
+    """Schema for DeviceCellularSimsResponse."""
+
+    sims: list[DeviceCellularSimsResponseSimsItem] = Field(default_factory=list)
+    sim_ordering: list[str] = Field(
+        default_factory=list, validation_alias="simOrdering", serialization_alias="simOrdering"
+    )
+    sim_failover: DeviceCellularSimsResponseSimFailover | None = Field(
+        default=None, validation_alias="simFailover", serialization_alias="simFailover"
+    )
+
+
+class DeviceCellularSimsResponseSimFailover(_BaseSchema):
+    """SIM Failover settings."""
+
+    enabled: bool | None = None
+    timeout: int | None = None
+
+
+class DeviceCellularSimsResponseSimsItem(_BaseSchema):
+    """Schema for DeviceCellularSimsResponseSimsItem."""
+
+    slot: str | None = None
+    iccid: str | None = None
+    imsi: str | None = None
+    msisdn: str | None = None
+    is_primary: bool | None = Field(
+        default=None, validation_alias="isPrimary", serialization_alias="isPrimary"
+    )
+    status: str | None = None
+    apns: list[DevicesSimsApnsItem] = Field(default_factory=list)
+
+
+class DeviceManagementInterfaceResponse(_BaseSchema):
+    """Schema for DeviceManagementInterfaceResponse."""
+
+    ddns_hostnames: DeviceManagementInterfaceResponseDdnsHostnames | None = Field(
+        default=None, validation_alias="ddnsHostnames", serialization_alias="ddnsHostnames"
+    )
+    wan1: DeviceManagementInterfaceResponseWan1 | None = None
+    wan2: DeviceManagementInterfaceResponseWan1 | None = None
+
+
+class DeviceManagementInterfaceResponseDdnsHostnames(_BaseSchema):
+    """Dynamic DNS hostnames."""
+
+    active_ddns_hostname: str | None = Field(
+        default=None,
+        validation_alias="activeDdnsHostname",
+        serialization_alias="activeDdnsHostname",
+    )
+    ddns_hostname_wan1: str | None = Field(
+        default=None, validation_alias="ddnsHostnameWan1", serialization_alias="ddnsHostnameWan1"
+    )
+    ddns_hostname_wan2: str | None = Field(
+        default=None, validation_alias="ddnsHostnameWan2", serialization_alias="ddnsHostnameWan2"
+    )
+
+
+class DeviceManagementInterfaceResponseWan1(_BaseSchema):
+    """WAN 1 settings."""
+
+    wan_enabled: str | None = Field(
+        default=None, validation_alias="wanEnabled", serialization_alias="wanEnabled"
+    )
+    using_static_ip: bool | None = Field(
+        default=None, validation_alias="usingStaticIp", serialization_alias="usingStaticIp"
+    )
+    static_ip: str | None = Field(
+        default=None, validation_alias="staticIp", serialization_alias="staticIp"
+    )
+    static_subnet_mask: str | None = Field(
+        default=None, validation_alias="staticSubnetMask", serialization_alias="staticSubnetMask"
+    )
+    static_gateway_ip: str | None = Field(
+        default=None, validation_alias="staticGatewayIp", serialization_alias="staticGatewayIp"
+    )
+    static_dns: list[str] = Field(
+        default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
+    )
+    vlan: int | None = None
+    vrf: DevicesWan1Vrf | None = None
+
+
 class DevicesAuthentication(_BaseSchema):
     """APN authentication configurations."""
 
@@ -405,39 +489,6 @@ class DevicesWan1Vrf(_BaseSchema):
     """VRF associated with the management interface. If not provided, the default VRF is used."""
 
     name: str | None = None
-
-
-class GetDeviceCellularSimsResponse(_BaseSchema):
-    """Response for getDeviceCellularSims operation."""
-
-    sims: list[GetDeviceCellularSimsResponseSimsItem] = Field(default_factory=list)
-    sim_ordering: list[str] = Field(
-        default_factory=list, validation_alias="simOrdering", serialization_alias="simOrdering"
-    )
-    sim_failover: GetDeviceCellularSimsResponseSimFailover | None = Field(
-        default=None, validation_alias="simFailover", serialization_alias="simFailover"
-    )
-
-
-class GetDeviceCellularSimsResponseSimFailover(_BaseSchema):
-    """SIM Failover settings."""
-
-    enabled: bool | None = None
-    timeout: int | None = None
-
-
-class GetDeviceCellularSimsResponseSimsItem(_BaseSchema):
-    """Schema for GetDeviceCellularSimsResponseSimsItem."""
-
-    slot: str | None = None
-    iccid: str | None = None
-    imsi: str | None = None
-    msisdn: str | None = None
-    is_primary: bool | None = Field(
-        default=None, validation_alias="isPrimary", serialization_alias="isPrimary"
-    )
-    status: str | None = None
-    apns: list[DevicesSimsApnsItem] = Field(default_factory=list)
 
 
 class GetDeviceClientsResponse(RootModel[list["GetDeviceClientsResponseItem"]]):
@@ -712,57 +763,6 @@ class GetDeviceLossAndLatencyHistoryResponseItem(_BaseSchema):
     jitter: float | None = None
 
 
-class GetDeviceManagementInterfaceResponse(_BaseSchema):
-    """Response for getDeviceManagementInterface operation."""
-
-    ddns_hostnames: GetDeviceManagementInterfaceResponseDdnsHostnames | None = Field(
-        default=None, validation_alias="ddnsHostnames", serialization_alias="ddnsHostnames"
-    )
-    wan1: GetDeviceManagementInterfaceResponseWan1 | None = None
-    wan2: GetDeviceManagementInterfaceResponseWan1 | None = None
-
-
-class GetDeviceManagementInterfaceResponseDdnsHostnames(_BaseSchema):
-    """Dynamic DNS hostnames."""
-
-    active_ddns_hostname: str | None = Field(
-        default=None,
-        validation_alias="activeDdnsHostname",
-        serialization_alias="activeDdnsHostname",
-    )
-    ddns_hostname_wan1: str | None = Field(
-        default=None, validation_alias="ddnsHostnameWan1", serialization_alias="ddnsHostnameWan1"
-    )
-    ddns_hostname_wan2: str | None = Field(
-        default=None, validation_alias="ddnsHostnameWan2", serialization_alias="ddnsHostnameWan2"
-    )
-
-
-class GetDeviceManagementInterfaceResponseWan1(_BaseSchema):
-    """WAN 1 settings."""
-
-    wan_enabled: str | None = Field(
-        default=None, validation_alias="wanEnabled", serialization_alias="wanEnabled"
-    )
-    using_static_ip: bool | None = Field(
-        default=None, validation_alias="usingStaticIp", serialization_alias="usingStaticIp"
-    )
-    static_ip: str | None = Field(
-        default=None, validation_alias="staticIp", serialization_alias="staticIp"
-    )
-    static_subnet_mask: str | None = Field(
-        default=None, validation_alias="staticSubnetMask", serialization_alias="staticSubnetMask"
-    )
-    static_gateway_ip: str | None = Field(
-        default=None, validation_alias="staticGatewayIp", serialization_alias="staticGatewayIp"
-    )
-    static_dns: list[str] = Field(
-        default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
-    )
-    vlan: int | None = None
-    vrf: DevicesWan1Vrf | None = None
-
-
 class GetDeviceResponse(_BaseSchema):
     """Response for getDevice operation."""
 
@@ -811,18 +811,6 @@ class RebootDeviceResponse(_BaseSchema):
     success: bool | None = None
 
 
-class UpdateDeviceCellularSimsResponse(_BaseSchema):
-    """Response for updateDeviceCellularSims operation."""
-
-    sims: list[GetDeviceCellularSimsResponseSimsItem] = Field(default_factory=list)
-    sim_ordering: list[str] = Field(
-        default_factory=list, validation_alias="simOrdering", serialization_alias="simOrdering"
-    )
-    sim_failover: GetDeviceCellularSimsResponseSimFailover | None = Field(
-        default=None, validation_alias="simFailover", serialization_alias="simFailover"
-    )
-
-
 class UpdateDeviceCellularSimsSimFailover(_BaseSchema):
     """SIM Failover settings."""
 
@@ -841,16 +829,6 @@ class UpdateDeviceCellularSimsSimsItem(_BaseSchema):
     sim_order: int | None = Field(
         default=None, validation_alias="simOrder", serialization_alias="simOrder"
     )
-
-
-class UpdateDeviceManagementInterfaceResponse(_BaseSchema):
-    """Response for updateDeviceManagementInterface operation."""
-
-    ddns_hostnames: GetDeviceManagementInterfaceResponseDdnsHostnames | None = Field(
-        default=None, validation_alias="ddnsHostnames", serialization_alias="ddnsHostnames"
-    )
-    wan1: GetDeviceManagementInterfaceResponseWan1 | None = None
-    wan2: GetDeviceManagementInterfaceResponseWan1 | None = None
 
 
 class UpdateDeviceManagementInterfaceWan1(_BaseSchema):

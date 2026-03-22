@@ -11,9 +11,6 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
-    CheckinNetworkSmDevicesResponse,
-    CreateNetworkSmTargetGroupResponse,
-    CreateOrganizationSmAdminsRoleResponse,
     DictResponse,
     GetNetworkSmDeviceCellularUsageHistoryResponseItem,
     GetNetworkSmDeviceCertsResponseItem,
@@ -29,29 +26,20 @@ from meraki_client.schemas import (
     GetNetworkSmDevicesResponseItem,
     GetNetworkSmDeviceWlanListsResponseItem,
     GetNetworkSmProfilesResponseItem,
-    GetNetworkSmTargetGroupResponse,
-    GetNetworkSmTargetGroupsResponseItem,
     GetNetworkSmTrustedAccessConfigsResponseItem,
     GetNetworkSmUserAccessDevicesResponseItem,
-    GetNetworkSmUserDeviceProfilesResponseItem,
-    GetNetworkSmUserSoftwaresResponseItem,
     GetNetworkSmUsersResponseItem,
-    GetOrganizationSmAdminsRoleResponse,
-    GetOrganizationSmAdminsRolesResponseItemsItem,
     GetOrganizationSmApnsCertResponse,
     GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem,
     GetOrganizationSmVppAccountResponse,
-    GetOrganizationSmVppAccountsResponseItem,
-    LockNetworkSmDevicesResponse,
     ModifyNetworkSmDevicesTagsResponse,
     MoveNetworkSmDevicesResponse,
-    RebootNetworkSmDevicesResponse,
-    ShutdownNetworkSmDevicesResponse,
+    NetworkSmDevicesResponse,
+    NetworkSmTargetGroupResponse,
+    OrganizationSmAdminsRoleResponse,
     UnenrollNetworkSmDeviceResponse,
     UpdateNetworkSmDevicesFieldsDeviceFields,
     UpdateNetworkSmDevicesFieldsResponse,
-    UpdateNetworkSmTargetGroupResponse,
-    UpdateOrganizationSmAdminsRoleResponse,
     UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem,
     UpdateOrganizationSmSentryPoliciesAssignmentsResponse,
     WipeNetworkSmDevicesResponse,
@@ -287,7 +275,7 @@ class Sm:
         ids: list[str] | None = None,
         serials: list[str] | None = None,
         scope: list[str] | None = None,
-    ) -> CheckinNetworkSmDevicesResponse:
+    ) -> NetworkSmDevicesResponse:
         """Force check-in a set of devices.
 
         [API documentation: checkinNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!checkin-network-sm-devices)
@@ -332,7 +320,7 @@ class Sm:
             operation_id="checkinNetworkSmDevices",
             path=path,
             json=payload,
-            response_schema=CheckinNetworkSmDevicesResponse,
+            response_schema=NetworkSmDevicesResponse,
         )
 
     async def update_network_sm_devices_fields(
@@ -402,7 +390,7 @@ class Sm:
         serials: list[str] | None = None,
         scope: list[str] | None = None,
         pin: int | None = None,
-    ) -> LockNetworkSmDevicesResponse:
+    ) -> NetworkSmDevicesResponse:
         """Lock a set of devices.
 
         [API documentation: lockNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!lock-network-sm-devices)
@@ -451,7 +439,7 @@ class Sm:
             operation_id="lockNetworkSmDevices",
             path=path,
             json=payload,
-            response_schema=LockNetworkSmDevicesResponse,
+            response_schema=NetworkSmDevicesResponse,
         )
 
     async def modify_network_sm_devices_tags(
@@ -597,7 +585,7 @@ class Sm:
         notify_user: bool | None = None,
         rebuild_kernel_cache: bool | None = None,
         request_requires_network_tether: bool | None = None,
-    ) -> RebootNetworkSmDevicesResponse:
+    ) -> NetworkSmDevicesResponse:
         """Reboot a set of endpoints.
 
         [API documentation: rebootNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!reboot-network-sm-devices)
@@ -657,7 +645,7 @@ class Sm:
             operation_id="rebootNetworkSmDevices",
             path=path,
             json=payload,
-            response_schema=RebootNetworkSmDevicesResponse,
+            response_schema=NetworkSmDevicesResponse,
         )
 
     async def shutdown_network_sm_devices(
@@ -668,7 +656,7 @@ class Sm:
         ids: list[str] | None = None,
         serials: list[str] | None = None,
         scope: list[str] | None = None,
-    ) -> ShutdownNetworkSmDevicesResponse:
+    ) -> NetworkSmDevicesResponse:
         """Shutdown a set of endpoints.
 
         [API documentation: shutdownNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!shutdown-network-sm-devices)
@@ -713,7 +701,7 @@ class Sm:
             operation_id="shutdownNetworkSmDevices",
             path=path,
             json=payload,
-            response_schema=ShutdownNetworkSmDevicesResponse,
+            response_schema=NetworkSmDevicesResponse,
         )
 
     async def wipe_network_sm_devices(
@@ -1651,7 +1639,7 @@ class Sm:
 
     def get_network_sm_target_groups(
         self, network_id: str, *, with_details: bool | None = None
-    ) -> AsyncPaginatedResponse[GetNetworkSmTargetGroupsResponseItem]:
+    ) -> AsyncPaginatedResponse[NetworkSmTargetGroupResponse]:
         """List the target groups in this network.
 
         [API documentation: getNetworkSmTargetGroups](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-groups)
@@ -1697,12 +1685,12 @@ class Sm:
             operation_id="getNetworkSmTargetGroups",
             path=path,
             params=params,
-            item_schema=GetNetworkSmTargetGroupsResponseItem,
+            item_schema=NetworkSmTargetGroupResponse,
         )
 
     async def create_network_sm_target_group(
         self, network_id: str, *, name: str | None = None, scope: str | None = None
-    ) -> CreateNetworkSmTargetGroupResponse:
+    ) -> NetworkSmTargetGroupResponse:
         """Add a target group.
 
         [API documentation: createNetworkSmTargetGroup](https://developer.cisco.com/meraki/api-v1/#!create-network-sm-target-group)
@@ -1745,12 +1733,12 @@ class Sm:
             operation_id="createNetworkSmTargetGroup",
             path=path,
             json=payload,
-            response_schema=CreateNetworkSmTargetGroupResponse,
+            response_schema=NetworkSmTargetGroupResponse,
         )
 
     async def get_network_sm_target_group(
         self, *, network_id: str, target_group_id: str, with_details: bool | None = None
-    ) -> GetNetworkSmTargetGroupResponse:
+    ) -> NetworkSmTargetGroupResponse:
         """Return a target group.
 
         [API documentation: getNetworkSmTargetGroup](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-group)
@@ -1791,7 +1779,7 @@ class Sm:
             operation_id="getNetworkSmTargetGroup",
             path=path,
             params=params,
-            response_schema=GetNetworkSmTargetGroupResponse,
+            response_schema=NetworkSmTargetGroupResponse,
         )
 
     async def update_network_sm_target_group(
@@ -1801,7 +1789,7 @@ class Sm:
         target_group_id: str,
         name: str | None = None,
         scope: str | None = None,
-    ) -> UpdateNetworkSmTargetGroupResponse:
+    ) -> NetworkSmTargetGroupResponse:
         """Update a target group.
 
         [API documentation: updateNetworkSmTargetGroup](https://developer.cisco.com/meraki/api-v1/#!update-network-sm-target-group)
@@ -1846,7 +1834,7 @@ class Sm:
             operation_id="updateNetworkSmTargetGroup",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkSmTargetGroupResponse,
+            response_schema=NetworkSmTargetGroupResponse,
         )
 
     async def delete_network_sm_target_group(
@@ -2138,7 +2126,7 @@ class Sm:
 
     def get_network_sm_user_device_profiles(
         self, *, network_id: str, user_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkSmUserDeviceProfilesResponseItem]:
+    ) -> AsyncPaginatedResponse[GetNetworkSmDeviceDeviceProfilesResponseItem]:
         """Get the profiles associated with a user.
 
         [API documentation: getNetworkSmUserDeviceProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-device-profiles)
@@ -2180,12 +2168,12 @@ class Sm:
             scope="sm",
             operation_id="getNetworkSmUserDeviceProfiles",
             path=path,
-            item_schema=GetNetworkSmUserDeviceProfilesResponseItem,
+            item_schema=GetNetworkSmDeviceDeviceProfilesResponseItem,
         )
 
     def get_network_sm_user_softwares(
         self, *, network_id: str, user_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkSmUserSoftwaresResponseItem]:
+    ) -> AsyncPaginatedResponse[GetNetworkSmDeviceSoftwaresResponseItem]:
         """Get a list of softwares associated with a user.
 
         [API documentation: getNetworkSmUserSoftwares](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-softwares)
@@ -2242,7 +2230,7 @@ class Sm:
             scope="sm",
             operation_id="getNetworkSmUserSoftwares",
             path=path,
-            item_schema=GetNetworkSmUserSoftwaresResponseItem,
+            item_schema=GetNetworkSmDeviceSoftwaresResponseItem,
         )
 
     def get_organization_sm_admins_roles(
@@ -2254,7 +2242,7 @@ class Sm:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationSmAdminsRolesResponseItemsItem]:
+    ) -> AsyncPaginatedResponse[OrganizationSmAdminsRoleResponse]:
         """List the Limited Access Roles for an organization.
 
         [API documentation: getOrganizationSmAdminsRoles](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-roles)
@@ -2326,7 +2314,7 @@ class Sm:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationSmAdminsRolesResponseItemsItem,
+            item_schema=OrganizationSmAdminsRoleResponse,
         )
 
     async def create_organization_sm_admins_role(
@@ -2336,7 +2324,7 @@ class Sm:
         name: str,
         scope: CreateOrganizationSmAdminsRoleScope | None = None,
         tags: list[str] | None = None,
-    ) -> CreateOrganizationSmAdminsRoleResponse:
+    ) -> OrganizationSmAdminsRoleResponse:
         """Create a Limited Access Role.
 
         [API documentation: createOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role)
@@ -2379,12 +2367,12 @@ class Sm:
             operation_id="createOrganizationSmAdminsRole",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationSmAdminsRoleResponse,
+            response_schema=OrganizationSmAdminsRoleResponse,
         )
 
     async def get_organization_sm_admins_role(
         self, *, organization_id: str, role_id: str
-    ) -> GetOrganizationSmAdminsRoleResponse:
+    ) -> OrganizationSmAdminsRoleResponse:
         """Return a Limited Access Role.
 
         [API documentation: getOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-role)
@@ -2417,7 +2405,7 @@ class Sm:
             scope="sm",
             operation_id="getOrganizationSmAdminsRole",
             path=path,
-            response_schema=GetOrganizationSmAdminsRoleResponse,
+            response_schema=OrganizationSmAdminsRoleResponse,
         )
 
     async def update_organization_sm_admins_role(
@@ -2428,7 +2416,7 @@ class Sm:
         name: str | None = None,
         scope: UpdateOrganizationSmAdminsRoleScope | None = None,
         tags: list[str] | None = None,
-    ) -> UpdateOrganizationSmAdminsRoleResponse:
+    ) -> OrganizationSmAdminsRoleResponse:
         """Update a Limited Access Role.
 
         [API documentation: updateOrganizationSmAdminsRole](https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role)
@@ -2473,7 +2461,7 @@ class Sm:
             operation_id="updateOrganizationSmAdminsRole",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationSmAdminsRoleResponse,
+            response_schema=OrganizationSmAdminsRoleResponse,
         )
 
     async def delete_organization_sm_admins_role(
@@ -2695,7 +2683,7 @@ class Sm:
 
     def get_organization_sm_vpp_accounts(
         self, organization_id: str
-    ) -> AsyncPaginatedResponse[GetOrganizationSmVppAccountsResponseItem]:
+    ) -> AsyncPaginatedResponse[GetOrganizationSmVppAccountResponse]:
         """List the VPP accounts in the organization.
 
         [API documentation: getOrganizationSmVppAccounts](https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts)
@@ -2748,7 +2736,7 @@ class Sm:
             scope="sm",
             operation_id="getOrganizationSmVppAccounts",
             path=path,
-            item_schema=GetOrganizationSmVppAccountsResponseItem,
+            item_schema=GetOrganizationSmVppAccountResponse,
         )
 
     async def get_organization_sm_vpp_account(

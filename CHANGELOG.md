@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+- Codegen now deduplicates identical top-level response schemas and reuses a shared resource-style name when duplicate operations differ only by action, such as `NetworkWebhooksHttpServerResponse`.
 
 ## v0.11.1
 

@@ -38,7 +38,7 @@ class BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem(_Bas
 
 
 class ClaimAdministeredLicensingSubscriptionSubscriptionsResponse(_BaseSchema):
-    """Response for claimAdministeredLicensingSubscriptionSubscriptions operation."""
+    """Schema for ClaimAdministeredLicensingSubscriptionSubscriptionsResponse."""
 
     subscription_id: str | None = Field(
         default=None, validation_alias="subscriptionId", serialization_alias="subscriptionId"
@@ -121,49 +121,9 @@ class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesRespons
 
 
 class GetAdministeredLicensingSubscriptionSubscriptionsResponse(
-    RootModel[list["GetAdministeredLicensingSubscriptionSubscriptionsResponseItem"]]
+    RootModel[list["ClaimAdministeredLicensingSubscriptionSubscriptionsResponse"]]
 ):
     """Response for getAdministeredLicensingSubscriptionSubscriptions operation."""
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItem(_BaseSchema):
-    """Schema for GetAdministeredLicensingSubscriptionSubscriptionsResponseItem."""
-
-    subscription_id: str | None = Field(
-        default=None, validation_alias="subscriptionId", serialization_alias="subscriptionId"
-    )
-    name: str | None = None
-    description: str | None = None
-    status: str | None = None
-    start_date: datetime | None = Field(
-        default=None, validation_alias="startDate", serialization_alias="startDate"
-    )
-    end_date: datetime | None = Field(
-        default=None, validation_alias="endDate", serialization_alias="endDate"
-    )
-    last_updated_at: datetime | None = Field(
-        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
-    )
-    web_order_id: str | None = Field(
-        default=None, validation_alias="webOrderId", serialization_alias="webOrderId"
-    )
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    smart_account: LicensingSmartAccount | None = Field(
-        default=None, validation_alias="smartAccount", serialization_alias="smartAccount"
-    )
-    renewal_requested: bool | None = Field(
-        default=None, validation_alias="renewalRequested", serialization_alias="renewalRequested"
-    )
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    entitlements: list[LicensingEntitlementsItem] = Field(default_factory=list)
-    counts: LicensingCounts | None = None
-    enterprise_agreement: LicensingEnterpriseAgreement | None = Field(
-        default=None,
-        validation_alias="enterpriseAgreement",
-        serialization_alias="enterpriseAgreement",
-    )
 
 
 class GetOrganizationLicensingCotermLicensesResponse(
@@ -363,43 +323,3 @@ class MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem(_Base
     expired: bool | None = None
     editions: list[LicensingEditionsItem] = Field(default_factory=list)
     counts: list[LicensingCountsItem] = Field(default_factory=list)
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse(_BaseSchema):
-    """Response for validateAdministeredLicensingSubscriptionSubscriptionsClaimKey operation."""
-
-    subscription_id: str | None = Field(
-        default=None, validation_alias="subscriptionId", serialization_alias="subscriptionId"
-    )
-    name: str | None = None
-    description: str | None = None
-    status: str | None = None
-    start_date: datetime | None = Field(
-        default=None, validation_alias="startDate", serialization_alias="startDate"
-    )
-    end_date: datetime | None = Field(
-        default=None, validation_alias="endDate", serialization_alias="endDate"
-    )
-    last_updated_at: datetime | None = Field(
-        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
-    )
-    web_order_id: str | None = Field(
-        default=None, validation_alias="webOrderId", serialization_alias="webOrderId"
-    )
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    smart_account: LicensingSmartAccount | None = Field(
-        default=None, validation_alias="smartAccount", serialization_alias="smartAccount"
-    )
-    renewal_requested: bool | None = Field(
-        default=None, validation_alias="renewalRequested", serialization_alias="renewalRequested"
-    )
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    entitlements: list[LicensingEntitlementsItem] = Field(default_factory=list)
-    counts: LicensingCounts | None = None
-    enterprise_agreement: LicensingEnterpriseAgreement | None = Field(
-        default=None,
-        validation_alias="enterpriseAgreement",
-        serialization_alias="enterpriseAgreement",
-    )

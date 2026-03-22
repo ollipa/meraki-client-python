@@ -11,12 +11,9 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 from meraki_client.schemas import (
-    CreateOrganizationInsightMonitoredMediaServerResponse,
     GetNetworkInsightApplicationHealthByTimeResponseItem,
     GetOrganizationInsightApplicationsResponseItem,
-    GetOrganizationInsightMonitoredMediaServerResponse,
-    GetOrganizationInsightMonitoredMediaServersResponseItem,
-    UpdateOrganizationInsightMonitoredMediaServerResponse,
+    OrganizationInsightMonitoredMediaServerResponse,
 )
 
 if TYPE_CHECKING:
@@ -157,7 +154,7 @@ class Insight:
 
     def get_organization_insight_monitored_media_servers(
         self, organization_id: str
-    ) -> AsyncPaginatedResponse[GetOrganizationInsightMonitoredMediaServersResponseItem]:
+    ) -> AsyncPaginatedResponse[OrganizationInsightMonitoredMediaServerResponse]:
         """List the monitored media servers for this organization.
 
         [API documentation: getOrganizationInsightMonitoredMediaServers](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers)
@@ -193,7 +190,7 @@ class Insight:
             scope="insight",
             operation_id="getOrganizationInsightMonitoredMediaServers",
             path=path,
-            item_schema=GetOrganizationInsightMonitoredMediaServersResponseItem,
+            item_schema=OrganizationInsightMonitoredMediaServerResponse,
         )
 
     async def create_organization_insight_monitored_media_server(
@@ -203,7 +200,7 @@ class Insight:
         name: str,
         address: str,
         best_effort_monitoring_enabled: bool | None = None,
-    ) -> CreateOrganizationInsightMonitoredMediaServerResponse:
+    ) -> OrganizationInsightMonitoredMediaServerResponse:
         """Add a media server to be monitored for this organization.
 
         [API documentation: createOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server)
@@ -245,12 +242,12 @@ class Insight:
             operation_id="createOrganizationInsightMonitoredMediaServer",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationInsightMonitoredMediaServerResponse,
+            response_schema=OrganizationInsightMonitoredMediaServerResponse,
         )
 
     async def get_organization_insight_monitored_media_server(
         self, *, organization_id: str, monitored_media_server_id: str
-    ) -> GetOrganizationInsightMonitoredMediaServerResponse:
+    ) -> OrganizationInsightMonitoredMediaServerResponse:
         """Return a monitored media server for this organization.
 
         [API documentation: getOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-server)
@@ -281,7 +278,7 @@ class Insight:
             scope="insight",
             operation_id="getOrganizationInsightMonitoredMediaServer",
             path=path,
-            response_schema=GetOrganizationInsightMonitoredMediaServerResponse,
+            response_schema=OrganizationInsightMonitoredMediaServerResponse,
         )
 
     async def update_organization_insight_monitored_media_server(
@@ -292,7 +289,7 @@ class Insight:
         name: str | None = None,
         address: str | None = None,
         best_effort_monitoring_enabled: bool | None = None,
-    ) -> UpdateOrganizationInsightMonitoredMediaServerResponse:
+    ) -> OrganizationInsightMonitoredMediaServerResponse:
         """Update a monitored media server for this organization.
 
         [API documentation: updateOrganizationInsightMonitoredMediaServer](https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server)
@@ -336,7 +333,7 @@ class Insight:
             operation_id="updateOrganizationInsightMonitoredMediaServer",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationInsightMonitoredMediaServerResponse,
+            response_schema=OrganizationInsightMonitoredMediaServerResponse,
         )
 
     async def delete_organization_insight_monitored_media_server(

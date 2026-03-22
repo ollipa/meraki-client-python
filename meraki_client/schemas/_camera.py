@@ -133,53 +133,6 @@ class CameraZonesZoneId(_BaseSchema):
     person: int | None = None
 
 
-class CreateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
-    """Response for createNetworkCameraQualityRetentionProfile operation."""
-
-    id: str | None = None
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    name: str | None = None
-    restricted_bandwidth_mode_enabled: bool | None = Field(
-        default=None,
-        validation_alias="restrictedBandwidthModeEnabled",
-        serialization_alias="restrictedBandwidthModeEnabled",
-    )
-    motion_based_retention_enabled: bool | None = Field(
-        default=None,
-        validation_alias="motionBasedRetentionEnabled",
-        serialization_alias="motionBasedRetentionEnabled",
-    )
-    audio_recording_enabled: bool | None = Field(
-        default=None,
-        validation_alias="audioRecordingEnabled",
-        serialization_alias="audioRecordingEnabled",
-    )
-    cloud_archive_enabled: bool | None = Field(
-        default=None,
-        validation_alias="cloudArchiveEnabled",
-        serialization_alias="cloudArchiveEnabled",
-    )
-    max_retention_days: int | None = Field(
-        default=None, validation_alias="maxRetentionDays", serialization_alias="maxRetentionDays"
-    )
-    schedule_id: str | None = Field(
-        default=None, validation_alias="scheduleId", serialization_alias="scheduleId"
-    )
-    motion_detector_version: int | None = Field(
-        default=None,
-        validation_alias="motionDetectorVersion",
-        serialization_alias="motionDetectorVersion",
-    )
-    smart_retention: GetDeviceCameraSenseResponseAudioDetection | None = Field(
-        default=None, validation_alias="smartRetention", serialization_alias="smartRetention"
-    )
-    video_settings: dict[str, Any] | None = Field(
-        default=None, validation_alias="videoSettings", serialization_alias="videoSettings"
-    )
-
-
 class CreateNetworkCameraQualityRetentionProfileSmartRetention(_BaseSchema):
     """Smart Retention records footage in two qualities and intelligently retains higher quality
     when motion, people or vehicles are detected.
@@ -330,20 +283,6 @@ class CreateNetworkCameraWirelessProfileIdentity(_BaseSchema):
     password: str | None = None
 
 
-class CreateNetworkCameraWirelessProfileResponse(_BaseSchema):
-    """Response for createNetworkCameraWirelessProfile operation."""
-
-    id: str | None = None
-    name: str | None = None
-    applied_device_count: int | None = Field(
-        default=None,
-        validation_alias="appliedDeviceCount",
-        serialization_alias="appliedDeviceCount",
-    )
-    ssid: CameraSsid | None = None
-    identity: CameraIdentity | None = None
-
-
 class CreateNetworkCameraWirelessProfileSsid(_BaseSchema):
     """The details of the SSID config."""
 
@@ -413,25 +352,106 @@ class CreateOrganizationCameraRoleAppliedOrgWideItem(_BaseSchema):
     )
 
 
-class CreateOrganizationCameraRoleResponse(_BaseSchema):
-    """Response for createOrganizationCameraRole operation."""
+class DeviceCameraCustomAnalyticsResponse(_BaseSchema):
+    """Schema for DeviceCameraCustomAnalyticsResponse."""
+
+    enabled: bool | None = None
+    artifact_id: str | None = Field(
+        default=None, validation_alias="artifactId", serialization_alias="artifactId"
+    )
+    parameters: list[DeviceCameraCustomAnalyticsResponseParametersItem] = Field(
+        default_factory=list
+    )
+
+
+class DeviceCameraCustomAnalyticsResponseParametersItem(_BaseSchema):
+    """Schema for DeviceCameraCustomAnalyticsResponseParametersItem."""
 
     name: str | None = None
-    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOnDevices",
-        serialization_alias="appliedOnDevices",
+    value: float | None = None
+
+
+class DeviceCameraQualityAndRetentionResponse(_BaseSchema):
+    """Schema for DeviceCameraQualityAndRetentionResponse."""
+
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
     )
-    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOnNetworks",
-        serialization_alias="appliedOnNetworks",
+    motion_based_retention_enabled: bool | None = Field(
+        default=None,
+        validation_alias="motionBasedRetentionEnabled",
+        serialization_alias="motionBasedRetentionEnabled",
     )
-    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOrgWide",
-        serialization_alias="appliedOrgWide",
+    audio_recording_enabled: bool | None = Field(
+        default=None,
+        validation_alias="audioRecordingEnabled",
+        serialization_alias="audioRecordingEnabled",
     )
+    restricted_bandwidth_mode_enabled: bool | None = Field(
+        default=None,
+        validation_alias="restrictedBandwidthModeEnabled",
+        serialization_alias="restrictedBandwidthModeEnabled",
+    )
+    quality: str | None = None
+    resolution: str | None = None
+    motion_detector_version: int | None = Field(
+        default=None,
+        validation_alias="motionDetectorVersion",
+        serialization_alias="motionDetectorVersion",
+    )
+
+
+class DeviceCameraSenseResponse(_BaseSchema):
+    """Schema for DeviceCameraSenseResponse."""
+
+    sense_enabled: bool | None = Field(
+        default=None, validation_alias="senseEnabled", serialization_alias="senseEnabled"
+    )
+    mqtt_broker_id: str | None = Field(
+        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
+    )
+    mqtt_topics: list[str] = Field(
+        default_factory=list, validation_alias="mqttTopics", serialization_alias="mqttTopics"
+    )
+    audio_detection: DeviceCameraSenseResponseAudioDetection | None = Field(
+        default=None, validation_alias="audioDetection", serialization_alias="audioDetection"
+    )
+    detection_model_id: str | None = Field(
+        default=None, validation_alias="detectionModelId", serialization_alias="detectionModelId"
+    )
+
+
+class DeviceCameraSenseResponseAudioDetection(_BaseSchema):
+    """Audio detection configuration."""
+
+    enabled: bool | None = None
+
+
+class DeviceCameraVideoSettingsResponse(_BaseSchema):
+    """Schema for DeviceCameraVideoSettingsResponse."""
+
+    external_rtsp_enabled: bool | None = Field(
+        default=None,
+        validation_alias="externalRtspEnabled",
+        serialization_alias="externalRtspEnabled",
+    )
+    rtsp_url: str | None = Field(
+        default=None, validation_alias="rtspUrl", serialization_alias="rtspUrl"
+    )
+
+
+class DeviceCameraWirelessProfilesResponse(_BaseSchema):
+    """Schema for DeviceCameraWirelessProfilesResponse."""
+
+    ids: DeviceCameraWirelessProfilesResponseIds | None = None
+
+
+class DeviceCameraWirelessProfilesResponseIds(_BaseSchema):
+    """IDs of assigned wireless profiles."""
+
+    primary: str | None = None
+    secondary: str | None = None
+    backup: str | None = None
 
 
 class GenerateDeviceCameraSnapshotResponse(_BaseSchema):
@@ -459,35 +479,11 @@ class GetDeviceCameraAnalyticsLiveResponseZones(_BaseSchema):
 class GetDeviceCameraAnalyticsOverviewResponse(
     RootModel[list["GetDeviceCameraAnalyticsOverviewResponseItem"]]
 ):
-    """Response for getDeviceCameraAnalyticsOverview operation."""
+    """Schema for GetDeviceCameraAnalyticsOverviewResponse."""
 
 
 class GetDeviceCameraAnalyticsOverviewResponseItem(_BaseSchema):
     """Schema for GetDeviceCameraAnalyticsOverviewResponseItem."""
-
-    start_ts: datetime | None = Field(
-        default=None, validation_alias="startTs", serialization_alias="startTs"
-    )
-    end_ts: datetime | None = Field(
-        default=None, validation_alias="endTs", serialization_alias="endTs"
-    )
-    zone_id: int | None = Field(
-        default=None, validation_alias="zoneId", serialization_alias="zoneId"
-    )
-    entrances: int | None = None
-    average_count: float | None = Field(
-        default=None, validation_alias="averageCount", serialization_alias="averageCount"
-    )
-
-
-class GetDeviceCameraAnalyticsRecentResponse(
-    RootModel[list["GetDeviceCameraAnalyticsRecentResponseItem"]]
-):
-    """Response for getDeviceCameraAnalyticsRecent operation."""
-
-
-class GetDeviceCameraAnalyticsRecentResponseItem(_BaseSchema):
-    """Schema for GetDeviceCameraAnalyticsRecentResponseItem."""
 
     start_ts: datetime | None = Field(
         default=None, validation_alias="startTs", serialization_alias="startTs"
@@ -542,55 +538,6 @@ class GetDeviceCameraAnalyticsZonesResponseItem(_BaseSchema):
     )
 
 
-class GetDeviceCameraCustomAnalyticsResponse(_BaseSchema):
-    """Response for getDeviceCameraCustomAnalytics operation."""
-
-    enabled: bool | None = None
-    artifact_id: str | None = Field(
-        default=None, validation_alias="artifactId", serialization_alias="artifactId"
-    )
-    parameters: list[GetDeviceCameraCustomAnalyticsResponseParametersItem] = Field(
-        default_factory=list
-    )
-
-
-class GetDeviceCameraCustomAnalyticsResponseParametersItem(_BaseSchema):
-    """Schema for GetDeviceCameraCustomAnalyticsResponseParametersItem."""
-
-    name: str | None = None
-    value: float | None = None
-
-
-class GetDeviceCameraQualityAndRetentionResponse(_BaseSchema):
-    """Response for getDeviceCameraQualityAndRetention operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    motion_based_retention_enabled: bool | None = Field(
-        default=None,
-        validation_alias="motionBasedRetentionEnabled",
-        serialization_alias="motionBasedRetentionEnabled",
-    )
-    audio_recording_enabled: bool | None = Field(
-        default=None,
-        validation_alias="audioRecordingEnabled",
-        serialization_alias="audioRecordingEnabled",
-    )
-    restricted_bandwidth_mode_enabled: bool | None = Field(
-        default=None,
-        validation_alias="restrictedBandwidthModeEnabled",
-        serialization_alias="restrictedBandwidthModeEnabled",
-    )
-    quality: str | None = None
-    resolution: str | None = None
-    motion_detector_version: int | None = Field(
-        default=None,
-        validation_alias="motionDetectorVersion",
-        serialization_alias="motionDetectorVersion",
-    )
-
-
 class GetDeviceCameraSenseObjectDetectionModelsResponse(
     RootModel[list["GetDeviceCameraSenseObjectDetectionModelsResponseItem"]]
 ):
@@ -604,32 +551,6 @@ class GetDeviceCameraSenseObjectDetectionModelsResponseItem(_BaseSchema):
     description: str | None = None
 
 
-class GetDeviceCameraSenseResponse(_BaseSchema):
-    """Response for getDeviceCameraSense operation."""
-
-    sense_enabled: bool | None = Field(
-        default=None, validation_alias="senseEnabled", serialization_alias="senseEnabled"
-    )
-    mqtt_broker_id: str | None = Field(
-        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
-    )
-    mqtt_topics: list[str] = Field(
-        default_factory=list, validation_alias="mqttTopics", serialization_alias="mqttTopics"
-    )
-    audio_detection: GetDeviceCameraSenseResponseAudioDetection | None = Field(
-        default=None, validation_alias="audioDetection", serialization_alias="audioDetection"
-    )
-    detection_model_id: str | None = Field(
-        default=None, validation_alias="detectionModelId", serialization_alias="detectionModelId"
-    )
-
-
-class GetDeviceCameraSenseResponseAudioDetection(_BaseSchema):
-    """Audio detection configuration."""
-
-    enabled: bool | None = None
-
-
 class GetDeviceCameraVideoLinkResponse(_BaseSchema):
     """Response for getDeviceCameraVideoLink operation."""
 
@@ -639,131 +560,10 @@ class GetDeviceCameraVideoLinkResponse(_BaseSchema):
     )
 
 
-class GetDeviceCameraVideoSettingsResponse(_BaseSchema):
-    """Response for getDeviceCameraVideoSettings operation."""
-
-    external_rtsp_enabled: bool | None = Field(
-        default=None,
-        validation_alias="externalRtspEnabled",
-        serialization_alias="externalRtspEnabled",
-    )
-    rtsp_url: str | None = Field(
-        default=None, validation_alias="rtspUrl", serialization_alias="rtspUrl"
-    )
-
-
-class GetDeviceCameraWirelessProfilesResponse(_BaseSchema):
-    """Response for getDeviceCameraWirelessProfiles operation."""
-
-    ids: GetDeviceCameraWirelessProfilesResponseIds | None = None
-
-
-class GetDeviceCameraWirelessProfilesResponseIds(_BaseSchema):
-    """IDs of assigned wireless profiles."""
-
-    primary: str | None = None
-    secondary: str | None = None
-    backup: str | None = None
-
-
-class GetNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
-    """Response for getNetworkCameraQualityRetentionProfile operation."""
-
-    id: str | None = None
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    name: str | None = None
-    restricted_bandwidth_mode_enabled: bool | None = Field(
-        default=None,
-        validation_alias="restrictedBandwidthModeEnabled",
-        serialization_alias="restrictedBandwidthModeEnabled",
-    )
-    motion_based_retention_enabled: bool | None = Field(
-        default=None,
-        validation_alias="motionBasedRetentionEnabled",
-        serialization_alias="motionBasedRetentionEnabled",
-    )
-    audio_recording_enabled: bool | None = Field(
-        default=None,
-        validation_alias="audioRecordingEnabled",
-        serialization_alias="audioRecordingEnabled",
-    )
-    cloud_archive_enabled: bool | None = Field(
-        default=None,
-        validation_alias="cloudArchiveEnabled",
-        serialization_alias="cloudArchiveEnabled",
-    )
-    max_retention_days: int | None = Field(
-        default=None, validation_alias="maxRetentionDays", serialization_alias="maxRetentionDays"
-    )
-    schedule_id: str | None = Field(
-        default=None, validation_alias="scheduleId", serialization_alias="scheduleId"
-    )
-    motion_detector_version: int | None = Field(
-        default=None,
-        validation_alias="motionDetectorVersion",
-        serialization_alias="motionDetectorVersion",
-    )
-    smart_retention: GetDeviceCameraSenseResponseAudioDetection | None = Field(
-        default=None, validation_alias="smartRetention", serialization_alias="smartRetention"
-    )
-    video_settings: dict[str, Any] | None = Field(
-        default=None, validation_alias="videoSettings", serialization_alias="videoSettings"
-    )
-
-
 class GetNetworkCameraQualityRetentionProfilesResponse(
-    RootModel[list["GetNetworkCameraQualityRetentionProfilesResponseItem"]]
+    RootModel[list["NetworkCameraQualityRetentionProfileResponse"]]
 ):
     """Response for getNetworkCameraQualityRetentionProfiles operation."""
-
-
-class GetNetworkCameraQualityRetentionProfilesResponseItem(_BaseSchema):
-    """Schema for GetNetworkCameraQualityRetentionProfilesResponseItem."""
-
-    id: str | None = None
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    name: str | None = None
-    restricted_bandwidth_mode_enabled: bool | None = Field(
-        default=None,
-        validation_alias="restrictedBandwidthModeEnabled",
-        serialization_alias="restrictedBandwidthModeEnabled",
-    )
-    motion_based_retention_enabled: bool | None = Field(
-        default=None,
-        validation_alias="motionBasedRetentionEnabled",
-        serialization_alias="motionBasedRetentionEnabled",
-    )
-    audio_recording_enabled: bool | None = Field(
-        default=None,
-        validation_alias="audioRecordingEnabled",
-        serialization_alias="audioRecordingEnabled",
-    )
-    cloud_archive_enabled: bool | None = Field(
-        default=None,
-        validation_alias="cloudArchiveEnabled",
-        serialization_alias="cloudArchiveEnabled",
-    )
-    max_retention_days: int | None = Field(
-        default=None, validation_alias="maxRetentionDays", serialization_alias="maxRetentionDays"
-    )
-    schedule_id: str | None = Field(
-        default=None, validation_alias="scheduleId", serialization_alias="scheduleId"
-    )
-    motion_detector_version: int | None = Field(
-        default=None,
-        validation_alias="motionDetectorVersion",
-        serialization_alias="motionDetectorVersion",
-    )
-    smart_retention: GetDeviceCameraSenseResponseAudioDetection | None = Field(
-        default=None, validation_alias="smartRetention", serialization_alias="smartRetention"
-    )
-    video_settings: dict[str, Any] | None = Field(
-        default=None, validation_alias="videoSettings", serialization_alias="videoSettings"
-    )
 
 
 class GetNetworkCameraSchedulesResponse(RootModel[list["GetNetworkCameraSchedulesResponseItem"]]):
@@ -777,38 +577,10 @@ class GetNetworkCameraSchedulesResponseItem(_BaseSchema):
     name: str | None = None
 
 
-class GetNetworkCameraWirelessProfileResponse(_BaseSchema):
-    """Response for getNetworkCameraWirelessProfile operation."""
-
-    id: str | None = None
-    name: str | None = None
-    applied_device_count: int | None = Field(
-        default=None,
-        validation_alias="appliedDeviceCount",
-        serialization_alias="appliedDeviceCount",
-    )
-    ssid: CameraSsid | None = None
-    identity: CameraIdentity | None = None
-
-
 class GetNetworkCameraWirelessProfilesResponse(
-    RootModel[list["GetNetworkCameraWirelessProfilesResponseItem"]]
+    RootModel[list["NetworkCameraWirelessProfileResponse"]]
 ):
     """Response for getNetworkCameraWirelessProfiles operation."""
-
-
-class GetNetworkCameraWirelessProfilesResponseItem(_BaseSchema):
-    """Schema for GetNetworkCameraWirelessProfilesResponseItem."""
-
-    id: str | None = None
-    name: str | None = None
-    applied_device_count: int | None = Field(
-        default=None,
-        validation_alias="appliedDeviceCount",
-        serialization_alias="appliedDeviceCount",
-    )
-    ssid: CameraSsid | None = None
-    identity: CameraIdentity | None = None
 
 
 class GetOrganizationCameraBoundariesAreasByDeviceResponse(
@@ -857,22 +629,9 @@ class GetOrganizationCameraCustomAnalyticsArtifactResponse(_BaseSchema):
 
 
 class GetOrganizationCameraCustomAnalyticsArtifactsResponse(
-    RootModel[list["GetOrganizationCameraCustomAnalyticsArtifactsResponseItem"]]
+    RootModel[list["GetOrganizationCameraCustomAnalyticsArtifactResponse"]]
 ):
     """Response for getOrganizationCameraCustomAnalyticsArtifacts operation."""
-
-
-class GetOrganizationCameraCustomAnalyticsArtifactsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationCameraCustomAnalyticsArtifactsResponseItem."""
-
-    artifact_id: str | None = Field(
-        default=None, validation_alias="artifactId", serialization_alias="artifactId"
-    )
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
-    )
-    name: str | None = None
-    status: CameraStatus | None = None
 
 
 class GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponse(
@@ -919,169 +678,17 @@ class GetOrganizationCameraPermissionResponse(_BaseSchema):
 
 
 class GetOrganizationCameraPermissionsResponse(
-    RootModel[list["GetOrganizationCameraPermissionsResponseItem"]]
+    RootModel[list["GetOrganizationCameraPermissionResponse"]]
 ):
     """Response for getOrganizationCameraPermissions operation."""
 
 
-class GetOrganizationCameraPermissionsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationCameraPermissionsResponseItem."""
-
-    id: str | None = None
-    name: str | None = None
-    level: str | None = None
-
-
-class GetOrganizationCameraRoleResponse(_BaseSchema):
-    """Response for getOrganizationCameraRole operation."""
-
-    name: str | None = None
-    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOnDevices",
-        serialization_alias="appliedOnDevices",
-    )
-    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOnNetworks",
-        serialization_alias="appliedOnNetworks",
-    )
-    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOrgWide",
-        serialization_alias="appliedOrgWide",
-    )
-
-
-class GetOrganizationCameraRolesResponse(RootModel[list["GetOrganizationCameraRolesResponseItem"]]):
+class GetOrganizationCameraRolesResponse(RootModel[list["OrganizationCameraRoleResponse"]]):
     """Response for getOrganizationCameraRoles operation."""
 
 
-class GetOrganizationCameraRolesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationCameraRolesResponseItem."""
-
-    name: str | None = None
-    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOnDevices",
-        serialization_alias="appliedOnDevices",
-    )
-    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOnNetworks",
-        serialization_alias="appliedOnNetworks",
-    )
-    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOrgWide",
-        serialization_alias="appliedOrgWide",
-    )
-
-
-class UpdateDeviceCameraCustomAnalyticsParametersItem(_BaseSchema):
-    """Item schema for parameters."""
-
-    name: str
-    value: str
-
-
-class UpdateDeviceCameraCustomAnalyticsResponse(_BaseSchema):
-    """Response for updateDeviceCameraCustomAnalytics operation."""
-
-    enabled: bool | None = None
-    artifact_id: str | None = Field(
-        default=None, validation_alias="artifactId", serialization_alias="artifactId"
-    )
-    parameters: list[GetDeviceCameraCustomAnalyticsResponseParametersItem] = Field(
-        default_factory=list
-    )
-
-
-class UpdateDeviceCameraQualityAndRetentionResponse(_BaseSchema):
-    """Response for updateDeviceCameraQualityAndRetention operation."""
-
-    profile_id: str | None = Field(
-        default=None, validation_alias="profileId", serialization_alias="profileId"
-    )
-    motion_based_retention_enabled: bool | None = Field(
-        default=None,
-        validation_alias="motionBasedRetentionEnabled",
-        serialization_alias="motionBasedRetentionEnabled",
-    )
-    audio_recording_enabled: bool | None = Field(
-        default=None,
-        validation_alias="audioRecordingEnabled",
-        serialization_alias="audioRecordingEnabled",
-    )
-    restricted_bandwidth_mode_enabled: bool | None = Field(
-        default=None,
-        validation_alias="restrictedBandwidthModeEnabled",
-        serialization_alias="restrictedBandwidthModeEnabled",
-    )
-    quality: str | None = None
-    resolution: str | None = None
-    motion_detector_version: int | None = Field(
-        default=None,
-        validation_alias="motionDetectorVersion",
-        serialization_alias="motionDetectorVersion",
-    )
-
-
-class UpdateDeviceCameraSenseAudioDetection(_BaseSchema):
-    """The details of the audio detection config."""
-
-    enabled: bool | None = None
-
-
-class UpdateDeviceCameraSenseResponse(_BaseSchema):
-    """Response for updateDeviceCameraSense operation."""
-
-    sense_enabled: bool | None = Field(
-        default=None, validation_alias="senseEnabled", serialization_alias="senseEnabled"
-    )
-    mqtt_broker_id: str | None = Field(
-        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
-    )
-    mqtt_topics: list[str] = Field(
-        default_factory=list, validation_alias="mqttTopics", serialization_alias="mqttTopics"
-    )
-    audio_detection: GetDeviceCameraSenseResponseAudioDetection | None = Field(
-        default=None, validation_alias="audioDetection", serialization_alias="audioDetection"
-    )
-    detection_model_id: str | None = Field(
-        default=None, validation_alias="detectionModelId", serialization_alias="detectionModelId"
-    )
-
-
-class UpdateDeviceCameraVideoSettingsResponse(_BaseSchema):
-    """Response for updateDeviceCameraVideoSettings operation."""
-
-    external_rtsp_enabled: bool | None = Field(
-        default=None,
-        validation_alias="externalRtspEnabled",
-        serialization_alias="externalRtspEnabled",
-    )
-    rtsp_url: str | None = Field(
-        default=None, validation_alias="rtspUrl", serialization_alias="rtspUrl"
-    )
-
-
-class UpdateDeviceCameraWirelessProfilesIds(_BaseSchema):
-    """The ids of the wireless profile to assign to the given camera."""
-
-    primary: str | None = None
-    secondary: str | None = None
-    backup: str | None = None
-
-
-class UpdateDeviceCameraWirelessProfilesResponse(_BaseSchema):
-    """Response for updateDeviceCameraWirelessProfiles operation."""
-
-    ids: GetDeviceCameraWirelessProfilesResponseIds | None = None
-
-
-class UpdateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
-    """Response for updateNetworkCameraQualityRetentionProfile operation."""
+class NetworkCameraQualityRetentionProfileResponse(_BaseSchema):
+    """Schema for NetworkCameraQualityRetentionProfileResponse."""
 
     id: str | None = None
     network_id: str | None = Field(
@@ -1119,12 +726,68 @@ class UpdateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
         validation_alias="motionDetectorVersion",
         serialization_alias="motionDetectorVersion",
     )
-    smart_retention: GetDeviceCameraSenseResponseAudioDetection | None = Field(
+    smart_retention: DeviceCameraSenseResponseAudioDetection | None = Field(
         default=None, validation_alias="smartRetention", serialization_alias="smartRetention"
     )
     video_settings: dict[str, Any] | None = Field(
         default=None, validation_alias="videoSettings", serialization_alias="videoSettings"
     )
+
+
+class NetworkCameraWirelessProfileResponse(_BaseSchema):
+    """Schema for NetworkCameraWirelessProfileResponse."""
+
+    id: str | None = None
+    name: str | None = None
+    applied_device_count: int | None = Field(
+        default=None,
+        validation_alias="appliedDeviceCount",
+        serialization_alias="appliedDeviceCount",
+    )
+    ssid: CameraSsid | None = None
+    identity: CameraIdentity | None = None
+
+
+class OrganizationCameraRoleResponse(_BaseSchema):
+    """Schema for OrganizationCameraRoleResponse."""
+
+    name: str | None = None
+    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnDevices",
+        serialization_alias="appliedOnDevices",
+    )
+    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOnNetworks",
+        serialization_alias="appliedOnNetworks",
+    )
+    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
+        default_factory=list,
+        validation_alias="appliedOrgWide",
+        serialization_alias="appliedOrgWide",
+    )
+
+
+class UpdateDeviceCameraCustomAnalyticsParametersItem(_BaseSchema):
+    """Item schema for parameters."""
+
+    name: str
+    value: str
+
+
+class UpdateDeviceCameraSenseAudioDetection(_BaseSchema):
+    """The details of the audio detection config."""
+
+    enabled: bool | None = None
+
+
+class UpdateDeviceCameraWirelessProfilesIds(_BaseSchema):
+    """The ids of the wireless profile to assign to the given camera."""
+
+    primary: str | None = None
+    secondary: str | None = None
+    backup: str | None = None
 
 
 class UpdateNetworkCameraQualityRetentionProfileSmartRetention(_BaseSchema):
@@ -1221,20 +884,6 @@ class UpdateNetworkCameraWirelessProfileIdentity(_BaseSchema):
     password: str | None = None
 
 
-class UpdateNetworkCameraWirelessProfileResponse(_BaseSchema):
-    """Response for updateNetworkCameraWirelessProfile operation."""
-
-    id: str | None = None
-    name: str | None = None
-    applied_device_count: int | None = Field(
-        default=None,
-        validation_alias="appliedDeviceCount",
-        serialization_alias="appliedDeviceCount",
-    )
-    ssid: CameraSsid | None = None
-    identity: CameraIdentity | None = None
-
-
 class UpdateNetworkCameraWirelessProfileSsid(_BaseSchema):
     """The details of the SSID config."""
 
@@ -1285,25 +934,4 @@ class UpdateOrganizationCameraRoleAppliedOrgWideItem(_BaseSchema):
 
     permission_scope_id: str = Field(
         validation_alias="permissionScopeId", serialization_alias="permissionScopeId"
-    )
-
-
-class UpdateOrganizationCameraRoleResponse(_BaseSchema):
-    """Response for updateOrganizationCameraRole operation."""
-
-    name: str | None = None
-    applied_on_devices: list[CameraAppliedOnDevicesItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOnDevices",
-        serialization_alias="appliedOnDevices",
-    )
-    applied_on_networks: list[CameraAppliedOnDevicesItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOnNetworks",
-        serialization_alias="appliedOnNetworks",
-    )
-    applied_org_wide: list[CameraAppliedOrgWideItem] = Field(
-        default_factory=list,
-        validation_alias="appliedOrgWide",
-        serialization_alias="appliedOrgWide",
     )

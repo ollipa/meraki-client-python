@@ -11,36 +11,26 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
-    CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
     CreateOrganizationCellularGatewayEsimsServiceProvidersAccountServiceProvider,
-    CreateOrganizationCellularGatewayEsimsSwapResponse,
     CreateOrganizationCellularGatewayEsimsSwapSwapsItem,
-    GetDeviceCellularGatewayLanResponse,
-    GetDeviceCellularGatewayPortForwardingRulesResponse,
-    GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
-    GetNetworkCellularGatewayDhcpResponse,
-    GetNetworkCellularGatewaySubnetPoolResponse,
-    GetNetworkCellularGatewayUplinkResponse,
-    GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem,
+    DeviceCellularGatewayLanResponse,
+    DeviceCellularGatewayPortForwardingRulesResponse,
     GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItem,
     GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem,
-    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem,
     GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem,
     GetOrganizationCellularGatewayUplinkStatusesResponseItem,
+    NetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
+    NetworkCellularGatewayDhcpResponse,
+    NetworkCellularGatewaySubnetPoolResponse,
+    NetworkCellularGatewayUplinkResponse,
+    OrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
+    OrganizationCellularGatewayEsimsSwapResponse,
     UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem,
     UpdateDeviceCellularGatewayLanReservedIpRangesItem,
-    UpdateDeviceCellularGatewayLanResponse,
-    UpdateDeviceCellularGatewayPortForwardingRulesResponse,
     UpdateDeviceCellularGatewayPortForwardingRulesRulesItem,
     UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinationsItem,
-    UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
-    UpdateNetworkCellularGatewayDhcpResponse,
-    UpdateNetworkCellularGatewaySubnetPoolResponse,
     UpdateNetworkCellularGatewayUplinkBandwidthLimits,
-    UpdateNetworkCellularGatewayUplinkResponse,
     UpdateOrganizationCellularGatewayEsimsInventoryResponse,
-    UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
-    UpdateOrganizationCellularGatewayEsimsSwapResponse,
 )
 
 if TYPE_CHECKING:
@@ -53,7 +43,7 @@ class CellularGateway:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device_cellular_gateway_lan(self, serial: str) -> GetDeviceCellularGatewayLanResponse:
+    def get_device_cellular_gateway_lan(self, serial: str) -> DeviceCellularGatewayLanResponse:
         """Show the LAN Settings of a MG.
 
         [API documentation: getDeviceCellularGatewayLan](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-lan)
@@ -95,7 +85,7 @@ class CellularGateway:
             scope="cellularGateway",
             operation_id="getDeviceCellularGatewayLan",
             path=path,
-            response_schema=GetDeviceCellularGatewayLanResponse,
+            response_schema=DeviceCellularGatewayLanResponse,
         )
 
     def update_device_cellular_gateway_lan(
@@ -105,7 +95,7 @@ class CellularGateway:
         reserved_ip_ranges: list[UpdateDeviceCellularGatewayLanReservedIpRangesItem] | None = None,
         fixed_ip_assignments: list[UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem]
         | None = None,
-    ) -> UpdateDeviceCellularGatewayLanResponse:
+    ) -> DeviceCellularGatewayLanResponse:
         """Update the LAN Settings for a single MG.
 
         [API documentation: updateDeviceCellularGatewayLan](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan)
@@ -160,12 +150,12 @@ class CellularGateway:
             operation_id="updateDeviceCellularGatewayLan",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCellularGatewayLanResponse,
+            response_schema=DeviceCellularGatewayLanResponse,
         )
 
     def get_device_cellular_gateway_port_forwarding_rules(
         self, serial: str
-    ) -> GetDeviceCellularGatewayPortForwardingRulesResponse:
+    ) -> DeviceCellularGatewayPortForwardingRulesResponse:
         """Returns the port forwarding rules for a single MG.
 
         [API documentation: getDeviceCellularGatewayPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-port-forwarding-rules)
@@ -204,7 +194,7 @@ class CellularGateway:
             scope="cellularGateway",
             operation_id="getDeviceCellularGatewayPortForwardingRules",
             path=path,
-            response_schema=GetDeviceCellularGatewayPortForwardingRulesResponse,
+            response_schema=DeviceCellularGatewayPortForwardingRulesResponse,
         )
 
     def update_device_cellular_gateway_port_forwarding_rules(
@@ -212,7 +202,7 @@ class CellularGateway:
         serial: str,
         *,
         rules: list[UpdateDeviceCellularGatewayPortForwardingRulesRulesItem] | None = None,
-    ) -> UpdateDeviceCellularGatewayPortForwardingRulesResponse:
+    ) -> DeviceCellularGatewayPortForwardingRulesResponse:
         """Updates the port forwarding rules for a single MG.
 
         [API documentation: updateDeviceCellularGatewayPortForwardingRules](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules)
@@ -257,12 +247,12 @@ class CellularGateway:
             operation_id="updateDeviceCellularGatewayPortForwardingRules",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCellularGatewayPortForwardingRulesResponse,
+            response_schema=DeviceCellularGatewayPortForwardingRulesResponse,
         )
 
     def get_network_cellular_gateway_connectivity_monitoring_destinations(
         self, network_id: str
-    ) -> GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse:
+    ) -> NetworkCellularGatewayConnectivityMonitoringDestinationsResponse:
         """Return the connectivity testing destinations for an MG network.
 
         [API documentation: getNetworkCellularGatewayConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-connectivity-monitoring-destinations)
@@ -294,7 +284,7 @@ class CellularGateway:
             scope="cellularGateway",
             operation_id="getNetworkCellularGatewayConnectivityMonitoringDestinations",
             path=path,
-            response_schema=GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
+            response_schema=NetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
         )
 
     def update_network_cellular_gateway_connectivity_monitoring_destinations(
@@ -305,7 +295,7 @@ class CellularGateway:
             UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinationsItem
         ]
         | None = None,
-    ) -> UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse:
+    ) -> NetworkCellularGatewayConnectivityMonitoringDestinationsResponse:
         """Update the connectivity testing destinations for an MG network.
 
         [API documentation: updateNetworkCellularGatewayConnectivityMonitoringDestinations](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations)
@@ -345,12 +335,12 @@ class CellularGateway:
             operation_id="updateNetworkCellularGatewayConnectivityMonitoringDestinations",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
+            response_schema=NetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
         )
 
     def get_network_cellular_gateway_dhcp(
         self, network_id: str
-    ) -> GetNetworkCellularGatewayDhcpResponse:
+    ) -> NetworkCellularGatewayDhcpResponse:
         """List common DHCP settings of MGs.
 
         [API documentation: getNetworkCellularGatewayDhcp](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-dhcp)
@@ -381,7 +371,7 @@ class CellularGateway:
             scope="cellularGateway",
             operation_id="getNetworkCellularGatewayDhcp",
             path=path,
-            response_schema=GetNetworkCellularGatewayDhcpResponse,
+            response_schema=NetworkCellularGatewayDhcpResponse,
         )
 
     def update_network_cellular_gateway_dhcp(
@@ -391,7 +381,7 @@ class CellularGateway:
         dhcp_lease_time: str | None = None,
         dns_nameservers: str | None = None,
         dns_custom_nameservers: list[str] | None = None,
-    ) -> UpdateNetworkCellularGatewayDhcpResponse:
+    ) -> NetworkCellularGatewayDhcpResponse:
         """Update common DHCP settings of MGs.
 
         [API documentation: updateNetworkCellularGatewayDhcp](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp)
@@ -437,12 +427,12 @@ class CellularGateway:
             operation_id="updateNetworkCellularGatewayDhcp",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkCellularGatewayDhcpResponse,
+            response_schema=NetworkCellularGatewayDhcpResponse,
         )
 
     def get_network_cellular_gateway_subnet_pool(
         self, network_id: str
-    ) -> GetNetworkCellularGatewaySubnetPoolResponse:
+    ) -> NetworkCellularGatewaySubnetPoolResponse:
         """Return the subnet pool and mask configured for MGs in the network.
 
         [API documentation: getNetworkCellularGatewaySubnetPool](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-subnet-pool)
@@ -478,12 +468,12 @@ class CellularGateway:
             scope="cellularGateway",
             operation_id="getNetworkCellularGatewaySubnetPool",
             path=path,
-            response_schema=GetNetworkCellularGatewaySubnetPoolResponse,
+            response_schema=NetworkCellularGatewaySubnetPoolResponse,
         )
 
     def update_network_cellular_gateway_subnet_pool(
         self, network_id: str, *, mask: int | None = None, cidr: str | None = None
-    ) -> UpdateNetworkCellularGatewaySubnetPoolResponse:
+    ) -> NetworkCellularGatewaySubnetPoolResponse:
         """Update the subnet pool and mask configuration for MGs in the network.
 
         [API documentation: updateNetworkCellularGatewaySubnetPool](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool)
@@ -529,12 +519,12 @@ class CellularGateway:
             operation_id="updateNetworkCellularGatewaySubnetPool",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkCellularGatewaySubnetPoolResponse,
+            response_schema=NetworkCellularGatewaySubnetPoolResponse,
         )
 
     def get_network_cellular_gateway_uplink(
         self, network_id: str
-    ) -> GetNetworkCellularGatewayUplinkResponse:
+    ) -> NetworkCellularGatewayUplinkResponse:
         """Returns the uplink settings for your MG network.
 
         [API documentation: getNetworkCellularGatewayUplink](https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-uplink)
@@ -563,7 +553,7 @@ class CellularGateway:
             scope="cellularGateway",
             operation_id="getNetworkCellularGatewayUplink",
             path=path,
-            response_schema=GetNetworkCellularGatewayUplinkResponse,
+            response_schema=NetworkCellularGatewayUplinkResponse,
         )
 
     def update_network_cellular_gateway_uplink(
@@ -571,7 +561,7 @@ class CellularGateway:
         network_id: str,
         *,
         bandwidth_limits: UpdateNetworkCellularGatewayUplinkBandwidthLimits | None = None,
-    ) -> UpdateNetworkCellularGatewayUplinkResponse:
+    ) -> NetworkCellularGatewayUplinkResponse:
         """Updates the uplink settings for your MG network.
 
         [API documentation: updateNetworkCellularGatewayUplink](https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink)
@@ -608,12 +598,12 @@ class CellularGateway:
             operation_id="updateNetworkCellularGatewayUplink",
             path=path,
             json=payload,
-            response_schema=UpdateNetworkCellularGatewayUplinkResponse,
+            response_schema=NetworkCellularGatewayUplinkResponse,
         )
 
     def get_organization_cellular_gateway_esims_inventory(
         self, organization_id: str, *, eids: list[str] | None = None
-    ) -> PaginatedResponse[GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem]:
+    ) -> PaginatedResponse[UpdateOrganizationCellularGatewayEsimsInventoryResponse]:
         """The eSIM inventory of a given organization.
 
         [API documentation: getOrganizationCellularGatewayEsimsInventory](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-inventory)
@@ -692,7 +682,7 @@ class CellularGateway:
             operation_id="getOrganizationCellularGatewayEsimsInventory",
             path=path,
             params=params,
-            item_schema=GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem,
+            item_schema=UpdateOrganizationCellularGatewayEsimsInventoryResponse,
         )
 
     def update_organization_cellular_gateway_esims_inventory(
@@ -822,7 +812,7 @@ class CellularGateway:
 
     def get_organization_cellular_gateway_esims_service_providers_accounts(
         self, organization_id: str, *, account_ids: list[int] | None = None
-    ) -> PaginatedResponse[GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem]:
+    ) -> PaginatedResponse[OrganizationCellularGatewayEsimsServiceProvidersAccountResponse]:
         """Inventory of service provider accounts tied to the organization.
 
         [API documentation: getOrganizationCellularGatewayEsimsServiceProvidersAccounts](https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts)
@@ -882,7 +872,7 @@ class CellularGateway:
             operation_id="getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
             path=path,
             params=params,
-            item_schema=GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem,
+            item_schema=OrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
         )
 
     def create_organization_cellular_gateway_esims_service_providers_account(
@@ -894,7 +884,7 @@ class CellularGateway:
         service_provider: CreateOrganizationCellularGatewayEsimsServiceProvidersAccountServiceProvider,
         title: str,
         username: str,
-    ) -> CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse:
+    ) -> OrganizationCellularGatewayEsimsServiceProvidersAccountResponse:
         """Add a service provider account.
 
         [API documentation: createOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-service-providers-account)
@@ -949,7 +939,7 @@ class CellularGateway:
             operation_id="createOrganizationCellularGatewayEsimsServiceProvidersAccount",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
+            response_schema=OrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
         )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
@@ -1078,7 +1068,7 @@ class CellularGateway:
         account_id: str,
         title: str | None = None,
         api_key: str | None = None,
-    ) -> UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse:
+    ) -> OrganizationCellularGatewayEsimsServiceProvidersAccountResponse:
         """Edit service provider account info stored in Meraki's database.
 
         [API documentation: updateOrganizationCellularGatewayEsimsServiceProvidersAccount](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-service-providers-account)
@@ -1124,7 +1114,7 @@ class CellularGateway:
             operation_id="updateOrganizationCellularGatewayEsimsServiceProvidersAccount",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
+            response_schema=OrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
         )
 
     def delete_organization_cellular_gateway_esims_service_providers_account(
@@ -1157,7 +1147,7 @@ class CellularGateway:
         *,
         organization_id: str,
         swaps: list[CreateOrganizationCellularGatewayEsimsSwapSwapsItem],
-    ) -> CreateOrganizationCellularGatewayEsimsSwapResponse:
+    ) -> OrganizationCellularGatewayEsimsSwapResponse:
         """Swap which profile an eSIM uses.
 
         [API documentation: createOrganizationCellularGatewayEsimsSwap](https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap)
@@ -1191,12 +1181,12 @@ class CellularGateway:
             operation_id="createOrganizationCellularGatewayEsimsSwap",
             path=path,
             json=payload,
-            response_schema=CreateOrganizationCellularGatewayEsimsSwapResponse,
+            response_schema=OrganizationCellularGatewayEsimsSwapResponse,
         )
 
     def update_organization_cellular_gateway_esims_swap(
         self, *, id: str, organization_id: str
-    ) -> UpdateOrganizationCellularGatewayEsimsSwapResponse:
+    ) -> OrganizationCellularGatewayEsimsSwapResponse:
         """Get the status of a profile swap.
 
         [API documentation: updateOrganizationCellularGatewayEsimsSwap](https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap)
@@ -1226,7 +1216,7 @@ class CellularGateway:
             scope="cellularGateway",
             operation_id="updateOrganizationCellularGatewayEsimsSwap",
             path=path,
-            response_schema=UpdateOrganizationCellularGatewayEsimsSwapResponse,
+            response_schema=OrganizationCellularGatewayEsimsSwapResponse,
         )
 
     def get_organization_cellular_gateway_uplink_statuses(
