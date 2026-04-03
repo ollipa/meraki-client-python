@@ -11,6 +11,12 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
+    AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
+    AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
+    AttachOrganizationSaseSitesCallback,
+    AttachOrganizationSaseSitesItemsItem,
+    BatchOrganizationSaseConnectorsCreateItemsItem,
+    BatchOrganizationSaseConnectorsDeleteItemsItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced,
     BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateResponse,
@@ -51,9 +57,13 @@ from meraki_client.schemas import (
     CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse,
     CreateOrganizationManagement,
     CreateOrganizationNetworkResponse,
+    CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
+    CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
     CreateOrganizationSamlRoleNetworksItem,
     CreateOrganizationSamlRoleTagsItem,
     CreateOrganizationSplashThemeResponse,
+    DetachOrganizationSaseSitesCallback,
+    DetachOrganizationSaseSitesItemsItem,
     DictResponse,
     DisableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
@@ -63,6 +73,9 @@ from meraki_client.schemas import (
     GetOrganizationApiRequestsOverviewResponse,
     GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem,
     GetOrganizationApiRequestsResponseItem,
+    GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
+    GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponseItemsItem,
+    GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem,
     GetOrganizationAssuranceAlertResponse,
     GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem,
     GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem,
@@ -102,9 +115,16 @@ from meraki_client.schemas import (
     GetOrganizationLicensesOverviewResponse,
     GetOrganizationNetworksResponseItem,
     GetOrganizationPoliciesAssignmentsByClientResponseItem,
+    GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem,
+    GetOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignmentsResponseItemsItem,
     GetOrganizationSamlIdpResponse,
     GetOrganizationSamlIdpsResponse,
+    GetOrganizationSaseConnectorsResponseItemsItem,
     GetOrganizationSaseNetworksEligibleResponseItemsItem,
+    GetOrganizationSaseRegionsResponseItemsItem,
+    GetOrganizationSaseSitesConnectivityHistoryBySiteResponseItemsItem,
+    GetOrganizationSaseSitesConnectivityOverviewResponse,
+    GetOrganizationSaseSitesResponseItemsItem,
     GetOrganizationSplashAssetResponse,
     GetOrganizationSummaryTopAppliancesByUtilizationResponseItem,
     GetOrganizationSummaryTopApplicationsByUsageResponseItem,
@@ -139,6 +159,11 @@ from meraki_client.schemas import (
     OrganizationLicenseResponse,
     OrganizationLicensesSeatsResponse,
     OrganizationLoginSecurityResponse,
+    OrganizationPoliciesGlobalFirewallRulesetResponse,
+    OrganizationPoliciesGlobalFirewallRulesetsRuleResponse,
+    OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
+    OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse,
+    OrganizationPoliciesGlobalGroupPolicyResponse,
     OrganizationPolicyObjectResponse,
     OrganizationPolicyObjectsGroupResponse,
     OrganizationResponse,
@@ -148,6 +173,8 @@ from meraki_client.schemas import (
     OrganizationsPolicyObjectsItem,
     PreviewOrganizationInventoryOrdersResponse,
     ReleaseFromOrganizationInventoryResponse,
+    RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
+    RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
     ReorderOrganizationDevicesPacketCaptureSchedulesOrderItem,
     ReorderOrganizationDevicesPacketCaptureSchedulesResponse,
     UpdateOrganizationActionBatchResponse,
@@ -168,9 +195,13 @@ from meraki_client.schemas import (
     UpdateOrganizationDevicesPacketCaptureScheduleSchedule,
     UpdateOrganizationLoginSecurityApiAuthentication,
     UpdateOrganizationManagement,
+    UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
+    UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
     UpdateOrganizationSamlRoleNetworksItem,
     UpdateOrganizationSamlRoleTagsItem,
     UpdateOrganizationSamlSpInitiated,
+    UpdateOrganizationSaseSiteResponse,
+    UpdateOrganizationSaseSiteRouting,
 )
 from meraki_client.types import (
     CreateOrganizationAdaptivePolicyAclIpVersion,
@@ -180,10 +211,12 @@ from meraki_client.types import (
     CreateOrganizationAlertsProfileType,
     CreateOrganizationDevicesControllerMigrationTarget,
     CreateOrganizationNetworkProductTypes,
+    CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
     GetOrganizationActionBatchesStatus,
     GetOrganizationApiRequestsMethod,
     GetOrganizationApiRequestsOverviewResponseCodesByIntervalVersion,
     GetOrganizationApiRequestsVersion,
+    GetOrganizationApiRestProvisioningPipelinesJobsStatus,
     GetOrganizationAssuranceAlertsCategory,
     GetOrganizationAssuranceAlertsDeviceTypes,
     GetOrganizationAssuranceAlertsOverviewByNetworkCategory,
@@ -233,11 +266,13 @@ from meraki_client.types import (
     GetOrganizationNetworksProductTypes,
     GetOrganizationNetworksTagsFilterType,
     GetOrganizationOpenapiSpecVersion,
+    GetOrganizationSaseSitesStatus,
     GetOrganizationWebhooksAlertTypesProductType,
     UpdateOrganizationAdaptivePolicyAclIpVersion,
     UpdateOrganizationAdaptivePolicyPolicyLastEntryRule,
     UpdateOrganizationAdminOrgAccess,
     UpdateOrganizationAlertsProfileType,
+    UpdateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
     UpdateOrganizationSnmpV3AuthMode,
     UpdateOrganizationSnmpV3PrivMode,
 )
@@ -2265,6 +2300,181 @@ class Organizations:
             scope="organizations", operation_id="deleteOrganizationAlertsProfile", path=path
         )
 
+    def get_organization_api_rest_provisioning_pipelines_jobs(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        pipeline_ids: list[str] | None = None,
+        status: GetOrganizationApiRestProvisioningPipelinesJobsStatus | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem]:
+        """List pipeline jobs, with optional status filtering.
+
+        [API documentation: getOrganizationApiRestProvisioningPipelinesJobs](https://developer.cisco.com/meraki/api-v1/#!get-organization-api-rest-provisioning-pipelines-jobs)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 10.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            pipeline_ids: Pipeline IDs to retrieve jobs for.
+            status: If provided, filters jobs by status.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "pipeline": {
+                    "id": "1234"
+                  },
+                  "jobId": "456",
+                  "operation": {
+                    "name": "enroll wired site"
+                  },
+                  "status": "complete",
+                  "errors": [
+                    {
+                      "message": "Failed to enroll site"
+                    }
+                  ],
+                  "details": [
+                    {
+                      "name": "networkId",
+                      "value": "N_123"
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/api/rest/provisioning/pipelines/jobs"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if pipeline_ids is not None:
+            params["pipelineIds[]"] = pipeline_ids
+        if status is not None:
+            params["status"] = status
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationApiRestProvisioningPipelinesJobs",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem,
+        )
+
+    def get_organization_api_rest_provisioning_pipelines_jobs_overviews_by_pipeline(
+        self, organization_id: str, *, pipeline_ids: list[str] | None = None
+    ) -> PaginatedResponse[
+        GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponseItemsItem
+    ]:
+        """Retrieves pipeline overviews with aggregated job status counts.
+
+        [API documentation: getOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipeline](https://developer.cisco.com/meraki/api-v1/#!get-organization-api-rest-provisioning-pipelines-jobs-overviews-by-pipeline)
+
+        Args:
+            organization_id: Organization ID.
+            pipeline_ids: Pipeline IDs to retrieve overviews for.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "pipelineId": "1234",
+                  "operation": {
+                    "id": "enrollOrganizationSaseSites"
+                  },
+                  "status": "active",
+                  "counts": {
+                    "jobs": {
+                      "total": 3,
+                      "byStatus": {
+                        "completed": 1,
+                        "failed": 1,
+                        "pending": 1
+                      }
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/api/rest/provisioning/pipelines/jobs/overviews/byPipeline"
+
+        params: dict[str, Any] = {}
+        if pipeline_ids is not None:
+            params["pipelineIds[]"] = pipeline_ids
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipeline",
+            path=path,
+            params=params,
+            item_schema=GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponseItemsItem,
+        )
+
     def get_organization_api_requests(
         self,
         organization_id: str,
@@ -2960,6 +3170,7 @@ class Organizations:
                   "networkId": "L_30618",
                   "networkName": "s01797.us",
                   "alertCount": 3,
+                  "lastAlertedAt": "2022-04-01T15:48:57Z",
                   "severityCounts": [
                     {
                       "type": "warning",
@@ -10391,6 +10602,1557 @@ class Organizations:
             item_schema=GetOrganizationPoliciesAssignmentsByClientResponseItem,
         )
 
+    def get_organization_policies_global_firewall_application_categories(
+        self, organization_id: str
+    ) -> PaginatedResponse[GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem]:
+        """List application categories with their associated applications.
+
+        [API documentation: getOrganizationPoliciesGlobalFirewallApplicationCategories](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-firewall-application-categories)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            [
+              {
+                "id": "meraki:layer7/category/1",
+                "name": "Email",
+                "applications": [
+                  {
+                    "id": "meraki:layer7/application/4",
+                    "name": "Gmail",
+                    "nbar": {
+                      "mappings": [
+                        {
+                          "id": 1658
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/applicationCategories"
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationPoliciesGlobalFirewallApplicationCategories",
+            path=path,
+            item_schema=GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem,
+        )
+
+    def get_organization_policies_global_firewall_rulesets(
+        self,
+        organization_id: str,
+        *,
+        ruleset_ids: list[str] | None = None,
+        name: str | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[OrganizationPoliciesGlobalFirewallRulesetResponse]:
+        """List Organization-Wide Policy Firewall Rulesets.
+
+        [API documentation: getOrganizationPoliciesGlobalFirewallRulesets](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-firewall-rulesets)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_ids: Filter rulesets by IDs.
+            name: Filter rulesets by name (partial match, case-insensitive). If multiple instances
+                are provided, only the last one is used.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "rulesetId": "123",
+                  "name": "Block Social Media",
+                  "description": "Block all Social Media",
+                  "createdAt": "2021-01-01T00:00:00Z",
+                  "lastUpdatedAt": "2021-01-01T00:00:00Z"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 12,
+                    "remaining": 2
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets"
+
+        params: dict[str, Any] = {}
+        if ruleset_ids is not None:
+            params["rulesetIds[]"] = ruleset_ids
+        if name is not None:
+            params["name"] = name
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationPoliciesGlobalFirewallRulesets",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationPoliciesGlobalFirewallRulesetResponse,
+        )
+
+    def create_organization_policies_global_firewall_ruleset(
+        self, *, organization_id: str, name: str, description: str | None = None
+    ) -> OrganizationPoliciesGlobalFirewallRulesetResponse:
+        """Create an Organization-Wide Policy Firewall Ruleset.
+
+        [API documentation: createOrganizationPoliciesGlobalFirewallRuleset](https://developer.cisco.com/meraki/api-v1/#!create-organization-policies-global-firewall-ruleset)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the firewall ruleset.
+            description: Description of the firewall ruleset.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rulesetId": "123",
+              "name": "Block Social Media",
+              "description": "Block all Social Media",
+              "createdAt": "2021-01-01T00:00:00Z",
+              "lastUpdatedAt": "2021-01-01T00:00:00Z"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="createOrganizationPoliciesGlobalFirewallRuleset",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalFirewallRulesetResponse,
+        )
+
+    def get_organization_policies_global_firewall_rulesets_rules(
+        self,
+        organization_id: str,
+        *,
+        ruleset_ids: list[str] | None = None,
+        rule_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[OrganizationPoliciesGlobalFirewallRulesetsRuleResponse]:
+        """List Organization-Wide Policy Firewall Rules.
+
+        [API documentation: getOrganizationPoliciesGlobalFirewallRulesetsRules](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-firewall-rulesets-rules)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_ids: Filter rules by firewall ruleset IDs.
+            rule_ids: Filter rules by rule IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "ruleId": "123",
+                  "name": "Allow developers",
+                  "rulesetId": "32",
+                  "policy": "deny",
+                  "enabled": true,
+                  "priority": 100,
+                  "description": "This is rule 1",
+                  "sources": {
+                    "matchCriteria": [
+                      "addressRanges",
+                      "ports",
+                      "policyObjects",
+                      "policyObjectGroups",
+                      "applianceVlans"
+                    ],
+                    "criteria": {
+                      "addressRanges": [
+                        "1.1.1.1",
+                        "2.2.2.2"
+                      ],
+                      "ports": [
+                        "22",
+                        "42-46"
+                      ],
+                      "policyObjects": [
+                        {
+                          "id": "23"
+                        }
+                      ],
+                      "policyObjectGroups": [
+                        {
+                          "id": "45"
+                        }
+                      ],
+                      "applianceVlans": [
+                        {
+                          "interfaceId": "L_123456789012345678_vlan_200"
+                        }
+                      ],
+                      "siteSpecificVlans": [
+                        {
+                          "id": 100,
+                          "address": {
+                            "offsets": {
+                              "ipv4": 25,
+                              "ipv6": "0:ff:fe01:0"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "destinations": {
+                    "matchCriteria": [
+                      "addressRanges",
+                      "services",
+                      "applicationCategories",
+                      "applications",
+                      "policyObjects",
+                      "policyObjectGroups",
+                      "applianceVlans"
+                    ],
+                    "criteria": {
+                      "addressRanges": [
+                        "1.1.1.1",
+                        "2.2.2.2"
+                      ],
+                      "ports": [
+                        "22",
+                        "42-46"
+                      ],
+                      "services": [
+                        {
+                          "protocol": "tcp",
+                          "ports": [
+                            "80",
+                            "443"
+                          ]
+                        }
+                      ],
+                      "applicationCategories": [
+                        {
+                          "id": "meraki:layer7/category/24"
+                        }
+                      ],
+                      "applications": [
+                        {
+                          "id": "meraki:layer7/application/5",
+                          "name": "Advertising.com"
+                        }
+                      ],
+                      "policyObjects": [
+                        {
+                          "id": "23"
+                        }
+                      ],
+                      "policyObjectGroups": [
+                        {
+                          "id": "45"
+                        }
+                      ],
+                      "applianceVlans": [
+                        {
+                          "interfaceId": "L_123456789012345678_vlan_200"
+                        }
+                      ],
+                      "countries": [
+                        {
+                          "code": "US"
+                        }
+                      ],
+                      "fqdns": [
+                        "*.example.com"
+                      ],
+                      "siteSpecificVlans": [
+                        {
+                          "id": 100,
+                          "address": {
+                            "offsets": {
+                              "ipv4": 25,
+                              "ipv6": "0:ff:fe01:0"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "createdAt": "2021-01-01T00:00:00Z",
+                  "lastUpdatedAt": "2021-01-01T00:00:00Z"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 25,
+                    "remaining": 15
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/rules"
+
+        params: dict[str, Any] = {}
+        if ruleset_ids is not None:
+            params["rulesetIds[]"] = ruleset_ids
+        if rule_ids is not None:
+            params["ruleIds[]"] = rule_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationPoliciesGlobalFirewallRulesetsRules",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationPoliciesGlobalFirewallRulesetsRuleResponse,
+        )
+
+    def create_organization_policies_global_firewall_rulesets_rule(
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        ruleset_id: str,
+        policy: CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
+        sources: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
+        destinations: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
+        enabled: bool | None = None,
+        priority: int | None = None,
+        description: str | None = None,
+    ) -> OrganizationPoliciesGlobalFirewallRulesetsRuleResponse:
+        """Create an Organization-Wide Policy Firewall Rule.
+
+        [API documentation: createOrganizationPoliciesGlobalFirewallRulesetsRule](https://developer.cisco.com/meraki/api-v1/#!create-organization-policies-global-firewall-rulesets-rule)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the firewall rule.
+            ruleset_id: Firewall ruleset ID to associate the rule with.
+            policy: Rule policy - allow or deny traffic.
+            enabled: Whether the rule is enabled.
+            priority: Rule priority (lower numbers = higher priority).
+            description: Description of the firewall rule.
+            sources: Source traffic criteria. Each source or destination bloc is capped separately
+                per rule at 100 total segment values. The count is
+                segments_values_count: the sum of all values across every segment type
+                in that bloc. Ports use a separate cap of 100.
+            destinations: Destination traffic criteria. Each source or destination bloc is capped
+                separately per rule at 100 total segment values. The count is
+                segments_values_count: the sum of all values across every segment type
+                in that bloc. Ports use a separate cap of 100.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ruleId": "123",
+              "name": "Allow developers",
+              "rulesetId": "32",
+              "policy": "deny",
+              "enabled": true,
+              "priority": 100,
+              "description": "This is rule 1",
+              "sources": {
+                "matchCriteria": [
+                  "addressRanges",
+                  "ports",
+                  "policyObjects",
+                  "policyObjectGroups",
+                  "applianceVlans"
+                ],
+                "criteria": {
+                  "addressRanges": [
+                    "1.1.1.1",
+                    "2.2.2.2"
+                  ],
+                  "ports": [
+                    "22",
+                    "42-46"
+                  ],
+                  "policyObjects": [
+                    {
+                      "id": "23"
+                    }
+                  ],
+                  "policyObjectGroups": [
+                    {
+                      "id": "45"
+                    }
+                  ],
+                  "applianceVlans": [
+                    {
+                      "interfaceId": "L_123456789012345678_vlan_200"
+                    }
+                  ],
+                  "siteSpecificVlans": [
+                    {
+                      "id": 100,
+                      "address": {
+                        "offsets": {
+                          "ipv4": 25,
+                          "ipv6": "0:ff:fe01:0"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "destinations": {
+                "matchCriteria": [
+                  "addressRanges",
+                  "services",
+                  "applicationCategories",
+                  "applications",
+                  "policyObjects",
+                  "policyObjectGroups",
+                  "applianceVlans"
+                ],
+                "criteria": {
+                  "addressRanges": [
+                    "1.1.1.1",
+                    "2.2.2.2"
+                  ],
+                  "ports": [
+                    "22",
+                    "42-46"
+                  ],
+                  "services": [
+                    {
+                      "protocol": "tcp",
+                      "ports": [
+                        "80",
+                        "443"
+                      ]
+                    }
+                  ],
+                  "applicationCategories": [
+                    {
+                      "id": "meraki:layer7/category/24"
+                    }
+                  ],
+                  "applications": [
+                    {
+                      "id": "meraki:layer7/application/5",
+                      "name": "Advertising.com"
+                    }
+                  ],
+                  "policyObjects": [
+                    {
+                      "id": "23"
+                    }
+                  ],
+                  "policyObjectGroups": [
+                    {
+                      "id": "45"
+                    }
+                  ],
+                  "applianceVlans": [
+                    {
+                      "interfaceId": "L_123456789012345678_vlan_200"
+                    }
+                  ],
+                  "countries": [
+                    {
+                      "code": "US"
+                    }
+                  ],
+                  "fqdns": [
+                    "*.example.com"
+                  ],
+                  "siteSpecificVlans": [
+                    {
+                      "id": 100,
+                      "address": {
+                        "offsets": {
+                          "ipv4": 25,
+                          "ipv6": "0:ff:fe01:0"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "createdAt": "2021-01-01T00:00:00Z",
+              "lastUpdatedAt": "2021-01-01T00:00:00Z"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/rules"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if ruleset_id is not None:
+            payload["rulesetId"] = ruleset_id
+        if policy is not None:
+            payload["policy"] = policy
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if priority is not None:
+            payload["priority"] = priority
+        if description is not None:
+            payload["description"] = description
+        if sources is not None:
+            payload["sources"] = sources.model_dump(by_alias=True, exclude_none=True)
+        if destinations is not None:
+            payload["destinations"] = destinations.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="createOrganizationPoliciesGlobalFirewallRulesetsRule",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalFirewallRulesetsRuleResponse,
+        )
+
+    def update_organization_policies_global_firewall_rulesets_rule(
+        self,
+        *,
+        organization_id: str,
+        rule_id: str,
+        name: str | None = None,
+        ruleset_id: str | None = None,
+        policy: UpdateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy | None = None,
+        enabled: bool | None = None,
+        priority: int | None = None,
+        description: str | None = None,
+        sources: UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources | None = None,
+        destinations: UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations
+        | None = None,
+    ) -> OrganizationPoliciesGlobalFirewallRulesetsRuleResponse:
+        """Update an Organization-Wide Policy Firewall Rule.
+
+        [API documentation: updateOrganizationPoliciesGlobalFirewallRulesetsRule](https://developer.cisco.com/meraki/api-v1/#!update-organization-policies-global-firewall-rulesets-rule)
+
+        Args:
+            organization_id: Organization ID.
+            rule_id: Rule ID.
+            name: Name of the firewall rule.
+            ruleset_id: Firewall ruleset ID to associate the rule with.
+            policy: Rule policy - allow or deny traffic.
+            enabled: Whether the rule is enabled.
+            priority: Rule priority (lower numbers = higher priority).
+            description: Description of the firewall rule.
+            sources: Source traffic criteria. Each source or destination bloc is capped separately
+                per rule at 100 total segment values. The count is
+                segments_values_count: the sum of all values across every segment type
+                in that bloc. Ports use a separate cap of 100.
+            destinations: Destination traffic criteria. Each source or destination bloc is capped
+                separately per rule at 100 total segment values. The count is
+                segments_values_count: the sum of all values across every segment type
+                in that bloc. Ports use a separate cap of 100.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ruleId": "123",
+              "name": "Allow developers",
+              "rulesetId": "32",
+              "policy": "deny",
+              "enabled": true,
+              "priority": 100,
+              "description": "This is rule 1",
+              "sources": {
+                "matchCriteria": [
+                  "addressRanges",
+                  "ports",
+                  "policyObjects",
+                  "policyObjectGroups",
+                  "applianceVlans"
+                ],
+                "criteria": {
+                  "addressRanges": [
+                    "1.1.1.1",
+                    "2.2.2.2"
+                  ],
+                  "ports": [
+                    "22",
+                    "42-46"
+                  ],
+                  "policyObjects": [
+                    {
+                      "id": "23"
+                    }
+                  ],
+                  "policyObjectGroups": [
+                    {
+                      "id": "45"
+                    }
+                  ],
+                  "applianceVlans": [
+                    {
+                      "interfaceId": "L_123456789012345678_vlan_200"
+                    }
+                  ],
+                  "siteSpecificVlans": [
+                    {
+                      "id": 100,
+                      "address": {
+                        "offsets": {
+                          "ipv4": 25,
+                          "ipv6": "0:ff:fe01:0"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "destinations": {
+                "matchCriteria": [
+                  "addressRanges",
+                  "services",
+                  "applicationCategories",
+                  "applications",
+                  "policyObjects",
+                  "policyObjectGroups",
+                  "applianceVlans"
+                ],
+                "criteria": {
+                  "addressRanges": [
+                    "1.1.1.1",
+                    "2.2.2.2"
+                  ],
+                  "ports": [
+                    "22",
+                    "42-46"
+                  ],
+                  "services": [
+                    {
+                      "protocol": "tcp",
+                      "ports": [
+                        "80",
+                        "443"
+                      ]
+                    }
+                  ],
+                  "applicationCategories": [
+                    {
+                      "id": "meraki:layer7/category/24"
+                    }
+                  ],
+                  "applications": [
+                    {
+                      "id": "meraki:layer7/application/5",
+                      "name": "Advertising.com"
+                    }
+                  ],
+                  "policyObjects": [
+                    {
+                      "id": "23"
+                    }
+                  ],
+                  "policyObjectGroups": [
+                    {
+                      "id": "45"
+                    }
+                  ],
+                  "applianceVlans": [
+                    {
+                      "interfaceId": "L_123456789012345678_vlan_200"
+                    }
+                  ],
+                  "countries": [
+                    {
+                      "code": "US"
+                    }
+                  ],
+                  "fqdns": [
+                    "*.example.com"
+                  ],
+                  "siteSpecificVlans": [
+                    {
+                      "id": 100,
+                      "address": {
+                        "offsets": {
+                          "ipv4": 25,
+                          "ipv6": "0:ff:fe01:0"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "createdAt": "2021-01-01T00:00:00Z",
+              "lastUpdatedAt": "2021-01-01T00:00:00Z"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        rule_id = urllib.parse.quote(str(rule_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/rules/{rule_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if ruleset_id is not None:
+            payload["rulesetId"] = ruleset_id
+        if policy is not None:
+            payload["policy"] = policy
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if priority is not None:
+            payload["priority"] = priority
+        if description is not None:
+            payload["description"] = description
+        if sources is not None:
+            payload["sources"] = sources.model_dump(by_alias=True, exclude_none=True)
+        if destinations is not None:
+            payload["destinations"] = destinations.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="organizations",
+            operation_id="updateOrganizationPoliciesGlobalFirewallRulesetsRule",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalFirewallRulesetsRuleResponse,
+        )
+
+    def delete_organization_policies_global_firewall_rulesets_rule(
+        self, *, organization_id: str, rule_id: str
+    ) -> None:
+        """Delete an Organization-Wide Policy Firewall Rule.
+
+        [API documentation: deleteOrganizationPoliciesGlobalFirewallRulesetsRule](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policies-global-firewall-rulesets-rule)
+
+        Args:
+            organization_id: Organization ID.
+            rule_id: Rule ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        rule_id = urllib.parse.quote(str(rule_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/rules/{rule_id}"
+
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationPoliciesGlobalFirewallRulesetsRule",
+            path=path,
+        )
+
+    def update_organization_policies_global_firewall_ruleset(
+        self,
+        *,
+        organization_id: str,
+        ruleset_id: str,
+        name: str | None = None,
+        description: str | None = None,
+    ) -> OrganizationPoliciesGlobalFirewallRulesetResponse:
+        """Update an Organization-Wide Policy Firewall Ruleset.
+
+        [API documentation: updateOrganizationPoliciesGlobalFirewallRuleset](https://developer.cisco.com/meraki/api-v1/#!update-organization-policies-global-firewall-ruleset)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_id: Ruleset ID.
+            name: Name of the firewall ruleset.
+            description: Description of the firewall ruleset.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "rulesetId": "123",
+              "name": "Block Social Media",
+              "description": "Block all Social Media",
+              "createdAt": "2021-01-01T00:00:00Z",
+              "lastUpdatedAt": "2021-01-01T00:00:00Z"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        ruleset_id = urllib.parse.quote(str(ruleset_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/{ruleset_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+
+        return self._session.put(
+            scope="organizations",
+            operation_id="updateOrganizationPoliciesGlobalFirewallRuleset",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalFirewallRulesetResponse,
+        )
+
+    def delete_organization_policies_global_firewall_ruleset(
+        self, *, organization_id: str, ruleset_id: str
+    ) -> None:
+        """Delete an Organization-Wide Policy Firewall Ruleset.
+
+        [API documentation: deleteOrganizationPoliciesGlobalFirewallRuleset](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policies-global-firewall-ruleset)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_id: Ruleset ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        ruleset_id = urllib.parse.quote(str(ruleset_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/{ruleset_id}"
+
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationPoliciesGlobalFirewallRuleset",
+            path=path,
+        )
+
+    def get_organization_policies_global_group_policies(
+        self,
+        organization_id: str,
+        *,
+        name: str | None = None,
+        policy_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[OrganizationPoliciesGlobalGroupPolicyResponse]:
+        """List Organization-Wide Policies.
+
+        [API documentation: getOrganizationPoliciesGlobalGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-group-policies)
+
+        Args:
+            organization_id: Organization ID.
+            name: Filter policies by name (partial match, case-insensitive). If multiple instances
+                are provided, only the last one is used.
+            policy_ids: Filter policies by IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "policyId": "123",
+                  "name": "My policy",
+                  "description": "My policy description",
+                  "group": {
+                    "number": 100
+                  },
+                  "createdAt": "2021-01-01T00:00:00Z",
+                  "lastUpdatedAt": "2021-01-01T00:00:00Z"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 12,
+                    "remaining": 2
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies"
+
+        params: dict[str, Any] = {}
+        if name is not None:
+            params["name"] = name
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationPoliciesGlobalGroupPolicies",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationPoliciesGlobalGroupPolicyResponse,
+        )
+
+    def create_organization_policies_global_group_policy(
+        self, *, organization_id: str, name: str, description: str | None = None
+    ) -> OrganizationPoliciesGlobalGroupPolicyResponse:
+        """Create an Organization-Wide Policy.
+
+        [API documentation: createOrganizationPoliciesGlobalGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-policies-global-group-policy)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the policy.
+            description: Description of the policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "policyId": "123",
+              "name": "My policy",
+              "description": "My policy description",
+              "group": {
+                "number": 100
+              },
+              "createdAt": "2021-01-01T00:00:00Z",
+              "lastUpdatedAt": "2021-01-01T00:00:00Z"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="createOrganizationPoliciesGlobalGroupPolicy",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalGroupPolicyResponse,
+        )
+
+    def assign_organization_policies_global_group_policies_adaptive_policy_groups(
+        self,
+        *,
+        organization_id: str,
+        policy: AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
+        adaptive_policy_groups: list[
+            AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem
+        ],
+    ) -> OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
+        """Assign adaptive policy groups to a policy.
+
+        [API documentation: assignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!assign-organization-policies-global-group-policies-adaptive-policy-groups)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to assign adaptive policy groups to.
+            adaptive_policy_groups: Adaptive policy groups to assign.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/adaptivePolicyGroups/assign"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if adaptive_policy_groups is not None:
+            payload["adaptivePolicyGroups"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in adaptive_policy_groups
+            ]
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="assignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
+        )
+
+    def get_organization_policies_global_group_policies_adaptive_policy_groups_assignments(
+        self,
+        organization_id: str,
+        *,
+        assignment_ids: list[str] | None = None,
+        policy_ids: list[str] | None = None,
+        adaptive_policy_group_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignmentsResponseItemsItem
+    ]:
+        """List adaptive policy group assignments.
+
+        [API documentation: getOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-group-policies-adaptive-policy-groups-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            assignment_ids: Filter assignments by assignment IDs.
+            policy_ids: Filter assignments by policy IDs.
+            adaptive_policy_group_ids: Filter assignments by adaptive policy group IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "assignment_123",
+                  "policyId": "policy_456",
+                  "adaptivePolicyGroupId": "1234"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 25,
+                    "remaining": 15
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/adaptivePolicyGroups/assignments"
+
+        params: dict[str, Any] = {}
+        if assignment_ids is not None:
+            params["assignmentIds[]"] = assignment_ids
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if adaptive_policy_group_ids is not None:
+            params["adaptivePolicyGroupIds[]"] = adaptive_policy_group_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignments",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignmentsResponseItemsItem,
+        )
+
+    def remove_organization_policies_global_group_policies_adaptive_policy_groups(
+        self,
+        *,
+        organization_id: str,
+        policy: RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
+        adaptive_policy_groups: list[
+            RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem
+        ],
+    ) -> OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
+        """Remove adaptive policy groups from a policy.
+
+        [API documentation: removeOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!remove-organization-policies-global-group-policies-adaptive-policy-groups)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to remove adaptive policy groups from.
+            adaptive_policy_groups: Adaptive policy groups to remove.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/adaptivePolicyGroups/remove"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if adaptive_policy_groups is not None:
+            payload["adaptivePolicyGroups"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in adaptive_policy_groups
+            ]
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="removeOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
+        )
+
+    def get_organization_policies_global_group_policies_firewall_rulesets_assignments(
+        self,
+        organization_id: str,
+        *,
+        ruleset_ids: list[str] | None = None,
+        policy_ids: list[str] | None = None,
+        assignment_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse
+    ]:
+        """List Organization-Wide Policy Ruleset Assignments.
+
+        [API documentation: getOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-group-policies-firewall-rulesets-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_ids: Filter assignments by ruleset IDs.
+            policy_ids: Filter assignments by policy IDs.
+            assignment_ids: Filter assignments by assignment IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123",
+                  "rulesetId": "456",
+                  "policyId": "789",
+                  "priority": 0,
+                  "createdAt": "2021-01-01T00:00:00Z",
+                  "lastUpdatedAt": "2021-01-01T00:00:00Z"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 15,
+                    "remaining": 5
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments"
+
+        params: dict[str, Any] = {}
+        if ruleset_ids is not None:
+            params["rulesetIds[]"] = ruleset_ids
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if assignment_ids is not None:
+            params["assignmentIds[]"] = assignment_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignments",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse,
+        )
+
+    def create_organization_policies_global_group_policies_firewall_rulesets_assignment(
+        self, *, organization_id: str, ruleset_id: str, policy_id: str, priority: int | None = None
+    ) -> OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse:
+        """Create an Organization-Wide Policy Ruleset Assignment.
+
+        [API documentation: createOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment](https://developer.cisco.com/meraki/api-v1/#!create-organization-policies-global-group-policies-firewall-rulesets-assignment)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_id: ID of the ruleset to assign.
+            policy_id: ID of the policy to assign the ruleset to.
+            priority: Priority of the ruleset assignment (lower numbers = higher priority).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "assignmentId": "123",
+              "rulesetId": "456",
+              "policyId": "789",
+              "priority": 0,
+              "createdAt": "2021-01-01T00:00:00Z",
+              "lastUpdatedAt": "2021-01-01T00:00:00Z"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments"
+
+        payload: dict[str, Any] = {}
+        if ruleset_id is not None:
+            payload["rulesetId"] = ruleset_id
+        if policy_id is not None:
+            payload["policyId"] = policy_id
+        if priority is not None:
+            payload["priority"] = priority
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="createOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse,
+        )
+
+    def update_organization_policies_global_group_policies_firewall_rulesets_assignment(
+        self,
+        *,
+        organization_id: str,
+        assignment_id: str,
+        ruleset_id: str | None = None,
+        policy_id: str | None = None,
+        priority: int | None = None,
+    ) -> OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse:
+        """Update an Organization-Wide Policy Ruleset Assignment.
+
+        [API documentation: updateOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment](https://developer.cisco.com/meraki/api-v1/#!update-organization-policies-global-group-policies-firewall-rulesets-assignment)
+
+        Args:
+            organization_id: Organization ID.
+            assignment_id: Assignment ID.
+            ruleset_id: ID of the ruleset to assign.
+            policy_id: ID of the policy to assign the ruleset to.
+            priority: Priority of the ruleset assignment (lower numbers = higher priority).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "assignmentId": "123",
+              "rulesetId": "456",
+              "policyId": "789",
+              "priority": 0,
+              "createdAt": "2021-01-01T00:00:00Z",
+              "lastUpdatedAt": "2021-01-01T00:00:00Z"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        assignment_id = urllib.parse.quote(str(assignment_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments/{assignment_id}"
+
+        payload: dict[str, Any] = {}
+        if ruleset_id is not None:
+            payload["rulesetId"] = ruleset_id
+        if policy_id is not None:
+            payload["policyId"] = policy_id
+        if priority is not None:
+            payload["priority"] = priority
+
+        return self._session.put(
+            scope="organizations",
+            operation_id="updateOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse,
+        )
+
+    def delete_organization_policies_global_group_policies_firewall_rulesets_assignment(
+        self, *, organization_id: str, assignment_id: str
+    ) -> None:
+        """Delete an Organization-Wide Policy Ruleset Assignment.
+
+        [API documentation: deleteOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policies-global-group-policies-firewall-rulesets-assignment)
+
+        Args:
+            organization_id: Organization ID.
+            assignment_id: Assignment ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        assignment_id = urllib.parse.quote(str(assignment_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments/{assignment_id}"
+
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment",
+            path=path,
+        )
+
+    def update_organization_policies_global_group_policy(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        name: str | None = None,
+        description: str | None = None,
+    ) -> OrganizationPoliciesGlobalGroupPolicyResponse:
+        """Update an Organization-Wide Policy.
+
+        [API documentation: updateOrganizationPoliciesGlobalGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-policies-global-group-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            name: Name of the policy.
+            description: Description of the policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "policyId": "123",
+              "name": "My policy",
+              "description": "My policy description",
+              "group": {
+                "number": 100
+              },
+              "createdAt": "2021-01-01T00:00:00Z",
+              "lastUpdatedAt": "2021-01-01T00:00:00Z"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/{policy_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+
+        return self._session.put(
+            scope="organizations",
+            operation_id="updateOrganizationPoliciesGlobalGroupPolicy",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalGroupPolicyResponse,
+        )
+
+    def delete_organization_policies_global_group_policy(
+        self, *, organization_id: str, policy_id: str
+    ) -> None:
+        """Delete an Organization-Wide Policy.
+
+        [API documentation: deleteOrganizationPoliciesGlobalGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policies-global-group-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/{policy_id}"
+
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationPoliciesGlobalGroupPolicy",
+            path=path,
+        )
+
     def get_organization_policy_objects(
         self,
         organization_id: str,
@@ -11559,6 +13321,189 @@ class Organizations:
             scope="organizations", operation_id="deleteOrganizationSamlRole", path=path
         )
 
+    def get_organization_sase_connectors(
+        self, organization_id: str
+    ) -> PaginatedResponse[GetOrganizationSaseConnectorsResponseItemsItem]:
+        """List SSE Connectors for an organization.
+
+        [API documentation: getOrganizationSaseConnectors](https://developer.cisco.com/meraki/api-v1/#!get-organization-sase-connectors)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "id": "123",
+                  "name": "us-west-1-connector",
+                  "region": {
+                    "name": "US West Coast",
+                    "slug": "us-west-1"
+                  },
+                  "state": "deployed",
+                  "counts": {
+                    "sitesConnected": {
+                      "total": 5
+                    }
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/connectors"
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationSaseConnectors",
+            path=path,
+            item_schema=GetOrganizationSaseConnectorsResponseItemsItem,
+        )
+
+    def batch_organization_sase_connectors_create(
+        self,
+        organization_id: str,
+        *,
+        items: list[BatchOrganizationSaseConnectorsCreateItemsItem] | None = None,
+    ) -> GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse:
+        """Deploy SSE Connectors for specified regions.
+
+        [API documentation: batchOrganizationSaseConnectorsCreate](https://developer.cisco.com/meraki/api-v1/#!batch-organization-sase-connectors-create)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of connectors to deploy (maximum 20 items).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "pipelineId": "1234",
+                  "operation": {
+                    "id": "enrollOrganizationSaseSites"
+                  },
+                  "status": "active",
+                  "counts": {
+                    "jobs": {
+                      "total": 3,
+                      "byStatus": {
+                        "completed": 1,
+                        "failed": 1,
+                        "pending": 1
+                      }
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/connectors/batchCreate"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="batchOrganizationSaseConnectorsCreate",
+            path=path,
+            json=payload,
+            response_schema=GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
+        )
+
+    def batch_organization_sase_connectors_delete(
+        self,
+        organization_id: str,
+        *,
+        items: list[BatchOrganizationSaseConnectorsDeleteItemsItem] | None = None,
+    ) -> GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse:
+        """Delete SSE Connectors by ID.
+
+        [API documentation: batchOrganizationSaseConnectorsDelete](https://developer.cisco.com/meraki/api-v1/#!batch-organization-sase-connectors-delete)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of connectors to delete (maximum 20 items).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "pipelineId": "1234",
+                  "operation": {
+                    "id": "enrollOrganizationSaseSites"
+                  },
+                  "status": "active",
+                  "counts": {
+                    "jobs": {
+                      "total": 3,
+                      "byStatus": {
+                        "completed": 1,
+                        "failed": 1,
+                        "pending": 1
+                      }
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/connectors/batchDelete"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="batchOrganizationSaseConnectorsDelete",
+            path=path,
+            json=payload,
+            response_schema=GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
+        )
+
     def get_organization_sase_networks_eligible(
         self,
         organization_id: str,
@@ -11661,6 +13606,513 @@ class Organizations:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationSaseNetworksEligibleResponseItemsItem,
+        )
+
+    def get_organization_sase_regions(
+        self, organization_id: str
+    ) -> PaginatedResponse[GetOrganizationSaseRegionsResponseItemsItem]:
+        """List regions.
+
+        [API documentation: getOrganizationSaseRegions](https://developer.cisco.com/meraki/api-v1/#!get-organization-sase-regions)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "connector": {
+                    "id": "123"
+                  },
+                  "type": "Cloud Native Head End",
+                  "name": "US West",
+                  "slug": "us-west-1"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/regions"
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationSaseRegions",
+            path=path,
+            item_schema=GetOrganizationSaseRegionsResponseItemsItem,
+        )
+
+    def get_organization_sase_sites(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        search: str | None = None,
+        status: GetOrganizationSaseSitesStatus | None = None,
+        site_id: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationSaseSitesResponseItemsItem]:
+        """List of enrolled SASE sites in this organization.
+
+        [API documentation: getOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!get-organization-sase-sites)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 10.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            search: If provided, filters results by search string.
+            status: If provided, filters results by site status label (e.g., 'good').
+            site_id: If provided, returns only the site matching this ID.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "siteId": "1234",
+                  "network": {
+                    "id": "N_123"
+                  },
+                  "type": "Meraki spoke",
+                  "name": "London Office",
+                  "region": {
+                    "slug": "us-east-1"
+                  },
+                  "model": "MX95",
+                  "address": {
+                    "street": "123 Main St"
+                  },
+                  "vpn": {
+                    "type": "spoke"
+                  },
+                  "routing": {
+                    "defaultRoute": {
+                      "enabled": true
+                    }
+                  },
+                  "devices": {
+                    "primary": {
+                      "name": "cc:03:d9:01:00:0a",
+                      "model": "MX95"
+                    },
+                    "spare": {
+                      "name": "cc:03:d9:01:00:0b",
+                      "model": "MX95"
+                    }
+                  },
+                  "subnets": [
+                    {
+                      "subnet": "192.168.100.0/24"
+                    }
+                  ],
+                  "url": "https://n123.meraki.com/London-Office/n/cEF-pd"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if search is not None:
+            params["search"] = search
+        if status is not None:
+            params["status"] = status
+        if site_id is not None:
+            params["siteId"] = site_id
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationSaseSites",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationSaseSitesResponseItemsItem,
+        )
+
+    def attach_organization_sase_sites(
+        self,
+        organization_id: str,
+        *,
+        items: list[AttachOrganizationSaseSitesItemsItem] | None = None,
+        callback: AttachOrganizationSaseSitesCallback | None = None,
+    ) -> GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse:
+        """Attach sites in this organization to Secure Access.
+
+        [API documentation: attachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!attach-organization-sase-sites)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of Meraki SD-WAN sites with the associated regions to be attached.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "pipelineId": "1234",
+                  "operation": {
+                    "id": "enrollOrganizationSaseSites"
+                  },
+                  "status": "active",
+                  "counts": {
+                    "jobs": {
+                      "total": 3,
+                      "byStatus": {
+                        "completed": 1,
+                        "failed": 1,
+                        "pending": 1
+                      }
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites/attach"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="attachOrganizationSaseSites",
+            path=path,
+            json=payload,
+            response_schema=GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
+        )
+
+    def get_organization_sase_sites_connectivity_history_by_site(
+        self,
+        organization_id: str,
+        *,
+        site_ids: list[str] | None = None,
+        timespan: str | None = None,
+    ) -> PaginatedResponse[GetOrganizationSaseSitesConnectivityHistoryBySiteResponseItemsItem]:
+        """Get the connectivity history of SASE sites in this organization.
+
+        [API documentation: getOrganizationSaseSitesConnectivityHistoryBySite](https://developer.cisco.com/meraki/api-v1/#!get-organization-sase-sites-connectivity-history-by-site)
+
+        Args:
+            organization_id: Organization ID.
+            site_ids: Array of site IDs to fetch connectivity status data (maximum 100 values).
+            timespan: Timespan for the status data (e.g., '-2hours').
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "siteId": "123",
+                  "name": "Frontizo Network 1",
+                  "history": [
+                    {
+                      "status": "good",
+                      "timestamp": "2022-11-08T00:00:00Z"
+                    }
+                  ],
+                  "devices": {
+                    "primary": {
+                      "id": "234",
+                      "history": [
+                        {
+                          "status": "good",
+                          "timestamp": "2022-11-08T00:00:00Z"
+                        }
+                      ]
+                    },
+                    "spare": {
+                      "id": "345",
+                      "history": [
+                        {
+                          "status": "bad tunnel",
+                          "timestamp": "2022-11-08T00:15:00Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites/connectivity/history/bySite"
+
+        params: dict[str, Any] = {}
+        if site_ids is not None:
+            params["siteIds[]"] = site_ids
+        if timespan is not None:
+            params["timespan"] = timespan
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationSaseSitesConnectivityHistoryBySite",
+            path=path,
+            params=params,
+            item_schema=GetOrganizationSaseSitesConnectivityHistoryBySiteResponseItemsItem,
+        )
+
+    def get_organization_sase_sites_connectivity_overview(
+        self, organization_id: str
+    ) -> GetOrganizationSaseSitesConnectivityOverviewResponse:
+        """List high-level SASE site statuses (healthy, degraded, offline).
+
+        [API documentation: getOrganizationSaseSitesConnectivityOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-sase-sites-connectivity-overview)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": {
+                "byStatus": {
+                  "healthy": {
+                    "total": 3
+                  },
+                  "degraded": {
+                    "total": 3
+                  },
+                  "offline": {
+                    "total": 3
+                  }
+                },
+                "total": 9
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites/connectivity/overview"
+
+        return self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationSaseSitesConnectivityOverview",
+            path=path,
+            response_schema=GetOrganizationSaseSitesConnectivityOverviewResponse,
+        )
+
+    def detach_organization_sase_sites(
+        self,
+        organization_id: str,
+        *,
+        items: list[DetachOrganizationSaseSitesItemsItem] | None = None,
+        callback: DetachOrganizationSaseSitesCallback | None = None,
+    ) -> None:
+        """Detach sites in this organization from Secure Access.
+
+        [API documentation: detachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!detach-organization-sase-sites)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of Secure Access sites to be detached.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "pipelineId": "1234",
+                  "operation": {
+                    "id": "enrollOrganizationSaseSites"
+                  },
+                  "status": "active",
+                  "counts": {
+                    "jobs": {
+                      "total": 3,
+                      "byStatus": {
+                        "completed": 1,
+                        "failed": 1,
+                        "pending": 1
+                      }
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites/detach"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.delete(
+            scope="organizations", operation_id="detachOrganizationSaseSites", path=path
+        )
+
+    def update_organization_sase_site(
+        self,
+        *,
+        organization_id: str,
+        site_id: str,
+        routing: UpdateOrganizationSaseSiteRouting | None = None,
+    ) -> UpdateOrganizationSaseSiteResponse:
+        """Update the configuration for a site.
+
+        [API documentation: updateOrganizationSaseSite](https://developer.cisco.com/meraki/api-v1/#!update-organization-sase-site)
+
+        Args:
+            organization_id: Organization ID.
+            site_id: Site ID.
+            routing: Routing configuration for the site.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "siteId": "1234",
+              "network": {
+                "id": "N_123"
+              },
+              "type": "Meraki spoke",
+              "name": "London Office",
+              "region": {
+                "slug": "us-east-1"
+              },
+              "model": "MX95",
+              "address": {
+                "street": "123 Main St"
+              },
+              "vpn": {
+                "type": "spoke"
+              },
+              "routing": {
+                "defaultRoute": {
+                  "enabled": true
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        site_id = urllib.parse.quote(str(site_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites/{site_id}"
+
+        payload: dict[str, Any] = {}
+        if site_id is not None:
+            payload["siteId"] = site_id
+        if routing is not None:
+            payload["routing"] = routing.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="organizations",
+            operation_id="updateOrganizationSaseSite",
+            path=path,
+            json=payload,
+            response_schema=UpdateOrganizationSaseSiteResponse,
         )
 
     def get_organization_snmp(self, organization_id: str) -> OrganizationSnmpResponse:

@@ -7,7 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+#### Update to Meraki API v1.69.0
+
+- Added organization-wide firewall ruleset endpoints `get_organization_policies_global_firewall_rulesets`, `create_organization_policies_global_firewall_ruleset`, `get_organization_policies_global_firewall_rulesets_rules`, `create_organization_policies_global_firewall_rulesets_rule`, `update_organization_policies_global_firewall_rulesets_rule`, `delete_organization_policies_global_firewall_rulesets_rule`, `update_organization_policies_global_firewall_ruleset`, and `delete_organization_policies_global_firewall_ruleset`.
+- Added organization-wide group policy and policy object endpoints including `get_organization_policies_global_group_policies`, `create_organization_policies_global_group_policy`, `update_organization_policies_global_group_policy`, `delete_organization_policies_global_group_policy`, `get_organization_policy_objects`, `create_organization_policy_object`, `get_organization_policy_objects_groups`, `create_organization_policy_objects_group`, `get_organization_policy_object`, and `update_organization_policy_object`.
+- Added organization-wide assignment endpoints `assign_organization_policies_global_group_policies_adaptive_policy_groups`, `remove_organization_policies_global_group_policies_adaptive_policy_groups`, `create_organization_policies_global_group_policies_firewall_rulesets_assignment`, `update_organization_policies_global_group_policies_firewall_rulesets_assignment`, `delete_organization_policies_global_group_policies_firewall_rulesets_assignment`, `assign_organization_policies_global_group_policies_appliance_vlans`, and `remove_organization_policies_global_group_policies_appliance_vlans`.
+- Added SAML endpoints `get_organization_saml`, `update_organization_saml`, `get_organization_saml_idps`, `create_organization_saml_idp`, `get_organization_saml_idp`, `update_organization_saml_idp`, `delete_organization_saml_idp`, `get_organization_saml_roles`, `create_organization_saml_role`, `get_organization_saml_role`, `update_organization_saml_role`, and `delete_organization_saml_role`, plus SASE endpoints `get_organization_sase_connectors`, `batch_organization_sase_connectors_create`, `batch_organization_sase_connectors_delete`, `get_organization_sase_networks_eligible`, `get_organization_sase_regions`, `get_organization_sase_sites`, `attach_organization_sase_sites`, `detach_organization_sase_sites`, `update_organization_sase_site`, `get_organization_sase_sites_connectivity_history_by_site`, and `get_organization_sase_sites_connectivity_overview`.
+- Added `update_network_appliance_uplinks_nat`, `get_organization_appliance_uplinks_nat_by_network`, `clip_device_camera`, `get_organization_api_rest_provisioning_pipelines_jobs`, and `get_organization_api_rest_provisioning_pipelines_jobs_overviews_by_pipeline`; `get_organization_appliance_security_intrusion` and `get_network_wireless_ssid_vpn` now return typed response models instead of `DictResponse`.
+
+### Fixed
+
+- Fixed duplicate generated Python parameters for endpoints where a required top-level request body ID also appears in the URL, such as `update_organization_sase_site`.
 
 ## v0.12.0
 

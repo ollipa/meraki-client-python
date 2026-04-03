@@ -9,6 +9,8 @@ import urllib.parse
 from typing import Any
 
 from meraki_client.schemas import (
+    AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
+    AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
     ConnectNetworkApplianceUmbrellaAccountApi,
     CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
@@ -18,12 +20,15 @@ from meraki_client.schemas import (
     CreateNetworkApplianceVlanDhcpOptionsItem,
     CreateNetworkApplianceVlanIpv6,
     CreateNetworkApplianceVlanMandatoryDhcp,
+    CreateNetworkApplianceVlanUplinksItem,
     CreateOrganizationActionBatchActionsItem,
     CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem,
     CreateOrganizationApplianceDnsLocalRecordProfile,
     CreateOrganizationApplianceDnsSplitProfileNameservers,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem,
+    RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
+    RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     UpdateDeviceApplianceRadioSettingsFiveGhzSettings,
     UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings,
     UpdateDeviceApplianceUplinksSettingsInterfaces,
@@ -48,11 +53,14 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesItem,
     UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem,
     UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem,
+    UpdateNetworkApplianceUplinksNatUplinksItem,
     UpdateNetworkApplianceVlanDhcpOptionsItem,
     UpdateNetworkApplianceVlanIpv6,
     UpdateNetworkApplianceVlanMandatoryDhcp,
     UpdateNetworkApplianceVlanReservedIpRangesItem,
+    UpdateNetworkApplianceVlanUplinksItem,
     UpdateNetworkApplianceVpnBgpNeighborsItem,
+    UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnet,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem,
@@ -283,8 +291,9 @@ class ActionBatchAppliance:
             type_: The type of the port: 'access' or 'trunk'.
             vlan: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access
                 mode.
-            allowed_vlans: Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to
-                permit all VLAN's on the port.
+            allowed_vlans: Comma-delimited list of VLAN IDs (e.g. '2,15') for all devices. Secure
+                Routers also support VLAN ranges (e.g. '2-10,15'). Use 'all' to permit
+                all VLANs on the port.
             access_policy: The name of the policy. Only applicable to Access ports. Valid values
                 are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or
                 Z3 or any MX supporting the per port authentication feature. Otherwise,
@@ -1048,6 +1057,33 @@ class ActionBatchAppliance:
             operation="disconnect",
         )
 
+    def update_network_appliance_uplinks_nat(
+        self, *, network_id: str, uplinks: list[UpdateNetworkApplianceUplinksNatUplinksItem]
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update uplink NAT settings of the specified network.
+
+        [API documentation: updateNetworkApplianceUplinksNat](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-uplinks-nat)
+
+        Args:
+            network_id: Network ID.
+            uplinks: Per-uplink NAT exception configuration on the network.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/uplinks/nat"
+
+        payload: dict[str, Any] = {}
+        if uplinks is not None:
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
+            ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="settings",
+            body=payload,
+        )
+
     def create_network_appliance_vlan(
         self,
         *,
@@ -1069,6 +1105,7 @@ class ActionBatchAppliance:
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
         dhcp_options: list[CreateNetworkApplianceVlanDhcpOptionsItem] | None = None,
+        uplinks: list[CreateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a VLAN.
 
@@ -1107,6 +1144,8 @@ class ActionBatchAppliance:
             dhcp_boot_filename: DHCP boot option for boot filename.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
                 object in the list should have "code", "type", and "value" properties.
+            uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
+                for networks that support NAT exceptions.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1148,6 +1187,10 @@ class ActionBatchAppliance:
         if dhcp_options is not None:
             payload["dhcpOptions"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in dhcp_options
+            ]
+        if uplinks is not None:
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
             ]
 
         return CreateOrganizationActionBatchActionsItem(
@@ -1207,6 +1250,7 @@ class ActionBatchAppliance:
         mask: int | None = None,
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
+        uplinks: list[UpdateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a VLAN.
 
@@ -1255,6 +1299,8 @@ class ActionBatchAppliance:
                 use the IP address assigned by the DHCP server. Clients who use a static
                 IP address won't be able to associate. Only available on firmware
                 versions 17.0 and above.
+            uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
+                for networks that support NAT exceptions.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1306,6 +1352,10 @@ class ActionBatchAppliance:
             payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
+        if uplinks is not None:
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
+            ]
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1341,6 +1391,7 @@ class ActionBatchAppliance:
         enabled: bool,
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
+        router_id: str | None = None,
         neighbors: list[UpdateNetworkApplianceVpnBgpNeighborsItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a Hub BGP Configuration.
@@ -1361,6 +1412,7 @@ class ActionBatchAppliance:
             ibgp_hold_timer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
                 between 12 and 240. When absent, this field is not updated. If no value
                 exists then it defaults to 240.
+            router_id: The router ID of the appliance.
             neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
                 absent, this field is not updated.
 
@@ -1375,6 +1427,8 @@ class ActionBatchAppliance:
             payload["asNumber"] = as_number
         if ibgp_hold_timer is not None:
             payload["ibgpHoldTimer"] = ibgp_hold_timer
+        if router_id is not None:
+            payload["routerId"] = router_id
         if neighbors is not None:
             payload["neighbors"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in neighbors
@@ -1394,6 +1448,8 @@ class ActionBatchAppliance:
         hubs: list[UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem] | None = None,
         subnets: list[UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem] | None = None,
         subnet: UpdateNetworkApplianceVpnSiteToSiteVpnSubnet | None = None,
+        host_translations: list[UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem]
+        | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the site-to-site VPN settings of a network.
 
@@ -1406,6 +1462,8 @@ class ActionBatchAppliance:
                 required.
             subnets: The list of subnets and their VPN presence.
             subnet: Configuration of subnet features.
+            host_translations: The list of VPN host translations. Host translations are supported
+                starting from MX firmware version 26.1.2.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1422,6 +1480,10 @@ class ActionBatchAppliance:
             ]
         if subnet is not None:
             payload["subnet"] = subnet.model_dump(by_alias=True, exclude_none=True)
+        if host_translations is not None:
+            payload["hostTranslations"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in host_translations
+            ]
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1932,5 +1994,69 @@ class ActionBatchAppliance:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="update",
+            body=payload,
+        )
+
+    def assign_organization_policies_global_group_policies_appliance_vlans(
+        self,
+        *,
+        organization_id: str,
+        policy: AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
+        vlans: list[AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Assign VLANs to a policy.
+
+        [API documentation: assignOrganizationPoliciesGlobalGroupPoliciesApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!assign-organization-policies-global-group-policies-appliance-vlans)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to assign VLANs to.
+            vlans: VLANs to assign.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/appliance/vlans/assign"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if vlans is not None:
+            payload["vlans"] = [item.model_dump(by_alias=True, exclude_none=True) for item in vlans]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="assign",
+            body=payload,
+        )
+
+    def remove_organization_policies_global_group_policies_appliance_vlans(
+        self,
+        *,
+        organization_id: str,
+        policy: RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
+        vlans: list[RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Remove VLANs from a policy.
+
+        [API documentation: removeOrganizationPoliciesGlobalGroupPoliciesApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!remove-organization-policies-global-group-policies-appliance-vlans)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to remove VLANs from.
+            vlans: VLANs to remove.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/appliance/vlans/remove"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if vlans is not None:
+            payload["vlans"] = [item.model_dump(by_alias=True, exclude_none=True) for item in vlans]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="remove",
             body=payload,
         )

@@ -49,6 +49,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessRfProfileTwoFourGhzSettings,
     UpdateNetworkWirelessSettingsMulticastToUnicastConversion,
     UpdateNetworkWirelessSettingsNamedVlans,
+    UpdateNetworkWirelessSettingsUpgrade,
     UpdateNetworkWirelessSsidActiveDirectory,
     UpdateNetworkWirelessSsidApTagsAndVlanIdsItem,
     UpdateNetworkWirelessSsidBonjourForwardingException,
@@ -238,7 +239,7 @@ class ActionBatchWireless:
         two_four_ghz_settings: UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceWirelessRadioSettingsFiveGhzSettings | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
-        """Update the radio settings overrides of a device, which take precedence over RF profiles.
+        """Update 2.4 GHz and 5 GHz radio settings (channel, channel width, power) that override RF profiles.
 
         [API documentation: updateDeviceWirelessRadioSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings)
 
@@ -938,6 +939,7 @@ class ActionBatchWireless:
         ipv6_bridge_enabled: bool | None = None,
         location_analytics_enabled: bool | None = None,
         upgrade_strategy: UpdateNetworkWirelessSettingsUpgradeStrategy | None = None,
+        upgrade: UpdateNetworkWirelessSettingsUpgrade | None = None,
         led_lights_on: bool | None = None,
         multicast_to_unicast_conversion: UpdateNetworkWirelessSettingsMulticastToUnicastConversion
         | None = None,
@@ -956,6 +958,7 @@ class ActionBatchWireless:
                 network.
             upgrade_strategy: The default strategy that network devices will use to perform an
                 upgrade. Requires firmware version MR 26.8 or higher.
+            upgrade: Upgrade settings for the network.
             led_lights_on: Toggle for enabling or disabling LED lights on all APs in the network
                 (making them run dark).
             multicast_to_unicast_conversion: Multicast-to-unicast conversion settings across the
@@ -975,6 +978,8 @@ class ActionBatchWireless:
             payload["locationAnalyticsEnabled"] = location_analytics_enabled
         if upgrade_strategy is not None:
             payload["upgradeStrategy"] = upgrade_strategy
+        if upgrade is not None:
+            payload["upgrade"] = upgrade.model_dump(by_alias=True, exclude_none=True)
         if led_lights_on is not None:
             payload["ledLightsOn"] = led_lights_on
         if multicast_to_unicast_conversion is not None:
@@ -999,6 +1004,7 @@ class ActionBatchWireless:
         enabled: bool | None = None,
         auth_mode: UpdateNetworkWirelessSsidAuthMode | None = None,
         enterprise_admin_access: UpdateNetworkWirelessSsidEnterpriseAdminAccess | None = None,
+        ssid_admin_accessible: bool | None = None,
         encryption_mode: UpdateNetworkWirelessSsidEncryptionMode | None = None,
         psk: str | None = None,
         wpa_encryption_mode: UpdateNetworkWirelessSsidWpaEncryptionMode | None = None,
@@ -1078,6 +1084,7 @@ class ActionBatchWireless:
                 radius', 'ipsk-with-nac' or 'ipsk-with-radius-easy-psk').
             enterprise_admin_access: Whether or not an SSID is accessible by 'enterprise'
                 administrators ('access disabled' or 'access enabled').
+            ssid_admin_accessible: SSID Administrator access status.
             encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
                 only valid if the authMode is 'psk'.
             psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
@@ -1233,6 +1240,8 @@ class ActionBatchWireless:
             payload["authMode"] = auth_mode
         if enterprise_admin_access is not None:
             payload["enterpriseAdminAccess"] = enterprise_admin_access
+        if ssid_admin_accessible is not None:
+            payload["ssidAdminAccessible"] = ssid_admin_accessible
         if encryption_mode is not None:
             payload["encryptionMode"] = encryption_mode
         if psk is not None:

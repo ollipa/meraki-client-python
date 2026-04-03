@@ -377,7 +377,7 @@ class Session:
             """Parse JSON and extract items and metadata."""
             response_content = response.content
             try:
-                wrapper = _PaginatedWrapper[item_schema].model_validate_json(  # type: ignore[valid-type]
+                wrapper = _PaginatedWrapper[item_schema].model_validate_json(  # ty:ignore[invalid-type-form]
                     response_content
                 )
             except pydantic.ValidationError as e:

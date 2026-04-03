@@ -12,6 +12,7 @@ from meraki_client.schemas import (
     BatchNetworkFloorPlansAutoLocateJobsJobsItem,
     BatchNetworkFloorPlansDevicesUpdateAssignmentsItem,
     ClaimNetworkDevicesDetailsByDeviceItem,
+    CreateNetworkFirmwareUpgradesRollbackPredownload,
     CreateNetworkFirmwareUpgradesRollbackReasonsItem,
     CreateNetworkFirmwareUpgradesRollbackToVersion,
     CreateNetworkFirmwareUpgradesStagedGroupAssignedDevices,
@@ -363,6 +364,7 @@ class ActionBatchNetworks:
         product: CreateNetworkFirmwareUpgradesRollbackProduct | None = None,
         time: str | None = None,
         to_version: CreateNetworkFirmwareUpgradesRollbackToVersion | None = None,
+        predownload: CreateNetworkFirmwareUpgradesRollbackPredownload | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Rollback a Firmware Upgrade For A Network.
 
@@ -374,6 +376,7 @@ class ActionBatchNetworks:
             time: Scheduled time for the rollback.
             reasons: Reasons for the rollback.
             to_version: Version to downgrade to (if the network has firmware flexibility).
+            predownload: Predownload settings for the firmware upgrade.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -390,6 +393,8 @@ class ActionBatchNetworks:
             ]
         if to_version is not None:
             payload["toVersion"] = to_version.model_dump(by_alias=True, exclude_none=True)
+        if predownload is not None:
+            payload["predownload"] = predownload.model_dump(by_alias=True, exclude_none=True)
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

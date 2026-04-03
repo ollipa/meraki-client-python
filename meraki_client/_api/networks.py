@@ -17,6 +17,7 @@ from meraki_client.schemas import (
     BindNetworkResponse,
     ClaimNetworkDevicesDetailsByDeviceItem,
     ClaimNetworkDevicesResponse,
+    CreateNetworkFirmwareUpgradesRollbackPredownload,
     CreateNetworkFirmwareUpgradesRollbackReasonsItem,
     CreateNetworkFirmwareUpgradesRollbackResponse,
     CreateNetworkFirmwareUpgradesRollbackToVersion,
@@ -69,6 +70,7 @@ from meraki_client.schemas import (
     GetNetworkVlanProfilesAssignmentsByDeviceResponseItem,
     NetworkAlertsSettingsResponse,
     NetworkClientPolicyResponse,
+    NetworkClientSplashAuthorizationStatusResponse,
     NetworkFirmwareUpgradesStagedGroupResponse,
     NetworkFirmwareUpgradesStagedStagesResponse,
     NetworkFirmwareUpgradesStagedStagesResponseItem,
@@ -1180,7 +1182,7 @@ class Networks:
                 timespan, do not specify parameters t0 and t1. The value must be in
                 seconds and be less than or equal to 31 days. The default is 1 day.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
-                7200, 86400, 604800, 2592000. The default is 604800.
+                7200, 86400, 604800, 2629746. The default is 604800.
 
         Returns:
             Successful operation.
@@ -1616,7 +1618,7 @@ class Networks:
 
     def get_network_client_splash_authorization_status(
         self, *, network_id: str, client_id: str
-    ) -> DictResponse:
+    ) -> NetworkClientSplashAuthorizationStatusResponse:
         """Return the splash authorization for a client, for each SSID they've associated with through splash.
 
         [API documentation: getNetworkClientSplashAuthorizationStatus](https://developer.cisco.com/meraki/api-v1/#!get-network-client-splash-authorization-status)
@@ -1634,8 +1636,8 @@ class Networks:
               "ssids": {
                 "0": {
                   "isAuthorized": true,
-                  "authorizedAt": "2018-02-11T00:00:00Z",
-                  "expiresAt": "2018-05-12T00:00:00Z"
+                  "authorizedAt": "2018-05-12T00:00:00Z",
+                  "expiresAt": "2018-05-12T01:00:00Z"
                 }
               }
             }
@@ -1650,7 +1652,7 @@ class Networks:
             scope="networks",
             operation_id="getNetworkClientSplashAuthorizationStatus",
             path=path,
-            response_schema=DictResponse,
+            response_schema=NetworkClientSplashAuthorizationStatusResponse,
         )
 
     def update_network_client_splash_authorization_status(
@@ -1659,7 +1661,7 @@ class Networks:
         network_id: str,
         client_id: str,
         ssids: UpdateNetworkClientSplashAuthorizationStatusSsids,
-    ) -> DictResponse:
+    ) -> NetworkClientSplashAuthorizationStatusResponse:
         """Update a client's splash authorization.
 
         [API documentation: updateNetworkClientSplashAuthorizationStatus](https://developer.cisco.com/meraki/api-v1/#!update-network-client-splash-authorization-status)
@@ -1681,11 +1683,8 @@ class Networks:
               "ssids": {
                 "0": {
                   "isAuthorized": true,
-                  "authorizedAt": "2017-07-19 16:24:13 UTC",
-                  "expiresAt": "2017-07-20 16:24:13 UTC"
-                },
-                "2": {
-                  "isAuthorized": false
+                  "authorizedAt": "2018-05-12T00:00:00Z",
+                  "expiresAt": "2018-05-12T01:00:00Z"
                 }
               }
             }
@@ -1705,7 +1704,7 @@ class Networks:
             operation_id="updateNetworkClientSplashAuthorizationStatus",
             path=path,
             json=payload,
-            response_schema=DictResponse,
+            response_schema=NetworkClientSplashAuthorizationStatusResponse,
         )
 
     def get_network_client_traffic_history(
@@ -2297,6 +2296,9 @@ class Networks:
                   },
                   "nextUpgrade": {
                     "time": "2021-05-17T17:22:52Z",
+                    "predownload": {
+                      "enabled": false
+                    },
                     "toVersion": {
                       "id": "2134",
                       "firmware": "camera-15-5-2",
@@ -2718,6 +2720,9 @@ class Networks:
                   },
                   "nextUpgrade": {
                     "time": "2021-05-17T17:22:52Z",
+                    "predownload": {
+                      "enabled": false
+                    },
                     "toVersion": {
                       "id": "2134",
                       "firmware": "camera-15-5-2",
@@ -3099,6 +3104,7 @@ class Networks:
         product: CreateNetworkFirmwareUpgradesRollbackProduct | None = None,
         time: str | None = None,
         to_version: CreateNetworkFirmwareUpgradesRollbackToVersion | None = None,
+        predownload: CreateNetworkFirmwareUpgradesRollbackPredownload | None = None,
     ) -> CreateNetworkFirmwareUpgradesRollbackResponse:
         """Rollback a Firmware Upgrade For A Network.
 
@@ -3110,6 +3116,7 @@ class Networks:
             time: Scheduled time for the rollback.
             reasons: Reasons for the rollback.
             to_version: Version to downgrade to (if the network has firmware flexibility).
+            predownload: Predownload settings for the firmware upgrade.
 
         Returns:
             Successful operation.
@@ -3133,7 +3140,10 @@ class Networks:
                   "category": "performance",
                   "comment": "Network was slower with the upgrade"
                 }
-              ]
+              ],
+              "predownload": {
+                "enabled": false
+              }
             }
             ```
 
@@ -3152,6 +3162,8 @@ class Networks:
             ]
         if to_version is not None:
             payload["toVersion"] = to_version.model_dump(by_alias=True, exclude_none=True)
+        if predownload is not None:
+            payload["predownload"] = predownload.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="networks",

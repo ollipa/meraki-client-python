@@ -11,6 +11,8 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
+    AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
+    AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
     ConnectNetworkApplianceUmbrellaAccountApi,
@@ -24,6 +26,7 @@ from meraki_client.schemas import (
     CreateNetworkApplianceVlanIpv6,
     CreateNetworkApplianceVlanMandatoryDhcp,
     CreateNetworkApplianceVlanResponse,
+    CreateNetworkApplianceVlanUplinksItem,
     CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem,
     CreateOrganizationApplianceDnsLocalRecordProfile,
     CreateOrganizationApplianceDnsSplitProfileNameservers,
@@ -40,15 +43,19 @@ from meraki_client.schemas import (
     GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse,
     GetNetworkAppliancePrefixesDelegatedStaticResponse,
     GetNetworkApplianceRfProfilesResponse,
+    GetNetworkApplianceSecurityIntrusionResponse,
     GetNetworkApplianceTrafficShapingUplinkBandwidthResponse,
     GetNetworkApplianceUplinksUsageHistoryResponseItem,
     GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem,
     GetOrganizationApplianceDnsLocalRecordsResponse,
+    GetOrganizationApplianceUplinksNatByNetworkResponseItem,
     GetOrganizationApplianceUplinksStatusesOverviewResponse,
     GetOrganizationApplianceUplinkStatusesResponseItem,
     GetOrganizationApplianceUplinksUsageByNetworkResponseItem,
     GetOrganizationApplianceVpnStatsResponseItem,
     GetOrganizationApplianceVpnStatusesResponseItem,
+    GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanResponseItemsItem,
+    GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsResponseItemsItem,
     NetworkApplianceConnectivityMonitoringDestinationsResponse,
     NetworkApplianceContentFilteringResponse,
     NetworkApplianceFirewallFirewalledServiceResponse,
@@ -56,7 +63,6 @@ from meraki_client.schemas import (
     NetworkApplianceFirewallPortForwardingRulesResponse,
     NetworkAppliancePortResponse,
     NetworkApplianceRfProfileResponse,
-    NetworkApplianceSecurityIntrusionResponse,
     NetworkApplianceSecurityMalwareResponse,
     NetworkApplianceSettingsResponse,
     NetworkApplianceSingleLanResponse,
@@ -71,9 +77,13 @@ from meraki_client.schemas import (
     NetworkApplianceWarmSpareResponse,
     OrganizationApplianceDnsLocalProfileResponse,
     OrganizationApplianceDnsSplitProfileResponse,
+    OrganizationApplianceSecurityIntrusionResponse,
     OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
     OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
     OrganizationApplianceVpnThirdPartyVPNPeersResponse,
+    OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse,
+    RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
+    RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     UpdateDeviceApplianceRadioSettingsFiveGhzSettings,
     UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings,
     UpdateDeviceApplianceUplinksSettingsInterfaces,
@@ -96,6 +106,7 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceSdwanInternetPoliciesResponse,
     UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem,
     UpdateNetworkApplianceSecurityIntrusionProtectedNetworks,
+    UpdateNetworkApplianceSecurityIntrusionResponse,
     UpdateNetworkApplianceSecurityMalwareAllowedFilesItem,
     UpdateNetworkApplianceSecurityMalwareAllowedUrlsItem,
     UpdateNetworkApplianceSettingsDynamicDns,
@@ -115,11 +126,15 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem,
     UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem,
     UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse,
+    UpdateNetworkApplianceUplinksNatResponse,
+    UpdateNetworkApplianceUplinksNatUplinksItem,
     UpdateNetworkApplianceVlanDhcpOptionsItem,
     UpdateNetworkApplianceVlanIpv6,
     UpdateNetworkApplianceVlanMandatoryDhcp,
     UpdateNetworkApplianceVlanReservedIpRangesItem,
+    UpdateNetworkApplianceVlanUplinksItem,
     UpdateNetworkApplianceVpnBgpNeighborsItem,
+    UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnet,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem,
@@ -2344,8 +2359,9 @@ class Appliance:
             type_: The type of the port: 'access' or 'trunk'.
             vlan: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access
                 mode.
-            allowed_vlans: Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to
-                permit all VLAN's on the port.
+            allowed_vlans: Comma-delimited list of VLAN IDs (e.g. '2,15') for all devices. Secure
+                Routers also support VLAN ranges (e.g. '2-10,15'). Use 'all' to permit
+                all VLANs on the port.
             access_policy: The name of the policy. Only applicable to Access ports. Valid values
                 are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or
                 Z3 or any MX supporting the per port authentication feature. Otherwise,
@@ -3154,7 +3170,7 @@ class Appliance:
 
     def get_network_appliance_security_intrusion(
         self, network_id: str
-    ) -> NetworkApplianceSecurityIntrusionResponse:
+    ) -> GetNetworkApplianceSecurityIntrusionResponse:
         """Returns all supported intrusion settings for an MX network.
 
         [API documentation: getNetworkApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion)
@@ -3194,7 +3210,7 @@ class Appliance:
             scope="appliance",
             operation_id="getNetworkApplianceSecurityIntrusion",
             path=path,
-            response_schema=NetworkApplianceSecurityIntrusionResponse,
+            response_schema=GetNetworkApplianceSecurityIntrusionResponse,
         )
 
     def update_network_appliance_security_intrusion(
@@ -3204,7 +3220,7 @@ class Appliance:
         mode: UpdateNetworkApplianceSecurityIntrusionMode | None = None,
         ids_rulesets: UpdateNetworkApplianceSecurityIntrusionIdsRulesets | None = None,
         protected_networks: UpdateNetworkApplianceSecurityIntrusionProtectedNetworks | None = None,
-    ) -> NetworkApplianceSecurityIntrusionResponse:
+    ) -> UpdateNetworkApplianceSecurityIntrusionResponse:
         """Set the supported intrusion settings for an MX network.
 
         [API documentation: updateNetworkApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-intrusion)
@@ -3263,7 +3279,7 @@ class Appliance:
             operation_id="updateNetworkApplianceSecurityIntrusion",
             path=path,
             json=payload,
-            response_schema=NetworkApplianceSecurityIntrusionResponse,
+            response_schema=UpdateNetworkApplianceSecurityIntrusionResponse,
         )
 
     def get_network_appliance_security_malware(
@@ -5030,6 +5046,52 @@ class Appliance:
             scope="appliance", operation_id="disconnectNetworkApplianceUmbrellaAccount", path=path
         )
 
+    def update_network_appliance_uplinks_nat(
+        self, *, network_id: str, uplinks: list[UpdateNetworkApplianceUplinksNatUplinksItem]
+    ) -> UpdateNetworkApplianceUplinksNatResponse:
+        """Update uplink NAT settings of the specified network.
+
+        [API documentation: updateNetworkApplianceUplinksNat](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-uplinks-nat)
+
+        Args:
+            network_id: Network ID.
+            uplinks: Per-uplink NAT exception configuration on the network.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "uplinks": [
+                {
+                  "interface": "wan1",
+                  "nat": {
+                    "enabled": false
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/uplinks/nat"
+
+        payload: dict[str, Any] = {}
+        if uplinks is not None:
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
+            ]
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceUplinksNat",
+            path=path,
+            json=payload,
+            response_schema=UpdateNetworkApplianceUplinksNatResponse,
+        )
+
     def get_network_appliance_uplinks_usage_history(
         self,
         network_id: str,
@@ -5218,6 +5280,7 @@ class Appliance:
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
         dhcp_options: list[CreateNetworkApplianceVlanDhcpOptionsItem] | None = None,
+        uplinks: list[CreateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateNetworkApplianceVlanResponse:
         """Add a VLAN.
 
@@ -5256,6 +5319,8 @@ class Appliance:
             dhcp_boot_filename: DHCP boot option for boot filename.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
                 object in the list should have "code", "type", and "value" properties.
+            uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
+                for networks that support NAT exceptions.
 
         Returns:
             Successful operation.
@@ -5334,6 +5399,10 @@ class Appliance:
         if dhcp_options is not None:
             payload["dhcpOptions"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in dhcp_options
+            ]
+        if uplinks is not None:
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
             ]
 
         return self._session.post(
@@ -5529,6 +5598,7 @@ class Appliance:
         mask: int | None = None,
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
+        uplinks: list[UpdateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> NetworkApplianceVlanResponse:
         """Update a VLAN.
 
@@ -5577,6 +5647,8 @@ class Appliance:
                 use the IP address assigned by the DHCP server. Clients who use a static
                 IP address won't be able to associate. Only available on firmware
                 versions 17.0 and above.
+            uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
+                for networks that support NAT exceptions.
 
         Returns:
             Successful operation.
@@ -5696,6 +5768,10 @@ class Appliance:
             payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
+        if uplinks is not None:
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -5743,6 +5819,7 @@ class Appliance:
               "enabled": true,
               "asNumber": 64515,
               "ibgpHoldTimer": 120,
+              "routerId": "10.15.10.2",
               "neighbors": [
                 {
                   "ip": "10.10.10.22",
@@ -5767,7 +5844,15 @@ class Appliance:
                     1,
                     2
                   ],
-                  "weight": 10
+                  "weight": 10,
+                  "filterIn": [
+                    "10.0.0.0/8",
+                    "172.16.0.0/12"
+                  ],
+                  "communityOut": [
+                    "64515:100",
+                    "NO_EXPORT"
+                  ]
                 }
               ]
             }
@@ -5791,6 +5876,7 @@ class Appliance:
         enabled: bool,
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
+        router_id: str | None = None,
         neighbors: list[UpdateNetworkApplianceVpnBgpNeighborsItem] | None = None,
     ) -> NetworkApplianceVpnBgpResponse:
         """Update a Hub BGP Configuration.
@@ -5811,6 +5897,7 @@ class Appliance:
             ibgp_hold_timer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
                 between 12 and 240. When absent, this field is not updated. If no value
                 exists then it defaults to 240.
+            router_id: The router ID of the appliance.
             neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
                 absent, this field is not updated.
 
@@ -5823,6 +5910,7 @@ class Appliance:
               "enabled": true,
               "asNumber": 64515,
               "ibgpHoldTimer": 120,
+              "routerId": "10.15.10.2",
               "neighbors": [
                 {
                   "ip": "10.10.10.22",
@@ -5847,7 +5935,15 @@ class Appliance:
                     1,
                     2
                   ],
-                  "weight": 10
+                  "weight": 10,
+                  "filterIn": [
+                    "10.0.0.0/8",
+                    "172.16.0.0/12"
+                  ],
+                  "communityOut": [
+                    "64515:100",
+                    "NO_EXPORT"
+                  ]
                 }
               ]
             }
@@ -5864,6 +5960,8 @@ class Appliance:
             payload["asNumber"] = as_number
         if ibgp_hold_timer is not None:
             payload["ibgpHoldTimer"] = ibgp_hold_timer
+        if router_id is not None:
+            payload["routerId"] = router_id
         if neighbors is not None:
             payload["neighbors"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in neighbors
@@ -5914,7 +6012,18 @@ class Appliance:
                 "nat": {
                   "isAllowed": true
                 }
-              }
+              },
+              "hostTranslations": [
+                {
+                  "name": "Host 1",
+                  "local": {
+                    "address": "192.168.1.10"
+                  },
+                  "remote": {
+                    "address": "72.168.2.10"
+                  }
+                }
+              ]
             }
             ```
 
@@ -5937,6 +6046,8 @@ class Appliance:
         hubs: list[UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem] | None = None,
         subnets: list[UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem] | None = None,
         subnet: UpdateNetworkApplianceVpnSiteToSiteVpnSubnet | None = None,
+        host_translations: list[UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem]
+        | None = None,
     ) -> NetworkApplianceVpnSiteToSiteVpnResponse:
         """Update the site-to-site VPN settings of a network.
 
@@ -5949,6 +6060,8 @@ class Appliance:
                 required.
             subnets: The list of subnets and their VPN presence.
             subnet: Configuration of subnet features.
+            host_translations: The list of VPN host translations. Host translations are supported
+                starting from MX firmware version 26.1.2.
 
         Returns:
             Successful operation.
@@ -5977,7 +6090,18 @@ class Appliance:
                 "nat": {
                   "isAllowed": true
                 }
-              }
+              },
+              "hostTranslations": [
+                {
+                  "name": "Host 1",
+                  "local": {
+                    "address": "192.168.1.10"
+                  },
+                  "remote": {
+                    "address": "72.168.2.10"
+                  }
+                }
+              ]
             }
             ```
 
@@ -5996,6 +6120,10 @@ class Appliance:
             ]
         if subnet is not None:
             payload["subnet"] = subnet.model_dump(by_alias=True, exclude_none=True)
+        if host_translations is not None:
+            payload["hostTranslations"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in host_translations
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -7240,7 +7368,9 @@ class Appliance:
             item_schema=GetNetworkApplianceClientSecurityEventsResponse,
         )
 
-    def get_organization_appliance_security_intrusion(self, organization_id: str) -> DictResponse:
+    def get_organization_appliance_security_intrusion(
+        self, organization_id: str
+    ) -> OrganizationApplianceSecurityIntrusionResponse:
         """Returns all supported intrusion settings for an organization.
 
         [API documentation: getOrganizationApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion)
@@ -7258,10 +7388,6 @@ class Appliance:
                 {
                   "ruleId": "meraki:intrusion/snort/GID/01/SID/688",
                   "message": "SQL sa login failed"
-                },
-                {
-                  "ruleId": "meraki:intrusion/snort/GID/01/SID/5805",
-                  "message": "MALWARE-OTHER Trackware myway speedbar runtime detection - switch engines"
                 }
               ]
             }
@@ -7275,7 +7401,7 @@ class Appliance:
             scope="appliance",
             operation_id="getOrganizationApplianceSecurityIntrusion",
             path=path,
-            response_schema=DictResponse,
+            response_schema=OrganizationApplianceSecurityIntrusionResponse,
         )
 
     def update_organization_appliance_security_intrusion(
@@ -7283,7 +7409,7 @@ class Appliance:
         *,
         organization_id: str,
         allowed_rules: list[UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem],
-    ) -> DictResponse:
+    ) -> OrganizationApplianceSecurityIntrusionResponse:
         """Sets supported intrusion settings for an organization.
 
         [API documentation: updateOrganizationApplianceSecurityIntrusion](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion)
@@ -7302,10 +7428,6 @@ class Appliance:
                 {
                   "ruleId": "meraki:intrusion/snort/GID/01/SID/688",
                   "message": "SQL sa login failed"
-                },
-                {
-                  "ruleId": "meraki:intrusion/snort/GID/01/SID/5805",
-                  "message": "MALWARE-OTHER Trackware myway speedbar runtime detection - switch engines"
                 }
               ]
             }
@@ -7326,7 +7448,7 @@ class Appliance:
             operation_id="updateOrganizationApplianceSecurityIntrusion",
             path=path,
             json=payload,
-            response_schema=DictResponse,
+            response_schema=OrganizationApplianceSecurityIntrusionResponse,
         )
 
     def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
@@ -7519,6 +7641,92 @@ class Appliance:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationApplianceUplinkStatusesResponseItem,
+        )
+
+    def get_organization_appliance_uplinks_nat_by_network(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        interfaces: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationApplianceUplinksNatByNetworkResponseItem]:
+        """Fetch uplink NAT settings of each network in the organization.
+
+        [API documentation: getOrganizationApplianceUplinksNatByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-nat-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Optional parameter to filter the results by the included set of network
+                IDs.
+            interfaces: Optional parameter to filter the results by the included set of interfaces.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100000.
+                Default is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            [
+              {
+                "networkId": "N_123456",
+                "uplinks": [
+                  {
+                    "interface": "wan1",
+                    "nat": {
+                      "enabled": false
+                    }
+                  }
+                ]
+              }
+            ]
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/uplinks/nat/byNetwork"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if interfaces is not None:
+            params["interfaces[]"] = interfaces
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceUplinksNatByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceUplinksNatByNetworkResponseItem,
         )
 
     def get_organization_appliance_uplinks_statuses_overview(
@@ -7952,7 +8160,8 @@ class Appliance:
                   {
                     "networkId": "L_1234",
                     "networkName": "New York Office",
-                    "reachability": "reachable"
+                    "reachability": "reachable",
+                    "priority": 1
                   }
                 ],
                 "thirdPartyVpnPeers": [
@@ -8347,4 +8556,294 @@ class Appliance:
             path=path,
             json=payload,
             response_schema=GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
+        )
+
+    def assign_organization_policies_global_group_policies_appliance_vlans(
+        self,
+        *,
+        organization_id: str,
+        policy: AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
+        vlans: list[AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem],
+    ) -> OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse:
+        """Assign VLANs to a policy.
+
+        [API documentation: assignOrganizationPoliciesGlobalGroupPoliciesApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!assign-organization-policies-global-group-policies-appliance-vlans)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to assign VLANs to.
+            vlans: VLANs to assign.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/appliance/vlans/assign"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if vlans is not None:
+            payload["vlans"] = [item.model_dump(by_alias=True, exclude_none=True) for item in vlans]
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="assignOrganizationPoliciesGlobalGroupPoliciesApplianceVlans",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse,
+        )
+
+    def get_organization_policies_global_group_policies_appliance_vlans_assignments(
+        self,
+        organization_id: str,
+        *,
+        assignment_ids: list[str] | None = None,
+        policy_ids: list[str] | None = None,
+        interface_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsResponseItemsItem
+    ]:
+        """List appliance VLAN policy assignments.
+
+        [API documentation: getOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-group-policies-appliance-vlans-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            assignment_ids: Filter assignments by assignment IDs.
+            policy_ids: Filter assignments by policy IDs.
+            interface_ids: Filter assignments by interface IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "assignment_123",
+                  "policyId": "policy_456",
+                  "interfaceId": "L_123456789012345678_vlan_200"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 25,
+                    "remaining": 15
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/appliance/vlans/assignments"
+
+        params: dict[str, Any] = {}
+        if assignment_ids is not None:
+            params["assignmentIds[]"] = assignment_ids
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if interface_ids is not None:
+            params["interfaceIds[]"] = interface_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignments",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsResponseItemsItem,
+        )
+
+    def get_organization_policies_global_group_policies_appliance_vlans_assignments_by_vlan(
+        self,
+        organization_id: str,
+        *,
+        search: str | None = None,
+        vlan_ids: list[str] | None = None,
+        interface_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanResponseItemsItem
+    ]:
+        """List policies by appliance VLANs.
+
+        [API documentation: getOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlan](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-group-policies-appliance-vlans-assignments-by-vlan)
+
+        Args:
+            organization_id: Organization ID.
+            search: Search term for filtering policies.
+            vlan_ids: Filter by VLAN IDs.
+            interface_ids: Filter by interface IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "L_123456789012345678",
+                    "name": "Main Office Network"
+                  },
+                  "name": "Production VLAN",
+                  "subnet": "192.168.1.0/24",
+                  "interfaceId": "1234",
+                  "vlanId": "100",
+                  "policy": {
+                    "id": "456",
+                    "name": "Production Policy",
+                    "group": {
+                      "number": 100
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 25,
+                    "remaining": 15
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/appliance/vlans/assignments/byVlan"
+
+        params: dict[str, Any] = {}
+        if search is not None:
+            params["search"] = search
+        if vlan_ids is not None:
+            params["vlanIds[]"] = vlan_ids
+        if interface_ids is not None:
+            params["interfaceIds[]"] = interface_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlan",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanResponseItemsItem,
+        )
+
+    def remove_organization_policies_global_group_policies_appliance_vlans(
+        self,
+        *,
+        organization_id: str,
+        policy: RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
+        vlans: list[RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem],
+    ) -> OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse:
+        """Remove VLANs from a policy.
+
+        [API documentation: removeOrganizationPoliciesGlobalGroupPoliciesApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!remove-organization-policies-global-group-policies-appliance-vlans)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to remove VLANs from.
+            vlans: VLANs to remove.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/appliance/vlans/remove"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if vlans is not None:
+            payload["vlans"] = [item.model_dump(by_alias=True, exclude_none=True) for item in vlans]
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="removeOrganizationPoliciesGlobalGroupPoliciesApplianceVlans",
+            path=path,
+            json=payload,
+            response_schema=OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse,
         )

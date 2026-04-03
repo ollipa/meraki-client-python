@@ -404,6 +404,32 @@ class GetDeviceWirelessConnectionStatsResponseConnectionStats(_BaseSchema):
     success: int | None = None
 
 
+class GetDeviceWirelessLatencyStatsResponse(_BaseSchema):
+    """Response for getDeviceWirelessLatencyStats operation."""
+
+    serial: str | None = None
+    latency_stats: GetDeviceWirelessLatencyStatsResponseLatencyStats | None = Field(
+        default=None, validation_alias="latencyStats", serialization_alias="latencyStats"
+    )
+
+
+class GetDeviceWirelessLatencyStatsResponseLatencyStats(_BaseSchema):
+    """Latency stats for the device."""
+
+    background_traffic: WirelessLatencyStatsBackgroundTraffic | None = Field(
+        default=None, validation_alias="backgroundTraffic", serialization_alias="backgroundTraffic"
+    )
+    best_effort_traffic: WirelessLatencyStatsBackgroundTraffic | None = Field(
+        default=None, validation_alias="bestEffortTraffic", serialization_alias="bestEffortTraffic"
+    )
+    video_traffic: WirelessLatencyStatsBackgroundTraffic | None = Field(
+        default=None, validation_alias="videoTraffic", serialization_alias="videoTraffic"
+    )
+    voice_traffic: WirelessLatencyStatsBackgroundTraffic | None = Field(
+        default=None, validation_alias="voiceTraffic", serialization_alias="voiceTraffic"
+    )
+
+
 class GetDeviceWirelessStatusResponse(_BaseSchema):
     """Response for getDeviceWirelessStatus operation."""
 
@@ -624,8 +650,34 @@ class GetNetworkWirelessClientLatencyHistoryResponseItem(_BaseSchema):
     )
 
 
-class GetNetworkWirelessClientsConnectionStatsResponse(RootModel[list[dict[str, Any]]]):
-    """Schema for GetNetworkWirelessClientsConnectionStatsResponse."""
+class GetNetworkWirelessClientLatencyStatsResponse(_BaseSchema):
+    """Response for getNetworkWirelessClientLatencyStats operation."""
+
+    mac: str | None = None
+    latency_stats: GetDeviceWirelessLatencyStatsResponseLatencyStats | None = Field(
+        default=None, validation_alias="latencyStats", serialization_alias="latencyStats"
+    )
+
+
+class GetNetworkWirelessClientsConnectionStatsResponse(
+    RootModel[list["GetNetworkWirelessClientsConnectionStatsResponseItem"]]
+):
+    """Response for getNetworkWirelessClientsConnectionStats operation."""
+
+
+class GetNetworkWirelessClientsConnectionStatsResponseItem(_BaseSchema):
+    """Schema for GetNetworkWirelessClientsConnectionStatsResponseItem."""
+
+    mac: str | None = None
+    connection_stats: GetDeviceWirelessConnectionStatsResponseConnectionStats | None = Field(
+        default=None, validation_alias="connectionStats", serialization_alias="connectionStats"
+    )
+
+
+class GetNetworkWirelessClientsLatencyStatsResponse(
+    RootModel[list["GetNetworkWirelessClientLatencyStatsResponse"]]
+):
+    """Response for getNetworkWirelessClientsLatencyStats operation."""
 
 
 class GetNetworkWirelessConnectionStatsResponse(_BaseSchema):
@@ -668,6 +720,12 @@ class GetNetworkWirelessDevicesConnectionStatsResponse(
     RootModel[list["GetDeviceWirelessConnectionStatsResponse"]]
 ):
     """Response for getNetworkWirelessDevicesConnectionStats operation."""
+
+
+class GetNetworkWirelessDevicesLatencyStatsResponse(
+    RootModel[list["GetDeviceWirelessLatencyStatsResponse"]]
+):
+    """Response for getNetworkWirelessDevicesLatencyStats operation."""
 
 
 class GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse(
@@ -724,6 +782,23 @@ class GetNetworkWirelessLatencyHistoryResponseItem(_BaseSchema):
     )
     avg_latency_ms: int | None = Field(
         default=None, validation_alias="avgLatencyMs", serialization_alias="avgLatencyMs"
+    )
+
+
+class GetNetworkWirelessLatencyStatsResponse(_BaseSchema):
+    """Response for getNetworkWirelessLatencyStats operation."""
+
+    background_traffic: WirelessLatencyStatsBackgroundTraffic | None = Field(
+        default=None, validation_alias="backgroundTraffic", serialization_alias="backgroundTraffic"
+    )
+    best_effort_traffic: WirelessLatencyStatsBackgroundTraffic | None = Field(
+        default=None, validation_alias="bestEffortTraffic", serialization_alias="bestEffortTraffic"
+    )
+    video_traffic: WirelessLatencyStatsBackgroundTraffic | None = Field(
+        default=None, validation_alias="videoTraffic", serialization_alias="videoTraffic"
+    )
+    voice_traffic: WirelessLatencyStatsBackgroundTraffic | None = Field(
+        default=None, validation_alias="voiceTraffic", serialization_alias="voiceTraffic"
     )
 
 
@@ -1481,6 +1556,13 @@ class NetworkWirelessElectronicShelfLabelResponse(_BaseSchema):
     hostname: str | None = None
     enabled: bool | None = None
     mode: str | None = None
+    sepioo: NetworkWirelessElectronicShelfLabelResponseSepioo | None = None
+
+
+class NetworkWirelessElectronicShelfLabelResponseSepioo(_BaseSchema):
+    """sepioo IIoT settings."""
+
+    hostname: str | None = None
 
 
 class NetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
@@ -1516,6 +1598,7 @@ class NetworkWirelessSettingsResponse(_BaseSchema):
     upgrade_strategy: str | None = Field(
         default=None, validation_alias="upgradeStrategy", serialization_alias="upgradeStrategy"
     )
+    upgrade: NetworkWirelessSettingsResponseUpgrade | None = None
     led_lights_on: bool | None = Field(
         default=None, validation_alias="ledLightsOn", serialization_alias="ledLightsOn"
     )
@@ -1550,6 +1633,12 @@ class NetworkWirelessSettingsResponseRegulatoryDomain(_BaseSchema):
         default=None, validation_alias="countryCode", serialization_alias="countryCode"
     )
     permits6e: bool | None = None
+
+
+class NetworkWirelessSettingsResponseUpgrade(_BaseSchema):
+    """Upgrade settings for the network."""
+
+    predownload: WirelessBusyHourMinimizeChanges | None = None
 
 
 class NetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
@@ -2024,6 +2113,51 @@ class NetworkWirelessSsidTrafficShapingRulesResponseRulesItem(_BaseSchema):
     )
 
 
+class NetworkWirelessSsidVpnResponse(_BaseSchema):
+    """Schema for NetworkWirelessSsidVpnResponse."""
+
+    concentrator: NetworkWirelessSsidVpnResponseConcentrator | None = None
+    failover: NetworkWirelessSsidVpnResponseFailover | None = None
+    split_tunnel: NetworkWirelessSsidVpnResponseSplitTunnel | None = Field(
+        default=None, validation_alias="splitTunnel", serialization_alias="splitTunnel"
+    )
+
+
+class NetworkWirelessSsidVpnResponseConcentrator(_BaseSchema):
+    """The VPN concentrator settings for this SSID."""
+
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    vlan_id: int | None = Field(
+        default=None, validation_alias="vlanId", serialization_alias="vlanId"
+    )
+    name: str | None = None
+
+
+class NetworkWirelessSsidVpnResponseFailover(_BaseSchema):
+    """Secondary VPN concentrator settings. This is only used when two VPN concentrators are
+    configured on the SSID.
+    """
+
+    request_ip: str | None = Field(
+        default=None, validation_alias="requestIp", serialization_alias="requestIp"
+    )
+    heartbeat_interval: int | None = Field(
+        default=None, validation_alias="heartbeatInterval", serialization_alias="heartbeatInterval"
+    )
+    idle_timeout: int | None = Field(
+        default=None, validation_alias="idleTimeout", serialization_alias="idleTimeout"
+    )
+
+
+class NetworkWirelessSsidVpnResponseSplitTunnel(_BaseSchema):
+    """The VPN split tunnel settings for this SSID."""
+
+    enabled: bool | None = None
+    rules: list[WirelessSplitTunnelRulesItem] = Field(default_factory=list)
+
+
 class OrganizationWirelessLocationScanningReceiverResponse(_BaseSchema):
     """Schema for OrganizationWirelessLocationScanningReceiverResponse."""
 
@@ -2445,6 +2579,12 @@ class UpdateNetworkWirelessSettingsNamedVlans(_BaseSchema):
         validation_alias="poolDhcpMonitoring",
         serialization_alias="poolDhcpMonitoring",
     )
+
+
+class UpdateNetworkWirelessSettingsUpgrade(_BaseSchema):
+    """Upgrade settings for the network."""
+
+    predownload: WirelessBusyHourMinimizeChanges | None = None
 
 
 class UpdateNetworkWirelessSsidActiveDirectory(_BaseSchema):
@@ -3588,6 +3728,15 @@ class WirelessLatencyBinsByCategory(_BaseSchema):
     )
 
 
+class WirelessLatencyStatsBackgroundTraffic(_BaseSchema):
+    """Background traffic latency stats."""
+
+    raw_distribution: dict[str, Any] | None = Field(
+        default=None, validation_alias="rawDistribution", serialization_alias="rawDistribution"
+    )
+    avg: float | None = None
+
+
 class WirelessLatestMeshPerformance(_BaseSchema):
     """Current metrics on how the mesh is performing."""
 
@@ -3860,6 +4009,20 @@ class WirelessSeriesItem(_BaseSchema):
     cpu_load5: int | None = Field(
         default=None, validation_alias="cpuLoad5", serialization_alias="cpuLoad5"
     )
+
+
+class WirelessSplitTunnelRulesItem(_BaseSchema):
+    """Schema for WirelessSplitTunnelRulesItem."""
+
+    protocol: str | None = None
+    dest_cidr: str | None = Field(
+        default=None, validation_alias="destCidr", serialization_alias="destCidr"
+    )
+    dest_port: str | None = Field(
+        default=None, validation_alias="destPort", serialization_alias="destPort"
+    )
+    policy: str | None = None
+    comment: str | None = None
 
 
 class WirelessSsid(_BaseSchema):

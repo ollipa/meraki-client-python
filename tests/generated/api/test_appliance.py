@@ -418,6 +418,17 @@ def test_get_organization_appliance_uplink_statuses(
     assert isinstance(result, list)
 
 
+def test_get_organization_appliance_uplinks_nat_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_uplinks_nat_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_uplinks_nat_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_appliance_uplinks_statuses_overview(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -486,3 +497,25 @@ def test_get_organization_appliance_vpn_vpn_firewall_rules(
         client.appliance.get_organization_appliance_vpn_vpn_firewall_rules(
             organization_id=organization_id
         )
+
+
+def test_get_organization_policies_global_group_policies_appliance_vlans_assignments(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_group_policies_appliance_vlans_assignments endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_policies_global_group_policies_appliance_vlans_assignments(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_policies_global_group_policies_appliance_vlans_assignments_by_vlan(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_group_policies_appliance_vlans_assignments_by_vlan endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_policies_global_group_policies_appliance_vlans_assignments_by_vlan(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)

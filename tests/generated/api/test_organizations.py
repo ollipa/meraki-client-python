@@ -86,6 +86,27 @@ def test_get_organization_alerts_profiles(client: MerakiClient, organization_id:
         client.organizations.get_organization_alerts_profiles(organization_id=organization_id)
 
 
+def test_get_organization_api_rest_provisioning_pipelines_jobs(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_api_rest_provisioning_pipelines_jobs endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_api_rest_provisioning_pipelines_jobs(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_api_rest_provisioning_pipelines_jobs_overviews_by_pipeline(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_api_rest_provisioning_pipelines_jobs_overviews_by_pipeline endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_api_rest_provisioning_pipelines_jobs_overviews_by_pipeline(
+            organization_id=organization_id
+        )
+
+
 def test_get_organization_api_requests(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_api_requests endpoint."""
     with skip_on_unsupported():
@@ -524,6 +545,71 @@ def test_get_organization_openapi_spec(client: MerakiClient, organization_id: st
         client.organizations.get_organization_openapi_spec(organization_id=organization_id)
 
 
+def test_get_organization_policies_global_firewall_application_categories(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_firewall_application_categories endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_policies_global_firewall_application_categories(
+            organization_id=organization_id
+        )
+
+
+def test_get_organization_policies_global_firewall_rulesets(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_firewall_rulesets endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_policies_global_firewall_rulesets(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_policies_global_firewall_rulesets_rules(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_firewall_rulesets_rules endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_policies_global_firewall_rulesets_rules(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_policies_global_group_policies(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_group_policies endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_policies_global_group_policies(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_policies_global_group_policies_adaptive_policy_groups_assignments(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_group_policies_adaptive_policy_groups_assignments endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_policies_global_group_policies_adaptive_policy_groups_assignments(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_policies_global_group_policies_firewall_rulesets_assignments(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_group_policies_firewall_rulesets_assignments endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_policies_global_group_policies_firewall_rulesets_assignments(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_policy_objects(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_policy_objects endpoint."""
     with skip_on_unsupported():
@@ -560,6 +646,12 @@ def test_get_organization_saml_roles(client: MerakiClient, organization_id: str)
         client.organizations.get_organization_saml_roles(organization_id=organization_id)
 
 
+def test_get_organization_sase_connectors(client: MerakiClient, organization_id: str) -> None:
+    """Test get_organization_sase_connectors endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_sase_connectors(organization_id=organization_id)
+
+
 def test_get_organization_sase_networks_eligible(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -569,6 +661,41 @@ def test_get_organization_sase_networks_eligible(
             organization_id=organization_id
         ).collect()
     assert isinstance(result, list)
+
+
+def test_get_organization_sase_regions(client: MerakiClient, organization_id: str) -> None:
+    """Test get_organization_sase_regions endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_sase_regions(organization_id=organization_id)
+
+
+def test_get_organization_sase_sites(client: MerakiClient, organization_id: str) -> None:
+    """Test get_organization_sase_sites endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_sase_sites(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_sase_sites_connectivity_history_by_site(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_sase_sites_connectivity_history_by_site endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_sase_sites_connectivity_history_by_site(
+            organization_id=organization_id
+        )
+
+
+def test_get_organization_sase_sites_connectivity_overview(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_sase_sites_connectivity_overview endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_sase_sites_connectivity_overview(
+            organization_id=organization_id
+        )
 
 
 def test_get_organization_snmp(client: MerakiClient, organization_id: str) -> None:

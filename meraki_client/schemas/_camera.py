@@ -133,6 +133,13 @@ class CameraZonesZoneId(_BaseSchema):
     person: int | None = None
 
 
+class ClipDeviceCameraResponse(_BaseSchema):
+    """Schema for ClipDeviceCameraResponse."""
+
+    url: str | None = None
+    expiry: str | None = None
+
+
 class CreateNetworkCameraQualityRetentionProfileSmartRetention(_BaseSchema):
     """Smart Retention records footage in two qualities and intelligently retains higher quality
     when motion, people or vehicles are detected.
@@ -452,13 +459,6 @@ class DeviceCameraWirelessProfilesResponseIds(_BaseSchema):
     primary: str | None = None
     secondary: str | None = None
     backup: str | None = None
-
-
-class GenerateDeviceCameraSnapshotResponse(_BaseSchema):
-    """Response for generateDeviceCameraSnapshot operation."""
-
-    url: str | None = None
-    expiry: str | None = None
 
 
 class GetDeviceCameraAnalyticsLiveResponse(_BaseSchema):

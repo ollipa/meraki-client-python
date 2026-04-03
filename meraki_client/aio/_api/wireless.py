@@ -36,6 +36,7 @@ from meraki_client.schemas import (
     DeviceWirelessRadioSettingsResponse,
     DictResponse,
     GetDeviceWirelessConnectionStatsResponse,
+    GetDeviceWirelessLatencyStatsResponse,
     GetDeviceWirelessStatusResponse,
     GetDeviceWirelessZigbeeEnrollmentResponse,
     GetNetworkWirelessAirMarshalResponseItem,
@@ -44,11 +45,13 @@ from meraki_client.schemas import (
     GetNetworkWirelessClientConnectivityEventsResponseItem,
     GetNetworkWirelessClientCountHistoryResponseItem,
     GetNetworkWirelessClientLatencyHistoryResponseItem,
-    GetNetworkWirelessClientsConnectionStatsResponse,
+    GetNetworkWirelessClientLatencyStatsResponse,
+    GetNetworkWirelessClientsConnectionStatsResponseItem,
     GetNetworkWirelessConnectionStatsResponse,
     GetNetworkWirelessDataRateHistoryResponseItem,
     GetNetworkWirelessFailedConnectionsResponseItem,
     GetNetworkWirelessLatencyHistoryResponseItem,
+    GetNetworkWirelessLatencyStatsResponse,
     GetNetworkWirelessMeshStatusesResponseItem,
     GetNetworkWirelessRfProfilesResponse,
     GetNetworkWirelessSignalQualityHistoryResponseItem,
@@ -88,6 +91,7 @@ from meraki_client.schemas import (
     NetworkWirelessSsidSchedulesResponse,
     NetworkWirelessSsidSplashSettingsResponse,
     NetworkWirelessSsidTrafficShapingRulesResponse,
+    NetworkWirelessSsidVpnResponse,
     OrganizationWirelessLocationScanningReceiverResponse,
     OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
     RecalculateOrganizationWirelessRadioAutoRfChannelsResponse,
@@ -118,6 +122,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessRfProfileTwoFourGhzSettings,
     UpdateNetworkWirelessSettingsMulticastToUnicastConversion,
     UpdateNetworkWirelessSettingsNamedVlans,
+    UpdateNetworkWirelessSettingsUpgrade,
     UpdateNetworkWirelessSsidActiveDirectory,
     UpdateNetworkWirelessSsidApTagsAndVlanIdsItem,
     UpdateNetworkWirelessSsidBonjourForwardingException,
@@ -561,7 +566,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> DictResponse:
+    ) -> GetDeviceWirelessLatencyStatsResponse:
         """Aggregated latency info for a given AP on this network.
 
         [API documentation: getDeviceWirelessLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-latency-stats)
@@ -592,26 +597,17 @@ class Wireless:
               "serial": "Q2JC-2MJM-FHRD",
               "latencyStats": {
                 "backgroundTraffic": {
-                  "rawDistribution": {
-                    "0": 1234,
-                    "1": 2345,
-                    "2": 3456,
-                    "4": 4567,
-                    "8": 5678,
-                    "16": 6789,
-                    "32": 7890,
-                    "64": 8901,
-                    "128": 9012,
-                    "256": 83,
-                    "512": 1234,
-                    "1024": 2345,
-                    "2048": 9999
-                  },
                   "avg": 606.52
                 },
-                "bestEffortTraffic": "same shape as backgroundTraffic",
-                "videoTraffic": "same shape as backgroundTraffic",
-                "voiceTraffic": "same shape as backgroundTraffic"
+                "bestEffortTraffic": {
+                  "avg": 606.52
+                },
+                "videoTraffic": {
+                  "avg": 606.52
+                },
+                "voiceTraffic": {
+                  "avg": 606.52
+                }
               }
             }
             ```
@@ -643,7 +639,7 @@ class Wireless:
             operation_id="getDeviceWirelessLatencyStats",
             path=path,
             params=params,
-            response_schema=DictResponse,
+            response_schema=GetDeviceWirelessLatencyStatsResponse,
         )
 
     async def get_device_wireless_radio_settings(
@@ -695,7 +691,7 @@ class Wireless:
         two_four_ghz_settings: UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceWirelessRadioSettingsFiveGhzSettings | None = None,
     ) -> DeviceWirelessRadioSettingsResponse:
-        """Update the radio settings overrides of a device, which take precedence over RF profiles.
+        """Update 2.4 GHz and 5 GHz radio settings (channel, channel width, power) that override RF profiles.
 
         [API documentation: updateDeviceWirelessRadioSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings)
 
@@ -1667,7 +1663,7 @@ class Wireless:
         band: GetNetworkWirelessClientsConnectionStatsBand | None = None,
         ssid: GetNetworkWirelessClientsConnectionStatsSsid | None = None,
         ap_tag: str | None = None,
-    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsConnectionStatsResponse]:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsConnectionStatsResponseItem]:
         """Aggregated connectivity info for this network, grouped by clients.
 
         [API documentation: getNetworkWirelessClientsConnectionStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-connection-stats)
@@ -1705,26 +1701,6 @@ class Wireless:
                   "dns": 0,
                   "success": 10
                 }
-              },
-              {
-                "mac": "1c:4d:70:7f:5e:5e",
-                "connectionStats": {
-                  "assoc": 0,
-                  "auth": 1,
-                  "dhcp": 0,
-                  "dns": 0,
-                  "success": 24
-                }
-              },
-              {
-                "mac": "1c:4d:70:81:8d:0a",
-                "connectionStats": {
-                  "assoc": 1,
-                  "auth": 0,
-                  "dhcp": 0,
-                  "dns": 0,
-                  "success": 16
-                }
               }
             ]
             ```
@@ -1752,7 +1728,7 @@ class Wireless:
             operation_id="getNetworkWirelessClientsConnectionStats",
             path=path,
             params=params,
-            item_schema=GetNetworkWirelessClientsConnectionStatsResponse,
+            item_schema=GetNetworkWirelessClientsConnectionStatsResponseItem,
         )
 
     def get_network_wireless_clients_latency_stats(
@@ -1767,7 +1743,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsConnectionStatsResponse]:
+    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientLatencyStatsResponse]:
         """Aggregated latency info for this network, grouped by clients.
 
         [API documentation: getNetworkWirelessClientsLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats)
@@ -1804,78 +1780,17 @@ class Wireless:
                 "mac": "00:61:71:c8:51:27",
                 "latencyStats": {
                   "backgroundTraffic": {
-                    "rawDistribution": {
-                      "0": 1234,
-                      "1": 2345,
-                      "2": 3456,
-                      "4": 4567,
-                      "8": 5678,
-                      "16": 6789,
-                      "32": 7890,
-                      "64": 8901,
-                      "128": 9012,
-                      "256": 83,
-                      "512": 1234,
-                      "1024": 2345,
-                      "2048": 9999
-                    },
                     "avg": 606.52
                   },
-                  "bestEffortTraffic": "same shape as backgroundTraffic",
-                  "videoTraffic": "same shape as backgroundTraffic",
-                  "voiceTraffic": "same shape as backgroundTraffic"
-                }
-              },
-              {
-                "mac": "1c:4d:70:7f:5e:5e",
-                "latencyStats": {
-                  "backgroundTraffic": {
-                    "rawDistribution": {
-                      "0": 1234,
-                      "1": 2345,
-                      "2": 3456,
-                      "4": 4567,
-                      "8": 5678,
-                      "16": 6789,
-                      "32": 7890,
-                      "64": 8901,
-                      "128": 9012,
-                      "256": 83,
-                      "512": 1234,
-                      "1024": 2345,
-                      "2048": 9999
-                    },
+                  "bestEffortTraffic": {
                     "avg": 606.52
                   },
-                  "bestEffortTraffic": "same shape as backgroundTraffic",
-                  "videoTraffic": "same shape as backgroundTraffic",
-                  "voiceTraffic": "same shape as backgroundTraffic"
-                }
-              },
-              {
-                "mac": "1c:4d:70:81:8d:0a",
-                "latencyStats": {
-                  "backgroundTraffic": {
-                    "rawDistribution": {
-                      "0": 1234,
-                      "1": 2345,
-                      "2": 3456,
-                      "4": 4567,
-                      "8": 5678,
-                      "16": 6789,
-                      "32": 7890,
-                      "64": 8901,
-                      "128": 9012,
-                      "256": 83,
-                      "512": 1234,
-                      "1024": 2345,
-                      "2048": 9999
-                    },
+                  "videoTraffic": {
                     "avg": 606.52
                   },
-                  "bestEffortTraffic": "same shape as backgroundTraffic",
-                  "videoTraffic": "same shape as backgroundTraffic",
-                  "voiceTraffic": "same shape as backgroundTraffic"
+                  "voiceTraffic": {
+                    "avg": 606.52
+                  }
                 }
               }
             ]
@@ -1908,7 +1823,7 @@ class Wireless:
             operation_id="getNetworkWirelessClientsLatencyStats",
             path=path,
             params=params,
-            item_schema=GetNetworkWirelessClientsConnectionStatsResponse,
+            item_schema=GetNetworkWirelessClientLatencyStatsResponse,
         )
 
     async def get_network_wireless_client_connection_stats(
@@ -2253,7 +2168,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> DictResponse:
+    ) -> GetNetworkWirelessClientLatencyStatsResponse:
         """Aggregated latency info for a given client on this network.
 
         [API documentation: getNetworkWirelessClientLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-stats)
@@ -2285,26 +2200,17 @@ class Wireless:
               "mac": "00:61:71:c8:51:27",
               "latencyStats": {
                 "backgroundTraffic": {
-                  "rawDistribution": {
-                    "0": 1234,
-                    "1": 2345,
-                    "2": 3456,
-                    "4": 4567,
-                    "8": 5678,
-                    "16": 6789,
-                    "32": 7890,
-                    "64": 8901,
-                    "128": 9012,
-                    "256": 83,
-                    "512": 1234,
-                    "1024": 2345,
-                    "2048": 9999
-                  },
                   "avg": 606.52
                 },
-                "bestEffortTraffic": "same shape as backgroundTraffic",
-                "videoTraffic": "same shape as backgroundTraffic",
-                "voiceTraffic": "same shape as backgroundTraffic"
+                "bestEffortTraffic": {
+                  "avg": 606.52
+                },
+                "videoTraffic": {
+                  "avg": 606.52
+                },
+                "voiceTraffic": {
+                  "avg": 606.52
+                }
               }
             }
             ```
@@ -2337,7 +2243,7 @@ class Wireless:
             operation_id="getNetworkWirelessClientLatencyStats",
             path=path,
             params=params,
-            response_schema=DictResponse,
+            response_schema=GetNetworkWirelessClientLatencyStatsResponse,
         )
 
     async def get_network_wireless_connection_stats(
@@ -2591,7 +2497,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> AsyncPaginatedResponse[GetNetworkWirelessClientsConnectionStatsResponse]:
+    ) -> AsyncPaginatedResponse[GetDeviceWirelessLatencyStatsResponse]:
         """Aggregated latency info for this network, grouped by node.
 
         [API documentation: getNetworkWirelessDevicesLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats)
@@ -2628,52 +2534,17 @@ class Wireless:
                 "serial": "Q2JC-2MJM-FHRD",
                 "latencyStats": {
                   "backgroundTraffic": {
-                    "rawDistribution": {
-                      "0": 1234,
-                      "1": 2345,
-                      "2": 3456,
-                      "4": 4567,
-                      "8": 5678,
-                      "16": 6789,
-                      "32": 7890,
-                      "64": 8901,
-                      "128": 9012,
-                      "256": 83,
-                      "512": 1234,
-                      "1024": 2345,
-                      "2048": 9999
-                    },
                     "avg": 606.52
                   },
-                  "bestEffortTraffic": "same shape as backgroundTraffic",
-                  "videoTraffic": "same shape as backgroundTraffic",
-                  "voiceTraffic": "same shape as backgroundTraffic"
-                }
-              },
-              {
-                "serial": "Q2FJ-3SHB-Y2K2",
-                "latencyStats": {
-                  "backgroundTraffic": {
-                    "rawDistribution": {
-                      "0": 1234,
-                      "1": 2345,
-                      "2": 3456,
-                      "4": 4567,
-                      "8": 5678,
-                      "16": 6789,
-                      "32": 7890,
-                      "64": 8901,
-                      "128": 9012,
-                      "256": 83,
-                      "512": 1234,
-                      "1024": 2345,
-                      "2048": 9999
-                    },
+                  "bestEffortTraffic": {
                     "avg": 606.52
                   },
-                  "bestEffortTraffic": "same shape as backgroundTraffic",
-                  "videoTraffic": "same shape as backgroundTraffic",
-                  "voiceTraffic": "same shape as backgroundTraffic"
+                  "videoTraffic": {
+                    "avg": 606.52
+                  },
+                  "voiceTraffic": {
+                    "avg": 606.52
+                  }
                 }
               }
             ]
@@ -2706,7 +2577,7 @@ class Wireless:
             operation_id="getNetworkWirelessDevicesLatencyStats",
             path=path,
             params=params,
-            item_schema=GetNetworkWirelessClientsConnectionStatsResponse,
+            item_schema=GetDeviceWirelessLatencyStatsResponse,
         )
 
     async def get_network_wireless_electronic_shelf_label(
@@ -2727,7 +2598,10 @@ class Wireless:
             {
               "hostname": "example.com",
               "enabled": true,
-              "mode": "high frequency"
+              "mode": "high frequency",
+              "sepioo": {
+                "hostname": "example.com"
+              }
             }
             ```
 
@@ -2769,7 +2643,10 @@ class Wireless:
             {
               "hostname": "example.com",
               "enabled": true,
-              "mode": "high frequency"
+              "mode": "high frequency",
+              "sepioo": {
+                "hostname": "example.com"
+              }
             }
             ```
 
@@ -2817,7 +2694,10 @@ class Wireless:
               {
                 "hostname": "example.com",
                 "enabled": true,
-                "mode": "high frequency"
+                "mode": "high frequency",
+                "sepioo": {
+                  "hostname": "example.com"
+                }
               }
             ]
             ```
@@ -3377,7 +3257,7 @@ class Wireless:
         ap_tag: str | None = None,
         vlan: int | None = None,
         fields: str | None = None,
-    ) -> DictResponse:
+    ) -> GetNetworkWirelessLatencyStatsResponse:
         """Aggregated latency info for this network.
 
         [API documentation: getNetworkWirelessLatencyStats](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-stats)
@@ -3406,26 +3286,17 @@ class Wireless:
             ```json
             {
               "backgroundTraffic": {
-                "rawDistribution": {
-                  "0": 1234,
-                  "1": 2345,
-                  "2": 3456,
-                  "4": 4567,
-                  "8": 5678,
-                  "16": 6789,
-                  "32": 7890,
-                  "64": 8901,
-                  "128": 9012,
-                  "256": 83,
-                  "512": 1234,
-                  "1024": 2345,
-                  "2048": 9999
-                },
                 "avg": 606.52
               },
-              "bestEffortTraffic": "same shape as backgroundTraffic",
-              "videoTraffic": "same shape as backgroundTraffic",
-              "voiceTraffic": "same shape as backgroundTraffic"
+              "bestEffortTraffic": {
+                "avg": 606.52
+              },
+              "videoTraffic": {
+                "avg": 606.52
+              },
+              "voiceTraffic": {
+                "avg": 606.52
+              }
             }
             ```
 
@@ -3456,7 +3327,7 @@ class Wireless:
             operation_id="getNetworkWirelessLatencyStats",
             path=path,
             params=params,
-            response_schema=DictResponse,
+            response_schema=GetNetworkWirelessLatencyStatsResponse,
         )
 
     async def update_network_wireless_location_scanning(
@@ -3643,7 +3514,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-02-04T09:08:48Z"
+                "lastEnabledAt": "2026-03-01T08:09:49Z"
               }
             }
             ```
@@ -5256,6 +5127,11 @@ class Wireless:
               "ipv6BridgeEnabled": false,
               "locationAnalyticsEnabled": false,
               "upgradeStrategy": "minimizeUpgradeTime",
+              "upgrade": {
+                "predownload": {
+                  "enabled": false
+                }
+              },
               "ledLightsOn": false,
               "multicastToUnicastConversion": {
                 "enabled": true
@@ -5293,6 +5169,7 @@ class Wireless:
         ipv6_bridge_enabled: bool | None = None,
         location_analytics_enabled: bool | None = None,
         upgrade_strategy: UpdateNetworkWirelessSettingsUpgradeStrategy | None = None,
+        upgrade: UpdateNetworkWirelessSettingsUpgrade | None = None,
         led_lights_on: bool | None = None,
         multicast_to_unicast_conversion: UpdateNetworkWirelessSettingsMulticastToUnicastConversion
         | None = None,
@@ -5311,6 +5188,7 @@ class Wireless:
                 network.
             upgrade_strategy: The default strategy that network devices will use to perform an
                 upgrade. Requires firmware version MR 26.8 or higher.
+            upgrade: Upgrade settings for the network.
             led_lights_on: Toggle for enabling or disabling LED lights on all APs in the network
                 (making them run dark).
             multicast_to_unicast_conversion: Multicast-to-unicast conversion settings across the
@@ -5327,6 +5205,11 @@ class Wireless:
               "ipv6BridgeEnabled": false,
               "locationAnalyticsEnabled": false,
               "upgradeStrategy": "minimizeUpgradeTime",
+              "upgrade": {
+                "predownload": {
+                  "enabled": false
+                }
+              },
               "ledLightsOn": false,
               "multicastToUnicastConversion": {
                 "enabled": true
@@ -5358,6 +5241,8 @@ class Wireless:
             payload["locationAnalyticsEnabled"] = location_analytics_enabled
         if upgrade_strategy is not None:
             payload["upgradeStrategy"] = upgrade_strategy
+        if upgrade is not None:
+            payload["upgrade"] = upgrade.model_dump(by_alias=True, exclude_none=True)
         if led_lights_on is not None:
             payload["ledLightsOn"] = led_lights_on
         if multicast_to_unicast_conversion is not None:
@@ -5648,6 +5533,7 @@ class Wireless:
         enabled: bool | None = None,
         auth_mode: UpdateNetworkWirelessSsidAuthMode | None = None,
         enterprise_admin_access: UpdateNetworkWirelessSsidEnterpriseAdminAccess | None = None,
+        ssid_admin_accessible: bool | None = None,
         encryption_mode: UpdateNetworkWirelessSsidEncryptionMode | None = None,
         psk: str | None = None,
         wpa_encryption_mode: UpdateNetworkWirelessSsidWpaEncryptionMode | None = None,
@@ -5727,6 +5613,7 @@ class Wireless:
                 radius', 'ipsk-with-nac' or 'ipsk-with-radius-easy-psk').
             enterprise_admin_access: Whether or not an SSID is accessible by 'enterprise'
                 administrators ('access disabled' or 'access enabled').
+            ssid_admin_accessible: SSID Administrator access status.
             encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
                 only valid if the authMode is 'psk'.
             psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
@@ -5942,6 +5829,8 @@ class Wireless:
             payload["authMode"] = auth_mode
         if enterprise_admin_access is not None:
             payload["enterpriseAdminAccess"] = enterprise_admin_access
+        if ssid_admin_accessible is not None:
+            payload["ssidAdminAccessible"] = ssid_admin_accessible
         if encryption_mode is not None:
             payload["encryptionMode"] = encryption_mode
         if psk is not None:
@@ -7587,7 +7476,9 @@ class Wireless:
             response_schema=NetworkWirelessSsidTrafficShapingRulesResponse,
         )
 
-    async def get_network_wireless_ssid_vpn(self, *, network_id: str, number: str) -> DictResponse:
+    async def get_network_wireless_ssid_vpn(
+        self, *, network_id: str, number: str
+    ) -> NetworkWirelessSsidVpnResponse:
         """List the VPN settings for the SSID.
 
         [API documentation: getNetworkWirelessSsidVpn](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-vpn)
@@ -7621,12 +7512,6 @@ class Wireless:
                     "destPort": "any",
                     "policy": "allow",
                     "comment": "split tunnel rule 1"
-                  },
-                  {
-                    "destCidr": "foo.com",
-                    "destPort": "any",
-                    "policy": "deny",
-                    "comment": "split tunnel rule 2"
                   }
                 ]
               }
@@ -7642,7 +7527,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidVpn",
             path=path,
-            response_schema=DictResponse,
+            response_schema=NetworkWirelessSsidVpnResponse,
         )
 
     async def update_network_wireless_ssid_vpn(
@@ -7653,7 +7538,7 @@ class Wireless:
         concentrator: UpdateNetworkWirelessSsidVpnConcentrator | None = None,
         split_tunnel: UpdateNetworkWirelessSsidVpnSplitTunnel | None = None,
         failover: UpdateNetworkWirelessSsidVpnFailover | None = None,
-    ) -> DictResponse:
+    ) -> NetworkWirelessSsidVpnResponse:
         """Update the VPN settings for the SSID.
 
         [API documentation: updateNetworkWirelessSsidVpn](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn)
@@ -7691,12 +7576,6 @@ class Wireless:
                     "destPort": "any",
                     "policy": "allow",
                     "comment": "split tunnel rule 1"
-                  },
-                  {
-                    "destCidr": "foo.com",
-                    "destPort": "any",
-                    "policy": "deny",
-                    "comment": "split tunnel rule 2"
                   }
                 ]
               }
@@ -7721,7 +7600,7 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidVpn",
             path=path,
             json=payload,
-            response_schema=DictResponse,
+            response_schema=NetworkWirelessSsidVpnResponse,
         )
 
     def get_network_wireless_usage_history(
@@ -10774,7 +10653,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-02-04T09:08:48Z"
+                    "lastEnabledAt": "2026-03-01T08:09:49Z"
                   }
                 }
               ],

@@ -199,6 +199,12 @@ class ApplianceFailoverAndFailbackImmediate(_BaseSchema):
     enabled: bool
 
 
+class ApplianceGroup(_BaseSchema):
+    """Group information used to track the policy."""
+
+    number: int | None = None
+
+
 class ApplianceHighAvailability(_BaseSchema):
     """Device High Availability Capabilities."""
 
@@ -360,6 +366,7 @@ class ApplianceMerakiVpnPeersItem2(_BaseSchema):
         default=None, validation_alias="networkName", serialization_alias="networkName"
     )
     reachability: str | None = None
+    priority: int | None = None
 
 
 class ApplianceMetaCounts(_BaseSchema):
@@ -568,6 +575,14 @@ class AppliancePerformanceClass2(_BaseSchema):
         validation_alias="customPerformanceClassId",
         serialization_alias="customPerformanceClassId",
     )
+
+
+class AppliancePolicy(_BaseSchema):
+    """Policy assigned to the VLAN."""
+
+    id: str | None = None
+    name: str | None = None
+    group: ApplianceGroup | None = None
 
 
 class AppliancePppoe(_BaseSchema):
@@ -808,6 +823,18 @@ class ApplianceWanTrafficUplinkPreferencesItem2(_BaseSchema):
     )
 
 
+class AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy(_BaseSchema):
+    """Policy to assign VLANs to."""
+
+    id: str | None = None
+
+
+class AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem(_BaseSchema):
+    """Item schema for vlans."""
+
+    interface_id: str = Field(validation_alias="interfaceId", serialization_alias="interfaceId")
+
+
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
@@ -972,6 +999,13 @@ class CreateNetworkApplianceVlanResponse(_BaseSchema):
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
+
+
+class CreateNetworkApplianceVlanUplinksItem(_BaseSchema):
+    """Item schema for uplinks."""
+
+    interface: str
+    nat: ApplianceFailoverAndFailbackImmediate
 
 
 class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem(_BaseSchema):
@@ -1200,6 +1234,36 @@ class GetNetworkApplianceRfProfilesResponseAssignedItem(_BaseSchema):
     )
 
 
+class GetNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
+    """Response for getNetworkApplianceSecurityIntrusion operation."""
+
+    mode: str | None = None
+    ids_rulesets: str | None = Field(
+        default=None, validation_alias="idsRulesets", serialization_alias="idsRulesets"
+    )
+    protected_networks: GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = (
+        Field(
+            default=None,
+            validation_alias="protectedNetworks",
+            serialization_alias="protectedNetworks",
+        )
+    )
+
+
+class GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks(_BaseSchema):
+    """Networks included in and excluded from the detection engine."""
+
+    use_default: bool | None = Field(
+        default=None, validation_alias="useDefault", serialization_alias="useDefault"
+    )
+    included_cidr: list[str] = Field(
+        default_factory=list, validation_alias="includedCidr", serialization_alias="includedCidr"
+    )
+    excluded_cidr: list[str] = Field(
+        default_factory=list, validation_alias="excludedCidr", serialization_alias="excludedCidr"
+    )
+
+
 class GetNetworkApplianceSsidsResponse(RootModel[list["NetworkApplianceSsidResponse"]]):
     """Response for getNetworkApplianceSsids operation."""
 
@@ -1307,6 +1371,21 @@ class GetOrganizationApplianceUplinkStatusesResponseItem(_BaseSchema):
     uplinks: list[ApplianceUplinksItem] = Field(default_factory=list)
 
 
+class GetOrganizationApplianceUplinksNatByNetworkResponse(
+    RootModel[list["GetOrganizationApplianceUplinksNatByNetworkResponseItem"]]
+):
+    """Response for getOrganizationApplianceUplinksNatByNetwork operation."""
+
+
+class GetOrganizationApplianceUplinksNatByNetworkResponseItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceUplinksNatByNetworkResponseItem."""
+
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    uplinks: list[UpdateNetworkApplianceUplinksNatResponseUplinksItem] = Field(default_factory=list)
+
+
 class GetOrganizationApplianceUplinksStatusesOverviewResponse(_BaseSchema):
     """Response for getOrganizationApplianceUplinksStatusesOverview operation."""
 
@@ -1400,6 +1479,43 @@ class GetOrganizationApplianceVpnStatusesResponseItem(_BaseSchema):
         default_factory=list,
         validation_alias="thirdPartyVpnPeers",
         serialization_alias="thirdPartyVpnPeers",
+    )
+
+
+class GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanResponseItemsItem.
+    """
+
+    network: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    name: str | None = None
+    subnet: str | None = None
+    interface_id: str | None = Field(
+        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
+    )
+    vlan_id: str | None = Field(
+        default=None, validation_alias="vlanId", serialization_alias="vlanId"
+    )
+    policy: AppliancePolicy | None = None
+
+
+class GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsResponseItemsItem.
+    """
+
+    assignment_id: str | None = Field(
+        default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
+    )
+    policy_id: str | None = Field(
+        default=None, validation_alias="policyId", serialization_alias="policyId"
+    )
+    interface_id: str | None = Field(
+        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
     )
 
 
@@ -1538,32 +1654,6 @@ class NetworkApplianceRfProfileResponse(_BaseSchema):
     )
     per_ssid_settings: ApplianceAssignedPerSsidSettings | None = Field(
         default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
-    )
-
-
-class NetworkApplianceSecurityIntrusionResponse(_BaseSchema):
-    """Schema for NetworkApplianceSecurityIntrusionResponse."""
-
-    mode: str | None = None
-    ids_rulesets: str | None = Field(
-        default=None, validation_alias="idsRulesets", serialization_alias="idsRulesets"
-    )
-    protected_networks: NetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = Field(
-        default=None, validation_alias="protectedNetworks", serialization_alias="protectedNetworks"
-    )
-
-
-class NetworkApplianceSecurityIntrusionResponseProtectedNetworks(_BaseSchema):
-    """Networks included in and excluded from the detection engine."""
-
-    use_default: bool | None = Field(
-        default=None, validation_alias="useDefault", serialization_alias="useDefault"
-    )
-    included_cidr: list[str] = Field(
-        default_factory=list, validation_alias="includedCidr", serialization_alias="includedCidr"
-    )
-    excluded_cidr: list[str] = Field(
-        default_factory=list, validation_alias="excludedCidr", serialization_alias="excludedCidr"
     )
 
 
@@ -1853,6 +1943,9 @@ class NetworkApplianceVpnBgpResponse(_BaseSchema):
     ibgp_hold_timer: int | None = Field(
         default=None, validation_alias="ibgpHoldTimer", serialization_alias="ibgpHoldTimer"
     )
+    router_id: str | None = Field(
+        default=None, validation_alias="routerId", serialization_alias="routerId"
+    )
     neighbors: list[NetworkApplianceVpnBgpResponseNeighborsItem] = Field(default_factory=list)
 
 
@@ -1895,6 +1988,12 @@ class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
         default_factory=list, validation_alias="pathPrepend", serialization_alias="pathPrepend"
     )
     weight: int | None = None
+    filter_in: list[str] = Field(
+        default_factory=list, validation_alias="filterIn", serialization_alias="filterIn"
+    )
+    community_out: list[str] = Field(
+        default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
+    )
 
 
 class NetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
@@ -1904,6 +2003,19 @@ class NetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
     hubs: list[NetworkApplianceVpnSiteToSiteVpnResponseHubsItem] = Field(default_factory=list)
     subnets: list[NetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem] = Field(default_factory=list)
     subnet: NetworkApplianceVpnSiteToSiteVpnResponseSubnet | None = None
+    host_translations: list[NetworkApplianceVpnSiteToSiteVpnResponseHostTranslationsItem] = Field(
+        default_factory=list,
+        validation_alias="hostTranslations",
+        serialization_alias="hostTranslations",
+    )
+
+
+class NetworkApplianceVpnSiteToSiteVpnResponseHostTranslationsItem(_BaseSchema):
+    """Schema for NetworkApplianceVpnSiteToSiteVpnResponseHostTranslationsItem."""
+
+    name: str | None = None
+    local: ApplianceNeighborsIpv6 | None = None
+    remote: ApplianceNeighborsIpv6 | None = None
 
 
 class NetworkApplianceVpnSiteToSiteVpnResponseHubsItem(_BaseSchema):
@@ -1975,6 +2087,23 @@ class OrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
     name: str | None = None
     hostnames: list[str] = Field(default_factory=list)
     nameservers: ApplianceNameservers | None = None
+
+
+class OrganizationApplianceSecurityIntrusionResponse(_BaseSchema):
+    """Schema for OrganizationApplianceSecurityIntrusionResponse."""
+
+    allowed_rules: list[OrganizationApplianceSecurityIntrusionResponseAllowedRulesItem] = Field(
+        default_factory=list, validation_alias="allowedRules", serialization_alias="allowedRules"
+    )
+
+
+class OrganizationApplianceSecurityIntrusionResponseAllowedRulesItem(_BaseSchema):
+    """Schema for OrganizationApplianceSecurityIntrusionResponseAllowedRulesItem."""
+
+    rule_id: str | None = Field(
+        default=None, validation_alias="ruleId", serialization_alias="ruleId"
+    )
+    message: str | None = None
 
 
 class OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
@@ -2064,6 +2193,24 @@ class OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema):
         default=None, validation_alias="priorityInGroup", serialization_alias="priorityInGroup"
     )
     group: AppliancePeersGroup | None = None
+
+
+class OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse(_BaseSchema):
+    """Schema for OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse."""
+
+    success: bool | None = None
+
+
+class RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy(_BaseSchema):
+    """Policy to remove VLANs from."""
+
+    id: str | None = None
+
+
+class RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem(_BaseSchema):
+    """Item schema for vlans."""
+
+    interface_id: str = Field(validation_alias="interfaceId", serialization_alias="interfaceId")
 
 
 class UpdateDeviceApplianceRadioSettingsFiveGhzSettings(_BaseSchema):
@@ -2403,6 +2550,22 @@ class UpdateNetworkApplianceSecurityIntrusionProtectedNetworks(_BaseSchema):
     )
 
 
+class UpdateNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
+    """Response for updateNetworkApplianceSecurityIntrusion operation."""
+
+    mode: str | None = None
+    ids_rulesets: str | None = Field(
+        default=None, validation_alias="idsRulesets", serialization_alias="idsRulesets"
+    )
+    protected_networks: GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = (
+        Field(
+            default=None,
+            validation_alias="protectedNetworks",
+            serialization_alias="protectedNetworks",
+        )
+    )
+
+
 class UpdateNetworkApplianceSecurityMalwareAllowedFilesItem(_BaseSchema):
     """Item schema for allowedFiles."""
 
@@ -2634,6 +2797,26 @@ class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseMajorApplications
     name: str
 
 
+class UpdateNetworkApplianceUplinksNatResponse(_BaseSchema):
+    """Response for updateNetworkApplianceUplinksNat operation."""
+
+    uplinks: list[UpdateNetworkApplianceUplinksNatResponseUplinksItem] = Field(default_factory=list)
+
+
+class UpdateNetworkApplianceUplinksNatResponseUplinksItem(_BaseSchema):
+    """Schema for UpdateNetworkApplianceUplinksNatResponseUplinksItem."""
+
+    interface: str | None = None
+    nat: NetworkApplianceSingleLanResponseMandatoryDhcp | None = None
+
+
+class UpdateNetworkApplianceUplinksNatUplinksItem(_BaseSchema):
+    """Item schema for uplinks."""
+
+    interface: str
+    nat: ApplianceFailoverAndFailbackImmediate
+
+
 class UpdateNetworkApplianceVlanDhcpOptionsItem(_BaseSchema):
     """Item schema for dhcpOptions."""
 
@@ -2685,6 +2868,13 @@ class UpdateNetworkApplianceVlanReservedIpRangesItem(_BaseSchema):
     comment: str
 
 
+class UpdateNetworkApplianceVlanUplinksItem(_BaseSchema):
+    """Item schema for uplinks."""
+
+    interface: str
+    nat: ApplianceFailoverAndFailbackImmediate
+
+
 class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
     """Item schema for neighbors."""
 
@@ -2722,12 +2912,26 @@ class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
         default_factory=list, validation_alias="pathPrepend", serialization_alias="pathPrepend"
     )
     weight: int | None = None
+    filter_in: list[str] = Field(
+        default_factory=list, validation_alias="filterIn", serialization_alias="filterIn"
+    )
+    community_out: list[str] = Field(
+        default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
+    )
 
 
 class UpdateNetworkApplianceVpnBgpNeighborsItemIpv6(_BaseSchema):
     """Information regarding IPv6 address of the neighbor, Required if `ip` is not present."""
 
     address: str
+
+
+class UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem(_BaseSchema):
+    """Item schema for hostTranslations."""
+
+    name: str | None = None
+    local: ApplianceNeighborsIpv6 | None = None
+    remote: ApplianceNeighborsIpv6 | None = None
 
 
 class UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem(_BaseSchema):

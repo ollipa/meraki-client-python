@@ -9,6 +9,12 @@ import urllib.parse
 from typing import Any
 
 from meraki_client.schemas import (
+    AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
+    AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
+    AttachOrganizationSaseSitesCallback,
+    AttachOrganizationSaseSitesItemsItem,
+    BatchOrganizationSaseConnectorsCreateItemsItem,
+    BatchOrganizationSaseConnectorsDeleteItemsItem,
     BulkUpdateOrganizationDevicesDetailsDetailsItem,
     ClaimOrganizationInventoryOrdersSubscriptionsItem,
     CreateOrganizationActionBatchActionsItem,
@@ -24,8 +30,14 @@ from meraki_client.schemas import (
     CreateOrganizationBrandingPolicyHelpSettings,
     CreateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     CreateOrganizationDevicesPacketCaptureScheduleSchedule,
+    CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
+    CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
+    DetachOrganizationSaseSitesCallback,
+    DetachOrganizationSaseSitesItemsItem,
     DisableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
+    RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
+    RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
     ReorderOrganizationDevicesPacketCaptureSchedulesOrderItem,
     UpdateOrganizationAdaptivePolicyAclRulesItem,
     UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem,
@@ -40,6 +52,9 @@ from meraki_client.schemas import (
     UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     UpdateOrganizationDevicesPacketCaptureScheduleSchedule,
     UpdateOrganizationLoginSecurityApiAuthentication,
+    UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
+    UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
+    UpdateOrganizationSaseSiteRouting,
 )
 from meraki_client.types import (
     CreateOrganizationAdaptivePolicyAclIpVersion,
@@ -47,9 +62,11 @@ from meraki_client.types import (
     CreateOrganizationAlertsProfileType,
     CreateOrganizationDevicesControllerMigrationTarget,
     CreateOrganizationNetworkProductTypes,
+    CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
     UpdateOrganizationAdaptivePolicyAclIpVersion,
     UpdateOrganizationAdaptivePolicyPolicyLastEntryRule,
     UpdateOrganizationAlertsProfileType,
+    UpdateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
 )
 
 
@@ -1509,6 +1526,486 @@ class ActionBatchOrganizations:
             body=payload,
         )
 
+    def create_organization_policies_global_firewall_ruleset(
+        self, *, organization_id: str, name: str, description: str | None = None
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create an Organization-Wide Policy Firewall Ruleset.
+
+        [API documentation: createOrganizationPoliciesGlobalFirewallRuleset](https://developer.cisco.com/meraki/api-v1/#!create-organization-policies-global-firewall-ruleset)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the firewall ruleset.
+            description: Description of the firewall ruleset.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def create_organization_policies_global_firewall_rulesets_rule(
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        ruleset_id: str,
+        policy: CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
+        sources: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
+        destinations: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
+        enabled: bool | None = None,
+        priority: int | None = None,
+        description: str | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create an Organization-Wide Policy Firewall Rule.
+
+        [API documentation: createOrganizationPoliciesGlobalFirewallRulesetsRule](https://developer.cisco.com/meraki/api-v1/#!create-organization-policies-global-firewall-rulesets-rule)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the firewall rule.
+            ruleset_id: Firewall ruleset ID to associate the rule with.
+            policy: Rule policy - allow or deny traffic.
+            enabled: Whether the rule is enabled.
+            priority: Rule priority (lower numbers = higher priority).
+            description: Description of the firewall rule.
+            sources: Source traffic criteria. Each source or destination bloc is capped separately
+                per rule at 100 total segment values. The count is
+                segments_values_count: the sum of all values across every segment type
+                in that bloc. Ports use a separate cap of 100.
+            destinations: Destination traffic criteria. Each source or destination bloc is capped
+                separately per rule at 100 total segment values. The count is
+                segments_values_count: the sum of all values across every segment type
+                in that bloc. Ports use a separate cap of 100.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/rules"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if ruleset_id is not None:
+            payload["rulesetId"] = ruleset_id
+        if policy is not None:
+            payload["policy"] = policy
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if priority is not None:
+            payload["priority"] = priority
+        if description is not None:
+            payload["description"] = description
+        if sources is not None:
+            payload["sources"] = sources.model_dump(by_alias=True, exclude_none=True)
+        if destinations is not None:
+            payload["destinations"] = destinations.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def update_organization_policies_global_firewall_rulesets_rule(
+        self,
+        *,
+        organization_id: str,
+        rule_id: str,
+        name: str | None = None,
+        ruleset_id: str | None = None,
+        policy: UpdateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy | None = None,
+        enabled: bool | None = None,
+        priority: int | None = None,
+        description: str | None = None,
+        sources: UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources | None = None,
+        destinations: UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations
+        | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update an Organization-Wide Policy Firewall Rule.
+
+        [API documentation: updateOrganizationPoliciesGlobalFirewallRulesetsRule](https://developer.cisco.com/meraki/api-v1/#!update-organization-policies-global-firewall-rulesets-rule)
+
+        Args:
+            organization_id: Organization ID.
+            rule_id: Rule ID.
+            name: Name of the firewall rule.
+            ruleset_id: Firewall ruleset ID to associate the rule with.
+            policy: Rule policy - allow or deny traffic.
+            enabled: Whether the rule is enabled.
+            priority: Rule priority (lower numbers = higher priority).
+            description: Description of the firewall rule.
+            sources: Source traffic criteria. Each source or destination bloc is capped separately
+                per rule at 100 total segment values. The count is
+                segments_values_count: the sum of all values across every segment type
+                in that bloc. Ports use a separate cap of 100.
+            destinations: Destination traffic criteria. Each source or destination bloc is capped
+                separately per rule at 100 total segment values. The count is
+                segments_values_count: the sum of all values across every segment type
+                in that bloc. Ports use a separate cap of 100.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        rule_id = urllib.parse.quote(str(rule_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/rules/{rule_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if ruleset_id is not None:
+            payload["rulesetId"] = ruleset_id
+        if policy is not None:
+            payload["policy"] = policy
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if priority is not None:
+            payload["priority"] = priority
+        if description is not None:
+            payload["description"] = description
+        if sources is not None:
+            payload["sources"] = sources.model_dump(by_alias=True, exclude_none=True)
+        if destinations is not None:
+            payload["destinations"] = destinations.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_policies_global_firewall_rulesets_rule(
+        self, *, organization_id: str, rule_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete an Organization-Wide Policy Firewall Rule.
+
+        [API documentation: deleteOrganizationPoliciesGlobalFirewallRulesetsRule](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policies-global-firewall-rulesets-rule)
+
+        Args:
+            organization_id: Organization ID.
+            rule_id: Rule ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        rule_id = urllib.parse.quote(str(rule_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/rules/{rule_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def update_organization_policies_global_firewall_ruleset(
+        self,
+        *,
+        organization_id: str,
+        ruleset_id: str,
+        name: str | None = None,
+        description: str | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update an Organization-Wide Policy Firewall Ruleset.
+
+        [API documentation: updateOrganizationPoliciesGlobalFirewallRuleset](https://developer.cisco.com/meraki/api-v1/#!update-organization-policies-global-firewall-ruleset)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_id: Ruleset ID.
+            name: Name of the firewall ruleset.
+            description: Description of the firewall ruleset.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        ruleset_id = urllib.parse.quote(str(ruleset_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/{ruleset_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_policies_global_firewall_ruleset(
+        self, *, organization_id: str, ruleset_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete an Organization-Wide Policy Firewall Ruleset.
+
+        [API documentation: deleteOrganizationPoliciesGlobalFirewallRuleset](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policies-global-firewall-ruleset)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_id: Ruleset ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        ruleset_id = urllib.parse.quote(str(ruleset_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/firewall/rulesets/{ruleset_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def create_organization_policies_global_group_policy(
+        self, *, organization_id: str, name: str, description: str | None = None
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create an Organization-Wide Policy.
+
+        [API documentation: createOrganizationPoliciesGlobalGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-policies-global-group-policy)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the policy.
+            description: Description of the policy.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def assign_organization_policies_global_group_policies_adaptive_policy_groups(
+        self,
+        *,
+        organization_id: str,
+        policy: AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
+        adaptive_policy_groups: list[
+            AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem
+        ],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Assign adaptive policy groups to a policy.
+
+        [API documentation: assignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!assign-organization-policies-global-group-policies-adaptive-policy-groups)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to assign adaptive policy groups to.
+            adaptive_policy_groups: Adaptive policy groups to assign.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/adaptivePolicyGroups/assign"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if adaptive_policy_groups is not None:
+            payload["adaptivePolicyGroups"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in adaptive_policy_groups
+            ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="assign",
+            body=payload,
+        )
+
+    def remove_organization_policies_global_group_policies_adaptive_policy_groups(
+        self,
+        *,
+        organization_id: str,
+        policy: RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
+        adaptive_policy_groups: list[
+            RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem
+        ],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Remove adaptive policy groups from a policy.
+
+        [API documentation: removeOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!remove-organization-policies-global-group-policies-adaptive-policy-groups)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to remove adaptive policy groups from.
+            adaptive_policy_groups: Adaptive policy groups to remove.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/adaptivePolicyGroups/remove"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if adaptive_policy_groups is not None:
+            payload["adaptivePolicyGroups"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in adaptive_policy_groups
+            ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="remove",
+            body=payload,
+        )
+
+    def create_organization_policies_global_group_policies_firewall_rulesets_assignment(
+        self, *, organization_id: str, ruleset_id: str, policy_id: str, priority: int | None = None
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create an Organization-Wide Policy Ruleset Assignment.
+
+        [API documentation: createOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment](https://developer.cisco.com/meraki/api-v1/#!create-organization-policies-global-group-policies-firewall-rulesets-assignment)
+
+        Args:
+            organization_id: Organization ID.
+            ruleset_id: ID of the ruleset to assign.
+            policy_id: ID of the policy to assign the ruleset to.
+            priority: Priority of the ruleset assignment (lower numbers = higher priority).
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments"
+
+        payload: dict[str, Any] = {}
+        if ruleset_id is not None:
+            payload["rulesetId"] = ruleset_id
+        if policy_id is not None:
+            payload["policyId"] = policy_id
+        if priority is not None:
+            payload["priority"] = priority
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def update_organization_policies_global_group_policies_firewall_rulesets_assignment(
+        self,
+        *,
+        organization_id: str,
+        assignment_id: str,
+        ruleset_id: str | None = None,
+        policy_id: str | None = None,
+        priority: int | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update an Organization-Wide Policy Ruleset Assignment.
+
+        [API documentation: updateOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment](https://developer.cisco.com/meraki/api-v1/#!update-organization-policies-global-group-policies-firewall-rulesets-assignment)
+
+        Args:
+            organization_id: Organization ID.
+            assignment_id: Assignment ID.
+            ruleset_id: ID of the ruleset to assign.
+            policy_id: ID of the policy to assign the ruleset to.
+            priority: Priority of the ruleset assignment (lower numbers = higher priority).
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        assignment_id = urllib.parse.quote(str(assignment_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments/{assignment_id}"
+
+        payload: dict[str, Any] = {}
+        if ruleset_id is not None:
+            payload["rulesetId"] = ruleset_id
+        if policy_id is not None:
+            payload["policyId"] = policy_id
+        if priority is not None:
+            payload["priority"] = priority
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_policies_global_group_policies_firewall_rulesets_assignment(
+        self, *, organization_id: str, assignment_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete an Organization-Wide Policy Ruleset Assignment.
+
+        [API documentation: deleteOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policies-global-group-policies-firewall-rulesets-assignment)
+
+        Args:
+            organization_id: Organization ID.
+            assignment_id: Assignment ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        assignment_id = urllib.parse.quote(str(assignment_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments/{assignment_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def update_organization_policies_global_group_policy(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        name: str | None = None,
+        description: str | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update an Organization-Wide Policy.
+
+        [API documentation: updateOrganizationPoliciesGlobalGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-policies-global-group-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            name: Name of the policy.
+            description: Description of the policy.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/{policy_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_policies_global_group_policy(
+        self, *, organization_id: str, policy_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete an Organization-Wide Policy.
+
+        [API documentation: deleteOrganizationPoliciesGlobalGroupPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-organization-policies-global-group-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/{policy_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
     def create_organization_policy_object(
         self,
         *,
@@ -1836,6 +2333,161 @@ class ActionBatchOrganizations:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="destroy",
+        )
+
+    def batch_organization_sase_connectors_create(
+        self,
+        organization_id: str,
+        *,
+        items: list[BatchOrganizationSaseConnectorsCreateItemsItem] | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Deploy SSE Connectors for specified regions.
+
+        [API documentation: batchOrganizationSaseConnectorsCreate](https://developer.cisco.com/meraki/api-v1/#!batch-organization-sase-connectors-create)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of connectors to deploy (maximum 20 items).
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/connectors/batchCreate"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="deploy",
+            body=payload,
+        )
+
+    def batch_organization_sase_connectors_delete(
+        self,
+        organization_id: str,
+        *,
+        items: list[BatchOrganizationSaseConnectorsDeleteItemsItem] | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete SSE Connectors by ID.
+
+        [API documentation: batchOrganizationSaseConnectorsDelete](https://developer.cisco.com/meraki/api-v1/#!batch-organization-sase-connectors-delete)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of connectors to delete (maximum 20 items).
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/connectors/batchDelete"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="teardown",
+            body=payload,
+        )
+
+    def attach_organization_sase_sites(
+        self,
+        organization_id: str,
+        *,
+        items: list[AttachOrganizationSaseSitesItemsItem] | None = None,
+        callback: AttachOrganizationSaseSitesCallback | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Attach sites in this organization to Secure Access.
+
+        [API documentation: attachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!attach-organization-sase-sites)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of Meraki SD-WAN sites with the associated regions to be attached.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites/attach"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def detach_organization_sase_sites(
+        self,
+        organization_id: str,
+        *,
+        items: list[DetachOrganizationSaseSitesItemsItem] | None = None,
+        callback: DetachOrganizationSaseSitesCallback | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Detach sites in this organization from Secure Access.
+
+        [API documentation: detachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!detach-organization-sase-sites)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of Secure Access sites to be detached.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites/detach"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="detach",
+            body=payload,
+        )
+
+    def update_organization_sase_site(
+        self,
+        *,
+        organization_id: str,
+        site_id: str,
+        routing: UpdateOrganizationSaseSiteRouting | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update the configuration for a site.
+
+        [API documentation: updateOrganizationSaseSite](https://developer.cisco.com/meraki/api-v1/#!update-organization-sase-site)
+
+        Args:
+            organization_id: Organization ID.
+            site_id: Site ID.
+            routing: Routing configuration for the site.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        site_id = urllib.parse.quote(str(site_id), safe="")
+        path = f"/organizations/{organization_id}/sase/sites/{site_id}"
+
+        payload: dict[str, Any] = {}
+        if site_id is not None:
+            payload["siteId"] = site_id
+        if routing is not None:
+            payload["routing"] = routing.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
         )
 
     def delete_organization_splash_asset(

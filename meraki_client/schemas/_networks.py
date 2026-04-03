@@ -117,6 +117,12 @@ class ClaimNetworkDevicesResponseErrorsItem(_BaseSchema):
     errors: list[str]
 
 
+class CreateNetworkFirmwareUpgradesRollbackPredownload(_BaseSchema):
+    """Predownload settings for the firmware upgrade."""
+
+    enabled: bool | None = None
+
+
 class CreateNetworkFirmwareUpgradesRollbackReasonsItem(_BaseSchema):
     """Item schema for reasons."""
 
@@ -139,6 +145,7 @@ class CreateNetworkFirmwareUpgradesRollbackResponse(_BaseSchema):
     reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] = Field(
         default_factory=list
     )
+    predownload: NetworksMutingByPortSchedules | None = None
 
 
 class CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem(_BaseSchema):
@@ -166,7 +173,7 @@ class CreateNetworkFirmwareUpgradesStagedEventProducts(_BaseSchema):
 class CreateNetworkFirmwareUpgradesStagedEventProductsSwitch(_BaseSchema):
     """Version information for the switch network being upgraded."""
 
-    next_upgrade: NetworksNextUpgrade4 | None = Field(
+    next_upgrade: NetworksNextUpgrade6 | None = Field(
         default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
     )
 
@@ -848,19 +855,19 @@ class GetNetworkFirmwareUpgradesResponseProducts(_BaseSchema):
     """The network devices to be updated."""
 
     wireless: NetworksProductsWireless | None = None
-    appliance: NetworksProductsWireless | None = None
-    switch: NetworksProductsWireless | None = None
-    camera: NetworksProductsWireless | None = None
-    cellular_gateway: NetworksProductsWireless | None = Field(
+    appliance: NetworksProductsAppliance | None = None
+    switch: NetworksProductsAppliance | None = None
+    camera: NetworksProductsAppliance | None = None
+    cellular_gateway: NetworksProductsAppliance | None = Field(
         default=None, validation_alias="cellularGateway", serialization_alias="cellularGateway"
     )
-    sensor: NetworksProductsWireless | None = None
-    wireless_controller: NetworksProductsWireless | None = Field(
+    sensor: NetworksProductsAppliance | None = None
+    wireless_controller: NetworksProductsAppliance | None = Field(
         default=None,
         validation_alias="wirelessController",
         serialization_alias="wirelessController",
     )
-    secure_connect: NetworksProductsWireless | None = Field(
+    secure_connect: NetworksProductsAppliance | None = Field(
         default=None, validation_alias="secureConnect", serialization_alias="secureConnect"
     )
 
@@ -1185,6 +1192,20 @@ class NetworkClientPolicyResponsePoliciesBySsidItem(_BaseSchema):
     group_policy_id: str | None = Field(
         default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
     )
+
+
+class NetworkClientSplashAuthorizationStatusResponse(_BaseSchema):
+    """Schema for NetworkClientSplashAuthorizationStatusResponse."""
+
+    ssids: NetworkClientSplashAuthorizationStatusResponseSsids | None = None
+
+
+class NetworkClientSplashAuthorizationStatusResponseSsids(_BaseSchema):
+    """A map of SSID number to the client's splash authorization status for that SSID. Only SSIDs
+    that the client has connected to in the past will be included.
+    """
+
+    n_0: NetworksSsids0 | None = Field(default=None, validation_alias="0", serialization_alias="0")
 
 
 class NetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
@@ -2044,12 +2065,32 @@ class NetworksNextUpgrade(_BaseSchema):
     """Details of the next firmware upgrade on the device."""
 
     time: str | None = None
+    predownload: NetworksMutingByPortSchedules | None = None
     to_version: NetworksCurrentVersion | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
 
 class NetworksNextUpgrade2(_BaseSchema):
+    """Details of the next firmware upgrade on the device."""
+
+    time: datetime | None = None
+    to_version: NetworksCurrentVersion | None = Field(
+        default=None, validation_alias="toVersion", serialization_alias="toVersion"
+    )
+
+
+class NetworksNextUpgrade3(_BaseSchema):
+    """The pending firmware upgrade if it exists."""
+
+    predownload: NetworksMutingByPortSchedules | None = None
+    time: str | None = None
+    to_version: NetworksToVersion | None = Field(
+        default=None, validation_alias="toVersion", serialization_alias="toVersion"
+    )
+
+
+class NetworksNextUpgrade4(_BaseSchema):
     """The pending firmware upgrade if it exists."""
 
     time: str | None = None
@@ -2058,7 +2099,7 @@ class NetworksNextUpgrade2(_BaseSchema):
     )
 
 
-class NetworksNextUpgrade3(_BaseSchema):
+class NetworksNextUpgrade5(_BaseSchema):
     """Details of the next firmware upgrade."""
 
     to_version: NetworksToVersion2 | None = Field(
@@ -2066,7 +2107,7 @@ class NetworksNextUpgrade3(_BaseSchema):
     )
 
 
-class NetworksNextUpgrade4(_BaseSchema):
+class NetworksNextUpgrade6(_BaseSchema):
     """The next upgrade version for the switch network."""
 
     to_version: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = Field(
@@ -2141,10 +2182,39 @@ class NetworksPerClientBandwidthLimits(_BaseSchema):
     )
 
 
+class NetworksProductsAppliance(_BaseSchema):
+    """The network device to be updated."""
+
+    current_version: NetworksCurrentVersion | None = Field(
+        default=None, validation_alias="currentVersion", serialization_alias="currentVersion"
+    )
+    last_upgrade: NetworksLastUpgrade | None = Field(
+        default=None, validation_alias="lastUpgrade", serialization_alias="lastUpgrade"
+    )
+    next_upgrade: NetworksNextUpgrade2 | None = Field(
+        default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
+    )
+    is_upgrade_available: bool | None = Field(
+        default=None,
+        validation_alias="isUpgradeAvailable",
+        serialization_alias="isUpgradeAvailable",
+    )
+    available_versions: list[NetworksCurrentVersion] = Field(
+        default_factory=list,
+        validation_alias="availableVersions",
+        serialization_alias="availableVersions",
+    )
+    participate_in_next_beta_release: bool | None = Field(
+        default=None,
+        validation_alias="participateInNextBetaRelease",
+        serialization_alias="participateInNextBetaRelease",
+    )
+
+
 class NetworksProductsSwitch(_BaseSchema):
     """The Switch network to be updated."""
 
-    next_upgrade: NetworksNextUpgrade3 | None = Field(
+    next_upgrade: NetworksNextUpgrade5 | None = Field(
         default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
     )
 
@@ -2227,6 +2297,20 @@ class NetworksSsidItem(_BaseSchema):
 
     ssid_number: int | None = Field(
         default=None, validation_alias="ssidNumber", serialization_alias="ssidNumber"
+    )
+
+
+class NetworksSsids0(_BaseSchema):
+    """Splash authorization for SSID 0."""
+
+    is_authorized: bool | None = Field(
+        default=None, validation_alias="isAuthorized", serialization_alias="isAuthorized"
+    )
+    authorized_at: str | None = Field(
+        default=None, validation_alias="authorizedAt", serialization_alias="authorizedAt"
+    )
+    expires_at: str | None = Field(
+        default=None, validation_alias="expiresAt", serialization_alias="expiresAt"
     )
 
 
@@ -2710,30 +2794,43 @@ class UpdateNetworkFirmwareUpgradesProducts(_BaseSchema):
     """Contains information about the network to update."""
 
     wireless: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
-    appliance: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
-    switch: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
-    camera: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
-    cellular_gateway: UpdateNetworkFirmwareUpgradesProductsWireless | None = Field(
+    appliance: UpdateNetworkFirmwareUpgradesProductsAppliance | None = None
+    switch: UpdateNetworkFirmwareUpgradesProductsAppliance | None = None
+    camera: UpdateNetworkFirmwareUpgradesProductsAppliance | None = None
+    cellular_gateway: UpdateNetworkFirmwareUpgradesProductsAppliance | None = Field(
         default=None, validation_alias="cellularGateway", serialization_alias="cellularGateway"
     )
-    sensor: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
-    wireless_controller: UpdateNetworkFirmwareUpgradesProductsWireless | None = Field(
+    sensor: UpdateNetworkFirmwareUpgradesProductsAppliance | None = None
+    wireless_controller: UpdateNetworkFirmwareUpgradesProductsAppliance | None = Field(
         default=None,
         validation_alias="wirelessController",
         serialization_alias="wirelessController",
     )
-    secure_connect: UpdateNetworkFirmwareUpgradesProductsWireless | None = Field(
+    secure_connect: UpdateNetworkFirmwareUpgradesProductsAppliance | None = Field(
         default=None, validation_alias="secureConnect", serialization_alias="secureConnect"
     )
-    switch_catalyst: UpdateNetworkFirmwareUpgradesProductsWireless | None = Field(
+    switch_catalyst: UpdateNetworkFirmwareUpgradesProductsAppliance | None = Field(
         default=None, validation_alias="switchCatalyst", serialization_alias="switchCatalyst"
+    )
+
+
+class UpdateNetworkFirmwareUpgradesProductsAppliance(_BaseSchema):
+    """The network device to be updated."""
+
+    next_upgrade: NetworksNextUpgrade4 | None = Field(
+        default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
+    )
+    participate_in_next_beta_release: bool | None = Field(
+        default=None,
+        validation_alias="participateInNextBetaRelease",
+        serialization_alias="participateInNextBetaRelease",
     )
 
 
 class UpdateNetworkFirmwareUpgradesProductsWireless(_BaseSchema):
     """The network device to be updated."""
 
-    next_upgrade: NetworksNextUpgrade2 | None = Field(
+    next_upgrade: NetworksNextUpgrade3 | None = Field(
         default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
     )
     participate_in_next_beta_release: bool | None = Field(

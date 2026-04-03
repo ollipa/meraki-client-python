@@ -34,6 +34,7 @@ __all__ = [
     "CreateOrganizationAlertsProfileType",
     "CreateOrganizationDevicesControllerMigrationTarget",
     "CreateOrganizationNetworkProductTypes",
+    "CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy",
     "CreateOrganizationSmAdminsRoleScope",
     "GetAdministeredLicensingSubscriptionSubscriptionsProductTypes",
     "GetAdministeredLicensingSubscriptionSubscriptionsStatuses",
@@ -94,6 +95,7 @@ __all__ = [
     "GetOrganizationApiRequestsMethod",
     "GetOrganizationApiRequestsOverviewResponseCodesByIntervalVersion",
     "GetOrganizationApiRequestsVersion",
+    "GetOrganizationApiRestProvisioningPipelinesJobsStatus",
     "GetOrganizationApplianceSecurityEventsSortOrder",
     "GetOrganizationAssuranceAlertsCategory",
     "GetOrganizationAssuranceAlertsDeviceTypes",
@@ -145,6 +147,7 @@ __all__ = [
     "GetOrganizationNetworksProductTypes",
     "GetOrganizationNetworksTagsFilterType",
     "GetOrganizationOpenapiSpecVersion",
+    "GetOrganizationSaseSitesStatus",
     "GetOrganizationSensorReadingsHistoryMetrics",
     "GetOrganizationSensorReadingsLatestMetrics",
     "GetOrganizationWebhooksAlertTypesProductType",
@@ -219,6 +222,7 @@ __all__ = [
     "UpdateOrganizationConfigTemplateSwitchProfilePortStpGuard",
     "UpdateOrganizationConfigTemplateSwitchProfilePortType",
     "UpdateOrganizationConfigTemplateSwitchProfilePortUdld",
+    "UpdateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy",
     "UpdateOrganizationSmAdminsRoleScope",
     "UpdateOrganizationSnmpV3AuthMode",
     "UpdateOrganizationSnmpV3PrivMode",
@@ -299,6 +303,7 @@ CreateOrganizationNetworkProductTypes: TypeAlias = list[
         "wirelessController",
     ]
 ]
+CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy: TypeAlias = Literal["allow", "deny"]
 CreateOrganizationSmAdminsRoleScope: TypeAlias = Literal[
     "all_tags", "some", "without_all_tags", "without_some"
 ]
@@ -322,7 +327,9 @@ GetAdministeredLicensingSubscriptionSubscriptionsStatuses: TypeAlias = list[
 GetDeviceCameraAnalyticsOverviewObjectType: TypeAlias = Literal["person", "vehicle"]
 GetDeviceCameraAnalyticsRecentObjectType: TypeAlias = Literal["person", "vehicle"]
 GetDeviceCameraAnalyticsZoneHistoryObjectType: TypeAlias = Literal["person", "vehicle"]
-GetDeviceLossAndLatencyHistoryUplink: TypeAlias = Literal["cellular", "wan1", "wan2", "wan3"]
+GetDeviceLossAndLatencyHistoryUplink: TypeAlias = Literal[
+    "cellular", "wan1", "wan2", "wan3", "wan4"
+]
 GetDeviceSensorCommandsSortOrder: TypeAlias = Literal["ascending", "descending"]
 GetDeviceSwitchRoutingInterfacesMode: TypeAlias = Literal[
     "loopback", "oob_management", "routed", "vlan"
@@ -428,9 +435,12 @@ GetOrganizationActionBatchesStatus: TypeAlias = Literal["completed", "failed", "
 GetOrganizationApiRequestsMethod: TypeAlias = Literal["DELETE", "GET", "POST", "PUT"]
 GetOrganizationApiRequestsOverviewResponseCodesByIntervalVersion: TypeAlias = Literal[0, 1]
 GetOrganizationApiRequestsVersion: TypeAlias = Literal[0, 1]
+GetOrganizationApiRestProvisioningPipelinesJobsStatus: TypeAlias = Literal[
+    "complete", "deferred", "failed", "new", "ready", "running", "scheduled"
+]
 GetOrganizationApplianceSecurityEventsSortOrder: TypeAlias = Literal["ascending", "descending"]
 GetOrganizationAssuranceAlertsCategory: TypeAlias = Literal[
-    "configuration", "connectivity", "device_health", "insights"
+    "configuration", "connectivity", "device_health", "experience_metrics", "insights"
 ]
 GetOrganizationAssuranceAlertsDeviceTypes: TypeAlias = list[
     Literal[
@@ -451,7 +461,7 @@ GetOrganizationAssuranceAlertsDeviceTypes: TypeAlias = list[
     ]
 ]
 GetOrganizationAssuranceAlertsOverviewByNetworkCategory: TypeAlias = Literal[
-    "configuration", "connectivity", "device_health", "insights"
+    "configuration", "connectivity", "device_health", "experience_metrics", "insights"
 ]
 GetOrganizationAssuranceAlertsOverviewByNetworkDeviceTypes: TypeAlias = list[
     Literal[
@@ -537,6 +547,8 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_secure_port_conflict",
+        "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
@@ -612,6 +624,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "secure_connect_auth_failure",
         "secure_connect_auth_in_progress",
         "secure_connect_auth_timeout",
+        "snmp_community_string_too_long",
         "speed_downshift",
         "ssh_error_authentication",
         "ssh_error_authorization",
@@ -629,6 +642,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "stp_root_status_changed",
         "stp_rootguard_active",
         "stp_tcn_errors",
+        "successful_connect_degraded",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -680,7 +694,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
     ]
 ]
 GetOrganizationAssuranceAlertsOverviewByTypeCategory: TypeAlias = Literal[
-    "configuration", "connectivity", "device_health", "insights"
+    "configuration", "connectivity", "device_health", "experience_metrics", "insights"
 ]
 GetOrganizationAssuranceAlertsOverviewByTypeDeviceTypes: TypeAlias = list[
     Literal[
@@ -769,6 +783,8 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_secure_port_conflict",
+        "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
@@ -844,6 +860,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "secure_connect_auth_failure",
         "secure_connect_auth_in_progress",
         "secure_connect_auth_timeout",
+        "snmp_community_string_too_long",
         "speed_downshift",
         "ssh_error_authentication",
         "ssh_error_authorization",
@@ -861,6 +878,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "stp_root_status_changed",
         "stp_rootguard_active",
         "stp_tcn_errors",
+        "successful_connect_degraded",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -912,7 +930,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
     ]
 ]
 GetOrganizationAssuranceAlertsOverviewCategory: TypeAlias = Literal[
-    "configuration", "connectivity", "device_health", "insights"
+    "configuration", "connectivity", "device_health", "experience_metrics", "insights"
 ]
 GetOrganizationAssuranceAlertsOverviewDeviceTypes: TypeAlias = list[
     Literal[
@@ -933,7 +951,7 @@ GetOrganizationAssuranceAlertsOverviewDeviceTypes: TypeAlias = list[
     ]
 ]
 GetOrganizationAssuranceAlertsOverviewHistoricalCategory: TypeAlias = Literal[
-    "configuration", "connectivity", "device_health", "insights"
+    "configuration", "connectivity", "device_health", "experience_metrics", "insights"
 ]
 GetOrganizationAssuranceAlertsOverviewHistoricalDeviceTypes: TypeAlias = list[
     Literal[
@@ -1016,6 +1034,8 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_secure_port_conflict",
+        "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
@@ -1091,6 +1111,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "secure_connect_auth_failure",
         "secure_connect_auth_in_progress",
         "secure_connect_auth_timeout",
+        "snmp_community_string_too_long",
         "speed_downshift",
         "ssh_error_authentication",
         "ssh_error_authorization",
@@ -1108,6 +1129,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "stp_root_status_changed",
         "stp_rootguard_active",
         "stp_tcn_errors",
+        "successful_connect_degraded",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -1221,6 +1243,8 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_secure_port_conflict",
+        "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
@@ -1296,6 +1320,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "secure_connect_auth_failure",
         "secure_connect_auth_in_progress",
         "secure_connect_auth_timeout",
+        "snmp_community_string_too_long",
         "speed_downshift",
         "ssh_error_authentication",
         "ssh_error_authorization",
@@ -1313,6 +1338,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "stp_root_status_changed",
         "stp_rootguard_active",
         "stp_tcn_errors",
+        "successful_connect_degraded",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -1430,6 +1456,8 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "high_memory_mx",
         "high_temperature_mx",
         "http_acl_ipv6_conflict",
+        "https_secure_port_conflict",
+        "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
@@ -1505,6 +1533,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "secure_connect_auth_failure",
         "secure_connect_auth_in_progress",
         "secure_connect_auth_timeout",
+        "snmp_community_string_too_long",
         "speed_downshift",
         "ssh_error_authentication",
         "ssh_error_authorization",
@@ -1522,6 +1551,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "stp_root_status_changed",
         "stp_rootguard_active",
         "stp_tcn_errors",
+        "successful_connect_degraded",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -1744,6 +1774,9 @@ GetOrganizationNetworksProductTypes: TypeAlias = list[
 ]
 GetOrganizationNetworksTagsFilterType: TypeAlias = Literal["withAllTags", "withAnyTags"]
 GetOrganizationOpenapiSpecVersion: TypeAlias = Literal[2, 3]
+GetOrganizationSaseSitesStatus: TypeAlias = Literal[
+    "bad NAT", "bad tunnel", "dormant", "good", "many bad tunnels", "no registry", "offline"
+]
 GetOrganizationSensorReadingsHistoryMetrics: TypeAlias = list[
     Literal[
         "apparentPower",
@@ -2014,6 +2047,7 @@ UpdateOrganizationConfigTemplateSwitchProfilePortType: TypeAlias = Literal[
     "access", "dad", "routed", "stack", "svl", "trunk"
 ]
 UpdateOrganizationConfigTemplateSwitchProfilePortUdld: TypeAlias = Literal["Alert only", "Enforce"]
+UpdateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy: TypeAlias = Literal["allow", "deny"]
 UpdateOrganizationSmAdminsRoleScope: TypeAlias = Literal[
     "all_tags", "some", "without_all_tags", "without_some"
 ]

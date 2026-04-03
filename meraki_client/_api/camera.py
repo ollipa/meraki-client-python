@@ -11,6 +11,7 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
+    ClipDeviceCameraResponse,
     CreateNetworkCameraQualityRetentionProfileSmartRetention,
     CreateNetworkCameraQualityRetentionProfileVideoSettings,
     CreateNetworkCameraWirelessProfileIdentity,
@@ -24,7 +25,6 @@ from meraki_client.schemas import (
     DeviceCameraSenseResponse,
     DeviceCameraVideoSettingsResponse,
     DeviceCameraWirelessProfilesResponse,
-    GenerateDeviceCameraSnapshotResponse,
     GetDeviceCameraAnalyticsLiveResponse,
     GetDeviceCameraAnalyticsOverviewResponseItem,
     GetDeviceCameraAnalyticsZoneHistoryResponseItem,
@@ -346,6 +346,52 @@ class Camera:
             item_schema=GetDeviceCameraAnalyticsZoneHistoryResponseItem,
         )
 
+    def clip_device_camera(
+        self, *, serial: str, start_timestamp: str, end_timestamp: str, imager_id: int | None = None
+    ) -> ClipDeviceCameraResponse:
+        """Generate a video clip of up to 5 minutes long.
+
+        [API documentation: clipDeviceCamera](https://developer.cisco.com/meraki/api-v1/#!clip-device-camera)
+
+        Args:
+            serial: Serial.
+            start_timestamp: The start time for the clip. The timestamp is expected to be in ISO
+                8601 format.
+            end_timestamp: The end time for the clip. The timestamp is expected to be in ISO 8601
+                format.
+            imager_id: For multi-imager cameras, the imager ID to query. Defaults to '1' if omitted.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "url": "https://spn4.meraki.com/stream/jpeg/snapshot/b2d123asdf423qd22d2",
+              "expiry": "Access to the image will expire at 2018-12-11T03:12:39Z."
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/camera/clip"
+
+        params: dict[str, Any] = {}
+        if start_timestamp is not None:
+            params["startTimestamp"] = start_timestamp
+        if end_timestamp is not None:
+            params["endTimestamp"] = end_timestamp
+        if imager_id is not None:
+            params["imagerId"] = imager_id
+
+        return self._session.get(
+            scope="camera",
+            operation_id="clipDeviceCamera",
+            path=path,
+            params=params,
+            response_schema=ClipDeviceCameraResponse,
+        )
+
     def get_device_camera_custom_analytics(
         self, serial: str
     ) -> DeviceCameraCustomAnalyticsResponse:
@@ -443,7 +489,7 @@ class Camera:
 
     def generate_device_camera_snapshot(
         self, serial: str, *, timestamp: str | None = None, fullframe: bool | None = None
-    ) -> GenerateDeviceCameraSnapshotResponse:
+    ) -> ClipDeviceCameraResponse:
         """Generate a snapshot of what the camera sees at the specified time and return a link to that image.
 
         [API documentation: generateDeviceCameraSnapshot](https://developer.cisco.com/meraki/api-v1/#!generate-device-camera-snapshot)
@@ -482,7 +528,7 @@ class Camera:
             operation_id="generateDeviceCameraSnapshot",
             path=path,
             json=payload,
-            response_schema=GenerateDeviceCameraSnapshotResponse,
+            response_schema=ClipDeviceCameraResponse,
         )
 
     def get_device_camera_quality_and_retention(

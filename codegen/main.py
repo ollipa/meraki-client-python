@@ -831,6 +831,7 @@ def collect_request_body_params(
         return
 
     properties = content_schema.properties or {}
+    required_properties = set(content_schema.required or [])
     for property_name, property_schema in properties.items():
         snake_name = escape_reserved_name(to_snake_case(property_name))
         if isinstance(property_schema, Reference):
@@ -849,11 +850,8 @@ def collect_request_body_params(
             BodyParam(snake_name, property_name, is_schema, is_list, is_dict)
         )
 
-        if (
-            property_name == "scheduleId"
-            and operation_id == "deleteOrganizationDevicesPacketCaptureSchedule"
-        ):
-            # Schedule ID is duplicate of path param in this operation
+        if snake_name in function_definition.path_params and property_name in required_properties:
+            # Reuse the path argument when the body repeats a required top-level ID.
             continue
 
         function_definition.param_descriptions.append(
@@ -873,7 +871,6 @@ def collect_request_body_params(
         if alias_name:
             py_type = alias_name
 
-        required_properties = content_schema.required or []
         if property_name in required_properties:
             function_definition.required_args.append(f"{snake_name}: {py_type}")
         else:

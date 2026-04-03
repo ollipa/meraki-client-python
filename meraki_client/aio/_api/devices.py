@@ -1534,7 +1534,7 @@ class Devices:
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
                 60, 600, 3600, 86400. The default is 60.
             uplink: The WAN uplink used to obtain the requested stats. Valid uplinks are wan1, wan2,
-                wan3, cellular. The default is wan1.
+                wan3, cellular, wan4. The default is wan1.
             ip: The destination IP used to obtain the requested stats. This is required.
 
         Returns:
