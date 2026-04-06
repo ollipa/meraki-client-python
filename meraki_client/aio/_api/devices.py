@@ -32,6 +32,7 @@ from meraki_client.schemas import (
     CreateDeviceLiveToolsWakeOnLanResponse,
     DeviceCellularSimsResponse,
     DeviceManagementInterfaceResponse,
+    DeviceResponse,
     GetDeviceClientsResponseItem,
     GetDeviceLiveToolsArpTableResponse,
     GetDeviceLiveToolsCableTestResponse,
@@ -44,13 +45,11 @@ from meraki_client.schemas import (
     GetDeviceLiveToolsWakeOnLanResponse,
     GetDeviceLldpCdpResponse,
     GetDeviceLossAndLatencyHistoryResponseItem,
-    GetDeviceResponse,
     RebootDeviceResponse,
     UpdateDeviceCellularSimsSimFailover,
     UpdateDeviceCellularSimsSimsItem,
     UpdateDeviceManagementInterfaceWan1,
     UpdateDeviceManagementInterfaceWan2,
-    UpdateDeviceResponse,
 )
 from meraki_client.types import (
     GetDeviceLossAndLatencyHistoryUplink,
@@ -66,7 +65,7 @@ class Devices:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_device(self, serial: str) -> GetDeviceResponse:
+    async def get_device(self, serial: str) -> DeviceResponse:
         """Return a single device.
 
         [API documentation: getDevice](https://developer.cisco.com/meraki/api-v1/#!get-device)
@@ -114,7 +113,7 @@ class Devices:
         path = f"/devices/{serial}"
 
         return await self._session.get(
-            scope="devices", operation_id="getDevice", path=path, response_schema=GetDeviceResponse
+            scope="devices", operation_id="getDevice", path=path, response_schema=DeviceResponse
         )
 
     async def update_device(
@@ -130,7 +129,7 @@ class Devices:
         move_map_marker: bool | None = None,
         switch_profile_id: str | None = None,
         floor_plan_id: str | None = None,
-    ) -> UpdateDeviceResponse:
+    ) -> DeviceResponse:
         """Update the attributes of a device.
 
         [API documentation: updateDevice](https://developer.cisco.com/meraki/api-v1/#!update-device)
@@ -217,7 +216,7 @@ class Devices:
             operation_id="updateDevice",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceResponse,
+            response_schema=DeviceResponse,
         )
 
     async def blink_device_leds(

@@ -192,6 +192,10 @@ extra_fields = { dot11w = "dict[str, Any]", dot11r = "dict[str, Any]" }
 required = ["serial", "mac", "model"]
 extra_fields = { url = "str" }
 
+[updateDevice]
+required = ["serial", "mac", "model"]
+extra_fields = { url = "str" }
+
 [getNetworkDevices]
 required = ["serial", "mac", "model"]
 extra_fields = { url = "str" }

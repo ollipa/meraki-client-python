@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- Add spec overrides to fix updateDevice return type.
 
 ## v0.14.0
 

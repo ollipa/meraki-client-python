@@ -420,6 +420,48 @@ class DeviceManagementInterfaceResponseWan1(_BaseSchema):
     vrf: DevicesWan1Vrf | None = None
 
 
+class DeviceResponse(_BaseSchema):
+    """Schema for DeviceResponse."""
+
+    name: str | None = None
+    lat: float | None = None
+    lng: float | None = None
+    address: str | None = None
+    notes: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    serial: str
+    model: str
+    mac: str
+    lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
+    firmware: str | None = None
+    floor_plan_id: str | None = Field(
+        default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
+    )
+    details: list[DeviceResponseDetailsItem] = Field(default_factory=list)
+    beacon_id_params: DeviceResponseBeaconIdParams | None = Field(
+        default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
+    )
+    url: str | None = None
+
+
+class DeviceResponseBeaconIdParams(_BaseSchema):
+    """Beacon Id parameters with an identifier and major and minor versions."""
+
+    uuid: str | None = None
+    major: int | None = None
+    minor: int | None = None
+
+
+class DeviceResponseDetailsItem(_BaseSchema):
+    """Schema for DeviceResponseDetailsItem."""
+
+    name: str | None = None
+    value: str | None = None
+
+
 class DevicesAuthentication(_BaseSchema):
     """APN authentication configurations."""
 
@@ -763,48 +805,6 @@ class GetDeviceLossAndLatencyHistoryResponseItem(_BaseSchema):
     jitter: float | None = None
 
 
-class GetDeviceResponse(_BaseSchema):
-    """Response for getDevice operation."""
-
-    name: str | None = None
-    lat: float | None = None
-    lng: float | None = None
-    address: str | None = None
-    notes: str | None = None
-    tags: list[str] = Field(default_factory=list)
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    serial: str
-    model: str
-    mac: str
-    lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
-    firmware: str | None = None
-    floor_plan_id: str | None = Field(
-        default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
-    )
-    details: list[GetDeviceResponseDetailsItem] = Field(default_factory=list)
-    beacon_id_params: GetDeviceResponseBeaconIdParams | None = Field(
-        default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
-    )
-    url: str | None = None
-
-
-class GetDeviceResponseBeaconIdParams(_BaseSchema):
-    """Beacon Id parameters with an identifier and major and minor versions."""
-
-    uuid: str | None = None
-    major: int | None = None
-    minor: int | None = None
-
-
-class GetDeviceResponseDetailsItem(_BaseSchema):
-    """Schema for GetDeviceResponseDetailsItem."""
-
-    name: str | None = None
-    value: str | None = None
-
-
 class RebootDeviceResponse(_BaseSchema):
     """Response for rebootDevice operation."""
 
@@ -877,29 +877,3 @@ class UpdateDeviceManagementInterfaceWan2(_BaseSchema):
         default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
     )
     vlan: int | None = None
-
-
-class UpdateDeviceResponse(_BaseSchema):
-    """Response for updateDevice operation."""
-
-    name: str | None = None
-    lat: float | None = None
-    lng: float | None = None
-    address: str | None = None
-    notes: str | None = None
-    tags: list[str] = Field(default_factory=list)
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    serial: str | None = None
-    model: str | None = None
-    mac: str | None = None
-    lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
-    firmware: str | None = None
-    floor_plan_id: str | None = Field(
-        default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
-    )
-    details: list[GetDeviceResponseDetailsItem] = Field(default_factory=list)
-    beacon_id_params: GetDeviceResponseBeaconIdParams | None = Field(
-        default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
-    )
