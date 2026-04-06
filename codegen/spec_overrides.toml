@@ -82,13 +82,55 @@ response = { firstSeen = "datetime", lastSeen = "datetime" }
 response = { upstream = "float", downstream = "float", total = "float" }
 
 [getNetworkApplianceVlans]
+required = [
+  "id",
+  "networkId",
+  "name",
+  "applianceIp",
+  "subnet",
+  "dhcpHandling",
+  "dnsNameservers",
+  "fixedIpAssignments",
+  "reservedIpRanges.start",
+  "reservedIpRanges.end",
+  "reservedIpRanges.comment",
+]
 response = { id = "int" }
+extra_fields = { networkId = "str" }
 
 [getNetworkApplianceVlan]
+required = [
+  "id",
+  "networkId",
+  "name",
+  "applianceIp",
+  "subnet",
+  "dhcpHandling",
+  "dnsNameservers",
+  "fixedIpAssignments",
+  "reservedIpRanges.start",
+  "reservedIpRanges.end",
+  "reservedIpRanges.comment",
+]
 response = { id = "int" }
+extra_fields = { networkId = "str" }
 
 [updateNetworkApplianceVlan]
+required = [
+  "id",
+  "networkId",
+  "name",
+  "applianceIp",
+  "subnet",
+  "dhcpHandling",
+  "dnsNameservers",
+  "fixedIpAssignments",
+  "reservedIpRanges.start",
+  "reservedIpRanges.end",
+  "reservedIpRanges.comment",
+]
 response = { id = "int" }
+extra_fields = { networkId = "str" }
 
 [getNetworkWirelessMeshStatuses]
 response = { "latestMeshPerformance.mbps" = "float" }
@@ -113,22 +155,22 @@ required = ["id", "name", "url"]
 required = ["id", "name", "url"]
 
 [getOrganizationInventoryOnboardingCloudMonitoringNetworks]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "name", "url", "timeZone"]
 
 [createOrganizationNetwork]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "name", "url", "timeZone"]
 
 [getNetwork]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "name", "url", "timeZone"]
 
 [updateNetwork]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "name", "url", "timeZone"]
 
 [unbindNetwork]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "name", "url", "timeZone"]
 
 [getOrganizationNetworks]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "name", "url", "timeZone"]
 
 [getOrganizationDevices]
 required = ["serial", "mac", "model"]

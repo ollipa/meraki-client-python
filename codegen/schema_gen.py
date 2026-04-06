@@ -6,7 +6,7 @@ import json
 import logging
 import re
 import textwrap
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import TYPE_CHECKING, Any, Literal, NamedTuple, overload
 
@@ -97,6 +97,19 @@ class ResponseSchemaPlan:
     description: str
 
 
+@dataclass
+class NestedOverrideState:
+    """Accumulated relative overrides for a deduplicated nested schema."""
+
+    response_fields: dict[str, str] = field(default_factory=dict)
+    required_fields: set[str] = field(default_factory=set)
+    extra_fields: dict[str, str] = field(default_factory=dict)
+
+    def has_overrides(self) -> bool:
+        """Return whether this state contains any effective overrides."""
+        return bool(self.response_fields or self.required_fields or self.extra_fields)
+
+
 @dataclass(frozen=True)
 class PlannedResponseSchemas:
     """Planned response and response-item schema generation details."""
@@ -120,12 +133,30 @@ class SchemaRegistry:
 
 
 @dataclass
+class SchemaGenerationState:
+    """Mutable state accumulated while generating schemas."""
+
+    schemas: dict[str, str] = field(default_factory=dict)
+    schema_to_scope: dict[str, str] = field(default_factory=dict)
+    schema_fingerprints: dict[str, str] = field(default_factory=dict)
+    nested_override_states: dict[str, NestedOverrideState] = field(default_factory=dict)
+    response_schemas: dict[str, str] = field(default_factory=dict)
+    response_item_schemas: dict[str, list[str]] = field(default_factory=dict)
+    untyped_response_operations: set[str] = field(default_factory=set)
+    request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema] = field(
+        default_factory=dict
+    )
+    list_response_schemas: set[str] = field(default_factory=set)
+
+
+@dataclass
 class GenerationContext:
     """Context for schema generation carrying shared state."""
 
     schemas: dict[str, str]
     schema_to_scope: dict[str, str]
     schema_fingerprints: dict[str, str]
+    nested_override_states: dict[str, NestedOverrideState]
     scope: str
     depth: int = 0
     operation_id: str | None = None
@@ -134,6 +165,7 @@ class GenerationContext:
     consumed_overrides: set[tuple[str, str]] | None = None
     consumed_required_overrides: set[tuple[str, str]] | None = None
     planned_response_item_plan: ResponseSchemaPlan | None = None
+    allow_schema_overwrite: bool = False
 
     def nested(self, path_segment: str | None = None) -> GenerationContext:
         """Create a new context for nested schema generation."""
@@ -142,6 +174,7 @@ class GenerationContext:
             schemas=self.schemas,
             schema_to_scope=self.schema_to_scope,
             schema_fingerprints=self.schema_fingerprints,
+            nested_override_states=self.nested_override_states,
             scope=self.scope,
             depth=self.depth + 1,
             operation_id=self.operation_id,
@@ -150,6 +183,7 @@ class GenerationContext:
             consumed_overrides=self.consumed_overrides,
             consumed_required_overrides=self.consumed_required_overrides,
             planned_response_item_plan=self.planned_response_item_plan,
+            allow_schema_overwrite=self.allow_schema_overwrite,
         )
 
     def with_planned_response_item_plan(
@@ -160,6 +194,7 @@ class GenerationContext:
             schemas=self.schemas,
             schema_to_scope=self.schema_to_scope,
             schema_fingerprints=self.schema_fingerprints,
+            nested_override_states=self.nested_override_states,
             scope=self.scope,
             depth=self.depth,
             operation_id=self.operation_id,
@@ -168,6 +203,7 @@ class GenerationContext:
             consumed_overrides=self.consumed_overrides,
             consumed_required_overrides=self.consumed_required_overrides,
             planned_response_item_plan=planned_response_item_plan,
+            allow_schema_overwrite=self.allow_schema_overwrite,
         )
 
 
@@ -440,6 +476,128 @@ def _normalize_override_set(overrides: set[str], *, field_path: tuple[str, ...])
     return sorted(path[len(prefix) :] for path in overrides if path.startswith(prefix))
 
 
+def _get_applicable_nested_override_state(ctx: GenerationContext) -> NestedOverrideState:
+    """Get override state applicable to a nested schema, relative to its own root."""
+    if not ctx.operation_id or ctx.spec_overrides is None:
+        return NestedOverrideState()
+
+    response_fields = _normalize_override_map(
+        ctx.spec_overrides.response_fields.get(ctx.operation_id, {}),
+        field_path=ctx.field_path,
+    )
+    required_fields = set(
+        _normalize_override_set(
+            ctx.spec_overrides.required_fields.get(ctx.operation_id, set()),
+            field_path=ctx.field_path,
+        )
+    )
+    extra_fields = (
+        dict(sorted(ctx.spec_overrides.extra_fields.get(ctx.operation_id, {}).items()))
+        if ctx.depth <= 1 and not ctx.field_path
+        else {}
+    )
+    return NestedOverrideState(
+        response_fields=response_fields,
+        required_fields=required_fields,
+        extra_fields=extra_fields,
+    )
+
+
+def _merge_nested_override_state(
+    existing: NestedOverrideState | None, current: NestedOverrideState
+) -> tuple[NestedOverrideState, bool]:
+    """Merge nested override state, erroring on conflicting type declarations."""
+    if existing is None:
+        return (
+            NestedOverrideState(
+                response_fields=dict(current.response_fields),
+                required_fields=set(current.required_fields),
+                extra_fields=dict(current.extra_fields),
+            ),
+            current.has_overrides(),
+        )
+
+    merged = NestedOverrideState(
+        response_fields=dict(existing.response_fields),
+        required_fields=set(existing.required_fields),
+        extra_fields=dict(existing.extra_fields),
+    )
+    changed = False
+
+    for field_path, override_type in current.response_fields.items():
+        existing_type = merged.response_fields.get(field_path)
+        if existing_type is not None and existing_type != override_type:
+            raise ValueError(
+                f"Conflicting nested response override for field '{field_path}': "
+                f"'{existing_type}' vs '{override_type}'"
+            )
+        if existing_type is None:
+            merged.response_fields[field_path] = override_type
+            changed = True
+
+    for field_name, field_type in current.extra_fields.items():
+        existing_type = merged.extra_fields.get(field_name)
+        if existing_type is not None and existing_type != field_type:
+            raise ValueError(
+                f"Conflicting nested extra_field override for field '{field_name}': "
+                f"'{existing_type}' vs '{field_type}'"
+            )
+        if existing_type is None:
+            merged.extra_fields[field_name] = field_type
+            changed = True
+
+    previous_required_count = len(merged.required_fields)
+    merged.required_fields.update(current.required_fields)
+    if len(merged.required_fields) != previous_required_count:
+        changed = True
+
+    return merged, changed
+
+
+def _build_relative_spec_overrides(override_state: NestedOverrideState) -> SpecOverrides:
+    """Build a synthetic SpecOverrides object from relative nested override state."""
+    operation_id = "__nested_override__"
+    return SpecOverrides(
+        response_fields=(
+            {operation_id: dict(override_state.response_fields)}
+            if override_state.response_fields
+            else {}
+        ),
+        required_fields=(
+            {operation_id: set(override_state.required_fields)}
+            if override_state.required_fields
+            else {}
+        ),
+        extra_fields=(
+            {operation_id: dict(override_state.extra_fields)} if override_state.extra_fields else {}
+        ),
+    )
+
+
+def _with_relative_nested_overrides(
+    ctx: GenerationContext,
+    override_state: NestedOverrideState,
+    *,
+    allow_schema_overwrite: bool,
+) -> GenerationContext:
+    """Create a context that applies relative overrides from the nested schema root."""
+    return GenerationContext(
+        schemas=ctx.schemas,
+        schema_to_scope=ctx.schema_to_scope,
+        schema_fingerprints=ctx.schema_fingerprints,
+        nested_override_states=ctx.nested_override_states,
+        scope=ctx.scope,
+        depth=ctx.depth,
+        operation_id="__nested_override__",
+        field_path=(),
+        spec_overrides=_build_relative_spec_overrides(override_state),
+        consumed_overrides=set(),
+        consumed_required_overrides=set(),
+        planned_response_item_plan=ctx.planned_response_item_plan,
+        allow_schema_overwrite=allow_schema_overwrite,
+    )
+
+
 def _get_grouped_response_schema_name(
     grouped_responses: list[PreparedResponseSchema], used_class_names: set[str]
 ) -> str:
@@ -505,14 +663,7 @@ def generate_response_schemas(
     spec: OpenAPI, templates: Templates, output_dir: str
 ) -> SchemaRegistry:
     """Generate Pydantic response and request body schemas from OpenAPI specification."""
-    schemas: dict[str, str] = {}
-    schema_to_scope: dict[str, str] = {}
-    schema_fingerprints: dict[str, str] = {}
-    response_schemas: dict[str, str] = {}
-    response_item_schemas: dict[str, list[str]] = {}
-    untyped_response_operations: set[str] = set()
-    request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema] = {}
-    list_response_schemas: set[str] = set()
+    state = SchemaGenerationState()
 
     spec_overrides = load_spec_overrides()
     consumed_overrides: set[tuple[str, str]] = set()
@@ -539,9 +690,10 @@ def generate_response_schemas(
                 continue
 
             ctx = GenerationContext(
-                schemas=schemas,
-                schema_to_scope=schema_to_scope,
-                schema_fingerprints=schema_fingerprints,
+                schemas=state.schemas,
+                schema_to_scope=state.schema_to_scope,
+                schema_fingerprints=state.schema_fingerprints,
+                nested_override_states=state.nested_override_states,
                 scope=scope,
                 operation_id=operation_id,
                 spec_overrides=spec_overrides,
@@ -577,7 +729,7 @@ def generate_response_schemas(
                             ),
                         )
                         if item_result.status != SchemaStatus.SKIPPED:
-                            response_item_schemas[operation_id] = [
+                            state.response_item_schemas[operation_id] = [
                                 item_result.class_name or item_class_name
                             ]
                             continue
@@ -589,19 +741,19 @@ def generate_response_schemas(
                     description=response_plan.description,
                 )
                 if result.status != SchemaStatus.SKIPPED:
-                    response_schemas[operation_id] = class_name
+                    state.response_schemas[operation_id] = class_name
                     if result.item_class_names:
-                        response_item_schemas[operation_id] = result.item_class_names
+                        state.response_item_schemas[operation_id] = result.item_class_names
                     if result.is_array:
-                        list_response_schemas.add(class_name)
+                        state.list_response_schemas.add(class_name)
                 else:
-                    untyped_response_operations.add(operation_id)
+                    state.untyped_response_operations.add(operation_id)
 
             # Generate request body schemas
             _generate_request_body_schemas(
                 ctx,
                 operation=operation,
-                request_body_schemas=request_body_schemas,
+                request_body_schemas=state.request_body_schemas,
             )
 
     _validate_spec_overrides(
@@ -612,18 +764,18 @@ def generate_response_schemas(
     )
 
     _write_schema_files(
-        schemas=schemas,
-        schema_to_scope=schema_to_scope,
+        schemas=state.schemas,
+        schema_to_scope=state.schema_to_scope,
         templates=templates,
         output_dir=output_dir,
     )
     return SchemaRegistry(
-        schema_names=set(schemas.keys()),
-        response_schemas=response_schemas,
-        response_item_schemas=response_item_schemas,
-        untyped_response_ops=untyped_response_operations,
-        request_body_schemas=request_body_schemas,
-        list_response_schemas=list_response_schemas,
+        schema_names=set(state.schemas.keys()),
+        response_schemas=state.response_schemas,
+        response_item_schemas=state.response_item_schemas,
+        untyped_response_ops=state.untyped_response_operations,
+        request_body_schemas=state.request_body_schemas,
+        list_response_schemas=state.list_response_schemas,
     )
 
 
@@ -659,6 +811,7 @@ def _generate_request_body_schemas(
         schemas=ctx.schemas,
         schema_to_scope=ctx.schema_to_scope,
         schema_fingerprints=ctx.schema_fingerprints,
+        nested_override_states=ctx.nested_override_states,
         scope=ctx.scope,
         operation_id=ctx.operation_id,
         spec_overrides=None,
@@ -1120,15 +1273,10 @@ def _generate_object_schema(
 
     # Add extra fields from overrides (fields missing from spec but present in API responses)
     for field_name, field_type in _get_extra_fields(ctx, set(properties.keys())):
-        snake_name = _sanitize_field_name(field_name)
-        needs_alias = snake_name != field_name
-        alias_args = f'validation_alias="{field_name}", serialization_alias="{field_name}"'
-        if needs_alias:
-            lines.append(
-                f"    {snake_name}: {field_type} | None = Field(default=None, {alias_args})"
-            )
-        else:
-            lines.append(f"    {snake_name}: {field_type} | None = None")
+        is_force_required = _is_field_force_required(ctx, field_name, is_required_in_spec=False)
+        lines.append(
+            f"    {_format_field_definition(field_name, field_type, is_required=is_force_required)}"
+        )
 
     status = _register_schema(ctx, name=class_name, definition="\n".join(lines) + "\n")
     return SchemaResult(
@@ -1149,6 +1297,10 @@ def _register_schema(ctx: GenerationContext, *, name: str, definition: str) -> S
                 f"'{existing_scope}', cannot add to scope '{ctx.scope}'"
             )
         if ctx.schemas[name] != definition:
+            if ctx.allow_schema_overwrite:
+                ctx.schemas[name] = definition
+                ctx.schema_to_scope[name] = ctx.scope
+                return SchemaStatus.GENERATED
             raise ValueError(
                 f"Schema collision: '{name}' in scope '{ctx.scope}' has conflicting definitions"
             )
@@ -1248,6 +1400,57 @@ def _get_extra_fields(
     return result
 
 
+def _consume_schema_overrides(ctx: GenerationContext, schema: dict[str, Any]) -> None:
+    """Traverse a schema to consume applicable response and required overrides."""
+    properties = schema.get("properties", {})
+    if not properties:
+        return
+
+    required = set(schema.get("required", []))
+    for prop_name, prop_schema in properties.items():
+        is_required_in_spec = prop_name in required
+        _get_field_override(ctx, prop_name, prop_schema)
+        _is_field_force_required(ctx, prop_name, is_required_in_spec=is_required_in_spec)
+
+        if prop_schema.get("type") == "array":
+            items = prop_schema.get("items", {})
+            if _has_nested_properties(items):
+                _consume_schema_overrides(ctx.nested(prop_name), items)
+            continue
+
+        if (prop_schema.get("type") == "object" or "properties" in prop_schema) and prop_schema.get(
+            "properties"
+        ):
+            _consume_schema_overrides(ctx.nested(prop_name), prop_schema)
+
+    for field_name, _field_type in _get_extra_fields(ctx, set(properties.keys())):
+        _is_field_force_required(ctx, field_name, is_required_in_spec=False)
+
+
+def _format_field_definition(
+    prop_name: str, type_str: str, *, is_required: bool, is_nullable: bool = False
+) -> str:
+    """Format a field definition for both spec-defined and extra fields."""
+    snake_name = _sanitize_field_name(prop_name)
+    needs_alias = snake_name != prop_name
+    is_list = type_str.startswith("list[")
+    alias_args = f'validation_alias="{prop_name}", serialization_alias="{prop_name}"'
+
+    if is_required:
+        type_annotation = f"{type_str} | None" if is_nullable else type_str
+        if needs_alias:
+            return f"{snake_name}: {type_annotation} = Field({alias_args})"
+        return f"{snake_name}: {type_annotation}"
+
+    if needs_alias:
+        if is_list:
+            return f"{snake_name}: {type_str} = Field(default_factory=list, {alias_args})"
+        return f"{snake_name}: {type_str} | None = Field(default=None, {alias_args})"
+    if is_list:
+        return f"{snake_name}: {type_str} = Field(default_factory=list)"
+    return f"{snake_name}: {type_str} | None = None"
+
+
 def _generate_field(
     ctx: GenerationContext,
     *,
@@ -1257,8 +1460,6 @@ def _generate_field(
     is_required: bool,
 ) -> tuple[str, str | None]:
     """Generate a field definition for a Pydantic model."""
-    snake_name = _sanitize_field_name(prop_name)
-
     override_type = _get_field_override(ctx, prop_name, prop_schema)
     if override_type:
         type_str = override_type
@@ -1268,33 +1469,13 @@ def _generate_field(
             ctx, parent_class=parent_class, prop_name=prop_name, schema=prop_schema
         )
 
-    needs_alias = snake_name != prop_name
     is_nullable = prop_schema.get("nullable", False)
-    is_list = type_str.startswith("list[")
-    alias_args = f'validation_alias="{prop_name}", serialization_alias="{prop_name}"'
-
-    if is_required:
-        type_annotation = f"{type_str} | None" if is_nullable else type_str
-        if needs_alias:
-            return (
-                f"{snake_name}: {type_annotation} = Field({alias_args})",
-                item_class,
-            )
-        return f"{snake_name}: {type_annotation}", item_class
-
-    if needs_alias:
-        if is_list:
-            return (
-                f"{snake_name}: {type_str} = Field(default_factory=list, {alias_args})",
-                item_class,
-            )
-        return (
-            f"{snake_name}: {type_str} | None = Field(default=None, {alias_args})",
-            item_class,
-        )
-    if is_list:
-        return f"{snake_name}: {type_str} = Field(default_factory=list)", item_class
-    return f"{snake_name}: {type_str} | None = None", item_class
+    return (
+        _format_field_definition(
+            prop_name, type_str, is_required=is_required, is_nullable=is_nullable
+        ),
+        item_class,
+    )
 
 
 def _get_python_type(
@@ -1318,6 +1499,54 @@ def _get_python_type(
 
     log.warning(f"Unknown schema type: {schema_type}")
     return TypeResult("Any")
+
+
+def _ensure_deduped_nested_schema(
+    ctx: GenerationContext,
+    *,
+    parent_class: str,
+    prop_name: str,
+    schema: dict[str, Any],
+    is_array: bool,
+) -> str:
+    """Generate or refresh a structurally deduplicated nested schema."""
+    nested_ctx = ctx.nested(prop_name)
+    fingerprint = _compute_fingerprint(schema, ctx.scope)
+    current_state = _get_applicable_nested_override_state(nested_ctx)
+    merged_state, changed = _merge_nested_override_state(
+        nested_ctx.nested_override_states.get(fingerprint), current_state
+    )
+    nested_ctx.nested_override_states[fingerprint] = merged_state
+
+    existing_class = nested_ctx.schema_fingerprints.get(fingerprint)
+    if existing_class is not None:
+        if changed and merged_state.has_overrides():
+            _generate_schema_class(
+                _with_relative_nested_overrides(
+                    nested_ctx, merged_state, allow_schema_overwrite=True
+                ),
+                class_name=existing_class,
+                schema=schema,
+            )
+        if current_state.has_overrides():
+            _consume_schema_overrides(nested_ctx, schema)
+        return existing_class
+
+    nested_class = _build_nested_class_name(
+        nested_ctx, parent_class=parent_class, prop_name=prop_name, is_array=is_array
+    )
+    generation_ctx = (
+        _with_relative_nested_overrides(nested_ctx, merged_state, allow_schema_overwrite=False)
+        if merged_state.has_overrides()
+        else nested_ctx
+    )
+    _generate_schema_class(generation_ctx, class_name=nested_class, schema=schema)
+    nested_ctx.schema_fingerprints[fingerprint] = nested_class
+
+    if current_state.has_overrides():
+        _consume_schema_overrides(nested_ctx, schema)
+
+    return nested_class
 
 
 def _get_simple_type(schema: dict[str, Any]) -> str:
@@ -1350,18 +1579,13 @@ def _get_array_type(
     items = schema.get("items", {})
 
     if _has_nested_properties(items):
-        fingerprint = _compute_fingerprint(items, ctx.scope)
-        if fingerprint in ctx.schema_fingerprints:
-            existing_class = ctx.schema_fingerprints[fingerprint]
-            return TypeResult(f"list[{existing_class}]", existing_class)
-
-        nested_ctx = ctx.nested(prop_name)
-        nested_class = _build_nested_class_name(
-            nested_ctx, parent_class=parent_class, prop_name=prop_name, is_array=True
+        nested_class = _ensure_deduped_nested_schema(
+            ctx,
+            parent_class=parent_class,
+            prop_name=prop_name,
+            schema=items,
+            is_array=True,
         )
-        _generate_schema_class(nested_ctx, class_name=nested_class, schema=items)
-        ctx.schema_fingerprints[fingerprint] = nested_class
-
         return TypeResult(f"list[{nested_class}]", nested_class)
 
     item_type = _get_simple_type(items)
@@ -1381,17 +1605,13 @@ def _get_object_type(
     if not props:
         return TypeResult("dict[str, Any]")
 
-    fingerprint = _compute_fingerprint(schema, ctx.scope)
-    if fingerprint in ctx.schema_fingerprints:
-        return TypeResult(ctx.schema_fingerprints[fingerprint])
-
-    nested_ctx = ctx.nested(prop_name)
-    nested_class = _build_nested_class_name(
-        nested_ctx, parent_class=parent_class, prop_name=prop_name, is_array=False
+    nested_class = _ensure_deduped_nested_schema(
+        ctx,
+        parent_class=parent_class,
+        prop_name=prop_name,
+        schema=schema,
+        is_array=False,
     )
-    _generate_schema_class(nested_ctx, class_name=nested_class, schema=schema)
-    ctx.schema_fingerprints[fingerprint] = nested_class
-
     return TypeResult(nested_class)
 
 

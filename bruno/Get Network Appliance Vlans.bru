@@ -1,13 +1,13 @@
 meta {
-  name: Get Network Wireless Ssids
+  name: Get Network Appliance Vlans
   type: http
-  seq: 17
+  seq: 19
 }
 
 get {
   url: '''
     {{baseUrl}}
-    /networks/{{networkId}}/wireless/ssids
+    /networks/{{networkId}}/appliance/vlans
 '''
   body: none
   auth: inherit

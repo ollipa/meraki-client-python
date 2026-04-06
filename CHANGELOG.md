@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Added
+
+- Allow `required` spec overrides to apply to response `extra_fields`.
+
+### Fixed
+
+- Make timezone mandatory again in network responses.
+- Respect nested response overrides when deduplicating reused nested schemas.
+- Fixes to appliance vlan responses with spec overrides.
 
 ## v0.13.4
 

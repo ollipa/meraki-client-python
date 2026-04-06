@@ -674,9 +674,7 @@ class CreateOrganizationNetworkResponse(_BaseSchema):
     product_types: list[str] = Field(
         default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
+    time_zone: str = Field(validation_alias="timeZone", serialization_alias="timeZone")
     tags: list[str] = Field(default_factory=list)
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
