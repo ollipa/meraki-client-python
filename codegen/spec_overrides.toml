@@ -195,3 +195,19 @@ required = [
   "uplinks.interface",
   "uplinks.status",
 ]
+
+[getOrganizationPolicyObject]
+required = ["id", "name", "category", "type", "createdAt", "updatedAt"]
+extra_fields = { fqdn = "str" }
+
+[getOrganizationPolicyObjects]
+required = ["id", "name", "category", "type", "createdAt", "updatedAt"]
+extra_fields = { fqdn = "str" }
+
+[updateOrganizationPolicyObject]
+required = ["id", "name", "category", "type", "createdAt", "updatedAt"]
+extra_fields = { fqdn = "str" }
+
+[createOrganizationPolicyObject]
+required = ["id", "name", "category", "type", "createdAt", "updatedAt"]
+extra_fields = { fqdn = "str" }

@@ -3188,23 +3188,20 @@ class OrganizationPoliciesGlobalGroupPolicyResponse(_BaseSchema):
 class OrganizationPolicyObjectResponse(_BaseSchema):
     """Schema for OrganizationPolicyObjectResponse."""
 
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    id: str
+    name: str
+    category: str
+    type_: str = Field(validation_alias="type", serialization_alias="type")
     cidr: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
+    created_at: datetime = Field(validation_alias="createdAt", serialization_alias="createdAt")
+    updated_at: datetime = Field(validation_alias="updatedAt", serialization_alias="updatedAt")
     group_ids: list[str] = Field(
         default_factory=list, validation_alias="groupIds", serialization_alias="groupIds"
     )
     network_ids: list[str] = Field(
         default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
     )
+    fqdn: str | None = None
 
 
 class OrganizationPolicyObjectsGroupResponse(_BaseSchema):
