@@ -113,7 +113,6 @@ from meraki_client.schemas import (
     GetOrganizationInventoryDevicesResponseItem,
     GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem,
     GetOrganizationLicensesOverviewResponse,
-    GetOrganizationNetworksResponseItem,
     GetOrganizationPoliciesAssignmentsByClientResponseItem,
     GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem,
     GetOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignmentsResponseItemsItem,
@@ -10000,7 +9999,7 @@ class Organizations:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationNetworksResponseItem]:
+    ) -> PaginatedResponse[CreateOrganizationNetworkResponse]:
         """List the networks that the user has privileges on in an organization.
 
         [API documentation: getOrganizationNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-networks)
@@ -10095,7 +10094,7 @@ class Organizations:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationNetworksResponseItem,
+            item_schema=CreateOrganizationNetworkResponse,
         )
 
     def create_organization_network(

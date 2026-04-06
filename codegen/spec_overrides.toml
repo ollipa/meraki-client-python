@@ -112,17 +112,23 @@ required = ["id", "name", "url"]
 [getOrganizations]
 required = ["id", "name", "url"]
 
+[getOrganizationInventoryOnboardingCloudMonitoringNetworks]
+required = ["id", "organizationId", "timeZone", "name", "url"]
+
+[createOrganizationNetwork]
+required = ["id", "organizationId", "timeZone", "name", "url"]
+
 [getNetwork]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "timeZone", "name", "url"]
 
 [updateNetwork]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "timeZone", "name", "url"]
 
 [unbindNetwork]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "timeZone", "name", "url"]
 
 [getOrganizationNetworks]
-required = ["id", "organizationId", "name", "url"]
+required = ["id", "organizationId", "timeZone", "name", "url"]
 
 [getOrganizationDevices]
 required = ["serial", "mac", "model"]

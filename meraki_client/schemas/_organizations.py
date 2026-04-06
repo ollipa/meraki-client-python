@@ -666,22 +666,20 @@ class CreateOrganizationManagement(_BaseSchema):
 class CreateOrganizationNetworkResponse(_BaseSchema):
     """Response for createOrganizationNetwork operation."""
 
-    id: str | None = None
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
+    id: str
+    organization_id: str = Field(
+        validation_alias="organizationId", serialization_alias="organizationId"
     )
-    name: str | None = None
+    name: str
     product_types: list[str] = Field(
         default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
+    time_zone: str = Field(validation_alias="timeZone", serialization_alias="timeZone")
     tags: list[str] = Field(default_factory=list)
     enrollment_string: str | None = Field(
         default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
     )
-    url: str | None = None
+    url: str
     notes: str | None = None
     is_bound_to_config_template: bool | None = Field(
         default=None,
@@ -1952,7 +1950,7 @@ class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem(_Base
 class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponse(
     RootModel[list["CreateOrganizationNetworkResponse"]]
 ):
-    """Response for getOrganizationInventoryOnboardingCloudMonitoringNetworks operation."""
+    """Schema for GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponse."""
 
 
 class GetOrganizationLicensesOverviewResponse(_BaseSchema):
@@ -2011,37 +2009,6 @@ class GetOrganizationLicensesOverviewResponseSystemsManager(_BaseSchema):
 
 class GetOrganizationLicensesResponse(RootModel[list["OrganizationLicenseResponse"]]):
     """Response for getOrganizationLicenses operation."""
-
-
-class GetOrganizationNetworksResponse(RootModel[list["GetOrganizationNetworksResponseItem"]]):
-    """Response for getOrganizationNetworks operation."""
-
-
-class GetOrganizationNetworksResponseItem(_BaseSchema):
-    """Schema for GetOrganizationNetworksResponseItem."""
-
-    id: str
-    organization_id: str = Field(
-        validation_alias="organizationId", serialization_alias="organizationId"
-    )
-    name: str
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    time_zone: str | None = Field(
-        default=None, validation_alias="timeZone", serialization_alias="timeZone"
-    )
-    tags: list[str] = Field(default_factory=list)
-    enrollment_string: str | None = Field(
-        default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
-    )
-    url: str
-    notes: str | None = None
-    is_bound_to_config_template: bool | None = Field(
-        default=None,
-        validation_alias="isBoundToConfigTemplate",
-        serialization_alias="isBoundToConfigTemplate",
-    )
 
 
 class GetOrganizationPoliciesAssignmentsByClientResponse(

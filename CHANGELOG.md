@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- Add spec overrides to fix getOrganizationInventoryOnboardingCloudMonitoringNetworks and createOrganizationNetwork return types.
 
 ## v0.13.2
 
 ### Fixed
+
 - Add spec overrides to fix OrganizationPolicyObjectsGroupResponse return type.
 
 ## v0.13.1
