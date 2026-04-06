@@ -3207,16 +3207,12 @@ class OrganizationPolicyObjectResponse(_BaseSchema):
 class OrganizationPolicyObjectsGroupResponse(_BaseSchema):
     """Schema for OrganizationPolicyObjectsGroupResponse."""
 
-    id: str | None = None
-    name: str | None = None
-    category: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-    object_ids: list[int] = Field(
+    id: str
+    name: str
+    category: str
+    created_at: datetime = Field(validation_alias="createdAt", serialization_alias="createdAt")
+    updated_at: datetime = Field(validation_alias="updatedAt", serialization_alias="updatedAt")
+    object_ids: list[str] = Field(
         default_factory=list, validation_alias="objectIds", serialization_alias="objectIds"
     )
     network_ids: list[str] = Field(

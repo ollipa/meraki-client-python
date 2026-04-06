@@ -211,3 +211,19 @@ extra_fields = { fqdn = "str" }
 [createOrganizationPolicyObject]
 required = ["id", "name", "category", "type", "createdAt", "updatedAt"]
 extra_fields = { fqdn = "str" }
+
+[getOrganizationPolicyObjectsGroup]
+required = ["id", "name", "category", "createdAt", "updatedAt"]
+response = { objectIds = "list[str]" }
+
+[getOrganizationPolicyObjectsGroups]
+required = ["id", "name", "category", "createdAt", "updatedAt"]
+response = { objectIds = "list[str]" }
+
+[createOrganizationPolicyObjectsGroup]
+required = ["id", "name", "category", "createdAt", "updatedAt"]
+response = { objectIds = "list[str]" }
+
+[updateOrganizationPolicyObjectsGroup]
+required = ["id", "name", "category", "createdAt", "updatedAt"]
+response = { objectIds = "list[str]" }

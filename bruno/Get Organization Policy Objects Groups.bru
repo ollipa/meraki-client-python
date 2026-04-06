@@ -1,0 +1,16 @@
+meta {
+  name: Get Organization Policy Objects Groups
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{baseUrl}}/organizations/{{orgId}}/policyObjects/groups
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
