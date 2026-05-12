@@ -504,6 +504,9 @@ class GetNetworkClientResponse(_BaseSchema):
     recent_device_mac: str | None = Field(
         default=None, validation_alias="recentDeviceMac", serialization_alias="recentDeviceMac"
     )
+    recent_device_id: str | None = Field(
+        default=None, validation_alias="recentDeviceId", serialization_alias="recentDeviceId"
+    )
     recent_device_name: str | None = Field(
         default=None, validation_alias="recentDeviceName", serialization_alias="recentDeviceName"
     )
@@ -1078,6 +1081,26 @@ class GetNetworkTrafficResponseItem(_BaseSchema):
         default=None, validation_alias="activeTime", serialization_alias="activeTime"
     )
     flows: int | None = None
+
+
+class GetNetworkTrafficShapingApplicationCategoriesResponse(_BaseSchema):
+    """Response for getNetworkTrafficShapingApplicationCategories operation."""
+
+    application_categories: list[
+        GetNetworkTrafficShapingApplicationCategoriesResponseApplicationCategoriesItem
+    ] = Field(
+        default_factory=list,
+        validation_alias="applicationCategories",
+        serialization_alias="applicationCategories",
+    )
+
+
+class GetNetworkTrafficShapingApplicationCategoriesResponseApplicationCategoriesItem(_BaseSchema):
+    """Schema for GetNetworkTrafficShapingApplicationCategoriesResponseApplicationCategoriesItem."""
+
+    id: str | None = None
+    name: str | None = None
+    applications: list[NetworksSwitchStacksItem] = Field(default_factory=list)
 
 
 class GetNetworkTrafficShapingDscpTaggingOptionsResponse(RootModel[list[dict[str, Any]]]):

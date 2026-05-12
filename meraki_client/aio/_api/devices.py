@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any
 
 from meraki_client.schemas import (
     BlinkDeviceLedsResponse,
+    CreateDeviceCellularUplinksBandsMasksUpdateResponse,
     CreateDeviceLiveToolsArpTableCallback,
     CreateDeviceLiveToolsArpTableResponse,
     CreateDeviceLiveToolsCableTestCallback,
@@ -26,6 +27,8 @@ from meraki_client.schemas import (
     CreateDeviceLiveToolsPingDeviceCallback,
     CreateDeviceLiveToolsPingDeviceResponse,
     CreateDeviceLiveToolsPingResponse,
+    CreateDeviceLiveToolsPortsCycleCallback,
+    CreateDeviceLiveToolsPortsCycleResponse,
     CreateDeviceLiveToolsThroughputTestCallback,
     CreateDeviceLiveToolsThroughputTestResponse,
     CreateDeviceLiveToolsWakeOnLanCallback,
@@ -41,17 +44,21 @@ from meraki_client.schemas import (
     GetDeviceLiveToolsMulticastRoutingResponse,
     GetDeviceLiveToolsPingDeviceResponse,
     GetDeviceLiveToolsPingResponse,
+    GetDeviceLiveToolsPortsCycleResponse,
     GetDeviceLiveToolsThroughputTestResponse,
     GetDeviceLiveToolsWakeOnLanResponse,
     GetDeviceLldpCdpResponse,
     GetDeviceLossAndLatencyHistoryResponseItem,
     RebootDeviceResponse,
+    UpdateDeviceCellularGeolocationsResponse,
     UpdateDeviceCellularSimsSimFailover,
     UpdateDeviceCellularSimsSimsItem,
     UpdateDeviceManagementInterfaceWan1,
     UpdateDeviceManagementInterfaceWan2,
 )
 from meraki_client.types import (
+    CreateDeviceCellularUplinksBandsMasksUpdateSlot,
+    CreateDeviceCellularUplinksBandsMasksUpdateType,
     GetDeviceLossAndLatencyHistoryUplink,
 )
 
@@ -270,6 +277,44 @@ class Devices:
             response_schema=BlinkDeviceLedsResponse,
         )
 
+    async def update_device_cellular_geolocations(
+        self, *, serial: str, enabled: bool
+    ) -> UpdateDeviceCellularGeolocationsResponse:
+        """Update the enablement of the geolocation feature for a device.
+
+        [API documentation: updateDeviceCellularGeolocations](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-geolocations)
+
+        Args:
+            serial: Serial.
+            enabled: Required parameter for the state to update the geolocation settings to (true to
+                enable, false to disable).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/cellular/geolocations"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+
+        return await self._session.put(
+            scope="devices",
+            operation_id="updateDeviceCellularGeolocations",
+            path=path,
+            json=payload,
+            response_schema=UpdateDeviceCellularGeolocationsResponse,
+        )
+
     async def get_device_cellular_sims(self, serial: str) -> DeviceCellularSimsResponse:
         """Return the SIM and APN configurations for a cellular device.
 
@@ -414,6 +459,81 @@ class Devices:
             path=path,
             json=payload,
             response_schema=DeviceCellularSimsResponse,
+        )
+
+    async def create_device_cellular_uplinks_bands_masks_update(
+        self,
+        *,
+        serial: str,
+        slot: CreateDeviceCellularUplinksBandsMasksUpdateSlot,
+        type_: CreateDeviceCellularUplinksBandsMasksUpdateType,
+        masked: list[str],
+    ) -> CreateDeviceCellularUplinksBandsMasksUpdateResponse:
+        """Update the cellular band masks for a device.
+
+        [API documentation: createDeviceCellularUplinksBandsMasksUpdate](https://developer.cisco.com/meraki/api-v1/#!create-device-cellular-uplinks-bands-masks-update)
+
+        Args:
+            serial: Serial.
+            slot: Required parameter for the SIM slot to update the cellular band mask for.
+            type_: Required parameter for the signal type to update the cellular band mask for.
+            masked: Required parameter for the band identifiers to mask for the given SIM slot and
+                signal type. For LTE use bands identifiers like '30' and for 5G use band
+                identifiers like 'n30'. Maximum 256 bands.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "bySlot": [
+                {
+                  "slot": "sim1",
+                  "bySignalType": [
+                    {
+                      "type": "LTE",
+                      "masked": [
+                        "2",
+                        "12",
+                        "30"
+                      ],
+                      "enabled": [
+                        "8",
+                        "10"
+                      ],
+                      "supported": [
+                        "2",
+                        "4",
+                        "8",
+                        "10",
+                        "12"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/cellular/uplinks/bands/masks/update"
+
+        payload: dict[str, Any] = {}
+        if slot is not None:
+            payload["slot"] = slot
+        if type_ is not None:
+            payload["type"] = type_
+        if masked is not None:
+            payload["masked"] = masked
+
+        return await self._session.post(
+            scope="devices",
+            operation_id="createDeviceCellularUplinksBandsMasksUpdate",
+            path=path,
+            json=payload,
+            response_schema=CreateDeviceCellularUplinksBandsMasksUpdateResponse,
         )
 
     def get_device_clients(
@@ -1243,6 +1363,109 @@ class Devices:
             operation_id="getDeviceLiveToolsPingDevice",
             path=path,
             response_schema=GetDeviceLiveToolsPingDeviceResponse,
+        )
+
+    async def create_device_live_tools_ports_cycle(
+        self,
+        *,
+        serial: str,
+        ports: list[str],
+        callback: CreateDeviceLiveToolsPortsCycleCallback | None = None,
+    ) -> CreateDeviceLiveToolsPortsCycleResponse:
+        """Enqueue a job to perform a cycle port for the device on the specified ports.
+
+        [API documentation: createDeviceLiveToolsPortsCycle](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ports-cycle)
+
+        Args:
+            serial: Serial.
+            ports: A list of ports to cycle. For Catalyst switches, IOS interface names are also
+                supported, such as "GigabitEthernet1/0/8", "Gi1/0/8", or even "1/0/8".
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "cyclePortId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/ports/cycle/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "ports": [
+                  "2",
+                  "8"
+                ]
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/ports/cycle"
+
+        payload: dict[str, Any] = {}
+        if ports is not None:
+            payload["ports"] = ports
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return await self._session.post(
+            scope="devices",
+            operation_id="createDeviceLiveToolsPortsCycle",
+            path=path,
+            json=payload,
+            response_schema=CreateDeviceLiveToolsPortsCycleResponse,
+        )
+
+    async def get_device_live_tools_ports_cycle(
+        self, *, serial: str, id: str
+    ) -> GetDeviceLiveToolsPortsCycleResponse:
+        """Return a cycle port live tool job.
+
+        [API documentation: getDeviceLiveToolsPortsCycle](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ports-cycle)
+
+        Args:
+            serial: Serial.
+            id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "cyclePortId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/ports/cycle/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "ports": [
+                  "2",
+                  "8"
+                ]
+              },
+              "status": "complete",
+              "error": "The device is unreachable."
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/devices/{serial}/liveTools/ports/cycle/{id}"
+
+        return await self._session.get(
+            scope="devices",
+            operation_id="getDeviceLiveToolsPortsCycle",
+            path=path,
+            response_schema=GetDeviceLiveToolsPortsCycleResponse,
         )
 
     async def create_device_live_tools_throughput_test(

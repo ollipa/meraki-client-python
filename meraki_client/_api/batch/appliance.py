@@ -21,6 +21,7 @@ from meraki_client.schemas import (
     CreateNetworkApplianceVlanIpv6,
     CreateNetworkApplianceVlanMandatoryDhcp,
     CreateNetworkApplianceVlanUplinksItem,
+    CreateNetworkApplianceVlanVrf,
     CreateOrganizationActionBatchActionsItem,
     CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem,
     CreateOrganizationApplianceDnsLocalRecordProfile,
@@ -33,6 +34,8 @@ from meraki_client.schemas import (
     UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings,
     UpdateDeviceApplianceUplinksSettingsInterfaces,
     UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem,
+    UpdateNetworkApplianceDevicesRedundancyDesignationsItem,
+    UpdateNetworkApplianceDevicesRedundancyUplink,
     UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem,
     UpdateNetworkApplianceFirewallMulticastForwardingRulesItem,
     UpdateNetworkAppliancePrefixesDelegatedStaticOrigin,
@@ -59,6 +62,7 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceVlanMandatoryDhcp,
     UpdateNetworkApplianceVlanReservedIpRangesItem,
     UpdateNetworkApplianceVlanUplinksItem,
+    UpdateNetworkApplianceVlanVrf,
     UpdateNetworkApplianceVpnBgpNeighborsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
@@ -73,6 +77,7 @@ from meraki_client.types import (
     CreateNetworkApplianceVlanDhcpHandling,
     CreateNetworkApplianceVlanDhcpLeaseTime,
     CreateNetworkApplianceVlanTemplateVlanType,
+    UpdateNetworkApplianceDevicesRedundancyMode,
     UpdateNetworkApplianceSettingsClientTrackingMethod,
     UpdateNetworkApplianceSettingsDeploymentMode,
     UpdateNetworkApplianceSsidAuthMode,
@@ -138,7 +143,7 @@ class ActionBatchAppliance:
     def update_device_appliance_uplinks_settings(
         self, *, serial: str, interfaces: UpdateDeviceApplianceUplinksSettingsInterfaces
     ) -> CreateOrganizationActionBatchActionsItem:
-        """Update the uplink settings for an MX appliance.
+        """Update the uplink settings for a secure router or security appliance.
 
         [API documentation: updateDeviceApplianceUplinksSettings](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings)
 
@@ -210,6 +215,67 @@ class ActionBatchAppliance:
             body=payload,
         )
 
+    def update_network_appliance_devices_redundancy(
+        self,
+        *,
+        network_id: str,
+        enabled: bool,
+        mode: UpdateNetworkApplianceDevicesRedundancyMode | None = None,
+        designations: list[UpdateNetworkApplianceDevicesRedundancyDesignationsItem] | None = None,
+        uplink: UpdateNetworkApplianceDevicesRedundancyUplink | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update MX warm spare settings.
+
+        [API documentation: updateNetworkApplianceDevicesRedundancy](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-devices-redundancy)
+
+        Args:
+            network_id: Network ID.
+            enabled: Enable warm spare.
+            mode: HA mode (disabled|active-passive|active-active).
+            designations: Ordered warm spare roles.
+            uplink: Uplink configuration.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/devices/redundancy"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if mode is not None:
+            payload["mode"] = mode
+        if designations is not None:
+            payload["designations"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in designations
+            ]
+        if uplink is not None:
+            payload["uplink"] = uplink.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def create_network_appliance_devices_redundancy_swap(
+        self, network_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Swap MX primary and warm spare appliances.
+
+        [API documentation: createNetworkApplianceDevicesRedundancySwap](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-devices-redundancy-swap)
+
+        Args:
+            network_id: Network ID.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/devices/redundancy/swap"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="swap",
+        )
+
     def update_network_appliance_firewall_l7_firewall_rules(
         self,
         network_id: str,
@@ -222,7 +288,12 @@ class ActionBatchAppliance:
 
         Args:
             network_id: Network ID.
-            rules: An ordered array of the MX L7 firewall rules.
+            rules: An ordered array of the MX L7 firewall rules. Each rule is an object with
+                'policy', 'type', and 'value'. The 'value' shape depends on 'type':
+                object for application/applicationCategory, string for
+                host/port/ipRange, and an array of 2-letter ISO 3166-1 alpha-2 country
+                codes for allowedCountries/blockedCountries. For backward compatibility,
+                request types also accept whitelistedCountries/blacklistedCountries.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1105,6 +1176,7 @@ class ActionBatchAppliance:
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
         dhcp_options: list[CreateNetworkApplianceVlanDhcpOptionsItem] | None = None,
+        vrf: CreateNetworkApplianceVlanVrf | None = None,
         uplinks: list[CreateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Add a VLAN.
@@ -1144,6 +1216,7 @@ class ActionBatchAppliance:
             dhcp_boot_filename: DHCP boot option for boot filename.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
                 object in the list should have "code", "type", and "value" properties.
+            vrf: VRF configuration on the VLAN.
             uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
                 for networks that support NAT exceptions.
 
@@ -1188,6 +1261,8 @@ class ActionBatchAppliance:
             payload["dhcpOptions"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in dhcp_options
             ]
+        if vrf is not None:
+            payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if uplinks is not None:
             payload["uplinks"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
@@ -1250,6 +1325,7 @@ class ActionBatchAppliance:
         mask: int | None = None,
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
+        vrf: UpdateNetworkApplianceVlanVrf | None = None,
         uplinks: list[UpdateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a VLAN.
@@ -1299,6 +1375,7 @@ class ActionBatchAppliance:
                 use the IP address assigned by the DHCP server. Clients who use a static
                 IP address won't be able to associate. Only available on firmware
                 versions 17.0 and above.
+            vrf: VRF configuration on the VLAN.
             uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
                 for networks that support NAT exceptions.
 
@@ -1352,6 +1429,8 @@ class ActionBatchAppliance:
             payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
+        if vrf is not None:
+            payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if uplinks is not None:
             payload["uplinks"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
@@ -1939,6 +2018,31 @@ class ActionBatchAppliance:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="destroy",
+        )
+
+    def update_organization_appliance_routing_vrfs_settings(
+        self, *, organization_id: str, enabled: bool
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update the VRF setting for an organization.
+
+        [API documentation: updateOrganizationApplianceRoutingVrfsSettings](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-routing-vrfs-settings)
+
+        Args:
+            organization_id: Organization ID.
+            enabled: Boolean indicating whether VRFs are enabled for the organization.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/routing/vrfs/settings"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
         )
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(

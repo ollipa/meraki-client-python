@@ -22,6 +22,23 @@ class BlinkDeviceLedsResponse(_BaseSchema):
     duty: int | None = None
 
 
+class CreateDeviceCellularUplinksBandsMasksUpdateResponse(_BaseSchema):
+    """Response for createDeviceCellularUplinksBandsMasksUpdate operation."""
+
+    by_slot: list[CreateDeviceCellularUplinksBandsMasksUpdateResponseBySlotItem] = Field(
+        default_factory=list, validation_alias="bySlot", serialization_alias="bySlot"
+    )
+
+
+class CreateDeviceCellularUplinksBandsMasksUpdateResponseBySlotItem(_BaseSchema):
+    """Schema for CreateDeviceCellularUplinksBandsMasksUpdateResponseBySlotItem."""
+
+    slot: str | None = None
+    by_signal_type: list[DevicesBySlotBySignalTypeItem] = Field(
+        default_factory=list, validation_alias="bySignalType", serialization_alias="bySignalType"
+    )
+
+
 class CreateDeviceLiveToolsArpTableCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
@@ -263,6 +280,33 @@ class CreateDeviceLiveToolsPingResponseRequest(_BaseSchema):
     count: int | None = None
 
 
+class CreateDeviceLiveToolsPortsCycleCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
+    )
+
+
+class CreateDeviceLiveToolsPortsCycleResponse(_BaseSchema):
+    """Response for createDeviceLiveToolsPortsCycle operation."""
+
+    cycle_port_id: str | None = Field(
+        default=None, validation_alias="cyclePortId", serialization_alias="cyclePortId"
+    )
+    url: str | None = None
+    request: CreateDeviceLiveToolsCableTestResponseRequest | None = None
+    status: str | None = None
+    callback: CreateDeviceLiveToolsArpTableResponseCallback | None = None
+
+
 class CreateDeviceLiveToolsThroughputTestCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
@@ -468,6 +512,15 @@ class DevicesAuthentication(_BaseSchema):
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     username: str | None = None
     password: str | None = None
+
+
+class DevicesBySlotBySignalTypeItem(_BaseSchema):
+    """Schema for DevicesBySlotBySignalTypeItem."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    masked: list[str] = Field(default_factory=list)
+    enabled: list[str] = Field(default_factory=list)
+    supported: list[str] = Field(default_factory=list)
 
 
 class DevicesResultSpeeds(_BaseSchema):
@@ -746,6 +799,18 @@ class GetDeviceLiveToolsPingResponseResults(_BaseSchema):
     replies: list[DevicesResultsRepliesItem] = Field(default_factory=list)
 
 
+class GetDeviceLiveToolsPortsCycleResponse(_BaseSchema):
+    """Response for getDeviceLiveToolsPortsCycle operation."""
+
+    cycle_port_id: str | None = Field(
+        default=None, validation_alias="cyclePortId", serialization_alias="cyclePortId"
+    )
+    url: str | None = None
+    request: CreateDeviceLiveToolsCableTestResponseRequest | None = None
+    status: str | None = None
+    error: str | None = None
+
+
 class GetDeviceLiveToolsThroughputTestResponse(_BaseSchema):
     """Response for getDeviceLiveToolsThroughputTest operation."""
 
@@ -809,6 +874,12 @@ class RebootDeviceResponse(_BaseSchema):
     """Response for rebootDevice operation."""
 
     success: bool | None = None
+
+
+class UpdateDeviceCellularGeolocationsResponse(_BaseSchema):
+    """Response for updateDeviceCellularGeolocations operation."""
+
+    enabled: bool | None = None
 
 
 class UpdateDeviceCellularSimsSimFailover(_BaseSchema):

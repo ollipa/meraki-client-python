@@ -154,9 +154,6 @@ required = ["id", "name", "url"]
 [getOrganizations]
 required = ["id", "name", "url"]
 
-[getOrganizationInventoryOnboardingCloudMonitoringNetworks]
-required = ["id", "organizationId", "name", "url", "timeZone"]
-
 [createOrganizationNetwork]
 required = ["id", "organizationId", "name", "url", "timeZone"]
 
@@ -211,32 +208,6 @@ required = ["id", "networkId", "name", "url"]
 
 [updateNetworkWebhooksHttpServer]
 required = ["id", "networkId", "name", "url"]
-
-[getNetworkApplianceFirewallL3FirewallRules]
-# Response schema is missing from spec (bare {type: object})
-inject_response_schema = """
-{
-  "type": "object",
-  "properties": {
-    "rules": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "comment":        {"type": "string"},
-          "policy":         {"type": "string"},
-          "protocol":       {"type": "string"},
-          "destPort":       {"type": "string"},
-          "destCidr":       {"type": "string"},
-          "srcPort":        {"type": "string"},
-          "srcCidr":        {"type": "string"},
-          "syslogEnabled":  {"type": "boolean"}
-        }
-      }
-    }
-  }
-}
-"""
 
 [getOrganizationApplianceUplinkStatuses]
 required = [

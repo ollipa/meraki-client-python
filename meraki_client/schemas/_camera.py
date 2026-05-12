@@ -223,6 +223,9 @@ class CreateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
     mv84_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
         default=None, validation_alias="MV84X", serialization_alias="MV84X"
     )
+    mv44_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
+        default=None, validation_alias="MV44X", serialization_alias="MV44X"
+    )
 
 
 class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72(_BaseSchema):
@@ -872,6 +875,9 @@ class UpdateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
     )
     mv84_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
         default=None, validation_alias="MV84X", serialization_alias="MV84X"
+    )
+    mv44_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
+        default=None, validation_alias="MV44X", serialization_alias="MV44X"
     )
 
 

@@ -264,7 +264,7 @@ class Switch:
     def cycle_device_switch_ports(
         self, *, serial: str, ports: list[str]
     ) -> CycleDeviceSwitchPortsResponse:
-        """Cycle a set of switch ports.
+        """Cycle a set of switch ports on non-Catalyst MS devices.
 
         [API documentation: cycleDeviceSwitchPorts](https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports)
 
@@ -860,6 +860,7 @@ class Switch:
                 "mode": "vlan",
                 "subnet": "192.168.1.0/24",
                 "interfaceIp": "192.168.1.2",
+                "mtu": 1500,
                 "serial": "Q234-ABCD-5678",
                 "switchPortId": "1",
                 "multicastRouting": "disabled",
@@ -919,6 +920,7 @@ class Switch:
         subnet: str | None = None,
         switch_port_id: str | None = None,
         interface_ip: str | None = None,
+        mtu: int | None = None,
         multicast_routing: CreateDeviceSwitchRoutingInterfaceMulticastRouting | None = None,
         vlan_id: int | None = None,
         default_gateway: str | None = None,
@@ -941,6 +943,8 @@ class Switch:
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
                 subnet. This cannot be the same as the device management IP.
+            mtu: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and
+                routed modes.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
                 required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
                 Default is 'disabled'.
@@ -964,6 +968,7 @@ class Switch:
               "mode": "vlan",
               "subnet": "192.168.1.0/24",
               "interfaceIp": "192.168.1.2",
+              "mtu": 1500,
               "serial": "Q234-ABCD-5678",
               "switchPortId": "1",
               "multicastRouting": "disabled",
@@ -1010,6 +1015,8 @@ class Switch:
             payload["switchPortId"] = switch_port_id
         if interface_ip is not None:
             payload["interfaceIp"] = interface_ip
+        if mtu is not None:
+            payload["mtu"] = mtu
         if multicast_routing is not None:
             payload["multicastRouting"] = multicast_routing
         if vlan_id is not None:
@@ -1055,6 +1062,7 @@ class Switch:
               "mode": "vlan",
               "subnet": "192.168.1.0/24",
               "interfaceIp": "192.168.1.2",
+              "mtu": 1500,
               "serial": "Q234-ABCD-5678",
               "switchPortId": "1",
               "multicastRouting": "disabled",
@@ -1107,6 +1115,7 @@ class Switch:
         subnet: str | None = None,
         switch_port_id: str | None = None,
         interface_ip: str | None = None,
+        mtu: int | None = None,
         multicast_routing: UpdateDeviceSwitchRoutingInterfaceMulticastRouting | None = None,
         vlan_id: int | None = None,
         default_gateway: str | None = None,
@@ -1128,6 +1137,8 @@ class Switch:
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
                 subnet. This cannot be the same as the device management IP.
+            mtu: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and
+                routed modes.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
                 required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
                 Default is 'disabled'.
@@ -1151,6 +1162,7 @@ class Switch:
               "mode": "vlan",
               "subnet": "192.168.1.0/24",
               "interfaceIp": "192.168.1.2",
+              "mtu": 1500,
               "serial": "Q234-ABCD-5678",
               "switchPortId": "1",
               "multicastRouting": "disabled",
@@ -1196,6 +1208,8 @@ class Switch:
             payload["switchPortId"] = switch_port_id
         if interface_ip is not None:
             payload["interfaceIp"] = interface_ip
+        if mtu is not None:
+            payload["mtu"] = mtu
         if multicast_routing is not None:
             payload["multicastRouting"] = multicast_routing
         if vlan_id is not None:
@@ -4729,6 +4743,7 @@ class Switch:
               "macBlocklist": {
                 "enabled": true
               },
+              "portChannelFallback": true,
               "uplinkSelection": {
                 "failback": {
                   "enabled": true
@@ -4758,6 +4773,7 @@ class Switch:
         power_exceptions: list[UpdateNetworkSwitchSettingsPowerExceptionsItem] | None = None,
         uplink_client_sampling: UpdateNetworkSwitchSettingsUplinkClientSampling | None = None,
         mac_blocklist: UpdateNetworkSwitchSettingsMacBlocklist | None = None,
+        port_channel_fallback: bool | None = None,
         uplink_selection: UpdateNetworkSwitchSettingsUplinkSelection | None = None,
     ) -> NetworkSwitchSettingsResponse:
         """Update switch network settings.
@@ -4772,6 +4788,7 @@ class Switch:
             power_exceptions: Exceptions on a per switch basis to "useCombinedPower".
             uplink_client_sampling: Uplink client sampling.
             mac_blocklist: MAC blocklist.
+            port_channel_fallback: Port channel fallback.
             uplink_selection: Settings related to uplink selection on IOS-XE switches.
 
         Returns:
@@ -4794,6 +4811,7 @@ class Switch:
               "macBlocklist": {
                 "enabled": true
               },
+              "portChannelFallback": true,
               "uplinkSelection": {
                 "failback": {
                   "enabled": true
@@ -4822,6 +4840,8 @@ class Switch:
             )
         if mac_blocklist is not None:
             payload["macBlocklist"] = mac_blocklist.model_dump(by_alias=True, exclude_none=True)
+        if port_channel_fallback is not None:
+            payload["portChannelFallback"] = port_channel_fallback
         if uplink_selection is not None:
             payload["uplinkSelection"] = uplink_selection.model_dump(
                 by_alias=True, exclude_none=True
@@ -5150,6 +5170,7 @@ class Switch:
                 "mode": "vlan",
                 "subnet": "192.168.1.0/24",
                 "interfaceIp": "192.168.1.2",
+                "mtu": 1500,
                 "serial": "Q234-ABCD-5678",
                 "switchPortId": "1",
                 "multicastRouting": "disabled",
@@ -5211,6 +5232,7 @@ class Switch:
         subnet: str | None = None,
         switch_port_id: str | None = None,
         interface_ip: str | None = None,
+        mtu: int | None = None,
         multicast_routing: CreateNetworkSwitchStackRoutingInterfaceMulticastRouting | None = None,
         vlan_id: int | None = None,
         default_gateway: str | None = None,
@@ -5234,6 +5256,8 @@ class Switch:
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
                 subnet. This cannot be the same as the device management IP.
+            mtu: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and
+                routed modes.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
                 required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
                 Default is 'disabled'.
@@ -5257,6 +5281,7 @@ class Switch:
               "mode": "vlan",
               "subnet": "192.168.1.0/24",
               "interfaceIp": "192.168.1.2",
+              "mtu": 1500,
               "serial": "Q234-ABCD-5678",
               "switchPortId": "1",
               "multicastRouting": "disabled",
@@ -5304,6 +5329,8 @@ class Switch:
             payload["switchPortId"] = switch_port_id
         if interface_ip is not None:
             payload["interfaceIp"] = interface_ip
+        if mtu is not None:
+            payload["mtu"] = mtu
         if multicast_routing is not None:
             payload["multicastRouting"] = multicast_routing
         if vlan_id is not None:
@@ -5350,6 +5377,7 @@ class Switch:
               "mode": "vlan",
               "subnet": "192.168.1.0/24",
               "interfaceIp": "192.168.1.2",
+              "mtu": 1500,
               "serial": "Q234-ABCD-5678",
               "switchPortId": "1",
               "multicastRouting": "disabled",
@@ -5404,6 +5432,7 @@ class Switch:
         subnet: str | None = None,
         switch_port_id: str | None = None,
         interface_ip: str | None = None,
+        mtu: int | None = None,
         multicast_routing: UpdateNetworkSwitchStackRoutingInterfaceMulticastRouting | None = None,
         vlan_id: int | None = None,
         default_gateway: str | None = None,
@@ -5426,6 +5455,8 @@ class Switch:
             switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
                 subnet. This cannot be the same as the device management IP.
+            mtu: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and
+                routed modes.
             multicast_routing: Enable multicast support if, multicast routing between VLANs is
                 required. Options are: 'disabled', 'enabled' or 'IGMP snooping querier'.
                 Default is 'disabled'.
@@ -5449,6 +5480,7 @@ class Switch:
               "mode": "vlan",
               "subnet": "192.168.1.0/24",
               "interfaceIp": "192.168.1.2",
+              "mtu": 1500,
               "serial": "Q234-ABCD-5678",
               "switchPortId": "1",
               "multicastRouting": "disabled",
@@ -5494,6 +5526,8 @@ class Switch:
             payload["switchPortId"] = switch_port_id
         if interface_ip is not None:
             payload["interfaceIp"] = interface_ip
+        if mtu is not None:
+            payload["mtu"] = mtu
         if multicast_routing is not None:
             payload["multicastRouting"] = multicast_routing
         if vlan_id is not None:

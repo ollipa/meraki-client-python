@@ -1026,6 +1026,7 @@ class GetNetworkWirelessSsidsResponseItem(_BaseSchema):
     auth_mode: str | None = Field(
         default=None, validation_alias="authMode", serialization_alias="authMode"
     )
+    psk: str | None = None
     encryption_mode: str | None = Field(
         default=None, validation_alias="encryptionMode", serialization_alias="encryptionMode"
     )
@@ -1821,6 +1822,7 @@ class NetworkWirelessSsidResponse(_BaseSchema):
     auth_mode: str | None = Field(
         default=None, validation_alias="authMode", serialization_alias="authMode"
     )
+    psk: str | None = None
     encryption_mode: str | None = Field(
         default=None, validation_alias="encryptionMode", serialization_alias="encryptionMode"
     )

@@ -61,6 +61,7 @@ class CreateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
     interface_ip: str | None = Field(
         default=None, validation_alias="interfaceIp", serialization_alias="interfaceIp"
     )
+    mtu: int | None = None
     serial: str | None = None
     switch_port_id: str | None = Field(
         default=None, validation_alias="switchPortId", serialization_alias="switchPortId"
@@ -1257,6 +1258,11 @@ class NetworkSwitchSettingsResponse(_BaseSchema):
     )
     mac_blocklist: SwitchDot3az | None = Field(
         default=None, validation_alias="macBlocklist", serialization_alias="macBlocklist"
+    )
+    port_channel_fallback: bool | None = Field(
+        default=None,
+        validation_alias="portChannelFallback",
+        serialization_alias="portChannelFallback",
     )
     uplink_selection: NetworkSwitchSettingsResponseUplinkSelection | None = Field(
         default=None, validation_alias="uplinkSelection", serialization_alias="uplinkSelection"
@@ -2574,6 +2580,7 @@ class UpdateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
     interface_ip: str | None = Field(
         default=None, validation_alias="interfaceIp", serialization_alias="interfaceIp"
     )
+    mtu: int | None = None
     serial: str | None = None
     switch_port_id: str | None = Field(
         default=None, validation_alias="switchPortId", serialization_alias="switchPortId"

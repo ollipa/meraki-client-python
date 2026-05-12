@@ -9,6 +9,8 @@ from __future__ import annotations
 from typing import Literal, TypeAlias
 
 __all__ = [
+    "CreateDeviceCellularUplinksBandsMasksUpdateSlot",
+    "CreateDeviceCellularUplinksBandsMasksUpdateType",
     "CreateDeviceSensorCommandOperation",
     "CreateDeviceSwitchRoutingInterfaceMode",
     "CreateDeviceSwitchRoutingInterfaceMulticastRouting",
@@ -121,6 +123,7 @@ __all__ = [
     "GetOrganizationDevicesAvailabilitiesChangeHistoryStatuses",
     "GetOrganizationDevicesAvailabilitiesStatuses",
     "GetOrganizationDevicesAvailabilitiesTagsFilterType",
+    "GetOrganizationDevicesCellularDataDevicesSlots",
     "GetOrganizationDevicesControllerMigrationsTarget",
     "GetOrganizationDevicesOverviewByModelProductTypes",
     "GetOrganizationDevicesPacketCaptureCapturesSortOrder",
@@ -142,7 +145,6 @@ __all__ = [
     "GetOrganizationInventoryDevicesProductTypes",
     "GetOrganizationInventoryDevicesTagsFilterType",
     "GetOrganizationInventoryDevicesUsedState",
-    "GetOrganizationInventoryOnboardingCloudMonitoringNetworksDeviceType",
     "GetOrganizationLicensesState",
     "GetOrganizationNetworksProductTypes",
     "GetOrganizationNetworksTagsFilterType",
@@ -170,6 +172,7 @@ __all__ = [
     "UpdateDeviceSwitchRoutingInterfaceDhcpDnsNameserversOption",
     "UpdateDeviceSwitchRoutingInterfaceMulticastRouting",
     "UpdateNetworkApplianceContentFilteringUrlCategoryListSize",
+    "UpdateNetworkApplianceDevicesRedundancyMode",
     "UpdateNetworkApplianceFirewallFirewalledServiceAccess",
     "UpdateNetworkApplianceSecurityIntrusionIdsRulesets",
     "UpdateNetworkApplianceSecurityIntrusionMode",
@@ -229,6 +232,8 @@ __all__ = [
     "VmxNetworkDevicesClaimSize",
 ]
 
+CreateDeviceCellularUplinksBandsMasksUpdateSlot: TypeAlias = Literal["sim1", "sim2", "sim3"]
+CreateDeviceCellularUplinksBandsMasksUpdateType: TypeAlias = Literal["5GNSA", "5GSA", "LTE"]
 CreateDeviceSensorCommandOperation: TypeAlias = Literal[
     "cycleDownstreamPower", "disableDownstreamPower", "enableDownstreamPower", "refreshData"
 ]
@@ -531,6 +536,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "device_no_space",
         "device_ping_status",
         "dfs_event_pattern",
+        "dhcp_no_leases",
         "disassociation",
         "dns_down",
         "dom_stats_alert",
@@ -539,6 +545,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "faulty_cable",
         "firewall",
         "firmware_version",
         "frags_errors",
@@ -550,6 +557,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "https_secure_port_conflict",
         "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
+        "image_sensor_failure",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
@@ -649,6 +657,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "switchport_allowed_vlans_missing",
         "temperature_cable_disconnect",
         "thousand_eyes_application_alert",
+        "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
@@ -675,6 +684,8 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "wan_usage",
         "water_cable_disconnect",
         "water_usb_connect",
+        "wireless_capacity_degraded",
+        "wireless_coverage_degraded",
         "wlc_add_standby",
         "wlc_ap_guardrail",
         "wlc_ap_limit",
@@ -767,6 +778,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "device_no_space",
         "device_ping_status",
         "dfs_event_pattern",
+        "dhcp_no_leases",
         "disassociation",
         "dns_down",
         "dom_stats_alert",
@@ -775,6 +787,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "faulty_cable",
         "firewall",
         "firmware_version",
         "frags_errors",
@@ -786,6 +799,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "https_secure_port_conflict",
         "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
+        "image_sensor_failure",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
@@ -885,6 +899,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "switchport_allowed_vlans_missing",
         "temperature_cable_disconnect",
         "thousand_eyes_application_alert",
+        "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
@@ -911,6 +926,8 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "wan_usage",
         "water_cable_disconnect",
         "water_usb_connect",
+        "wireless_capacity_degraded",
+        "wireless_coverage_degraded",
         "wlc_add_standby",
         "wlc_ap_guardrail",
         "wlc_ap_limit",
@@ -1018,6 +1035,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "device_no_space",
         "device_ping_status",
         "dfs_event_pattern",
+        "dhcp_no_leases",
         "disassociation",
         "dns_down",
         "dom_stats_alert",
@@ -1026,6 +1044,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "faulty_cable",
         "firewall",
         "firmware_version",
         "frags_errors",
@@ -1037,6 +1056,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "https_secure_port_conflict",
         "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
+        "image_sensor_failure",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
@@ -1136,6 +1156,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "switchport_allowed_vlans_missing",
         "temperature_cable_disconnect",
         "thousand_eyes_application_alert",
+        "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
@@ -1162,6 +1183,8 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "wan_usage",
         "water_cable_disconnect",
         "water_usb_connect",
+        "wireless_capacity_degraded",
+        "wireless_coverage_degraded",
         "wlc_add_standby",
         "wlc_ap_guardrail",
         "wlc_ap_limit",
@@ -1227,6 +1250,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "device_no_space",
         "device_ping_status",
         "dfs_event_pattern",
+        "dhcp_no_leases",
         "disassociation",
         "dns_down",
         "dom_stats_alert",
@@ -1235,6 +1259,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "faulty_cable",
         "firewall",
         "firmware_version",
         "frags_errors",
@@ -1246,6 +1271,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "https_secure_port_conflict",
         "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
+        "image_sensor_failure",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
@@ -1345,6 +1371,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "switchport_allowed_vlans_missing",
         "temperature_cable_disconnect",
         "thousand_eyes_application_alert",
+        "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
@@ -1371,6 +1398,8 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "wan_usage",
         "water_cable_disconnect",
         "water_usb_connect",
+        "wireless_capacity_degraded",
+        "wireless_coverage_degraded",
         "wlc_add_standby",
         "wlc_ap_guardrail",
         "wlc_ap_limit",
@@ -1440,6 +1469,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "device_no_space",
         "device_ping_status",
         "dfs_event_pattern",
+        "dhcp_no_leases",
         "disassociation",
         "dns_down",
         "dom_stats_alert",
@@ -1448,6 +1478,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "faulty_cable",
         "firewall",
         "firmware_version",
         "frags_errors",
@@ -1459,6 +1490,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "https_secure_port_conflict",
         "https_secure_trustpoint_missing",
         "https_session_modules_conflict",
+        "image_sensor_failure",
         "insecure_sm_networks_disabled_enrollment_auth_alert",
         "insight_web_app",
         "invalid_config",
@@ -1558,6 +1590,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "switchport_allowed_vlans_missing",
         "temperature_cable_disconnect",
         "thousand_eyes_application_alert",
+        "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
@@ -1584,6 +1617,8 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "wan_usage",
         "water_cable_disconnect",
         "water_usb_connect",
+        "wireless_capacity_degraded",
+        "wireless_coverage_degraded",
         "wlc_add_standby",
         "wlc_ap_guardrail",
         "wlc_ap_limit",
@@ -1614,6 +1649,7 @@ GetOrganizationDevicesAvailabilitiesStatuses: TypeAlias = list[
 GetOrganizationDevicesAvailabilitiesTagsFilterType: TypeAlias = Literal[
     "withAllTags", "withAnyTags"
 ]
+GetOrganizationDevicesCellularDataDevicesSlots: TypeAlias = list[Literal["esim", "sim1", "sim2"]]
 GetOrganizationDevicesControllerMigrationsTarget: TypeAlias = Literal["wirelessController"]
 GetOrganizationDevicesOverviewByModelProductTypes: TypeAlias = list[
     Literal[
@@ -1752,9 +1788,6 @@ GetOrganizationInventoryDevicesProductTypes: TypeAlias = list[
 ]
 GetOrganizationInventoryDevicesTagsFilterType: TypeAlias = Literal["withAllTags", "withAnyTags"]
 GetOrganizationInventoryDevicesUsedState: TypeAlias = Literal["unused", "used"]
-GetOrganizationInventoryOnboardingCloudMonitoringNetworksDeviceType: TypeAlias = Literal[
-    "switch", "wireless_controller"
-]
 GetOrganizationLicensesState: TypeAlias = Literal[
     "active", "expired", "expiring", "recentlyQueued", "unused", "unusedActive"
 ]
@@ -1884,6 +1917,9 @@ UpdateDeviceSwitchRoutingInterfaceMulticastRouting: TypeAlias = Literal[
 ]
 UpdateNetworkApplianceContentFilteringUrlCategoryListSize: TypeAlias = Literal[
     "fullList", "topSites"
+]
+UpdateNetworkApplianceDevicesRedundancyMode: TypeAlias = Literal[
+    "active-active", "active-passive", "disabled"
 ]
 UpdateNetworkApplianceFirewallFirewalledServiceAccess: TypeAlias = Literal[
     "blocked", "restricted", "unrestricted"

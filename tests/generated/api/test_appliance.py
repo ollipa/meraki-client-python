@@ -310,6 +310,17 @@ def test_get_network_appliance_warm_spare(client: MerakiClient, network_id: str)
         client.appliance.get_network_appliance_warm_spare(network_id=network_id)
 
 
+def test_get_organization_appliance_devices_redundancy_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_devices_redundancy_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_devices_redundancy_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_appliance_dns_local_profiles(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -371,6 +382,16 @@ def test_get_organization_appliance_firewall_multicast_forwarding_by_network(
             ).collect()
         )
     assert isinstance(result, list)
+
+
+def test_get_organization_appliance_routing_vrfs_settings(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_routing_vrfs_settings endpoint."""
+    with skip_on_unsupported():
+        client.appliance.get_organization_appliance_routing_vrfs_settings(
+            organization_id=organization_id
+        )
 
 
 def test_get_organization_appliance_security_events(

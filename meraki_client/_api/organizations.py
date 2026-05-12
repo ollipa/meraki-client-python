@@ -15,8 +15,10 @@ from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
     AttachOrganizationSaseSitesCallback,
     AttachOrganizationSaseSitesItemsItem,
-    BatchOrganizationSaseConnectorsCreateItemsItem,
+    BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
+    BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponse,
     BatchOrganizationSaseConnectorsDeleteItemsItem,
+    BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced,
     BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateResponse,
@@ -45,22 +47,19 @@ from meraki_client.schemas import (
     CreateOrganizationBrandingPolicyAdminSettings,
     CreateOrganizationBrandingPolicyCustomLogo,
     CreateOrganizationBrandingPolicyHelpSettings,
+    CreateOrganizationDevicesCellularDataProfileRulesItem,
     CreateOrganizationDevicesControllerMigrationResponse,
     CreateOrganizationDevicesPacketCaptureCaptureAdvanced,
     CreateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     CreateOrganizationDevicesPacketCaptureScheduleSchedule,
     CreateOrganizationInventoryDevicesSwapsBulkSwapsItem,
-    CreateOrganizationInventoryOnboardingCloudMonitoringImportDevicesItem,
-    CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse,
-    CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItem,
-    CreateOrganizationInventoryOnboardingCloudMonitoringPrepareOptions,
-    CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse,
     CreateOrganizationManagement,
     CreateOrganizationNetworkResponse,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
     CreateOrganizationSamlRoleNetworksItem,
     CreateOrganizationSamlRoleTagsItem,
+    CreateOrganizationSaseIntegrationApi,
     CreateOrganizationSplashThemeResponse,
     DetachOrganizationSaseSitesCallback,
     DetachOrganizationSaseSitesItemsItem,
@@ -89,6 +88,14 @@ from meraki_client.schemas import (
     GetOrganizationConfigurationChangesResponseItem,
     GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem,
     GetOrganizationDevicesAvailabilitiesResponseItem,
+    GetOrganizationDevicesCellularDataDevicesResponseItemsItem,
+    GetOrganizationDevicesCellularDataProfilesAssignmentsResponseItemsItem,
+    GetOrganizationDevicesCellularDataProfilesResponseItemsItem,
+    GetOrganizationDevicesCellularDataUsageByDeviceResponseItemsItem,
+    GetOrganizationDevicesCellularDataUsageHistoryByDeviceByIntervalResponseItemsItem,
+    GetOrganizationDevicesCellularGeolocationsResponseItemsItem,
+    GetOrganizationDevicesCellularUplinksBandsByDeviceResponseItemsItem,
+    GetOrganizationDevicesCellularUplinksTowersByDeviceResponseItemsItem,
     GetOrganizationDevicesControllerMigrationsResponseItemsItem,
     GetOrganizationDevicesOverviewByModelResponse,
     GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem,
@@ -111,7 +118,6 @@ from meraki_client.schemas import (
     GetOrganizationInventoryDeviceResponse,
     GetOrganizationInventoryDevicesEoxOverviewResponse,
     GetOrganizationInventoryDevicesResponseItem,
-    GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem,
     GetOrganizationLicensesOverviewResponse,
     GetOrganizationPoliciesAssignmentsByClientResponseItem,
     GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem,
@@ -151,6 +157,7 @@ from meraki_client.schemas import (
     OrganizationBrandingPoliciesPrioritiesResponse,
     OrganizationBrandingPolicyResponse,
     OrganizationConfigTemplateResponse,
+    OrganizationDevicesCellularDataProfileResponse,
     OrganizationDevicesPacketCaptureCaptureResponse,
     OrganizationDevicesPacketCaptureScheduleResponse,
     OrganizationIntegrationsXdrNetworksResponse,
@@ -168,6 +175,7 @@ from meraki_client.schemas import (
     OrganizationResponse,
     OrganizationSamlResponse,
     OrganizationSamlRoleResponse,
+    OrganizationSaseIntegrationResponse,
     OrganizationSnmpResponse,
     OrganizationsPolicyObjectsItem,
     PreviewOrganizationInventoryOrdersResponse,
@@ -190,6 +198,7 @@ from meraki_client.schemas import (
     UpdateOrganizationBrandingPolicyAdminSettings,
     UpdateOrganizationBrandingPolicyCustomLogo,
     UpdateOrganizationBrandingPolicyHelpSettings,
+    UpdateOrganizationDevicesCellularDataProfileRulesItem,
     UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     UpdateOrganizationDevicesPacketCaptureScheduleSchedule,
     UpdateOrganizationLoginSecurityApiAuthentication,
@@ -239,6 +248,7 @@ from meraki_client.types import (
     GetOrganizationDevicesAvailabilitiesChangeHistoryStatuses,
     GetOrganizationDevicesAvailabilitiesStatuses,
     GetOrganizationDevicesAvailabilitiesTagsFilterType,
+    GetOrganizationDevicesCellularDataDevicesSlots,
     GetOrganizationDevicesControllerMigrationsTarget,
     GetOrganizationDevicesOverviewByModelProductTypes,
     GetOrganizationDevicesPacketCaptureCapturesSortOrder,
@@ -260,7 +270,6 @@ from meraki_client.types import (
     GetOrganizationInventoryDevicesProductTypes,
     GetOrganizationInventoryDevicesTagsFilterType,
     GetOrganizationInventoryDevicesUsedState,
-    GetOrganizationInventoryOnboardingCloudMonitoringNetworksDeviceType,
     GetOrganizationLicensesState,
     GetOrganizationNetworksProductTypes,
     GetOrganizationNetworksTagsFilterType,
@@ -2879,7 +2888,8 @@ class Organizations:
                 "categoryType": "connectivity",
                 "network": {
                   "name": "Network 2",
-                  "id": "L_1020981"
+                  "id": "L_1020981",
+                  "url": "https://n1.meraki.com//n//manage/nodes/list"
                 },
                 "startedAt": "2022-04-01T15:48:57Z",
                 "resolvedAt": "2022-04-02T15:48:57Z",
@@ -3257,6 +3267,8 @@ class Organizations:
         active: bool | None = None,
         dismissed: bool | None = None,
         resolved: bool | None = None,
+        include_device_tags: bool | None = None,
+        include_networks: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
@@ -3292,6 +3304,8 @@ class Organizations:
             active: Optional parameter to filter by active alerts defaults to true.
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
+            include_device_tags: Include grouped device tags for each alert type in the response.
+            include_networks: Include affected networks for each alert type in the response.
             suppress_alerts_for_offline_nodes: When set to true the api will only return
                 connectivity alerts for a given device if that device is in an offline
                 state. This only applies to devices. This is ignored when resolved is
@@ -3315,8 +3329,25 @@ class Organizations:
               "items": [
                 {
                   "type": "vlan_mismatch",
+                  "categoryType": "configuration",
+                  "severity": "warning",
+                  "lastAlertedAt": "2022-04-01T15:48:57Z",
                   "lastResolvedAt": "2022-04-01T16:48:57Z",
-                  "count": 3
+                  "count": 3,
+                  "networkCount": 2,
+                  "deviceTypes": [
+                    "MS"
+                  ],
+                  "deviceTags": [
+                    "core",
+                    "distribution"
+                  ],
+                  "networks": [
+                    {
+                      "id": "N_123",
+                      "name": "Branch 1"
+                    }
+                  ]
                 }
               ],
               "meta": {
@@ -3366,6 +3397,10 @@ class Organizations:
             params["dismissed"] = dismissed
         if resolved is not None:
             params["resolved"] = resolved
+        if include_device_tags is not None:
+            params["includeDeviceTags"] = include_device_tags
+        if include_networks is not None:
+            params["includeNetworks"] = include_networks
         if suppress_alerts_for_offline_nodes is not None:
             params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
@@ -3626,7 +3661,8 @@ class Organizations:
               "categoryType": "connectivity",
               "network": {
                 "name": "Network 2",
-                "id": "L_1020981"
+                "id": "L_1020981",
+                "url": "https://n1.meraki.com//n//manage/nodes/list"
               },
               "startedAt": "2022-04-01T15:48:57Z",
               "resolvedAt": "2022-04-02T15:48:57Z",
@@ -5261,6 +5297,1148 @@ class Organizations:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem,
+        )
+
+    def get_organization_devices_cellular_data_devices(
+        self,
+        organization_id: str,
+        *,
+        include_assigned: bool | None = None,
+        included_serials: list[str] | None = None,
+        excluded_serials: list[str] | None = None,
+        included_profile_ids: list[str] | None = None,
+        excluded_profile_ids: list[str] | None = None,
+        device_types: list[str] | None = None,
+        slots: GetOrganizationDevicesCellularDataDevicesSlots | None = None,
+        name: str | None = None,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationDevicesCellularDataDevicesResponseItemsItem]:
+        """List devices eligible for Cellular Data Management profile assignment in this organization.
+
+        [API documentation: getOrganizationDevicesCellularDataDevices](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-cellular-data-devices)
+
+        Args:
+            organization_id: Organization ID.
+            include_assigned: Whether to include devices that have already been assigned to a
+                Cellular Data Management Profile.
+            included_serials: List of device serials to force-include in the response when the
+                devices would otherwise be filtered out. This override is primarily
+                useful for keeping selected devices visible while paging through
+                results. Maximum 1000 serials.
+            excluded_serials: List of device serials to force-exclude from the response when the
+                devices would otherwise be returned. This override is primarily useful
+                for hiding selected devices while paging through results. Maximum 1000
+                serials.
+            included_profile_ids: List of Cellular Data Management Profile IDs to include in the
+                results. Maximum 1000 profile IDs.
+            excluded_profile_ids: List of Cellular Data Management Profile IDs to exclude from the
+                results. Maximum 1000 profile IDs.
+            device_types: List of device types to filter by. Maximum 1000 device types.
+            slots: List of SIM slot types that devices must support. Accepted values are sim1, sim2,
+                and esim. Maximum 3 slots.
+            name: Name of the device to filter by (partial matches allowed).
+            serials: List of device serials to filter by. Maximum 1000 serials.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "name": "Some device name",
+                  "url": "https://n1.meraki.com/Some-Network/n/AbCdEf/manage/nodes/new_list/1234",
+                  "model": "mg52e",
+                  "software": {
+                    "currentVersion": {
+                      "shortName": "MG 26.1.120"
+                    }
+                  },
+                  "modems": [
+                    {
+                      "index": 0,
+                      "sims": [
+                        {
+                          "slot": "esim",
+                          "type": "esim",
+                          "active": true
+                        }
+                      ]
+                    }
+                  ],
+                  "profile": {
+                    "assigned": true,
+                    "id": "SOME_1234",
+                    "name": "Some profile name"
+                  },
+                  "network": {
+                    "name": "Some network name",
+                    "id": "SOME_1234"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/devices"
+
+        params: dict[str, Any] = {}
+        if include_assigned is not None:
+            params["includeAssigned"] = include_assigned
+        if included_serials is not None:
+            params["includedSerials[]"] = included_serials
+        if excluded_serials is not None:
+            params["excludedSerials[]"] = excluded_serials
+        if included_profile_ids is not None:
+            params["includedProfileIds[]"] = included_profile_ids
+        if excluded_profile_ids is not None:
+            params["excludedProfileIds[]"] = excluded_profile_ids
+        if device_types is not None:
+            params["deviceTypes[]"] = device_types
+        if slots is not None:
+            params["slots[]"] = slots
+        if name is not None:
+            params["name"] = name
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesCellularDataDevices",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesCellularDataDevicesResponseItemsItem,
+        )
+
+    def get_organization_devices_cellular_data_profiles(
+        self,
+        organization_id: str,
+        *,
+        profile_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationDevicesCellularDataProfilesResponseItemsItem]:
+        """List cellular data management profiles in this organization.
+
+        [API documentation: getOrganizationDevicesCellularDataProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-cellular-data-profiles)
+
+        Args:
+            organization_id: Organization ID.
+            profile_ids: Optional parameter to filter the results by Data Management Profile ID.
+            serials: Devices to find Cellular Data Management Profiles for.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "profileId": "42",
+                  "lastUpdatedAt": "2023-08-21T00:00:00Z",
+                  "name": "some unique profile name",
+                  "description": "some description",
+                  "counts": {
+                    "devices": {
+                      "assigned": 3
+                    }
+                  },
+                  "rules": [
+                    {
+                      "ruleId": "42",
+                      "slot": "sim1",
+                      "uplink": {
+                        "priority": 1,
+                        "isPreferred": true
+                      },
+                      "cap": {
+                        "value": 1234,
+                        "threshold": 0.92,
+                        "term": {
+                          "resets": "monthly",
+                          "starts": {
+                            "hourOfDay": 12,
+                            "dayOfWeek": "wed",
+                            "dayOfMonth": 4
+                          }
+                        }
+                      },
+                      "actions": [
+                        {
+                          "type": "failover"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 420,
+                    "remaining": 42
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles"
+
+        params: dict[str, Any] = {}
+        if profile_ids is not None:
+            params["profileIds[]"] = profile_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesCellularDataProfiles",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesCellularDataProfilesResponseItemsItem,
+        )
+
+    def create_organization_devices_cellular_data_profile(
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        description: str,
+        rules: list[CreateOrganizationDevicesCellularDataProfileRulesItem],
+    ) -> OrganizationDevicesCellularDataProfileResponse:
+        """Add a cellular data management profile to this organization.
+
+        [API documentation: createOrganizationDevicesCellularDataProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-cellular-data-profile)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the profile to be added. This must be unique.
+            description: Description of the profile to be added.
+            rules: The rules associated with this profile. At least one rule and no more than two
+                rules may be defined for a profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "42",
+              "lastUpdatedAt": "2023-08-21T00:00:00Z",
+              "name": "some unique profile name",
+              "description": "some description",
+              "rules": [
+                {
+                  "ruleId": "43",
+                  "slot": "sim1",
+                  "uplink": {
+                    "priority": 1,
+                    "isPreferred": true
+                  },
+                  "cap": {
+                    "value": 42,
+                    "threshold": 0.9,
+                    "term": {
+                      "resets": "monthly",
+                      "starts": {
+                        "hourOfDay": 12,
+                        "dayOfWeek": "mon",
+                        "dayOfMonth": 2
+                      }
+                    }
+                  },
+                  "actions": [
+                    {
+                      "type": "failover"
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+        if rules is not None:
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="createOrganizationDevicesCellularDataProfile",
+            path=path,
+            json=payload,
+            response_schema=OrganizationDevicesCellularDataProfileResponse,
+        )
+
+    def get_organization_devices_cellular_data_profiles_assignments(
+        self,
+        organization_id: str,
+        *,
+        profile_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationDevicesCellularDataProfilesAssignmentsResponseItemsItem]:
+        """List Cellular Data Management Profile assignments in this organization.
+
+        [API documentation: getOrganizationDevicesCellularDataProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-cellular-data-profiles-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            profile_ids: Optional parameter to find assignments by Profile IDs. Maximum 1000 profile
+                IDs.
+            serials: Optional parameter to find assignments by Device Serials. Maximum 1000 serials.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "42",
+                  "profile": {
+                    "id": "1234"
+                  },
+                  "device": {
+                    "serial": "Q234-ABCD-5678"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/assignments"
+
+        params: dict[str, Any] = {}
+        if profile_ids is not None:
+            params["profileIds[]"] = profile_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesCellularDataProfilesAssignments",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesCellularDataProfilesAssignmentsResponseItemsItem,
+        )
+
+    def batch_organization_devices_cellular_data_profiles_assignments_create(
+        self,
+        *,
+        organization_id: str,
+        items: list[BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem],
+    ) -> BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponse:
+        """Assign devices to a Cellular Data Management Profile in batch.
+
+        [API documentation: batchOrganizationDevicesCellularDataProfilesAssignmentsCreate](https://developer.cisco.com/meraki/api-v1/#!batch-organization-devices-cellular-data-profiles-assignments-create)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of device-to-profile assignments to create.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "42",
+                  "profile": {
+                    "id": "1234"
+                  },
+                  "device": {
+                    "serial": "Q234-ABCD-5678"
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/assignments/batchCreate"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="batchOrganizationDevicesCellularDataProfilesAssignmentsCreate",
+            path=path,
+            json=payload,
+            response_schema=BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponse,
+        )
+
+    def bulk_organization_devices_cellular_data_profiles_assignments_delete(
+        self,
+        *,
+        organization_id: str,
+        items: list[BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem],
+    ) -> None:
+        """Unassign devices from a Cellular Data Management Profile in batch.
+
+        [API documentation: bulkOrganizationDevicesCellularDataProfilesAssignmentsDelete](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-cellular-data-profiles-assignments-delete)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of device-to-profile assignments to remove.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/assignments/bulkDelete"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="bulkOrganizationDevicesCellularDataProfilesAssignmentsDelete",
+            path=path,
+            json=payload,
+        )
+
+    def update_organization_devices_cellular_data_profile(
+        self,
+        *,
+        organization_id: str,
+        profile_id: str,
+        rules: list[UpdateOrganizationDevicesCellularDataProfileRulesItem],
+        description: str | None = None,
+    ) -> OrganizationDevicesCellularDataProfileResponse:
+        """Update a Cellular Data Management Profile.
+
+        [API documentation: updateOrganizationDevicesCellularDataProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-cellular-data-profile)
+
+        Args:
+            organization_id: Organization ID.
+            profile_id: Profile ID.
+            description: New description of the profile.
+            rules: The rules associated with this profile. At least one rule and no more than two
+                rules may be defined for a profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "42",
+              "lastUpdatedAt": "2023-08-21T00:00:00Z",
+              "name": "some unique profile name",
+              "description": "some description",
+              "rules": [
+                {
+                  "ruleId": "42",
+                  "slot": "sim1",
+                  "uplink": {
+                    "priority": 1,
+                    "isPreferred": true
+                  },
+                  "cap": {
+                    "value": 42,
+                    "threshold": 0.9,
+                    "term": {
+                      "resets": "monthly",
+                      "starts": {
+                        "hourOfDay": 12,
+                        "dayOfWeek": "mon",
+                        "dayOfMonth": 2
+                      }
+                    }
+                  },
+                  "actions": [
+                    {
+                      "type": "failover"
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/{profile_id}"
+
+        payload: dict[str, Any] = {}
+        if profile_id is not None:
+            payload["profileId"] = profile_id
+        if description is not None:
+            payload["description"] = description
+        if rules is not None:
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
+
+        return self._session.put(
+            scope="organizations",
+            operation_id="updateOrganizationDevicesCellularDataProfile",
+            path=path,
+            json=payload,
+            response_schema=OrganizationDevicesCellularDataProfileResponse,
+        )
+
+    def delete_organization_devices_cellular_data_profile(
+        self, *, organization_id: str, profile_id: str
+    ) -> None:
+        """Delete a cellular data management profile from this organization.
+
+        [API documentation: deleteOrganizationDevicesCellularDataProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-cellular-data-profile)
+
+        Args:
+            organization_id: Organization ID.
+            profile_id: Profile ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/{profile_id}"
+
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationDevicesCellularDataProfile",
+            path=path,
+        )
+
+    def get_organization_devices_cellular_data_usage_by_device(
+        self,
+        organization_id: str,
+        *,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationDevicesCellularDataUsageByDeviceResponseItemsItem]:
+        """List current cellular data usage for devices in this organization.
+
+        [API documentation: getOrganizationDevicesCellularDataUsageByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-cellular-data-usage-by-device)
+
+        Args:
+            organization_id: Organization ID.
+            serials: Filter the results by device serials. Maximum 1000 serials.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "bySlot": [
+                    {
+                      "slot": "esim",
+                      "isActive": true,
+                      "total": "12345",
+                      "lastUpdatedAt": "2024-01-01T12:00:00Z",
+                      "startTs": "2024-01-01T00:00:00Z",
+                      "endTs": "2024-01-31T23:59:59Z",
+                      "limit": "1024"
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/usage/byDevice"
+
+        params: dict[str, Any] = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesCellularDataUsageByDevice",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesCellularDataUsageByDeviceResponseItemsItem,
+        )
+
+    def get_organization_devices_cellular_data_usage_history_by_device_by_interval(
+        self,
+        *,
+        organization_id: str,
+        serials: list[str],
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        interval: int | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationDevicesCellularDataUsageHistoryByDeviceByIntervalResponseItemsItem
+    ]:
+        """List historical cellular data usage grouped by device and interval in this organization.
+
+        [API documentation: getOrganizationDevicesCellularDataUsageHistoryByDeviceByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-cellular-data-usage-history-by-device-by-interval)
+
+        Args:
+            organization_id: Organization ID.
+            serials: Required parameter to filter the results by device serials. Maximum 10 serials.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 10. Default
+                is 5.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 366 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 31 days. The default is 1 day. If
+                interval is provided, the timespan will be autocalculated.
+            interval: The time interval in seconds for returned data. The valid intervals are: 300,
+                1200, 14400, 86400. The default is 86400. Interval is calculated if time
+                params are provided.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "intervals": [
+                    {
+                      "startTs": "2018-02-11T00:00:00.090210Z",
+                      "endTs": "2018-02-11T00:00:00.090210Z",
+                      "usage": {
+                        "total": 1234,
+                        "bySim": [
+                          {
+                            "name": "sim1",
+                            "total": 1004
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/usage/history/byDevice/byInterval"
+
+        params: dict[str, Any] = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if interval is not None:
+            params["interval"] = interval
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesCellularDataUsageHistoryByDeviceByInterval",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesCellularDataUsageHistoryByDeviceByIntervalResponseItemsItem,
+        )
+
+    def get_organization_devices_cellular_geolocations(
+        self,
+        organization_id: str,
+        *,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationDevicesCellularGeolocationsResponseItemsItem]:
+        """List the latest cellular geolocation telemetry for devices in an organization.
+
+        [API documentation: getOrganizationDevicesCellularGeolocations](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-cellular-geolocations)
+
+        Args:
+            organization_id: Organization ID.
+            serials: Optional parameter to filter the results by device serials. Maximum 1000
+                serials.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "geolocation": {
+                    "enabled": true,
+                    "latitude": 37.7749,
+                    "longitude": -122.4194,
+                    "lastReportedAt": "2023-03-15T12:34:56Z"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 420,
+                    "remaining": 42
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/geolocations"
+
+        params: dict[str, Any] = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesCellularGeolocations",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesCellularGeolocationsResponseItemsItem,
+        )
+
+    def get_organization_devices_cellular_uplinks_bands_by_device(
+        self,
+        organization_id: str,
+        *,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationDevicesCellularUplinksBandsByDeviceResponseItemsItem]:
+        """List the latest cellular uplink signal information for devices in an organization.
+
+        [API documentation: getOrganizationDevicesCellularUplinksBandsByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-cellular-uplinks-bands-by-device)
+
+        Args:
+            organization_id: Organization ID.
+            serials: Optional parameter to filter the results by device serials. Maximum 1000
+                serials.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "bySlot": [
+                    {
+                      "slot": "sim1",
+                      "bySignalType": [
+                        {
+                          "type": "LTE",
+                          "masked": [
+                            "2",
+                            "4",
+                            "12"
+                          ],
+                          "enabled": [
+                            "8",
+                            "10"
+                          ],
+                          "supported": [
+                            "2",
+                            "4",
+                            "8",
+                            "10",
+                            "12"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 420,
+                    "remaining": 42
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/uplinks/bands/byDevice"
+
+        params: dict[str, Any] = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesCellularUplinksBandsByDevice",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesCellularUplinksBandsByDeviceResponseItemsItem,
+        )
+
+    def get_organization_devices_cellular_uplinks_towers_by_device(
+        self,
+        organization_id: str,
+        *,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationDevicesCellularUplinksTowersByDeviceResponseItemsItem]:
+        """List the latest cellular tower information for devices in an organization.
+
+        [API documentation: getOrganizationDevicesCellularUplinksTowersByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-cellular-uplinks-towers-by-device)
+
+        Args:
+            organization_id: Organization ID.
+            serials: Optional parameter to filter the results by device serials. Maximum 1000
+                serials.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "connection": {
+                    "cell": {
+                      "id": "1234567890"
+                    },
+                    "tac": "3F2A"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 420,
+                    "remaining": 42
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/uplinks/towers/byDevice"
+
+        params: dict[str, Any] = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesCellularUplinksTowersByDevice",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesCellularUplinksTowersByDeviceResponseItemsItem,
         )
 
     def get_organization_devices_controller_migrations(
@@ -8479,6 +9657,7 @@ class Organizations:
                 "serial": "Q234-ABCD-5678",
                 "name": "My AP",
                 "model": "MR34",
+                "sku": "MR34-HW",
                 "networkId": "N_24329156",
                 "orderNumber": "4C1234567",
                 "claimedAt": "2018-02-11T00:00:00.090210Z",
@@ -8733,6 +9912,7 @@ class Organizations:
               "serial": "Q234-ABCD-5678",
               "name": "My AP",
               "model": "MR34",
+              "sku": "MR34-HW",
               "networkId": "N_24329156",
               "orderNumber": "4C1234567",
               "claimedAt": "2018-02-11T00:00:00.090210Z",
@@ -8767,311 +9947,6 @@ class Organizations:
             operation_id="getOrganizationInventoryDevice",
             path=path,
             response_schema=GetOrganizationInventoryDeviceResponse,
-        )
-
-    def create_organization_inventory_onboarding_cloud_monitoring_export_event(
-        self,
-        *,
-        organization_id: str,
-        log_event: str,
-        timestamp: int,
-        target_os: str | None = None,
-        request: str | None = None,
-    ) -> DictResponse:
-        """Imports event logs related to the onboarding app into elastisearch.
-
-        [API documentation: createOrganizationInventoryOnboardingCloudMonitoringExportEvent](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-export-event)
-
-        Args:
-            organization_id: Organization ID.
-            log_event: The type of log event this is recording, e.g. download or opening a banner.
-            timestamp: A JavaScript UTC datetime stamp for when the even occurred.
-            target_os: The name of the onboarding distro being downloaded.
-            request: Used to describe if this event was the result of a redirect. E.g. a query param
-                if an info banner is being used.
-
-        Returns:
-            Successful operation.
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/exportEvents"
-
-        payload: dict[str, Any] = {}
-        if log_event is not None:
-            payload["logEvent"] = log_event
-        if timestamp is not None:
-            payload["timestamp"] = timestamp
-        if target_os is not None:
-            payload["targetOS"] = target_os
-        if request is not None:
-            payload["request"] = request
-
-        return self._session.post(
-            scope="organizations",
-            operation_id="createOrganizationInventoryOnboardingCloudMonitoringExportEvent",
-            path=path,
-            json=payload,
-            response_schema=DictResponse,
-        )
-
-    def get_organization_inventory_onboarding_cloud_monitoring_imports(
-        self, *, organization_id: str, import_ids: list[str]
-    ) -> PaginatedResponse[GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem]:
-        """Check the status of a committed Import operation.
-
-        [API documentation: getOrganizationInventoryOnboardingCloudMonitoringImports](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-imports)
-
-        Args:
-            organization_id: Organization ID.
-            import_ids: import ids from an imports.
-
-        Returns:
-            Successful operation.
-
-        Note:
-            Returns a lazy PaginatedResponse
-            that can be iterated or collected with `.collect()`.
-            Page metadata is available on `.meta` and `.meta_pages`.
-
-        Example API response:
-            ```json
-            [
-              {
-                "importId": "0000000000000000",
-                "device": {
-                  "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
-                  "created": true,
-                  "status": "SUCCESS"
-                }
-              }
-            ]
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
-
-        params: dict[str, Any] = {}
-        if import_ids is not None:
-            params["importIds[]"] = import_ids
-
-        return self._session.get_pages(
-            scope="organizations",
-            operation_id="getOrganizationInventoryOnboardingCloudMonitoringImports",
-            path=path,
-            params=params,
-            item_schema=GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem,
-        )
-
-    def create_organization_inventory_onboarding_cloud_monitoring_import(
-        self,
-        *,
-        organization_id: str,
-        devices: list[CreateOrganizationInventoryOnboardingCloudMonitoringImportDevicesItem],
-    ) -> CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse:
-        """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
-
-        [API documentation: createOrganizationInventoryOnboardingCloudMonitoringImport](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import)
-
-        Args:
-            organization_id: Organization ID.
-            devices: A set of device imports to commit.
-
-        Returns:
-            Successful operation.
-
-        Example API response:
-            ```json
-            [
-              {
-                "status": "IMPORT JOB SUCCESS",
-                "importId": "1234",
-                "message": "Import Started"
-              }
-            ]
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
-
-        payload: dict[str, Any] = {}
-        if devices is not None:
-            payload["devices"] = [
-                item.model_dump(by_alias=True, exclude_none=True) for item in devices
-            ]
-
-        return self._session.post(
-            scope="organizations",
-            operation_id="createOrganizationInventoryOnboardingCloudMonitoringImport",
-            path=path,
-            json=payload,
-            response_schema=CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse,
-        )
-
-    def get_organization_inventory_onboarding_cloud_monitoring_networks(
-        self,
-        *,
-        organization_id: str,
-        device_type: GetOrganizationInventoryOnboardingCloudMonitoringNetworksDeviceType,
-        search: str | None = None,
-        per_page: int | None = None,
-        starting_after: str | None = None,
-        ending_before: str | None = None,
-        total_pages: int | Literal["all"] = "all",
-        direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[CreateOrganizationNetworkResponse]:
-        """Returns list of networks eligible for adding cloud monitored device.
-
-        [API documentation: getOrganizationInventoryOnboardingCloudMonitoringNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-networks)
-
-        Args:
-            organization_id: Organization ID.
-            device_type: Device Type switch or wireless controller.
-            search: Optional parameter to search on network name.
-            per_page: The number of entries per page returned. Acceptable range is 3 - 100000.
-                Default is 1000.
-            starting_after: A token used by the server to indicate the start of the page. Often this
-                is a timestamp or an ID but it is not limited to those. This parameter
-                should not be defined by client applications. The link for the first,
-                last, prev, or next page in the HTTP Link header should define it.
-            ending_before: A token used by the server to indicate the end of the page. Often this is
-                a timestamp or an ID but it is not limited to those. This parameter
-                should not be defined by client applications. The link for the first,
-                last, prev, or next page in the HTTP Link header should define it.
-            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
-                "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-
-        Returns:
-            Successful operation.
-
-        Note:
-            Returns a lazy PaginatedResponse
-            that can be iterated or collected with `.collect()`.
-            Page metadata is available on `.meta` and `.meta_pages`.
-
-        Example API response:
-            ```json
-            [
-              {
-                "id": "N_24329156",
-                "organizationId": "2930418",
-                "name": "Main Office",
-                "productTypes": [
-                  "appliance",
-                  "switch",
-                  "wireless"
-                ],
-                "timeZone": "America/Los_Angeles",
-                "tags": [
-                  "tag1",
-                  "tag2"
-                ],
-                "enrollmentString": "my-enrollment-string",
-                "url": "https://n1.meraki.com//n//manage/nodes/list",
-                "notes": "Additional description of the network",
-                "isBoundToConfigTemplate": false
-              }
-            ]
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/networks"
-
-        params: dict[str, Any] = {}
-        if device_type is not None:
-            params["deviceType"] = device_type
-        if search is not None:
-            params["search"] = search
-        if per_page is not None:
-            params["perPage"] = per_page
-        if starting_after is not None:
-            params["startingAfter"] = starting_after
-        if ending_before is not None:
-            params["endingBefore"] = ending_before
-
-        return self._session.get_pages(
-            scope="organizations",
-            operation_id="getOrganizationInventoryOnboardingCloudMonitoringNetworks",
-            path=path,
-            params=params,
-            total_pages=total_pages,
-            direction=direction,
-            item_schema=CreateOrganizationNetworkResponse,
-        )
-
-    def create_organization_inventory_onboarding_cloud_monitoring_prepare(
-        self,
-        *,
-        organization_id: str,
-        devices: list[CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItem],
-        options: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareOptions | None = None,
-    ) -> CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse:
-        """Initiates or updates an import session.
-
-        [API documentation: createOrganizationInventoryOnboardingCloudMonitoringPrepare](https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-prepare)
-
-        Args:
-            organization_id: Organization ID.
-            devices: A set of devices to import (or update).
-            options: Additional options for the import.
-
-        Returns:
-            Successful operation.
-
-        Example API response:
-            ```json
-            [
-              {
-                "message": "Existing import found",
-                "udi": "PID:C9200L-24P-4G SN:JAE25220R2K",
-                "deviceId": "161b2602-a713-4aac-b1eb-d9b55205353d",
-                "status": "SUCCESS",
-                "configParams": {
-                  "tunnel": {
-                    "mode": "443",
-                    "port": "443",
-                    "host": "secgw-int3.ciscocloudoffer.com",
-                    "name": "MERAKI-PRIMARY",
-                    "rootCertificate": {
-                      "content": "",
-                      "name": "MERAKI_TLSGW_CA"
-                    }
-                  },
-                  "cloudStaticIp": "1.2.3.4",
-                  "user": {
-                    "publicKey": "",
-                    "username": "MERAKI_USER",
-                    "secret": {
-                      "hash": ""
-                    }
-                  }
-                }
-              }
-            ]
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/prepare"
-
-        payload: dict[str, Any] = {}
-        if devices is not None:
-            payload["devices"] = [
-                item.model_dump(by_alias=True, exclude_none=True) for item in devices
-            ]
-        if options is not None:
-            payload["options"] = options.model_dump(by_alias=True, exclude_none=True)
-
-        return self._session.post(
-            scope="organizations",
-            operation_id="createOrganizationInventoryOnboardingCloudMonitoringPrepare",
-            path=path,
-            json=payload,
-            response_schema=CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse,
         )
 
     def claim_organization_inventory_orders(
@@ -9157,6 +10032,11 @@ class Organizations:
             ```json
             {
               "claimId": "ABCD1EFGH4IJ",
+              "resolution": {
+                "submissionStrategy": "sync_order_claim",
+                "supportsSubscriptionSelection": true,
+                "claimableShippedDeviceCount": 5
+              },
               "number": "97001888",
               "shipping": {
                 "shipments": [
@@ -11900,7 +12780,7 @@ class Organizations:
                   "assignmentId": "123",
                   "rulesetId": "456",
                   "policyId": "789",
-                  "priority": 0,
+                  "priority": 1,
                   "createdAt": "2021-01-01T00:00:00Z",
                   "lastUpdatedAt": "2021-01-01T00:00:00Z"
                 }
@@ -11966,7 +12846,7 @@ class Organizations:
               "assignmentId": "123",
               "rulesetId": "456",
               "policyId": "789",
-              "priority": 0,
+              "priority": 1,
               "createdAt": "2021-01-01T00:00:00Z",
               "lastUpdatedAt": "2021-01-01T00:00:00Z"
             }
@@ -12021,7 +12901,7 @@ class Organizations:
               "assignmentId": "123",
               "rulesetId": "456",
               "policyId": "789",
-              "priority": 0,
+              "priority": 1,
               "createdAt": "2021-01-01T00:00:00Z",
               "lastUpdatedAt": "2021-01-01T00:00:00Z"
             }
@@ -13371,72 +14251,6 @@ class Organizations:
             item_schema=GetOrganizationSaseConnectorsResponseItemsItem,
         )
 
-    def batch_organization_sase_connectors_create(
-        self,
-        organization_id: str,
-        *,
-        items: list[BatchOrganizationSaseConnectorsCreateItemsItem] | None = None,
-    ) -> GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse:
-        """Deploy SSE Connectors for specified regions.
-
-        [API documentation: batchOrganizationSaseConnectorsCreate](https://developer.cisco.com/meraki/api-v1/#!batch-organization-sase-connectors-create)
-
-        Args:
-            organization_id: Organization ID.
-            items: List of connectors to deploy (maximum 20 items).
-
-        Returns:
-            Successful operation.
-
-        Example API response:
-            ```json
-            {
-              "items": [
-                {
-                  "pipelineId": "1234",
-                  "operation": {
-                    "id": "enrollOrganizationSaseSites"
-                  },
-                  "status": "active",
-                  "counts": {
-                    "jobs": {
-                      "total": 3,
-                      "byStatus": {
-                        "completed": 1,
-                        "failed": 1,
-                        "pending": 1
-                      }
-                    }
-                  }
-                }
-              ],
-              "meta": {
-                "counts": {
-                  "items": {
-                    "total": 100,
-                    "remaining": 10
-                  }
-                }
-              }
-            }
-            ```
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/sase/connectors/batchCreate"
-
-        payload: dict[str, Any] = {}
-        if items is not None:
-            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-
-        return self._session.post(
-            scope="organizations",
-            operation_id="batchOrganizationSaseConnectorsCreate",
-            path=path,
-            json=payload,
-            response_schema=GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
-        )
-
     def batch_organization_sase_connectors_delete(
         self,
         organization_id: str,
@@ -13501,6 +14315,127 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
+        )
+
+    def create_organization_sase_integration(
+        self, *, organization_id: str, api: CreateOrganizationSaseIntegrationApi
+    ) -> OrganizationSaseIntegrationResponse:
+        """Create a new Secure Access integration.
+
+        [API documentation: createOrganizationSaseIntegration](https://developer.cisco.com/meraki/api-v1/#!create-organization-sase-integration)
+
+        Args:
+            organization_id: Organization ID.
+            api: API credentials.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "integrated": {
+                "by": {
+                  "admin": {
+                    "name": "John Doe"
+                  }
+                },
+                "at": "2025-04-01T12:00:00Z"
+              },
+              "lastUsedAt": "2025-04-01T12:00:00Z",
+              "external": {
+                "organization": {
+                  "id": "1234567890"
+                }
+              },
+              "status": "active"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/integrations"
+
+        payload: dict[str, Any] = {}
+        if api is not None:
+            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="createOrganizationSaseIntegration",
+            path=path,
+            json=payload,
+            response_schema=OrganizationSaseIntegrationResponse,
+        )
+
+    def get_organization_sase_integration(
+        self, *, organization_id: str, integration_id: str
+    ) -> OrganizationSaseIntegrationResponse:
+        """Get details of a Secure Access integration.
+
+        [API documentation: getOrganizationSaseIntegration](https://developer.cisco.com/meraki/api-v1/#!get-organization-sase-integration)
+
+        Args:
+            organization_id: Organization ID.
+            integration_id: Integration ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "integrated": {
+                "by": {
+                  "admin": {
+                    "name": "John Doe"
+                  }
+                },
+                "at": "2025-04-01T12:00:00Z"
+              },
+              "lastUsedAt": "2025-04-01T12:00:00Z",
+              "external": {
+                "organization": {
+                  "id": "1234567890"
+                }
+              },
+              "status": "active"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        integration_id = urllib.parse.quote(str(integration_id), safe="")
+        path = f"/organizations/{organization_id}/sase/integrations/{integration_id}"
+
+        return self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationSaseIntegration",
+            path=path,
+            response_schema=OrganizationSaseIntegrationResponse,
+        )
+
+    def delete_organization_sase_integration(
+        self, *, organization_id: str, integration_id: str
+    ) -> None:
+        """Remove a Secure Access integration.
+
+        [API documentation: deleteOrganizationSaseIntegration](https://developer.cisco.com/meraki/api-v1/#!delete-organization-sase-integration)
+
+        Args:
+            organization_id: Organization ID.
+            integration_id: Integration ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        integration_id = urllib.parse.quote(str(integration_id), safe="")
+        path = f"/organizations/{organization_id}/sase/integrations/{integration_id}"
+
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationSaseIntegration", path=path
         )
 
     def get_organization_sase_networks_eligible(
@@ -15644,12 +16579,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
+            t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
                 from today.
-            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            t1: The end of the timespan for the data. t1 can be a maximum of 30 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
                 timespan, do not specify parameters t0 and t1. The value must be in
-                seconds and be less than or equal to 31 days. The default is 1 day.
+                seconds and be less than or equal to 30 days. The default is 1 day.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
                 is 50.
             starting_after: A token used by the server to indicate the start of the page. Often this

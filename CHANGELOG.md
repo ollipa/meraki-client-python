@@ -7,7 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+#### Update to Meraki API v1.70.0
+
+- Added organization-wide cellular data management endpoints `get_organization_devices_cellular_data_profiles`, `create_organization_devices_cellular_data_profile`, `update_organization_devices_cellular_data_profile`, `delete_organization_devices_cellular_data_profile`, `get_organization_devices_cellular_data_profiles_assignments`, `batch_organization_devices_cellular_data_profiles_assignments_create`, `bulk_organization_devices_cellular_data_profiles_assignments_delete`, `get_organization_devices_cellular_data_devices`, `get_organization_devices_cellular_data_usage_by_device`, and `get_organization_devices_cellular_data_usage_history_by_device_by_interval`.
+- Added cellular geolocation, band, and tower endpoints `get_organization_devices_cellular_geolocations`, `update_device_cellular_geolocations`, `get_organization_devices_cellular_uplinks_bands_by_device`, `create_device_cellular_uplinks_bands_masks_update`, and `get_organization_devices_cellular_uplinks_towers_by_device`.
+- Added appliance redundancy and VRF settings endpoints `get_organization_appliance_devices_redundancy_by_network`, `update_network_appliance_devices_redundancy`, `create_network_appliance_devices_redundancy_swap`, `get_organization_appliance_routing_vrfs_settings`, and `update_organization_appliance_routing_vrfs_settings`.
+- Added port cycle live tools endpoints `create_device_live_tools_ports_cycle` and `get_device_live_tools_ports_cycle`.
+- Added SASE integration endpoints `get_organization_sase_integration`, `create_organization_sase_integration`, and `delete_organization_sase_integration`.
+- Removed `batch_organization_sase_connectors_create` and the cloud monitoring onboarding endpoints `create_organization_inventory_onboarding_cloud_monitoring_export_event`, `create_organization_inventory_onboarding_cloud_monitoring_import`, `create_organization_inventory_onboarding_cloud_monitoring_prepare`, `get_organization_inventory_onboarding_cloud_monitoring_imports`, and `get_organization_inventory_onboarding_cloud_monitoring_networks`.
+
+### Fixed
+
+- Duplicate generated Python parameters for endpoints where an optional top-level request body ID also appears in the URL, such as `update_organization_devices_cellular_data_profile`.
 
 ## v0.14.1
 

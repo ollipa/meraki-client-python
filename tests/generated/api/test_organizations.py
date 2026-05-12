@@ -271,6 +271,83 @@ def test_get_organization_devices_availabilities_change_history(
     assert isinstance(result, list)
 
 
+def test_get_organization_devices_cellular_data_devices(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_cellular_data_devices endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_cellular_data_devices(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_devices_cellular_data_profiles(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_cellular_data_profiles endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_cellular_data_profiles(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_devices_cellular_data_profiles_assignments(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_cellular_data_profiles_assignments endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_cellular_data_profiles_assignments(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_devices_cellular_data_usage_by_device(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_cellular_data_usage_by_device endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_cellular_data_usage_by_device(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_devices_cellular_geolocations(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_cellular_geolocations endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_cellular_geolocations(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_devices_cellular_uplinks_bands_by_device(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_cellular_uplinks_bands_by_device endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_cellular_uplinks_bands_by_device(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_devices_cellular_uplinks_towers_by_device(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_cellular_uplinks_towers_by_device endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_cellular_uplinks_towers_by_device(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_devices_controller_migrations(
     client: MerakiClient, organization_id: str
 ) -> None:

@@ -46,26 +46,66 @@ class AttachOrganizationSaseSitesCallback(_BaseSchema):
 class AttachOrganizationSaseSitesItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: CreateNetworkMoveOrganizationsTarget | None = None
-    region: BatchOrganizationSaseConnectorsCreateItemsItemRegion | None = None
+    network: (
+        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile | None
+    ) = None
+    region: AttachOrganizationSaseSitesItemsItemRegion | None = None
 
 
-class BatchOrganizationSaseConnectorsCreateItemsItem(_BaseSchema):
-    """Item schema for items."""
-
-    region: BatchOrganizationSaseConnectorsCreateItemsItemRegion
-
-
-class BatchOrganizationSaseConnectorsCreateItemsItemRegion(_BaseSchema):
-    """Region."""
+class AttachOrganizationSaseSitesItemsItemRegion(_BaseSchema):
+    """Region metadata for the site."""
 
     slug: str
+
+
+class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    profile: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    device: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemDevice
+
+
+class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemDevice(_BaseSchema):
+    """Device to assign to the profile."""
+
+    serial: str
+
+
+class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile(_BaseSchema):
+    """Profile to assign to the device."""
+
+    id: str
+
+
+class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponse(_BaseSchema):
+    """Response for batchOrganizationDevicesCellularDataProfilesAssignmentsCreate operation."""
+
+    items: list[BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponseItemsItem] = (
+        Field(default_factory=list)
+    )
+
+
+class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponseItemsItem(_BaseSchema):
+    """Schema for BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponseItemsItem."""
+
+    assignment_id: str | None = Field(
+        default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
+    )
+    profile: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    device: OrganizationsDevice2 | None = None
 
 
 class BatchOrganizationSaseConnectorsDeleteItemsItem(_BaseSchema):
     """Item schema for items."""
 
     connector_id: str = Field(validation_alias="connectorId", serialization_alias="connectorId")
+
+
+class BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    profile: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    device: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemDevice
 
 
 class BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced(_BaseSchema):
@@ -121,7 +161,7 @@ class BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem(_BaseS
     )
     network: OrganizationsPolicyObjectsItem | None = None
     devices: list[dict[str, Any]] = Field(default_factory=list)
-    device: OrganizationsDevice2 | None = None
+    device: OrganizationsDevice3 | None = None
     admin: OrganizationsPolicyObjectsItem | None = None
     client: OrganizationsClient3 | None = None
     details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
@@ -141,7 +181,7 @@ class BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem(_BaseS
     filter_expression: str | None = Field(
         default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
     )
-    counts: OrganizationsCounts2 | None = None
+    counts: OrganizationsCounts3 | None = None
     interface: str | None = None
 
 
@@ -247,13 +287,9 @@ class CreateNetworkMoveNetwork(_BaseSchema):
 class CreateNetworkMoveOrganizations(_BaseSchema):
     """Organizations involved in the network move."""
 
-    target: CreateNetworkMoveOrganizationsTarget | None = None
-
-
-class CreateNetworkMoveOrganizationsTarget(_BaseSchema):
-    """The organization to which the network is moving."""
-
-    id: str
+    target: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile | None = (
+        None
+    )
 
 
 class CreateNetworkMoveResponse(_BaseSchema):
@@ -481,6 +517,30 @@ class CreateOrganizationBrandingPolicyHelpSettings(_BaseSchema):
     )
 
 
+class CreateOrganizationDevicesCellularDataProfileRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    slot: str
+    uplink: CreateOrganizationDevicesCellularDataProfileRulesItemUplink
+    cap: CreateOrganizationDevicesCellularDataProfileRulesItemCap
+    actions: list[OrganizationsActionsItem2] = Field(default_factory=list)
+
+
+class CreateOrganizationDevicesCellularDataProfileRulesItemCap(_BaseSchema):
+    """The data cap values to be set with this rule."""
+
+    value: int
+    threshold: float | None = None
+    term: OrganizationsTerm2
+
+
+class CreateOrganizationDevicesCellularDataProfileRulesItemUplink(_BaseSchema):
+    """Configuration for the uplink governed by this rule."""
+
+    priority: int
+    is_preferred: bool = Field(validation_alias="isPreferred", serialization_alias="isPreferred")
+
+
 class CreateOrganizationDevicesControllerMigrationResponse(
     RootModel[list["GetOrganizationDevicesControllerMigrationsResponseItemsItem"]]
 ):
@@ -554,109 +614,6 @@ class CreateOrganizationInventoryDevicesSwapsBulkSwapsItemDevices(_BaseSchema):
     new: str
 
 
-class CreateOrganizationInventoryOnboardingCloudMonitoringImportDevicesItem(_BaseSchema):
-    """Item schema for devices."""
-
-    device_id: str = Field(validation_alias="deviceId", serialization_alias="deviceId")
-    udi: str
-    network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse(
-    RootModel[list["CreateOrganizationInventoryOnboardingCloudMonitoringImportResponseItem"]]
-):
-    """Response for createOrganizationInventoryOnboardingCloudMonitoringImport operation."""
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringImportResponseItem(_BaseSchema):
-    """Schema for CreateOrganizationInventoryOnboardingCloudMonitoringImportResponseItem."""
-
-    status: str | None = None
-    import_id: str | None = Field(
-        default=None, validation_alias="importId", serialization_alias="importId"
-    )
-    message: str | None = None
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItem(_BaseSchema):
-    """Item schema for devices."""
-
-    sudi: str
-    tunnel: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemTunnel | None = (
-        None
-    )
-    user: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemUser | None = None
-    vty: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemVty | None = None
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemTunnel(_BaseSchema):
-    """TLS Related Parameters."""
-
-    certificate_name: str | None = Field(
-        default=None, validation_alias="certificateName", serialization_alias="certificateName"
-    )
-    name: str | None = None
-    loopback_number: int | None = Field(
-        default=None, validation_alias="loopbackNumber", serialization_alias="loopbackNumber"
-    )
-    local_interface: int | None = Field(
-        default=None, validation_alias="localInterface", serialization_alias="localInterface"
-    )
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemUser(_BaseSchema):
-    """User parameters."""
-
-    username: str | None = None
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemVty(_BaseSchema):
-    """VTY Related Parameters."""
-
-    start_line_number: int | None = Field(
-        default=None, validation_alias="startLineNumber", serialization_alias="startLineNumber"
-    )
-    end_line_number: int | None = Field(
-        default=None, validation_alias="endLineNumber", serialization_alias="endLineNumber"
-    )
-    authentication: OrganizationsAuthentication | None = None
-    authorization: OrganizationsAuthentication | None = None
-    access_list: OrganizationsAccessList | None = Field(
-        default=None, validation_alias="accessList", serialization_alias="accessList"
-    )
-    rotary_number: int | None = Field(
-        default=None, validation_alias="rotaryNumber", serialization_alias="rotaryNumber"
-    )
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareOptions(_BaseSchema):
-    """Additional options for the import."""
-
-    skip_commit: bool | None = Field(
-        default=None, validation_alias="skipCommit", serialization_alias="skipCommit"
-    )
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse(
-    RootModel[list["CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponseItem"]]
-):
-    """Response for createOrganizationInventoryOnboardingCloudMonitoringPrepare operation."""
-
-
-class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponseItem(_BaseSchema):
-    """Schema for CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponseItem."""
-
-    message: str | None = None
-    udi: str | None = None
-    device_id: str | None = Field(
-        default=None, validation_alias="deviceId", serialization_alias="deviceId"
-    )
-    status: str | None = None
-    config_params: OrganizationsConfigParams | None = Field(
-        default=None, validation_alias="configParams", serialization_alias="configParams"
-    )
-
-
 class CreateOrganizationManagement(_BaseSchema):
     """Information about the organization's management system."""
 
@@ -714,10 +671,14 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinationsCriteria(_
         serialization_alias="applicationCategories",
     )
     applications: list[OrganizationsApplicationsItem2] = Field(default_factory=list)
-    policy_objects: list[CreateNetworkMoveOrganizationsTarget] = Field(
+    policy_objects: list[
+        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    ] = Field(
         default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
     )
-    policy_object_groups: list[CreateNetworkMoveOrganizationsTarget] = Field(
+    policy_object_groups: list[
+        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    ] = Field(
         default_factory=list,
         validation_alias="policyObjectGroups",
         serialization_alias="policyObjectGroups",
@@ -748,10 +709,14 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSourcesCriteria(_BaseS
         default_factory=list, validation_alias="addressRanges", serialization_alias="addressRanges"
     )
     ports: list[str] = Field(default_factory=list)
-    policy_objects: list[CreateNetworkMoveOrganizationsTarget] = Field(
+    policy_objects: list[
+        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    ] = Field(
         default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
     )
-    policy_object_groups: list[CreateNetworkMoveOrganizationsTarget] = Field(
+    policy_object_groups: list[
+        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    ] = Field(
         default_factory=list,
         validation_alias="policyObjectGroups",
         serialization_alias="policyObjectGroups",
@@ -775,6 +740,13 @@ class CreateOrganizationSamlRoleTagsItem(_BaseSchema):
 
     tag: str
     access: str
+
+
+class CreateOrganizationSaseIntegrationApi(_BaseSchema):
+    """API credentials."""
+
+    key: str | None = None
+    secret: str | None = None
 
 
 class CreateOrganizationSplashThemeResponse(_BaseSchema):
@@ -1149,10 +1121,21 @@ class GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem(_BaseSchema)
     """Schema for GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem."""
 
     type_: str = Field(validation_alias="type", serialization_alias="type")
+    category_type: str = Field(validation_alias="categoryType", serialization_alias="categoryType")
+    severity: str
+    last_alerted_at: datetime = Field(
+        validation_alias="lastAlertedAt", serialization_alias="lastAlertedAt"
+    )
     last_resolved_at: datetime | None = Field(
         default=None, validation_alias="lastResolvedAt", serialization_alias="lastResolvedAt"
     )
     count: int
+    network_count: int = Field(validation_alias="networkCount", serialization_alias="networkCount")
+    device_types: list[str] = Field(
+        validation_alias="deviceTypes", serialization_alias="deviceTypes"
+    )
+    device_tags: list[str] = Field(validation_alias="deviceTags", serialization_alias="deviceTags")
+    networks: list[OrganizationsNetworksItem2]
 
 
 class GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem(_BaseSchema):
@@ -1394,6 +1377,87 @@ class GetOrganizationDevicesAvailabilitiesResponseItem(_BaseSchema):
     tags: list[str] = Field(default_factory=list)
 
 
+class GetOrganizationDevicesCellularDataDevicesResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesCellularDataDevicesResponseItemsItem."""
+
+    serial: str | None = None
+    name: str | None = None
+    url: str | None = None
+    model: str | None = None
+    software: OrganizationsSoftware | None = None
+    modems: list[OrganizationsModemsItem] = Field(default_factory=list)
+    profile: OrganizationsProfile | None = None
+    network: OrganizationsPolicyObjectsItem | None = None
+
+
+class GetOrganizationDevicesCellularDataProfilesAssignmentsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesCellularDataProfilesAssignmentsResponseItemsItem."""
+
+    assignment_id: str | None = Field(
+        default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
+    )
+    profile: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    device: OrganizationsDevice2 | None = None
+
+
+class GetOrganizationDevicesCellularDataProfilesResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesCellularDataProfilesResponseItemsItem."""
+
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
+    last_updated_at: str | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    name: str | None = None
+    description: str | None = None
+    counts: OrganizationsCounts2 | None = None
+    rules: list[OrganizationsRulesItem2] = Field(default_factory=list)
+
+
+class GetOrganizationDevicesCellularDataUsageByDeviceResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesCellularDataUsageByDeviceResponseItemsItem."""
+
+    serial: str | None = None
+    by_slot: list[OrganizationsBySlotItem] = Field(
+        default_factory=list, validation_alias="bySlot", serialization_alias="bySlot"
+    )
+
+
+class GetOrganizationDevicesCellularDataUsageHistoryByDeviceByIntervalResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationDevicesCellularDataUsageHistoryByDeviceByIntervalResponseItemsItem.
+    """
+
+    serial: str | None = None
+    intervals: list[OrganizationsIntervalsItem] = Field(default_factory=list)
+
+
+class GetOrganizationDevicesCellularGeolocationsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesCellularGeolocationsResponseItemsItem."""
+
+    serial: str | None = None
+    geolocation: OrganizationsGeolocation | None = None
+
+
+class GetOrganizationDevicesCellularUplinksBandsByDeviceResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesCellularUplinksBandsByDeviceResponseItemsItem."""
+
+    serial: str | None = None
+    by_slot: list[OrganizationsBySlotItem2] = Field(
+        default_factory=list, validation_alias="bySlot", serialization_alias="bySlot"
+    )
+
+
+class GetOrganizationDevicesCellularUplinksTowersByDeviceResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesCellularUplinksTowersByDeviceResponseItemsItem."""
+
+    serial: str | None = None
+    connection: OrganizationsConnection | None = None
+
+
 class GetOrganizationDevicesControllerMigrationsResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesControllerMigrationsResponseItemsItem."""
 
@@ -1558,7 +1622,7 @@ class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem(
     used: OrganizationsUsed | None = None
     free: OrganizationsUsed | None = None
     network: OrganizationsNetwork3 | None = None
-    intervals: list[OrganizationsIntervalsItem] = Field(default_factory=list)
+    intervals: list[OrganizationsIntervalsItem2] = Field(default_factory=list)
 
 
 class GetOrganizationDevicesUplinksAddressesByDeviceResponse(
@@ -1791,7 +1855,7 @@ class GetOrganizationFloorPlansAutoLocateStatusesResponseItem(_BaseSchema):
         default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
     )
     name: str | None = None
-    counts: OrganizationsCounts3 | None = None
+    counts: OrganizationsCounts4 | None = None
     jobs: list[OrganizationsJobsItem] = Field(default_factory=list)
 
 
@@ -1855,6 +1919,7 @@ class GetOrganizationInventoryDeviceResponse(_BaseSchema):
     serial: str | None = None
     name: str | None = None
     model: str | None = None
+    sku: str | None = None
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
@@ -1907,6 +1972,7 @@ class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
     serial: str
     name: str | None = None
     model: str
+    sku: str | None = None
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
@@ -1930,27 +1996,6 @@ class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
     )
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
     eox: OrganizationsEox | None = None
-
-
-class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponse(
-    RootModel[list["GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem"]]
-):
-    """Response for getOrganizationInventoryOnboardingCloudMonitoringImports operation."""
-
-
-class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem."""
-
-    import_id: str | None = Field(
-        default=None, validation_alias="importId", serialization_alias="importId"
-    )
-    device: OrganizationsDevice4 | None = None
-
-
-class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponse(
-    RootModel[list["CreateOrganizationNetworkResponse"]]
-):
-    """Schema for GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponse."""
 
 
 class GetOrganizationLicensesOverviewResponse(_BaseSchema):
@@ -2009,6 +2054,10 @@ class GetOrganizationLicensesOverviewResponseSystemsManager(_BaseSchema):
 
 class GetOrganizationLicensesResponse(RootModel[list["OrganizationLicenseResponse"]]):
     """Response for getOrganizationLicenses operation."""
+
+
+class GetOrganizationNetworksResponse(RootModel[list["CreateOrganizationNetworkResponse"]]):
+    """Response for getOrganizationNetworks operation."""
 
 
 class GetOrganizationPoliciesAssignmentsByClientResponse(
@@ -2113,7 +2162,7 @@ class GetOrganizationSaseConnectorsResponseItemsItem(_BaseSchema):
     name: str | None = None
     region: OrganizationsRegion2 | None = None
     state: str | None = None
-    counts: OrganizationsCounts4 | None = None
+    counts: OrganizationsCounts5 | None = None
 
 
 class GetOrganizationSaseNetworksEligibleResponseItemsItem(_BaseSchema):
@@ -2148,7 +2197,7 @@ class GetOrganizationSaseSitesConnectivityHistoryBySiteResponseItemsItem(_BaseSc
     )
     name: str | None = None
     history: list[OrganizationsHistoryItem] = Field(default_factory=list)
-    devices: OrganizationsDevices2 | None = None
+    devices: OrganizationsDevices3 | None = None
 
 
 class GetOrganizationSaseSitesConnectivityOverviewResponse(_BaseSchema):
@@ -2180,7 +2229,7 @@ class GetOrganizationSaseSitesResponseItemsItem(_BaseSchema):
     address: OrganizationsAddress2 | None = None
     vpn: OrganizationsVpn | None = None
     routing: OrganizationsRouting | None = None
-    devices: OrganizationsDevices | None = None
+    devices: OrganizationsDevices2 | None = None
     subnets: list[OrganizationsSubnetsItem] = Field(default_factory=list)
     url: str | None = None
 
@@ -2261,7 +2310,7 @@ class GetOrganizationSummaryTopClientsByUsageResponseItem(_BaseSchema):
     mac: str | None = None
     id: str | None = None
     network: OrganizationsPolicyObjectsItem | None = None
-    usage: OrganizationsUsage | None = None
+    usage: OrganizationsUsage2 | None = None
 
 
 class GetOrganizationSummaryTopClientsManufacturersByUsageResponse(
@@ -2295,7 +2344,7 @@ class GetOrganizationSummaryTopDevicesByUsageResponseItem(_BaseSchema):
         default=None, validation_alias="productType", serialization_alias="productType"
     )
     network: OrganizationsPolicyObjectsItem | None = None
-    usage: OrganizationsUsage2 | None = None
+    usage: OrganizationsUsage3 | None = None
     clients: OrganizationsClients | None = None
 
 
@@ -2310,7 +2359,7 @@ class GetOrganizationSummaryTopDevicesModelsByUsageResponseItem(_BaseSchema):
 
     model: str | None = None
     count: int | None = None
-    usage: OrganizationsUsage3 | None = None
+    usage: OrganizationsUsage4 | None = None
 
 
 class GetOrganizationSummaryTopNetworksByStatusResponse(
@@ -2331,7 +2380,7 @@ class GetOrganizationSummaryTopNetworksByStatusResponseItem(_BaseSchema):
     group: CreateOrganizationActionBatchCallbackHttpServer | None = None
     clients: OrganizationsClients2 | None = None
     statuses: OrganizationsStatuses | None = None
-    devices: OrganizationsDevices3 | None = None
+    devices: OrganizationsDevices4 | None = None
     product_types: list[str] = Field(
         default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
@@ -2347,7 +2396,7 @@ class GetOrganizationSummaryTopSsidsByUsageResponseItem(_BaseSchema):
     """Schema for GetOrganizationSummaryTopSsidsByUsageResponseItem."""
 
     name: str | None = None
-    usage: OrganizationsUsage | None = None
+    usage: OrganizationsUsage2 | None = None
     clients: OrganizationsClients | None = None
 
 
@@ -2364,7 +2413,7 @@ class GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem(_BaseSchema):
     name: str | None = None
     mac: str | None = None
     model: str | None = None
-    usage: OrganizationsUsage5 | None = None
+    usage: OrganizationsUsage6 | None = None
 
 
 class GetOrganizationUplinksStatusesResponse(
@@ -2764,6 +2813,20 @@ class OrganizationConfigTemplateResponse(_BaseSchema):
     )
 
 
+class OrganizationDevicesCellularDataProfileResponse(_BaseSchema):
+    """Schema for OrganizationDevicesCellularDataProfileResponse."""
+
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
+    last_updated_at: str | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    name: str | None = None
+    description: str | None = None
+    rules: list[OrganizationsRulesItem2] = Field(default_factory=list)
+
+
 class OrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
     """Schema for OrganizationDevicesPacketCaptureCaptureResponse."""
 
@@ -2772,7 +2835,7 @@ class OrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
     )
     network: OrganizationsPolicyObjectsItem | None = None
     devices: list[dict[str, Any]] = Field(default_factory=list)
-    device: OrganizationsDevice2 | None = None
+    device: OrganizationsDevice3 | None = None
     admin: OrganizationsPolicyObjectsItem | None = None
     client: OrganizationsClient3 | None = None
     details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
@@ -2792,7 +2855,7 @@ class OrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
     filter_expression: str | None = Field(
         default=None, validation_alias="filterExpression", serialization_alias="filterExpression"
     )
-    counts: OrganizationsCounts2 | None = None
+    counts: OrganizationsCounts3 | None = None
     interface: str | None = None
 
 
@@ -3228,6 +3291,30 @@ class OrganizationSamlRoleResponse(_BaseSchema):
     camera: list[OrganizationsCameraItem] = Field(default_factory=list)
 
 
+class OrganizationSaseIntegrationResponse(_BaseSchema):
+    """Schema for OrganizationSaseIntegrationResponse."""
+
+    integrated: OrganizationSaseIntegrationResponseIntegrated | None = None
+    last_used_at: str | None = Field(
+        default=None, validation_alias="lastUsedAt", serialization_alias="lastUsedAt"
+    )
+    external: OrganizationSaseIntegrationResponseExternal | None = None
+    status: str | None = None
+
+
+class OrganizationSaseIntegrationResponseExternal(_BaseSchema):
+    """External system metadata."""
+
+    organization: CreateOrganizationActionBatchCallbackHttpServer | None = None
+
+
+class OrganizationSaseIntegrationResponseIntegrated(_BaseSchema):
+    """Integration metadata."""
+
+    by: OrganizationsIntegratedBy | None = None
+    at: str | None = None
+
+
 class OrganizationSnmpResponse(_BaseSchema):
     """Schema for OrganizationSnmpResponse."""
 
@@ -3256,23 +3343,18 @@ class OrganizationSnmpResponse(_BaseSchema):
     port: int | None = None
 
 
-class OrganizationsAccessList(_BaseSchema):
-    """AccessList details."""
-
-    vty_in: OrganizationsHost | None = Field(
-        default=None, validation_alias="vtyIn", serialization_alias="vtyIn"
-    )
-    vty_out: OrganizationsHost | None = Field(
-        default=None, validation_alias="vtyOut", serialization_alias="vtyOut"
-    )
-
-
 class OrganizationsActionsItem(_BaseSchema):
     """Schema for OrganizationsActionsItem."""
 
     resource: str
     operation: str
     body: dict[str, Any] | None = None
+
+
+class OrganizationsActionsItem2(_BaseSchema):
+    """Schema for OrganizationsActionsItem2."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
 
 
 class OrganizationsAddress(_BaseSchema):
@@ -3380,12 +3462,6 @@ class OrganizationsAssignedItem(_BaseSchema):
     )
 
 
-class OrganizationsAuthentication(_BaseSchema):
-    """VTY AAA authentication."""
-
-    group: OrganizationsHost | None = None
-
-
 class OrganizationsAutoLocate(_BaseSchema):
     """The auto locate position for this device."""
 
@@ -3426,6 +3502,49 @@ class OrganizationsByProductTypeItem2(_BaseSchema):
     url: str | None = None
 
 
+class OrganizationsBySignalTypeItem(_BaseSchema):
+    """Schema for OrganizationsBySignalTypeItem."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    masked: list[str] = Field(default_factory=list)
+    enabled: list[str] = Field(default_factory=list)
+    supported: list[str] = Field(default_factory=list)
+
+
+class OrganizationsBySimItem(_BaseSchema):
+    """Schema for OrganizationsBySimItem."""
+
+    name: str | None = None
+    total: int | None = None
+
+
+class OrganizationsBySlotItem(_BaseSchema):
+    """Schema for OrganizationsBySlotItem."""
+
+    slot: str | None = None
+    is_active: bool | None = Field(
+        default=None, validation_alias="isActive", serialization_alias="isActive"
+    )
+    total: str | None = None
+    last_updated_at: str | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
+    start_ts: str | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: str | None = Field(default=None, validation_alias="endTs", serialization_alias="endTs")
+    limit: str | None = None
+
+
+class OrganizationsBySlotItem2(_BaseSchema):
+    """Schema for OrganizationsBySlotItem2."""
+
+    slot: str | None = None
+    by_signal_type: list[OrganizationsBySignalTypeItem] = Field(
+        default_factory=list, validation_alias="bySignalType", serialization_alias="bySignalType"
+    )
+
+
 class OrganizationsByStatus(_BaseSchema):
     """Counts by status."""
 
@@ -3441,6 +3560,14 @@ class OrganizationsCameraItem(_BaseSchema):
         default=None, validation_alias="orgWide", serialization_alias="orgWide"
     )
     access: str | None = None
+
+
+class OrganizationsCap(_BaseSchema):
+    """The data cap values to be set with this rule."""
+
+    value: int | None = None
+    threshold: float | None = None
+    term: OrganizationsTerm | None = None
 
 
 class OrganizationsClient(_BaseSchema):
@@ -3474,7 +3601,7 @@ class OrganizationsClients2(_BaseSchema):
     """Network clients data."""
 
     counts: GetOrganizationClientsOverviewResponseCounts | None = None
-    usage: OrganizationsUsage4 | None = None
+    usage: OrganizationsUsage5 | None = None
 
 
 class OrganizationsCloud(_BaseSchema):
@@ -3504,14 +3631,11 @@ class OrganizationsComponents(_BaseSchema):
     )
 
 
-class OrganizationsConfigParams(_BaseSchema):
-    """Params used in order to connect to the device."""
+class OrganizationsConnection(_BaseSchema):
+    """Details about the cellular connection."""
 
-    tunnel: OrganizationsTunnel | None = None
-    cloud_static_ip: str | None = Field(
-        default=None, validation_alias="cloudStaticIp", serialization_alias="cloudStaticIp"
-    )
-    user: OrganizationsUser | None = None
+    cell: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    tac: str | None = None
 
 
 class OrganizationsCountriesItem(_BaseSchema):
@@ -3527,18 +3651,24 @@ class OrganizationsCounts(_BaseSchema):
 
 
 class OrganizationsCounts2(_BaseSchema):
+    """Summary counts related to the profile."""
+
+    devices: OrganizationsDevices | None = None
+
+
+class OrganizationsCounts3(_BaseSchema):
     """Object containing counts."""
 
     packets: GetOrganizationClientsOverviewResponseCounts | None = None
 
 
-class OrganizationsCounts3(_BaseSchema):
+class OrganizationsCounts4(_BaseSchema):
     """Counts for this floor plan."""
 
     devices: GetOrganizationClientsOverviewResponseCounts | None = None
 
 
-class OrganizationsCounts4(_BaseSchema):
+class OrganizationsCounts5(_BaseSchema):
     """Aggregate counts for this connector."""
 
     sites_connected: GetOrganizationClientsOverviewResponseCounts | None = Field(
@@ -3665,6 +3795,14 @@ class OrganizationsCritical(_BaseSchema):
     )
 
 
+class OrganizationsCurrentVersion(_BaseSchema):
+    """Current software version information."""
+
+    short_name: str | None = Field(
+        default=None, validation_alias="shortName", serialization_alias="shortName"
+    )
+
+
 class OrganizationsCustomLogo(_BaseSchema):
     """Properties describing the custom logo attached to the branding policy."""
 
@@ -3724,26 +3862,24 @@ class OrganizationsDevice(_BaseSchema):
 
 
 class OrganizationsDevice2(_BaseSchema):
+    """Device assigned to the profile."""
+
+    serial: str | None = None
+
+
+class OrganizationsDevice3(_BaseSchema):
     """One of the device(s) of the packet capture file."""
 
     name: str | None = None
     serial: str | None = None
 
 
-class OrganizationsDevice3(_BaseSchema):
+class OrganizationsDevice4(_BaseSchema):
     """Device associated to the schedule."""
 
     serial: str | None = None
     switchports: str | None = None
     interface: str | None = None
-
-
-class OrganizationsDevice4(_BaseSchema):
-    """Represents the details of an imported device."""
-
-    url: str | None = None
-    created: bool | None = None
-    status: str | None = None
 
 
 class OrganizationsDevice5(_BaseSchema):
@@ -3753,20 +3889,26 @@ class OrganizationsDevice5(_BaseSchema):
 
 
 class OrganizationsDevices(_BaseSchema):
+    """Device counts related to this profile."""
+
+    assigned: int | None = None
+
+
+class OrganizationsDevices2(_BaseSchema):
     """Device information for the site."""
 
     primary: OrganizationsPrimary2 | None = None
     spare: OrganizationsPrimary2 | None = None
 
 
-class OrganizationsDevices2(_BaseSchema):
+class OrganizationsDevices3(_BaseSchema):
     """Device level connectivity history."""
 
     primary: OrganizationsPrimary3 | None = None
     spare: OrganizationsPrimary3 | None = None
 
 
-class OrganizationsDevices3(_BaseSchema):
+class OrganizationsDevices4(_BaseSchema):
     """Network device information."""
 
     by_product_type: list[OrganizationsByProductTypeItem2] = Field(
@@ -3792,7 +3934,7 @@ class OrganizationsDevicesItem(_BaseSchema):
 class OrganizationsDevicesItem2(_BaseSchema):
     """Schema for OrganizationsDevicesItem2."""
 
-    device: OrganizationsDevice3 | None = None
+    device: OrganizationsDevice4 | None = None
 
 
 class OrganizationsDevicesItem3(_BaseSchema):
@@ -3851,6 +3993,17 @@ class OrganizationsFromVersion(_BaseSchema):
     )
     release_date: str | None = Field(
         default=None, validation_alias="releaseDate", serialization_alias="releaseDate"
+    )
+
+
+class OrganizationsGeolocation(_BaseSchema):
+    """Geolocation information for the device."""
+
+    enabled: bool | None = None
+    latitude: float | None = None
+    longitude: float | None = None
+    last_reported_at: datetime | None = Field(
+        default=None, validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
     )
 
 
@@ -3955,8 +4108,24 @@ class OrganizationsInitiator(_BaseSchema):
     admin: CreateOrganizationActionBatchCallbackHttpServer | None = None
 
 
+class OrganizationsIntegratedBy(_BaseSchema):
+    """Integration creator."""
+
+    admin: OrganizationsHost | None = None
+
+
 class OrganizationsIntervalsItem(_BaseSchema):
     """Schema for OrganizationsIntervalsItem."""
+
+    start_ts: str | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: str | None = Field(default=None, validation_alias="endTs", serialization_alias="endTs")
+    usage: OrganizationsUsage | None = None
+
+
+class OrganizationsIntervalsItem2(_BaseSchema):
+    """Schema for OrganizationsIntervalsItem2."""
 
     start_ts: datetime | None = Field(
         default=None, validation_alias="startTs", serialization_alias="startTs"
@@ -4058,6 +4227,13 @@ class OrganizationsMetaCounts(_BaseSchema):
     items: OrganizationsItems | None = None
 
 
+class OrganizationsModemsItem(_BaseSchema):
+    """Schema for OrganizationsModemsItem."""
+
+    index: int | None = None
+    sims: list[OrganizationsSimsItem] = Field(default_factory=list)
+
+
 class OrganizationsNameservers(_BaseSchema):
     """Device DNS nameserver information."""
 
@@ -4075,6 +4251,7 @@ class OrganizationsNetwork(_BaseSchema):
 
     name: str
     id: str
+    url: str
 
 
 class OrganizationsNetwork2(_BaseSchema):
@@ -4099,6 +4276,13 @@ class OrganizationsNetworksItem(_BaseSchema):
 
     id: str | None = None
     access: str | None = None
+
+
+class OrganizationsNetworksItem2(_BaseSchema):
+    """Schema for OrganizationsNetworksItem2."""
+
+    id: str
+    name: str
 
 
 class OrganizationsOffsets(_BaseSchema):
@@ -4219,6 +4403,16 @@ class OrganizationsPrimary3(_BaseSchema):
     history: list[OrganizationsHistoryItem] = Field(default_factory=list)
 
 
+class OrganizationsProfile(_BaseSchema):
+    """Cellular Data Management Profile assignment state for the device. This object is always
+    present. Unassigned devices return assigned as false and null values for id and name.
+    """
+
+    assigned: bool | None = None
+    id: str | None = None
+    name: str | None = None
+
+
 class OrganizationsPublic(_BaseSchema):
     """Public interface information."""
 
@@ -4315,13 +4509,6 @@ class OrganizationsRoaming(_BaseSchema):
     status: str | None = None
 
 
-class OrganizationsRootCertificate(_BaseSchema):
-    """Root certificate information."""
-
-    content: str | None = None
-    name: str | None = None
-
-
 class OrganizationsRouting(_BaseSchema):
     """Routing configuration for the site."""
 
@@ -4345,6 +4532,18 @@ class OrganizationsRulesItem(_BaseSchema):
     tcp_established: bool | None = Field(
         default=None, validation_alias="tcpEstablished", serialization_alias="tcpEstablished"
     )
+
+
+class OrganizationsRulesItem2(_BaseSchema):
+    """Schema for OrganizationsRulesItem2."""
+
+    rule_id: str | None = Field(
+        default=None, validation_alias="ruleId", serialization_alias="ruleId"
+    )
+    slot: str | None = None
+    uplink: OrganizationsUplink | None = None
+    cap: OrganizationsCap | None = None
+    actions: list[OrganizationsActionsItem2] = Field(default_factory=list)
 
 
 class OrganizationsSchedule(_BaseSchema):
@@ -4376,12 +4575,6 @@ class OrganizationsSeats(_BaseSchema):
     """Seat distribution."""
 
     limit: int | None = None
-
-
-class OrganizationsSecret(_BaseSchema):
-    """Stores the user secret hash."""
-
-    hash_: str | None = Field(default=None, validation_alias="hash", serialization_alias="hash")
 
 
 class OrganizationsServicesItem(_BaseSchema):
@@ -4434,6 +4627,14 @@ class OrganizationsSignalStat(_BaseSchema):
     rsrq: str | None = None
 
 
+class OrganizationsSimsItem(_BaseSchema):
+    """Schema for OrganizationsSimsItem."""
+
+    slot: str | None = None
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    active: bool | None = None
+
+
 class OrganizationsSiteSpecificVlansItem(_BaseSchema):
     """Schema for OrganizationsSiteSpecificVlansItem."""
 
@@ -4448,6 +4649,14 @@ class OrganizationsSlotsItem(_BaseSchema):
     serial: str | None = None
     model: str | None = None
     status: str | None = None
+
+
+class OrganizationsSoftware(_BaseSchema):
+    """Software version installed on device."""
+
+    current_version: OrganizationsCurrentVersion | None = Field(
+        default=None, validation_alias="currentVersion", serialization_alias="currentVersion"
+    )
 
 
 class OrganizationsSoonestActivation(_BaseSchema):
@@ -4488,6 +4697,23 @@ class OrganizationsStaged(_BaseSchema):
     """Staged upgrade."""
 
     group: CreateOrganizationActionBatchCallbackHttpServer | None = None
+
+
+class OrganizationsStarts(_BaseSchema):
+    """The reset point for the selected term. Exactly one of the nested values must be set
+    depending on the selected reset frequency. Use 'hourOfDay' for a daily reset, 'dayOfWeek'
+    for a weekly reset, and 'dayOfMonth' for a monthly reset.
+    """
+
+    hour_of_day: int | None = Field(
+        default=None, validation_alias="hourOfDay", serialization_alias="hourOfDay"
+    )
+    day_of_week: str | None = Field(
+        default=None, validation_alias="dayOfWeek", serialization_alias="dayOfWeek"
+    )
+    day_of_month: int | None = Field(
+        default=None, validation_alias="dayOfMonth", serialization_alias="dayOfMonth"
+    )
 
 
 class OrganizationsStatesActive(_BaseSchema):
@@ -4587,6 +4813,24 @@ class OrganizationsTagsItem(_BaseSchema):
     access: str | None = None
 
 
+class OrganizationsTerm(_BaseSchema):
+    """The data usage term configuration that determines when the aggregated data count resets on
+    the device.
+    """
+
+    resets: str | None = None
+    starts: OrganizationsStarts | None = None
+
+
+class OrganizationsTerm2(_BaseSchema):
+    """The data usage term configuration that determines when the aggregated data count resets on
+    the device.
+    """
+
+    resets: str
+    starts: OrganizationsStarts
+
+
 class OrganizationsTimeSeriesItem(_BaseSchema):
     """Schema for OrganizationsTimeSeriesItem."""
 
@@ -4623,18 +4867,6 @@ class OrganizationsTotals(_BaseSchema):
     critical: int | None = None
 
 
-class OrganizationsTunnel(_BaseSchema):
-    """Configuration options used to connect to the device."""
-
-    mode: str | None = None
-    port: str | None = None
-    host: str | None = None
-    name: str | None = None
-    root_certificate: OrganizationsRootCertificate | None = Field(
-        default=None, validation_alias="rootCertificate", serialization_alias="rootCertificate"
-    )
-
-
 class OrganizationsUpgrade(_BaseSchema):
     """The devices upgrade details and status."""
 
@@ -4651,6 +4883,15 @@ class OrganizationsUpgrade(_BaseSchema):
         default=None, validation_alias="upgradeBatchId", serialization_alias="upgradeBatchId"
     )
     staged: OrganizationsStaged | None = None
+
+
+class OrganizationsUplink(_BaseSchema):
+    """Configuration for the uplink governed by this rule."""
+
+    priority: int | None = None
+    is_preferred: bool | None = Field(
+        default=None, validation_alias="isPreferred", serialization_alias="isPreferred"
+    )
 
 
 class OrganizationsUplinksItem(_BaseSchema):
@@ -4702,6 +4943,15 @@ class OrganizationsUplinksItem2(_BaseSchema):
 
 
 class OrganizationsUsage(_BaseSchema):
+    """Cellular data used in bytes by each SIM and the total."""
+
+    total: int | None = None
+    by_sim: list[OrganizationsBySimItem] = Field(
+        default_factory=list, validation_alias="bySim", serialization_alias="bySim"
+    )
+
+
+class OrganizationsUsage2(_BaseSchema):
     """Data usage information."""
 
     total: float | None = None
@@ -4710,28 +4960,28 @@ class OrganizationsUsage(_BaseSchema):
     percentage: float | None = None
 
 
-class OrganizationsUsage2(_BaseSchema):
+class OrganizationsUsage3(_BaseSchema):
     """Data usage of the device."""
 
     total: float | None = None
     percentage: float | None = None
 
 
-class OrganizationsUsage3(_BaseSchema):
+class OrganizationsUsage4(_BaseSchema):
     """Usage info in megabytes."""
 
     total: float | None = None
     average: float | None = None
 
 
-class OrganizationsUsage4(_BaseSchema):
+class OrganizationsUsage5(_BaseSchema):
     """Network client usage data."""
 
     upstream: float | None = None
     downstream: float | None = None
 
 
-class OrganizationsUsage5(_BaseSchema):
+class OrganizationsUsage6(_BaseSchema):
     """Energy usage of the switch."""
 
     total: float | None = None
@@ -4760,16 +5010,6 @@ class OrganizationsUsed2(_BaseSchema):
     percentages: OrganizationsPercentages | None = None
 
 
-class OrganizationsUser(_BaseSchema):
-    """User credentials used to connect to the device."""
-
-    public_key: str | None = Field(
-        default=None, validation_alias="publicKey", serialization_alias="publicKey"
-    )
-    username: str | None = None
-    secret: OrganizationsSecret | None = None
-
-
 class OrganizationsUtilization(_BaseSchema):
     """Utilization of the appliance."""
 
@@ -4788,10 +5028,31 @@ class PreviewOrganizationInventoryOrdersResponse(_BaseSchema):
     claim_id: str | None = Field(
         default=None, validation_alias="claimId", serialization_alias="claimId"
     )
+    resolution: PreviewOrganizationInventoryOrdersResponseResolution | None = None
     number: str | None = None
     shipping: PreviewOrganizationInventoryOrdersResponseShipping | None = None
     subscriptions: list[ClaimOrganizationInventoryOrdersResponseSubscriptionsItem] = Field(
         default_factory=list
+    )
+
+
+class PreviewOrganizationInventoryOrdersResponseResolution(_BaseSchema):
+    """How the backend resolved the submitted claim key for preview routing."""
+
+    submission_strategy: str | None = Field(
+        default=None,
+        validation_alias="submissionStrategy",
+        serialization_alias="submissionStrategy",
+    )
+    supports_subscription_selection: bool | None = Field(
+        default=None,
+        validation_alias="supportsSubscriptionSelection",
+        serialization_alias="supportsSubscriptionSelection",
+    )
+    claimable_shipped_device_count: int | None = Field(
+        default=None,
+        validation_alias="claimableShippedDeviceCount",
+        serialization_alias="claimableShippedDeviceCount",
     )
 
 
@@ -5037,6 +5298,15 @@ class UpdateOrganizationBrandingPolicyHelpSettings(_BaseSchema):
     help_widget: str | None = Field(
         default=None, validation_alias="helpWidget", serialization_alias="helpWidget"
     )
+
+
+class UpdateOrganizationDevicesCellularDataProfileRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    slot: str
+    uplink: CreateOrganizationDevicesCellularDataProfileRulesItemUplink
+    cap: CreateOrganizationDevicesCellularDataProfileRulesItemCap
+    actions: list[OrganizationsActionsItem2] = Field(default_factory=list)
 
 
 class UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem(_BaseSchema):

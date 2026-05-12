@@ -303,7 +303,7 @@ class ActionBatchWireless:
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
-            operation="update",
+            operation="create",
             body=payload,
         )
 

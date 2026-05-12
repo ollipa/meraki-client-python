@@ -13,8 +13,9 @@ from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
     AttachOrganizationSaseSitesCallback,
     AttachOrganizationSaseSitesItemsItem,
-    BatchOrganizationSaseConnectorsCreateItemsItem,
+    BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
     BatchOrganizationSaseConnectorsDeleteItemsItem,
+    BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem,
     BulkUpdateOrganizationDevicesDetailsDetailsItem,
     ClaimOrganizationInventoryOrdersSubscriptionsItem,
     CreateOrganizationActionBatchActionsItem,
@@ -28,10 +29,12 @@ from meraki_client.schemas import (
     CreateOrganizationBrandingPolicyAdminSettings,
     CreateOrganizationBrandingPolicyCustomLogo,
     CreateOrganizationBrandingPolicyHelpSettings,
+    CreateOrganizationDevicesCellularDataProfileRulesItem,
     CreateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     CreateOrganizationDevicesPacketCaptureScheduleSchedule,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
+    CreateOrganizationSaseIntegrationApi,
     DetachOrganizationSaseSitesCallback,
     DetachOrganizationSaseSitesItemsItem,
     DisableOrganizationIntegrationsXdrNetworksNetworksItem,
@@ -49,6 +52,7 @@ from meraki_client.schemas import (
     UpdateOrganizationBrandingPolicyAdminSettings,
     UpdateOrganizationBrandingPolicyCustomLogo,
     UpdateOrganizationBrandingPolicyHelpSettings,
+    UpdateOrganizationDevicesCellularDataProfileRulesItem,
     UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     UpdateOrganizationDevicesPacketCaptureScheduleSchedule,
     UpdateOrganizationLoginSecurityApiAuthentication,
@@ -774,6 +778,158 @@ class ActionBatchOrganizations:
             resource=path,
             operation="update",
             body=payload,
+        )
+
+    def create_organization_devices_cellular_data_profile(
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        description: str,
+        rules: list[CreateOrganizationDevicesCellularDataProfileRulesItem],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Add a cellular data management profile to this organization.
+
+        [API documentation: createOrganizationDevicesCellularDataProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-cellular-data-profile)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the profile to be added. This must be unique.
+            description: Description of the profile to be added.
+            rules: The rules associated with this profile. At least one rule and no more than two
+                rules may be defined for a profile.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+        if rules is not None:
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def batch_organization_devices_cellular_data_profiles_assignments_create(
+        self,
+        *,
+        organization_id: str,
+        items: list[BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Assign devices to a Cellular Data Management Profile in batch.
+
+        [API documentation: batchOrganizationDevicesCellularDataProfilesAssignmentsCreate](https://developer.cisco.com/meraki/api-v1/#!batch-organization-devices-cellular-data-profiles-assignments-create)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of device-to-profile assignments to create.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/assignments/batchCreate"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def bulk_organization_devices_cellular_data_profiles_assignments_delete(
+        self,
+        *,
+        organization_id: str,
+        items: list[BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Unassign devices from a Cellular Data Management Profile in batch.
+
+        [API documentation: bulkOrganizationDevicesCellularDataProfilesAssignmentsDelete](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-cellular-data-profiles-assignments-delete)
+
+        Args:
+            organization_id: Organization ID.
+            items: List of device-to-profile assignments to remove.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/assignments/bulkDelete"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+            body=payload,
+        )
+
+    def update_organization_devices_cellular_data_profile(
+        self,
+        *,
+        organization_id: str,
+        profile_id: str,
+        rules: list[UpdateOrganizationDevicesCellularDataProfileRulesItem],
+        description: str | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update a Cellular Data Management Profile.
+
+        [API documentation: updateOrganizationDevicesCellularDataProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-cellular-data-profile)
+
+        Args:
+            organization_id: Organization ID.
+            profile_id: Profile ID.
+            description: New description of the profile.
+            rules: The rules associated with this profile. At least one rule and no more than two
+                rules may be defined for a profile.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/{profile_id}"
+
+        payload: dict[str, Any] = {}
+        if profile_id is not None:
+            payload["profileId"] = profile_id
+        if description is not None:
+            payload["description"] = description
+        if rules is not None:
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_devices_cellular_data_profile(
+        self, *, organization_id: str, profile_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete a cellular data management profile from this organization.
+
+        [API documentation: deleteOrganizationDevicesCellularDataProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-cellular-data-profile)
+
+        Args:
+            organization_id: Organization ID.
+            profile_id: Profile ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        path = f"/organizations/{organization_id}/devices/cellular/data/profiles/{profile_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
         )
 
     def create_organization_devices_controller_migration(
@@ -2335,34 +2491,6 @@ class ActionBatchOrganizations:
             operation="destroy",
         )
 
-    def batch_organization_sase_connectors_create(
-        self,
-        organization_id: str,
-        *,
-        items: list[BatchOrganizationSaseConnectorsCreateItemsItem] | None = None,
-    ) -> CreateOrganizationActionBatchActionsItem:
-        """Deploy SSE Connectors for specified regions.
-
-        [API documentation: batchOrganizationSaseConnectorsCreate](https://developer.cisco.com/meraki/api-v1/#!batch-organization-sase-connectors-create)
-
-        Args:
-            organization_id: Organization ID.
-            items: List of connectors to deploy (maximum 20 items).
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/sase/connectors/batchCreate"
-
-        payload: dict[str, Any] = {}
-        if items is not None:
-            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-
-        return CreateOrganizationActionBatchActionsItem(
-            resource=path,
-            operation="deploy",
-            body=payload,
-        )
-
     def batch_organization_sase_connectors_delete(
         self,
         organization_id: str,
@@ -2389,6 +2517,52 @@ class ActionBatchOrganizations:
             resource=path,
             operation="teardown",
             body=payload,
+        )
+
+    def create_organization_sase_integration(
+        self, *, organization_id: str, api: CreateOrganizationSaseIntegrationApi
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create a new Secure Access integration.
+
+        [API documentation: createOrganizationSaseIntegration](https://developer.cisco.com/meraki/api-v1/#!create-organization-sase-integration)
+
+        Args:
+            organization_id: Organization ID.
+            api: API credentials.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/sase/integrations"
+
+        payload: dict[str, Any] = {}
+        if api is not None:
+            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def delete_organization_sase_integration(
+        self, *, organization_id: str, integration_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Remove a Secure Access integration.
+
+        [API documentation: deleteOrganizationSaseIntegration](https://developer.cisco.com/meraki/api-v1/#!delete-organization-sase-integration)
+
+        Args:
+            organization_id: Organization ID.
+            integration_id: Integration ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        integration_id = urllib.parse.quote(str(integration_id), safe="")
+        path = f"/organizations/{organization_id}/sase/integrations/{integration_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
         )
 
     def attach_organization_sase_sites(

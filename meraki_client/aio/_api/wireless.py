@@ -3514,7 +3514,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-03-01T08:09:49Z"
+                "lastEnabledAt": "2026-04-06T08:06:18Z"
               }
             }
             ```
@@ -5382,6 +5382,7 @@ class Wireless:
                 "ssidAdminAccessible": false,
                 "localAuth": false,
                 "authMode": "8021x-radius",
+                "psk": "deadbeef",
                 "encryptionMode": "wpa",
                 "wpaEncryptionMode": "WPA2 only",
                 "radiusServers": [
@@ -5465,6 +5466,7 @@ class Wireless:
               "ssidAdminAccessible": false,
               "localAuth": false,
               "authMode": "8021x-radius",
+              "psk": "deadbeef",
               "encryptionMode": "wpa",
               "wpaEncryptionMode": "WPA2 only",
               "radiusServers": [
@@ -5768,6 +5770,7 @@ class Wireless:
               "ssidAdminAccessible": false,
               "localAuth": false,
               "authMode": "8021x-radius",
+              "psk": "deadbeef",
               "encryptionMode": "wpa",
               "wpaEncryptionMode": "WPA2 only",
               "radiusServers": [
@@ -10653,7 +10656,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-03-01T08:09:49Z"
+                    "lastEnabledAt": "2026-04-06T08:06:18Z"
                   }
                 }
               ],

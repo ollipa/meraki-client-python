@@ -850,8 +850,8 @@ def collect_request_body_params(
             BodyParam(snake_name, property_name, is_schema, is_list, is_dict)
         )
 
-        if snake_name in function_definition.path_params and property_name in required_properties:
-            # Reuse the path argument when the body repeats a required top-level ID.
+        if snake_name in function_definition.path_params:
+            # Reuse the path argument when the body repeats a top-level ID.
             continue
 
         function_definition.param_descriptions.append(

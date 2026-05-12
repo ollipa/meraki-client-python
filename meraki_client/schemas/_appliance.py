@@ -27,6 +27,13 @@ class Appliance1(_BaseSchema):
     )
 
 
+class ApplianceAddressesItem(_BaseSchema):
+    """Schema for ApplianceAddressesItem."""
+
+    address: str | None = None
+    subnet: str | None = None
+
+
 class ApplianceApplicationCategoriesItem(_BaseSchema):
     """Schema for ApplianceApplicationCategoriesItem."""
 
@@ -104,8 +111,24 @@ class ApplianceBandwidthLimits(_BaseSchema):
     )
 
 
+class ApplianceByDeviceItem(_BaseSchema):
+    """Schema for ApplianceByDeviceItem."""
+
+    serial: str | None = None
+    vlan_ids: list[int] = Field(
+        default_factory=list, validation_alias="vlanIds", serialization_alias="vlanIds"
+    )
+
+
 class ApplianceByInterfaceItem(_BaseSchema):
     """Schema for ApplianceByInterfaceItem."""
+
+    name: str | None = None
+    parent: str | None = None
+
+
+class ApplianceByInterfaceItem2(_BaseSchema):
+    """Schema for ApplianceByInterfaceItem2."""
 
     interface: str | None = None
     sent: int | None = None
@@ -119,6 +142,13 @@ class ApplianceByUplinkItem(_BaseSchema):
     interface: str | None = None
     sent: int | None = None
     received: int | None = None
+
+
+class ApplianceCounts(_BaseSchema):
+    """Usage counters for the delegated prefix."""
+
+    assigned: int
+    available: int
 
 
 class ApplianceCountsByStatus(_BaseSchema):
@@ -242,6 +272,21 @@ class ApplianceIpv4(_BaseSchema):
     nameservers: ApplianceNameservers | None = None
 
 
+class ApplianceIpv6(_BaseSchema):
+    """IPv6 assignment details for the VLAN."""
+
+    prefix: str | None = None
+    address: str
+    link_local: ApplianceLinkLocal | None = Field(
+        default=None, validation_alias="linkLocal", serialization_alias="linkLocal"
+    )
+    solicited_node_multicast: ApplianceLinkLocal | None = Field(
+        default=None,
+        validation_alias="solicitedNodeMulticast",
+        serialization_alias="solicitedNodeMulticast",
+    )
+
+
 class ApplianceIpv6PrefixAssignmentsItem(_BaseSchema):
     """Schema for ApplianceIpv6PrefixAssignmentsItem."""
 
@@ -254,7 +299,7 @@ class ApplianceIpv6PrefixAssignmentsItem(_BaseSchema):
         validation_alias="staticApplianceIp6",
         serialization_alias="staticApplianceIp6",
     )
-    origin: ApplianceOrigin2 | None = None
+    origin: ApplianceOrigin4 | None = None
 
 
 class ApplianceItems(_BaseSchema):
@@ -302,6 +347,12 @@ class ApplianceLatencySummariesItem(_BaseSchema):
     max_latency_ms: int | None = Field(
         default=None, validation_alias="maxLatencyMs", serialization_alias="maxLatencyMs"
     )
+
+
+class ApplianceLinkLocal(_BaseSchema):
+    """IPv6 link-local address."""
+
+    address: str | None = None
 
 
 class ApplianceLossPercentageSummariesItem(_BaseSchema):
@@ -407,27 +458,34 @@ class ApplianceNeighborsAuthentication(_BaseSchema):
     password: str | None = None
 
 
-class ApplianceNeighborsIpv6(_BaseSchema):
-    """Information regarding IPv6 address of the neighbor."""
-
-    address: str | None = None
-
-
 class ApplianceOrigin(_BaseSchema):
+    """Origin details for the delegated prefix."""
+
+    interface: str
+
+
+class ApplianceOrigin2(_BaseSchema):
+    """Delegated prefix origin for this VLAN assignment."""
+
+    interface: str
+    prefix: str | None = None
+
+
+class ApplianceOrigin3(_BaseSchema):
     """WAN1/WAN2/Independent prefix."""
 
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     interfaces: list[str] = Field(default_factory=list)
 
 
-class ApplianceOrigin2(_BaseSchema):
+class ApplianceOrigin4(_BaseSchema):
     """The origin of the prefix."""
 
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     interfaces: list[str] = Field(default_factory=list)
 
 
-class ApplianceOrigin3(_BaseSchema):
+class ApplianceOrigin5(_BaseSchema):
     """The origin of the prefix."""
 
     type_: str = Field(validation_alias="type", serialization_alias="type")
@@ -459,6 +517,9 @@ class AppliancePeersEbgpNeighbor(_BaseSchema):
     )
     source_ip: str | None = Field(
         default=None, validation_alias="sourceIp", serialization_alias="sourceIp"
+    )
+    receive_limit: int | None = Field(
+        default=None, validation_alias="receiveLimit", serialization_alias="receiveLimit"
     )
     path_prepend: list[int] = Field(
         default_factory=list, validation_alias="pathPrepend", serialization_alias="pathPrepend"
@@ -614,6 +675,55 @@ class ApplianceReservedIpRangesItem(_BaseSchema):
     comment: str
 
 
+class ApplianceRulesAllowedInboundItem(_BaseSchema):
+    """Schema for ApplianceRulesAllowedInboundItem."""
+
+    protocol: str | None = None
+    destination_ports: list[str] = Field(
+        default_factory=list,
+        validation_alias="destinationPorts",
+        serialization_alias="destinationPorts",
+    )
+    allowed_ips: list[str] = Field(
+        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
+    )
+
+
+class ApplianceRulesDefinitionsItem(_BaseSchema):
+    """Schema for ApplianceRulesDefinitionsItem."""
+
+    type_: str = Field(validation_alias="type", serialization_alias="type")
+    value: str
+
+
+class ApplianceRulesPerClientBandwidthLimits(_BaseSchema):
+    """An object describing the bandwidth settings for your rule."""
+
+    settings: str | None = None
+    bandwidth_limits: ApplianceBandwidthLimits | None = Field(
+        default=None, validation_alias="bandwidthLimits", serialization_alias="bandwidthLimits"
+    )
+
+
+class ApplianceRulesPortRulesItem(_BaseSchema):
+    """Schema for ApplianceRulesPortRulesItem."""
+
+    name: str | None = None
+    protocol: str | None = None
+    public_port: str | None = Field(
+        default=None, validation_alias="publicPort", serialization_alias="publicPort"
+    )
+    local_ip: str | None = Field(
+        default=None, validation_alias="localIp", serialization_alias="localIp"
+    )
+    local_port: str | None = Field(
+        default=None, validation_alias="localPort", serialization_alias="localPort"
+    )
+    allowed_ips: list[str] = Field(
+        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
+    )
+
+
 class ApplianceSource(_BaseSchema):
     """Source of traffic filter."""
 
@@ -631,6 +741,12 @@ class ApplianceSource2(_BaseSchema):
     network: str | None = None
     vlan: int | None = None
     host: int | None = None
+
+
+class ApplianceSpoofingProtectionIpSourceGuard(_BaseSchema):
+    """IP source address spoofing settings."""
+
+    mode: str | None = None
 
 
 class ApplianceSubnetNat(_BaseSchema):
@@ -701,6 +817,34 @@ class ApplianceUmbrellaOrganization(_BaseSchema):
     id: str | None = None
 
 
+class ApplianceUplinkInterfacesItem(_BaseSchema):
+    """Schema for ApplianceUplinkInterfacesItem."""
+
+    name: str | None = None
+    addresses: list[ApplianceAddressesItem] = Field(default_factory=list)
+
+
+class ApplianceUplinkLoadBalancing(_BaseSchema):
+    """Load balancing configuration."""
+
+    enabled: bool | None = None
+    vlan_selection: ApplianceVlanSelection | None = Field(
+        default=None, validation_alias="vlanSelection", serialization_alias="vlanSelection"
+    )
+
+
+class ApplianceUplinkSharing(_BaseSchema):
+    """HA uplink sharing properties."""
+
+    enabled: bool | None = None
+    vlan_id: str | None = Field(
+        default=None, validation_alias="vlanId", serialization_alias="vlanId"
+    )
+    by_interface: list[ApplianceByInterfaceItem] = Field(
+        default_factory=list, validation_alias="byInterface", serialization_alias="byInterface"
+    )
+
+
 class ApplianceUplinksItem(_BaseSchema):
     """Schema for ApplianceUplinksItem."""
 
@@ -767,6 +911,31 @@ class ApplianceValue3(_BaseSchema):
     protocol: str | None = None
     source: ApplianceSource
     destination: ApplianceDestination3
+
+
+class ApplianceVlan(_BaseSchema):
+    """VLAN details for the prefix assignment."""
+
+    id: int
+    name: str
+
+
+class ApplianceVlanSelection(_BaseSchema):
+    """VLAN selection strategy."""
+
+    mode: str | None = None
+    by_device: list[ApplianceByDeviceItem] = Field(
+        default_factory=list, validation_alias="byDevice", serialization_alias="byDevice"
+    )
+
+
+class ApplianceVlanSelection2(_BaseSchema):
+    """VLAN selection strategy."""
+
+    mode: str | None = None
+    by_device: list[ApplianceByDeviceItem] = Field(
+        default_factory=list, validation_alias="byDevice", serialization_alias="byDevice"
+    )
 
 
 class ApplianceVlanTagging(_BaseSchema):
@@ -999,6 +1168,7 @@ class CreateNetworkApplianceVlanResponse(_BaseSchema):
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
+    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
 
 
 class CreateNetworkApplianceVlanUplinksItem(_BaseSchema):
@@ -1006,6 +1176,12 @@ class CreateNetworkApplianceVlanUplinksItem(_BaseSchema):
 
     interface: str
     nat: ApplianceFailoverAndFailbackImmediate
+
+
+class CreateNetworkApplianceVlanVrf(_BaseSchema):
+    """VRF configuration on the VLAN."""
+
+    id: str | None = None
 
 
 class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem(_BaseSchema):
@@ -1123,30 +1299,68 @@ class GetDeviceAppliancePerformanceResponse(_BaseSchema):
     )
 
 
-class GetDeviceAppliancePrefixesDelegatedResponse(RootModel[list[dict[str, Any]]]):
-    """Schema for GetDeviceAppliancePrefixesDelegatedResponse."""
+class GetDeviceAppliancePrefixesDelegatedResponse(
+    RootModel[list["GetDeviceAppliancePrefixesDelegatedResponseItem"]]
+):
+    """Response for getDeviceAppliancePrefixesDelegated operation."""
+
+
+class GetDeviceAppliancePrefixesDelegatedResponseItem(_BaseSchema):
+    """Schema for GetDeviceAppliancePrefixesDelegatedResponseItem."""
+
+    origin: ApplianceOrigin | None = None
+    prefix: str
+    counts: ApplianceCounts | None = None
+    method: str
+    static_delegated_prefix_id: str | None = Field(
+        default=None,
+        validation_alias="staticDelegatedPrefixId",
+        serialization_alias="staticDelegatedPrefixId",
+    )
+    description: str | None = None
+    is_preferred: bool = Field(validation_alias="isPreferred", serialization_alias="isPreferred")
+    expires_at: datetime | None = Field(
+        default=None, validation_alias="expiresAt", serialization_alias="expiresAt"
+    )
+
+
+class GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse(
+    RootModel[list["GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponseItem"]]
+):
+    """Response for getDeviceAppliancePrefixesDelegatedVlanAssignments operation."""
+
+
+class GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponseItem(_BaseSchema):
+    """Schema for GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponseItem."""
+
+    vlan: ApplianceVlan | None = None
+    origin: ApplianceOrigin2 | None = None
+    status: str
+    ipv6: ApplianceIpv6 | None = None
 
 
 class GetNetworkApplianceClientSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
     """Schema for GetNetworkApplianceClientSecurityEventsResponse."""
 
 
-class GetNetworkApplianceFirewallFirewalledServicesResponse(
-    RootModel[list["NetworkApplianceFirewallFirewalledServiceResponse"]]
-):
-    """Response for getNetworkApplianceFirewallFirewalledServices operation."""
+class GetNetworkApplianceContentFilteringCategoriesResponse(_BaseSchema):
+    """Response for getNetworkApplianceContentFilteringCategories operation."""
 
-
-class GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse(_BaseSchema):
-    """Schema for GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse."""
-
-    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
+    categories: list[NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem] = Field(
         default_factory=list
     )
 
 
-class GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem(_BaseSchema):
-    """Schema for GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem."""
+class GetNetworkApplianceFirewallCellularFirewallRulesResponse(_BaseSchema):
+    """Schema for GetNetworkApplianceFirewallCellularFirewallRulesResponse."""
+
+    rules: list[GetNetworkApplianceFirewallCellularFirewallRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
+
+
+class GetNetworkApplianceFirewallCellularFirewallRulesResponseRulesItem(_BaseSchema):
+    """Schema for GetNetworkApplianceFirewallCellularFirewallRulesResponseRulesItem."""
 
     comment: str | None = None
     policy: str | None = None
@@ -1168,6 +1382,12 @@ class GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem(_
     )
 
 
+class GetNetworkApplianceFirewallFirewalledServicesResponse(
+    RootModel[list["NetworkApplianceFirewallFirewalledServiceResponse"]]
+):
+    """Response for getNetworkApplianceFirewallFirewalledServices operation."""
+
+
 class GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse(_BaseSchema):
     """Response for getNetworkApplianceFirewallL7FirewallRulesApplicationCategories operation."""
 
@@ -1182,27 +1402,8 @@ class GetNetworkAppliancePortsResponse(RootModel[list["NetworkAppliancePortRespo
     """Response for getNetworkAppliancePorts operation."""
 
 
-class GetNetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
-    """Response for getNetworkAppliancePrefixesDelegatedStatic operation."""
-
-    static_delegated_prefix_id: str | None = Field(
-        default=None,
-        validation_alias="staticDelegatedPrefixId",
-        serialization_alias="staticDelegatedPrefixId",
-    )
-    prefix: str | None = None
-    origin: ApplianceOrigin | None = None
-    description: str | None = None
-    created_at: datetime | None = Field(
-        default=None, validation_alias="createdAt", serialization_alias="createdAt"
-    )
-    updated_at: datetime | None = Field(
-        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
-    )
-
-
 class GetNetworkAppliancePrefixesDelegatedStaticsResponse(
-    RootModel[list["GetNetworkAppliancePrefixesDelegatedStaticResponse"]]
+    RootModel[list["NetworkAppliancePrefixesDelegatedStaticResponse"]]
 ):
     """Response for getNetworkAppliancePrefixesDelegatedStatics operation."""
 
@@ -1280,24 +1481,6 @@ class GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponse(
     """Response for getNetworkApplianceTrafficShapingCustomPerformanceClasses operation."""
 
 
-class GetNetworkApplianceTrafficShapingUplinkBandwidthResponse(_BaseSchema):
-    """Response for getNetworkApplianceTrafficShapingUplinkBandwidth operation."""
-
-    bandwidth_limits: (
-        GetNetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimits | None
-    ) = Field(
-        default=None, validation_alias="bandwidthLimits", serialization_alias="bandwidthLimits"
-    )
-
-
-class GetNetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimits(_BaseSchema):
-    """A hash uplink keys and their configured settings for the Appliance."""
-
-    wan1: ApplianceBandwidthLimits | None = None
-    wan2: ApplianceBandwidthLimits | None = None
-    cellular: ApplianceBandwidthLimits | None = None
-
-
 class GetNetworkApplianceUplinksUsageHistoryResponse(
     RootModel[list["GetNetworkApplianceUplinksUsageHistoryResponseItem"]]
 ):
@@ -1313,7 +1496,7 @@ class GetNetworkApplianceUplinksUsageHistoryResponseItem(_BaseSchema):
     end_time: datetime | None = Field(
         default=None, validation_alias="endTime", serialization_alias="endTime"
     )
-    by_interface: list[ApplianceByInterfaceItem] = Field(
+    by_interface: list[ApplianceByInterfaceItem2] = Field(
         default_factory=list, validation_alias="byInterface", serialization_alias="byInterface"
     )
 
@@ -1582,11 +1765,71 @@ class NetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
 class NetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
     """Schema for NetworkApplianceFirewallInboundFirewallRulesResponse."""
 
-    rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] = Field(
+    rules: list[GetNetworkApplianceFirewallCellularFirewallRulesResponseRulesItem] = Field(
         default_factory=list
     )
     syslog_default_rule: bool | None = Field(
         default=None, validation_alias="syslogDefaultRule", serialization_alias="syslogDefaultRule"
+    )
+
+
+class NetworkApplianceFirewallL7FirewallRulesResponse(_BaseSchema):
+    """Schema for NetworkApplianceFirewallL7FirewallRulesResponse."""
+
+    rules: list[NetworkApplianceFirewallL7FirewallRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
+
+
+class NetworkApplianceFirewallL7FirewallRulesResponseRulesItem(_BaseSchema):
+    """Schema for NetworkApplianceFirewallL7FirewallRulesResponseRulesItem."""
+
+    policy: str | None = None
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    value: str | None = None
+
+
+class NetworkApplianceFirewallOneToManyNatRulesResponse(_BaseSchema):
+    """Schema for NetworkApplianceFirewallOneToManyNatRulesResponse."""
+
+    rules: list[NetworkApplianceFirewallOneToManyNatRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
+
+
+class NetworkApplianceFirewallOneToManyNatRulesResponseRulesItem(_BaseSchema):
+    """Schema for NetworkApplianceFirewallOneToManyNatRulesResponseRulesItem."""
+
+    public_ip: str | None = Field(
+        default=None, validation_alias="publicIp", serialization_alias="publicIp"
+    )
+    uplink: str | None = None
+    port_rules: list[ApplianceRulesPortRulesItem] = Field(
+        default_factory=list, validation_alias="portRules", serialization_alias="portRules"
+    )
+
+
+class NetworkApplianceFirewallOneToOneNatRulesResponse(_BaseSchema):
+    """Schema for NetworkApplianceFirewallOneToOneNatRulesResponse."""
+
+    rules: list[NetworkApplianceFirewallOneToOneNatRulesResponseRulesItem] = Field(
+        default_factory=list
+    )
+
+
+class NetworkApplianceFirewallOneToOneNatRulesResponseRulesItem(_BaseSchema):
+    """Schema for NetworkApplianceFirewallOneToOneNatRulesResponseRulesItem."""
+
+    name: str | None = None
+    public_ip: str | None = Field(
+        default=None, validation_alias="publicIp", serialization_alias="publicIp"
+    )
+    lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
+    uplink: str | None = None
+    allowed_inbound: list[ApplianceRulesAllowedInboundItem] = Field(
+        default_factory=list,
+        validation_alias="allowedInbound",
+        serialization_alias="allowedInbound",
     )
 
 
@@ -1616,6 +1859,24 @@ class NetworkApplianceFirewallPortForwardingRulesResponseRulesItem(_BaseSchema):
     uplink: str | None = None
 
 
+class NetworkApplianceFirewallSettingsResponse(_BaseSchema):
+    """Schema for NetworkApplianceFirewallSettingsResponse."""
+
+    spoofing_protection: NetworkApplianceFirewallSettingsResponseSpoofingProtection | None = Field(
+        default=None,
+        validation_alias="spoofingProtection",
+        serialization_alias="spoofingProtection",
+    )
+
+
+class NetworkApplianceFirewallSettingsResponseSpoofingProtection(_BaseSchema):
+    """Spoofing protection settings."""
+
+    ip_source_guard: ApplianceSpoofingProtectionIpSourceGuard | None = Field(
+        default=None, validation_alias="ipSourceGuard", serialization_alias="ipSourceGuard"
+    )
+
+
 class NetworkAppliancePortResponse(_BaseSchema):
     """Schema for NetworkAppliancePortResponse."""
 
@@ -1633,6 +1894,25 @@ class NetworkAppliancePortResponse(_BaseSchema):
     )
     access_policy: str | None = Field(
         default=None, validation_alias="accessPolicy", serialization_alias="accessPolicy"
+    )
+
+
+class NetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
+    """Schema for NetworkAppliancePrefixesDelegatedStaticResponse."""
+
+    static_delegated_prefix_id: str | None = Field(
+        default=None,
+        validation_alias="staticDelegatedPrefixId",
+        serialization_alias="staticDelegatedPrefixId",
+    )
+    prefix: str | None = None
+    origin: ApplianceOrigin3 | None = None
+    description: str | None = None
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    updated_at: datetime | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
     )
 
 
@@ -1815,6 +2095,65 @@ class NetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
     )
 
 
+class NetworkApplianceTrafficShapingResponse(_BaseSchema):
+    """Schema for NetworkApplianceTrafficShapingResponse."""
+
+    global_bandwidth_limits: NetworkApplianceTrafficShapingResponseGlobalBandwidthLimits = Field(
+        validation_alias="globalBandwidthLimits", serialization_alias="globalBandwidthLimits"
+    )
+
+
+class NetworkApplianceTrafficShapingResponseGlobalBandwidthLimits(_BaseSchema):
+    """Global per-client bandwidth limit."""
+
+    limit_up: int = Field(validation_alias="limitUp", serialization_alias="limitUp")
+    limit_down: int = Field(validation_alias="limitDown", serialization_alias="limitDown")
+
+
+class NetworkApplianceTrafficShapingRulesResponse(_BaseSchema):
+    """Schema for NetworkApplianceTrafficShapingRulesResponse."""
+
+    default_rules_enabled: bool | None = Field(
+        default=None,
+        validation_alias="defaultRulesEnabled",
+        serialization_alias="defaultRulesEnabled",
+    )
+    rules: list[NetworkApplianceTrafficShapingRulesResponseRulesItem] = Field(default_factory=list)
+
+
+class NetworkApplianceTrafficShapingRulesResponseRulesItem(_BaseSchema):
+    """Schema for NetworkApplianceTrafficShapingRulesResponseRulesItem."""
+
+    definitions: list[ApplianceRulesDefinitionsItem]
+    per_client_bandwidth_limits: ApplianceRulesPerClientBandwidthLimits | None = Field(
+        default=None,
+        validation_alias="perClientBandwidthLimits",
+        serialization_alias="perClientBandwidthLimits",
+    )
+    dscp_tag_value: int | None = Field(
+        default=None, validation_alias="dscpTagValue", serialization_alias="dscpTagValue"
+    )
+    priority: str | None = None
+
+
+class NetworkApplianceTrafficShapingUplinkBandwidthResponse(_BaseSchema):
+    """Schema for NetworkApplianceTrafficShapingUplinkBandwidthResponse."""
+
+    bandwidth_limits: (
+        NetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimits | None
+    ) = Field(
+        default=None, validation_alias="bandwidthLimits", serialization_alias="bandwidthLimits"
+    )
+
+
+class NetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimits(_BaseSchema):
+    """A hash uplink keys and their configured settings for the Appliance."""
+
+    wan1: ApplianceBandwidthLimits | None = None
+    wan2: ApplianceBandwidthLimits | None = None
+    cellular: ApplianceBandwidthLimits | None = None
+
+
 class NetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
     """Schema for NetworkApplianceTrafficShapingUplinkSelectionResponse."""
 
@@ -1917,6 +2256,7 @@ class NetworkApplianceVlanResponse(_BaseSchema):
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
+    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
 
 
@@ -1948,7 +2288,7 @@ class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
     """Schema for NetworkApplianceVpnBgpResponseNeighborsItem."""
 
     ip: str | None = None
-    ipv6: ApplianceNeighborsIpv6 | None = None
+    ipv6: ApplianceLinkLocal | None = None
     remote_as_number: int | None = Field(
         default=None, validation_alias="remoteAsNumber", serialization_alias="remoteAsNumber"
     )
@@ -2009,8 +2349,8 @@ class NetworkApplianceVpnSiteToSiteVpnResponseHostTranslationsItem(_BaseSchema):
     """Schema for NetworkApplianceVpnSiteToSiteVpnResponseHostTranslationsItem."""
 
     name: str | None = None
-    local: ApplianceNeighborsIpv6 | None = None
-    remote: ApplianceNeighborsIpv6 | None = None
+    local: ApplianceLinkLocal | None = None
+    remote: ApplianceLinkLocal | None = None
 
 
 class NetworkApplianceVpnSiteToSiteVpnResponseHubsItem(_BaseSchema):
@@ -2082,6 +2422,12 @@ class OrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
     name: str | None = None
     hostnames: list[str] = Field(default_factory=list)
     nameservers: ApplianceNameservers | None = None
+
+
+class OrganizationApplianceRoutingVrfsSettingsResponse(_BaseSchema):
+    """Schema for OrganizationApplianceRoutingVrfsSettingsResponse."""
+
+    enabled: bool | None = None
 
 
 class OrganizationApplianceSecurityIntrusionResponse(_BaseSchema):
@@ -2255,6 +2601,66 @@ class UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem(_
     default: bool | None = None
 
 
+class UpdateNetworkApplianceDevicesRedundancyDesignationsItem(_BaseSchema):
+    """Item schema for designations."""
+
+    serial: str | None = None
+    priority: int | None = None
+
+
+class UpdateNetworkApplianceDevicesRedundancyResponse(_BaseSchema):
+    """Schema for UpdateNetworkApplianceDevicesRedundancyResponse."""
+
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    name: str | None = None
+    enabled: bool | None = None
+    mode: str | None = None
+    designations: list[UpdateNetworkApplianceDevicesRedundancyResponseDesignationsItem] = Field(
+        default_factory=list
+    )
+    uplink: UpdateNetworkApplianceDevicesRedundancyResponseUplink | None = None
+
+
+class UpdateNetworkApplianceDevicesRedundancyResponseDesignationsItem(_BaseSchema):
+    """Schema for UpdateNetworkApplianceDevicesRedundancyResponseDesignationsItem."""
+
+    serial: str | None = None
+    priority: int | None = None
+
+
+class UpdateNetworkApplianceDevicesRedundancyResponseUplink(_BaseSchema):
+    """Uplink configuration."""
+
+    mode: str | None = None
+    interfaces: list[ApplianceUplinkInterfacesItem] = Field(default_factory=list)
+    sharing: ApplianceUplinkSharing | None = None
+    load_balancing: ApplianceUplinkLoadBalancing | None = Field(
+        default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
+    )
+
+
+class UpdateNetworkApplianceDevicesRedundancyUplink(_BaseSchema):
+    """Uplink configuration."""
+
+    mode: str | None = None
+    interfaces: list[ApplianceUplinkInterfacesItem] = Field(default_factory=list)
+    sharing: ApplianceUplinkSharing | None = None
+    load_balancing: UpdateNetworkApplianceDevicesRedundancyUplinkLoadBalancing | None = Field(
+        default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
+    )
+
+
+class UpdateNetworkApplianceDevicesRedundancyUplinkLoadBalancing(_BaseSchema):
+    """Load balancing configuration."""
+
+    enabled: bool | None = None
+    vlan_selection: ApplianceVlanSelection2 | None = Field(
+        default=None, validation_alias="vlanSelection", serialization_alias="vlanSelection"
+    )
+
+
 class UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem(_BaseSchema):
     """Item schema for rules."""
 
@@ -2374,27 +2780,8 @@ class UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItem(_BaseSchema):
 
     public_ip: str = Field(validation_alias="publicIp", serialization_alias="publicIp")
     uplink: str
-    port_rules: list[UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItemPortRulesItem] = Field(
+    port_rules: list[ApplianceRulesPortRulesItem] = Field(
         validation_alias="portRules", serialization_alias="portRules"
-    )
-
-
-class UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItemPortRulesItem(_BaseSchema):
-    """Schema for UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItemPortRulesItem."""
-
-    name: str | None = None
-    protocol: str | None = None
-    public_port: str | None = Field(
-        default=None, validation_alias="publicPort", serialization_alias="publicPort"
-    )
-    local_ip: str | None = Field(
-        default=None, validation_alias="localIp", serialization_alias="localIp"
-    )
-    local_port: str | None = Field(
-        default=None, validation_alias="localPort", serialization_alias="localPort"
-    )
-    allowed_ips: list[str] = Field(
-        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
     )
 
 
@@ -2407,26 +2794,10 @@ class UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItem(_BaseSchema):
     )
     lan_ip: str = Field(validation_alias="lanIp", serialization_alias="lanIp")
     uplink: str | None = None
-    allowed_inbound: list[
-        UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItemAllowedInboundItem
-    ] = Field(
+    allowed_inbound: list[ApplianceRulesAllowedInboundItem] = Field(
         default_factory=list,
         validation_alias="allowedInbound",
         serialization_alias="allowedInbound",
-    )
-
-
-class UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItemAllowedInboundItem(_BaseSchema):
-    """Schema for UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItemAllowedInboundItem."""
-
-    protocol: str | None = None
-    destination_ports: list[str] = Field(
-        default_factory=list,
-        validation_alias="destinationPorts",
-        serialization_alias="destinationPorts",
-    )
-    allowed_ips: list[str] = Field(
-        default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
     )
 
 
@@ -2445,15 +2816,9 @@ class UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem(_BaseSchema):
 class UpdateNetworkApplianceFirewallSettingsSpoofingProtection(_BaseSchema):
     """Spoofing protection settings."""
 
-    ip_source_guard: (
-        UpdateNetworkApplianceFirewallSettingsSpoofingProtectionIpSourceGuard | None
-    ) = Field(default=None, validation_alias="ipSourceGuard", serialization_alias="ipSourceGuard")
-
-
-class UpdateNetworkApplianceFirewallSettingsSpoofingProtectionIpSourceGuard(_BaseSchema):
-    """IP source address spoofing settings."""
-
-    mode: str | None = None
+    ip_source_guard: ApplianceSpoofingProtectionIpSourceGuard | None = Field(
+        default=None, validation_alias="ipSourceGuard", serialization_alias="ipSourceGuard"
+    )
 
 
 class UpdateNetworkAppliancePrefixesDelegatedStaticOrigin(_BaseSchema):
@@ -2606,7 +2971,7 @@ class UpdateNetworkApplianceSingleLanIpv6PrefixAssignmentsItem(_BaseSchema):
         validation_alias="staticApplianceIp6",
         serialization_alias="staticApplianceIp6",
     )
-    origin: ApplianceOrigin3 | None = None
+    origin: ApplianceOrigin5 | None = None
 
 
 class UpdateNetworkApplianceSingleLanMandatoryDhcp(_BaseSchema):
@@ -2673,10 +3038,8 @@ class UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits(_BaseSchema):
 class UpdateNetworkApplianceTrafficShapingRulesRulesItem(_BaseSchema):
     """Item schema for rules."""
 
-    definitions: list[UpdateNetworkApplianceTrafficShapingRulesRulesItemDefinitionsItem]
-    per_client_bandwidth_limits: (
-        UpdateNetworkApplianceTrafficShapingRulesRulesItemPerClientBandwidthLimits | None
-    ) = Field(
+    definitions: list[ApplianceRulesDefinitionsItem]
+    per_client_bandwidth_limits: ApplianceRulesPerClientBandwidthLimits | None = Field(
         default=None,
         validation_alias="perClientBandwidthLimits",
         serialization_alias="perClientBandwidthLimits",
@@ -2685,22 +3048,6 @@ class UpdateNetworkApplianceTrafficShapingRulesRulesItem(_BaseSchema):
         default=None, validation_alias="dscpTagValue", serialization_alias="dscpTagValue"
     )
     priority: str | None = None
-
-
-class UpdateNetworkApplianceTrafficShapingRulesRulesItemDefinitionsItem(_BaseSchema):
-    """Schema for UpdateNetworkApplianceTrafficShapingRulesRulesItemDefinitionsItem."""
-
-    type_: str = Field(validation_alias="type", serialization_alias="type")
-    value: str
-
-
-class UpdateNetworkApplianceTrafficShapingRulesRulesItemPerClientBandwidthLimits(_BaseSchema):
-    """An object describing the bandwidth settings for your rule."""
-
-    settings: str | None = None
-    bandwidth_limits: ApplianceBandwidthLimits | None = Field(
-        default=None, validation_alias="bandwidthLimits", serialization_alias="bandwidthLimits"
-    )
 
 
 class UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits(_BaseSchema):
@@ -2843,7 +3190,7 @@ class UpdateNetworkApplianceVlanIpv6PrefixAssignmentsItem(_BaseSchema):
         validation_alias="staticApplianceIp6",
         serialization_alias="staticApplianceIp6",
     )
-    origin: ApplianceOrigin3 | None = None
+    origin: ApplianceOrigin5 | None = None
 
 
 class UpdateNetworkApplianceVlanMandatoryDhcp(_BaseSchema):
@@ -2868,6 +3215,12 @@ class UpdateNetworkApplianceVlanUplinksItem(_BaseSchema):
 
     interface: str
     nat: ApplianceFailoverAndFailbackImmediate
+
+
+class UpdateNetworkApplianceVlanVrf(_BaseSchema):
+    """VRF configuration on the VLAN."""
+
+    id: str | None = None
 
 
 class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
@@ -2925,8 +3278,8 @@ class UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem(_BaseSchema):
     """Item schema for hostTranslations."""
 
     name: str | None = None
-    local: ApplianceNeighborsIpv6 | None = None
-    remote: ApplianceNeighborsIpv6 | None = None
+    local: ApplianceLinkLocal | None = None
+    remote: ApplianceLinkLocal | None = None
 
 
 class UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem(_BaseSchema):

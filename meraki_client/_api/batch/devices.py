@@ -15,6 +15,10 @@ from meraki_client.schemas import (
     UpdateDeviceManagementInterfaceWan1,
     UpdateDeviceManagementInterfaceWan2,
 )
+from meraki_client.types import (
+    CreateDeviceCellularUplinksBandsMasksUpdateSlot,
+    CreateDeviceCellularUplinksBandsMasksUpdateType,
+)
 
 
 class ActionBatchDevices:
@@ -82,6 +86,70 @@ class ActionBatchDevices:
             payload["switchProfileId"] = switch_profile_id
         if floor_plan_id is not None:
             payload["floorPlanId"] = floor_plan_id
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def update_device_cellular_geolocations(
+        self, *, serial: str, enabled: bool
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update the enablement of the geolocation feature for a device.
+
+        [API documentation: updateDeviceCellularGeolocations](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-geolocations)
+
+        Args:
+            serial: Serial.
+            enabled: Required parameter for the state to update the geolocation settings to (true to
+                enable, false to disable).
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/cellular/geolocations"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def create_device_cellular_uplinks_bands_masks_update(
+        self,
+        *,
+        serial: str,
+        slot: CreateDeviceCellularUplinksBandsMasksUpdateSlot,
+        type_: CreateDeviceCellularUplinksBandsMasksUpdateType,
+        masked: list[str],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update the cellular band masks for a device.
+
+        [API documentation: createDeviceCellularUplinksBandsMasksUpdate](https://developer.cisco.com/meraki/api-v1/#!create-device-cellular-uplinks-bands-masks-update)
+
+        Args:
+            serial: Serial.
+            slot: Required parameter for the SIM slot to update the cellular band mask for.
+            type_: Required parameter for the signal type to update the cellular band mask for.
+            masked: Required parameter for the band identifiers to mask for the given SIM slot and
+                signal type. For LTE use bands identifiers like '30' and for 5G use band
+                identifiers like 'n30'. Maximum 256 bands.
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/cellular/uplinks/bands/masks/update"
+
+        payload: dict[str, Any] = {}
+        if slot is not None:
+            payload["slot"] = slot
+        if type_ is not None:
+            payload["type"] = type_
+        if masked is not None:
+            payload["masked"] = masked
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

@@ -42,7 +42,6 @@ from meraki_client.schemas import (
     CreateNetworkVlanProfileVlanNamesItem,
     CreateNetworkWebhooksHttpServerPayloadTemplate,
     CreateNetworkWebhooksPayloadTemplateHeadersItem,
-    DictResponse,
     GetNetworkAlertsHistoryResponseItem,
     GetNetworkBluetoothClientResponse,
     GetNetworkClientResponse,
@@ -66,6 +65,7 @@ from meraki_client.schemas import (
     GetNetworkSplashLoginAttemptsResponseItem,
     GetNetworkTopologyLinkLayerResponse,
     GetNetworkTrafficResponseItem,
+    GetNetworkTrafficShapingApplicationCategoriesResponse,
     GetNetworkTrafficShapingDscpTaggingOptionsResponse,
     GetNetworkVlanProfilesAssignmentsByDeviceResponseItem,
     NetworkAlertsSettingsResponse,
@@ -1438,6 +1438,7 @@ class Networks:
               "wirelessCapabilities": "802.11b - 2.4 GHz",
               "smInstalled": true,
               "recentDeviceMac": "22:33:44:55:66:77",
+              "recentDeviceId": "15551677676480",
               "recentDeviceName": "00:11:22:33:44:55",
               "recentDeviceSerial": "Q234-ABCD-5678",
               "recentDeviceConnection": "Wired",
@@ -7424,7 +7425,7 @@ class Networks:
 
     async def get_network_traffic_shaping_application_categories(
         self, network_id: str
-    ) -> DictResponse:
+    ) -> GetNetworkTrafficShapingApplicationCategoriesResponse:
         """Returns the application categories for traffic shaping rules.
 
         [API documentation: getNetworkTrafficShapingApplicationCategories](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-application-categories)
@@ -7446,14 +7447,6 @@ class Networks:
                     {
                       "id": "meraki:layer7/application/5",
                       "name": "Advertising.com"
-                    },
-                    {
-                      "id": "meraki:layer7/application/0",
-                      "name": "AppNexus"
-                    },
-                    {
-                      "id": "meraki:layer7/application/1",
-                      "name": "Brightroll"
                     }
                   ]
                 }
@@ -7469,7 +7462,7 @@ class Networks:
             scope="networks",
             operation_id="getNetworkTrafficShapingApplicationCategories",
             path=path,
-            response_schema=DictResponse,
+            response_schema=GetNetworkTrafficShapingApplicationCategoriesResponse,
         )
 
     def get_network_traffic_shaping_dscp_tagging_options(
