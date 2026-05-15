@@ -1363,22 +1363,14 @@ class GetNetworkApplianceFirewallCellularFirewallRulesResponseRulesItem(_BaseSch
     """Schema for GetNetworkApplianceFirewallCellularFirewallRulesResponseRulesItem."""
 
     comment: str | None = None
-    policy: str | None = None
-    protocol: str | None = None
-    src_port: str | None = Field(
-        default=None, validation_alias="srcPort", serialization_alias="srcPort"
-    )
-    src_cidr: str | None = Field(
-        default=None, validation_alias="srcCidr", serialization_alias="srcCidr"
-    )
-    dest_port: str | None = Field(
-        default=None, validation_alias="destPort", serialization_alias="destPort"
-    )
-    dest_cidr: str | None = Field(
-        default=None, validation_alias="destCidr", serialization_alias="destCidr"
-    )
-    syslog_enabled: bool | None = Field(
-        default=None, validation_alias="syslogEnabled", serialization_alias="syslogEnabled"
+    policy: str
+    protocol: str
+    src_port: str = Field(validation_alias="srcPort", serialization_alias="srcPort")
+    src_cidr: str = Field(validation_alias="srcCidr", serialization_alias="srcCidr")
+    dest_port: str = Field(validation_alias="destPort", serialization_alias="destPort")
+    dest_cidr: str = Field(validation_alias="destCidr", serialization_alias="destCidr")
+    syslog_enabled: bool = Field(
+        validation_alias="syslogEnabled", serialization_alias="syslogEnabled"
     )
 
 

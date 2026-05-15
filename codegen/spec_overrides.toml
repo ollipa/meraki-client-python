@@ -150,6 +150,116 @@ required = ["portId", "enabled", "type"]
 [updateDeviceSwitchPort]
 required = ["portId", "enabled", "type"]
 
+[getNetworkApplianceFirewallCellularFirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[updateNetworkApplianceFirewallCellularFirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[getNetworkApplianceFirewallInboundCellularFirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[updateNetworkApplianceFirewallInboundCellularFirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[getNetworkApplianceFirewallInboundFirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[updateNetworkApplianceFirewallInboundFirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[getNetworkApplianceFirewallL3FirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[updateNetworkApplianceFirewallL3FirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[getOrganizationApplianceVpnVpnFirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
+[updateOrganizationApplianceVpnVpnFirewallRules]
+required = [
+  "rules.policy",
+  "rules.protocol",
+  "rules.srcCidr",
+  "rules.srcPort",
+  "rules.destCidr",
+  "rules.destPort",
+  "rules.syslogEnabled",
+]
+
 [getNetworkApplianceContentFiltering]
 required = ["blockedUrlCategories.id", "blockedUrlCategories.name"]
 
