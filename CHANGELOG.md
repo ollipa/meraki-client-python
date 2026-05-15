@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- Mark `portId`, `enabled`, and `type` as required on the switch port response shared by `get_device_switch_ports`, `get_device_switch_port`, and `update_device_switch_port`. The spec marks every field nullable, but these fields are always returned.
 
 ## v0.15.1
 

@@ -141,6 +141,15 @@ required = ["number", "enabled", "type"]
 [updateNetworkAppliancePort]
 required = ["number", "enabled", "type"]
 
+[getDeviceSwitchPorts]
+required = ["portId", "enabled", "type"]
+
+[getDeviceSwitchPort]
+required = ["portId", "enabled", "type"]
+
+[updateDeviceSwitchPort]
+required = ["portId", "enabled", "type"]
+
 [getNetworkWirelessMeshStatuses]
 response = { "latestMeshPerformance.mbps" = "float" }
 

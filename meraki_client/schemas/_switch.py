@@ -307,16 +307,14 @@ class CycleDeviceSwitchPortsResponse(_BaseSchema):
 class DeviceSwitchPortResponse(_BaseSchema):
     """Schema for DeviceSwitchPortResponse."""
 
-    port_id: str | None = Field(
-        default=None, validation_alias="portId", serialization_alias="portId"
-    )
+    port_id: str = Field(validation_alias="portId", serialization_alias="portId")
     name: str | None = None
     tags: list[str] = Field(default_factory=list)
-    enabled: bool | None = None
+    enabled: bool
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
     )
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    type_: str = Field(validation_alias="type", serialization_alias="type")
     vlan: int | None = None
     voice_vlan: int | None = Field(
         default=None, validation_alias="voiceVlan", serialization_alias="voiceVlan"
