@@ -150,6 +150,15 @@ required = ["portId", "enabled", "type"]
 [updateDeviceSwitchPort]
 required = ["portId", "enabled", "type"]
 
+[getNetworkApplianceContentFiltering]
+required = ["blockedUrlCategories.id", "blockedUrlCategories.name"]
+
+[updateNetworkApplianceContentFiltering]
+required = ["blockedUrlCategories.id", "blockedUrlCategories.name"]
+
+[getNetworkApplianceContentFilteringCategories]
+required = ["categories.id", "categories.name"]
+
 [getNetworkWirelessRfProfiles]
 required = ["id", "name"]
 

@@ -1748,8 +1748,8 @@ class NetworkApplianceContentFilteringResponse(_BaseSchema):
 class NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem(_BaseSchema):
     """Schema for NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem."""
 
-    id: str | None = None
-    name: str | None = None
+    id: str
+    name: str
 
 
 class NetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Mark `portId`, `enabled`, and `type` as required on the switch port response shared by `get_device_switch_ports`, `get_device_switch_port`, and `update_device_switch_port`. The spec marks every field nullable, but these fields are always returned.
 - Mark `id` and `name` as required on the wireless RF profile response shared by `get_network_wireless_rf_profiles`, `get_network_wireless_rf_profile`, `create_network_wireless_rf_profile`, and `update_network_wireless_rf_profile`. The spec marks every field nullable, but an RF profile always has an ID and name.
+- Mark `id` and `name` as required on the content filtering category items returned by `get_network_appliance_content_filtering`, `update_network_appliance_content_filtering`, and `get_network_appliance_content_filtering_categories`. Every category Meraki returns has both fields.
 
 ## v0.15.1
 
