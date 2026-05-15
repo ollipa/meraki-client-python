@@ -150,6 +150,18 @@ required = ["portId", "enabled", "type"]
 [updateDeviceSwitchPort]
 required = ["portId", "enabled", "type"]
 
+[getNetworkWirelessRfProfiles]
+required = ["id", "name"]
+
+[getNetworkWirelessRfProfile]
+required = ["id", "name"]
+
+[createNetworkWirelessRfProfile]
+required = ["id", "name"]
+
+[updateNetworkWirelessRfProfile]
+required = ["id", "name"]
+
 [getNetworkWirelessMeshStatuses]
 response = { "latestMeshPerformance.mbps" = "float" }
 

@@ -825,11 +825,11 @@ class GetNetworkWirelessMeshStatusesResponseItem(_BaseSchema):
 class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
     """Schema for GetNetworkWirelessRfProfilesResponse."""
 
-    id: str | None = None
+    id: str
     network_id: str | None = Field(
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
-    name: str | None = None
+    name: str
     client_balancing_enabled: bool | None = Field(
         default=None,
         validation_alias="clientBalancingEnabled",

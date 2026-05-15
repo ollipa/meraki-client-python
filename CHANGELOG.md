@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Mark `portId`, `enabled`, and `type` as required on the switch port response shared by `get_device_switch_ports`, `get_device_switch_port`, and `update_device_switch_port`. The spec marks every field nullable, but these fields are always returned.
+- Mark `id` and `name` as required on the wireless RF profile response shared by `get_network_wireless_rf_profiles`, `get_network_wireless_rf_profile`, `create_network_wireless_rf_profile`, and `update_network_wireless_rf_profile`. The spec marks every field nullable, but an RF profile always has an ID and name.
 
 ## v0.15.1
 
