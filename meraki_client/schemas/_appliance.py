@@ -1880,9 +1880,9 @@ class NetworkApplianceFirewallSettingsResponseSpoofingProtection(_BaseSchema):
 class NetworkAppliancePortResponse(_BaseSchema):
     """Schema for NetworkAppliancePortResponse."""
 
-    number: int | None = None
-    enabled: bool | None = None
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    number: int
+    enabled: bool
+    type_: str = Field(validation_alias="type", serialization_alias="type")
     drop_untagged_traffic: bool | None = Field(
         default=None,
         validation_alias="dropUntaggedTraffic",

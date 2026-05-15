@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- Mark `number`, `enabled`, and `type` as required on the appliance port response shared by `get_network_appliance_ports`, `get_network_appliance_port`, and `update_network_appliance_port`. The spec marks every field nullable, but these fields are always returned.
 
 ## v0.15.0
 

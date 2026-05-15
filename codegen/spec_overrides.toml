@@ -132,6 +132,15 @@ required = [
 response = { id = "int" }
 extra_fields = { networkId = "str" }
 
+[getNetworkAppliancePorts]
+required = ["number", "enabled", "type"]
+
+[getNetworkAppliancePort]
+required = ["number", "enabled", "type"]
+
+[updateNetworkAppliancePort]
+required = ["number", "enabled", "type"]
+
 [getNetworkWirelessMeshStatuses]
 response = { "latestMeshPerformance.mbps" = "float" }
 
