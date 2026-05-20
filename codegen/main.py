@@ -218,24 +218,23 @@ def generate_library(  # noqa: PLR0915
     scopes: dict[str, PathsType] = {}
     operation_count = 0
     for path, path_item in spec.paths.items():
-        operations: dict[
-            Literal["get", "put", "post", "delete", "patch", "options", "head", "trace"],
-            Operation | None,
-        ] = {
+        operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
             "get": path_item.get,
             "put": path_item.put,
             "post": path_item.post,
             "delete": path_item.delete,
+        }
+        unsupported: dict[str, Operation | None] = {
             "patch": path_item.patch,
             "options": path_item.options,
             "head": path_item.head,
             "trace": path_item.trace,
         }
+        for unsupported_method, unsupported_op in unsupported.items():
+            if unsupported_op:
+                log.warning(f"Unsupported method: {unsupported_method} for path: {path}")
         for method, operation in operations.items():
             if not operation:
-                continue
-            if method in ["options", "head", "trace", "patch"]:
-                log.warning(f"Unsupported method: {method} for path: {path}")
                 continue
             # First tag is the scope
             scope = operation.tags[0] if operation.tags else None
