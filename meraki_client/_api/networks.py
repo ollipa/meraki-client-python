@@ -128,6 +128,8 @@ from meraki_client.schemas import (
     UpdateNetworkSettingsLocalStatusPage,
     UpdateNetworkSettingsNamedVlans,
     UpdateNetworkSettingsSecurePort,
+    UpdateNetworkSnmpAuthentication,
+    UpdateNetworkSnmpPrivacy,
     UpdateNetworkSnmpUsersItem,
     UpdateNetworkSyslogServersServersItem,
     UpdateNetworkTrafficAnalysisCustomPieChartItemsItem,
@@ -6873,7 +6875,13 @@ class Networks:
                   "username": "AzureDiamond",
                   "passphrase": "hunter2"
                 }
-              ]
+              ],
+              "authentication": {
+                "protocol": "SHA-1"
+              },
+              "privacy": {
+                "protocol": "AES-128"
+              }
             }
             ```
 
@@ -6895,6 +6903,8 @@ class Networks:
         access: UpdateNetworkSnmpAccess | None = None,
         community_string: str | None = None,
         users: list[UpdateNetworkSnmpUsersItem] | None = None,
+        authentication: UpdateNetworkSnmpAuthentication | None = None,
+        privacy: UpdateNetworkSnmpPrivacy | None = None,
     ) -> NetworkSnmpResponse:
         """Update the SNMP settings for a network.
 
@@ -6907,6 +6917,9 @@ class Networks:
             community_string: The SNMP community string. Only relevant if 'access' is set to
                 'community'.
             users: The list of SNMP users. Only relevant if 'access' is set to 'users'.
+            authentication: SNMPv3 authentication settings. Only relevant if 'access' is set to
+                'users'.
+            privacy: SNMPv3 privacy settings. Only relevant if 'access' is set to 'users'.
 
         Returns:
             Successful operation.
@@ -6921,7 +6934,13 @@ class Networks:
                   "username": "AzureDiamond",
                   "passphrase": "hunter2"
                 }
-              ]
+              ],
+              "authentication": {
+                "protocol": "SHA-1"
+              },
+              "privacy": {
+                "protocol": "AES-128"
+              }
             }
             ```
 
@@ -6936,6 +6955,10 @@ class Networks:
             payload["communityString"] = community_string
         if users is not None:
             payload["users"] = [item.model_dump(by_alias=True, exclude_none=True) for item in users]
+        if authentication is not None:
+            payload["authentication"] = authentication.model_dump(by_alias=True, exclude_none=True)
+        if privacy is not None:
+            payload["privacy"] = privacy.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="networks",

@@ -11,13 +11,22 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
+    AddNetworkApplianceUmbrellaPoliciesPolicy,
+    AddNetworkApplianceUmbrellaPoliciesResponse,
     AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
     AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
     ConnectNetworkApplianceUmbrellaAccountApi,
     ConnectNetworkApplianceUmbrellaAccountResponse,
+    CreateDeviceApplianceInterfacesPortsUpdateDownlink,
+    CreateDeviceApplianceInterfacesPortsUpdateInterface,
+    CreateDeviceApplianceInterfacesPortsUpdatePersonality,
+    CreateDeviceApplianceInterfacesPortsUpdateResponse,
+    CreateDeviceApplianceInterfacesPortsUpdateUplink,
     CreateDeviceApplianceVmxAuthenticationTokenResponse,
+    CreateNetworkApplianceInterfacesL3Ipv4,
+    CreateNetworkApplianceInterfacesL3Port,
     CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
     CreateNetworkApplianceRfProfileFiveGhzSettings,
     CreateNetworkApplianceRfProfilePerSsidSettings,
@@ -26,6 +35,7 @@ from meraki_client.schemas import (
     CreateNetworkApplianceVlanIpv6,
     CreateNetworkApplianceVlanMandatoryDhcp,
     CreateNetworkApplianceVlanResponse,
+    CreateNetworkApplianceVlanSgt,
     CreateNetworkApplianceVlanUplinksItem,
     CreateNetworkApplianceVlanVrf,
     CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem,
@@ -35,6 +45,7 @@ from meraki_client.schemas import (
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem,
     DeviceApplianceRadioSettingsResponse,
     DeviceApplianceUplinksSettingsResponse,
+    ExclusionsNetworkApplianceUmbrellaDomainsResponse,
     GetDeviceApplianceDhcpSubnetsResponseItem,
     GetDeviceAppliancePerformanceResponse,
     GetDeviceAppliancePrefixesDelegatedResponseItem,
@@ -46,8 +57,12 @@ from meraki_client.schemas import (
     GetNetworkApplianceRfProfilesResponse,
     GetNetworkApplianceSecurityIntrusionResponse,
     GetNetworkApplianceUplinksUsageHistoryResponseItem,
+    GetOrganizationApplianceDevicesInterfacesL3ResponseItemsItem,
+    GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem,
+    GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem,
     GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem,
     GetOrganizationApplianceDnsLocalRecordsResponse,
+    GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem,
     GetOrganizationApplianceUplinksNatByNetworkResponseItem,
     GetOrganizationApplianceUplinksStatusesOverviewResponse,
     GetOrganizationApplianceUplinkStatusesResponseItem,
@@ -65,6 +80,7 @@ from meraki_client.schemas import (
     NetworkApplianceFirewallOneToOneNatRulesResponse,
     NetworkApplianceFirewallPortForwardingRulesResponse,
     NetworkApplianceFirewallSettingsResponse,
+    NetworkApplianceInterfacesL3Response,
     NetworkAppliancePortResponse,
     NetworkAppliancePrefixesDelegatedStaticResponse,
     NetworkApplianceRfProfileResponse,
@@ -91,6 +107,8 @@ from meraki_client.schemas import (
     OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
     OrganizationApplianceVpnThirdPartyVPNPeersResponse,
     OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse,
+    ProtectionNetworkApplianceUmbrellaResponse,
+    RemoveNetworkApplianceUmbrellaPoliciesPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     UpdateDeviceApplianceRadioSettingsFiveGhzSettings,
@@ -112,6 +130,9 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItem,
     UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem,
     UpdateNetworkApplianceFirewallSettingsSpoofingProtection,
+    UpdateNetworkApplianceInterfacesL3Ipv4,
+    UpdateNetworkApplianceInterfacesL3Port,
+    UpdateNetworkAppliancePortSgt,
     UpdateNetworkAppliancePrefixesDelegatedStaticOrigin,
     UpdateNetworkApplianceRfProfileFiveGhzSettings,
     UpdateNetworkApplianceRfProfilePerSsidSettings,
@@ -145,11 +166,13 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceVlanIpv6,
     UpdateNetworkApplianceVlanMandatoryDhcp,
     UpdateNetworkApplianceVlanReservedIpRangesItem,
+    UpdateNetworkApplianceVlanSgt,
     UpdateNetworkApplianceVlanUplinksItem,
     UpdateNetworkApplianceVlanVrf,
     UpdateNetworkApplianceVpnBgpNeighborsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
+    UpdateNetworkApplianceVpnSiteToSiteVpnSgt,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnet,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem,
     UpdateOrganizationApplianceDnsLocalRecordProfile,
@@ -233,6 +256,106 @@ class Appliance:
             operation_id="getDeviceApplianceDhcpSubnets",
             path=path,
             item_schema=GetDeviceApplianceDhcpSubnetsResponseItem,
+        )
+
+    def create_device_appliance_interfaces_ports_update(
+        self,
+        serial: str,
+        *,
+        interface: CreateDeviceApplianceInterfacesPortsUpdateInterface | None = None,
+        enabled: bool | None = None,
+        personality: CreateDeviceApplianceInterfacesPortsUpdatePersonality | None = None,
+        uplink: CreateDeviceApplianceInterfacesPortsUpdateUplink | None = None,
+        downlink: CreateDeviceApplianceInterfacesPortsUpdateDownlink | None = None,
+    ) -> CreateDeviceApplianceInterfacesPortsUpdateResponse:
+        """Update configurations for an appliance's specified port.
+
+        [API documentation: createDeviceApplianceInterfacesPortsUpdate](https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-interfaces-ports-update)
+
+        Args:
+            serial: Serial.
+            interface: The interface tuple used to identify the port.
+            enabled: Indicates whether the port is enabled.
+            personality: Describes the port's configurability.
+            uplink: The port's settings when in WAN mode.
+            downlink: The port's VLAN settings when in LAN mode.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "number": "1",
+              "interface": {
+                "name": "GigabitEthernet1/2/3",
+                "slot": 1,
+                "subslot": 2,
+                "number": 3
+              },
+              "enabled": true,
+              "name": "wan1",
+              "personality": {
+                "mode": "wan",
+                "isFlexible": false,
+                "layer": {
+                  "mode": 3,
+                  "isFlexible": false
+                }
+              },
+              "uplink": {
+                "type": "ethernet",
+                "primary": true
+              },
+              "downlink": {
+                "mode": "access",
+                "sgt": {
+                  "id": 1234
+                },
+                "access": {
+                  "vlan": "1",
+                  "policy": {
+                    "type": "802.1X"
+                  }
+                },
+                "trunk": {
+                  "nativeVlan": "2",
+                  "allowedVlans": [
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  "sgt": {
+                    "enabled": false
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/appliance/interfaces/ports/update"
+
+        payload: dict[str, Any] = {}
+        if interface is not None:
+            payload["interface"] = interface.model_dump(by_alias=True, exclude_none=True)
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if personality is not None:
+            payload["personality"] = personality.model_dump(by_alias=True, exclude_none=True)
+        if uplink is not None:
+            payload["uplink"] = uplink.model_dump(by_alias=True, exclude_none=True)
+        if downlink is not None:
+            payload["downlink"] = downlink.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="createDeviceApplianceInterfacesPortsUpdate",
+            path=path,
+            json=payload,
+            response_schema=CreateDeviceApplianceInterfacesPortsUpdateResponse,
         )
 
     def get_device_appliance_performance(
@@ -2382,6 +2505,142 @@ class Appliance:
             response_schema=NetworkApplianceFirewallSettingsResponse,
         )
 
+    def create_network_appliance_interfaces_l3(
+        self,
+        *,
+        network_id: str,
+        ipv4: CreateNetworkApplianceInterfacesL3Ipv4,
+        port: CreateNetworkApplianceInterfacesL3Port | None = None,
+    ) -> NetworkApplianceInterfacesL3Response:
+        """Create wired L3 interface.
+
+        [API documentation: createNetworkApplianceInterfacesL3](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-interfaces-l-3)
+
+        Args:
+            network_id: Network ID.
+            port: Port configuration.
+            ipv4: IPv4 configuration.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaceId": "1234",
+              "ipv4": {
+                "address": "192.168.1.2",
+                "subnet": "192.168.1.0/24"
+              },
+              "port": {
+                "interface": {
+                  "name": "GigabitEthernet0/0/1",
+                  "slot": 0,
+                  "subslot": 0,
+                  "number": 1
+                }
+              }
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/interfaces/l3"
+
+        payload: dict[str, Any] = {}
+        if port is not None:
+            payload["port"] = port.model_dump(by_alias=True, exclude_none=True)
+        if ipv4 is not None:
+            payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="createNetworkApplianceInterfacesL3",
+            path=path,
+            json=payload,
+            response_schema=NetworkApplianceInterfacesL3Response,
+        )
+
+    def update_network_appliance_interfaces_l3(
+        self,
+        *,
+        network_id: str,
+        interface_id: str,
+        port: UpdateNetworkApplianceInterfacesL3Port | None = None,
+        ipv4: UpdateNetworkApplianceInterfacesL3Ipv4 | None = None,
+    ) -> NetworkApplianceInterfacesL3Response:
+        """Update wired L3 interface.
+
+        [API documentation: updateNetworkApplianceInterfacesL3](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-interfaces-l-3)
+
+        Args:
+            network_id: Network ID.
+            interface_id: Interface ID.
+            port: Port configuration.
+            ipv4: IPv4 configuration.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "interfaceId": "1234",
+              "ipv4": {
+                "address": "192.168.1.2",
+                "subnet": "192.168.1.0/24"
+              },
+              "port": {
+                "interface": {
+                  "name": "GigabitEthernet0/0/1",
+                  "slot": 0,
+                  "subslot": 0,
+                  "number": 1
+                }
+              }
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        path = f"/networks/{network_id}/appliance/interfaces/l3/{interface_id}"
+
+        payload: dict[str, Any] = {}
+        if port is not None:
+            payload["port"] = port.model_dump(by_alias=True, exclude_none=True)
+        if ipv4 is not None:
+            payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceInterfacesL3",
+            path=path,
+            json=payload,
+            response_schema=NetworkApplianceInterfacesL3Response,
+        )
+
+    def delete_network_appliance_interfaces_l3(self, *, network_id: str, interface_id: str) -> None:
+        """Delete wired L3 interface.
+
+        [API documentation: deleteNetworkApplianceInterfacesL3](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-interfaces-l-3)
+
+        Args:
+            network_id: Network ID.
+            interface_id: Interface ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        path = f"/networks/{network_id}/appliance/interfaces/l3/{interface_id}"
+
+        return self._session.delete(
+            scope="appliance", operation_id="deleteNetworkApplianceInterfacesL3", path=path
+        )
+
     def get_network_appliance_ports(
         self, network_id: str
     ) -> PaginatedResponse[NetworkAppliancePortResponse]:
@@ -2410,7 +2669,11 @@ class Appliance:
                 "dropUntaggedTraffic": false,
                 "vlan": 3,
                 "allowedVlans": "all",
-                "accessPolicy": "open"
+                "accessPolicy": "open",
+                "sgt": {
+                  "id": 1234,
+                  "enabled": true
+                }
               }
             ]
             ```
@@ -2449,7 +2712,11 @@ class Appliance:
               "dropUntaggedTraffic": false,
               "vlan": 3,
               "allowedVlans": "all",
-              "accessPolicy": "open"
+              "accessPolicy": "open",
+              "sgt": {
+                "id": 1234,
+                "enabled": true
+              }
             }
             ```
 
@@ -2476,6 +2743,7 @@ class Appliance:
         vlan: int | None = None,
         allowed_vlans: str | None = None,
         access_policy: str | None = None,
+        sgt: UpdateNetworkAppliancePortSgt | None = None,
     ) -> NetworkAppliancePortResponse:
         """Update the per-port VLAN settings for a single secure router or security appliance port.
 
@@ -2498,6 +2766,7 @@ class Appliance:
                 Z3 or any MX supporting the per port authentication feature. Otherwise,
                 'open' is the only valid value and 'open' is the default value if the
                 field is missing.
+            sgt: Security Group Tag settings for the port.
 
         Returns:
             Successful operation.
@@ -2511,7 +2780,11 @@ class Appliance:
               "dropUntaggedTraffic": false,
               "vlan": 3,
               "allowedVlans": "all",
-              "accessPolicy": "open"
+              "accessPolicy": "open",
+              "sgt": {
+                "id": 1234,
+                "enabled": true
+              }
             }
             ```
 
@@ -2533,6 +2806,8 @@ class Appliance:
             payload["allowedVlans"] = allowed_vlans
         if access_policy is not None:
             payload["accessPolicy"] = access_policy
+        if sgt is not None:
+            payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -5140,6 +5415,167 @@ class Appliance:
             scope="appliance", operation_id="disconnectNetworkApplianceUmbrellaAccount", path=path
         )
 
+    def exclusions_network_appliance_umbrella_domains(
+        self, *, network_id: str, domains: list[str]
+    ) -> ExclusionsNetworkApplianceUmbrellaDomainsResponse:
+        """Specify one or more domain names to be excluded from being routed to Cisco Umbrella.
+
+        [API documentation: exclusionsNetworkApplianceUmbrellaDomains](https://developer.cisco.com/meraki/api-v1/#!exclusions-network-appliance-umbrella-domains)
+
+        Args:
+            network_id: Network ID.
+            domains: Domain names to exclude from Umbrella DNS routing (e.g., 'example.com',
+                'corp.example.org'). Standard FQDNs only — wildcards are not supported.
+                Values are lowercased before saving. Each call replaces the full
+                exclusion list.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "domains": [
+                "example.com",
+                "example.org"
+              ]
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/domains/exclusions"
+
+        payload: dict[str, Any] = {}
+        if domains is not None:
+            payload["domains"] = domains
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="exclusionsNetworkApplianceUmbrellaDomains",
+            path=path,
+            json=payload,
+            response_schema=ExclusionsNetworkApplianceUmbrellaDomainsResponse,
+        )
+
+    def add_network_appliance_umbrella_policies(
+        self, *, network_id: str, policy: AddNetworkApplianceUmbrellaPoliciesPolicy
+    ) -> AddNetworkApplianceUmbrellaPoliciesResponse:
+        """Add one Cisco Umbrella DNS security policy to an MX network by policy ID.
+
+        [API documentation: addNetworkApplianceUmbrellaPolicies](https://developer.cisco.com/meraki/api-v1/#!add-network-appliance-umbrella-policies)
+
+        Args:
+            network_id: Network ID.
+            policy: Umbrella policy to add.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_123456789"
+              },
+              "policies": [
+                {
+                  "id": "13408726"
+                }
+              ]
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/policies/add"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="addNetworkApplianceUmbrellaPolicies",
+            path=path,
+            json=payload,
+            response_schema=AddNetworkApplianceUmbrellaPoliciesResponse,
+        )
+
+    def remove_network_appliance_umbrella_policies(
+        self, *, network_id: str, policy: RemoveNetworkApplianceUmbrellaPoliciesPolicy
+    ) -> None:
+        """Remove one Cisco Umbrella DNS security policy from an MX network by policy ID.
+
+        [API documentation: removeNetworkApplianceUmbrellaPolicies](https://developer.cisco.com/meraki/api-v1/#!remove-network-appliance-umbrella-policies)
+
+        Args:
+            network_id: Network ID.
+            policy: Umbrella policy to remove.
+
+        Returns:
+            Successful operation.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/policies/remove"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="removeNetworkApplianceUmbrellaPolicies",
+            path=path,
+            json=payload,
+        )
+
+    def protection_network_appliance_umbrella(
+        self, *, network_id: str, enabled: bool
+    ) -> ProtectionNetworkApplianceUmbrellaResponse:
+        """Enable or disable umbrella protection for an appliance network.
+
+        [API documentation: protectionNetworkApplianceUmbrella](https://developer.cisco.com/meraki/api-v1/#!protection-network-appliance-umbrella)
+
+        Args:
+            network_id: Network ID.
+            enabled: Enable or disable umbrella protection.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "umbrella": {
+                "organization": {
+                  "id": "8706910"
+                },
+                "origin": {
+                  "id": "606932410"
+                }
+              },
+              "enabled": true
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/protection"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="protectionNetworkApplianceUmbrella",
+            path=path,
+            json=payload,
+            response_schema=ProtectionNetworkApplianceUmbrellaResponse,
+        )
+
     def update_network_appliance_uplinks_nat(
         self, *, network_id: str, uplinks: list[UpdateNetworkApplianceUplinksNatUplinksItem]
     ) -> UpdateNetworkApplianceUplinksNatResponse:
@@ -5322,6 +5758,9 @@ class Appliance:
                 "mandatoryDhcp": {
                   "enabled": true
                 },
+                "sgt": {
+                  "id": 1234
+                },
                 "ipv6": {
                   "enabled": true,
                   "prefixAssignments": [
@@ -5378,6 +5817,7 @@ class Appliance:
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
         dhcp_options: list[CreateNetworkApplianceVlanDhcpOptionsItem] | None = None,
+        sgt: CreateNetworkApplianceVlanSgt | None = None,
         vrf: CreateNetworkApplianceVlanVrf | None = None,
         uplinks: list[CreateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateNetworkApplianceVlanResponse:
@@ -5418,6 +5858,7 @@ class Appliance:
             dhcp_boot_filename: DHCP boot option for boot filename.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
                 object in the list should have "code", "type", and "value" properties.
+            sgt: Security Group Tag settings for the VLAN.
             vrf: VRF configuration on the VLAN.
             uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
                 for networks that support NAT exceptions.
@@ -5439,6 +5880,9 @@ class Appliance:
               "mask": 28,
               "mandatoryDhcp": {
                 "enabled": true
+              },
+              "sgt": {
+                "id": 1234
               },
               "ipv6": {
                 "enabled": true,
@@ -5504,6 +5948,8 @@ class Appliance:
             payload["dhcpOptions"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in dhcp_options
             ]
+        if sgt is not None:
+            payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if uplinks is not None:
@@ -5648,6 +6094,9 @@ class Appliance:
               "mandatoryDhcp": {
                 "enabled": true
               },
+              "sgt": {
+                "id": 1234
+              },
               "ipv6": {
                 "enabled": true,
                 "prefixAssignments": [
@@ -5708,6 +6157,7 @@ class Appliance:
         mask: int | None = None,
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
+        sgt: UpdateNetworkApplianceVlanSgt | None = None,
         vrf: UpdateNetworkApplianceVlanVrf | None = None,
         uplinks: list[UpdateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> NetworkApplianceVlanResponse:
@@ -5758,6 +6208,7 @@ class Appliance:
                 use the IP address assigned by the DHCP server. Clients who use a static
                 IP address won't be able to associate. Only available on firmware
                 versions 17.0 and above.
+            sgt: Security Group Tag settings for the VLAN.
             vrf: VRF configuration on the VLAN.
             uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
                 for networks that support NAT exceptions.
@@ -5810,6 +6261,9 @@ class Appliance:
               "vpnNatSubnet": "192.168.1.0/24",
               "mandatoryDhcp": {
                 "enabled": true
+              },
+              "sgt": {
+                "id": 1234
               },
               "ipv6": {
                 "enabled": true,
@@ -5884,6 +6338,8 @@ class Appliance:
             payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
+        if sgt is not None:
+            payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if uplinks is not None:
@@ -6126,6 +6582,9 @@ class Appliance:
                   }
                 }
               ],
+              "sgt": {
+                "enabled": true
+              },
               "subnet": {
                 "nat": {
                   "isAllowed": true
@@ -6163,6 +6622,7 @@ class Appliance:
         mode: UpdateNetworkApplianceVpnSiteToSiteVpnMode,
         hubs: list[UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem] | None = None,
         subnets: list[UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem] | None = None,
+        sgt: UpdateNetworkApplianceVpnSiteToSiteVpnSgt | None = None,
         subnet: UpdateNetworkApplianceVpnSiteToSiteVpnSubnet | None = None,
         host_translations: list[UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem]
         | None = None,
@@ -6177,6 +6637,7 @@ class Appliance:
             hubs: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is
                 required.
             subnets: The list of subnets and their VPN presence.
+            sgt: Security Group Tag settings for the VPN peer.
             subnet: Configuration of subnet features.
             host_translations: The list of VPN host translations. Host translations are supported
                 starting from MX firmware version 26.1.2.
@@ -6204,6 +6665,9 @@ class Appliance:
                   }
                 }
               ],
+              "sgt": {
+                "enabled": true
+              },
               "subnet": {
                 "nat": {
                   "isAllowed": true
@@ -6236,6 +6700,8 @@ class Appliance:
             payload["subnets"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in subnets
             ]
+        if sgt is not None:
+            payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
         if subnet is not None:
             payload["subnet"] = subnet.model_dump(by_alias=True, exclude_none=True)
         if host_translations is not None:
@@ -6400,6 +6866,401 @@ class Appliance:
             operation_id="swapNetworkApplianceWarmSpare",
             path=path,
             response_schema=NetworkApplianceWarmSpareResponse,
+        )
+
+    def get_organization_appliance_devices_interfaces_l3(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationApplianceDevicesInterfacesL3ResponseItemsItem]:
+        """List L3 interfaces across networks for the organization.
+
+        [API documentation: getOrganizationApplianceDevicesInterfacesL3](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-devices-interfaces-l-3)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Optional Network IDs to filter results.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "interfaceId": "1234",
+                  "ipv4": {
+                    "address": "192.168.1.2",
+                    "subnet": "192.168.1.0/24"
+                  },
+                  "network": {
+                    "id": "L_123456"
+                  },
+                  "port": {
+                    "interface": {
+                      "name": "GigabitEthernet0/0/1",
+                      "slot": 0,
+                      "subslot": 0,
+                      "number": 1
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/devices/interfaces/l3"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDevicesInterfacesL3",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceDevicesInterfacesL3ResponseItemsItem,
+        )
+
+    def get_organization_appliance_devices_interfaces_ports_by_device(
+        self,
+        organization_id: str,
+        *,
+        serials: list[str] | None = None,
+        interfaces: list[dict[str, Any]] | None = None,
+        numbers: list[str] | None = None,
+    ) -> PaginatedResponse[GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem]:
+        """Returns port configurations for appliances in a given organization.
+
+        [API documentation: getOrganizationApplianceDevicesInterfacesPortsByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-devices-interfaces-ports-by-device)
+
+        Args:
+            organization_id: Organization ID.
+            serials: Parameter to filter the results by device serials.
+            interfaces: Parameter to filter the results by specific interfaces.
+            numbers: Parameter to filter the results by specific ports.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "ports": [
+                    {
+                      "number": "1",
+                      "interface": {
+                        "name": "GigabitEthernet1/2/3",
+                        "slot": 1,
+                        "subslot": 2,
+                        "number": 3
+                      },
+                      "enabled": true,
+                      "name": "wan1",
+                      "personality": {
+                        "mode": "wan",
+                        "isFlexible": false,
+                        "layer": {
+                          "mode": 3,
+                          "isFlexible": false
+                        }
+                      },
+                      "uplink": {
+                        "type": "ethernet",
+                        "primary": true
+                      },
+                      "downlink": {
+                        "mode": "access",
+                        "sgt": {
+                          "id": 1234
+                        },
+                        "access": {
+                          "vlan": "1",
+                          "policy": {
+                            "type": "802.1X"
+                          }
+                        },
+                        "trunk": {
+                          "nativeVlan": "2",
+                          "allowedVlans": [
+                            "2",
+                            "3",
+                            "4",
+                            "5"
+                          ],
+                          "sgt": {
+                            "enabled": false
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/devices/interfaces/ports/byDevice"
+
+        params: dict[str, Any] = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if interfaces is not None:
+            params["interfaces[]"] = interfaces
+        if numbers is not None:
+            params["numbers[]"] = numbers
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDevicesInterfacesPortsByDevice",
+            path=path,
+            params=params,
+            item_schema=GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem,
+        )
+
+    def get_organization_appliance_devices_ports_transceivers_readings_history_by_device(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        interval: int | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        port_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem
+    ]:
+        """Return time-series digital optical monitoring (DOM) readings for ports on each DOM-enabled Catalyst appliance in an organization.
+
+        [API documentation: getOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-devices-ports-transceivers-readings-history-by-device)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 10. Default
+                is 5.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 30 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 30 days. The default is 1 day. If
+                interval is provided, the timespan will be autocalculated.
+            interval: The time interval in seconds for returned data. The valid intervals are: 300,
+                1200, 14400, 86400. The default is 1200. Interval is calculated if time
+                params are provided.
+            network_ids: Networks for which information should be gathered.
+            serials: Optional parameter to filter usage by appliance serial.
+            port_ids: Optional parameter to filter usage by port ID.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "ports": [
+                    {
+                      "portId": "1",
+                      "interfaceName": "FiveGigabitEthernet0/0/1",
+                      "indices": {
+                        "slot": 0,
+                        "subslot": 0,
+                        "port": 1
+                      },
+                      "readings": [
+                        {
+                          "startTs": "2018-02-11T00:00:00.090210Z",
+                          "endTs": "2018-02-11T00:00:00.090210Z",
+                          "sfpProductId": "PRODUCT1",
+                          "byMetric": {
+                            "power": {
+                              "transmit": {
+                                "minimum": 4.0,
+                                "maximum": 5.0,
+                                "median": 4.5
+                              },
+                              "receive": {
+                                "minimum": 4.0,
+                                "maximum": 5.0,
+                                "median": 4.5
+                              }
+                            },
+                            "temperature": {
+                              "fahrenheit": {
+                                "minimum": 30.0,
+                                "maximum": 33.0,
+                                "median": 32.0
+                              },
+                              "celsius": {
+                                "minimum": -1.1,
+                                "maximum": 0.6,
+                                "median": 0.0
+                              }
+                            },
+                            "supplyVoltage": {
+                              "level": {
+                                "minimum": 3.0,
+                                "maximum": 3.33,
+                                "median": 3.11
+                              }
+                            },
+                            "laserBiasCurrent": {
+                              "draw": {
+                                "minimum": 5.0,
+                                "maximum": 7.0,
+                                "median": 5.5
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "network": {
+                    "id": "N_12345678",
+                    "name": "San Francisco Office"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 4,
+                    "remaining": 2
+                  }
+                },
+                "units": {
+                  "power": {
+                    "name": "decibel milliwatts",
+                    "symbol": "dBm"
+                  },
+                  "supplyVoltage": {
+                    "name": "volts",
+                    "symbol": "V"
+                  },
+                  "laserBiasCurrent": {
+                    "name": "milliamps",
+                    "symbol": "mA"
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/devices/ports/transceivers/readings/history/byDevice"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if interval is not None:
+            params["interval"] = interval
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if port_ids is not None:
+            params["portIds[]"] = port_ids
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDevice",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem,
         )
 
     def get_organization_appliance_devices_redundancy_by_network(
@@ -7479,6 +8340,136 @@ class Appliance:
             total_pages=total_pages,
             direction=direction,
             item_schema=UpdateNetworkApplianceFirewallMulticastForwardingResponse,
+        )
+
+    def get_organization_appliance_interfaces_packets_overviews_by_device(
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem
+    ]:
+        """Returns packet counter overviews for all interfaces on Secure Routers in the organization, including totals and average rates by packet type over the requested timespan.
+
+        [API documentation: getOrganizationApplianceInterfacesPacketsOverviewsByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-interfaces-packets-overviews-by-device)
+
+        Args:
+            organization_id: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 14 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 14 days. The default is 1 day.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 50. Default
+                is 10.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            network_ids: Optional parameter to filter Secure Routers in the provided networks.
+            serials: Optional parameter to filter Secure Routers by their serial numbers.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_24329156"
+                  },
+                  "serial": "Q234-ABCD-5678",
+                  "interfaces": [
+                    {
+                      "name": "GigabitEthernet0/0/4",
+                      "slot": 0,
+                      "subslot": 0,
+                      "number": 4,
+                      "byType": [
+                        {
+                          "type": "broadcast unicast multicast",
+                          "total": 8709,
+                          "sent": 4901,
+                          "recv": 3808,
+                          "rates": {
+                            "average": {
+                              "total": 72.57,
+                              "sent": 40.84,
+                              "recv": 31.73
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 9
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/interfaces/packets/overviews/byDevice"
+
+        params: dict[str, Any] = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceInterfacesPacketsOverviewsByDevice",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem,
         )
 
     def get_organization_appliance_routing_vrfs_settings(

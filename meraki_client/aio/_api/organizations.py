@@ -18,6 +18,7 @@ from meraki_client.schemas import (
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponse,
     BatchOrganizationSaseConnectorsDeleteItemsItem,
+    BatchOrganizationSaseConnectorsDeleteResponse,
     BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced,
     BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem,
@@ -72,7 +73,6 @@ from meraki_client.schemas import (
     GetOrganizationApiRequestsOverviewResponse,
     GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem,
     GetOrganizationApiRequestsResponseItem,
-    GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
     GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponseItemsItem,
     GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem,
     GetOrganizationAssuranceAlertResponse,
@@ -507,6 +507,7 @@ class Organizations:
         name: str | None = None,
         management: UpdateOrganizationManagement | None = None,
         api: UpdateOrganizationApi | None = None,
+        privacy: dict[str, Any] | None = None,
     ) -> OrganizationResponse:
         """Update an organization.
 
@@ -517,6 +518,7 @@ class Organizations:
             name: The name of the organization.
             management: Information about the organization's management system.
             api: API-specific settings.
+            privacy: Privacy-related settings for the organization.
 
         Returns:
             Successful operation.
@@ -563,6 +565,8 @@ class Organizations:
             payload["management"] = management.model_dump(by_alias=True, exclude_none=True)
         if api is not None:
             payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
+        if privacy is not None:
+            payload["privacy"] = privacy
 
         return await self._session.put(
             scope="organizations",
@@ -2458,7 +2462,18 @@ class Organizations:
                         "failed": 1,
                         "pending": 1
                       }
-                    }
+                    },
+                    "byJobOperation": [
+                      {
+                        "name": "enroll wired site",
+                        "total": 2,
+                        "byStatus": {
+                          "completed": 1,
+                          "failed": 0,
+                          "pending": 1
+                        }
+                      }
+                    ]
                   }
                 }
               ],
@@ -10730,7 +10745,8 @@ class Organizations:
                     "192.168.33.33"
                   ]
                 }
-              }
+              },
+              "enforceLockedIpSessions": true
             }
             ```
 
@@ -10762,6 +10778,7 @@ class Organizations:
         enforce_two_factor_auth: bool | None = None,
         enforce_login_ip_ranges: bool | None = None,
         login_ip_ranges: list[str] | None = None,
+        enforce_locked_ip_sessions: bool | None = None,
         api_authentication: UpdateOrganizationLoginSecurityApiAuthentication | None = None,
     ) -> OrganizationLoginSecurityResponse:
         """Update the login security settings for an organization.
@@ -10798,6 +10815,10 @@ class Organizations:
                 Dashboard (including the API) from certain IP addresses.
             login_ip_ranges: List of acceptable IP ranges. Entries can be single IP addresses, IP
                 address ranges, and CIDR subnets.
+            enforce_locked_ip_sessions: Boolean indicating whether Dashboard sessions are locked to
+                the IP address from which they were established. Only applicable to
+                organizations that support locked-IP sessions; otherwise the parameter
+                is ignored.
             api_authentication: Details for indicating whether organization will restrict access to
                 API (but not Dashboard) to certain IP addresses.
 
@@ -10831,7 +10852,8 @@ class Organizations:
                     "192.168.33.33"
                   ]
                 }
-              }
+              },
+              "enforceLockedIpSessions": true
             }
             ```
 
@@ -10866,6 +10888,8 @@ class Organizations:
             payload["enforceLoginIpRanges"] = enforce_login_ip_ranges
         if login_ip_ranges is not None:
             payload["loginIpRanges"] = login_ip_ranges
+        if enforce_locked_ip_sessions is not None:
+            payload["enforceLockedIpSessions"] = enforce_locked_ip_sessions
         if api_authentication is not None:
             payload["apiAuthentication"] = api_authentication.model_dump(
                 by_alias=True, exclude_none=True
@@ -14274,7 +14298,7 @@ class Organizations:
         organization_id: str,
         *,
         items: list[BatchOrganizationSaseConnectorsDeleteItemsItem] | None = None,
-    ) -> GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse:
+    ) -> BatchOrganizationSaseConnectorsDeleteResponse:
         """Delete SSE Connectors by ID.
 
         [API documentation: batchOrganizationSaseConnectorsDelete](https://developer.cisco.com/meraki/api-v1/#!batch-organization-sase-connectors-delete)
@@ -14332,7 +14356,7 @@ class Organizations:
             operation_id="batchOrganizationSaseConnectorsDelete",
             path=path,
             json=payload,
-            response_schema=GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
+            response_schema=BatchOrganizationSaseConnectorsDeleteResponse,
         )
 
     async def create_organization_sase_integration(
@@ -14746,7 +14770,7 @@ class Organizations:
         *,
         items: list[AttachOrganizationSaseSitesItemsItem] | None = None,
         callback: AttachOrganizationSaseSitesCallback | None = None,
-    ) -> GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse:
+    ) -> BatchOrganizationSaseConnectorsDeleteResponse:
         """Attach sites in this organization to Secure Access.
 
         [API documentation: attachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!attach-organization-sase-sites)
@@ -14808,7 +14832,7 @@ class Organizations:
             operation_id="attachOrganizationSaseSites",
             path=path,
             json=payload,
-            response_schema=GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse,
+            response_schema=BatchOrganizationSaseConnectorsDeleteResponse,
         )
 
     def get_organization_sase_sites_connectivity_history_by_site(

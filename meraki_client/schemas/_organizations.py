@@ -101,6 +101,32 @@ class BatchOrganizationSaseConnectorsDeleteItemsItem(_BaseSchema):
     connector_id: str = Field(validation_alias="connectorId", serialization_alias="connectorId")
 
 
+class BatchOrganizationSaseConnectorsDeleteResponse(_BaseSchema):
+    """Schema for BatchOrganizationSaseConnectorsDeleteResponse."""
+
+    items: list[BatchOrganizationSaseConnectorsDeleteResponseItemsItem] = Field(
+        default_factory=list
+    )
+    meta: BatchOrganizationSaseConnectorsDeleteResponseMeta | None = None
+
+
+class BatchOrganizationSaseConnectorsDeleteResponseItemsItem(_BaseSchema):
+    """Schema for BatchOrganizationSaseConnectorsDeleteResponseItemsItem."""
+
+    pipeline_id: str | None = Field(
+        default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
+    )
+    operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    status: str | None = None
+    counts: OrganizationsCounts6 | None = None
+
+
+class BatchOrganizationSaseConnectorsDeleteResponseMeta(_BaseSchema):
+    """Metadata relevant to the paginated dataset."""
+
+    counts: OrganizationsMetaCounts | None = None
+
+
 class BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem(_BaseSchema):
     """Item schema for items."""
 
@@ -1039,15 +1065,6 @@ class GetOrganizationApiRequestsResponseItem(_BaseSchema):
     client: OrganizationsClient | None = None
 
 
-class GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse(_BaseSchema):
-    """Schema for GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse."""
-
-    items: list[OrganizationsItemsItem] = Field(default_factory=list)
-    meta: GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponseMeta | None = (
-        None
-    )
-
-
 class GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponseItemsItem(
     _BaseSchema
 ):
@@ -1061,12 +1078,6 @@ class GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse
     operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
     status: str | None = None
     counts: OrganizationsCounts | None = None
-
-
-class GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: OrganizationsMetaCounts | None = None
 
 
 class GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem(_BaseSchema):
@@ -3117,6 +3128,11 @@ class OrganizationLoginSecurityResponse(_BaseSchema):
     api_authentication: OrganizationLoginSecurityResponseApiAuthentication | None = Field(
         default=None, validation_alias="apiAuthentication", serialization_alias="apiAuthentication"
     )
+    enforce_locked_ip_sessions: bool | None = Field(
+        default=None,
+        validation_alias="enforceLockedIpSessions",
+        serialization_alias="enforceLockedIpSessions",
+    )
 
 
 class OrganizationLoginSecurityResponseApiAuthentication(_BaseSchema):
@@ -3260,6 +3276,7 @@ class OrganizationResponse(_BaseSchema):
     licensing: OrganizationsLicensing | None = None
     cloud: OrganizationsCloud | None = None
     management: OrganizationsManagement | None = None
+    privacy: dict[str, Any] | None = None
 
 
 class OrganizationSamlResponse(_BaseSchema):
@@ -3484,6 +3501,16 @@ class OrganizationsByAlertTypeItem(_BaseSchema):
     critical: int | None = None
 
 
+class OrganizationsByJobOperationItem(_BaseSchema):
+    """Schema for OrganizationsByJobOperationItem."""
+
+    name: str | None = None
+    total: int | None = None
+    by_status: OrganizationsByStatus | None = Field(
+        default=None, validation_alias="byStatus", serialization_alias="byStatus"
+    )
+
+
 class OrganizationsByProductTypeItem(_BaseSchema):
     """Schema for OrganizationsByProductTypeItem."""
 
@@ -3546,7 +3573,9 @@ class OrganizationsBySlotItem2(_BaseSchema):
 
 
 class OrganizationsByStatus(_BaseSchema):
-    """Counts by status."""
+    """Counts by summary status. `completed` includes jobs with raw status `complete`, `failed`
+    includes jobs with raw status `failed`, and `pending` includes every other job status.
+    """
 
     completed: int | None = None
     failed: int | None = None
@@ -3648,6 +3677,11 @@ class OrganizationsCounts(_BaseSchema):
     """Job counts."""
 
     jobs: OrganizationsJobs | None = None
+    by_job_operation: list[OrganizationsByJobOperationItem] = Field(
+        default_factory=list,
+        validation_alias="byJobOperation",
+        serialization_alias="byJobOperation",
+    )
 
 
 class OrganizationsCounts2(_BaseSchema):
@@ -3674,6 +3708,12 @@ class OrganizationsCounts5(_BaseSchema):
     sites_connected: GetOrganizationClientsOverviewResponseCounts | None = Field(
         default=None, validation_alias="sitesConnected", serialization_alias="sitesConnected"
     )
+
+
+class OrganizationsCounts6(_BaseSchema):
+    """Job counts."""
+
+    jobs: OrganizationsJobs | None = None
 
 
 class OrganizationsCountsBySeverityItem(_BaseSchema):
@@ -4141,17 +4181,6 @@ class OrganizationsItems(_BaseSchema):
 
     total: int | None = None
     remaining: int | None = None
-
-
-class OrganizationsItemsItem(_BaseSchema):
-    """Schema for OrganizationsItemsItem."""
-
-    pipeline_id: str | None = Field(
-        default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
-    )
-    operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
-    status: str | None = None
-    counts: OrganizationsCounts | None = None
 
 
 class OrganizationsJobs(_BaseSchema):

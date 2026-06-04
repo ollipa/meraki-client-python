@@ -159,6 +159,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidSplashSettingsSplashImage,
     UpdateNetworkWirelessSsidSplashSettingsSplashLogo,
     UpdateNetworkWirelessSsidSplashSettingsSplashPrepaidFront,
+    UpdateNetworkWirelessSsidSplashSettingsUserConsent,
     UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem,
     UpdateNetworkWirelessSsidVpnConcentrator,
     UpdateNetworkWirelessSsidVpnFailover,
@@ -329,7 +330,7 @@ class Wireless:
         Example API response:
             ```json
             {
-              "uuid": "00000000-0000-0000-000-000000000000",
+              "uuid": "00000000-0000-0000-0000-000000000000",
               "major": 13,
               "minor": 125
             }
@@ -373,7 +374,7 @@ class Wireless:
         Example API response:
             ```json
             {
-              "uuid": "00000000-0000-0000-000-000000000000",
+              "uuid": "00000000-0000-0000-0000-000000000000",
               "major": 13,
               "minor": 125
             }
@@ -1374,7 +1375,7 @@ class Wireless:
             {
               "scanningEnabled": true,
               "advertisingEnabled": true,
-              "uuid": "00000000-0000-0000-000-000000000000",
+              "uuid": "00000000-0000-0000-0000-000000000000",
               "majorMinorAssignmentMode": "Non-unique",
               "major": 1,
               "minor": 1,
@@ -1429,7 +1430,7 @@ class Wireless:
             {
               "scanningEnabled": true,
               "advertisingEnabled": true,
-              "uuid": "00000000-0000-0000-000-000000000000",
+              "uuid": "00000000-0000-0000-0000-000000000000",
               "majorMinorAssignmentMode": "Non-unique",
               "major": 1,
               "minor": 1,
@@ -3510,7 +3511,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-04-06T08:06:18Z"
+                "lastEnabledAt": "2026-05-03T08:06:46Z"
               }
             }
             ```
@@ -5649,7 +5650,7 @@ class Wireless:
                 RADIUS server is failed over (must be between 1-5).
             radius_fallback_enabled: Whether or not higher priority RADIUS servers should be retried
                 after 60 seconds.
-            radius_radsec: The current settings for RADIUS RADSec.
+            radius_radsec: The current settings for RADIUS RadSec.
             radius_coa_enabled: If true, Meraki devices will act as a RADIUS Dynamic Authorization
                 Server and will respond to RADIUS Change-of-Authorization and Disconnect
                 messages sent by the RADIUS server.
@@ -7106,6 +7107,10 @@ class Wireless:
               "redirectUrl": "https://example.com",
               "useRedirectUrl": true,
               "welcomeMessage": "Welcome!",
+              "userConsent": {
+                "required": true,
+                "message": "By continuing, you agree to our terms and conditions."
+              },
               "themeId": "c3ddcb4f16785ee747ab5ffc10867d6c8ea704be",
               "splashLogo": {
                 "md5": "abcd1234",
@@ -7173,6 +7178,7 @@ class Wireless:
         redirect_url: str | None = None,
         use_redirect_url: bool | None = None,
         welcome_message: str | None = None,
+        user_consent: UpdateNetworkWirelessSsidSplashSettingsUserConsent | None = None,
         theme_id: str | None = None,
         splash_logo: UpdateNetworkWirelessSsidSplashSettingsSplashLogo | None = None,
         splash_image: UpdateNetworkWirelessSsidSplashSettingsSplashImage | None = None,
@@ -7208,6 +7214,7 @@ class Wireless:
                 custom redirect URL after the splash page. A custom redirect URL must be
                 set if this is true.
             welcome_message: The welcome message for the users on the splash page.
+            user_consent: User consent settings.
             theme_id: The id of the selected splash theme.
             splash_logo: The logo used in the splash page.
             splash_image: The image used in the splash page.
@@ -7240,6 +7247,10 @@ class Wireless:
               "redirectUrl": "https://example.com",
               "useRedirectUrl": true,
               "welcomeMessage": "Welcome!",
+              "userConsent": {
+                "required": true,
+                "message": "By continuing, you agree to our terms and conditions."
+              },
               "themeId": "c3ddcb4f16785ee747ab5ffc10867d6c8ea704be",
               "splashLogo": {
                 "md5": "abcd1234",
@@ -7302,6 +7313,8 @@ class Wireless:
             payload["useRedirectUrl"] = use_redirect_url
         if welcome_message is not None:
             payload["welcomeMessage"] = welcome_message
+        if user_consent is not None:
+            payload["userConsent"] = user_consent.model_dump(by_alias=True, exclude_none=True)
         if theme_id is not None:
             payload["themeId"] = theme_id
         if splash_logo is not None:
@@ -9451,7 +9464,7 @@ class Wireless:
     def get_organization_wireless_devices_radsec_certificates_authorities(
         self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> PaginatedResponse[UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse]:
-        r"""Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
+        r"""Query for details on the organization's RadSec device Certificate Authority certificates (CAs).
 
         [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthorities](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities)
 
@@ -9514,7 +9527,7 @@ class Wireless:
         status: str | None = None,
         certificate_authority_id: str | None = None,
     ) -> UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse:
-        r"""Update an organization's RADSEC device Certificate Authority (CA) state.
+        r"""Update an organization's RadSec device Certificate Authority (CA) state.
 
         [API documentation: updateOrganizationWirelessDevicesRadsecCertificatesAuthorities](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-devices-radsec-certificates-authorities)
 
@@ -9557,7 +9570,7 @@ class Wireless:
     def create_organization_wireless_devices_radsec_certificates_authority(
         self, organization_id: str
     ) -> UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse:
-        r"""Create an organization's RADSEC device Certificate Authority (CA).
+        r"""Create an organization's RadSec device Certificate Authority (CA).
 
         [API documentation: createOrganizationWirelessDevicesRadsecCertificatesAuthority](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-radsec-certificates-authority)
 
@@ -9592,7 +9605,7 @@ class Wireless:
     ) -> PaginatedResponse[
         GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
     ]:
-        r"""Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
+        r"""Query for certificate revocation list (CRL) for the organization's RadSec device Certificate Authorities (CAs).
 
         [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls)
 
@@ -9650,7 +9663,7 @@ class Wireless:
     ) -> PaginatedResponse[
         GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem
     ]:
-        r"""Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
+        r"""Query for all delta certificate revocation list (CRL) for the organization's RadSec device Certificate Authority (CA) with the given id.
 
         [API documentation: getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls-deltas)
 
@@ -10640,7 +10653,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-04-06T08:06:18Z"
+                    "lastEnabledAt": "2026-05-03T08:06:46Z"
                   }
                 }
               ],
