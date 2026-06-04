@@ -1976,6 +1976,9 @@ class NetworkWirelessSsidSplashSettingsResponse(_BaseSchema):
     welcome_message: str | None = Field(
         default=None, validation_alias="welcomeMessage", serialization_alias="welcomeMessage"
     )
+    user_consent: NetworkWirelessSsidSplashSettingsResponseUserConsent | None = Field(
+        default=None, validation_alias="userConsent", serialization_alias="userConsent"
+    )
     theme_id: str | None = Field(
         default=None, validation_alias="themeId", serialization_alias="themeId"
     )
@@ -2078,6 +2081,13 @@ class NetworkWirelessSsidSplashSettingsResponseSplashLogo(_BaseSchema):
 
     md5: str | None = None
     extension: str | None = None
+
+
+class NetworkWirelessSsidSplashSettingsResponseUserConsent(_BaseSchema):
+    """User consent settings."""
+
+    required: bool | None = None
+    message: str | None = None
 
 
 class NetworkWirelessSsidTrafficShapingRulesResponse(_BaseSchema):
@@ -2914,7 +2924,7 @@ class UpdateNetworkWirelessSsidRadiusAccountingServersItem(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidRadiusRadsec(_BaseSchema):
-    """The current settings for RADIUS RADSec."""
+    """The current settings for RADIUS RadSec."""
 
     tls_tunnel: UpdateNetworkWirelessSsidRadiusRadsecTlsTunnel | None = Field(
         default=None, validation_alias="tlsTunnel", serialization_alias="tlsTunnel"
@@ -2922,7 +2932,7 @@ class UpdateNetworkWirelessSsidRadiusRadsec(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidRadiusRadsecTlsTunnel(_BaseSchema):
-    """RADSec TLS tunnel settings."""
+    """RadSec TLS tunnel settings."""
 
     timeout: int | None = None
 
@@ -3063,6 +3073,13 @@ class UpdateNetworkWirelessSsidSplashSettingsSplashPrepaidFront(_BaseSchema):
     md5: str | None = None
     extension: str | None = None
     image: UpdateNetworkWirelessSsidSplashSettingsSplashLogoImage | None = None
+
+
+class UpdateNetworkWirelessSsidSplashSettingsUserConsent(_BaseSchema):
+    """User consent settings."""
+
+    required: bool | None = None
+    message: str | None = None
 
 
 class UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem(_BaseSchema):

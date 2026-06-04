@@ -11,6 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove `getOrganizationApplianceUplinkStatuses` endpoint `lastReportedAt` field override. `lastReportedAt` can be null in some cases.
 
+### Changed
+
+#### Update to Meraki API v1.71.0
+
+- Added appliance L3 interface endpoints `create_network_appliance_interfaces_l3`, `update_network_appliance_interfaces_l3`, `delete_network_appliance_interfaces_l3`, `get_organization_appliance_devices_interfaces_l3`, and `get_organization_appliance_devices_interfaces_ports_by_device`.
+- Added appliance monitoring endpoints `get_organization_appliance_devices_ports_transceivers_readings_history_by_device` and `get_organization_appliance_interfaces_packets_overviews_by_device`.
+- Added appliance Umbrella policy management endpoints `add_network_appliance_umbrella_policies`, `remove_network_appliance_umbrella_policies`, `exclusions_network_appliance_umbrella_domains`, and `protection_network_appliance_umbrella`.
+- Added device live tools endpoints `create_device_live_tools_ports_status`, `get_device_live_tools_ports_status`, `create_device_live_tools_power_usage`, `get_device_live_tools_power_usage`, `create_device_live_tools_routing_table_lookup`, `get_device_live_tools_routing_table_lookup`, `create_device_live_tools_routing_table_summary`, and `get_device_live_tools_routing_table_summary`.
+- Added `create_device_appliance_interfaces_ports_update` endpoint to trigger appliance interface port updates.
+- Added `authentication` and `privacy` parameters to `update_network_snmp` for SNMPv3 user authentication and privacy settings.
+- Added `enforce_locked_ip_sessions` parameter to `update_organization_login_security`.
+- Added `privacy` parameter to `update_organization`.
+- Added `user_consent` parameter to `update_network_wireless_ssid_splash_settings`.
+
 ## v0.15.2
 
 ### Fixed

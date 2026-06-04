@@ -11,6 +11,7 @@ from typing import Literal, TypeAlias
 __all__ = [
     "CreateDeviceCellularUplinksBandsMasksUpdateSlot",
     "CreateDeviceCellularUplinksBandsMasksUpdateType",
+    "CreateDeviceLiveToolsRoutingTableLookupType",
     "CreateDeviceSensorCommandOperation",
     "CreateDeviceSwitchRoutingInterfaceMode",
     "CreateDeviceSwitchRoutingInterfaceMulticastRouting",
@@ -234,6 +235,23 @@ __all__ = [
 
 CreateDeviceCellularUplinksBandsMasksUpdateSlot: TypeAlias = Literal["sim1", "sim2", "sim3"]
 CreateDeviceCellularUplinksBandsMasksUpdateType: TypeAlias = Literal["5GNSA", "5GSA", "LTE"]
+CreateDeviceLiveToolsRoutingTableLookupType: TypeAlias = Literal[
+    "BGP",
+    "EIGRP",
+    "HSRP",
+    "IGRP",
+    "ISIS",
+    "LISP",
+    "NAT",
+    "ND",
+    "NHRP",
+    "OMP",
+    "OSPF",
+    "RIP",
+    "default WAN",
+    "direct",
+    "static",
+]
 CreateDeviceSensorCommandOperation: TypeAlias = Literal[
     "cycleDownstreamPower", "disableDownstreamPower", "enableDownstreamPower", "refreshData"
 ]
@@ -575,6 +593,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "manual_config_fix_required",
         "manual_country_mismatch",
         "mars_read_only_ap_unreachable",
+        "mcg_dr_allowed_vlans_mismatch",
         "meraki_shelluser_conflict",
         "meraki_tdluser_conflict",
         "meraki_user_conflict",
@@ -817,6 +836,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "manual_config_fix_required",
         "manual_country_mismatch",
         "mars_read_only_ap_unreachable",
+        "mcg_dr_allowed_vlans_mismatch",
         "meraki_shelluser_conflict",
         "meraki_tdluser_conflict",
         "meraki_user_conflict",
@@ -1074,6 +1094,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "manual_config_fix_required",
         "manual_country_mismatch",
         "mars_read_only_ap_unreachable",
+        "mcg_dr_allowed_vlans_mismatch",
         "meraki_shelluser_conflict",
         "meraki_tdluser_conflict",
         "meraki_user_conflict",
@@ -1289,6 +1310,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "manual_config_fix_required",
         "manual_country_mismatch",
         "mars_read_only_ap_unreachable",
+        "mcg_dr_allowed_vlans_mismatch",
         "meraki_shelluser_conflict",
         "meraki_tdluser_conflict",
         "meraki_user_conflict",
@@ -1508,6 +1530,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "manual_config_fix_required",
         "manual_country_mismatch",
         "mars_read_only_ap_unreachable",
+        "mcg_dr_allowed_vlans_mismatch",
         "meraki_shelluser_conflict",
         "meraki_tdluser_conflict",
         "meraki_user_conflict",

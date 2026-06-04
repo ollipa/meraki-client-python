@@ -42,7 +42,7 @@ __all__ = [
     "types",
 ]
 __version__ = "0.15.2"
-__api_version__ = "v1.70.0"
+__api_version__ = "v1.71.0"
 
 
 class MerakiClient:

@@ -307,6 +307,130 @@ class CreateDeviceLiveToolsPortsCycleResponse(_BaseSchema):
     callback: CreateDeviceLiveToolsArpTableResponseCallback | None = None
 
 
+class CreateDeviceLiveToolsPortsStatusCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
+    )
+
+
+class CreateDeviceLiveToolsPortsStatusResponse(_BaseSchema):
+    """Schema for CreateDeviceLiveToolsPortsStatusResponse."""
+
+    job_id: str | None = Field(default=None, validation_alias="jobId", serialization_alias="jobId")
+    url: str | None = None
+    request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
+    status: str | None = None
+    callback: CreateDeviceLiveToolsArpTableResponseCallback | None = None
+
+
+class CreateDeviceLiveToolsPowerUsageCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
+    )
+
+
+class CreateDeviceLiveToolsRoutingTableLookupCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
+    )
+
+
+class CreateDeviceLiveToolsRoutingTableLookupDestination(_BaseSchema):
+    """The destination IP or subnet to lookup."""
+
+    address: str | None = None
+    subnet: str | None = None
+
+
+class CreateDeviceLiveToolsRoutingTableLookupNextHop(_BaseSchema):
+    """The next hop to lookup."""
+
+    address: str | None = None
+
+
+class CreateDeviceLiveToolsRoutingTableLookupResponse(_BaseSchema):
+    """Response for createDeviceLiveToolsRoutingTableLookup operation."""
+
+    lookup_id: str | None = Field(
+        default=None, validation_alias="lookupId", serialization_alias="lookupId"
+    )
+    url: str | None = None
+    request: CreateDeviceLiveToolsRoutingTableLookupResponseRequest | None = None
+    status: str | None = None
+    callback: CreateDeviceLiveToolsArpTableResponseCallback | None = None
+
+
+class CreateDeviceLiveToolsRoutingTableLookupResponseRequest(_BaseSchema):
+    """Routing table lookup request parameters."""
+
+    serial: str | None = None
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    destination: DevicesRequestDestination | None = None
+    next_hop: DevicesRequestNextHop | None = Field(
+        default=None, validation_alias="nextHop", serialization_alias="nextHop"
+    )
+    vpn: DevicesRequestVpn | None = None
+
+
+class CreateDeviceLiveToolsRoutingTableLookupVpn(_BaseSchema):
+    """VPN related search criteria."""
+
+    peer: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = None
+
+
+class CreateDeviceLiveToolsRoutingTableSummaryCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
+    )
+
+
+class CreateDeviceLiveToolsRoutingTableSummaryResponse(_BaseSchema):
+    """Response for createDeviceLiveToolsRoutingTableSummary operation."""
+
+    summary_id: str | None = Field(
+        default=None, validation_alias="summaryId", serialization_alias="summaryId"
+    )
+    url: str | None = None
+    status: str | None = None
+    callback: CreateDeviceLiveToolsArpTableResponseCallback | None = None
+
+
 class CreateDeviceLiveToolsThroughputTestCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
@@ -461,7 +585,7 @@ class DeviceManagementInterfaceResponseWan1(_BaseSchema):
         default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
     )
     vlan: int | None = None
-    vrf: DevicesWan1Vrf | None = None
+    vrf: DevicesEntriesVrf | None = None
 
 
 class DeviceResponse(_BaseSchema):
@@ -514,6 +638,13 @@ class DevicesAuthentication(_BaseSchema):
     password: str | None = None
 
 
+class DevicesByProtocol(_BaseSchema):
+    """Routing table counts by protocol."""
+
+    ipv4: DevicesIpv4 | None = None
+    ipv6: DevicesIpv4 | None = None
+
+
 class DevicesBySlotBySignalTypeItem(_BaseSchema):
     """Schema for DevicesBySlotBySignalTypeItem."""
 
@@ -523,10 +654,74 @@ class DevicesBySlotBySignalTypeItem(_BaseSchema):
     supported: list[str] = Field(default_factory=list)
 
 
+class DevicesCountsByVrfItem(_BaseSchema):
+    """Schema for DevicesCountsByVrfItem."""
+
+    name: str | None = None
+    by_protocol: DevicesByProtocol | None = Field(
+        default=None, validation_alias="byProtocol", serialization_alias="byProtocol"
+    )
+
+
+class DevicesEntriesNextHopsItem(_BaseSchema):
+    """Schema for DevicesEntriesNextHopsItem."""
+
+    number: int | None = None
+    address: str | None = None
+    vpn: DevicesVpn | None = None
+
+
+class DevicesEntriesVrf(_BaseSchema):
+    """The VRF details for the route."""
+
+    name: str | None = None
+
+
+class DevicesIpv4(_BaseSchema):
+    """The IPv4 counts in the VRF."""
+
+    total: int | None = None
+
+
+class DevicesPeer(_BaseSchema):
+    """The VPN peer details."""
+
+    id: str | None = None
+    name: str | None = None
+
+
+class DevicesRequestDestination(_BaseSchema):
+    """The destination details to lookup."""
+
+    address: str | None = None
+    subnet: str | None = None
+
+
+class DevicesRequestNextHop(_BaseSchema):
+    """The next hop to lookup."""
+
+    address: str | None = None
+
+
+class DevicesRequestVpn(_BaseSchema):
+    """VPN related search criteria."""
+
+    peer: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = None
+
+
 class DevicesResultSpeeds(_BaseSchema):
     """Shows the speeds (Mbps)."""
 
     downstream: float | None = None
+
+
+class DevicesResultsInterface(_BaseSchema):
+    """The structured interface identifier for this port."""
+
+    name: str | None = None
+    slot: int | None = None
+    subslot: int | None = None
+    number: int | None = None
 
 
 class DevicesResultsLatencies(_BaseSchema):
@@ -550,6 +745,14 @@ class DevicesResultsPairsItem(_BaseSchema):
     status: str | None = None
     length_meters: int | None = Field(
         default=None, validation_alias="lengthMeters", serialization_alias="lengthMeters"
+    )
+
+
+class DevicesResultsPower(_BaseSchema):
+    """Power state of the port."""
+
+    is_drawing: bool | None = Field(
+        default=None, validation_alias="isDrawing", serialization_alias="isDrawing"
     )
 
 
@@ -580,10 +783,10 @@ class DevicesUsage(_BaseSchema):
     recv: float | None = None
 
 
-class DevicesWan1Vrf(_BaseSchema):
-    """VRF associated with the management interface. If not provided, the default VRF is used."""
+class DevicesVpn(_BaseSchema):
+    """The VPN peer details, if the next hop is a VPN peer."""
 
-    name: str | None = None
+    peer: DevicesPeer | None = None
 
 
 class GetDeviceClientsResponse(RootModel[list["GetDeviceClientsResponseItem"]]):
@@ -809,6 +1012,100 @@ class GetDeviceLiveToolsPortsCycleResponse(_BaseSchema):
     request: CreateDeviceLiveToolsCableTestResponseRequest | None = None
     status: str | None = None
     error: str | None = None
+
+
+class GetDeviceLiveToolsPortsStatusResponse(_BaseSchema):
+    """Response for getDeviceLiveToolsPortsStatus operation."""
+
+    job_id: str | None = Field(default=None, validation_alias="jobId", serialization_alias="jobId")
+    url: str | None = None
+    request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
+    status: str | None = None
+    results: list[GetDeviceLiveToolsPortsStatusResponseResultsItem] = Field(default_factory=list)
+    errors: list[str] = Field(default_factory=list)
+
+
+class GetDeviceLiveToolsPortsStatusResponseResultsItem(_BaseSchema):
+    """Schema for GetDeviceLiveToolsPortsStatusResponseResultsItem."""
+
+    port_id: int | None = Field(
+        default=None, validation_alias="portId", serialization_alias="portId"
+    )
+    interface: DevicesResultsInterface | None = None
+    speed: str | None = None
+    status: str | None = None
+    duplex: bool | None = None
+    enabled: bool | None = None
+    power: DevicesResultsPower | None = None
+
+
+class GetDeviceLiveToolsPowerUsageResponse(_BaseSchema):
+    """Response for getDeviceLiveToolsPowerUsage operation."""
+
+    job_id: str | None = Field(default=None, validation_alias="jobId", serialization_alias="jobId")
+    url: str | None = None
+    request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
+    status: str | None = None
+    results: GetDeviceLiveToolsPowerUsageResponseResults | None = None
+    errors: list[str] = Field(default_factory=list)
+
+
+class GetDeviceLiveToolsPowerUsageResponseResults(_BaseSchema):
+    """Power values, in watts, reported by the device for this job result."""
+
+    instant: float | None = None
+    peak: float | None = None
+    budget: float | None = None
+
+
+class GetDeviceLiveToolsRoutingTableLookupResponse(_BaseSchema):
+    """Response for getDeviceLiveToolsRoutingTableLookup operation."""
+
+    lookup_id: str | None = Field(
+        default=None, validation_alias="lookupId", serialization_alias="lookupId"
+    )
+    url: str | None = None
+    request: CreateDeviceLiveToolsRoutingTableLookupResponseRequest | None = None
+    status: str | None = None
+    entries: list[GetDeviceLiveToolsRoutingTableLookupResponseEntriesItem] = Field(
+        default_factory=list
+    )
+    errors: list[str] = Field(default_factory=list)
+
+
+class GetDeviceLiveToolsRoutingTableLookupResponseEntriesItem(_BaseSchema):
+    """Schema for GetDeviceLiveToolsRoutingTableLookupResponseEntriesItem."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    subnet: str | None = None
+    next_hops: list[DevicesEntriesNextHopsItem] = Field(
+        default_factory=list, validation_alias="nextHops", serialization_alias="nextHops"
+    )
+    ip_version: str | None = Field(
+        default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
+    )
+    vrf: DevicesEntriesVrf | None = None
+
+
+class GetDeviceLiveToolsRoutingTableSummaryResponse(_BaseSchema):
+    """Response for getDeviceLiveToolsRoutingTableSummary operation."""
+
+    summary_id: str | None = Field(
+        default=None, validation_alias="summaryId", serialization_alias="summaryId"
+    )
+    url: str | None = None
+    status: str | None = None
+    counts: GetDeviceLiveToolsRoutingTableSummaryResponseCounts | None = None
+    errors: list[str] = Field(default_factory=list)
+
+
+class GetDeviceLiveToolsRoutingTableSummaryResponseCounts(_BaseSchema):
+    """Routing table summary counts."""
+
+    total: int | None = None
+    by_vrf: list[DevicesCountsByVrfItem] = Field(
+        default_factory=list, validation_alias="byVrf", serialization_alias="byVrf"
+    )
 
 
 class GetDeviceLiveToolsThroughputTestResponse(_BaseSchema):

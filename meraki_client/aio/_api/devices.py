@@ -29,6 +29,16 @@ from meraki_client.schemas import (
     CreateDeviceLiveToolsPingResponse,
     CreateDeviceLiveToolsPortsCycleCallback,
     CreateDeviceLiveToolsPortsCycleResponse,
+    CreateDeviceLiveToolsPortsStatusCallback,
+    CreateDeviceLiveToolsPortsStatusResponse,
+    CreateDeviceLiveToolsPowerUsageCallback,
+    CreateDeviceLiveToolsRoutingTableLookupCallback,
+    CreateDeviceLiveToolsRoutingTableLookupDestination,
+    CreateDeviceLiveToolsRoutingTableLookupNextHop,
+    CreateDeviceLiveToolsRoutingTableLookupResponse,
+    CreateDeviceLiveToolsRoutingTableLookupVpn,
+    CreateDeviceLiveToolsRoutingTableSummaryCallback,
+    CreateDeviceLiveToolsRoutingTableSummaryResponse,
     CreateDeviceLiveToolsThroughputTestCallback,
     CreateDeviceLiveToolsThroughputTestResponse,
     CreateDeviceLiveToolsWakeOnLanCallback,
@@ -45,6 +55,10 @@ from meraki_client.schemas import (
     GetDeviceLiveToolsPingDeviceResponse,
     GetDeviceLiveToolsPingResponse,
     GetDeviceLiveToolsPortsCycleResponse,
+    GetDeviceLiveToolsPortsStatusResponse,
+    GetDeviceLiveToolsPowerUsageResponse,
+    GetDeviceLiveToolsRoutingTableLookupResponse,
+    GetDeviceLiveToolsRoutingTableSummaryResponse,
     GetDeviceLiveToolsThroughputTestResponse,
     GetDeviceLiveToolsWakeOnLanResponse,
     GetDeviceLldpCdpResponse,
@@ -59,6 +73,7 @@ from meraki_client.schemas import (
 from meraki_client.types import (
     CreateDeviceCellularUplinksBandsMasksUpdateSlot,
     CreateDeviceCellularUplinksBandsMasksUpdateType,
+    CreateDeviceLiveToolsRoutingTableLookupType,
     GetDeviceLossAndLatencyHistoryUplink,
 )
 
@@ -1466,6 +1481,465 @@ class Devices:
             operation_id="getDeviceLiveToolsPortsCycle",
             path=path,
             response_schema=GetDeviceLiveToolsPortsCycleResponse,
+        )
+
+    async def create_device_live_tools_ports_status(
+        self, serial: str, *, callback: CreateDeviceLiveToolsPortsStatusCallback | None = None
+    ) -> CreateDeviceLiveToolsPortsStatusResponse:
+        """Enqueue a job to retrieve port status for a device.
+
+        [API documentation: createDeviceLiveToolsPortsStatus](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ports-status)
+
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "jobId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/ports/status/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/ports/status"
+
+        payload: dict[str, Any] = {}
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return await self._session.post(
+            scope="devices",
+            operation_id="createDeviceLiveToolsPortsStatus",
+            path=path,
+            json=payload,
+            response_schema=CreateDeviceLiveToolsPortsStatusResponse,
+        )
+
+    async def get_device_live_tools_ports_status(
+        self, *, serial: str, job_id: str
+    ) -> GetDeviceLiveToolsPortsStatusResponse:
+        """Return a port status live tool job.
+
+        [API documentation: getDeviceLiveToolsPortsStatus](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ports-status)
+
+        Args:
+            serial: Serial.
+            job_id: Job ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "jobId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/ports/status/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "results": [
+                {
+                  "portId": 0,
+                  "interface": {
+                    "name": "GigabitEthernet0/0/0",
+                    "slot": 0,
+                    "subslot": 0,
+                    "number": 0
+                  },
+                  "speed": "1 Gbps",
+                  "status": "connected",
+                  "duplex": true,
+                  "enabled": true,
+                  "power": {
+                    "isDrawing": false
+                  }
+                }
+              ],
+              "errors": [
+                "The device is unreachable."
+              ]
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        job_id = urllib.parse.quote(str(job_id), safe="")
+        path = f"/devices/{serial}/liveTools/ports/status/{job_id}"
+
+        return await self._session.get(
+            scope="devices",
+            operation_id="getDeviceLiveToolsPortsStatus",
+            path=path,
+            response_schema=GetDeviceLiveToolsPortsStatusResponse,
+        )
+
+    async def create_device_live_tools_power_usage(
+        self, serial: str, *, callback: CreateDeviceLiveToolsPowerUsageCallback | None = None
+    ) -> CreateDeviceLiveToolsPortsStatusResponse:
+        """Enqueues a live tool job that retrieves details about a device's overall power usage.
+
+        [API documentation: createDeviceLiveToolsPowerUsage](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-power-usage)
+
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "jobId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/power/usage/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/power/usage"
+
+        payload: dict[str, Any] = {}
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return await self._session.post(
+            scope="devices",
+            operation_id="createDeviceLiveToolsPowerUsage",
+            path=path,
+            json=payload,
+            response_schema=CreateDeviceLiveToolsPortsStatusResponse,
+        )
+
+    async def get_device_live_tools_power_usage(
+        self, *, serial: str, job_id: str
+    ) -> GetDeviceLiveToolsPowerUsageResponse:
+        """Retrieve the status and results of a previously created live tool job fetching details about a device's overall power usage.
+
+        [API documentation: getDeviceLiveToolsPowerUsage](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-power-usage)
+
+        Args:
+            serial: Serial.
+            job_id: Job ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "jobId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/power/usage/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678"
+              },
+              "status": "complete",
+              "results": {
+                "instant": 32.0,
+                "peak": 33.0,
+                "budget": 25.0
+              },
+              "errors": [
+                "The device is unreachable."
+              ]
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        job_id = urllib.parse.quote(str(job_id), safe="")
+        path = f"/devices/{serial}/liveTools/power/usage/{job_id}"
+
+        return await self._session.get(
+            scope="devices",
+            operation_id="getDeviceLiveToolsPowerUsage",
+            path=path,
+            response_schema=GetDeviceLiveToolsPowerUsageResponse,
+        )
+
+    async def create_device_live_tools_routing_table_lookup(
+        self,
+        serial: str,
+        *,
+        type_: CreateDeviceLiveToolsRoutingTableLookupType | None = None,
+        destination: CreateDeviceLiveToolsRoutingTableLookupDestination | None = None,
+        next_hop: CreateDeviceLiveToolsRoutingTableLookupNextHop | None = None,
+        vpn: CreateDeviceLiveToolsRoutingTableLookupVpn | None = None,
+        callback: CreateDeviceLiveToolsRoutingTableLookupCallback | None = None,
+    ) -> CreateDeviceLiveToolsRoutingTableLookupResponse:
+        """Enqueue a job to perform a routing table lookup request for a device.
+
+        [API documentation: createDeviceLiveToolsRoutingTableLookup](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-routing-table-lookup)
+
+        Args:
+            serial: Serial.
+            type_: The type of route defined.
+            destination: The destination IP or subnet to lookup.
+            next_hop: The next hop to lookup.
+            vpn: VPN related search criteria.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "lookupId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/routingTable/lookups/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "type": "static",
+                "destination": {
+                  "address": "192.168.0.10",
+                  "subnet": "192.168.0.0/24"
+                },
+                "nextHop": {
+                  "address": "10.10.0.1"
+                },
+                "vpn": {
+                  "peer": {
+                    "id": "N_12345678"
+                  }
+                }
+              },
+              "status": "scheduled",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/routingTable/lookups"
+
+        payload: dict[str, Any] = {}
+        if type_ is not None:
+            payload["type"] = type_
+        if destination is not None:
+            payload["destination"] = destination.model_dump(by_alias=True, exclude_none=True)
+        if next_hop is not None:
+            payload["nextHop"] = next_hop.model_dump(by_alias=True, exclude_none=True)
+        if vpn is not None:
+            payload["vpn"] = vpn.model_dump(by_alias=True, exclude_none=True)
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return await self._session.post(
+            scope="devices",
+            operation_id="createDeviceLiveToolsRoutingTableLookup",
+            path=path,
+            json=payload,
+            response_schema=CreateDeviceLiveToolsRoutingTableLookupResponse,
+        )
+
+    async def get_device_live_tools_routing_table_lookup(
+        self, *, serial: str, id: str
+    ) -> GetDeviceLiveToolsRoutingTableLookupResponse:
+        """Return a routing table live tool lookup job for a device.
+
+        [API documentation: getDeviceLiveToolsRoutingTableLookup](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-routing-table-lookup)
+
+        Args:
+            serial: Serial.
+            id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "lookupId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/routingTable/lookups/1284392014819",
+              "request": {
+                "serial": "Q234-ABCD-5678",
+                "type": "static",
+                "destination": {
+                  "address": "192.168.0.10",
+                  "subnet": "192.168.0.0/24"
+                },
+                "nextHop": {
+                  "address": "10.10.0.1"
+                },
+                "vpn": {
+                  "peer": {
+                    "id": "N_12345678"
+                  }
+                }
+              },
+              "status": "scheduled",
+              "entries": [
+                {
+                  "type": "static",
+                  "subnet": "192.168.0.0/24",
+                  "nextHops": [
+                    {
+                      "number": 1,
+                      "address": "10.10.0.1",
+                      "vpn": {
+                        "peer": {
+                          "id": "N_12345678",
+                          "name": "Branch Office"
+                        }
+                      }
+                    }
+                  ],
+                  "ipVersion": "ipv4",
+                  "vrf": {
+                    "name": "default"
+                  }
+                }
+              ],
+              "errors": [
+                "The device is unreachable"
+              ]
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/devices/{serial}/liveTools/routingTable/lookups/{id}"
+
+        return await self._session.get(
+            scope="devices",
+            operation_id="getDeviceLiveToolsRoutingTableLookup",
+            path=path,
+            response_schema=GetDeviceLiveToolsRoutingTableLookupResponse,
+        )
+
+    async def create_device_live_tools_routing_table_summary(
+        self,
+        serial: str,
+        *,
+        callback: CreateDeviceLiveToolsRoutingTableSummaryCallback | None = None,
+    ) -> CreateDeviceLiveToolsRoutingTableSummaryResponse:
+        """Enqueue a routing table summary job for a device.
+
+        [API documentation: createDeviceLiveToolsRoutingTableSummary](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-routing-table-summary)
+
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "summaryId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/routingTable/summaries/1284392014819",
+              "status": "scheduled",
+              "callback": {
+                "id": "1284392014819",
+                "url": "https://webhook.site/28efa24e-f830-4d9f-a12b-fbb9e5035031",
+                "status": "new"
+              }
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/routingTable/summaries"
+
+        payload: dict[str, Any] = {}
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return await self._session.post(
+            scope="devices",
+            operation_id="createDeviceLiveToolsRoutingTableSummary",
+            path=path,
+            json=payload,
+            response_schema=CreateDeviceLiveToolsRoutingTableSummaryResponse,
+        )
+
+    async def get_device_live_tools_routing_table_summary(
+        self, *, serial: str, id: str
+    ) -> GetDeviceLiveToolsRoutingTableSummaryResponse:
+        """Return the status and result of a routing table summary job.
+
+        [API documentation: getDeviceLiveToolsRoutingTableSummary](https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-routing-table-summary)
+
+        Args:
+            serial: Serial.
+            id: ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "summaryId": "1284392014819",
+              "url": "/devices/Q234-ABCD-5678/liveTools/routingTable/summaries/1284392014819",
+              "status": "scheduled",
+              "counts": {
+                "total": 150,
+                "byVrf": [
+                  {
+                    "name": "default",
+                    "byProtocol": {
+                      "ipv4": {
+                        "total": 100
+                      },
+                      "ipv6": {
+                        "total": 50
+                      }
+                    }
+                  }
+                ]
+              },
+              "errors": [
+                "The device is unreachable"
+              ]
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/devices/{serial}/liveTools/routingTable/summaries/{id}"
+
+        return await self._session.get(
+            scope="devices",
+            operation_id="getDeviceLiveToolsRoutingTableSummary",
+            path=path,
+            response_schema=GetDeviceLiveToolsRoutingTableSummaryResponse,
         )
 
     async def create_device_live_tools_throughput_test(

@@ -1504,6 +1504,7 @@ class ActionBatchOrganizations:
         enforce_two_factor_auth: bool | None = None,
         enforce_login_ip_ranges: bool | None = None,
         login_ip_ranges: list[str] | None = None,
+        enforce_locked_ip_sessions: bool | None = None,
         api_authentication: UpdateOrganizationLoginSecurityApiAuthentication | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the login security settings for an organization.
@@ -1540,6 +1541,10 @@ class ActionBatchOrganizations:
                 Dashboard (including the API) from certain IP addresses.
             login_ip_ranges: List of acceptable IP ranges. Entries can be single IP addresses, IP
                 address ranges, and CIDR subnets.
+            enforce_locked_ip_sessions: Boolean indicating whether Dashboard sessions are locked to
+                the IP address from which they were established. Only applicable to
+                organizations that support locked-IP sessions; otherwise the parameter
+                is ignored.
             api_authentication: Details for indicating whether organization will restrict access to
                 API (but not Dashboard) to certain IP addresses.
 
@@ -1574,6 +1579,8 @@ class ActionBatchOrganizations:
             payload["enforceLoginIpRanges"] = enforce_login_ip_ranges
         if login_ip_ranges is not None:
             payload["loginIpRanges"] = login_ip_ranges
+        if enforce_locked_ip_sessions is not None:
+            payload["enforceLockedIpSessions"] = enforce_locked_ip_sessions
         if api_authentication is not None:
             payload["apiAuthentication"] = api_authentication.model_dump(
                 by_alias=True, exclude_none=True

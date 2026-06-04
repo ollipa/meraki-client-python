@@ -85,6 +85,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidSplashSettingsSplashImage,
     UpdateNetworkWirelessSsidSplashSettingsSplashLogo,
     UpdateNetworkWirelessSsidSplashSettingsSplashPrepaidFront,
+    UpdateNetworkWirelessSsidSplashSettingsUserConsent,
     UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem,
     UpdateNetworkWirelessSsidVpnConcentrator,
     UpdateNetworkWirelessSsidVpnFailover,
@@ -1126,7 +1127,7 @@ class ActionBatchWireless:
                 RADIUS server is failed over (must be between 1-5).
             radius_fallback_enabled: Whether or not higher priority RADIUS servers should be retried
                 after 60 seconds.
-            radius_radsec: The current settings for RADIUS RADSec.
+            radius_radsec: The current settings for RADIUS RadSec.
             radius_coa_enabled: If true, Meraki devices will act as a RADIUS Dynamic Authorization
                 Server and will respond to RADIUS Change-of-Authorization and Disconnect
                 messages sent by the RADIUS server.
@@ -1843,6 +1844,7 @@ class ActionBatchWireless:
         redirect_url: str | None = None,
         use_redirect_url: bool | None = None,
         welcome_message: str | None = None,
+        user_consent: UpdateNetworkWirelessSsidSplashSettingsUserConsent | None = None,
         theme_id: str | None = None,
         splash_logo: UpdateNetworkWirelessSsidSplashSettingsSplashLogo | None = None,
         splash_image: UpdateNetworkWirelessSsidSplashSettingsSplashImage | None = None,
@@ -1878,6 +1880,7 @@ class ActionBatchWireless:
                 custom redirect URL after the splash page. A custom redirect URL must be
                 set if this is true.
             welcome_message: The welcome message for the users on the splash page.
+            user_consent: User consent settings.
             theme_id: The id of the selected splash theme.
             splash_logo: The logo used in the splash page.
             splash_image: The image used in the splash page.
@@ -1914,6 +1917,8 @@ class ActionBatchWireless:
             payload["useRedirectUrl"] = use_redirect_url
         if welcome_message is not None:
             payload["welcomeMessage"] = welcome_message
+        if user_consent is not None:
+            payload["userConsent"] = user_consent.model_dump(by_alias=True, exclude_none=True)
         if theme_id is not None:
             payload["themeId"] = theme_id
         if splash_logo is not None:

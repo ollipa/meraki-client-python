@@ -14,6 +14,19 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
+class AddNetworkApplianceUmbrellaPoliciesPolicy(_BaseSchema):
+    """Umbrella policy to add."""
+
+    id: str | None = None
+
+
+class AddNetworkApplianceUmbrellaPoliciesResponse(_BaseSchema):
+    """Response for addNetworkApplianceUmbrellaPolicies operation."""
+
+    network: ApplianceUmbrellaOrganization | None = None
+    policies: list[ApplianceUmbrellaOrganization] = Field(default_factory=list)
+
+
 class Appliance1(_BaseSchema):
     """Settings for SSID 1."""
 
@@ -98,6 +111,14 @@ class ApplianceAuthentication2(_BaseSchema):
     password: str | None = None
 
 
+class ApplianceAverage(_BaseSchema):
+    """Average rates during the timespan."""
+
+    total: float | None = None
+    sent: float | None = None
+    recv: float | None = None
+
+
 class ApplianceBandwidthLimits(_BaseSchema):
     """The bandwidth limits object, specifying the upload ('limitUp') and download ('limitDown')
     speed in Kbps. These are only enforced if 'settings' is set to 'custom'.
@@ -133,6 +154,29 @@ class ApplianceByInterfaceItem2(_BaseSchema):
     interface: str | None = None
     sent: int | None = None
     received: int | None = None
+
+
+class ApplianceByMetric(_BaseSchema):
+    """All reading data, grouped by the reading metric."""
+
+    power: AppliancePower | None = None
+    temperature: ApplianceTemperature | None = None
+    supply_voltage: ApplianceSupplyVoltage | None = Field(
+        default=None, validation_alias="supplyVoltage", serialization_alias="supplyVoltage"
+    )
+    laser_bias_current: ApplianceLaserBiasCurrent | None = Field(
+        default=None, validation_alias="laserBiasCurrent", serialization_alias="laserBiasCurrent"
+    )
+
+
+class ApplianceByTypeItem(_BaseSchema):
+    """Schema for ApplianceByTypeItem."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    total: int | None = None
+    sent: int | None = None
+    recv: int | None = None
+    rates: ApplianceRates | None = None
 
 
 class ApplianceByUplinkItem(_BaseSchema):
@@ -197,6 +241,31 @@ class ApplianceDhcpOptionsItem(_BaseSchema):
     value: str
 
 
+class ApplianceDownlinkAccess(_BaseSchema):
+    """The port's settings when in 'access' mode."""
+
+    vlan: str | None = None
+    policy: AppliancePolicy | None = None
+
+
+class ApplianceDownlinkSgt(_BaseSchema):
+    """Security Group Tag settings for this port."""
+
+    id: int | None = None
+
+
+class ApplianceDownlinkTrunk(_BaseSchema):
+    """The port's settings when in 'trunk' mode."""
+
+    native_vlan: str | None = Field(
+        default=None, validation_alias="nativeVlan", serialization_alias="nativeVlan"
+    )
+    allowed_vlans: list[str] = Field(
+        default_factory=list, validation_alias="allowedVlans", serialization_alias="allowedVlans"
+    )
+    sgt: ApplianceSgt | None = None
+
+
 class ApplianceEbgpNeighbor(_BaseSchema):
     """[optional] The eBGP neighbor configuration associated with this ECMP uplink configuration."""
 
@@ -240,6 +309,26 @@ class ApplianceHighAvailability(_BaseSchema):
 
     enabled: bool | None = None
     role: str | None = None
+
+
+class ApplianceIndices(_BaseSchema):
+    """Unique identifier location information for the port."""
+
+    slot: int | None = None
+    subslot: int | None = None
+    port: int | None = None
+
+
+class ApplianceInterfacesItem(_BaseSchema):
+    """Schema for ApplianceInterfacesItem."""
+
+    name: str | None = None
+    slot: int | None = None
+    subslot: int | None = None
+    number: int | None = None
+    by_type: list[ApplianceByTypeItem] = Field(
+        default_factory=list, validation_alias="byType", serialization_alias="byType"
+    )
 
 
 class ApplianceInterfacesWan1(_BaseSchema):
@@ -327,6 +416,12 @@ class ApplianceJitterSummariesItem(_BaseSchema):
     max_jitter: float | None = Field(
         default=None, validation_alias="maxJitter", serialization_alias="maxJitter"
     )
+
+
+class ApplianceLaserBiasCurrent(_BaseSchema):
+    """Information about the laser bias current of the port."""
+
+    draw: ApplianceTransmit | None = None
 
 
 class ApplianceLatencySummariesItem(_BaseSchema):
@@ -638,12 +733,59 @@ class AppliancePerformanceClass2(_BaseSchema):
     )
 
 
+class AppliancePersonalityLayer(_BaseSchema):
+    """Describes the port's layer configurability."""
+
+    mode: int | None = None
+    is_flexible: bool | None = Field(
+        default=None, validation_alias="isFlexible", serialization_alias="isFlexible"
+    )
+
+
 class AppliancePolicy(_BaseSchema):
+    """The access policy settings for this port."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+
+
+class AppliancePolicy2(_BaseSchema):
     """Policy assigned to the VLAN."""
 
     id: str | None = None
     name: str | None = None
     group: ApplianceGroup | None = None
+
+
+class AppliancePortsItem(_BaseSchema):
+    """Schema for AppliancePortsItem."""
+
+    number: str | None = None
+    interface: CreateDeviceApplianceInterfacesPortsUpdateResponseInterface | None = None
+    enabled: bool | None = None
+    name: str | None = None
+    personality: CreateDeviceApplianceInterfacesPortsUpdateResponsePersonality | None = None
+    uplink: CreateDeviceApplianceInterfacesPortsUpdateResponseUplink | None = None
+    downlink: CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink | None = None
+
+
+class AppliancePortsItem2(_BaseSchema):
+    """Schema for AppliancePortsItem2."""
+
+    port_id: str | None = Field(
+        default=None, validation_alias="portId", serialization_alias="portId"
+    )
+    interface_name: str | None = Field(
+        default=None, validation_alias="interfaceName", serialization_alias="interfaceName"
+    )
+    indices: ApplianceIndices | None = None
+    readings: list[ApplianceReadingsItem] = Field(default_factory=list)
+
+
+class AppliancePower(_BaseSchema):
+    """Information about the power transmitted and received by the port."""
+
+    transmit: ApplianceTransmit | None = None
+    receive: ApplianceTransmit | None = None
 
 
 class AppliancePppoe(_BaseSchema):
@@ -665,6 +807,29 @@ class ApplianceRadiusServersItem(_BaseSchema):
 
     host: str | None = None
     port: int | None = None
+
+
+class ApplianceRates(_BaseSchema):
+    """Packets per second rates during the timespan."""
+
+    average: ApplianceAverage | None = None
+
+
+class ApplianceReadingsItem(_BaseSchema):
+    """Schema for ApplianceReadingsItem."""
+
+    start_ts: datetime | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: datetime | None = Field(
+        default=None, validation_alias="endTs", serialization_alias="endTs"
+    )
+    sfp_product_id: str | None = Field(
+        default=None, validation_alias="sfpProductId", serialization_alias="sfpProductId"
+    )
+    by_metric: ApplianceByMetric | None = Field(
+        default=None, validation_alias="byMetric", serialization_alias="byMetric"
+    )
 
 
 class ApplianceReservedIpRangesItem(_BaseSchema):
@@ -724,6 +889,19 @@ class ApplianceRulesPortRulesItem(_BaseSchema):
     )
 
 
+class ApplianceSgt(_BaseSchema):
+    """Security Group Tag settings for this trunk port."""
+
+    enabled: bool | None = None
+
+
+class ApplianceSgt2(_BaseSchema):
+    """Security Group Tag settings for the port."""
+
+    id: int | None = None
+    enabled: bool | None = None
+
+
 class ApplianceSource(_BaseSchema):
     """Source of traffic filter."""
 
@@ -766,11 +944,24 @@ class ApplianceSubnetsNat(_BaseSchema):
     )
 
 
+class ApplianceSupplyVoltage(_BaseSchema):
+    """Information about the supply voltage of the port."""
+
+    level: ApplianceTransmit | None = None
+
+
 class ApplianceSvis(_BaseSchema):
     """SVI settings by protocol."""
 
     ipv4: ApplianceIpv4 | None = None
     ipv6: ApplianceIpv4 | None = None
+
+
+class ApplianceTemperature(_BaseSchema):
+    """Information about the temperature of the port."""
+
+    fahrenheit: ApplianceTransmit | None = None
+    celsius: ApplianceTransmit | None = None
 
 
 class ApplianceThirdPartyVpnPeersItem(_BaseSchema):
@@ -809,6 +1000,14 @@ class ApplianceTrafficFiltersItem4(_BaseSchema):
 
     type_: str = Field(validation_alias="type", serialization_alias="type")
     value: ApplianceValue3
+
+
+class ApplianceTransmit(_BaseSchema):
+    """Information about the power transmitted by the port."""
+
+    minimum: float | None = None
+    maximum: float | None = None
+    median: float | None = None
 
 
 class ApplianceUmbrellaOrganization(_BaseSchema):
@@ -1048,6 +1247,89 @@ class ConnectNetworkApplianceUmbrellaAccountResponseUmbrella(_BaseSchema):
     organization: ApplianceUmbrellaOrganization | None = None
 
 
+class CreateDeviceApplianceInterfacesPortsUpdateDownlink(_BaseSchema):
+    """The port's VLAN settings when in LAN mode."""
+
+    mode: str | None = None
+    sgt: ApplianceDownlinkSgt | None = None
+    access: ApplianceDownlinkAccess | None = None
+    trunk: ApplianceDownlinkTrunk | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdateInterface(_BaseSchema):
+    """The interface tuple used to identify the port."""
+
+    slot: int | None = None
+    subslot: int | None = None
+    number: int | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdatePersonality(_BaseSchema):
+    """Describes the port's configurability."""
+
+    mode: str | None = None
+    layer: CreateDeviceApplianceInterfacesPortsUpdatePersonalityLayer | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdatePersonalityLayer(_BaseSchema):
+    """Describes the port's layer configurability."""
+
+    mode: int | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdateResponse(_BaseSchema):
+    """Response for createDeviceApplianceInterfacesPortsUpdate operation."""
+
+    number: str | None = None
+    interface: CreateDeviceApplianceInterfacesPortsUpdateResponseInterface | None = None
+    enabled: bool | None = None
+    name: str | None = None
+    personality: CreateDeviceApplianceInterfacesPortsUpdateResponsePersonality | None = None
+    uplink: CreateDeviceApplianceInterfacesPortsUpdateResponseUplink | None = None
+    downlink: CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink(_BaseSchema):
+    """The port's VLAN settings when in LAN mode."""
+
+    mode: str | None = None
+    sgt: ApplianceDownlinkSgt | None = None
+    access: ApplianceDownlinkAccess | None = None
+    trunk: ApplianceDownlinkTrunk | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdateResponseInterface(_BaseSchema):
+    """The structured interface identifier for this port."""
+
+    name: str | None = None
+    slot: int | None = None
+    subslot: int | None = None
+    number: int | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdateResponsePersonality(_BaseSchema):
+    """Describes the port's configurability."""
+
+    mode: str | None = None
+    is_flexible: bool | None = Field(
+        default=None, validation_alias="isFlexible", serialization_alias="isFlexible"
+    )
+    layer: AppliancePersonalityLayer | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdateResponseUplink(_BaseSchema):
+    """The port's settings when in WAN mode."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    primary: bool | None = None
+
+
+class CreateDeviceApplianceInterfacesPortsUpdateUplink(_BaseSchema):
+    """The port's settings when in WAN mode."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+
+
 class CreateDeviceApplianceVmxAuthenticationTokenResponse(_BaseSchema):
     """Response for createDeviceApplianceVmxAuthenticationToken operation."""
 
@@ -1055,6 +1337,28 @@ class CreateDeviceApplianceVmxAuthenticationTokenResponse(_BaseSchema):
     expires_at: str | None = Field(
         default=None, validation_alias="expiresAt", serialization_alias="expiresAt"
     )
+
+
+class CreateNetworkApplianceInterfacesL3Ipv4(_BaseSchema):
+    """IPv4 configuration."""
+
+    address: str | None = None
+    subnet: str | None = None
+
+
+class CreateNetworkApplianceInterfacesL3Port(_BaseSchema):
+    """Port configuration."""
+
+    interface: CreateNetworkApplianceInterfacesL3PortInterface | None = None
+
+
+class CreateNetworkApplianceInterfacesL3PortInterface(_BaseSchema):
+    """Structured interface identifier for the port being modified."""
+
+    name: str | None = None
+    slot: int
+    subslot: int
+    number: int
 
 
 class CreateNetworkAppliancePrefixesDelegatedStaticOrigin(_BaseSchema):
@@ -1164,11 +1468,18 @@ class CreateNetworkApplianceVlanResponse(_BaseSchema):
     )
     cidr: str | None = None
     mask: int | None = None
-    mandatory_dhcp: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+    mandatory_dhcp: ApplianceSgt | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
+    sgt: ApplianceDownlinkSgt | None = None
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
     vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+
+
+class CreateNetworkApplianceVlanSgt(_BaseSchema):
+    """Security Group Tag settings for the VLAN."""
+
+    id: int | None = None
 
 
 class CreateNetworkApplianceVlanUplinksItem(_BaseSchema):
@@ -1268,6 +1579,12 @@ class DeviceApplianceUplinksSettingsResponseInterfaces(_BaseSchema):
 
     wan1: ApplianceInterfacesWan1 | None = None
     wan2: ApplianceInterfacesWan1 | None = None
+
+
+class ExclusionsNetworkApplianceUmbrellaDomainsResponse(_BaseSchema):
+    """Response for exclusionsNetworkApplianceUmbrellaDomains operation."""
+
+    domains: list[str] = Field(default_factory=list)
 
 
 class GetDeviceApplianceDhcpSubnetsResponse(
@@ -1497,6 +1814,36 @@ class GetNetworkApplianceVlansResponse(RootModel[list["NetworkApplianceVlanRespo
     """Response for getNetworkApplianceVlans operation."""
 
 
+class GetOrganizationApplianceDevicesInterfacesL3ResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceDevicesInterfacesL3ResponseItemsItem."""
+
+    interface_id: str | None = Field(
+        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
+    )
+    ipv4: ApplianceAddressesItem | None = None
+    network: ApplianceUmbrellaOrganization | None = None
+    port: NetworkApplianceInterfacesL3ResponsePort | None = None
+
+
+class GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem."""
+
+    serial: str | None = None
+    ports: list[AppliancePortsItem] = Field(default_factory=list)
+
+
+class GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem.
+    """
+
+    serial: str | None = None
+    ports: list[AppliancePortsItem2] = Field(default_factory=list)
+    network: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+
+
 class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem."""
 
@@ -1523,6 +1870,14 @@ class GetOrganizationApplianceDnsSplitProfilesResponse(
     RootModel[list["OrganizationApplianceDnsSplitProfileResponse"]]
 ):
     """Response for getOrganizationApplianceDnsSplitProfiles operation."""
+
+
+class GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem."""
+
+    network: ApplianceUmbrellaOrganization | None = None
+    serial: str | None = None
+    interfaces: list[ApplianceInterfacesItem] = Field(default_factory=list)
 
 
 class GetOrganizationApplianceUplinkStatusesResponse(
@@ -1673,7 +2028,7 @@ class GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanR
     vlan_id: str | None = Field(
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
-    policy: AppliancePolicy | None = None
+    policy: AppliancePolicy2 | None = None
 
 
 class GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsResponseItemsItem(
@@ -1869,6 +2224,22 @@ class NetworkApplianceFirewallSettingsResponseSpoofingProtection(_BaseSchema):
     )
 
 
+class NetworkApplianceInterfacesL3Response(_BaseSchema):
+    """Schema for NetworkApplianceInterfacesL3Response."""
+
+    interface_id: str | None = Field(
+        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
+    )
+    ipv4: ApplianceAddressesItem | None = None
+    port: NetworkApplianceInterfacesL3ResponsePort | None = None
+
+
+class NetworkApplianceInterfacesL3ResponsePort(_BaseSchema):
+    """Port configuration."""
+
+    interface: CreateDeviceApplianceInterfacesPortsUpdateResponseInterface | None = None
+
+
 class NetworkAppliancePortResponse(_BaseSchema):
     """Schema for NetworkAppliancePortResponse."""
 
@@ -1887,6 +2258,7 @@ class NetworkAppliancePortResponse(_BaseSchema):
     access_policy: str | None = Field(
         default=None, validation_alias="accessPolicy", serialization_alias="accessPolicy"
     )
+    sgt: ApplianceSgt2 | None = None
 
 
 class NetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
@@ -1986,7 +2358,7 @@ class NetworkApplianceSingleLanResponse(_BaseSchema):
     appliance_ip: str | None = Field(
         default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
     )
-    mandatory_dhcp: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+    mandatory_dhcp: ApplianceSgt | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
@@ -2001,15 +2373,6 @@ class NetworkApplianceSingleLanResponseIpv6(_BaseSchema):
         validation_alias="prefixAssignments",
         serialization_alias="prefixAssignments",
     )
-
-
-class NetworkApplianceSingleLanResponseMandatoryDhcp(_BaseSchema):
-    """Mandatory DHCP will enforce that clients connecting to this single LAN must use the IP
-    address assigned by the DHCP server. Clients who use a static IP address won't be able to
-    associate. Only available on firmware versions 17.0 and above.
-    """
-
-    enabled: bool | None = None
 
 
 class NetworkApplianceSsidResponse(_BaseSchema):
@@ -2244,9 +2607,10 @@ class NetworkApplianceVlanResponse(_BaseSchema):
     vpn_nat_subnet: str | None = Field(
         default=None, validation_alias="vpnNatSubnet", serialization_alias="vpnNatSubnet"
     )
-    mandatory_dhcp: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+    mandatory_dhcp: ApplianceSgt | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
+    sgt: ApplianceDownlinkSgt | None = None
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
     vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
@@ -2302,7 +2666,7 @@ class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
     next_hop_ip: str | None = Field(
         default=None, validation_alias="nextHopIp", serialization_alias="nextHopIp"
     )
-    ttl_security: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+    ttl_security: ApplianceSgt | None = Field(
         default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
     )
     authentication: ApplianceNeighborsAuthentication | None = None
@@ -2329,6 +2693,7 @@ class NetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
     mode: str | None = None
     hubs: list[NetworkApplianceVpnSiteToSiteVpnResponseHubsItem] = Field(default_factory=list)
     subnets: list[NetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem] = Field(default_factory=list)
+    sgt: ApplianceSgt | None = None
     subnet: NetworkApplianceVpnSiteToSiteVpnResponseSubnet | None = None
     host_translations: list[NetworkApplianceVpnSiteToSiteVpnResponseHostTranslationsItem] = Field(
         default_factory=list,
@@ -2532,6 +2897,26 @@ class OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse(_BaseSchema)
     """Schema for OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse."""
 
     success: bool | None = None
+
+
+class ProtectionNetworkApplianceUmbrellaResponse(_BaseSchema):
+    """Response for protectionNetworkApplianceUmbrella operation."""
+
+    umbrella: ProtectionNetworkApplianceUmbrellaResponseUmbrella | None = None
+    enabled: bool | None = None
+
+
+class ProtectionNetworkApplianceUmbrellaResponseUmbrella(_BaseSchema):
+    """Umbrella configuration. Organization and origin IDs are null when protection is disabled."""
+
+    organization: ApplianceUmbrellaOrganization | None = None
+    origin: ApplianceUmbrellaOrganization | None = None
+
+
+class RemoveNetworkApplianceUmbrellaPoliciesPolicy(_BaseSchema):
+    """Umbrella policy to remove."""
+
+    id: str | None = None
 
 
 class RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy(_BaseSchema):
@@ -2811,6 +3196,26 @@ class UpdateNetworkApplianceFirewallSettingsSpoofingProtection(_BaseSchema):
     ip_source_guard: ApplianceSpoofingProtectionIpSourceGuard | None = Field(
         default=None, validation_alias="ipSourceGuard", serialization_alias="ipSourceGuard"
     )
+
+
+class UpdateNetworkApplianceInterfacesL3Ipv4(_BaseSchema):
+    """IPv4 configuration."""
+
+    address: str | None = None
+    subnet: str | None = None
+
+
+class UpdateNetworkApplianceInterfacesL3Port(_BaseSchema):
+    """Port configuration."""
+
+    interface: CreateNetworkApplianceInterfacesL3PortInterface | None = None
+
+
+class UpdateNetworkAppliancePortSgt(_BaseSchema):
+    """Security Group Tag settings for the port."""
+
+    id: int | None = None
+    enabled: bool | None = None
 
 
 class UpdateNetworkAppliancePrefixesDelegatedStaticOrigin(_BaseSchema):
@@ -3141,7 +3546,7 @@ class UpdateNetworkApplianceUplinksNatResponseUplinksItem(_BaseSchema):
     """Schema for UpdateNetworkApplianceUplinksNatResponseUplinksItem."""
 
     interface: str | None = None
-    nat: NetworkApplianceSingleLanResponseMandatoryDhcp | None = None
+    nat: ApplianceSgt | None = None
 
 
 class UpdateNetworkApplianceUplinksNatUplinksItem(_BaseSchema):
@@ -3202,6 +3607,12 @@ class UpdateNetworkApplianceVlanReservedIpRangesItem(_BaseSchema):
     comment: str
 
 
+class UpdateNetworkApplianceVlanSgt(_BaseSchema):
+    """Security Group Tag settings for the VLAN."""
+
+    id: int | None = None
+
+
 class UpdateNetworkApplianceVlanUplinksItem(_BaseSchema):
     """Item schema for uplinks."""
 
@@ -3239,7 +3650,7 @@ class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
     next_hop_ip: str | None = Field(
         default=None, validation_alias="nextHopIp", serialization_alias="nextHopIp"
     )
-    ttl_security: NetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+    ttl_security: ApplianceSgt | None = Field(
         default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
     )
     authentication: ApplianceNeighborsAuthentication | None = None
@@ -3281,6 +3692,12 @@ class UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem(_BaseSchema):
     use_default_route: bool | None = Field(
         default=None, validation_alias="useDefaultRoute", serialization_alias="useDefaultRoute"
     )
+
+
+class UpdateNetworkApplianceVpnSiteToSiteVpnSgt(_BaseSchema):
+    """Security Group Tag settings for the VPN peer."""
+
+    enabled: bool | None = None
 
 
 class UpdateNetworkApplianceVpnSiteToSiteVpnSubnet(_BaseSchema):

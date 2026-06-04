@@ -1469,6 +1469,20 @@ class NetworkSnmpResponse(_BaseSchema):
         default=None, validation_alias="communityString", serialization_alias="communityString"
     )
     users: list[NetworkSnmpResponseUsersItem] = Field(default_factory=list)
+    authentication: NetworkSnmpResponseAuthentication | None = None
+    privacy: NetworkSnmpResponsePrivacy | None = None
+
+
+class NetworkSnmpResponseAuthentication(_BaseSchema):
+    """SNMPv3 authentication settings. Applicable only if 'access' is 'users'."""
+
+    protocol: str | None = None
+
+
+class NetworkSnmpResponsePrivacy(_BaseSchema):
+    """SNMPv3 privacy settings. Applicable only if 'access' is 'users'."""
+
+    protocol: str | None = None
 
 
 class NetworkSnmpResponseUsersItem(_BaseSchema):
@@ -3096,6 +3110,18 @@ class UpdateNetworkSettingsSecurePort(_BaseSchema):
     """A hash of SecureConnect options applied to the Network."""
 
     enabled: bool | None = None
+
+
+class UpdateNetworkSnmpAuthentication(_BaseSchema):
+    """SNMPv3 authentication settings. Only relevant if 'access' is set to 'users'."""
+
+    protocol: str | None = None
+
+
+class UpdateNetworkSnmpPrivacy(_BaseSchema):
+    """SNMPv3 privacy settings. Only relevant if 'access' is set to 'users'."""
+
+    protocol: str | None = None
 
 
 class UpdateNetworkSnmpUsersItem(_BaseSchema):

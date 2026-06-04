@@ -9,10 +9,17 @@ import urllib.parse
 from typing import Any
 
 from meraki_client.schemas import (
+    AddNetworkApplianceUmbrellaPoliciesPolicy,
     AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
     AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
     ConnectNetworkApplianceUmbrellaAccountApi,
+    CreateDeviceApplianceInterfacesPortsUpdateDownlink,
+    CreateDeviceApplianceInterfacesPortsUpdateInterface,
+    CreateDeviceApplianceInterfacesPortsUpdatePersonality,
+    CreateDeviceApplianceInterfacesPortsUpdateUplink,
+    CreateNetworkApplianceInterfacesL3Ipv4,
+    CreateNetworkApplianceInterfacesL3Port,
     CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
     CreateNetworkApplianceRfProfileFiveGhzSettings,
     CreateNetworkApplianceRfProfilePerSsidSettings,
@@ -20,6 +27,7 @@ from meraki_client.schemas import (
     CreateNetworkApplianceVlanDhcpOptionsItem,
     CreateNetworkApplianceVlanIpv6,
     CreateNetworkApplianceVlanMandatoryDhcp,
+    CreateNetworkApplianceVlanSgt,
     CreateNetworkApplianceVlanUplinksItem,
     CreateNetworkApplianceVlanVrf,
     CreateOrganizationActionBatchActionsItem,
@@ -28,6 +36,7 @@ from meraki_client.schemas import (
     CreateOrganizationApplianceDnsSplitProfileNameservers,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem,
+    RemoveNetworkApplianceUmbrellaPoliciesPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     UpdateDeviceApplianceRadioSettingsFiveGhzSettings,
@@ -38,6 +47,9 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceDevicesRedundancyUplink,
     UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem,
     UpdateNetworkApplianceFirewallMulticastForwardingRulesItem,
+    UpdateNetworkApplianceInterfacesL3Ipv4,
+    UpdateNetworkApplianceInterfacesL3Port,
+    UpdateNetworkAppliancePortSgt,
     UpdateNetworkAppliancePrefixesDelegatedStaticOrigin,
     UpdateNetworkApplianceRfProfileFiveGhzSettings,
     UpdateNetworkApplianceRfProfilePerSsidSettings,
@@ -61,11 +73,13 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceVlanIpv6,
     UpdateNetworkApplianceVlanMandatoryDhcp,
     UpdateNetworkApplianceVlanReservedIpRangesItem,
+    UpdateNetworkApplianceVlanSgt,
     UpdateNetworkApplianceVlanUplinksItem,
     UpdateNetworkApplianceVlanVrf,
     UpdateNetworkApplianceVpnBgpNeighborsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
+    UpdateNetworkApplianceVpnSiteToSiteVpnSgt,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnet,
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem,
     UpdateOrganizationApplianceDnsLocalRecordProfile,
@@ -95,6 +109,50 @@ class ActionBatchAppliance:
 
     def __init__(self) -> None:
         pass
+
+    def create_device_appliance_interfaces_ports_update(
+        self,
+        serial: str,
+        *,
+        interface: CreateDeviceApplianceInterfacesPortsUpdateInterface | None = None,
+        enabled: bool | None = None,
+        personality: CreateDeviceApplianceInterfacesPortsUpdatePersonality | None = None,
+        uplink: CreateDeviceApplianceInterfacesPortsUpdateUplink | None = None,
+        downlink: CreateDeviceApplianceInterfacesPortsUpdateDownlink | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update configurations for an appliance's specified port.
+
+        [API documentation: createDeviceApplianceInterfacesPortsUpdate](https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-interfaces-ports-update)
+
+        Args:
+            serial: Serial.
+            interface: The interface tuple used to identify the port.
+            enabled: Indicates whether the port is enabled.
+            personality: Describes the port's configurability.
+            uplink: The port's settings when in WAN mode.
+            downlink: The port's VLAN settings when in LAN mode.
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/appliance/interfaces/ports/update"
+
+        payload: dict[str, Any] = {}
+        if interface is not None:
+            payload["interface"] = interface.model_dump(by_alias=True, exclude_none=True)
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if personality is not None:
+            payload["personality"] = personality.model_dump(by_alias=True, exclude_none=True)
+        if uplink is not None:
+            payload["uplink"] = uplink.model_dump(by_alias=True, exclude_none=True)
+        if downlink is not None:
+            payload["downlink"] = downlink.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_device_appliance_radio_settings(
         self,
@@ -337,6 +395,94 @@ class ActionBatchAppliance:
             body=payload,
         )
 
+    def create_network_appliance_interfaces_l3(
+        self,
+        *,
+        network_id: str,
+        ipv4: CreateNetworkApplianceInterfacesL3Ipv4,
+        port: CreateNetworkApplianceInterfacesL3Port | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create wired L3 interface.
+
+        [API documentation: createNetworkApplianceInterfacesL3](https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-interfaces-l-3)
+
+        Args:
+            network_id: Network ID.
+            port: Port configuration.
+            ipv4: IPv4 configuration.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/interfaces/l3"
+
+        payload: dict[str, Any] = {}
+        if port is not None:
+            payload["port"] = port.model_dump(by_alias=True, exclude_none=True)
+        if ipv4 is not None:
+            payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def update_network_appliance_interfaces_l3(
+        self,
+        *,
+        network_id: str,
+        interface_id: str,
+        port: UpdateNetworkApplianceInterfacesL3Port | None = None,
+        ipv4: UpdateNetworkApplianceInterfacesL3Ipv4 | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update wired L3 interface.
+
+        [API documentation: updateNetworkApplianceInterfacesL3](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-interfaces-l-3)
+
+        Args:
+            network_id: Network ID.
+            interface_id: Interface ID.
+            port: Port configuration.
+            ipv4: IPv4 configuration.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        path = f"/networks/{network_id}/appliance/interfaces/l3/{interface_id}"
+
+        payload: dict[str, Any] = {}
+        if port is not None:
+            payload["port"] = port.model_dump(by_alias=True, exclude_none=True)
+        if ipv4 is not None:
+            payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_network_appliance_interfaces_l3(
+        self, *, network_id: str, interface_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete wired L3 interface.
+
+        [API documentation: deleteNetworkApplianceInterfacesL3](https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-interfaces-l-3)
+
+        Args:
+            network_id: Network ID.
+            interface_id: Interface ID.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        path = f"/networks/{network_id}/appliance/interfaces/l3/{interface_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
     def update_network_appliance_port(
         self,
         *,
@@ -348,6 +494,7 @@ class ActionBatchAppliance:
         vlan: int | None = None,
         allowed_vlans: str | None = None,
         access_policy: str | None = None,
+        sgt: UpdateNetworkAppliancePortSgt | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the per-port VLAN settings for a single secure router or security appliance port.
 
@@ -370,6 +517,7 @@ class ActionBatchAppliance:
                 Z3 or any MX supporting the per port authentication feature. Otherwise,
                 'open' is the only valid value and 'open' is the default value if the
                 field is missing.
+            sgt: Security Group Tag settings for the port.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -389,6 +537,8 @@ class ActionBatchAppliance:
             payload["allowedVlans"] = allowed_vlans
         if access_policy is not None:
             payload["accessPolicy"] = access_policy
+        if sgt is not None:
+            payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1128,6 +1278,109 @@ class ActionBatchAppliance:
             operation="disconnect",
         )
 
+    def exclusions_network_appliance_umbrella_domains(
+        self, *, network_id: str, domains: list[str]
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Specify one or more domain names to be excluded from being routed to Cisco Umbrella.
+
+        [API documentation: exclusionsNetworkApplianceUmbrellaDomains](https://developer.cisco.com/meraki/api-v1/#!exclusions-network-appliance-umbrella-domains)
+
+        Args:
+            network_id: Network ID.
+            domains: Domain names to exclude from Umbrella DNS routing (e.g., 'example.com',
+                'corp.example.org'). Standard FQDNs only — wildcards are not supported.
+                Values are lowercased before saving. Each call replaces the full
+                exclusion list.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/domains/exclusions"
+
+        payload: dict[str, Any] = {}
+        if domains is not None:
+            payload["domains"] = domains
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="action",
+            body=payload,
+        )
+
+    def add_network_appliance_umbrella_policies(
+        self, *, network_id: str, policy: AddNetworkApplianceUmbrellaPoliciesPolicy
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Add one Cisco Umbrella DNS security policy to an MX network by policy ID.
+
+        [API documentation: addNetworkApplianceUmbrellaPolicies](https://developer.cisco.com/meraki/api-v1/#!add-network-appliance-umbrella-policies)
+
+        Args:
+            network_id: Network ID.
+            policy: Umbrella policy to add.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/policies/add"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="policies_add",
+            body=payload,
+        )
+
+    def remove_network_appliance_umbrella_policies(
+        self, *, network_id: str, policy: RemoveNetworkApplianceUmbrellaPoliciesPolicy
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Remove one Cisco Umbrella DNS security policy from an MX network by policy ID.
+
+        [API documentation: removeNetworkApplianceUmbrellaPolicies](https://developer.cisco.com/meraki/api-v1/#!remove-network-appliance-umbrella-policies)
+
+        Args:
+            network_id: Network ID.
+            policy: Umbrella policy to remove.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/policies/remove"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="policies_remove",
+            body=payload,
+        )
+
+    def protection_network_appliance_umbrella(
+        self, *, network_id: str, enabled: bool
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Enable or disable umbrella protection for an appliance network.
+
+        [API documentation: protectionNetworkApplianceUmbrella](https://developer.cisco.com/meraki/api-v1/#!protection-network-appliance-umbrella)
+
+        Args:
+            network_id: Network ID.
+            enabled: Enable or disable umbrella protection.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/umbrella/protection"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="action",
+            body=payload,
+        )
+
     def update_network_appliance_uplinks_nat(
         self, *, network_id: str, uplinks: list[UpdateNetworkApplianceUplinksNatUplinksItem]
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -1176,6 +1429,7 @@ class ActionBatchAppliance:
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
         dhcp_options: list[CreateNetworkApplianceVlanDhcpOptionsItem] | None = None,
+        sgt: CreateNetworkApplianceVlanSgt | None = None,
         vrf: CreateNetworkApplianceVlanVrf | None = None,
         uplinks: list[CreateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -1216,6 +1470,7 @@ class ActionBatchAppliance:
             dhcp_boot_filename: DHCP boot option for boot filename.
             dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
                 object in the list should have "code", "type", and "value" properties.
+            sgt: Security Group Tag settings for the VLAN.
             vrf: VRF configuration on the VLAN.
             uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
                 for networks that support NAT exceptions.
@@ -1261,6 +1516,8 @@ class ActionBatchAppliance:
             payload["dhcpOptions"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in dhcp_options
             ]
+        if sgt is not None:
+            payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if uplinks is not None:
@@ -1325,6 +1582,7 @@ class ActionBatchAppliance:
         mask: int | None = None,
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
+        sgt: UpdateNetworkApplianceVlanSgt | None = None,
         vrf: UpdateNetworkApplianceVlanVrf | None = None,
         uplinks: list[UpdateNetworkApplianceVlanUplinksItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -1375,6 +1633,7 @@ class ActionBatchAppliance:
                 use the IP address assigned by the DHCP server. Clients who use a static
                 IP address won't be able to associate. Only available on firmware
                 versions 17.0 and above.
+            sgt: Security Group Tag settings for the VLAN.
             vrf: VRF configuration on the VLAN.
             uplinks: Per-uplink NAT exception override configuration on the VLAN. Applicable only
                 for networks that support NAT exceptions.
@@ -1429,6 +1688,8 @@ class ActionBatchAppliance:
             payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
+        if sgt is not None:
+            payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if uplinks is not None:
@@ -1526,6 +1787,7 @@ class ActionBatchAppliance:
         mode: UpdateNetworkApplianceVpnSiteToSiteVpnMode,
         hubs: list[UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem] | None = None,
         subnets: list[UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem] | None = None,
+        sgt: UpdateNetworkApplianceVpnSiteToSiteVpnSgt | None = None,
         subnet: UpdateNetworkApplianceVpnSiteToSiteVpnSubnet | None = None,
         host_translations: list[UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem]
         | None = None,
@@ -1540,6 +1802,7 @@ class ActionBatchAppliance:
             hubs: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is
                 required.
             subnets: The list of subnets and their VPN presence.
+            sgt: Security Group Tag settings for the VPN peer.
             subnet: Configuration of subnet features.
             host_translations: The list of VPN host translations. Host translations are supported
                 starting from MX firmware version 26.1.2.
@@ -1557,6 +1820,8 @@ class ActionBatchAppliance:
             payload["subnets"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in subnets
             ]
+        if sgt is not None:
+            payload["sgt"] = sgt.model_dump(by_alias=True, exclude_none=True)
         if subnet is not None:
             payload["subnet"] = subnet.model_dump(by_alias=True, exclude_none=True)
         if host_translations is not None:

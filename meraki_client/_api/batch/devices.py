@@ -10,6 +10,13 @@ from typing import Any
 
 from meraki_client.schemas import (
     CreateDeviceLiveToolsLedsBlinkCallback,
+    CreateDeviceLiveToolsPortsStatusCallback,
+    CreateDeviceLiveToolsPowerUsageCallback,
+    CreateDeviceLiveToolsRoutingTableLookupCallback,
+    CreateDeviceLiveToolsRoutingTableLookupDestination,
+    CreateDeviceLiveToolsRoutingTableLookupNextHop,
+    CreateDeviceLiveToolsRoutingTableLookupVpn,
+    CreateDeviceLiveToolsRoutingTableSummaryCallback,
     CreateDeviceLiveToolsThroughputTestCallback,
     CreateOrganizationActionBatchActionsItem,
     UpdateDeviceManagementInterfaceWan1,
@@ -18,6 +25,7 @@ from meraki_client.schemas import (
 from meraki_client.types import (
     CreateDeviceCellularUplinksBandsMasksUpdateSlot,
     CreateDeviceCellularUplinksBandsMasksUpdateType,
+    CreateDeviceLiveToolsRoutingTableLookupType,
 )
 
 
@@ -187,6 +195,132 @@ class ActionBatchDevices:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="blink",
+            body=payload,
+        )
+
+    def create_device_live_tools_ports_status(
+        self, serial: str, *, callback: CreateDeviceLiveToolsPortsStatusCallback | None = None
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Enqueue a job to retrieve port status for a device.
+
+        [API documentation: createDeviceLiveToolsPortsStatus](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ports-status)
+
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/ports/status"
+
+        payload: dict[str, Any] = {}
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="status",
+            body=payload,
+        )
+
+    def create_device_live_tools_power_usage(
+        self, serial: str, *, callback: CreateDeviceLiveToolsPowerUsageCallback | None = None
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Enqueues a live tool job that retrieves details about a device's overall power usage.
+
+        [API documentation: createDeviceLiveToolsPowerUsage](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-power-usage)
+
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/power/usage"
+
+        payload: dict[str, Any] = {}
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="job",
+            body=payload,
+        )
+
+    def create_device_live_tools_routing_table_lookup(
+        self,
+        serial: str,
+        *,
+        type_: CreateDeviceLiveToolsRoutingTableLookupType | None = None,
+        destination: CreateDeviceLiveToolsRoutingTableLookupDestination | None = None,
+        next_hop: CreateDeviceLiveToolsRoutingTableLookupNextHop | None = None,
+        vpn: CreateDeviceLiveToolsRoutingTableLookupVpn | None = None,
+        callback: CreateDeviceLiveToolsRoutingTableLookupCallback | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Enqueue a job to perform a routing table lookup request for a device.
+
+        [API documentation: createDeviceLiveToolsRoutingTableLookup](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-routing-table-lookup)
+
+        Args:
+            serial: Serial.
+            type_: The type of route defined.
+            destination: The destination IP or subnet to lookup.
+            next_hop: The next hop to lookup.
+            vpn: VPN related search criteria.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/routingTable/lookups"
+
+        payload: dict[str, Any] = {}
+        if type_ is not None:
+            payload["type"] = type_
+        if destination is not None:
+            payload["destination"] = destination.model_dump(by_alias=True, exclude_none=True)
+        if next_hop is not None:
+            payload["nextHop"] = next_hop.model_dump(by_alias=True, exclude_none=True)
+        if vpn is not None:
+            payload["vpn"] = vpn.model_dump(by_alias=True, exclude_none=True)
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="lookup",
+            body=payload,
+        )
+
+    def create_device_live_tools_routing_table_summary(
+        self,
+        serial: str,
+        *,
+        callback: CreateDeviceLiveToolsRoutingTableSummaryCallback | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Enqueue a routing table summary job for a device.
+
+        [API documentation: createDeviceLiveToolsRoutingTableSummary](https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-routing-table-summary)
+
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+                sharedSecret.
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/liveTools/routingTable/summaries"
+
+        payload: dict[str, Any] = {}
+        if callback is not None:
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="summary",
             body=payload,
         )
 
