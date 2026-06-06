@@ -1537,8 +1537,8 @@ class GetOrganizationApplianceUplinkStatusesResponseItem(_BaseSchema):
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
     serial: str
     model: str
-    last_reported_at: datetime = Field(
-        validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
+    last_reported_at: datetime | None = Field(
+        default=None, validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
     )
     high_availability: ApplianceHighAvailability | None = Field(
         default=None, validation_alias="highAvailability", serialization_alias="highAvailability"

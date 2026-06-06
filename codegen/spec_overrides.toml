@@ -363,7 +363,6 @@ required = [
   "networkId",
   "serial",
   "model",
-  "lastReportedAt",
   "uplinks.interface",
   "uplinks.status",
 ]
