@@ -44,23 +44,32 @@ class _Templates:
     test_module_template: jinja2.Template
 
 
-def generate_tests(spec: OpenAPI, *, skip_tests: set[str] | None = None) -> None:
+def generate_tests(
+    spec: OpenAPI,
+    *,
+    skip_tests: set[str] | None = None,
+    required_params: dict[str, set[str]] | None = None,
+) -> None:
     """Generate test files for GET endpoints.
 
     Args:
         spec: The parsed OpenAPI specification.
         skip_tests: Set of operation IDs to skip in test generation.
+        required_params: Map of operation ID to parameter names forced required by override.
 
     Raises:
         ValueError: If skip_tests contains operation IDs not found in the spec.
 
     """
     skip_tests = skip_tests or set()
+    required_params = required_params or {}
     if skip_tests:
         _validate_skip_tests(spec, skip_tests)
 
     templates = _init_test_templates()
-    endpoints_by_scope = _filter_testable_endpoints(spec, skip_tests=skip_tests)
+    endpoints_by_scope = _filter_testable_endpoints(
+        spec, skip_tests=skip_tests, required_params=required_params
+    )
 
     if not endpoints_by_scope:
         log.warning("No testable endpoints found")
@@ -109,7 +118,10 @@ def _validate_skip_tests(spec: OpenAPI, skip_tests: set[str]) -> None:
 
 
 def _filter_testable_endpoints(
-    spec: OpenAPI, *, skip_tests: set[str]
+    spec: OpenAPI,
+    *,
+    skip_tests: set[str],
+    required_params: dict[str, set[str]],
 ) -> dict[str, list[EndpointInfo]]:
     """Filter GET endpoints that only use allowed path parameters and have no required query params.
 
@@ -140,7 +152,7 @@ def _filter_testable_endpoints(
             continue
 
         # Check for required query parameters - skip if any exist
-        if _has_required_query_params(operation):
+        if _has_required_query_params(operation, required_params.get(operation_id, set())):
             continue
 
         # Get scope from first tag
@@ -167,10 +179,10 @@ def _filter_testable_endpoints(
     return endpoints_by_scope
 
 
-def _has_required_query_params(operation: Operation) -> bool:
+def _has_required_query_params(operation: Operation, override_required: set[str]) -> bool:
     """Check if operation has required query parameters (non-path params)."""
     if not operation.parameters:
-        return False
+        return bool(override_required)
 
     for param in operation.parameters:
         if isinstance(param, Reference):
@@ -179,8 +191,8 @@ def _has_required_query_params(operation: Operation) -> bool:
             # Skip path parameters - we handle those separately
             if param.param_in == ParameterLocation.PATH:
                 continue
-            # Check if this is a required query/header parameter
-            if param.required:
+            # Check if this is a required query/header parameter (spec or override)
+            if param.required or param.name in override_required:
                 return True
 
     return False

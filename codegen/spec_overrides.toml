@@ -66,11 +66,17 @@ skip_tests = [
   "getNetworkWirelessChannelUtilizationHistory",
   "getNetworkWirelessSignalQualityHistory",
   "getNetworkWirelessUsageHistory",
-  # productType is required
-  "getNetworkEvents",
   # Event not found or network not authorized
   "getNetworkFirmwareUpgradesStagedEvents",
 ]
+
+[getNetworkEvents]
+# productType is required by the API despite being marked optional in the spec
+required_params = ["productType"]
+
+[getOrganizationApiRestProvisioningPipelinesJobs]
+# pipelineIds is required by the API despite being marked optional in the spec
+required_params = ["pipelineIds"]
 
 [getNetworkClients]
 response = { firstSeen = "datetime", lastSeen = "datetime" }

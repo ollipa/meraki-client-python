@@ -86,17 +86,6 @@ def test_get_organization_alerts_profiles(client: MerakiClient, organization_id:
         client.organizations.get_organization_alerts_profiles(organization_id=organization_id)
 
 
-def test_get_organization_api_rest_provisioning_pipelines_jobs(
-    client: MerakiClient, organization_id: str
-) -> None:
-    """Test get_organization_api_rest_provisioning_pipelines_jobs endpoint."""
-    with skip_on_unsupported():
-        result = client.organizations.get_organization_api_rest_provisioning_pipelines_jobs(
-            organization_id=organization_id
-        ).collect()
-    assert isinstance(result, list)
-
-
 def test_get_organization_api_rest_provisioning_pipelines_jobs_overviews_by_pipeline(
     client: MerakiClient, organization_id: str
 ) -> None:

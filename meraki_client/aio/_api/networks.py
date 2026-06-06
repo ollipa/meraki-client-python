@@ -2047,9 +2047,9 @@ class Networks:
 
     def get_network_events(
         self,
-        network_id: str,
         *,
-        product_type: GetNetworkEventsProductType | None = None,
+        network_id: str,
+        product_type: GetNetworkEventsProductType,
         included_event_types: list[str] | None = None,
         excluded_event_types: list[str] | None = None,
         device_mac: str | None = None,

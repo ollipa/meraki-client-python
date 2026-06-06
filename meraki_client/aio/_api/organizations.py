@@ -2320,12 +2320,12 @@ class Organizations:
 
     def get_organization_api_rest_provisioning_pipelines_jobs(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
+        pipeline_ids: list[str],
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        pipeline_ids: list[str] | None = None,
         status: GetOrganizationApiRestProvisioningPipelinesJobsStatus | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",

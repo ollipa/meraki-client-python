@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Remove `getOrganizationApplianceUplinkStatuses` endpoint `lastReportedAt` field override. `lastReportedAt` can be null in some cases.
+- Mark `pipeline_ids` parameter of `get_organization_api_rest_provisioning_pipelines_jobs` and `product_type` parameter of `get_network_events` as required, matching actual API behavior (spec incorrectly marks them optional).
 
 ### Changed
 

@@ -196,12 +196,33 @@ def get_openapi_specification(api_version: str) -> dict[str, Any]:
     return json.load(spec_path.open("r"))
 
 
+def _validate_required_params(spec: OpenAPI, required_params: dict[str, set[str]]) -> None:
+    """Fail fast if a required_params override names a missing operation or parameter."""
+    operations = {
+        op.operationId: op
+        for path_item in spec.paths.values()
+        for op in (path_item.get, path_item.put, path_item.post, path_item.delete)
+        if op and op.operationId
+    }
+    for operation_id, param_names in required_params.items():
+        operation = operations.get(operation_id)
+        if not operation:
+            raise ValueError(f"required_params: unknown operation ID '{operation_id}'")
+        spec_names = {p.name for p in operation.parameters or [] if isinstance(p, Parameter)}
+        unknown = param_names - spec_names
+        if unknown:
+            raise ValueError(
+                f"required_params: {operation_id} has no parameter(s) {sorted(unknown)}"
+            )
+
+
 def generate_library(  # noqa: PLR0915
     spec: OpenAPI, batchable_actions: list[BatchableAction], version_number: str, api_version: str
 ) -> None:
     """Generate the Meraki Python library using the public OpenAPI specification."""
     batchable_actions_map = {action.summary: action.operation for action in batchable_actions}
     spec_overrides = load_spec_overrides()
+    _validate_required_params(spec, spec_overrides.required_params)
 
     recreate_output_directory()
     copy_static_files()
@@ -309,6 +330,7 @@ def generate_library(  # noqa: PLR0915
                 schema_registry=schema_registry,
                 force_paginated=spec_overrides.force_paginated,
                 optional_response=spec_overrides.optional_response,
+                required_params=spec_overrides.required_params,
                 enum_alias_lookup=enum_alias_lookup,
             )
 
@@ -350,7 +372,11 @@ def generate_library(  # noqa: PLR0915
     log.info(f"Formatted generated code in {elapsed:.2f}s")
 
     t_start = time.perf_counter()
-    generate_tests(spec, skip_tests=spec_overrides.skip_tests)
+    generate_tests(
+        spec,
+        skip_tests=spec_overrides.skip_tests,
+        required_params=spec_overrides.required_params,
+    )
     elapsed = time.perf_counter() - t_start
     log.info(f"Generated tests in {elapsed:.2f}s")
 
@@ -372,6 +398,7 @@ def generate_module(  # noqa: PLR0915
     schema_registry: SchemaRegistry,
     force_paginated: set[str],
     optional_response: set[str],
+    required_params: dict[str, set[str]],
     enum_alias_lookup: dict[EnumAliasKey, str],
 ) -> str | None:
     """Generate a module for a scope.
@@ -459,6 +486,7 @@ def generate_module(  # noqa: PLR0915
                 endpoint.parameters or [],
                 function_definition,
                 enum_alias_lookup,
+                required_params,
             )
             has_pagination_params = is_paginated
             collect_request_body_params(
@@ -743,6 +771,7 @@ def collect_params(
     parameters: list[Parameter | Reference],
     function_definition: FunctionDefinition,
     enum_alias_lookup: dict[EnumAliasKey, str],
+    required_params: dict[str, set[str]],
 ) -> bool:
     """Collect path and query parameters. Returns True if paginated."""
     is_paginated = False
@@ -794,7 +823,13 @@ def collect_params(
         if snake_name == "per_page":
             is_paginated = True
 
-        if param.required or param.param_in == ParameterLocation.PATH:
+        is_override_required = param_name in required_params.get(operation_id, set())
+        if is_override_required and param.required:
+            log.warning(
+                f"{operation_id}.{param_name} in required_params is already required in spec - "
+                "spec may be fixed, check if override still needed"
+            )
+        if param.required or is_override_required or param.param_in == ParameterLocation.PATH:
             function_definition.required_args.append(f"{snake_name}: {py_type}")
         else:
             function_definition.optional_args.append(f"{snake_name}: {py_type} | None = None")
