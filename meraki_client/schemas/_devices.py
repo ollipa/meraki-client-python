@@ -608,11 +608,11 @@ class DeviceResponse(_BaseSchema):
     floor_plan_id: str | None = Field(
         default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
     )
+    url: str | None = None
     details: list[DeviceResponseDetailsItem] = Field(default_factory=list)
     beacon_id_params: DeviceResponseBeaconIdParams | None = Field(
         default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
-    url: str | None = None
 
 
 class DeviceResponseBeaconIdParams(_BaseSchema):

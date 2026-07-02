@@ -226,6 +226,27 @@ class CreateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
     mv44_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
         default=None, validation_alias="MV44X", serialization_alias="MV44X"
     )
+    mv24: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV24", serialization_alias="MV24"
+    )
+    mv74: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV74", serialization_alias="MV74"
+    )
+    mv14: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV14", serialization_alias="MV14"
+    )
+    mv64: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV64", serialization_alias="MV64"
+    )
+    mv54_n: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV54N", serialization_alias="MV54N"
+    )
+    mv94: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV94 | None = Field(
+        default=None, validation_alias="MV94", serialization_alias="MV94"
+    )
+    mv34: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV94 | None = Field(
+        default=None, validation_alias="MV34", serialization_alias="MV34"
+    )
 
 
 class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72(_BaseSchema):
@@ -256,6 +277,13 @@ class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV22XMV72X(_BaseSch
     resolution: str
 
 
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24(_BaseSchema):
+    """Quality and resolution for MV24 camera models."""
+
+    quality: str
+    resolution: str
+
+
 class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV32(_BaseSchema):
     """Quality and resolution for MV32 camera models."""
 
@@ -279,6 +307,13 @@ class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV52(_BaseSchema):
 
 class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X(_BaseSchema):
     """Quality and resolution for MV84X camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV94(_BaseSchema):
+    """Quality and resolution for MV94 camera models."""
 
     quality: str
     resolution: str
@@ -732,6 +767,9 @@ class NetworkCameraQualityRetentionProfileResponse(_BaseSchema):
     smart_retention: DeviceCameraSenseResponseAudioDetection | None = Field(
         default=None, validation_alias="smartRetention", serialization_alias="smartRetention"
     )
+    axis_video_quality: str | None = Field(
+        default=None, validation_alias="axisVideoQuality", serialization_alias="axisVideoQuality"
+    )
     video_settings: dict[str, Any] | None = Field(
         default=None, validation_alias="videoSettings", serialization_alias="videoSettings"
     )
@@ -878,6 +916,27 @@ class UpdateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
     )
     mv44_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
         default=None, validation_alias="MV44X", serialization_alias="MV44X"
+    )
+    mv24: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV24", serialization_alias="MV24"
+    )
+    mv74: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV74", serialization_alias="MV74"
+    )
+    mv14: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV14", serialization_alias="MV14"
+    )
+    mv64: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV64", serialization_alias="MV64"
+    )
+    mv54_n: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV24 | None = Field(
+        default=None, validation_alias="MV54N", serialization_alias="MV54N"
+    )
+    mv94: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV94 | None = Field(
+        default=None, validation_alias="MV94", serialization_alias="MV94"
+    )
+    mv34: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV94 | None = Field(
+        default=None, validation_alias="MV34", serialization_alias="MV34"
     )
 
 

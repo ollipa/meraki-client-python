@@ -23,8 +23,8 @@ class AddNetworkApplianceUmbrellaPoliciesPolicy(_BaseSchema):
 class AddNetworkApplianceUmbrellaPoliciesResponse(_BaseSchema):
     """Response for addNetworkApplianceUmbrellaPolicies operation."""
 
-    network: ApplianceUmbrellaOrganization | None = None
-    policies: list[ApplianceUmbrellaOrganization] = Field(default_factory=list)
+    network: ApplianceDownlinkSgt | None = None
+    policies: list[ApplianceDownlinkSgt] = Field(default_factory=list)
 
 
 class Appliance1(_BaseSchema):
@@ -251,7 +251,7 @@ class ApplianceDownlinkAccess(_BaseSchema):
 class ApplianceDownlinkSgt(_BaseSchema):
     """Security Group Tag settings for this port."""
 
-    id: int | None = None
+    id: str | None = None
 
 
 class ApplianceDownlinkTrunk(_BaseSchema):
@@ -902,6 +902,12 @@ class ApplianceSgt2(_BaseSchema):
     enabled: bool | None = None
 
 
+class ApplianceSgt3(_BaseSchema):
+    """Security Group Tag settings for the VLAN."""
+
+    id: int | None = None
+
+
 class ApplianceSource(_BaseSchema):
     """Source of traffic filter."""
 
@@ -1008,12 +1014,6 @@ class ApplianceTransmit(_BaseSchema):
     minimum: float | None = None
     maximum: float | None = None
     median: float | None = None
-
-
-class ApplianceUmbrellaOrganization(_BaseSchema):
-    """Organization details."""
-
-    id: str | None = None
 
 
 class ApplianceUplinkInterfacesItem(_BaseSchema):
@@ -1206,8 +1206,8 @@ class AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem(_Base
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: ApplianceUmbrellaOrganization | None = None
-    profile: ApplianceUmbrellaOrganization | None = None
+    network: ApplianceDownlinkSgt | None = None
+    profile: ApplianceDownlinkSgt | None = None
 
 
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse(_BaseSchema):
@@ -1224,8 +1224,8 @@ class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsIte
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    network: ApplianceUmbrellaOrganization | None = None
-    profile: ApplianceUmbrellaOrganization | None = None
+    network: ApplianceDownlinkSgt | None = None
+    profile: ApplianceDownlinkSgt | None = None
 
 
 class ConnectNetworkApplianceUmbrellaAccountApi(_BaseSchema):
@@ -1244,7 +1244,7 @@ class ConnectNetworkApplianceUmbrellaAccountResponse(_BaseSchema):
 class ConnectNetworkApplianceUmbrellaAccountResponseUmbrella(_BaseSchema):
     """Umbrella configuration."""
 
-    organization: ApplianceUmbrellaOrganization | None = None
+    organization: ApplianceDownlinkSgt | None = None
 
 
 class CreateDeviceApplianceInterfacesPortsUpdateDownlink(_BaseSchema):
@@ -1471,7 +1471,7 @@ class CreateNetworkApplianceVlanResponse(_BaseSchema):
     mandatory_dhcp: ApplianceSgt | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
-    sgt: ApplianceDownlinkSgt | None = None
+    sgt: ApplianceSgt3 | None = None
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
     vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
 
@@ -1518,8 +1518,8 @@ class CreateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: ApplianceUmbrellaOrganization | None = None
-    profile: ApplianceUmbrellaOrganization | None = None
+    network: ApplianceDownlinkSgt | None = None
+    profile: ApplianceDownlinkSgt | None = None
 
 
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem(_BaseSchema):
@@ -1821,7 +1821,7 @@ class GetOrganizationApplianceDevicesInterfacesL3ResponseItemsItem(_BaseSchema):
         default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
     )
     ipv4: ApplianceAddressesItem | None = None
-    network: ApplianceUmbrellaOrganization | None = None
+    network: ApplianceDownlinkSgt | None = None
     port: NetworkApplianceInterfacesL3ResponsePort | None = None
 
 
@@ -1850,8 +1850,8 @@ class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_Base
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    network: ApplianceUmbrellaOrganization | None = None
-    profile: ApplianceUmbrellaOrganization | None = None
+    network: ApplianceDownlinkSgt | None = None
+    profile: ApplianceDownlinkSgt | None = None
 
 
 class GetOrganizationApplianceDnsLocalProfilesResponse(
@@ -1875,7 +1875,7 @@ class GetOrganizationApplianceDnsSplitProfilesResponse(
 class GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem."""
 
-    network: ApplianceUmbrellaOrganization | None = None
+    network: ApplianceDownlinkSgt | None = None
     serial: str | None = None
     interfaces: list[ApplianceInterfacesItem] = Field(default_factory=list)
 
@@ -2610,7 +2610,7 @@ class NetworkApplianceVlanResponse(_BaseSchema):
     mandatory_dhcp: ApplianceSgt | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
-    sgt: ApplianceDownlinkSgt | None = None
+    sgt: ApplianceSgt3 | None = None
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
     vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
@@ -2861,7 +2861,7 @@ class OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema):
     ipsec_policies: AppliancePeersIpsecPolicies | None = Field(
         default=None, validation_alias="ipsecPolicies", serialization_alias="ipsecPolicies"
     )
-    sla_policy: ApplianceUmbrellaOrganization | None = Field(
+    sla_policy: ApplianceDownlinkSgt | None = Field(
         default=None, validation_alias="slaPolicy", serialization_alias="slaPolicy"
     )
     ipsec_policies_preset: str | None = Field(
@@ -2909,8 +2909,8 @@ class ProtectionNetworkApplianceUmbrellaResponse(_BaseSchema):
 class ProtectionNetworkApplianceUmbrellaResponseUmbrella(_BaseSchema):
     """Umbrella configuration. Organization and origin IDs are null when protection is disabled."""
 
-    organization: ApplianceUmbrellaOrganization | None = None
-    origin: ApplianceUmbrellaOrganization | None = None
+    organization: ApplianceDownlinkSgt | None = None
+    origin: ApplianceDownlinkSgt | None = None
 
 
 class RemoveNetworkApplianceUmbrellaPoliciesPolicy(_BaseSchema):
@@ -3208,7 +3208,16 @@ class UpdateNetworkApplianceInterfacesL3Ipv4(_BaseSchema):
 class UpdateNetworkApplianceInterfacesL3Port(_BaseSchema):
     """Port configuration."""
 
-    interface: CreateNetworkApplianceInterfacesL3PortInterface | None = None
+    interface: UpdateNetworkApplianceInterfacesL3PortInterface | None = None
+
+
+class UpdateNetworkApplianceInterfacesL3PortInterface(_BaseSchema):
+    """Structured interface identifier for the port being modified."""
+
+    name: str | None = None
+    slot: int | None
+    subslot: int | None
+    number: int | None
 
 
 class UpdateNetworkAppliancePortSgt(_BaseSchema):
@@ -3730,7 +3739,7 @@ class UpdateOrganizationApplianceDnsLocalRecordResponse(_BaseSchema):
     )
     hostname: str | None = None
     address: str | None = None
-    profile: ApplianceUmbrellaOrganization | None = None
+    profile: ApplianceDownlinkSgt | None = None
 
 
 class UpdateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
@@ -3783,7 +3792,7 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem(_BaseSchema):
         validation_alias="ipsecPoliciesPreset",
         serialization_alias="ipsecPoliciesPreset",
     )
-    sla_policy: ApplianceUmbrellaOrganization | None = Field(
+    sla_policy: ApplianceDownlinkSgt | None = Field(
         default=None, validation_alias="slaPolicy", serialization_alias="slaPolicy"
     )
     secret: str

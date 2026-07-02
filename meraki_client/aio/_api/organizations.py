@@ -103,6 +103,8 @@ from meraki_client.schemas import (
     GetOrganizationDevicesResponseItem,
     GetOrganizationDevicesStatusesOverviewResponse,
     GetOrganizationDevicesStatusesResponseItem,
+    GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem,
+    GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem,
     GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem,
     GetOrganizationDevicesUplinksAddressesByDeviceResponseItem,
     GetOrganizationDevicesUplinksLossAndLatencyResponseItem,
@@ -142,7 +144,7 @@ from meraki_client.schemas import (
     GetOrganizationSummaryTopSsidsByUsageResponseItem,
     GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem,
     GetOrganizationUplinksStatusesResponseItem,
-    GetOrganizationWebhooksAlertTypesResponse,
+    GetOrganizationWebhooksAlertTypesResponseItem,
     GetOrganizationWebhooksCallbacksStatusResponse,
     GetOrganizationWebhooksLogsResponseItem,
     MoveOrganizationLicensesResponse,
@@ -220,6 +222,7 @@ from meraki_client.types import (
     CreateOrganizationDevicesControllerMigrationTarget,
     CreateOrganizationNetworkProductTypes,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
+    CreateOrganizationPolicyObjectType,
     GetOrganizationActionBatchesStatus,
     GetOrganizationApiRequestsMethod,
     GetOrganizationApiRequestsOverviewResponseCodesByIntervalVersion,
@@ -2451,7 +2454,7 @@ class Organizations:
                 {
                   "pipelineId": "1234",
                   "operation": {
-                    "id": "enrollOrganizationSaseSites"
+                    "id": "attachOrganizationSaseSites"
                   },
                   "status": "active",
                   "counts": {
@@ -3003,7 +3006,8 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            alert_ids: Array of alert IDs to dismiss.
+            alert_ids: Array of alert IDs in this organization to dismiss. Missing or inaccessible
+                alert IDs return 404.
 
         Returns:
             Successful operation.
@@ -3545,7 +3549,8 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            alert_ids: Array of alert IDs to restore.
+            alert_ids: Array of alert IDs in this organization to restore. Missing or inaccessible
+                alert IDs return 404.
 
         Returns:
             Successful operation.
@@ -6431,7 +6436,7 @@ class Organizations:
                     "cell": {
                       "id": "1234567890"
                     },
-                    "tac": "3F2A"
+                    "tac": "0x3F2A"
                   }
                 }
               ],
@@ -8096,6 +8101,201 @@ class Organizations:
             path=path,
             params=params,
             response_schema=GetOrganizationDevicesStatusesOverviewResponse,
+        )
+
+    def get_organization_devices_syslog_servers_by_network(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem]:
+        """Returns syslog servers configured for the networks within an organization.
+
+        [API documentation: getOrganizationDevicesSyslogServersByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-syslog-servers-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 10.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            network_ids: IDs of the networks for which to fetch syslog servers; suggested maximum
+                array size is 100.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_123456789012345678"
+                  },
+                  "servers": [
+                    {
+                      "host": "1.2.3.4",
+                      "port": 443,
+                      "roles": [
+                        "wirelessEventLog",
+                        "applianceUrlLog"
+                      ],
+                      "transportProtocol": "UDP",
+                      "encryption": {
+                        "enabled": true,
+                        "certificate": {
+                          "id": "1637"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/syslog/servers/byNetwork"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesSyslogServersByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem,
+        )
+
+    def get_organization_devices_syslog_servers_roles_by_network(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem]:
+        """Returns roles that can be assigned to a syslog server for a given network.
+
+        [API documentation: getOrganizationDevicesSyslogServersRolesByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-syslog-servers-roles-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 10.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            network_ids: IDs of the networks for which to fetch valid syslog server roles; suggested
+                maximum array size is 100.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_123456789012345678"
+                  },
+                  "available": [
+                    {
+                      "name": "Wireless Event Log",
+                      "value": "wirelessEventLog"
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 2
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/devices/syslog/servers/roles/byNetwork"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationDevicesSyslogServersRolesByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem,
         )
 
     def get_organization_devices_system_memory_usage_history_by_interval(
@@ -13160,7 +13360,7 @@ class Organizations:
         organization_id: str,
         name: str,
         category: str,
-        type_: str,
+        type_: CreateOrganizationPolicyObjectType,
         cidr: str | None = None,
         fqdn: str | None = None,
         mask: str | None = None,
@@ -13176,11 +13376,15 @@ class Organizations:
             name: Name of a policy object, unique within the organization (alphanumeric, space,
                 dash, or underscore characters only).
             category: Category of a policy object (one of: adaptivePolicy, network).
-            type_: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
+            type_: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn). DEPRECATED:
+                `ipAndMask` is deprecated and will be removed in a future release. Use
+                `cidr` instead.
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
-            mask: Mask of a policy object (e.g. "255.255.0.0").
-            ip: IP Address of a policy object (e.g. "1.2.3.4").
+            mask: Mask of a policy object (e.g. "255.255.0.0"). Used only with deprecated
+                `type=ipAndMask`.
+            ip: IP Address of a policy object (e.g. "1.2.3.4"). Used only with deprecated
+                `type=ipAndMask`.
             group_ids: The IDs of policy object groups the policy object belongs to.
 
         Returns:
@@ -13576,8 +13780,10 @@ class Organizations:
                 dash, or underscore characters only).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
-            mask: Mask of a policy object (e.g. "255.255.0.0").
-            ip: IP Address of a policy object (e.g. "1.2.3.4").
+            mask: Mask of a policy object (e.g. "255.255.0.0"). Used only with deprecated
+                `type=ipAndMask`.
+            ip: IP Address of a policy object (e.g. "1.2.3.4"). Used only with deprecated
+                `type=ipAndMask`.
             group_ids: The IDs of policy object groups the policy object belongs to.
 
         Returns:
@@ -16479,7 +16685,7 @@ class Organizations:
         organization_id: str,
         *,
         product_type: GetOrganizationWebhooksAlertTypesProductType | None = None,
-    ) -> AsyncPaginatedResponse[GetOrganizationWebhooksAlertTypesResponse]:
+    ) -> AsyncPaginatedResponse[GetOrganizationWebhooksAlertTypesResponseItem]:
         """Return a list of alert types to be used with managing webhook alerts.
 
         [API documentation: getOrganizationWebhooksAlertTypes](https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-alert-types)
@@ -16498,41 +16704,46 @@ class Organizations:
 
         Example API response:
             ```json
-            {
-              "alertTypeId": "stopped_reporting",
-              "alertType": "APs went down",
-              "example": {
-                "version": "0.1",
-                "sharedSecret": "secret",
-                "sentAt": "2018-02-11T00:00:00.090210Z",
-                "alertId": "0000000000000000",
-                "alertLevel": "warning",
-                "occurredAt": "2018-02-11T00:00:00.090210Z",
-                "organizationId": "2930418",
-                "organizationName": "My organization",
-                "organizationUrl": "https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview",
-                "deviceSerial": "Q234-ABCD-5678",
-                "deviceMac": "00:11:22:33:44:55",
-                "deviceName": "My AP",
-                "deviceUrl": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
-                "deviceTags": [
-                  "tag1",
-                  "tag2"
-                ],
-                "deviceModel": "MR34",
-                "networkId": "N_24329156",
-                "networkName": "Main Office",
-                "networkUrl": "https://n1.meraki.com//n//manage/nodes/list",
-                "enrollmentString": "my-enrollment-string",
-                "notes": "Additional description of the network",
-                "productTypes": [
-                  "appliance",
-                  "switch",
-                  "wireless"
-                ],
-                "encryptedId": "6GREra"
+            [
+              {
+                "alertTypeId": "stopped_reporting",
+                "alertType": "APs went down",
+                "example": {
+                  "version": "0.1",
+                  "sharedSecret": "secret",
+                  "sentAt": "2018-02-11T00:00:00.090210Z",
+                  "alertId": "0000000000000000",
+                  "alertType": "APs went down",
+                  "alertTypeId": "stopped_reporting",
+                  "alertLevel": "warning",
+                  "occurredAt": "2018-02-11T00:00:00.090210Z",
+                  "organizationId": "2930418",
+                  "organizationName": "My organization",
+                  "organizationUrl": "https://dashboard.meraki.com/o/VjjsAd/manage/organization/overview",
+                  "deviceSerial": "Q234-ABCD-5678",
+                  "deviceMac": "00:11:22:33:44:55",
+                  "deviceName": "My AP",
+                  "deviceUrl": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000",
+                  "deviceTags": [
+                    "tag1",
+                    "tag2"
+                  ],
+                  "deviceModel": "MR34",
+                  "networkId": "N_24329156",
+                  "networkName": "Main Office",
+                  "networkUrl": "https://n1.meraki.com//n//manage/nodes/list",
+                  "networkTags": [],
+                  "enrollmentString": "my-enrollment-string",
+                  "notes": "Additional description of the network",
+                  "productTypes": [
+                    "appliance",
+                    "switch",
+                    "wireless"
+                  ],
+                  "encryptedId": "6GREra"
+                }
               }
-            }
+            ]
             ```
 
         """
@@ -16548,7 +16759,7 @@ class Organizations:
             operation_id="getOrganizationWebhooksAlertTypes",
             path=path,
             params=params,
-            item_schema=GetOrganizationWebhooksAlertTypesResponse,
+            item_schema=GetOrganizationWebhooksAlertTypesResponseItem,
         )
 
     async def get_organization_webhooks_callbacks_status(

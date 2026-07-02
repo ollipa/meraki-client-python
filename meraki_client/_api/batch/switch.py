@@ -59,6 +59,7 @@ from meraki_client.schemas import (
     UpdateNetworkSwitchSettingsPowerExceptionsItem,
     UpdateNetworkSwitchSettingsUplinkClientSampling,
     UpdateNetworkSwitchSettingsUplinkSelection,
+    UpdateNetworkSwitchStackMembersItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpOptionsItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpFixedIpAssignmentsItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpReservedIpRangesItem,
@@ -1591,7 +1592,7 @@ class ActionBatchSwitch:
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
-            operation="update",
+            operation="ms/multicast/actions/update",
             body=payload,
         )
 
@@ -1814,6 +1815,45 @@ class ActionBatchSwitch:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="settings/actions/update",
+            body=payload,
+        )
+
+    def update_network_switch_stack(
+        self,
+        *,
+        network_id: str,
+        switch_stack_id: str,
+        name: str | None = None,
+        members: list[UpdateNetworkSwitchStackMembersItem] | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update a switch stack.
+
+        [API documentation: updateNetworkSwitchStack](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack)
+
+        Args:
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            name: The name of the switch stack.
+            members: The complete list of switches that should be in the stack. Minimum 2 and
+                maximum 8 members. Omitting this field leaves stack membership
+                unchanged.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if members is not None:
+            payload["members"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in members
+            ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="stacks/actions/update",
             body=payload,
         )
 

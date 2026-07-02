@@ -49,6 +49,7 @@ from meraki_client.schemas import (
     UpdateOrganizationAdaptivePolicyPolicySourceGroup,
     UpdateOrganizationAlertsProfileAlertCondition,
     UpdateOrganizationAlertsProfileRecipients,
+    UpdateOrganizationApi,
     UpdateOrganizationBrandingPolicyAdminSettings,
     UpdateOrganizationBrandingPolicyCustomLogo,
     UpdateOrganizationBrandingPolicyHelpSettings,
@@ -56,6 +57,7 @@ from meraki_client.schemas import (
     UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     UpdateOrganizationDevicesPacketCaptureScheduleSchedule,
     UpdateOrganizationLoginSecurityApiAuthentication,
+    UpdateOrganizationManagement,
     UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
     UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
     UpdateOrganizationSaseSiteRouting,
@@ -67,10 +69,13 @@ from meraki_client.types import (
     CreateOrganizationDevicesControllerMigrationTarget,
     CreateOrganizationNetworkProductTypes,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
+    CreateOrganizationPolicyObjectType,
     UpdateOrganizationAdaptivePolicyAclIpVersion,
     UpdateOrganizationAdaptivePolicyPolicyLastEntryRule,
     UpdateOrganizationAlertsProfileType,
     UpdateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy,
+    UpdateOrganizationSnmpV3AuthMode,
+    UpdateOrganizationSnmpV3PrivMode,
 )
 
 
@@ -79,6 +84,46 @@ class ActionBatchOrganizations:
 
     def __init__(self) -> None:
         pass
+
+    def update_organization(
+        self,
+        organization_id: str,
+        *,
+        name: str | None = None,
+        management: UpdateOrganizationManagement | None = None,
+        api: UpdateOrganizationApi | None = None,
+        privacy: dict[str, Any] | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update an organization.
+
+        [API documentation: updateOrganization](https://developer.cisco.com/meraki/api-v1/#!update-organization)
+
+        Args:
+            organization_id: Organization ID.
+            name: The name of the organization.
+            management: Information about the organization's management system.
+            api: API-specific settings.
+            privacy: Privacy-related settings for the organization.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if management is not None:
+            payload["management"] = management.model_dump(by_alias=True, exclude_none=True)
+        if api is not None:
+            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
+        if privacy is not None:
+            payload["privacy"] = privacy
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_organization_adaptive_policy_acl(
         self,
@@ -2175,7 +2220,7 @@ class ActionBatchOrganizations:
         organization_id: str,
         name: str,
         category: str,
-        type_: str,
+        type_: CreateOrganizationPolicyObjectType,
         cidr: str | None = None,
         fqdn: str | None = None,
         mask: str | None = None,
@@ -2191,11 +2236,15 @@ class ActionBatchOrganizations:
             name: Name of a policy object, unique within the organization (alphanumeric, space,
                 dash, or underscore characters only).
             category: Category of a policy object (one of: adaptivePolicy, network).
-            type_: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
+            type_: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn). DEPRECATED:
+                `ipAndMask` is deprecated and will be removed in a future release. Use
+                `cidr` instead.
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
-            mask: Mask of a policy object (e.g. "255.255.0.0").
-            ip: IP Address of a policy object (e.g. "1.2.3.4").
+            mask: Mask of a policy object (e.g. "255.255.0.0"). Used only with deprecated
+                `type=ipAndMask`.
+            ip: IP Address of a policy object (e.g. "1.2.3.4"). Used only with deprecated
+                `type=ipAndMask`.
             group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
@@ -2348,8 +2397,10 @@ class ActionBatchOrganizations:
                 dash, or underscore characters only).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
-            mask: Mask of a policy object (e.g. "255.255.0.0").
-            ip: IP Address of a policy object (e.g. "1.2.3.4").
+            mask: Mask of a policy object (e.g. "255.255.0.0"). Used only with deprecated
+                `type=ipAndMask`.
+            ip: IP Address of a policy object (e.g. "1.2.3.4"). Used only with deprecated
+                `type=ipAndMask`.
             group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
@@ -2664,6 +2715,60 @@ class ActionBatchOrganizations:
             payload["siteId"] = site_id
         if routing is not None:
             payload["routing"] = routing.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def update_organization_snmp(
+        self,
+        organization_id: str,
+        *,
+        v2c_enabled: bool | None = None,
+        v3_enabled: bool | None = None,
+        v3_auth_mode: UpdateOrganizationSnmpV3AuthMode | None = None,
+        v3_auth_pass: str | None = None,
+        v3_priv_mode: UpdateOrganizationSnmpV3PrivMode | None = None,
+        v3_priv_pass: str | None = None,
+        peer_ips: list[str] | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update the SNMP settings for an organization.
+
+        [API documentation: updateOrganizationSnmp](https://developer.cisco.com/meraki/api-v1/#!update-organization-snmp)
+
+        Args:
+            organization_id: Organization ID.
+            v2c_enabled: Boolean indicating whether SNMP version 2c is enabled for the organization.
+            v3_enabled: Boolean indicating whether SNMP version 3 is enabled for the organization.
+            v3_auth_mode: The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
+            v3_auth_pass: The SNMP version 3 authentication password. Must be at least 8 characters
+                if specified.
+            v3_priv_mode: The SNMP version 3 privacy mode. Can be either 'DES' or 'AES128'.
+            v3_priv_pass: The SNMP version 3 privacy password. Must be at least 8 characters if
+                specified.
+            peer_ips: The list of IPv4 addresses that are allowed to access the SNMP server.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/snmp"
+
+        payload: dict[str, Any] = {}
+        if v2c_enabled is not None:
+            payload["v2cEnabled"] = v2c_enabled
+        if v3_enabled is not None:
+            payload["v3Enabled"] = v3_enabled
+        if v3_auth_mode is not None:
+            payload["v3AuthMode"] = v3_auth_mode
+        if v3_auth_pass is not None:
+            payload["v3AuthPass"] = v3_auth_pass
+        if v3_priv_mode is not None:
+            payload["v3PrivMode"] = v3_priv_mode
+        if v3_priv_pass is not None:
+            payload["v3PrivPass"] = v3_priv_pass
+        if peer_ips is not None:
+            payload["peerIps"] = peer_ips
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

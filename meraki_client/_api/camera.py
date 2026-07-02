@@ -1011,6 +1011,7 @@ class Camera:
                 "smartRetention": {
                   "enabled": true
                 },
+                "axisVideoQuality": "enhanced",
                 "videoSettings": {
                   "MV32": {
                     "quality": "Enhanced",
@@ -1094,6 +1095,7 @@ class Camera:
               "smartRetention": {
                 "enabled": true
               },
+              "axisVideoQuality": "enhanced",
               "videoSettings": {
                 "MV32": {
                   "quality": "Enhanced",
@@ -1167,6 +1169,7 @@ class Camera:
               "smartRetention": {
                 "enabled": true
               },
+              "axisVideoQuality": "enhanced",
               "videoSettings": {
                 "MV32": {
                   "quality": "Enhanced",
@@ -1256,6 +1259,7 @@ class Camera:
               "smartRetention": {
                 "enabled": true
               },
+              "axisVideoQuality": "enhanced",
               "videoSettings": {
                 "MV32": {
                   "quality": "Enhanced",

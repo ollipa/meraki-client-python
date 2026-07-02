@@ -77,6 +77,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidRadiusServersItem,
     UpdateNetworkWirelessSsidSchedulesRangesInSecondsItem,
     UpdateNetworkWirelessSsidSchedulesRangesItem,
+    UpdateNetworkWirelessSsidSecurity,
     UpdateNetworkWirelessSsidSpeedBurst,
     UpdateNetworkWirelessSsidSplashSettingsBilling,
     UpdateNetworkWirelessSsidSplashSettingsGuestSponsorship,
@@ -1066,6 +1067,7 @@ class ActionBatchWireless:
         dns_rewrite: UpdateNetworkWirelessSsidDnsRewrite | None = None,
         speed_burst: UpdateNetworkWirelessSsidSpeedBurst | None = None,
         named_vlans: UpdateNetworkWirelessSsidNamedVlans | None = None,
+        security: UpdateNetworkWirelessSsidSecurity | None = None,
         local_auth_fallback: UpdateNetworkWirelessSsidLocalAuthFallback | None = None,
         radius_accounting_start_delay: int | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -1221,6 +1223,7 @@ class ActionBatchWireless:
             dns_rewrite: DNS servers rewrite settings.
             speed_burst: The SpeedBurst setting for this SSID'.
             named_vlans: Named VLAN settings.
+            security: Security settings for the SSID.
             local_auth_fallback: The current configuration for Local Authentication Fallback.
                 Enables the Access Point (AP) to store client authentication data for a
                 specified duration that can be adjusted as needed.
@@ -1366,6 +1369,8 @@ class ActionBatchWireless:
             payload["speedBurst"] = speed_burst.model_dump(by_alias=True, exclude_none=True)
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
+        if security is not None:
+            payload["security"] = security.model_dump(by_alias=True, exclude_none=True)
         if local_auth_fallback is not None:
             payload["localAuthFallback"] = local_auth_fallback.model_dump(
                 by_alias=True, exclude_none=True

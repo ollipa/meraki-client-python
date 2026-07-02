@@ -105,6 +105,8 @@ from meraki_client.schemas import (
     UpdateNetworkAlertsSettingsDefaultDestinations,
     UpdateNetworkAlertsSettingsMuting,
     UpdateNetworkClientSplashAuthorizationStatusSsids,
+    UpdateNetworkDevicesSyslogServersResponse,
+    UpdateNetworkDevicesSyslogServersServersItem,
     UpdateNetworkFirmwareUpgradesProducts,
     UpdateNetworkFirmwareUpgradesResponse,
     UpdateNetworkFirmwareUpgradesStagedEventsStagesItem,
@@ -1870,6 +1872,7 @@ class Networks:
                 "lanIp": "1.2.3.4",
                 "firmware": "wireless-25-14",
                 "floorPlanId": "g_2176982374",
+                "url": "https://n1.meraki.com/MyOrg/n/XXXXXX/manage/nodes/new_list/1",
                 "details": [
                   {
                     "name": "Catalyst serial",
@@ -2043,6 +2046,65 @@ class Networks:
 
         return await self._session.post(
             scope="networks", operation_id="removeNetworkDevices", path=path, json=payload
+        )
+
+    async def update_network_devices_syslog_servers(
+        self, *, network_id: str, servers: list[UpdateNetworkDevicesSyslogServersServersItem]
+    ) -> UpdateNetworkDevicesSyslogServersResponse:
+        """Updates the syslog servers configuration for a network.
+
+        [API documentation: updateNetworkDevicesSyslogServers](https://developer.cisco.com/meraki/api-v1/#!update-network-devices-syslog-servers)
+
+        Args:
+            network_id: Network ID.
+            servers: A list of the syslog servers for this network; suggested maximum array size is
+                10.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_123456789012345678"
+              },
+              "servers": [
+                {
+                  "host": "1.2.3.4",
+                  "port": 443,
+                  "roles": [
+                    "wirelessEventLog",
+                    "applianceUrlLog"
+                  ],
+                  "transportProtocol": "UDP",
+                  "encryption": {
+                    "enabled": true,
+                    "certificate": {
+                      "id": "1637"
+                    }
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/devices/syslog/servers"
+
+        payload: dict[str, Any] = {}
+        if servers is not None:
+            payload["servers"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in servers
+            ]
+
+        return await self._session.put(
+            scope="networks",
+            operation_id="updateNetworkDevicesSyslogServers",
+            path=path,
+            json=payload,
+            response_schema=UpdateNetworkDevicesSyslogServersResponse,
         )
 
     def get_network_events(
@@ -7776,6 +7838,7 @@ class Networks:
                 "serial": "Q234-ABCD-5678",
                 "mac": "00:11:22:33:44:55",
                 "productType": "switch",
+                "configurationSource": "Cloud",
                 "vlanProfile": {
                   "iname": "Profile1",
                   "name": "My VLAN Profile",

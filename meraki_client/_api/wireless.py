@@ -151,6 +151,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidRadiusServersItem,
     UpdateNetworkWirelessSsidSchedulesRangesInSecondsItem,
     UpdateNetworkWirelessSsidSchedulesRangesItem,
+    UpdateNetworkWirelessSsidSecurity,
     UpdateNetworkWirelessSsidSpeedBurst,
     UpdateNetworkWirelessSsidSplashSettingsBilling,
     UpdateNetworkWirelessSsidSplashSettingsGuestSponsorship,
@@ -941,7 +942,15 @@ class Wireless:
                   0,
                   108
                 ],
-                "wiredLastSeen": 1526087474
+                "wiredLastSeen": 1526087474,
+                "manufacturers": [
+                  "Linksys",
+                  "Cisco Systems"
+                ],
+                "encryption": "WPA",
+                "types": [
+                  "rogue"
+                ]
               }
             ]
             ```
@@ -3511,7 +3520,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-05-03T08:06:46Z"
+                "lastEnabledAt": "2026-06-01T08:07:01Z"
               }
             }
             ```
@@ -5380,8 +5389,10 @@ class Wireless:
                 "wpaEncryptionMode": "WPA2 only",
                 "radiusServers": [
                   {
+                    "id": "797137134045134582",
                     "host": "0.0.0.0",
                     "port": 3000,
+                    "radsecEnabled": false,
                     "openRoamingCertificateId": 2,
                     "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
                   }
@@ -5407,7 +5418,7 @@ class Wireless:
                   "example.com",
                   "1.1.1.1/32"
                 ],
-                "minBitrate": 11,
+                "minBitrate": 11.0,
                 "bandSelection": "5 GHz band only",
                 "perClientBandwidthLimitUp": 0,
                 "perClientBandwidthLimitDown": 0,
@@ -5419,7 +5430,91 @@ class Wireless:
                 ],
                 "perSsidBandwidthLimitUp": 0,
                 "perSsidBandwidthLimitDown": 0,
-                "mandatoryDhcpEnabled": false
+                "adaptivePolicyGroupId": "1234",
+                "mandatoryDhcpEnabled": false,
+                "dot11w": {
+                  "enabled": true,
+                  "required": false
+                },
+                "dot11r": {
+                  "enabled": true,
+                  "adaptive": true
+                },
+                "enterpriseAdminAccess": "access enabled",
+                "radiusTestingEnabled": true,
+                "radiusCalledStationId": "00-11-22-33-44-55:AP1",
+                "radiusAuthenticationNasId": "00-11-22-33-44-55:AP1",
+                "radiusServerTimeout": 5,
+                "radiusServerAttemptsLimit": 5,
+                "radiusFallbackEnabled": true,
+                "radiusProxyEnabled": false,
+                "radiusCoaEnabled": true,
+                "radiusOverride": false,
+                "useVlanTagging": false,
+                "defaultVlanId": 1,
+                "adultContentFilteringEnabled": false,
+                "dnsRewrite": {
+                  "enabled": true,
+                  "dnsCustomNameservers": [
+                    "8.8.8.8",
+                    "8.8.4.4"
+                  ]
+                },
+                "gre": {
+                  "concentrator": {
+                    "host": "192.168.1.1"
+                  },
+                  "key": 5,
+                  "clientIsolation": false
+                },
+                "lanIsolationEnabled": true,
+                "oauth": {
+                  "allowedDomains": [
+                    "example.com"
+                  ]
+                },
+                "localAuthFallback": {
+                  "enabled": true,
+                  "cacheTimeout": 6500,
+                  "serverCaCertificate": {
+                    "contents": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                  }
+                },
+                "namedVlans": {
+                  "tagging": {
+                    "enabled": true,
+                    "defaultVlanName": "My VLAN",
+                    "byApTags": [
+                      {
+                        "tags": [
+                          "tag1",
+                          "tag2"
+                        ],
+                        "vlanName": "My VLAN"
+                      }
+                    ]
+                  },
+                  "radius": {
+                    "guestVlan": {
+                      "enabled": true,
+                      "name": "Guest VLAN"
+                    }
+                  }
+                },
+                "speedBurst": {
+                  "enabled": true
+                },
+                "wifiPersonalNetworkEnabled": false,
+                "security": {
+                  "encryption": {
+                    "ciphers": [
+                      "CCMP 128"
+                    ],
+                    "akms": [
+                      "SAE"
+                    ]
+                  }
+                }
               }
             ]
             ```
@@ -5464,8 +5559,10 @@ class Wireless:
               "wpaEncryptionMode": "WPA2 only",
               "radiusServers": [
                 {
+                  "id": "797137134045134582",
                   "host": "0.0.0.0",
                   "port": 3000,
+                  "radsecEnabled": false,
                   "openRoamingCertificateId": 2,
                   "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
                 }
@@ -5491,7 +5588,7 @@ class Wireless:
                 "example.com",
                 "1.1.1.1/32"
               ],
-              "minBitrate": 11,
+              "minBitrate": 11.0,
               "bandSelection": "5 GHz band only",
               "perClientBandwidthLimitUp": 0,
               "perClientBandwidthLimitDown": 0,
@@ -5503,7 +5600,91 @@ class Wireless:
               ],
               "perSsidBandwidthLimitUp": 0,
               "perSsidBandwidthLimitDown": 0,
-              "mandatoryDhcpEnabled": false
+              "adaptivePolicyGroupId": "1234",
+              "mandatoryDhcpEnabled": false,
+              "dot11w": {
+                "enabled": true,
+                "required": false
+              },
+              "dot11r": {
+                "enabled": true,
+                "adaptive": true
+              },
+              "enterpriseAdminAccess": "access enabled",
+              "radiusTestingEnabled": true,
+              "radiusCalledStationId": "00-11-22-33-44-55:AP1",
+              "radiusAuthenticationNasId": "00-11-22-33-44-55:AP1",
+              "radiusServerTimeout": 5,
+              "radiusServerAttemptsLimit": 5,
+              "radiusFallbackEnabled": true,
+              "radiusProxyEnabled": false,
+              "radiusCoaEnabled": true,
+              "radiusOverride": false,
+              "useVlanTagging": false,
+              "defaultVlanId": 1,
+              "adultContentFilteringEnabled": false,
+              "dnsRewrite": {
+                "enabled": true,
+                "dnsCustomNameservers": [
+                  "8.8.8.8",
+                  "8.8.4.4"
+                ]
+              },
+              "gre": {
+                "concentrator": {
+                  "host": "192.168.1.1"
+                },
+                "key": 5,
+                "clientIsolation": false
+              },
+              "lanIsolationEnabled": true,
+              "oauth": {
+                "allowedDomains": [
+                  "example.com"
+                ]
+              },
+              "localAuthFallback": {
+                "enabled": true,
+                "cacheTimeout": 6500,
+                "serverCaCertificate": {
+                  "contents": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                }
+              },
+              "namedVlans": {
+                "tagging": {
+                  "enabled": true,
+                  "defaultVlanName": "My VLAN",
+                  "byApTags": [
+                    {
+                      "tags": [
+                        "tag1",
+                        "tag2"
+                      ],
+                      "vlanName": "My VLAN"
+                    }
+                  ]
+                },
+                "radius": {
+                  "guestVlan": {
+                    "enabled": true,
+                    "name": "Guest VLAN"
+                  }
+                }
+              },
+              "speedBurst": {
+                "enabled": true
+              },
+              "wifiPersonalNetworkEnabled": false,
+              "security": {
+                "encryption": {
+                  "ciphers": [
+                    "CCMP 128"
+                  ],
+                  "akms": [
+                    "SAE"
+                  ]
+                }
+              }
             }
             ```
 
@@ -5589,6 +5770,7 @@ class Wireless:
         dns_rewrite: UpdateNetworkWirelessSsidDnsRewrite | None = None,
         speed_burst: UpdateNetworkWirelessSsidSpeedBurst | None = None,
         named_vlans: UpdateNetworkWirelessSsidNamedVlans | None = None,
+        security: UpdateNetworkWirelessSsidSecurity | None = None,
         local_auth_fallback: UpdateNetworkWirelessSsidLocalAuthFallback | None = None,
         radius_accounting_start_delay: int | None = None,
     ) -> NetworkWirelessSsidResponse:
@@ -5744,6 +5926,7 @@ class Wireless:
             dns_rewrite: DNS servers rewrite settings.
             speed_burst: The SpeedBurst setting for this SSID'.
             named_vlans: Named VLAN settings.
+            security: Security settings for the SSID.
             local_auth_fallback: The current configuration for Local Authentication Fallback.
                 Enables the Access Point (AP) to store client authentication data for a
                 specified duration that can be adjusted as needed.
@@ -5768,8 +5951,10 @@ class Wireless:
               "wpaEncryptionMode": "WPA2 only",
               "radiusServers": [
                 {
+                  "id": "797137134045134582",
                   "host": "0.0.0.0",
                   "port": 3000,
+                  "radsecEnabled": false,
                   "openRoamingCertificateId": 2,
                   "caCertificate": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
                 }
@@ -5795,7 +5980,7 @@ class Wireless:
                 "example.com",
                 "1.1.1.1/32"
               ],
-              "minBitrate": 11,
+              "minBitrate": 11.0,
               "bandSelection": "5 GHz band only",
               "perClientBandwidthLimitUp": 0,
               "perClientBandwidthLimitDown": 0,
@@ -5807,7 +5992,91 @@ class Wireless:
               ],
               "perSsidBandwidthLimitUp": 0,
               "perSsidBandwidthLimitDown": 0,
-              "mandatoryDhcpEnabled": false
+              "adaptivePolicyGroupId": "1234",
+              "mandatoryDhcpEnabled": false,
+              "dot11w": {
+                "enabled": true,
+                "required": false
+              },
+              "dot11r": {
+                "enabled": true,
+                "adaptive": true
+              },
+              "enterpriseAdminAccess": "access enabled",
+              "radiusTestingEnabled": true,
+              "radiusCalledStationId": "00-11-22-33-44-55:AP1",
+              "radiusAuthenticationNasId": "00-11-22-33-44-55:AP1",
+              "radiusServerTimeout": 5,
+              "radiusServerAttemptsLimit": 5,
+              "radiusFallbackEnabled": true,
+              "radiusProxyEnabled": false,
+              "radiusCoaEnabled": true,
+              "radiusOverride": false,
+              "useVlanTagging": false,
+              "defaultVlanId": 1,
+              "adultContentFilteringEnabled": false,
+              "dnsRewrite": {
+                "enabled": true,
+                "dnsCustomNameservers": [
+                  "8.8.8.8",
+                  "8.8.4.4"
+                ]
+              },
+              "gre": {
+                "concentrator": {
+                  "host": "192.168.1.1"
+                },
+                "key": 5,
+                "clientIsolation": false
+              },
+              "lanIsolationEnabled": true,
+              "oauth": {
+                "allowedDomains": [
+                  "example.com"
+                ]
+              },
+              "localAuthFallback": {
+                "enabled": true,
+                "cacheTimeout": 6500,
+                "serverCaCertificate": {
+                  "contents": "-----BEGIN CERTIFICATE-----\nMIIEKjCCAxKgAwIBAgIRANb+lsED3eb4+6YKLFFYqEkwDQYJKoZIhvcNAQELBQAw\ngYcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMREwDwYDVQQHDAhT\nYW4gSm9zZTEcMBoGA1UECgwTQ2lzY28gU3lzdGVtcywgSW5jLjESMBAGA1UECwwJ\nRE5BU3BhY2VzMR4wHAYDVQQDDBVjaXNjby5vcGVucm9hbWluZy5vcmcwHhcNMjAx\nMTA1MjEzMzM1WhcNMjExMTA1MjIzMzM1WjCBpDEcMBoGCgmSJomT8ixkAQETDGRu\nYXNwYWNlczpVUzELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMQ4wDAYDVQQKEwVD\naXNjbzEcMBoGA1UECxMTV0JBOldSSVggRW5kLUVudGl0eTE8MDoGA1UEAxMzNjQ3\nMDcwNDM4NDQ5NjQxMjAwMDAuMTg4MzQuaHMuY2lzY28ub3BlbnJvYW1pbmcub3Jn\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoqjP9QgRGyUO3p7SH9QK\nuTq6UYK7nAyjImgS4yQxeBkyZ5f2EUkX8m/AOcewpPxxPBhjPKRwxGeX3S50ksiA\nayFomUeslR0S0Z7RN9rzJa+CFyi9MwWIHMbLgXpB8tsSpgTAqwrzoTzOGq9fgC6u\npZhdZrBkg3FeJgD88goCi9mZDsY2YAoeGRLFJ2fR8iICqIVQy+Htq9pE22WBLpnS\nKjL3+mR9FArHNFtWlhKF2YHMUqyHHrnZnF/Ns7QNoMMF7/CK18iAKgnb+2wuGKM2\naEMddOeOTtz+i/rgjkp/RGMt011EdCsso0/cTo9qqX/bxOOCE4/Mne/ChMkQPnNU\nCwIDAQABo3IwcDAJBgNVHRMEAjAAMB8GA1UdIwQYMBaAFIG+4l5yiB01gP0sw4ML\nUSopqYcuMB0GA1UdDgQWBBSby1T9leYVOVVdOZXiHCSaDDEMiDAOBgNVHQ8BAf8E\nBAMCBaAwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAEyE\n1mjSUyY6uNp6W4l20w7SskALSJDRKkOeZxAgF3VMxlsCuEl70s9oEfntwIpyQtSa\njON/9yJHbwm/Az824bmk8Dc7AXIPhay+dftXb8j529gPuYB9AKoPNg0NctkyYCQh\na/3YQVdDWX7XgmEiXkL57M7G6+IdcPDONLArfjOcT9qHdkVVq1AIjlMSx3OQQmm/\nuoLb/G9q/97QA2/l8shG/Na8HjVqGLcl5TNZdbNhs2w9ogxr/GNzqdvym6RQ8vT/\nUR2n+uwH4n1MUxmHYYeyot5dnIV1IJ6hQ54JAncM9HvCLFk1WHz6RKshQUCuPBiJ\nwTw70BVktzJnb0VLeDg=\n-----END CERTIFICATE-----"
+                }
+              },
+              "namedVlans": {
+                "tagging": {
+                  "enabled": true,
+                  "defaultVlanName": "My VLAN",
+                  "byApTags": [
+                    {
+                      "tags": [
+                        "tag1",
+                        "tag2"
+                      ],
+                      "vlanName": "My VLAN"
+                    }
+                  ]
+                },
+                "radius": {
+                  "guestVlan": {
+                    "enabled": true,
+                    "name": "Guest VLAN"
+                  }
+                }
+              },
+              "speedBurst": {
+                "enabled": true
+              },
+              "wifiPersonalNetworkEnabled": false,
+              "security": {
+                "encryption": {
+                  "ciphers": [
+                    "CCMP 128"
+                  ],
+                  "akms": [
+                    "SAE"
+                  ]
+                }
+              }
             }
             ```
 
@@ -5950,6 +6219,8 @@ class Wireless:
             payload["speedBurst"] = speed_burst.model_dump(by_alias=True, exclude_none=True)
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
+        if security is not None:
+            payload["security"] = security.model_dump(by_alias=True, exclude_none=True)
         if local_auth_fallback is not None:
             payload["localAuthFallback"] = local_auth_fallback.model_dump(
                 by_alias=True, exclude_none=True
@@ -10653,7 +10924,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-05-03T08:06:46Z"
+                    "lastEnabledAt": "2026-06-01T08:07:01Z"
                   }
                 }
               ],
