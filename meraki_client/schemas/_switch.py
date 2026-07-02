@@ -699,59 +699,21 @@ class GetOrganizationSummarySwitchPowerHistoryResponseItem(_BaseSchema):
     draw: float | None = None
 
 
-class GetOrganizationSwitchPortsBySwitchResponse(_BaseSchema):
+class GetOrganizationSwitchPortsBySwitchResponse(
+    RootModel[list["GetOrganizationSwitchPortsBySwitchResponseItem"]]
+):
     """Response for getOrganizationSwitchPortsBySwitch operation."""
 
-    name: str | None = None
-    serial: str | None = None
-    mac: str | None = None
-    network: SwitchSchedule | None = None
-    model: str | None = None
-    ports: list[GetOrganizationSwitchPortsBySwitchResponsePortsItem] = Field(default_factory=list)
 
+class GetOrganizationSwitchPortsBySwitchResponseItem(_BaseSchema):
+    """Schema for GetOrganizationSwitchPortsBySwitchResponseItem."""
 
-class GetOrganizationSwitchPortsBySwitchResponsePortsItem(_BaseSchema):
-    """Schema for GetOrganizationSwitchPortsBySwitchResponsePortsItem."""
-
-    port_id: str | None = Field(
-        default=None, validation_alias="portId", serialization_alias="portId"
-    )
-    name: str | None = None
-    tags: list[str] = Field(default_factory=list)
-    enabled: bool | None = None
-    poe_enabled: bool | None = Field(
-        default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
-    )
-    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
-    vlan: int | None = None
-    voice_vlan: int | None = Field(
-        default=None, validation_alias="voiceVlan", serialization_alias="voiceVlan"
-    )
-    allowed_vlans: str | None = Field(
-        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
-    )
-    rstp_enabled: bool | None = Field(
-        default=None, validation_alias="rstpEnabled", serialization_alias="rstpEnabled"
-    )
-    stp_guard: str | None = Field(
-        default=None, validation_alias="stpGuard", serialization_alias="stpGuard"
-    )
-    link_negotiation: str | None = Field(
-        default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
-    )
-    access_policy_type: str | None = Field(
-        default=None, validation_alias="accessPolicyType", serialization_alias="accessPolicyType"
-    )
-    sticky_mac_allow_list: list[str] = Field(
-        default_factory=list,
-        validation_alias="stickyMacAllowList",
-        serialization_alias="stickyMacAllowList",
-    )
-    sticky_mac_allow_list_limit: int | None = Field(
-        default=None,
-        validation_alias="stickyMacAllowListLimit",
-        serialization_alias="stickyMacAllowListLimit",
-    )
+    name: str
+    serial: str
+    mac: str
+    network: SwitchNetwork
+    model: str
+    ports: list[SwitchPortsItem]
 
 
 class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem(_BaseSchema):
@@ -762,7 +724,7 @@ class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem(_BaseSc
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[SwitchPortsItem] = Field(default_factory=list)
+    ports: list[SwitchPortsItem2] = Field(default_factory=list)
 
 
 class GetOrganizationSwitchPortsOverviewResponse(_BaseSchema):
@@ -788,7 +750,7 @@ class GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem(_BaseSchema):
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[SwitchPortsItem2] = Field(default_factory=list)
+    ports: list[SwitchPortsItem3] = Field(default_factory=list)
 
 
 class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_BaseSchema):
@@ -799,7 +761,7 @@ class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_Base
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[SwitchPortsItem3] = Field(default_factory=list)
+    ports: list[SwitchPortsItem4] = Field(default_factory=list)
 
 
 class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(_BaseSchema):
@@ -810,7 +772,7 @@ class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(
     mac: str | None = None
     network: SwitchSchedule | None = None
     model: str | None = None
-    ports: list[SwitchPortsItem4] = Field(default_factory=list)
+    ports: list[SwitchPortsItem5] = Field(default_factory=list)
 
 
 class NetworkSwitchAccessControlListsResponse(_BaseSchema):
@@ -1811,6 +1773,13 @@ class SwitchMonday(_BaseSchema):
     to: str | None = None
 
 
+class SwitchNetwork(_BaseSchema):
+    """Identifying information of the switch's network."""
+
+    name: str
+    id: str
+
+
 class SwitchOptionsItem(_BaseSchema):
     """Schema for SwitchOptionsItem."""
 
@@ -1874,14 +1843,46 @@ class SwitchPorts(_BaseSchema):
 class SwitchPortsItem(_BaseSchema):
     """Schema for SwitchPortsItem."""
 
+    port_id: str = Field(validation_alias="portId", serialization_alias="portId")
+    name: str | None
+    tags: list[str]
+    enabled: bool
+    poe_enabled: bool = Field(validation_alias="poeEnabled", serialization_alias="poeEnabled")
+    type_: str = Field(validation_alias="type", serialization_alias="type")
+    vlan: int | None
+    voice_vlan: int | None = Field(validation_alias="voiceVlan", serialization_alias="voiceVlan")
+    allowed_vlans: str = Field(validation_alias="allowedVlans", serialization_alias="allowedVlans")
+    rstp_enabled: bool = Field(validation_alias="rstpEnabled", serialization_alias="rstpEnabled")
+    stp_guard: str = Field(validation_alias="stpGuard", serialization_alias="stpGuard")
+    link_negotiation: str = Field(
+        validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
+    )
+    access_policy_type: str = Field(
+        validation_alias="accessPolicyType", serialization_alias="accessPolicyType"
+    )
+    sticky_mac_allow_list: list[str] = Field(
+        default_factory=list,
+        validation_alias="stickyMacAllowList",
+        serialization_alias="stickyMacAllowList",
+    )
+    sticky_mac_allow_list_limit: int | None = Field(
+        default=None,
+        validation_alias="stickyMacAllowListLimit",
+        serialization_alias="stickyMacAllowListLimit",
+    )
+
+
+class SwitchPortsItem2(_BaseSchema):
+    """Schema for SwitchPortsItem2."""
+
     port_id: str | None = Field(
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     counts: SwitchCounts2 | None = None
 
 
-class SwitchPortsItem2(_BaseSchema):
-    """Schema for SwitchPortsItem2."""
+class SwitchPortsItem3(_BaseSchema):
+    """Schema for SwitchPortsItem3."""
 
     port_id: str | None = Field(
         default=None, validation_alias="portId", serialization_alias="portId"
@@ -1904,8 +1905,8 @@ class SwitchPortsItem2(_BaseSchema):
     )
 
 
-class SwitchPortsItem3(_BaseSchema):
-    """Schema for SwitchPortsItem3."""
+class SwitchPortsItem4(_BaseSchema):
+    """Schema for SwitchPortsItem4."""
 
     port_id: str | None = Field(
         default=None, validation_alias="portId", serialization_alias="portId"
@@ -1917,8 +1918,8 @@ class SwitchPortsItem3(_BaseSchema):
     lldp: list[SwitchOptionsItem] = Field(default_factory=list)
 
 
-class SwitchPortsItem4(_BaseSchema):
-    """Schema for SwitchPortsItem4."""
+class SwitchPortsItem5(_BaseSchema):
+    """Schema for SwitchPortsItem5."""
 
     port_id: str | None = Field(
         default=None, validation_alias="portId", serialization_alias="portId"
@@ -2516,6 +2517,12 @@ class UpdateNetworkSwitchSettingsUplinkSelectionFailback(_BaseSchema):
     """If a preferred uplink ever goes offline, we will periodically reattempt it."""
 
     enabled: bool
+
+
+class UpdateNetworkSwitchStackMembersItem(_BaseSchema):
+    """Item schema for members."""
+
+    serial: str
 
 
 class UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpOptionsItem(_BaseSchema):

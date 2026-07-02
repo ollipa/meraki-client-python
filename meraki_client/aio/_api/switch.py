@@ -42,7 +42,7 @@ from meraki_client.schemas import (
     GetNetworkSwitchDhcpV4ServersSeenResponseItem,
     GetOrganizationConfigTemplateSwitchProfilesResponseItem,
     GetOrganizationSummarySwitchPowerHistoryResponseItem,
-    GetOrganizationSwitchPortsBySwitchResponsePortsItem,
+    GetOrganizationSwitchPortsBySwitchResponseItem,
     GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem,
     GetOrganizationSwitchPortsOverviewResponse,
     GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem,
@@ -101,6 +101,7 @@ from meraki_client.schemas import (
     UpdateNetworkSwitchSettingsPowerExceptionsItem,
     UpdateNetworkSwitchSettingsUplinkClientSampling,
     UpdateNetworkSwitchSettingsUplinkSelection,
+    UpdateNetworkSwitchStackMembersItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpOptionsItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpFixedIpAssignmentsItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpReservedIpRangesItem,
@@ -5010,6 +5011,73 @@ class Switch:
             response_schema=NetworkSwitchStackResponse,
         )
 
+    async def update_network_switch_stack(
+        self,
+        *,
+        network_id: str,
+        switch_stack_id: str,
+        name: str | None = None,
+        members: list[UpdateNetworkSwitchStackMembersItem] | None = None,
+    ) -> NetworkSwitchStackResponse:
+        """Update a switch stack.
+
+        [API documentation: updateNetworkSwitchStack](https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack)
+
+        Args:
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            name: The name of the switch stack.
+            members: The complete list of switches that should be in the stack. Minimum 2 and
+                maximum 8 members. Omitting this field leaves stack membership
+                unchanged.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "8473",
+              "name": "A cool stack",
+              "serials": [
+                "QBZY-XWVU-TSRQ",
+                "QBAB-CDEF-GHIJ"
+              ],
+              "isMonitorOnly": false,
+              "virtualMac": "00:18:0a:4f:21:19",
+              "members": [
+                {
+                  "serial": "QBZY-XWVU-TSRQ",
+                  "name": "switch 1",
+                  "model": "MS350-24-HW",
+                  "mac": "00:18:0a:00:00:09",
+                  "role": "active"
+                }
+              ]
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if members is not None:
+            payload["members"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in members
+            ]
+
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchStack",
+            path=path,
+            json=payload,
+            response_schema=NetworkSwitchStackResponse,
+        )
+
     async def delete_network_switch_stack(self, *, network_id: str, switch_stack_id: str) -> None:
         """Delete a stack.
 
@@ -6886,7 +6954,7 @@ class Switch:
         serials: list[str] | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationSwitchPortsBySwitchResponsePortsItem]:
+    ) -> AsyncPaginatedResponse[GetOrganizationSwitchPortsBySwitchResponseItem]:
         """List the switchports in an organization by switch.
 
         [API documentation: getOrganizationSwitchPortsBySwitch](https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-by-switch)
@@ -6933,41 +7001,43 @@ class Switch:
 
         Example API response:
             ```json
-            {
-              "name": "Example Switch",
-              "serial": "Q555-5555-5555",
-              "mac": "01:23:45:67:ab:cd",
-              "network": {
-                "name": "Example Network",
-                "id": "L_12345"
-              },
-              "model": "MS120-8",
-              "ports": [
-                {
-                  "portId": "1",
-                  "name": "My switch port",
-                  "tags": [
-                    "tag1",
-                    "tag2"
-                  ],
-                  "enabled": true,
-                  "poeEnabled": true,
-                  "type": "access",
-                  "vlan": 10,
-                  "voiceVlan": 20,
-                  "allowedVlans": "1,3,5-10",
-                  "rstpEnabled": true,
-                  "stpGuard": "disabled",
-                  "linkNegotiation": "Auto negotiate",
-                  "accessPolicyType": "Sticky MAC allow list",
-                  "stickyMacAllowList": [
-                    "34:56:fe:ce:8e:b0",
-                    "34:56:fe:ce:8e:b1"
-                  ],
-                  "stickyMacAllowListLimit": 5
-                }
-              ]
-            }
+            [
+              {
+                "name": "Example Switch",
+                "serial": "Q555-5555-5555",
+                "mac": "01:23:45:67:ab:cd",
+                "network": {
+                  "name": "Example Network",
+                  "id": "L_12345"
+                },
+                "model": "MS120-8",
+                "ports": [
+                  {
+                    "portId": "1",
+                    "name": "My switch port",
+                    "tags": [
+                      "tag1",
+                      "tag2"
+                    ],
+                    "enabled": true,
+                    "poeEnabled": true,
+                    "type": "access",
+                    "vlan": 10,
+                    "voiceVlan": 20,
+                    "allowedVlans": "1,3,5-10",
+                    "rstpEnabled": true,
+                    "stpGuard": "disabled",
+                    "linkNegotiation": "Auto negotiate",
+                    "accessPolicyType": "Sticky MAC allow list",
+                    "stickyMacAllowList": [
+                      "34:56:fe:ce:8e:b0",
+                      "34:56:fe:ce:8e:b1"
+                    ],
+                    "stickyMacAllowListLimit": 5
+                  }
+                ]
+              }
+            ]
             ```
 
         """
@@ -7005,7 +7075,7 @@ class Switch:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationSwitchPortsBySwitchResponsePortsItem,
+            item_schema=GetOrganizationSwitchPortsBySwitchResponseItem,
         )
 
     def get_organization_switch_ports_clients_overview_by_device(

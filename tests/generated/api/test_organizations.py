@@ -420,6 +420,28 @@ def test_get_organization_devices_statuses_overview(
         )
 
 
+def test_get_organization_devices_syslog_servers_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_syslog_servers_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_syslog_servers_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_devices_syslog_servers_roles_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_devices_syslog_servers_roles_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_devices_syslog_servers_roles_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_devices_system_memory_usage_history_by_interval(
     client: MerakiClient, organization_id: str
 ) -> None:

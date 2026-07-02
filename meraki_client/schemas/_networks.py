@@ -54,9 +54,15 @@ class BatchNetworkFloorPlansDevicesUpdateAssignmentsItem(_BaseSchema):
     """Item schema for assignments."""
 
     serial: str
-    floor_plan: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup = Field(
+    floor_plan: BatchNetworkFloorPlansDevicesUpdateAssignmentsItemFloorPlan = Field(
         validation_alias="floorPlan", serialization_alias="floorPlan"
     )
+
+
+class BatchNetworkFloorPlansDevicesUpdateAssignmentsItemFloorPlan(_BaseSchema):
+    """Floorplan to be assigned or unassigned."""
+
+    id: str | None
 
 
 class BindNetworkResponse(_BaseSchema):
@@ -181,7 +187,7 @@ class CreateNetworkFirmwareUpgradesStagedEventProductsSwitch(_BaseSchema):
 class CreateNetworkFirmwareUpgradesStagedEventStagesItem(_BaseSchema):
     """Item schema for stages."""
 
-    group: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = None
+    group: UpdateNetworkDevicesSyslogServersResponseNetwork | None = None
     milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
 
 
@@ -388,7 +394,7 @@ class CreateNetworkVlanProfileVlanNamesItem(_BaseSchema):
 
     name: str
     vlan_id: str = Field(validation_alias="vlanId", serialization_alias="vlanId")
-    adaptive_policy_group: NetworksToVersion | None = Field(
+    adaptive_policy_group: NetworksCertificate | None = Field(
         default=None,
         validation_alias="adaptivePolicyGroup",
         serialization_alias="adaptivePolicyGroup",
@@ -777,11 +783,11 @@ class GetNetworkDevicesResponseItem(_BaseSchema):
     floor_plan_id: str | None = Field(
         default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
     )
+    url: str | None = None
     details: list[NetworksDetailsItem] = Field(default_factory=list)
     beacon_id_params: NetworksBeaconIdParams | None = Field(
         default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
-    url: str | None = None
 
 
 class GetNetworkEventsEventTypesResponse(RootModel[list["GetNetworkEventsEventTypesResponseItem"]]):
@@ -1122,10 +1128,15 @@ class GetNetworkVlanProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
+    configuration_source: str | None = Field(
+        default=None,
+        validation_alias="configurationSource",
+        serialization_alias="configurationSource",
+    )
     vlan_profile: NetworksVlanProfile | None = Field(
         default=None, validation_alias="vlanProfile", serialization_alias="vlanProfile"
     )
-    stack: NetworksToVersion | None = None
+    stack: NetworksCertificate | None = None
 
 
 class GetNetworkVlanProfilesResponse(RootModel[list["NetworkVlanProfileResponse"]]):
@@ -1781,6 +1792,12 @@ class NetworksCenter(_BaseSchema):
     lng: float | None = None
 
 
+class NetworksCertificate(_BaseSchema):
+    """The certificate for encryption with the syslog server."""
+
+    id: str | None = None
+
+
 class NetworksClients(_BaseSchema):
     """Client information."""
 
@@ -2120,7 +2137,7 @@ class NetworksNextUpgrade3(_BaseSchema):
 
     predownload: NetworksMutingByPortSchedules | None = None
     time: str | None = None
-    to_version: NetworksToVersion | None = Field(
+    to_version: NetworksCertificate | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2129,7 +2146,7 @@ class NetworksNextUpgrade4(_BaseSchema):
     """The pending firmware upgrade if it exists."""
 
     time: str | None = None
-    to_version: NetworksToVersion | None = Field(
+    to_version: NetworksCertificate | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2137,7 +2154,7 @@ class NetworksNextUpgrade4(_BaseSchema):
 class NetworksNextUpgrade5(_BaseSchema):
     """Details of the next firmware upgrade."""
 
-    to_version: NetworksToVersion2 | None = Field(
+    to_version: NetworksToVersion | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2145,7 +2162,7 @@ class NetworksNextUpgrade5(_BaseSchema):
 class NetworksNextUpgrade6(_BaseSchema):
     """The next upgrade version for the switch network."""
 
-    to_version: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = Field(
+    to_version: UpdateNetworkDevicesSyslogServersResponseNetwork | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2319,6 +2336,13 @@ class NetworksSecurity(_BaseSchema):
     tls: NetworksTls | None = None
 
 
+class NetworksServersEncryption(_BaseSchema):
+    """Encryption settings for the syslog server."""
+
+    enabled: bool | None = None
+    certificate: NetworksCertificate | None = None
+
+
 class NetworksSharing(_BaseSchema):
     """Information on which entities have access to the template."""
 
@@ -2393,12 +2417,6 @@ class NetworksTls(_BaseSchema):
 
 
 class NetworksToVersion(_BaseSchema):
-    """The version to be updated to."""
-
-    id: str | None = None
-
-
-class NetworksToVersion2(_BaseSchema):
     """Details of the version the device will upgrade to."""
 
     id: str | None = None
@@ -2691,7 +2709,7 @@ class RollbacksNetworkFirmwareUpgradesStagedEventsReasonsItem(_BaseSchema):
 class RollbacksNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
     """Item schema for stages."""
 
-    group: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = None
+    group: UpdateNetworkDevicesSyslogServersResponseNetwork | None = None
     milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
 
 
@@ -2825,6 +2843,43 @@ class UpdateNetworkClientSplashAuthorizationStatusSsids0(_BaseSchema):
     )
 
 
+class UpdateNetworkDevicesSyslogServersResponse(_BaseSchema):
+    """Response for updateNetworkDevicesSyslogServers operation."""
+
+    network: UpdateNetworkDevicesSyslogServersResponseNetwork
+    servers: list[UpdateNetworkDevicesSyslogServersResponseServersItem]
+
+
+class UpdateNetworkDevicesSyslogServersResponseNetwork(_BaseSchema):
+    """Contains details about the Network associated with this record."""
+
+    id: str
+
+
+class UpdateNetworkDevicesSyslogServersResponseServersItem(_BaseSchema):
+    """Schema for UpdateNetworkDevicesSyslogServersResponseServersItem."""
+
+    host: str | None = None
+    port: int | None = None
+    roles: list[str] = Field(default_factory=list)
+    transport_protocol: str | None = Field(
+        default=None, validation_alias="transportProtocol", serialization_alias="transportProtocol"
+    )
+    encryption: NetworksServersEncryption | None = None
+
+
+class UpdateNetworkDevicesSyslogServersServersItem(_BaseSchema):
+    """Item schema for servers."""
+
+    host: str
+    port: int
+    roles: list[str]
+    transport_protocol: str | None = Field(
+        default=None, validation_alias="transportProtocol", serialization_alias="transportProtocol"
+    )
+    encryption: NetworksServersEncryption | None = None
+
+
 class UpdateNetworkFirmwareUpgradesProducts(_BaseSchema):
     """Contains information about the network to update."""
 
@@ -2888,14 +2943,8 @@ class UpdateNetworkFirmwareUpgradesResponse(_BaseSchema):
 class UpdateNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
     """Item schema for stages."""
 
-    group: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = None
+    group: UpdateNetworkDevicesSyslogServersResponseNetwork | None = None
     milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup(_BaseSchema):
-    """The Staged Upgrade Group containing the name and ID."""
-
-    id: str
 
 
 class UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones(_BaseSchema):
@@ -2922,7 +2971,7 @@ class UpdateNetworkFirmwareUpgradesStagedGroupAssignedDevices(_BaseSchema):
 class UpdateNetworkFirmwareUpgradesStagedStagesJsonItem(_BaseSchema):
     """Item schema for _json."""
 
-    group: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = None
+    group: UpdateNetworkDevicesSyslogServersResponseNetwork | None = None
 
 
 class UpdateNetworkFirmwareUpgradesUpgradeWindow(_BaseSchema):
@@ -3159,7 +3208,7 @@ class UpdateNetworkVlanProfileVlanNamesItem(_BaseSchema):
 
     name: str
     vlan_id: str = Field(validation_alias="vlanId", serialization_alias="vlanId")
-    adaptive_policy_group: NetworksToVersion | None = Field(
+    adaptive_policy_group: NetworksCertificate | None = Field(
         default=None,
         validation_alias="adaptivePolicyGroup",
         serialization_alias="adaptivePolicyGroup",

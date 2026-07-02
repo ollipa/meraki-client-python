@@ -310,7 +310,7 @@ class Appliance:
               "downlink": {
                 "mode": "access",
                 "sgt": {
-                  "id": 1234
+                  "id": "1234"
                 },
                 "access": {
                   "vlan": "1",
@@ -366,7 +366,7 @@ class Appliance:
         t1: str | None = None,
         timespan: float | None = None,
     ) -> GetDeviceAppliancePerformanceResponse | None:
-        """Return the performance score for a single MX.
+        """Return the performance score for a single Secure Appliance or Secure Router.
 
         [API documentation: getDeviceAppliancePerformance](https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-performance)
 
@@ -5637,7 +5637,7 @@ class Appliance:
 
         Args:
             network_id: Network ID.
-            t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
+            t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
                 from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6464,10 +6464,10 @@ class Appliance:
                 other Hubs or a default value if there is no ASN configured.
             as_number: An Autonomous System Number (ASN) is required if you are to run BGP and peer
                 with another BGP Speaker outside of the Auto VPN domain. This ASN will
-                be applied to the entire Auto VPN domain. The entire 4-byte ASN range is
-                supported. So, the ASN must be an integer between 1 and 4294967295. When
-                absent, this field is not updated. If no value exists then it defaults
-                to 64512.
+                be applied to the entire Auto VPN domain and is only configurable for
+                Auto VPN BGP networks. The entire 4-byte ASN range is supported. So, the
+                ASN must be an integer between 1 and 4294967295. When absent, this field
+                is not updated. If no value exists then it defaults to 64512.
             ibgp_hold_timer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
                 between 12 and 240. When absent, this field is not updated. If no value
                 exists then it defaults to 240.
@@ -7024,7 +7024,7 @@ class Appliance:
                       "downlink": {
                         "mode": "access",
                         "sgt": {
-                          "id": 1234
+                          "id": "1234"
                         },
                         "access": {
                           "vlan": "1",
@@ -9547,7 +9547,7 @@ class Appliance:
                   "slaPolicy": {
                     "id": "1234"
                   },
-                  "ipsecPoliciesPreset": "custom",
+                  "ipsecPoliciesPreset": "default",
                   "ikeVersion": "1",
                   "networkTags": [
                     "all"
@@ -9678,7 +9678,7 @@ class Appliance:
                   "slaPolicy": {
                     "id": "1234"
                   },
-                  "ipsecPoliciesPreset": "custom",
+                  "ipsecPoliciesPreset": "default",
                   "ikeVersion": "1",
                   "networkTags": [
                     "all"

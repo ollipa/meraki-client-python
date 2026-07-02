@@ -1621,6 +1621,20 @@ class GetOrganizationDevicesStatusesResponseItem(_BaseSchema):
     tags: list[str] = Field(default_factory=list)
 
 
+class GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem."""
+
+    network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    servers: list[OrganizationsServersItem]
+
+
+class GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem."""
+
+    network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    available: list[OrganizationsAvailableItem]
+
+
 class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem."""
 
@@ -2450,8 +2464,14 @@ class GetOrganizationUplinksStatusesResponseItem(_BaseSchema):
     uplinks: list[OrganizationsUplinksItem2] = Field(default_factory=list)
 
 
-class GetOrganizationWebhooksAlertTypesResponse(_BaseSchema):
+class GetOrganizationWebhooksAlertTypesResponse(
+    RootModel[list["GetOrganizationWebhooksAlertTypesResponseItem"]]
+):
     """Response for getOrganizationWebhooksAlertTypes operation."""
+
+
+class GetOrganizationWebhooksAlertTypesResponseItem(_BaseSchema):
+    """Schema for GetOrganizationWebhooksAlertTypesResponseItem."""
 
     alert_type_id: str | None = Field(
         default=None, validation_alias="alertTypeId", serialization_alias="alertTypeId"
@@ -2459,77 +2479,7 @@ class GetOrganizationWebhooksAlertTypesResponse(_BaseSchema):
     alert_type: str | None = Field(
         default=None, validation_alias="alertType", serialization_alias="alertType"
     )
-    example: GetOrganizationWebhooksAlertTypesResponseExample | None = None
-
-
-class GetOrganizationWebhooksAlertTypesResponseExample(_BaseSchema):
-    """Example alert type."""
-
-    version: str | None = None
-    shared_secret: str | None = Field(
-        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
-    )
-    sent_at: datetime | None = Field(
-        default=None, validation_alias="sentAt", serialization_alias="sentAt"
-    )
-    alert_id: str | None = Field(
-        default=None, validation_alias="alertId", serialization_alias="alertId"
-    )
-    alert_level: str | None = Field(
-        default=None, validation_alias="alertLevel", serialization_alias="alertLevel"
-    )
-    occurred_at: datetime | None = Field(
-        default=None, validation_alias="occurredAt", serialization_alias="occurredAt"
-    )
-    alert_data: dict[str, Any] | None = Field(
-        default=None, validation_alias="alertData", serialization_alias="alertData"
-    )
-    organization_id: str | None = Field(
-        default=None, validation_alias="organizationId", serialization_alias="organizationId"
-    )
-    organization_name: str | None = Field(
-        default=None, validation_alias="organizationName", serialization_alias="organizationName"
-    )
-    organization_url: str | None = Field(
-        default=None, validation_alias="organizationUrl", serialization_alias="organizationUrl"
-    )
-    device_serial: str | None = Field(
-        default=None, validation_alias="deviceSerial", serialization_alias="deviceSerial"
-    )
-    device_mac: str | None = Field(
-        default=None, validation_alias="deviceMac", serialization_alias="deviceMac"
-    )
-    device_name: str | None = Field(
-        default=None, validation_alias="deviceName", serialization_alias="deviceName"
-    )
-    device_url: str | None = Field(
-        default=None, validation_alias="deviceUrl", serialization_alias="deviceUrl"
-    )
-    device_tags: list[str] = Field(
-        default_factory=list, validation_alias="deviceTags", serialization_alias="deviceTags"
-    )
-    device_model: str | None = Field(
-        default=None, validation_alias="deviceModel", serialization_alias="deviceModel"
-    )
-    network_id: str | None = Field(
-        default=None, validation_alias="networkId", serialization_alias="networkId"
-    )
-    network_name: str | None = Field(
-        default=None, validation_alias="networkName", serialization_alias="networkName"
-    )
-    network_url: str | None = Field(
-        default=None, validation_alias="networkUrl", serialization_alias="networkUrl"
-    )
-    enrollment_string: str | None = Field(
-        default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
-    )
-    notes: str | None = None
-    product_types: list[str] = Field(
-        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
-    )
-    encrypted_id: str | None = Field(
-        default=None, validation_alias="encryptedId", serialization_alias="encryptedId"
-    )
+    example: OrganizationsExample | None = None
 
 
 class GetOrganizationWebhooksCallbacksStatusResponse(_BaseSchema):
@@ -3486,6 +3436,13 @@ class OrganizationsAutoLocate(_BaseSchema):
     lng: float | None = None
 
 
+class OrganizationsAvailableItem(_BaseSchema):
+    """Schema for OrganizationsAvailableItem."""
+
+    name: str
+    value: str
+
+
 class OrganizationsAverage(_BaseSchema):
     """Average utilization of the appliance."""
 
@@ -3985,6 +3942,13 @@ class OrganizationsDevicesItem3(_BaseSchema):
     description: str | None = None
 
 
+class OrganizationsEncryption(_BaseSchema):
+    """Encryption settings for the syslog server."""
+
+    enabled: bool | None = None
+    certificate: CreateOrganizationActionBatchCallbackHttpServer | None = None
+
+
 class OrganizationsEox(_BaseSchema):
     """End of life information for the device."""
 
@@ -4008,6 +3972,85 @@ class OrganizationsErrorsItem2(_BaseSchema):
 
     source: str | None = None
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+
+
+class OrganizationsExample(_BaseSchema):
+    """Example alert type."""
+
+    version: str | None = None
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
+    sent_at: datetime | None = Field(
+        default=None, validation_alias="sentAt", serialization_alias="sentAt"
+    )
+    alert_id: str | None = Field(
+        default=None, validation_alias="alertId", serialization_alias="alertId"
+    )
+    alert_type: str | None = Field(
+        default=None, validation_alias="alertType", serialization_alias="alertType"
+    )
+    alert_type_id: str | None = Field(
+        default=None, validation_alias="alertTypeId", serialization_alias="alertTypeId"
+    )
+    alert_level: str | None = Field(
+        default=None, validation_alias="alertLevel", serialization_alias="alertLevel"
+    )
+    occurred_at: datetime | None = Field(
+        default=None, validation_alias="occurredAt", serialization_alias="occurredAt"
+    )
+    alert_data: dict[str, Any] | None = Field(
+        default=None, validation_alias="alertData", serialization_alias="alertData"
+    )
+    organization_id: str | None = Field(
+        default=None, validation_alias="organizationId", serialization_alias="organizationId"
+    )
+    organization_name: str | None = Field(
+        default=None, validation_alias="organizationName", serialization_alias="organizationName"
+    )
+    organization_url: str | None = Field(
+        default=None, validation_alias="organizationUrl", serialization_alias="organizationUrl"
+    )
+    device_serial: str | None = Field(
+        default=None, validation_alias="deviceSerial", serialization_alias="deviceSerial"
+    )
+    device_mac: str | None = Field(
+        default=None, validation_alias="deviceMac", serialization_alias="deviceMac"
+    )
+    device_name: str | None = Field(
+        default=None, validation_alias="deviceName", serialization_alias="deviceName"
+    )
+    device_url: str | None = Field(
+        default=None, validation_alias="deviceUrl", serialization_alias="deviceUrl"
+    )
+    device_tags: list[str] = Field(
+        default_factory=list, validation_alias="deviceTags", serialization_alias="deviceTags"
+    )
+    device_model: str | None = Field(
+        default=None, validation_alias="deviceModel", serialization_alias="deviceModel"
+    )
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    network_name: str | None = Field(
+        default=None, validation_alias="networkName", serialization_alias="networkName"
+    )
+    network_url: str | None = Field(
+        default=None, validation_alias="networkUrl", serialization_alias="networkUrl"
+    )
+    network_tags: list[str] = Field(
+        default_factory=list, validation_alias="networkTags", serialization_alias="networkTags"
+    )
+    enrollment_string: str | None = Field(
+        default=None, validation_alias="enrollmentString", serialization_alias="enrollmentString"
+    )
+    notes: str | None = None
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
+    )
+    encrypted_id: str | None = Field(
+        default=None, validation_alias="encryptedId", serialization_alias="encryptedId"
+    )
 
 
 class OrganizationsFile(_BaseSchema):
@@ -4604,6 +4647,18 @@ class OrganizationsSeats(_BaseSchema):
     """Seat distribution."""
 
     limit: int | None = None
+
+
+class OrganizationsServersItem(_BaseSchema):
+    """Schema for OrganizationsServersItem."""
+
+    host: str | None = None
+    port: int | None = None
+    roles: list[str] = Field(default_factory=list)
+    transport_protocol: str | None = Field(
+        default=None, validation_alias="transportProtocol", serialization_alias="transportProtocol"
+    )
+    encryption: OrganizationsEncryption | None = None
 
 
 class OrganizationsServicesItem(_BaseSchema):

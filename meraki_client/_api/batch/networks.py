@@ -34,6 +34,7 @@ from meraki_client.schemas import (
     ProvisionNetworkClientsPoliciesBySsid,
     PublishNetworkFloorPlansAutoLocateJobDevicesItem,
     RecalculateNetworkFloorPlansAutoLocateJobDevicesItem,
+    UpdateNetworkDevicesSyslogServersServersItem,
     UpdateNetworkFirmwareUpgradesProducts,
     UpdateNetworkFirmwareUpgradesUpgradeWindow,
     UpdateNetworkFloorPlanBottomLeftCorner,
@@ -317,6 +318,34 @@ class ActionBatchNetworks:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="remove",
+            body=payload,
+        )
+
+    def update_network_devices_syslog_servers(
+        self, *, network_id: str, servers: list[UpdateNetworkDevicesSyslogServersServersItem]
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Updates the syslog servers configuration for a network.
+
+        [API documentation: updateNetworkDevicesSyslogServers](https://developer.cisco.com/meraki/api-v1/#!update-network-devices-syslog-servers)
+
+        Args:
+            network_id: Network ID.
+            servers: A list of the syslog servers for this network; suggested maximum array size is
+                10.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/devices/syslog/servers"
+
+        payload: dict[str, Any] = {}
+        if servers is not None:
+            payload["servers"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in servers
+            ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="servers",
             body=payload,
         )
 

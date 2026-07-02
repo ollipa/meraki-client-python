@@ -7,7 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+#### Update to Meraki API v1.72.0
+
+- Added device syslog server endpoints `update_network_devices_syslog_servers`, `get_organization_devices_syslog_servers_by_network`, and `get_organization_devices_syslog_servers_roles_by_network`.
+- Added `update_network_switch_stack` endpoint to rename a switch stack and set its complete member list.
+- Added `security` parameter to `update_network_wireless_ssid` for configuring SSID security settings.
+- Changed `type_` parameter of `create_organization_policy_object` to the `CreateOrganizationPolicyObjectType` literal (`adaptivePolicyIpv4Cidr`, `cidr`, `fqdn`); the `ipAndMask` type is dropped and the `cidr`, `mask`, and `ip` parameters are now deprecated.
+- Added support for MV24 and MV94 camera models (and an `enhanced` `axisVideoQuality` option) in the video settings of `create_network_camera_quality_retention_profile` and `update_network_camera_quality_retention_profile`.
+- Added assurance alert types `modular_supervisor_node_group_mismatch`, `stack_cable_auth_failure`, `stack_version_mismatch`, `telemetry_collector_cert_expiration`, and `telemetry_streaming_failure` to the `types` filter enums for the `get_organization_assurance_alerts*` endpoints.
 
 ## v0.16.0
 

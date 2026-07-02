@@ -116,6 +116,7 @@ class Devices:
               "lanIp": "1.2.3.4",
               "firmware": "wireless-25-14",
               "floorPlanId": "g_2176982374",
+              "url": "https://n1.meraki.com/MyOrg/n/XXXXXX/manage/nodes/new_list/1",
               "details": [
                 {
                   "name": "Catalyst serial",
@@ -195,6 +196,7 @@ class Devices:
               "lanIp": "1.2.3.4",
               "firmware": "wireless-25-14",
               "floorPlanId": "g_2176982374",
+              "url": "https://n1.meraki.com/MyOrg/n/XXXXXX/manage/nodes/new_list/1",
               "details": [
                 {
                   "name": "Catalyst serial",
@@ -409,9 +411,9 @@ class Devices:
                 request, it will remain unchanged.
             sim_ordering: Specifies the ordering of all SIMs for an MG: primary, secondary, and not-
                 in-use (when applicable). It's required for devices with 3 or more SIMs
-                and can be used in place of 'isPrimary' for dual-SIM devices. To
-                indicate eSIM, use 'sim3'. Sim failover will occur only between primary
-                and secondary sim slots.
+                and can be used in place of 'isPrimary' for dual-SIM devices. Use the
+                raw eSIM slot value for the device, such as 'sim2' or 'sim3'. Sim
+                failover will occur only between primary and secondary sim slots.
             sim_failover: SIM Failover settings.
 
         Returns:
@@ -493,8 +495,9 @@ class Devices:
             slot: Required parameter for the SIM slot to update the cellular band mask for.
             type_: Required parameter for the signal type to update the cellular band mask for.
             masked: Required parameter for the band identifiers to mask for the given SIM slot and
-                signal type. For LTE use bands identifiers like '30' and for 5G use band
-                identifiers like 'n30'. Maximum 256 bands.
+                signal type. For LTE use bands identifiers like '30', for 5G use band
+                identifiers like 'n30', or use 'all' to mask all bands for that signal
+                type. Maximum 256 bands.
 
         Returns:
             Successful operation.
@@ -1000,7 +1003,7 @@ class Devices:
               "status": "complete",
               "entries": [
                 {
-                  "mac": "00:11:22:33:44:55",
+                  "mac": "00:11:22:a0:b1:c2",
                   "port": "Tw1/0/9",
                   "vlanId": 100
                 }

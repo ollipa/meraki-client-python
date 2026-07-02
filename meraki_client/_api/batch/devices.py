@@ -144,8 +144,9 @@ class ActionBatchDevices:
             slot: Required parameter for the SIM slot to update the cellular band mask for.
             type_: Required parameter for the signal type to update the cellular band mask for.
             masked: Required parameter for the band identifiers to mask for the given SIM slot and
-                signal type. For LTE use bands identifiers like '30' and for 5G use band
-                identifiers like 'n30'. Maximum 256 bands.
+                signal type. For LTE use bands identifiers like '30', for 5G use band
+                identifiers like 'n30', or use 'all' to mask all bands for that signal
+                type. Maximum 256 bands.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")

@@ -44,7 +44,7 @@ __all__ = [
     "types",
 ]
 __version__ = "0.16.0"
-__api_version__ = "v1.71.0"
+__api_version__ = "v1.72.0"
 
 
 class AsyncMerakiClient:
