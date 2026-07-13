@@ -337,20 +337,14 @@ required = ["serial", "mac", "model"]
 [getOrganizationDevicesStatuses]
 required = ["serial", "mac", "model", "status"]
 
-[getNetworkWirelessSsids]
-extra_fields = { dot11w = "dict[str, Any]", dot11r = "dict[str, Any]" }
-
 [getDevice]
 required = ["serial", "mac", "model"]
-extra_fields = { url = "str" }
 
 [updateDevice]
 required = ["serial", "mac", "model"]
-extra_fields = { url = "str" }
 
 [getNetworkDevices]
 required = ["serial", "mac", "model"]
-extra_fields = { url = "str" }
 
 [createNetworkWebhooksHttpServer]
 required = ["id", "networkId", "name", "url"]

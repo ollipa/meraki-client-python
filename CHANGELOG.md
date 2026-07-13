@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+
+- Remove obsolete `extra_fields` overrides for `getDevice`, `updateDevice`, `getNetworkDevices` (`url`), and `getNetworkWirelessSsids` (`dot11w`, `dot11r`), which the v1.72.0 spec now defines natively. `dot11w` and `dot11r` are now typed nested objects (`WirelessDot11w`/`WirelessDot11r`) instead of `dict[str, Any]`, and `getNetworkWirelessSsids` reuses the shared `NetworkWirelessSsidResponse` schema.
+
 ### Changed
 
 #### Update to Meraki API v1.72.0

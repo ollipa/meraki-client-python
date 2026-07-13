@@ -55,7 +55,6 @@ from meraki_client.schemas import (
     GetNetworkWirelessMeshStatusesResponseItem,
     GetNetworkWirelessRfProfilesResponse,
     GetNetworkWirelessSignalQualityHistoryResponseItem,
-    GetNetworkWirelessSsidsResponseItem,
     GetNetworkWirelessUsageHistoryResponseItem,
     GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem,
     GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem,
@@ -5357,7 +5356,7 @@ class Wireless:
 
     def get_network_wireless_ssids(
         self, network_id: str
-    ) -> PaginatedResponse[GetNetworkWirelessSsidsResponseItem]:
+    ) -> PaginatedResponse[NetworkWirelessSsidResponse]:
         r"""List the MR SSIDs in a network.
 
         [API documentation: getNetworkWirelessSsids](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids)
@@ -5527,7 +5526,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsids",
             path=path,
-            item_schema=GetNetworkWirelessSsidsResponseItem,
+            item_schema=NetworkWirelessSsidResponse,
         )
 
     def get_network_wireless_ssid(
