@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import Field, RootModel
+from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
 
@@ -241,6 +241,12 @@ class GetNetworkSmDeviceRestrictionsResponse(_BaseSchema):
         default_factory=list
     )
 
+    @field_validator("restrictions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkSmDeviceRestrictionsResponseRestrictionsItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceRestrictionsResponseRestrictionsItem."""
@@ -400,6 +406,12 @@ class GetNetworkSmDevicesResponseItem(_BaseSchema):
     ip: str | None = None
     notes: str | None = None
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkSmProfilesResponse(RootModel[list["GetNetworkSmProfilesResponseItem"]]):
     """Response for getNetworkSmProfiles operation."""
@@ -416,6 +428,12 @@ class GetNetworkSmProfilesResponseItem(_BaseSchema):
     payload_types: list[str] = Field(
         default_factory=list, validation_alias="payloadTypes", serialization_alias="payloadTypes"
     )
+
+    @field_validator("tags", "payload_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetNetworkSmTargetGroupsResponse(RootModel[list["NetworkSmTargetGroupResponse"]]):
@@ -463,6 +481,12 @@ class GetNetworkSmTrustedAccessConfigsResponseItem(_BaseSchema):
         default=None, validation_alias="accessEndAt", serialization_alias="accessEndAt"
     )
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkSmUserAccessDevicesResponse(
     RootModel[list["GetNetworkSmUserAccessDevicesResponseItem"]]
@@ -487,6 +511,12 @@ class GetNetworkSmUserAccessDevicesResponseItem(_BaseSchema):
         validation_alias="trustedAccessConnections",
         serialization_alias="trustedAccessConnections",
     )
+
+    @field_validator("tags", "trusted_access_connections", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetNetworkSmUsersResponse(RootModel[list["GetNetworkSmUsersResponseItem"]]):
@@ -533,6 +563,12 @@ class GetNetworkSmUsersResponseItem(_BaseSchema):
         default=None, validation_alias="userThumbnail", serialization_alias="userThumbnail"
     )
 
+    @field_validator("ad_groups", "azure_ad_groups", "saml_groups", "asm_groups", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationSmApnsCertResponse(_BaseSchema):
     """Response for getOrganizationSmApnsCert operation."""
@@ -555,6 +591,12 @@ class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem(_BaseSchem
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
     policies: list[SmPoliciesItem] = Field(default_factory=list)
+
+    @field_validator("policies", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationSmVppAccountResponse(_BaseSchema):
@@ -604,6 +646,12 @@ class GetOrganizationSmVppAccountResponse(_BaseSchema):
         default=None, validation_alias="vppServiceToken", serialization_alias="vppServiceToken"
     )
 
+    @field_validator("assignable_network_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationSmVppAccountsResponse(RootModel[list["GetOrganizationSmVppAccountResponse"]]):
     """Response for getOrganizationSmVppAccounts operation."""
@@ -623,6 +671,12 @@ class ModifyNetworkSmDevicesTagsResponseItem(_BaseSchema):
     )
     serial: str | None = None
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class MoveNetworkSmDevicesResponse(_BaseSchema):
     """Response for moveNetworkSmDevices operation."""
@@ -632,11 +686,23 @@ class MoveNetworkSmDevicesResponse(_BaseSchema):
         default=None, validation_alias="newNetwork", serialization_alias="newNetwork"
     )
 
+    @field_validator("ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSmDevicesResponse(_BaseSchema):
     """Schema for NetworkSmDevicesResponse."""
 
     ids: list[str] = Field(default_factory=list)
+
+    @field_validator("ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSmTargetGroupResponse(_BaseSchema):
@@ -646,6 +712,12 @@ class NetworkSmTargetGroupResponse(_BaseSchema):
     name: str | None = None
     scope: str | None = None
     tags: list[str] = Field(default_factory=list)
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationSmAdminsRoleResponse(_BaseSchema):
@@ -657,6 +729,12 @@ class OrganizationSmAdminsRoleResponse(_BaseSchema):
     name: str | None = None
     scope: str | None = None
     tags: list[str] = Field(default_factory=list)
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class SmC(_BaseSchema):
@@ -713,6 +791,12 @@ class SmPoliciesItem(_BaseSchema):
     last_updated_at: str | None = Field(
         default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
     )
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class SmTrustedAccessConnectionsItem(_BaseSchema):
@@ -773,6 +857,12 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem(_BaseSchema):
         default_factory=list
     )
 
+    @field_validator("policies", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem(_BaseSchema):
     """Schema for UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem."""
@@ -787,6 +877,12 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem(_BaseSc
         validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
     )
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsResponse(_BaseSchema):
     """Response for updateOrganizationSmSentryPoliciesAssignments operation."""
@@ -794,6 +890,12 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsResponse(_BaseSchema):
     items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] = Field(
         default_factory=list
     )
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem(_BaseSchema):
@@ -803,6 +905,12 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem(_BaseSchema
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
     policies: list[SmPoliciesItem] = Field(default_factory=list)
+
+    @field_validator("policies", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WipeNetworkSmDevicesResponse(_BaseSchema):

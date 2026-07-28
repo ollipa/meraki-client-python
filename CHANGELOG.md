@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- Array fields in response schemas now accept `null` and coerce it to an empty list, instead of raising a validation error. This fixes, for example, `get_network_topology_link_layer` responses where `nodes[].discovered.lldp.systemCapabilities` is `null`. Schemas that declare list fields get a generated `coerce_null_lists` validator; field annotations are unchanged.
 
 ## v0.17.0
 

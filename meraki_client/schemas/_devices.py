@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import Field, RootModel
+from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
 
@@ -29,6 +29,12 @@ class CreateDeviceCellularUplinksBandsMasksUpdateResponse(_BaseSchema):
         default_factory=list, validation_alias="bySlot", serialization_alias="bySlot"
     )
 
+    @field_validator("by_slot", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateDeviceCellularUplinksBandsMasksUpdateResponseBySlotItem(_BaseSchema):
     """Schema for CreateDeviceCellularUplinksBandsMasksUpdateResponseBySlotItem."""
@@ -37,6 +43,12 @@ class CreateDeviceCellularUplinksBandsMasksUpdateResponseBySlotItem(_BaseSchema)
     by_signal_type: list[DevicesBySlotBySignalTypeItem] = Field(
         default_factory=list, validation_alias="bySignalType", serialization_alias="bySignalType"
     )
+
+    @field_validator("by_signal_type", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateDeviceLiveToolsArpTableCallback(_BaseSchema):
@@ -118,6 +130,12 @@ class CreateDeviceLiveToolsCableTestResponseRequest(_BaseSchema):
 
     serial: str | None = None
     ports: list[str] = Field(default_factory=list)
+
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateDeviceLiveToolsLedsBlinkCallback(_BaseSchema):
@@ -515,6 +533,12 @@ class DeviceCellularSimsResponse(_BaseSchema):
         default=None, validation_alias="simFailover", serialization_alias="simFailover"
     )
 
+    @field_validator("sims", "sim_ordering", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class DeviceCellularSimsResponseSimFailover(_BaseSchema):
     """SIM Failover settings."""
@@ -535,6 +559,12 @@ class DeviceCellularSimsResponseSimsItem(_BaseSchema):
     )
     status: str | None = None
     apns: list[DevicesSimsApnsItem] = Field(default_factory=list)
+
+    @field_validator("apns", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DeviceManagementInterfaceResponse(_BaseSchema):
@@ -587,6 +617,12 @@ class DeviceManagementInterfaceResponseWan1(_BaseSchema):
     vlan: int | None = None
     vrf: DevicesEntriesVrf | None = None
 
+    @field_validator("static_dns", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class DeviceResponse(_BaseSchema):
     """Schema for DeviceResponse."""
@@ -613,6 +649,12 @@ class DeviceResponse(_BaseSchema):
     beacon_id_params: DeviceResponseBeaconIdParams | None = Field(
         default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
+
+    @field_validator("tags", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DeviceResponseBeaconIdParams(_BaseSchema):
@@ -652,6 +694,12 @@ class DevicesBySlotBySignalTypeItem(_BaseSchema):
     masked: list[str] = Field(default_factory=list)
     enabled: list[str] = Field(default_factory=list)
     supported: list[str] = Field(default_factory=list)
+
+    @field_validator("masked", "enabled", "supported", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DevicesCountsByVrfItem(_BaseSchema):
@@ -775,6 +823,12 @@ class DevicesSimsApnsItem(_BaseSchema):
     )
     authentication: DevicesAuthentication | None = None
 
+    @field_validator("allowed_ip_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class DevicesUsage(_BaseSchema):
     """Client usage data for sent and received."""
@@ -832,6 +886,12 @@ class GetDeviceLiveToolsArpTableResponse(_BaseSchema):
     entries: list[GetDeviceLiveToolsArpTableResponseEntriesItem] = Field(default_factory=list)
     error: str | None = None
 
+    @field_validator("entries", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceLiveToolsArpTableResponseEntriesItem(_BaseSchema):
     """Schema for GetDeviceLiveToolsArpTableResponseEntriesItem."""
@@ -859,6 +919,12 @@ class GetDeviceLiveToolsCableTestResponse(_BaseSchema):
     results: list[GetDeviceLiveToolsCableTestResponseResultsItem] = Field(default_factory=list)
     error: str | None = None
 
+    @field_validator("results", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceLiveToolsCableTestResponseResultsItem(_BaseSchema):
     """Schema for GetDeviceLiveToolsCableTestResponseResultsItem."""
@@ -870,6 +936,12 @@ class GetDeviceLiveToolsCableTestResponseResultsItem(_BaseSchema):
     )
     error: str | None = None
     pairs: list[DevicesResultsPairsItem] = Field(default_factory=list)
+
+    @field_validator("pairs", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
@@ -895,6 +967,12 @@ class GetDeviceLiveToolsMacTableResponse(_BaseSchema):
     status: str | None = None
     entries: list[GetDeviceLiveToolsMacTableResponseEntriesItem] = Field(default_factory=list)
     error: str | None = None
+
+    @field_validator("entries", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceLiveToolsMacTableResponseEntriesItem(_BaseSchema):
@@ -924,6 +1002,12 @@ class GetDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
     routes: list[GetDeviceLiveToolsMulticastRoutingResponseRoutesItem] = Field(default_factory=list)
     error: str | None = None
 
+    @field_validator("interfaces", "routes", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceLiveToolsMulticastRoutingResponseInterfacesItem(_BaseSchema):
     """Schema for GetDeviceLiveToolsMulticastRoutingResponseInterfacesItem."""
@@ -940,6 +1024,12 @@ class GetDeviceLiveToolsMulticastRoutingResponseInterfacesItem(_BaseSchema):
     subnet: str | None = None
     flags: list[str] = Field(default_factory=list)
     neighbors: list[str] = Field(default_factory=list)
+
+    @field_validator("flags", "neighbors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceLiveToolsMulticastRoutingResponseRoutesItem(_BaseSchema):
@@ -965,6 +1055,12 @@ class GetDeviceLiveToolsMulticastRoutingResponseRoutesItem(_BaseSchema):
         serialization_alias="outgoingInterfaceNames",
     )
     flags: list[str] = Field(default_factory=list)
+
+    @field_validator("outgoing_interface_names", "flags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceLiveToolsPingDeviceResponse(_BaseSchema):
@@ -1001,6 +1097,12 @@ class GetDeviceLiveToolsPingResponseResults(_BaseSchema):
     latencies: DevicesResultsLatencies | None = None
     replies: list[DevicesResultsRepliesItem] = Field(default_factory=list)
 
+    @field_validator("replies", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceLiveToolsPortsCycleResponse(_BaseSchema):
     """Response for getDeviceLiveToolsPortsCycle operation."""
@@ -1023,6 +1125,12 @@ class GetDeviceLiveToolsPortsStatusResponse(_BaseSchema):
     status: str | None = None
     results: list[GetDeviceLiveToolsPortsStatusResponseResultsItem] = Field(default_factory=list)
     errors: list[str] = Field(default_factory=list)
+
+    @field_validator("results", "errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceLiveToolsPortsStatusResponseResultsItem(_BaseSchema):
@@ -1049,6 +1157,12 @@ class GetDeviceLiveToolsPowerUsageResponse(_BaseSchema):
     results: GetDeviceLiveToolsPowerUsageResponseResults | None = None
     errors: list[str] = Field(default_factory=list)
 
+    @field_validator("errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceLiveToolsPowerUsageResponseResults(_BaseSchema):
     """Power values, in watts, reported by the device for this job result."""
@@ -1072,6 +1186,12 @@ class GetDeviceLiveToolsRoutingTableLookupResponse(_BaseSchema):
     )
     errors: list[str] = Field(default_factory=list)
 
+    @field_validator("entries", "errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceLiveToolsRoutingTableLookupResponseEntriesItem(_BaseSchema):
     """Schema for GetDeviceLiveToolsRoutingTableLookupResponseEntriesItem."""
@@ -1086,6 +1206,12 @@ class GetDeviceLiveToolsRoutingTableLookupResponseEntriesItem(_BaseSchema):
     )
     vrf: DevicesEntriesVrf | None = None
 
+    @field_validator("next_hops", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceLiveToolsRoutingTableSummaryResponse(_BaseSchema):
     """Response for getDeviceLiveToolsRoutingTableSummary operation."""
@@ -1098,6 +1224,12 @@ class GetDeviceLiveToolsRoutingTableSummaryResponse(_BaseSchema):
     counts: GetDeviceLiveToolsRoutingTableSummaryResponseCounts | None = None
     errors: list[str] = Field(default_factory=list)
 
+    @field_validator("errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceLiveToolsRoutingTableSummaryResponseCounts(_BaseSchema):
     """Routing table summary counts."""
@@ -1106,6 +1238,12 @@ class GetDeviceLiveToolsRoutingTableSummaryResponseCounts(_BaseSchema):
     by_vrf: list[DevicesCountsByVrfItem] = Field(
         default_factory=list, validation_alias="byVrf", serialization_alias="byVrf"
     )
+
+    @field_validator("by_vrf", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceLiveToolsThroughputTestResponse(_BaseSchema):
@@ -1198,6 +1336,12 @@ class UpdateDeviceCellularSimsSimsItem(_BaseSchema):
         default=None, validation_alias="simOrder", serialization_alias="simOrder"
     )
 
+    @field_validator("apns", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateDeviceManagementInterfaceWan1(_BaseSchema):
     """WAN 1 settings."""
@@ -1222,6 +1366,12 @@ class UpdateDeviceManagementInterfaceWan1(_BaseSchema):
     )
     vlan: int | None = None
 
+    @field_validator("static_dns", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateDeviceManagementInterfaceWan2(_BaseSchema):
     """WAN 2 settings (only for MX devices)."""
@@ -1245,3 +1395,9 @@ class UpdateDeviceManagementInterfaceWan2(_BaseSchema):
         default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
     )
     vlan: int | None = None
+
+    @field_validator("static_dns", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value

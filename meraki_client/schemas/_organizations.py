@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import Field, RootModel
+from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
 
@@ -84,6 +84,12 @@ class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponse(_Bas
         Field(default_factory=list)
     )
 
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponseItemsItem(_BaseSchema):
     """Schema for BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponseItemsItem."""
@@ -108,6 +114,12 @@ class BatchOrganizationSaseConnectorsDeleteResponse(_BaseSchema):
         default_factory=list
     )
     meta: BatchOrganizationSaseConnectorsDeleteResponseMeta | None = None
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class BatchOrganizationSaseConnectorsDeleteResponseItemsItem(_BaseSchema):
@@ -162,6 +174,12 @@ class BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced(_BaseSchema):
         default=None, validation_alias="captureType", serialization_alias="captureType"
     )
 
+    @field_validator("inner_filter_mac", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem(_BaseSchema):
     """Item schema for devices."""
@@ -177,6 +195,12 @@ class BulkOrganizationDevicesPacketCaptureCapturesCreateResponse(_BaseSchema):
     items: list[BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem] = Field(
         default_factory=list
     )
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem(_BaseSchema):
@@ -210,6 +234,12 @@ class BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem(_BaseS
     counts: OrganizationsCounts3 | None = None
     interface: str | None = None
 
+    @field_validator("devices", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class BulkUpdateOrganizationDevicesDetailsDetailsItem(_BaseSchema):
     """Item schema for details."""
@@ -222,6 +252,12 @@ class BulkUpdateOrganizationDevicesDetailsResponse(_BaseSchema):
     """Response for bulkUpdateOrganizationDevicesDetails operation."""
 
     serials: list[str]
+
+    @field_validator("serials", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class ClaimIntoOrganizationInventoryLicensesItem(_BaseSchema):
@@ -245,6 +281,12 @@ class ClaimIntoOrganizationResponse(_BaseSchema):
     serials: list[str] = Field(default_factory=list)
     licenses: list[ClaimIntoOrganizationResponseLicensesItem] = Field(default_factory=list)
 
+    @field_validator("orders", "serials", "licenses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ClaimIntoOrganizationResponseLicensesItem(_BaseSchema):
     """Schema for ClaimIntoOrganizationResponseLicensesItem."""
@@ -264,6 +306,12 @@ class ClaimOrganizationInventoryOrdersResponse(_BaseSchema):
     subscriptions: list[ClaimOrganizationInventoryOrdersResponseSubscriptionsItem] = Field(
         default_factory=list
     )
+
+    @field_validator("serials", "subscriptions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class ClaimOrganizationInventoryOrdersResponseSubscriptionsItem(_BaseSchema):
@@ -447,6 +495,12 @@ class CreateOrganizationAlertsProfileRecipients(_BaseSchema):
         default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
 
+    @field_validator("emails", "http_server_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateOrganizationBrandingPolicyAdminSettings(_BaseSchema):
     """Settings for describing which kinds of admins this policy applies to."""
@@ -455,6 +509,12 @@ class CreateOrganizationBrandingPolicyAdminSettings(_BaseSchema):
         default=None, validation_alias="appliesTo", serialization_alias="appliesTo"
     )
     values: list[str] = Field(default_factory=list)
+
+    @field_validator("values", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateOrganizationBrandingPolicyCustomLogo(_BaseSchema):
@@ -551,6 +611,12 @@ class CreateOrganizationDevicesCellularDataProfileRulesItem(_BaseSchema):
     cap: CreateOrganizationDevicesCellularDataProfileRulesItemCap
     actions: list[OrganizationsActionsItem2] = Field(default_factory=list)
 
+    @field_validator("actions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateOrganizationDevicesCellularDataProfileRulesItemCap(_BaseSchema):
     """The data cap values to be set with this rule."""
@@ -604,6 +670,12 @@ class CreateOrganizationDevicesPacketCaptureCaptureAdvanced(_BaseSchema):
         default=None, validation_alias="packetsPerSecond", serialization_alias="packetsPerSecond"
     )
 
+    @field_validator("inner_filter_macs", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateOrganizationDevicesPacketCaptureScheduleDevicesItem(_BaseSchema):
     """Item schema for devices."""
@@ -625,6 +697,12 @@ class CreateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
     weekdays: list[str] = Field(default_factory=list)
     recurrence: int | None = None
 
+    @field_validator("weekdays", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateOrganizationInventoryDevicesSwapsBulkSwapsItem(_BaseSchema):
     """Item schema for swaps."""
@@ -644,6 +722,12 @@ class CreateOrganizationManagement(_BaseSchema):
     """Information about the organization's management system."""
 
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
+
+    @field_validator("details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateOrganizationNetworkResponse(_BaseSchema):
@@ -670,6 +754,12 @@ class CreateOrganizationNetworkResponse(_BaseSchema):
         serialization_alias="isBoundToConfigTemplate",
     )
 
+    @field_validator("product_types", "tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations(_BaseSchema):
     """Destination traffic criteria. Each source or destination bloc is capped separately per rule
@@ -681,6 +771,12 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations(_BaseSche
         default_factory=list, validation_alias="matchCriteria", serialization_alias="matchCriteria"
     )
     criteria: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinationsCriteria | None = None
+
+    @field_validator("match_criteria", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinationsCriteria(_BaseSchema):
@@ -715,6 +811,22 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinationsCriteria(_
         serialization_alias="applianceVlans",
     )
 
+    @field_validator(
+        "address_ranges",
+        "ports",
+        "services",
+        "application_categories",
+        "applications",
+        "policy_objects",
+        "policy_object_groups",
+        "appliance_vlans",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources(_BaseSchema):
     """Source traffic criteria. Each source or destination bloc is capped separately per rule at
@@ -726,6 +838,12 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources(_BaseSchema):
         default_factory=list, validation_alias="matchCriteria", serialization_alias="matchCriteria"
     )
     criteria: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSourcesCriteria | None = None
+
+    @field_validator("match_criteria", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSourcesCriteria(_BaseSchema):
@@ -752,6 +870,19 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSourcesCriteria(_BaseS
         validation_alias="applianceVlans",
         serialization_alias="applianceVlans",
     )
+
+    @field_validator(
+        "address_ranges",
+        "ports",
+        "policy_objects",
+        "policy_object_groups",
+        "appliance_vlans",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateOrganizationSamlRoleNetworksItem(_BaseSchema):
@@ -787,6 +918,12 @@ class CreateOrganizationSplashThemeResponse(_BaseSchema):
         default_factory=list, validation_alias="themeAssets", serialization_alias="themeAssets"
     )
 
+    @field_validator("theme_assets", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class DetachOrganizationSaseSitesCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
@@ -817,6 +954,12 @@ class DisableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
         validation_alias="productTypes", serialization_alias="productTypes"
     )
 
+    @field_validator("product_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class EnableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
     """Item schema for networks."""
@@ -825,6 +968,12 @@ class EnableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
     product_types: list[str] = Field(
         validation_alias="productTypes", serialization_alias="productTypes"
     )
+
+    @field_validator("product_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse(_BaseSchema):
@@ -944,6 +1093,12 @@ class GetOrganizationAdminsResponseItem(_BaseSchema):
         serialization_alias="authenticationMethod",
     )
 
+    @field_validator("tags", "networks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationAlertsProfilesResponse(RootModel[list["OrganizationAlertsProfileResponse"]]):
     """Response for getOrganizationAlertsProfiles operation."""
@@ -977,6 +1132,12 @@ class GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem(_Bas
         default=None, validation_alias="endTs", serialization_alias="endTs"
     )
     counts: list[OrganizationsCodesByIntervalResponseCountsItem] = Field(default_factory=list)
+
+    @field_validator("counts", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationApiRequestsOverviewResponseResponseCodeCounts(_BaseSchema):
@@ -1090,6 +1251,12 @@ class GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem(_BaseSche
     errors: list[OrganizationsErrorsItem] = Field(default_factory=list)
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
 
+    @field_validator("errors", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationAssuranceAlertResponse(_BaseSchema):
     """Response for getOrganizationAssuranceAlert operation."""
@@ -1127,6 +1294,12 @@ class GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem(_BaseSche
         validation_alias="severityCounts", serialization_alias="severityCounts"
     )
 
+    @field_validator("severity_counts", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem."""
@@ -1148,6 +1321,12 @@ class GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem(_BaseSchema)
     device_tags: list[str] = Field(validation_alias="deviceTags", serialization_alias="deviceTags")
     networks: list[OrganizationsNetworksItem2]
 
+    @field_validator("device_types", "device_tags", "networks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem."""
@@ -1159,6 +1338,12 @@ class GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem(_BaseSch
     by_alert_type: list[OrganizationsByAlertTypeItem] = Field(
         validation_alias="byAlertType", serialization_alias="byAlertType"
     )
+
+    @field_validator("by_alert_type", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationAssuranceAlertsOverviewResponse(_BaseSchema):
@@ -1174,6 +1359,12 @@ class GetOrganizationAssuranceAlertsOverviewResponseCounts(_BaseSchema):
     by_severity: list[OrganizationsCountsBySeverityItem] = Field(
         validation_alias="bySeverity", serialization_alias="bySeverity"
     )
+
+    @field_validator("by_severity", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationAssuranceAlertsResponse(
@@ -1211,6 +1402,12 @@ class GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem(_BaseSchema):
     device_types: list[str] = Field(
         validation_alias="deviceTypes", serialization_alias="deviceTypes"
     )
+
+    @field_validator("severities", "device_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationBrandingPoliciesResponse(
@@ -1264,6 +1461,12 @@ class GetOrganizationClientsSearchResponse(_BaseSchema):
     manufacturer: str | None = None
     records: list[GetOrganizationClientsSearchResponseRecordsItem] = Field(default_factory=list)
 
+    @field_validator("records", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationClientsSearchResponseRecordsItem(_BaseSchema):
     """Schema for GetOrganizationClientsSearchResponseRecordsItem."""
@@ -1302,6 +1505,12 @@ class GetOrganizationClientsSearchResponseRecordsItem(_BaseSchema):
     lldp: list[list[str]] = Field(default_factory=list)
     cdp: list[list[str]] = Field(default_factory=list)
     status: str | None = None
+
+    @field_validator("client_vpn_connections", "lldp", "cdp", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationConfigTemplatesResponse(RootModel[list["OrganizationConfigTemplateResponse"]]):
@@ -1387,6 +1596,12 @@ class GetOrganizationDevicesAvailabilitiesResponseItem(_BaseSchema):
     status: str | None = None
     tags: list[str] = Field(default_factory=list)
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationDevicesCellularDataDevicesResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesCellularDataDevicesResponseItemsItem."""
@@ -1399,6 +1614,12 @@ class GetOrganizationDevicesCellularDataDevicesResponseItemsItem(_BaseSchema):
     modems: list[OrganizationsModemsItem] = Field(default_factory=list)
     profile: OrganizationsProfile | None = None
     network: OrganizationsPolicyObjectsItem | None = None
+
+    @field_validator("modems", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationDevicesCellularDataProfilesAssignmentsResponseItemsItem(_BaseSchema):
@@ -1425,6 +1646,12 @@ class GetOrganizationDevicesCellularDataProfilesResponseItemsItem(_BaseSchema):
     counts: OrganizationsCounts2 | None = None
     rules: list[OrganizationsRulesItem2] = Field(default_factory=list)
 
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationDevicesCellularDataUsageByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesCellularDataUsageByDeviceResponseItemsItem."""
@@ -1433,6 +1660,12 @@ class GetOrganizationDevicesCellularDataUsageByDeviceResponseItemsItem(_BaseSche
     by_slot: list[OrganizationsBySlotItem] = Field(
         default_factory=list, validation_alias="bySlot", serialization_alias="bySlot"
     )
+
+    @field_validator("by_slot", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationDevicesCellularDataUsageHistoryByDeviceByIntervalResponseItemsItem(
@@ -1444,6 +1677,12 @@ class GetOrganizationDevicesCellularDataUsageHistoryByDeviceByIntervalResponseIt
 
     serial: str | None = None
     intervals: list[OrganizationsIntervalsItem] = Field(default_factory=list)
+
+    @field_validator("intervals", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationDevicesCellularGeolocationsResponseItemsItem(_BaseSchema):
@@ -1460,6 +1699,12 @@ class GetOrganizationDevicesCellularUplinksBandsByDeviceResponseItemsItem(_BaseS
     by_slot: list[OrganizationsBySlotItem2] = Field(
         default_factory=list, validation_alias="bySlot", serialization_alias="bySlot"
     )
+
+    @field_validator("by_slot", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationDevicesCellularUplinksTowersByDeviceResponseItemsItem(_BaseSchema):
@@ -1489,6 +1734,12 @@ class GetOrganizationDevicesOverviewByModelResponse(_BaseSchema):
         default_factory=list
     )
 
+    @field_validator("counts", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationDevicesOverviewByModelResponseCountsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesOverviewByModelResponseCountsItem."""
@@ -1516,6 +1767,12 @@ class GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem(_BaseSchema
     tags: list[str] = Field(default_factory=list)
     slots: list[OrganizationsSlotsItem] = Field(default_factory=list)
 
+    @field_validator("tags", "slots", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationDevicesProvisioningStatusesResponse(
     RootModel[list["GetOrganizationDevicesProvisioningStatusesResponseItem"]]
@@ -1535,6 +1792,12 @@ class GetOrganizationDevicesProvisioningStatusesResponseItem(_BaseSchema):
     serial: str | None = None
     status: str | None = None
     tags: list[str] = Field(default_factory=list)
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationDevicesResponse(RootModel[list["GetOrganizationDevicesResponseItem"]]):
@@ -1564,6 +1827,12 @@ class GetOrganizationDevicesResponseItem(_BaseSchema):
     )
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
     url: str | None = None
+
+    @field_validator("tags", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationDevicesStatusesOverviewResponse(_BaseSchema):
@@ -1620,6 +1889,12 @@ class GetOrganizationDevicesStatusesResponseItem(_BaseSchema):
     model: str
     tags: list[str] = Field(default_factory=list)
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem."""
@@ -1627,12 +1902,24 @@ class GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem(_BaseSchema)
     network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
     servers: list[OrganizationsServersItem]
 
+    @field_validator("servers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem."""
 
     network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
     available: list[OrganizationsAvailableItem]
+
+    @field_validator("available", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem(_BaseSchema):
@@ -1648,6 +1935,12 @@ class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem(
     free: OrganizationsUsed | None = None
     network: OrganizationsNetwork3 | None = None
     intervals: list[OrganizationsIntervalsItem2] = Field(default_factory=list)
+
+    @field_validator("tags", "intervals", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationDevicesUplinksAddressesByDeviceResponse(
@@ -1669,6 +1962,12 @@ class GetOrganizationDevicesUplinksAddressesByDeviceResponseItem(_BaseSchema):
     tags: list[str] = Field(default_factory=list)
     uplinks: list[OrganizationsUplinksItem] = Field(default_factory=list)
 
+    @field_validator("tags", "uplinks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationDevicesUplinksLossAndLatencyResponse(
     RootModel[list["GetOrganizationDevicesUplinksLossAndLatencyResponseItem"]]
@@ -1688,6 +1987,12 @@ class GetOrganizationDevicesUplinksLossAndLatencyResponseItem(_BaseSchema):
     time_series: list[OrganizationsTimeSeriesItem] = Field(
         default_factory=list, validation_alias="timeSeries", serialization_alias="timeSeries"
     )
+
+    @field_validator("time_series", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationEarlyAccessFeaturesOptInsResponse(_BaseSchema):
@@ -1710,6 +2015,12 @@ class GetOrganizationEarlyAccessFeaturesOptInsResponse(_BaseSchema):
     created_at: datetime | None = Field(
         default=None, validation_alias="createdAt", serialization_alias="createdAt"
     )
+
+    @field_validator("limit_scope_to_networks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationEarlyAccessFeaturesOptInsResponseOptOutEligibility(_BaseSchema):
@@ -1865,6 +2176,12 @@ class GetOrganizationFloorPlansAutoLocateDevicesResponseItem(_BaseSchema):
         default=None, validation_alias="isAnchor", serialization_alias="isAnchor"
     )
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationFloorPlansAutoLocateStatusesResponse(
     RootModel[list["GetOrganizationFloorPlansAutoLocateStatusesResponseItem"]]
@@ -1882,6 +2199,12 @@ class GetOrganizationFloorPlansAutoLocateStatusesResponseItem(_BaseSchema):
     name: str | None = None
     counts: OrganizationsCounts4 | None = None
     jobs: list[OrganizationsJobsItem] = Field(default_factory=list)
+
+    @field_validator("jobs", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationIntegrationsDeployableResponseItemsItem(_BaseSchema):
@@ -1910,6 +2233,12 @@ class GetOrganizationIntegrationsDeployableResponseItemsItem(_BaseSchema):
         default=None, validation_alias="isCiscoProduct", serialization_alias="isCiscoProduct"
     )
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationIntegrationsDeployedResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationIntegrationsDeployedResponseItemsItem."""
@@ -1919,6 +2248,12 @@ class GetOrganizationIntegrationsDeployedResponseItemsItem(_BaseSchema):
     name: str | None = None
     provider: str | None = None
     tags: list[str] = Field(default_factory=list)
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationIntegrationsXdrNetworksResponseItemsItem(_BaseSchema):
@@ -1935,6 +2270,12 @@ class GetOrganizationIntegrationsXdrNetworksResponseItemsItem(_BaseSchema):
     is_eligible: bool | None = Field(
         default=None, validation_alias="isEligible", serialization_alias="isEligible"
     )
+
+    @field_validator("product_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationInventoryDeviceResponse(_BaseSchema):
@@ -1968,6 +2309,12 @@ class GetOrganizationInventoryDeviceResponse(_BaseSchema):
     )
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
     eox: OrganizationsEox | None = None
+
+    @field_validator("tags", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationInventoryDevicesEoxOverviewResponse(_BaseSchema):
@@ -2022,6 +2369,12 @@ class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
     eox: OrganizationsEox | None = None
 
+    @field_validator("tags", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationLicensesOverviewResponse(_BaseSchema):
     """Response for getOrganizationLicensesOverview operation."""
@@ -2045,6 +2398,12 @@ class GetOrganizationLicensesOverviewResponse(_BaseSchema):
     systems_manager: GetOrganizationLicensesOverviewResponseSystemsManager | None = Field(
         default=None, validation_alias="systemsManager", serialization_alias="systemsManager"
     )
+
+    @field_validator("license_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationLicensesOverviewResponseLicenseTypesItem(_BaseSchema):
@@ -2104,6 +2463,12 @@ class GetOrganizationPoliciesAssignmentsByClientResponseItem(_BaseSchema):
     )
     assigned: list[OrganizationsAssignedItem] = Field(default_factory=list)
 
+    @field_validator("assigned", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponse(
     RootModel[list["GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem"]]
@@ -2117,6 +2482,12 @@ class GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem(_Ba
     id: str | None = None
     name: str | None = None
     applications: list[OrganizationsApplicationsItem] = Field(default_factory=list)
+
+    @field_validator("applications", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignmentsResponseItemsItem(
@@ -2224,6 +2595,12 @@ class GetOrganizationSaseSitesConnectivityHistoryBySiteResponseItemsItem(_BaseSc
     history: list[OrganizationsHistoryItem] = Field(default_factory=list)
     devices: OrganizationsDevices3 | None = None
 
+    @field_validator("history", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationSaseSitesConnectivityOverviewResponse(_BaseSchema):
     """Response for getOrganizationSaseSitesConnectivityOverview operation."""
@@ -2257,6 +2634,12 @@ class GetOrganizationSaseSitesResponseItemsItem(_BaseSchema):
     devices: OrganizationsDevices2 | None = None
     subnets: list[OrganizationsSubnetsItem] = Field(default_factory=list)
     url: str | None = None
+
+    @field_validator("subnets", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationSplashAssetResponse(_BaseSchema):
@@ -2410,6 +2793,12 @@ class GetOrganizationSummaryTopNetworksByStatusResponseItem(_BaseSchema):
         default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
 
+    @field_validator("tags", "product_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationSummaryTopSsidsByUsageResponse(
     RootModel[list["GetOrganizationSummaryTopSsidsByUsageResponseItem"]]
@@ -2463,6 +2852,12 @@ class GetOrganizationUplinksStatusesResponseItem(_BaseSchema):
     )
     uplinks: list[OrganizationsUplinksItem2] = Field(default_factory=list)
 
+    @field_validator("uplinks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationWebhooksAlertTypesResponse(
     RootModel[list["GetOrganizationWebhooksAlertTypesResponseItem"]]
@@ -2494,6 +2889,12 @@ class GetOrganizationWebhooksCallbacksStatusResponse(_BaseSchema):
         default=None, validation_alias="createdBy", serialization_alias="createdBy"
     )
     webhook: GetOrganizationWebhooksCallbacksStatusResponseWebhook | None = None
+
+    @field_validator("errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationWebhooksCallbacksStatusResponseCreatedBy(_BaseSchema):
@@ -2568,6 +2969,12 @@ class MoveOrganizationLicensesResponse(_BaseSchema):
         default_factory=list, validation_alias="licenseIds", serialization_alias="licenseIds"
     )
 
+    @field_validator("license_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class MoveOrganizationLicensesSeatsResponse(_BaseSchema):
     """Response for moveOrganizationLicensesSeats operation."""
@@ -2598,6 +3005,12 @@ class OrganizationActionBatchResponse(_BaseSchema):
     actions: list[OrganizationsActionsItem]
     callback: OrganizationActionBatchResponseCallback | None = None
 
+    @field_validator("actions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationActionBatchResponseCallback(_BaseSchema):
     """Information for callback used to send back results."""
@@ -2623,6 +3036,12 @@ class OrganizationAdaptivePolicyAclResponse(_BaseSchema):
     updated_at: datetime | None = Field(
         default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
     )
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationAdaptivePolicyGroupResponse(_BaseSchema):
@@ -2652,6 +3071,12 @@ class OrganizationAdaptivePolicyGroupResponse(_BaseSchema):
         default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
     )
 
+    @field_validator("policy_objects", "required_ip_mappings", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
     """Schema for OrganizationAdaptivePolicyPolicyResponse."""
@@ -2676,6 +3101,12 @@ class OrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
         default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
     )
 
+    @field_validator("acls", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationAdaptivePolicySettingsResponse(_BaseSchema):
     """Schema for OrganizationAdaptivePolicySettingsResponse."""
@@ -2685,6 +3116,12 @@ class OrganizationAdaptivePolicySettingsResponse(_BaseSchema):
         validation_alias="enabledNetworks",
         serialization_alias="enabledNetworks",
     )
+
+    @field_validator("enabled_networks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationAdminResponse(_BaseSchema):
@@ -2718,6 +3155,12 @@ class OrganizationAdminResponse(_BaseSchema):
         serialization_alias="authenticationMethod",
     )
 
+    @field_validator("tags", "networks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationAlertsProfileResponse(_BaseSchema):
     """Schema for OrganizationAlertsProfileResponse."""
@@ -2734,6 +3177,12 @@ class OrganizationAlertsProfileResponse(_BaseSchema):
     )
     description: str | None = None
 
+    @field_validator("network_tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
     """Schema for OrganizationBrandingPoliciesPrioritiesResponse."""
@@ -2743,6 +3192,12 @@ class OrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
         validation_alias="brandingPolicyIds",
         serialization_alias="brandingPolicyIds",
     )
+
+    @field_validator("branding_policy_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationBrandingPolicyResponse(_BaseSchema):
@@ -2773,6 +3228,12 @@ class OrganizationConfigTemplateResponse(_BaseSchema):
         default=None, validation_alias="timeZone", serialization_alias="timeZone"
     )
 
+    @field_validator("product_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationDevicesCellularDataProfileResponse(_BaseSchema):
     """Schema for OrganizationDevicesCellularDataProfileResponse."""
@@ -2786,6 +3247,12 @@ class OrganizationDevicesCellularDataProfileResponse(_BaseSchema):
     name: str | None = None
     description: str | None = None
     rules: list[OrganizationsRulesItem2] = Field(default_factory=list)
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
@@ -2819,6 +3286,12 @@ class OrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
     counts: OrganizationsCounts3 | None = None
     interface: str | None = None
 
+    @field_validator("devices", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
     """Schema for OrganizationDevicesPacketCaptureScheduleResponse."""
@@ -2851,6 +3324,12 @@ class OrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
     schedule: OrganizationsSchedule | None = None
     warnings: list[str] = Field(default_factory=list)
 
+    @field_validator("devices", "warnings", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
     """Schema for OrganizationIntegrationsXdrNetworksResponse."""
@@ -2858,6 +3337,12 @@ class OrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
     networks: list[OrganizationIntegrationsXdrNetworksResponseNetworksItem] = Field(
         default_factory=list
     )
+
+    @field_validator("networks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationIntegrationsXdrNetworksResponseNetworksItem(_BaseSchema):
@@ -2875,6 +3360,12 @@ class OrganizationIntegrationsXdrNetworksResponseNetworksItem(_BaseSchema):
         default=None, validation_alias="isEligible", serialization_alias="isEligible"
     )
 
+    @field_validator("product_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
     """Schema for OrganizationInventoryDevicesSwapsBulkResponse."""
@@ -2883,6 +3374,12 @@ class OrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
     swaps: list[OrganizationInventoryDevicesSwapsBulkResponseSwapsItem] = Field(
         default_factory=list
     )
+
+    @field_validator("swaps", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationInventoryDevicesSwapsBulkResponseSwapsItem(_BaseSchema):
@@ -2897,6 +3394,12 @@ class OrganizationInventoryDevicesSwapsBulkResponseSwapsItem(_BaseSchema):
         default=None, validation_alias="completedAt", serialization_alias="completedAt"
     )
     errors: list[str] = Field(default_factory=list)
+
+    @field_validator("errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationLicenseResponse(_BaseSchema):
@@ -2948,6 +3451,12 @@ class OrganizationLicenseResponse(_BaseSchema):
         default=None, validation_alias="headLicenseId", serialization_alias="headLicenseId"
     )
 
+    @field_validator("permanently_queued_licenses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationLicensesSeatsResponse(_BaseSchema):
     """Schema for OrganizationLicensesSeatsResponse."""
@@ -2957,6 +3466,12 @@ class OrganizationLicensesSeatsResponse(_BaseSchema):
         validation_alias="resultingLicenses",
         serialization_alias="resultingLicenses",
     )
+
+    @field_validator("resulting_licenses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationLicensesSeatsResponseResultingLicensesItem(_BaseSchema):
@@ -3007,6 +3522,12 @@ class OrganizationLicensesSeatsResponseResultingLicensesItem(_BaseSchema):
     head_license_id: str | None = Field(
         default=None, validation_alias="headLicenseId", serialization_alias="headLicenseId"
     )
+
+    @field_validator("permanently_queued_licenses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationLoginSecurityResponse(_BaseSchema):
@@ -3083,6 +3604,12 @@ class OrganizationLoginSecurityResponse(_BaseSchema):
         validation_alias="enforceLockedIpSessions",
         serialization_alias="enforceLockedIpSessions",
     )
+
+    @field_validator("login_ip_ranges", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationLoginSecurityResponseApiAuthentication(_BaseSchema):
@@ -3199,6 +3726,12 @@ class OrganizationPolicyObjectResponse(_BaseSchema):
     )
     fqdn: str | None = None
 
+    @field_validator("group_ids", "network_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationPolicyObjectsGroupResponse(_BaseSchema):
     """Schema for OrganizationPolicyObjectsGroupResponse."""
@@ -3214,6 +3747,12 @@ class OrganizationPolicyObjectsGroupResponse(_BaseSchema):
     network_ids: list[str] = Field(
         default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
     )
+
+    @field_validator("object_ids", "network_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationResponse(_BaseSchema):
@@ -3256,6 +3795,12 @@ class OrganizationSamlRoleResponse(_BaseSchema):
     networks: list[OrganizationsNetworksItem] = Field(default_factory=list)
     tags: list[OrganizationsTagsItem] = Field(default_factory=list)
     camera: list[OrganizationsCameraItem] = Field(default_factory=list)
+
+    @field_validator("networks", "tags", "camera", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationSaseIntegrationResponse(_BaseSchema):
@@ -3309,6 +3854,12 @@ class OrganizationSnmpResponse(_BaseSchema):
     hostname: str | None = None
     port: int | None = None
 
+    @field_validator("peer_ips", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsActionsItem(_BaseSchema):
     """Schema for OrganizationsActionsItem."""
@@ -3358,6 +3909,12 @@ class OrganizationsAdminSettings(_BaseSchema):
     )
     values: list[str] = Field(default_factory=list)
 
+    @field_validator("values", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsAlertCondition(_BaseSchema):
     """The conditions that determine if the alert triggers."""
@@ -3380,6 +3937,12 @@ class OrganizationsApiAuthenticationIpRestrictionsForKeys(_BaseSchema):
     enabled: bool | None = None
     ranges: list[str] = Field(default_factory=list)
 
+    @field_validator("ranges", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsApplianceVlansItem(_BaseSchema):
     """Schema for OrganizationsApplianceVlansItem."""
@@ -3401,6 +3964,12 @@ class OrganizationsApplicationCategoriesItem(_BaseSchema):
     id: str
     name: str | None = None
     applications: list[OrganizationsApplicationsItem2] = Field(default_factory=list)
+
+    @field_validator("applications", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsApplicationsItem(_BaseSchema):
@@ -3427,6 +3996,12 @@ class OrganizationsAssignedItem(_BaseSchema):
     limit_to: list[OrganizationsLimitToItem] = Field(
         default_factory=list, validation_alias="limitTo", serialization_alias="limitTo"
     )
+
+    @field_validator("limit_to", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsAutoLocate(_BaseSchema):
@@ -3494,6 +4069,12 @@ class OrganizationsBySignalTypeItem(_BaseSchema):
     enabled: list[str] = Field(default_factory=list)
     supported: list[str] = Field(default_factory=list)
 
+    @field_validator("masked", "enabled", "supported", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsBySimItem(_BaseSchema):
     """Schema for OrganizationsBySimItem."""
@@ -3527,6 +4108,12 @@ class OrganizationsBySlotItem2(_BaseSchema):
     by_signal_type: list[OrganizationsBySignalTypeItem] = Field(
         default_factory=list, validation_alias="bySignalType", serialization_alias="bySignalType"
     )
+
+    @field_validator("by_signal_type", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsByStatus(_BaseSchema):
@@ -3616,6 +4203,12 @@ class OrganizationsComponents(_BaseSchema):
         default_factory=list, validation_alias="powerSupplies", serialization_alias="powerSupplies"
     )
 
+    @field_validator("power_supplies", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsConnection(_BaseSchema):
     """Details about the cellular connection."""
@@ -3639,6 +4232,12 @@ class OrganizationsCounts(_BaseSchema):
         validation_alias="byJobOperation",
         serialization_alias="byJobOperation",
     )
+
+    @field_validator("by_job_operation", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsCounts2(_BaseSchema):
@@ -3744,6 +4343,20 @@ class OrganizationsCriteria(_BaseSchema):
         serialization_alias="siteSpecificVlans",
     )
 
+    @field_validator(
+        "address_ranges",
+        "ports",
+        "policy_objects",
+        "policy_object_groups",
+        "appliance_vlans",
+        "site_specific_vlans",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsCriteria2(_BaseSchema):
     """Destination criteria values."""
@@ -3779,6 +4392,25 @@ class OrganizationsCriteria2(_BaseSchema):
         validation_alias="siteSpecificVlans",
         serialization_alias="siteSpecificVlans",
     )
+
+    @field_validator(
+        "address_ranges",
+        "ports",
+        "services",
+        "application_categories",
+        "applications",
+        "policy_objects",
+        "policy_object_groups",
+        "appliance_vlans",
+        "countries",
+        "fqdns",
+        "site_specific_vlans",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsCritical(_BaseSchema):
@@ -3822,12 +4454,24 @@ class OrganizationsDestinations(_BaseSchema):
     )
     criteria: OrganizationsCriteria2 | None = None
 
+    @field_validator("match_criteria", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsDetails(_BaseSchema):
     """Details about the status changes."""
 
     old: list[OrganizationsDetailsItem] = Field(default_factory=list)
     new: list[OrganizationsDetailsItem] = Field(default_factory=list)
+
+    @field_validator("old", "new", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsDetailsItem(_BaseSchema):
@@ -3911,6 +4555,12 @@ class OrganizationsDevices4(_BaseSchema):
     by_product_type: list[OrganizationsByProductTypeItem2] = Field(
         default_factory=list, validation_alias="byProductType", serialization_alias="byProductType"
     )
+
+    @field_validator("by_product_type", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsDevicesItem(_BaseSchema):
@@ -4051,6 +4701,12 @@ class OrganizationsExample(_BaseSchema):
     encrypted_id: str | None = Field(
         default=None, validation_alias="encryptedId", serialization_alias="encryptedId"
     )
+
+    @field_validator("device_tags", "network_tags", "product_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsFile(_BaseSchema):
@@ -4248,6 +4904,12 @@ class OrganizationsJobsItem(_BaseSchema):
     gnss: OrganizationsRanging | None = None
     errors: list[OrganizationsErrorsItem2] = Field(default_factory=list)
 
+    @field_validator("errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsLicenseTypesCounts(_BaseSchema):
     """Aggregated count data for the license type."""
@@ -4267,6 +4929,12 @@ class OrganizationsLimitToItem(_BaseSchema):
     appliance: bool | None = None
     ssids: list[OrganizationsSsidsItem] = Field(default_factory=list)
 
+    @field_validator("ssids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsLldp(_BaseSchema):
     """Port of affected device."""
@@ -4278,6 +4946,12 @@ class OrganizationsManagement(_BaseSchema):
     """Information about the organization's management system."""
 
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
+
+    @field_validator("details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsMappingsItem(_BaseSchema):
@@ -4305,17 +4979,35 @@ class OrganizationsModemsItem(_BaseSchema):
     index: int | None = None
     sims: list[OrganizationsSimsItem] = Field(default_factory=list)
 
+    @field_validator("sims", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsNameservers(_BaseSchema):
     """Device DNS nameserver information."""
 
     addresses: list[str] = Field(default_factory=list)
 
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsNbar(_BaseSchema):
     """NBAR (Network-Based Application Recognition) information."""
 
     mappings: list[OrganizationsMappingsItem] = Field(default_factory=list)
+
+    @field_validator("mappings", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsNetwork(_BaseSchema):
@@ -4334,6 +5026,12 @@ class OrganizationsNetwork2(_BaseSchema):
     url: str | None = None
     tags: list[str] = Field(default_factory=list)
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsNetwork3(_BaseSchema):
     """Information regarding the network the device belongs to."""
@@ -4341,6 +5039,12 @@ class OrganizationsNetwork3(_BaseSchema):
     id: str | None = None
     name: str | None = None
     tags: list[str] = Field(default_factory=list)
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsNetworksItem(_BaseSchema):
@@ -4474,6 +5178,12 @@ class OrganizationsPrimary3(_BaseSchema):
     id: str | None = None
     history: list[OrganizationsHistoryItem] = Field(default_factory=list)
 
+    @field_validator("history", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsProfile(_BaseSchema):
     """Cellular Data Management Profile assignment state for the device. This object is always
@@ -4505,6 +5215,12 @@ class OrganizationsRecipients(_BaseSchema):
     http_server_ids: list[str] = Field(
         default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
+
+    @field_validator("emails", "http_server_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsRecordsClientVpnConnectionsItem(_BaseSchema):
@@ -4546,6 +5262,12 @@ class OrganizationsRecordsNetwork(_BaseSchema):
         validation_alias="isBoundToConfigTemplate",
         serialization_alias="isBoundToConfigTemplate",
     )
+
+    @field_validator("product_types", "tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsRegion(_BaseSchema):
@@ -4617,6 +5339,12 @@ class OrganizationsRulesItem2(_BaseSchema):
     cap: OrganizationsCap | None = None
     actions: list[OrganizationsActionsItem2] = Field(default_factory=list)
 
+    @field_validator("actions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsSchedule(_BaseSchema):
     """Schedule of the packet capture."""
@@ -4633,6 +5361,12 @@ class OrganizationsSchedule(_BaseSchema):
         default=None, validation_alias="nextCaptureTs", serialization_alias="nextCaptureTs"
     )
 
+    @field_validator("weekdays", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsScope(_BaseSchema):
     """Scope of the alert (which devices and networks are affected)."""
@@ -4641,6 +5375,12 @@ class OrganizationsScope(_BaseSchema):
     applications: list[dict[str, Any]] = Field(default_factory=list)
     peers: list[dict[str, Any]] = Field(default_factory=list)
     others: list[dict[str, Any]] = Field(default_factory=list)
+
+    @field_validator("devices", "applications", "peers", "others", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsSeats(_BaseSchema):
@@ -4660,6 +5400,12 @@ class OrganizationsServersItem(_BaseSchema):
     )
     encryption: OrganizationsEncryption | None = None
 
+    @field_validator("roles", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsServicesItem(_BaseSchema):
     """Schema for OrganizationsServicesItem."""
@@ -4667,12 +5413,24 @@ class OrganizationsServicesItem(_BaseSchema):
     protocol: str | None = None
     ports: list[str] = Field(default_factory=list)
 
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsServicesItem2(_BaseSchema):
     """Schema for OrganizationsServicesItem2."""
 
     protocol: str
     ports: list[str]
+
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsSeveritiesItem(_BaseSchema):
@@ -4693,6 +5451,12 @@ class OrganizationsShippingPending(_BaseSchema):
 
     devices: list[OrganizationsDevicesItem3] = Field(default_factory=list)
 
+    @field_validator("devices", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsShippingShipmentsItem(_BaseSchema):
     """Schema for OrganizationsShippingShipmentsItem."""
@@ -4702,6 +5466,12 @@ class OrganizationsShippingShipmentsItem(_BaseSchema):
     )
     number: int | None = None
     devices: list[OrganizationsDevicesItem3] = Field(default_factory=list)
+
+    @field_validator("devices", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsSignalStat(_BaseSchema):
@@ -4769,6 +5539,12 @@ class OrganizationsSources(_BaseSchema):
         default_factory=list, validation_alias="matchCriteria", serialization_alias="matchCriteria"
     )
     criteria: OrganizationsCriteria | None = None
+
+    @field_validator("match_criteria", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsSsidsItem(_BaseSchema):
@@ -4842,6 +5618,12 @@ class OrganizationsStatus(_BaseSchema):
         validation_alias="createdResources", serialization_alias="createdResources"
     )
 
+    @field_validator("errors", "created_resources", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsStatuses(_BaseSchema):
     """Network device statuses."""
@@ -4850,6 +5632,12 @@ class OrganizationsStatuses(_BaseSchema):
     by_product_type: list[OrganizationsByProductTypeItem] = Field(
         default_factory=list, validation_alias="byProductType", serialization_alias="byProductType"
     )
+
+    @field_validator("by_product_type", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsSubnetsItem(_BaseSchema):
@@ -4984,6 +5772,12 @@ class OrganizationsUplinksItem(_BaseSchema):
     interface: str | None = None
     addresses: list[OrganizationsAddressesItem] = Field(default_factory=list)
 
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationsUplinksItem2(_BaseSchema):
     """Schema for OrganizationsUplinksItem2."""
@@ -5033,6 +5827,12 @@ class OrganizationsUsage(_BaseSchema):
     by_sim: list[OrganizationsBySimItem] = Field(
         default_factory=list, validation_alias="bySim", serialization_alias="bySim"
     )
+
+    @field_validator("by_sim", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationsUsage2(_BaseSchema):
@@ -5119,6 +5919,12 @@ class PreviewOrganizationInventoryOrdersResponse(_BaseSchema):
         default_factory=list
     )
 
+    @field_validator("subscriptions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class PreviewOrganizationInventoryOrdersResponseResolution(_BaseSchema):
     """How the backend resolved the submitted claim key for preview routing."""
@@ -5146,11 +5952,23 @@ class PreviewOrganizationInventoryOrdersResponseShipping(_BaseSchema):
     shipments: list[OrganizationsShippingShipmentsItem] = Field(default_factory=list)
     pending: OrganizationsShippingPending | None = None
 
+    @field_validator("shipments", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ReleaseFromOrganizationInventoryResponse(_BaseSchema):
     """Response for releaseFromOrganizationInventory operation."""
 
     serials: list[str] = Field(default_factory=list)
+
+    @field_validator("serials", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem(
@@ -5187,6 +6005,12 @@ class ReorderOrganizationDevicesPacketCaptureSchedulesResponse(_BaseSchema):
         serialization_alias="updatedPriorities",
     )
 
+    @field_validator("updated_priorities", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ReorderOrganizationDevicesPacketCaptureSchedulesResponseUpdatedPrioritiesItem(_BaseSchema):
     """Schema for ReorderOrganizationDevicesPacketCaptureSchedulesResponseUpdatedPrioritiesItem."""
@@ -5208,6 +6032,12 @@ class UpdateOrganizationActionBatchResponse(_BaseSchema):
     synchronous: bool | None = None
     status: OrganizationsStatus | None = None
     actions: list[OrganizationsActionsItem]
+
+    @field_validator("actions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationAdaptivePolicyAclRulesItem(_BaseSchema):
@@ -5292,6 +6122,12 @@ class UpdateOrganizationAlertsProfileRecipients(_BaseSchema):
         default_factory=list, validation_alias="httpServerIds", serialization_alias="httpServerIds"
     )
 
+    @field_validator("emails", "http_server_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationApi(_BaseSchema):
     """API-specific settings."""
@@ -5306,6 +6142,12 @@ class UpdateOrganizationBrandingPolicyAdminSettings(_BaseSchema):
         default=None, validation_alias="appliesTo", serialization_alias="appliesTo"
     )
     values: list[str] = Field(default_factory=list)
+
+    @field_validator("values", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationBrandingPolicyCustomLogo(_BaseSchema):
@@ -5392,6 +6234,12 @@ class UpdateOrganizationDevicesCellularDataProfileRulesItem(_BaseSchema):
     cap: CreateOrganizationDevicesCellularDataProfileRulesItemCap
     actions: list[OrganizationsActionsItem2] = Field(default_factory=list)
 
+    @field_validator("actions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem(_BaseSchema):
     """Item schema for devices."""
@@ -5413,6 +6261,12 @@ class UpdateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
     weekdays: list[str] = Field(default_factory=list)
     recurrence: int | None = None
 
+    @field_validator("weekdays", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationLoginSecurityApiAuthentication(_BaseSchema):
     """Details for indicating whether organization will restrict access to API (but not Dashboard)
@@ -5431,6 +6285,12 @@ class UpdateOrganizationManagement(_BaseSchema):
 
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
 
+    @field_validator("details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations(_BaseSchema):
     """Destination traffic criteria. Each source or destination bloc is capped separately per rule
@@ -5443,6 +6303,12 @@ class UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations(_BaseSche
     )
     criteria: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinationsCriteria | None = None
 
+    @field_validator("match_criteria", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources(_BaseSchema):
     """Source traffic criteria. Each source or destination bloc is capped separately per rule at
@@ -5454,6 +6320,12 @@ class UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources(_BaseSchema):
         default_factory=list, validation_alias="matchCriteria", serialization_alias="matchCriteria"
     )
     criteria: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSourcesCriteria | None = None
+
+    @field_validator("match_criteria", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationSamlRoleNetworksItem(_BaseSchema):

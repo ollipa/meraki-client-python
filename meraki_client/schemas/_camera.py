@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import Field, RootModel
+from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
 
@@ -53,6 +53,12 @@ class CameraBoundaries(_BaseSchema):
     name: str | None = None
     vertices: list[CameraVerticesItem] = Field(default_factory=list)
 
+    @field_validator("vertices", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CameraBoundaries2(_BaseSchema):
     """Configured line boundaries of the camera."""
@@ -64,6 +70,12 @@ class CameraBoundaries2(_BaseSchema):
     direction_vertex: CameraVerticesItem | None = Field(
         default=None, validation_alias="directionVertex", serialization_alias="directionVertex"
     )
+
+    @field_validator("vertices", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CameraIdentity(_BaseSchema):
@@ -408,6 +420,12 @@ class DeviceCameraCustomAnalyticsResponse(_BaseSchema):
         default_factory=list
     )
 
+    @field_validator("parameters", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class DeviceCameraCustomAnalyticsResponseParametersItem(_BaseSchema):
     """Schema for DeviceCameraCustomAnalyticsResponseParametersItem."""
@@ -464,6 +482,12 @@ class DeviceCameraSenseResponse(_BaseSchema):
     detection_model_id: str | None = Field(
         default=None, validation_alias="detectionModelId", serialization_alias="detectionModelId"
     )
+
+    @field_validator("mqtt_topics", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DeviceCameraSenseResponseAudioDetection(_BaseSchema):
@@ -808,6 +832,12 @@ class OrganizationCameraRoleResponse(_BaseSchema):
         validation_alias="appliedOrgWide",
         serialization_alias="appliedOrgWide",
     )
+
+    @field_validator("applied_on_devices", "applied_on_networks", "applied_org_wide", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateDeviceCameraCustomAnalyticsParametersItem(_BaseSchema):

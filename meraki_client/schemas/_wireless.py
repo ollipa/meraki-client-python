@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import Field, RootModel
+from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
 
@@ -21,6 +21,12 @@ class AssignNetworkWirelessEthernetPortsProfilesResponse(_BaseSchema):
     profile_id: str | None = Field(
         default=None, validation_alias="profileId", serialization_alias="profileId"
     )
+
+    @field_validator("serials", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateDeviceWirelessZigbeeEnrollmentResponse(_BaseSchema):
@@ -85,6 +91,12 @@ class CreateNetworkWirelessRfProfileApBandSettingsBands(_BaseSchema):
 
     enabled: list[str] = Field(default_factory=list)
 
+    @field_validator("enabled", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     """Settings related to 5Ghz band."""
@@ -108,6 +120,12 @@ class CreateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     )
     rxsop: int | None = None
 
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateNetworkWirelessRfProfileFlexRadios(_BaseSchema):
     """Flex radio settings."""
@@ -116,12 +134,24 @@ class CreateNetworkWirelessRfProfileFlexRadios(_BaseSchema):
         default_factory=list, validation_alias="byModel", serialization_alias="byModel"
     )
 
+    @field_validator("by_model", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateNetworkWirelessRfProfileFlexRadiosByModelItem(_BaseSchema):
     """Schema for CreateNetworkWirelessRfProfileFlexRadiosByModelItem."""
 
     model: str | None = None
     bands: list[str] = Field(default_factory=list)
+
+    @field_validator("bands", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateNetworkWirelessRfProfilePerSsidSettings(_BaseSchema):
@@ -213,6 +243,12 @@ class CreateNetworkWirelessRfProfileSixGhzSettings(_BaseSchema):
     )
     rxsop: int | None = None
 
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateNetworkWirelessRfProfileTransmission(_BaseSchema):
     """Settings related to radio transmission."""
@@ -242,6 +278,12 @@ class CreateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
     )
     rxsop: int | None = None
 
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem(_BaseSchema):
     """Item schema for items."""
@@ -266,6 +308,12 @@ class CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem(_BaseSche
         default=None, validation_alias="completedAt", serialization_alias="completedAt"
     )
     errors: list[str] = Field(default_factory=list)
+
+    @field_validator("errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateOrganizationWirelessDevicesProvisioningDeploymentMeta(_BaseSchema):
@@ -321,6 +369,12 @@ class CreateOrganizationWirelessZigbeeDisenrollmentResponseRequest(_BaseSchema):
     door_lock_ids: list[str] = Field(
         default_factory=list, validation_alias="doorLockIds", serialization_alias="doorLockIds"
     )
+
+    @field_validator("door_lock_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DeviceWirelessBluetoothSettingsResponse(_BaseSchema):
@@ -439,6 +493,12 @@ class GetDeviceWirelessStatusResponse(_BaseSchema):
         serialization_alias="basicServiceSets",
     )
 
+    @field_validator("basic_service_sets", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetDeviceWirelessStatusResponseBasicServiceSetsItem(_BaseSchema):
     """Schema for GetDeviceWirelessStatusResponseBasicServiceSetsItem."""
@@ -478,6 +538,12 @@ class GetDeviceWirelessZigbeeEnrollmentResponse(_BaseSchema):
     door_locks: list[GetDeviceWirelessZigbeeEnrollmentResponseDoorLocksItem] = Field(
         default_factory=list, validation_alias="doorLocks", serialization_alias="doorLocks"
     )
+
+    @field_validator("door_locks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceWirelessZigbeeEnrollmentResponseDoorLocksItem(_BaseSchema):
@@ -534,6 +600,14 @@ class GetNetworkWirelessAirMarshalResponseItem(_BaseSchema):
     manufacturers: list[str] = Field(default_factory=list)
     encryption: str | None = None
     types: list[str] = Field(default_factory=list)
+
+    @field_validator(
+        "bssids", "channels", "wired_macs", "wired_vlans", "manufacturers", "types", mode="before"
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetNetworkWirelessChannelUtilizationHistoryResponse(
@@ -824,6 +898,12 @@ class GetNetworkWirelessMeshStatusesResponseItem(_BaseSchema):
         serialization_alias="latestMeshPerformance",
     )
 
+    @field_validator("mesh_route", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
     """Schema for GetNetworkWirelessRfProfilesResponse."""
@@ -906,6 +986,12 @@ class GetNetworkWirelessRfProfilesResponseFiveGhzSettings(_BaseSchema):
     )
     rxsop: int | None = None
 
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkWirelessRfProfilesResponsePerSsidSettings(_BaseSchema):
     """Per-SSID radio settings by number."""
@@ -978,6 +1064,12 @@ class GetNetworkWirelessRfProfilesResponseTwoFourGhzSettings(_BaseSchema):
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
     )
     rxsop: int | None = None
+
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetNetworkWirelessSignalQualityHistoryResponse(
@@ -1059,6 +1151,12 @@ class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem(_Base
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
 
+    @field_validator("by_band", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponse(
     RootModel[list["GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem"]]
@@ -1073,6 +1171,12 @@ class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem(_Bas
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
+
+    @field_validator("by_band", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalResponse(
@@ -1107,6 +1211,12 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalR
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
 
+    @field_validator("by_band", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByIntervalResponse(
     RootModel[
@@ -1138,6 +1248,12 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
 
+    @field_validator("by_band", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationWirelessDevicesEthernetStatusesResponse(
     RootModel[list["GetOrganizationWirelessDevicesEthernetStatusesResponseItem"]]
@@ -1154,6 +1270,12 @@ class GetOrganizationWirelessDevicesEthernetStatusesResponseItem(_BaseSchema):
     power: WirelessPower | None = None
     ports: list[WirelessPortsItem2] = Field(default_factory=list)
     aggregation: WirelessAggregation | None = None
+
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationWirelessDevicesPacketLossByClientResponse(
@@ -1211,6 +1333,12 @@ class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchem
     network: WirelessNetwork | None = None
     events: list[WirelessEventsItem] = Field(default_factory=list)
 
+    @field_validator("tags", "events", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationWirelessDevicesProvisioningDeploymentsResponse(
     RootModel[list["UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse"]]
@@ -1249,6 +1377,12 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
     )
     series: list[WirelessSeriesItem] = Field(default_factory=list)
 
+    @field_validator("tags", "series", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem."""
@@ -1266,6 +1400,12 @@ class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem
         default=None, validation_alias="countryCode", serialization_alias="countryCode"
     )
     details: list[WirelessDetailsItem] = Field(default_factory=list)
+
+    @field_validator("tags", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem(_BaseSchema):
@@ -1308,6 +1448,12 @@ class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem(_BaseSch
     )
     ssid: list[WirelessSsidItem] = Field(default_factory=list)
 
+    @field_validator("ssid", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem."""
@@ -1320,6 +1466,12 @@ class GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem(_BaseSchema)
         validation_alias="basicServiceSets",
         serialization_alias="basicServiceSets",
     )
+
+    @field_validator("basic_service_sets", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationWirelessZigbeeByNetworkResponse(
@@ -1346,6 +1498,12 @@ class GetOrganizationWirelessZigbeeDisenrollmentResponse(_BaseSchema):
     door_locks: list[GetOrganizationWirelessZigbeeDisenrollmentResponseDoorLocksItem] = Field(
         default_factory=list, validation_alias="doorLocks", serialization_alias="doorLocks"
     )
+
+    @field_validator("door_locks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationWirelessZigbeeDisenrollmentResponseDoorLocksItem(_BaseSchema):
@@ -1394,6 +1552,12 @@ class NetworkWirelessBillingResponse(_BaseSchema):
 
     currency: str | None = None
     plans: list[NetworkWirelessBillingResponsePlansItem] = Field(default_factory=list)
+
+    @field_validator("plans", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkWirelessBillingResponsePlansItem(_BaseSchema):
@@ -1463,6 +1627,12 @@ class NetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
         default_factory=list, validation_alias="usbPorts", serialization_alias="usbPorts"
     )
 
+    @field_validator("ports", "usb_ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkWirelessSettingsResponse(_BaseSchema):
     """Schema for NetworkWirelessSettingsResponse."""
@@ -1531,6 +1701,12 @@ class NetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
     exception: WirelessBusyHourMinimizeChanges | None = None
     rules: list[NetworkWirelessSsidBonjourForwardingResponseRulesItem] = Field(default_factory=list)
 
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkWirelessSsidBonjourForwardingResponseRulesItem(_BaseSchema):
     """Schema for NetworkWirelessSsidBonjourForwardingResponseRulesItem."""
@@ -1540,6 +1716,12 @@ class NetworkWirelessSsidBonjourForwardingResponseRulesItem(_BaseSchema):
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
     services: list[str] = Field(default_factory=list)
+
+    @field_validator("services", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkWirelessSsidEapOverrideResponse(_BaseSchema):
@@ -1581,6 +1763,12 @@ class NetworkWirelessSsidFirewallL3FirewallRulesResponse(_BaseSchema):
         default=None, validation_alias="allowLanAccess", serialization_alias="allowLanAccess"
     )
 
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem(_BaseSchema):
     """Schema for NetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem."""
@@ -1601,6 +1789,12 @@ class NetworkWirelessSsidFirewallL7FirewallRulesResponse(_BaseSchema):
     rules: list[NetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem] = Field(
         default_factory=list
     )
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem(_BaseSchema):
@@ -1633,6 +1827,12 @@ class NetworkWirelessSsidHotspot20Response(_BaseSchema):
         default_factory=list, validation_alias="naiRealms", serialization_alias="naiRealms"
     )
 
+    @field_validator("domains", "roam_consort_ois", "mcc_mncs", "nai_realms", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkWirelessSsidHotspot20ResponseMccMncsItem(_BaseSchema):
     """Schema for NetworkWirelessSsidHotspot20ResponseMccMncsItem."""
@@ -1649,6 +1849,12 @@ class NetworkWirelessSsidHotspot20ResponseNaiRealmsItem(_BaseSchema):
     )
     name: str | None = None
     methods: list[WirelessNaiRealmsMethodsItem] = Field(default_factory=list)
+
+    @field_validator("methods", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkWirelessSsidHotspot20ResponseOperator(_BaseSchema):
@@ -1874,6 +2080,18 @@ class NetworkWirelessSsidResponse(_BaseSchema):
     )
     security: WirelessSecurity | None = None
 
+    @field_validator(
+        "radius_servers",
+        "radius_accounting_servers",
+        "walled_garden_ranges",
+        "availability_tags",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkWirelessSsidSchedulesResponse(_BaseSchema):
     """Schema for NetworkWirelessSsidSchedulesResponse."""
@@ -1885,6 +2103,12 @@ class NetworkWirelessSsidSchedulesResponse(_BaseSchema):
         validation_alias="rangesInSeconds",
         serialization_alias="rangesInSeconds",
     )
+
+    @field_validator("ranges", "ranges_in_seconds", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkWirelessSsidSchedulesResponseRangesInSecondsItem(_BaseSchema):
@@ -2029,6 +2253,12 @@ class NetworkWirelessSsidSplashSettingsResponseSentryEnrollment(_BaseSchema):
         serialization_alias="enforcedSystems",
     )
 
+    @field_validator("enforced_systems", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkWirelessSsidSplashSettingsResponseSplashLogo(_BaseSchema):
     """The logo used in the splash page."""
@@ -2061,6 +2291,12 @@ class NetworkWirelessSsidTrafficShapingRulesResponse(_BaseSchema):
         default_factory=list
     )
 
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkWirelessSsidTrafficShapingRulesResponseRulesItem(_BaseSchema):
     """Schema for NetworkWirelessSsidTrafficShapingRulesResponseRulesItem."""
@@ -2077,6 +2313,12 @@ class NetworkWirelessSsidTrafficShapingRulesResponseRulesItem(_BaseSchema):
     pcp_tag_value: int | None = Field(
         default=None, validation_alias="pcpTagValue", serialization_alias="pcpTagValue"
     )
+
+    @field_validator("definitions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkWirelessSsidVpnResponse(_BaseSchema):
@@ -2122,6 +2364,12 @@ class NetworkWirelessSsidVpnResponseSplitTunnel(_BaseSchema):
 
     enabled: bool | None = None
     rules: list[WirelessSplitTunnelRulesItem] = Field(default_factory=list)
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationWirelessLocationScanningReceiverResponse(_BaseSchema):
@@ -2189,6 +2437,12 @@ class UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response(_BaseSchema):
     addresses: list[UpdateDeviceWirelessAlternateManagementInterfaceIpv6ResponseAddressesItem] = (
         Field(default_factory=list)
     )
+
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateDeviceWirelessAlternateManagementInterfaceIpv6ResponseAddressesItem(_BaseSchema):
@@ -2420,6 +2674,12 @@ class UpdateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     )
     rxsop: int | None = None
 
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkWirelessRfProfileFlexRadios(_BaseSchema):
     """Flex radio settings."""
@@ -2427,6 +2687,12 @@ class UpdateNetworkWirelessRfProfileFlexRadios(_BaseSchema):
     by_model: list[CreateNetworkWirelessRfProfileFlexRadiosByModelItem] = Field(
         default_factory=list, validation_alias="byModel", serialization_alias="byModel"
     )
+
+    @field_validator("by_model", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkWirelessRfProfilePerSsidSettings(_BaseSchema):
@@ -2501,6 +2767,12 @@ class UpdateNetworkWirelessRfProfileSixGhzSettings(_BaseSchema):
     )
     rxsop: int | None = None
 
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkWirelessRfProfileTransmission(_BaseSchema):
     """Settings related to radio transmission."""
@@ -2529,6 +2801,12 @@ class UpdateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
     )
     rxsop: int | None = None
+
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkWirelessSettingsMulticastToUnicastConversion(_BaseSchema):
@@ -2561,6 +2839,12 @@ class UpdateNetworkWirelessSsidActiveDirectory(_BaseSchema):
     servers: list[UpdateNetworkWirelessSsidActiveDirectoryServersItem] = Field(default_factory=list)
     credentials: UpdateNetworkWirelessSsidActiveDirectoryCredentials | None = None
 
+    @field_validator("servers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkWirelessSsidActiveDirectoryCredentials(_BaseSchema):
     """(Optional) The credentials of the user account to be used by the AP to bind to your Active
@@ -2590,6 +2874,12 @@ class UpdateNetworkWirelessSsidApTagsAndVlanIdsItem(_BaseSchema):
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkWirelessSsidBonjourForwardingException(_BaseSchema):
     """Bonjour forwarding exception."""
@@ -2603,6 +2893,12 @@ class UpdateNetworkWirelessSsidBonjourForwardingRulesItem(_BaseSchema):
     description: str | None = None
     vlan_id: str = Field(validation_alias="vlanId", serialization_alias="vlanId")
     services: list[str]
+
+    @field_validator("services", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem(_BaseSchema):
@@ -2624,6 +2920,12 @@ class UpdateNetworkWirelessSsidDnsRewrite(_BaseSchema):
         validation_alias="dnsCustomNameservers",
         serialization_alias="dnsCustomNameservers",
     )
+
+    @field_validator("dns_custom_nameservers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkWirelessSsidDot11r(_BaseSchema):
@@ -2706,6 +3008,12 @@ class UpdateNetworkWirelessSsidHotspot20NaiRealmsItem(_BaseSchema):
     realm: str | None = None
     methods: list[WirelessNaiRealmsMethodsItem] = Field(default_factory=list)
 
+    @field_validator("methods", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkWirelessSsidHotspot20Operator(_BaseSchema):
     """Operator settings for this SSID."""
@@ -2735,6 +3043,12 @@ class UpdateNetworkWirelessSsidLdap(_BaseSchema):
         validation_alias="serverCaCertificate",
         serialization_alias="serverCaCertificate",
     )
+
+    @field_validator("servers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkWirelessSsidLdapCredentials(_BaseSchema):
@@ -2828,6 +3142,12 @@ class UpdateNetworkWirelessSsidOauth(_BaseSchema):
         validation_alias="allowedDomains",
         serialization_alias="allowedDomains",
     )
+
+    @field_validator("allowed_domains", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkWirelessSsidOpenRoamingResponse(_BaseSchema):
@@ -2971,6 +3291,12 @@ class UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment(_BaseSchema):
         serialization_alias="enforcedSystems",
     )
 
+    @field_validator("enforced_systems", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkWirelessSsidSplashSettingsSentryEnrollmentSystemsManagerNetwork(_BaseSchema):
     """Systems Manager network targeted for sentry enrollment."""
@@ -3034,6 +3360,12 @@ class UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem(_BaseSchema):
         default=None, validation_alias="pcpTagValue", serialization_alias="pcpTagValue"
     )
 
+    @field_validator("definitions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkWirelessSsidVpnConcentrator(_BaseSchema):
     """The VPN concentrator settings for this SSID."""
@@ -3067,6 +3399,12 @@ class UpdateNetworkWirelessSsidVpnSplitTunnel(_BaseSchema):
 
     enabled: bool | None = None
     rules: list[UpdateNetworkWirelessSsidVpnSplitTunnelRulesItem] = Field(default_factory=list)
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkWirelessSsidVpnSplitTunnelRulesItem(_BaseSchema):
@@ -3172,6 +3510,12 @@ class UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItem(_BaseSch
     )
     errors: list[str] = Field(default_factory=list)
 
+    @field_validator("errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItemDevices(_BaseSchema):
     """An array composed of old and new devices."""
@@ -3191,6 +3535,12 @@ class UpdateOrganizationWirelessDevicesProvisioningDeploymentsResponse(_BaseSche
 
     items: list[WirelessItemsItem]
     meta: WirelessMeta | None = None
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(_BaseSchema):
@@ -3233,6 +3583,12 @@ class UpdateOrganizationWirelessMqttSettingsMqtt(_BaseSchema):
     )
     publishing: WirelessPublishing | None = None
     broker: NetworkWirelessSsidHotspot20ResponseOperator | None = None
+
+    @field_validator("message_fields", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationWirelessMqttSettingsNetwork(_BaseSchema):
@@ -3322,6 +3678,12 @@ class WirelessAddressesNameservers(_BaseSchema):
 
     addresses: list[str] = Field(default_factory=list)
 
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessAggregation(_BaseSchema):
     """Aggregation details object."""
@@ -3336,17 +3698,35 @@ class WirelessAllowLists(_BaseSchema):
     uuids: list[str] = Field(default_factory=list)
     macs: list[str] = Field(default_factory=list)
 
+    @field_validator("uuids", "macs", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessAllowLists2(_BaseSchema):
     """Allowed List for MAC and UUID."""
 
     macs: list[str] = Field(default_factory=list)
 
+    @field_validator("macs", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessApBandSettingsBands(_BaseSchema):
     """Settings related to all bands."""
 
     enabled: list[str] = Field(default_factory=list)
+
+    @field_validator("enabled", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessApiValidator(_BaseSchema):
@@ -3376,6 +3756,18 @@ class WirelessAuthenticationTypes(_BaseSchema):
         validation_alias="tunneledEapMethodCredentials",
         serialization_alias="tunneledEapMethodCredentials",
     )
+
+    @field_validator(
+        "non_eap_inner_authentication",
+        "eap_inner_authentication",
+        "credentials",
+        "tunneled_eap_method_credentials",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessAutomatic(_BaseSchema):
@@ -3445,6 +3837,12 @@ class WirelessBssidsItem(_BaseSchema):
         default_factory=list, validation_alias="detectedBy", serialization_alias="detectedBy"
     )
 
+    @field_validator("detected_by", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessBusyHourMinimizeChanges(_BaseSchema):
     """Minimize Changes settings."""
@@ -3467,6 +3865,12 @@ class WirelessByApTagsItem(_BaseSchema):
     vlan_name: str | None = Field(
         default=None, validation_alias="vlanName", serialization_alias="vlanName"
     )
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessByBandItem(_BaseSchema):
@@ -3574,6 +3978,12 @@ class WirelessDnsRewrite(_BaseSchema):
         serialization_alias="dnsCustomNameservers",
     )
 
+    @field_validator("dns_custom_nameservers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessDoorLocks(_BaseSchema):
     """Door locks stats."""
@@ -3631,6 +4041,12 @@ class WirelessEncryption(_BaseSchema):
     ciphers: list[str] = Field(default_factory=list)
     akms: list[str] = Field(default_factory=list)
 
+    @field_validator("ciphers", "akms", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessEventsItem(_BaseSchema):
     """Schema for WirelessEventsItem."""
@@ -3654,6 +4070,12 @@ class WirelessGateway(_BaseSchema):
     mac: str | None = None
     serial: str | None = None
     tags: list[str] = Field(default_factory=list)
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessGre(_BaseSchema):
@@ -3708,6 +4130,12 @@ class WirelessItemsItem(_BaseSchema):
         default=None, validation_alias="completedAt", serialization_alias="completedAt"
     )
     errors: list[str] = Field(default_factory=list)
+
+    @field_validator("errors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessLatencyBinsByCategory(_BaseSchema):
@@ -3789,6 +4217,12 @@ class WirelessMqtt(_BaseSchema):
     publishing: WirelessPublishing | None = None
     broker: WirelessDoorLocksNetwork | None = None
 
+    @field_validator("message_fields", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessNaiRealmsMethodsItem(_BaseSchema):
     """Schema for WirelessNaiRealmsMethodsItem."""
@@ -3822,6 +4256,12 @@ class WirelessNetwork(_BaseSchema):
     name: str | None = None
     tags: list[str] = Field(default_factory=list)
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessNetwork2(_BaseSchema):
     """The network that allowlist SSID belongs to."""
@@ -3842,6 +4282,12 @@ class WirelessNew(_BaseSchema):
         default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
     )
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessNew2(_BaseSchema):
     """New device."""
@@ -3855,6 +4301,12 @@ class WirelessNew2(_BaseSchema):
         default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
     )
 
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class WirelessOauth(_BaseSchema):
     """The OAuth settings of this SSID. Only valid if splashPage is 'Google OAuth'. Only present
@@ -3866,6 +4318,12 @@ class WirelessOauth(_BaseSchema):
         validation_alias="allowedDomains",
         serialization_alias="allowedDomains",
     )
+
+    @field_validator("allowed_domains", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessOld(_BaseSchema):
@@ -3882,6 +4340,12 @@ class WirelessOld(_BaseSchema):
     rf_profile: WirelessDoorLocksNetwork | None = Field(
         default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
     )
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessOpenRoaming(_BaseSchema):
@@ -4136,6 +4600,12 @@ class WirelessTagging(_BaseSchema):
     by_ap_tags: list[WirelessByApTagsItem] = Field(
         default_factory=list, validation_alias="byApTags", serialization_alias="byApTags"
     )
+
+    @field_validator("by_ap_tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessTagsItem(_BaseSchema):

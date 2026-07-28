@@ -214,6 +214,14 @@ class TypeResult(NamedTuple):
     item_class: str | None = None
 
 
+class FieldResult(NamedTuple):
+    """Generated field definition, with the nested item class it introduced, if any."""
+
+    definition: str
+    item_class: str | None = None
+    is_list: bool = False
+
+
 def get_response_schema_name(operation_id: str) -> str:
     """Get the response schema class name for an operation."""
     return f"{capitalize_first(operation_id)}Response"
@@ -1254,28 +1262,47 @@ def _generate_object_schema(
 
     required = set(schema.get("required", []))
     item_class_names: list[str] = []
+    list_field_names: list[str] = []
 
     for prop_name, prop_schema in properties.items():
         is_required_in_spec = prop_name in required
         is_force_required = _is_field_force_required(
             ctx, prop_name, is_required_in_spec=is_required_in_spec
         )
-        field_def, item_class = _generate_field(
+        field = _generate_field(
             ctx,
             parent_class=class_name,
             prop_name=prop_name,
             prop_schema=prop_schema,
             is_required=is_required_in_spec or is_force_required,
         )
-        lines.append(f"    {field_def}")
-        if item_class:
-            item_class_names.append(item_class)
+        lines.append(f"    {field.definition}")
+        if field.item_class:
+            item_class_names.append(field.item_class)
+        if field.is_list:
+            list_field_names.append(_sanitize_field_name(prop_name))
 
     # Add extra fields from overrides (fields missing from spec but present in API responses)
     for field_name, field_type in _get_extra_fields(ctx, set(properties.keys())):
         is_force_required = _is_field_force_required(ctx, field_name, is_required_in_spec=False)
         lines.append(
             f"    {_format_field_definition(field_name, field_type, is_required=is_force_required)}"
+        )
+        if _is_plain_list(field_type, is_required=is_force_required, is_nullable=False):
+            list_field_names.append(_sanitize_field_name(field_name))
+
+    # The API returns null for some array fields, coerce those to an empty list
+    if list_field_names:
+        names = ", ".join(f'"{name}"' for name in list_field_names)
+        lines.extend(
+            [
+                "",
+                f'    @field_validator({names}, mode="before")',
+                "    @classmethod",
+                "    def coerce_null_lists(cls, value: Any) -> Any:",
+                '        """Convert null array values from the API to empty lists."""',
+                "        return [] if value is None else value",
+            ]
         )
 
     status = _register_schema(ctx, name=class_name, definition="\n".join(lines) + "\n")
@@ -1458,7 +1485,7 @@ def _generate_field(
     prop_name: str,
     prop_schema: dict[str, Any],
     is_required: bool,
-) -> tuple[str, str | None]:
+) -> FieldResult:
     """Generate a field definition for a Pydantic model."""
     override_type = _get_field_override(ctx, prop_name, prop_schema)
     if override_type:
@@ -1470,12 +1497,18 @@ def _generate_field(
         )
 
     is_nullable = prop_schema.get("nullable", False)
-    return (
-        _format_field_definition(
+    return FieldResult(
+        definition=_format_field_definition(
             prop_name, type_str, is_required=is_required, is_nullable=is_nullable
         ),
-        item_class,
+        item_class=item_class,
+        is_list=_is_plain_list(type_str, is_required=is_required, is_nullable=is_nullable),
     )
+
+
+def _is_plain_list(type_str: str, *, is_required: bool, is_nullable: bool) -> bool:
+    """Whether the field is annotated as a list that cannot hold None."""
+    return type_str.startswith("list[") and not (is_required and is_nullable)
 
 
 def _get_python_type(

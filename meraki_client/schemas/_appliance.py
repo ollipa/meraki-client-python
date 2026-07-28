@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import Field, RootModel
+from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
 
@@ -25,6 +25,12 @@ class AddNetworkApplianceUmbrellaPoliciesResponse(_BaseSchema):
 
     network: ApplianceDownlinkSgt | None = None
     policies: list[ApplianceDownlinkSgt] = Field(default_factory=list)
+
+    @field_validator("policies", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class Appliance1(_BaseSchema):
@@ -55,6 +61,12 @@ class ApplianceApplicationCategoriesItem(_BaseSchema):
     applications: list[NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem] = Field(
         default_factory=list
     )
+
+    @field_validator("applications", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class ApplianceApplicationsItem(_BaseSchema):
@@ -140,6 +152,12 @@ class ApplianceByDeviceItem(_BaseSchema):
         default_factory=list, validation_alias="vlanIds", serialization_alias="vlanIds"
     )
 
+    @field_validator("vlan_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceByInterfaceItem(_BaseSchema):
     """Schema for ApplianceByInterfaceItem."""
@@ -214,6 +232,12 @@ class ApplianceDestination(_BaseSchema):
     cidr: str | None = None
     applications: list[ApplianceApplicationsItem] = Field(default_factory=list)
 
+    @field_validator("applications", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceDestination2(_BaseSchema):
     """Destination of 'custom' type traffic filter."""
@@ -264,6 +288,12 @@ class ApplianceDownlinkTrunk(_BaseSchema):
         default_factory=list, validation_alias="allowedVlans", serialization_alias="allowedVlans"
     )
     sgt: ApplianceSgt | None = None
+
+    @field_validator("allowed_vlans", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class ApplianceEbgpNeighbor(_BaseSchema):
@@ -330,6 +360,12 @@ class ApplianceInterfacesItem(_BaseSchema):
         default_factory=list, validation_alias="byType", serialization_alias="byType"
     )
 
+    @field_validator("by_type", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceInterfacesWan1(_BaseSchema):
     """WAN 1 settings."""
@@ -348,6 +384,12 @@ class ApplianceIpsec(_BaseSchema):
     peer_ids: list[str] = Field(
         default_factory=list, validation_alias="peerIds", serialization_alias="peerIds"
     )
+
+    @field_validator("peer_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class ApplianceIpv4(_BaseSchema):
@@ -501,6 +543,18 @@ class ApplianceMerakiVpnPeersItem(_BaseSchema):
         default_factory=list, validation_alias="mosSummaries", serialization_alias="mosSummaries"
     )
 
+    @field_validator(
+        "latency_summaries",
+        "loss_percentage_summaries",
+        "jitter_summaries",
+        "mos_summaries",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceMerakiVpnPeersItem2(_BaseSchema):
     """Schema for ApplianceMerakiVpnPeersItem2."""
@@ -546,6 +600,12 @@ class ApplianceNameservers(_BaseSchema):
 
     addresses: list[str] = Field(default_factory=list)
 
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceNeighborsAuthentication(_BaseSchema):
     """Authentication settings between BGP peers."""
@@ -572,6 +632,12 @@ class ApplianceOrigin3(_BaseSchema):
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     interfaces: list[str] = Field(default_factory=list)
 
+    @field_validator("interfaces", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceOrigin4(_BaseSchema):
     """The origin of the prefix."""
@@ -579,12 +645,24 @@ class ApplianceOrigin4(_BaseSchema):
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     interfaces: list[str] = Field(default_factory=list)
 
+    @field_validator("interfaces", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceOrigin5(_BaseSchema):
     """The origin of the prefix."""
 
     type_: str = Field(validation_alias="type", serialization_alias="type")
     interfaces: list[str] = Field(default_factory=list)
+
+    @field_validator("interfaces", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class AppliancePeersEbgpNeighbor(_BaseSchema):
@@ -626,6 +704,12 @@ class AppliancePeersEbgpNeighbor(_BaseSchema):
     )
     weight: int | None = None
 
+    @field_validator("path_prepend", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class AppliancePeersEcmpUplinkConfigsItem(_BaseSchema):
     """Schema for AppliancePeersEcmpUplinkConfigsItem."""
@@ -640,6 +724,12 @@ class AppliancePeersEcmpUplinkConfigsItem(_BaseSchema):
     ebgp_neighbor: ApplianceEbgpNeighbor | None = Field(
         default=None, validation_alias="ebgpNeighbor", serialization_alias="ebgpNeighbor"
     )
+
+    @field_validator("private_subnets", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class AppliancePeersGroup(_BaseSchema):
@@ -691,6 +781,21 @@ class AppliancePeersIpsecPolicies(_BaseSchema):
         default=None, validation_alias="childLifetime", serialization_alias="childLifetime"
     )
 
+    @field_validator(
+        "ike_cipher_algo",
+        "ike_auth_algo",
+        "ike_prf_algo",
+        "ike_diffie_hellman_group",
+        "child_cipher_algo",
+        "child_auth_algo",
+        "child_pfs_group",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class AppliancePeersNetwork(_BaseSchema):
     """[optional] A list of network Names and IDs that will connect with this peer. Supported only
@@ -699,6 +804,12 @@ class AppliancePeersNetwork(_BaseSchema):
 
     names: list[str] = Field(default_factory=list)
     ids: list[str] = Field(default_factory=list)
+
+    @field_validator("names", "ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class AppliancePerformanceClass(_BaseSchema):
@@ -780,6 +891,12 @@ class AppliancePortsItem2(_BaseSchema):
     indices: ApplianceIndices | None = None
     readings: list[ApplianceReadingsItem] = Field(default_factory=list)
 
+    @field_validator("readings", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class AppliancePower(_BaseSchema):
     """Information about the power transmitted and received by the port."""
@@ -853,6 +970,12 @@ class ApplianceRulesAllowedInboundItem(_BaseSchema):
         default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
     )
 
+    @field_validator("destination_ports", "allowed_ips", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceRulesDefinitionsItem(_BaseSchema):
     """Schema for ApplianceRulesDefinitionsItem."""
@@ -887,6 +1010,12 @@ class ApplianceRulesPortRulesItem(_BaseSchema):
     allowed_ips: list[str] = Field(
         default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
     )
+
+    @field_validator("allowed_ips", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class ApplianceSgt(_BaseSchema):
@@ -1022,6 +1151,12 @@ class ApplianceUplinkInterfacesItem(_BaseSchema):
     name: str | None = None
     addresses: list[ApplianceAddressesItem] = Field(default_factory=list)
 
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceUplinkLoadBalancing(_BaseSchema):
     """Load balancing configuration."""
@@ -1042,6 +1177,12 @@ class ApplianceUplinkSharing(_BaseSchema):
     by_interface: list[ApplianceByInterfaceItem] = Field(
         default_factory=list, validation_alias="byInterface", serialization_alias="byInterface"
     )
+
+    @field_validator("by_interface", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class ApplianceUplinksItem(_BaseSchema):
@@ -1127,6 +1268,12 @@ class ApplianceVlanSelection(_BaseSchema):
         default_factory=list, validation_alias="byDevice", serialization_alias="byDevice"
     )
 
+    @field_validator("by_device", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceVlanSelection2(_BaseSchema):
     """VLAN selection strategy."""
@@ -1135,6 +1282,12 @@ class ApplianceVlanSelection2(_BaseSchema):
     by_device: list[ApplianceByDeviceItem] = Field(
         default_factory=list, validation_alias="byDevice", serialization_alias="byDevice"
     )
+
+    @field_validator("by_device", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class ApplianceVlanTagging(_BaseSchema):
@@ -1162,6 +1315,12 @@ class ApplianceVpnTrafficUplinkPreferencesItem(_BaseSchema):
         default=None, validation_alias="performanceClass", serialization_alias="performanceClass"
     )
 
+    @field_validator("traffic_filters", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceWanTrafficUplinkPreferencesItem(_BaseSchema):
     """Schema for ApplianceWanTrafficUplinkPreferencesItem."""
@@ -1179,6 +1338,12 @@ class ApplianceWanTrafficUplinkPreferencesItem(_BaseSchema):
         validation_alias="trafficFilters", serialization_alias="trafficFilters"
     )
 
+    @field_validator("traffic_filters", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class ApplianceWanTrafficUplinkPreferencesItem2(_BaseSchema):
     """Schema for ApplianceWanTrafficUplinkPreferencesItem2."""
@@ -1189,6 +1354,12 @@ class ApplianceWanTrafficUplinkPreferencesItem2(_BaseSchema):
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
+
+    @field_validator("traffic_filters", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy(_BaseSchema):
@@ -1216,6 +1387,12 @@ class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse(_BaseSc
     items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem] = (
         Field(default_factory=list)
     )
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsItem(_BaseSchema):
@@ -1367,6 +1544,12 @@ class CreateNetworkAppliancePrefixesDelegatedStaticOrigin(_BaseSchema):
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     interfaces: list[str] = Field(default_factory=list)
 
+    @field_validator("interfaces", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateNetworkApplianceRfProfileFiveGhzSettings(_BaseSchema):
     """Settings related to 5Ghz band."""
@@ -1437,6 +1620,12 @@ class CreateNetworkApplianceVlanIpv6(_BaseSchema):
         validation_alias="prefixAssignments",
         serialization_alias="prefixAssignments",
     )
+
+    @field_validator("prefix_assignments", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateNetworkApplianceVlanMandatoryDhcp(_BaseSchema):
@@ -1514,6 +1703,12 @@ class CreateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
 
     addresses: list[str] = Field(default_factory=list)
 
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem(_BaseSchema):
     """Item schema for items."""
@@ -1585,6 +1780,12 @@ class ExclusionsNetworkApplianceUmbrellaDomainsResponse(_BaseSchema):
     """Response for exclusionsNetworkApplianceUmbrellaDomains operation."""
 
     domains: list[str] = Field(default_factory=list)
+
+    @field_validator("domains", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceApplianceDhcpSubnetsResponse(
@@ -1667,6 +1868,12 @@ class GetNetworkApplianceContentFilteringCategoriesResponse(_BaseSchema):
         default_factory=list
     )
 
+    @field_validator("categories", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkApplianceFirewallCellularFirewallRulesResponse(_BaseSchema):
     """Schema for GetNetworkApplianceFirewallCellularFirewallRulesResponse."""
@@ -1674,6 +1881,12 @@ class GetNetworkApplianceFirewallCellularFirewallRulesResponse(_BaseSchema):
     rules: list[GetNetworkApplianceFirewallCellularFirewallRulesResponseRulesItem] = Field(
         default_factory=list
     )
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetNetworkApplianceFirewallCellularFirewallRulesResponseRulesItem(_BaseSchema):
@@ -1706,6 +1919,12 @@ class GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse(_B
         serialization_alias="applicationCategories",
     )
 
+    @field_validator("application_categories", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkAppliancePortsResponse(RootModel[list["NetworkAppliancePortResponse"]]):
     """Response for getNetworkAppliancePorts operation."""
@@ -1721,6 +1940,12 @@ class GetNetworkApplianceRfProfilesResponse(_BaseSchema):
     """Response for getNetworkApplianceRfProfiles operation."""
 
     assigned: list[GetNetworkApplianceRfProfilesResponseAssignedItem] = Field(default_factory=list)
+
+    @field_validator("assigned", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetNetworkApplianceRfProfilesResponseAssignedItem(_BaseSchema):
@@ -1773,6 +1998,12 @@ class GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks(_BaseSchema)
         default_factory=list, validation_alias="excludedCidr", serialization_alias="excludedCidr"
     )
 
+    @field_validator("included_cidr", "excluded_cidr", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkApplianceSsidsResponse(RootModel[list["NetworkApplianceSsidResponse"]]):
     """Response for getNetworkApplianceSsids operation."""
@@ -1809,6 +2040,12 @@ class GetNetworkApplianceUplinksUsageHistoryResponseItem(_BaseSchema):
         default_factory=list, validation_alias="byInterface", serialization_alias="byInterface"
     )
 
+    @field_validator("by_interface", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkApplianceVlansResponse(RootModel[list["NetworkApplianceVlanResponse"]]):
     """Response for getNetworkApplianceVlans operation."""
@@ -1831,6 +2068,12 @@ class GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem(_B
     serial: str | None = None
     ports: list[AppliancePortsItem] = Field(default_factory=list)
 
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem(
     _BaseSchema
@@ -1842,6 +2085,12 @@ class GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceRes
     serial: str | None = None
     ports: list[AppliancePortsItem2] = Field(default_factory=list)
     network: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_BaseSchema):
@@ -1879,6 +2128,12 @@ class GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsIte
     serial: str | None = None
     interfaces: list[ApplianceInterfacesItem] = Field(default_factory=list)
 
+    @field_validator("interfaces", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationApplianceUplinkStatusesResponse(
     RootModel[list["GetOrganizationApplianceUplinkStatusesResponseItem"]]
@@ -1900,6 +2155,12 @@ class GetOrganizationApplianceUplinkStatusesResponseItem(_BaseSchema):
     )
     uplinks: list[ApplianceUplinksItem] = Field(default_factory=list)
 
+    @field_validator("uplinks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationApplianceUplinksNatByNetworkResponse(
     RootModel[list["GetOrganizationApplianceUplinksNatByNetworkResponseItem"]]
@@ -1914,6 +2175,12 @@ class GetOrganizationApplianceUplinksNatByNetworkResponseItem(_BaseSchema):
         default=None, validation_alias="networkId", serialization_alias="networkId"
     )
     uplinks: list[UpdateNetworkApplianceUplinksNatResponseUplinksItem] = Field(default_factory=list)
+
+    @field_validator("uplinks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationApplianceUplinksStatusesOverviewResponse(_BaseSchema):
@@ -1947,6 +2214,12 @@ class GetOrganizationApplianceUplinksUsageByNetworkResponseItem(_BaseSchema):
         default_factory=list, validation_alias="byUplink", serialization_alias="byUplink"
     )
 
+    @field_validator("by_uplink", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationApplianceVpnStatsResponse(
     RootModel[list["GetOrganizationApplianceVpnStatsResponseItem"]]
@@ -1968,6 +2241,12 @@ class GetOrganizationApplianceVpnStatsResponseItem(_BaseSchema):
         validation_alias="merakiVpnPeers",
         serialization_alias="merakiVpnPeers",
     )
+
+    @field_validator("meraki_vpn_peers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationApplianceVpnStatusesResponse(
@@ -2010,6 +2289,14 @@ class GetOrganizationApplianceVpnStatusesResponseItem(_BaseSchema):
         validation_alias="thirdPartyVpnPeers",
         serialization_alias="thirdPartyVpnPeers",
     )
+
+    @field_validator(
+        "uplinks", "exported_subnets", "meraki_vpn_peers", "third_party_vpn_peers", mode="before"
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanResponseItemsItem(
@@ -2056,6 +2343,12 @@ class NetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSchema):
         NetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem
     ] = Field(default_factory=list)
 
+    @field_validator("destinations", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem(_BaseSchema):
     """Schema for NetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem."""
@@ -2091,6 +2384,14 @@ class NetworkApplianceContentFilteringResponse(_BaseSchema):
         serialization_alias="urlCategoryListSize",
     )
 
+    @field_validator(
+        "allowed_url_patterns", "blocked_url_patterns", "blocked_url_categories", mode="before"
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem(_BaseSchema):
     """Schema for NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem."""
@@ -2108,6 +2409,12 @@ class NetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
         default_factory=list, validation_alias="allowedIps", serialization_alias="allowedIps"
     )
 
+    @field_validator("allowed_ips", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
     """Schema for NetworkApplianceFirewallInboundFirewallRulesResponse."""
@@ -2119,6 +2426,12 @@ class NetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
         default=None, validation_alias="syslogDefaultRule", serialization_alias="syslogDefaultRule"
     )
 
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceFirewallL7FirewallRulesResponse(_BaseSchema):
     """Schema for NetworkApplianceFirewallL7FirewallRulesResponse."""
@@ -2126,6 +2439,12 @@ class NetworkApplianceFirewallL7FirewallRulesResponse(_BaseSchema):
     rules: list[NetworkApplianceFirewallL7FirewallRulesResponseRulesItem] = Field(
         default_factory=list
     )
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceFirewallL7FirewallRulesResponseRulesItem(_BaseSchema):
@@ -2143,6 +2462,12 @@ class NetworkApplianceFirewallOneToManyNatRulesResponse(_BaseSchema):
         default_factory=list
     )
 
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceFirewallOneToManyNatRulesResponseRulesItem(_BaseSchema):
     """Schema for NetworkApplianceFirewallOneToManyNatRulesResponseRulesItem."""
@@ -2155,6 +2480,12 @@ class NetworkApplianceFirewallOneToManyNatRulesResponseRulesItem(_BaseSchema):
         default_factory=list, validation_alias="portRules", serialization_alias="portRules"
     )
 
+    @field_validator("port_rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceFirewallOneToOneNatRulesResponse(_BaseSchema):
     """Schema for NetworkApplianceFirewallOneToOneNatRulesResponse."""
@@ -2162,6 +2493,12 @@ class NetworkApplianceFirewallOneToOneNatRulesResponse(_BaseSchema):
     rules: list[NetworkApplianceFirewallOneToOneNatRulesResponseRulesItem] = Field(
         default_factory=list
     )
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceFirewallOneToOneNatRulesResponseRulesItem(_BaseSchema):
@@ -2179,6 +2516,12 @@ class NetworkApplianceFirewallOneToOneNatRulesResponseRulesItem(_BaseSchema):
         serialization_alias="allowedInbound",
     )
 
+    @field_validator("allowed_inbound", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceFirewallPortForwardingRulesResponse(_BaseSchema):
     """Schema for NetworkApplianceFirewallPortForwardingRulesResponse."""
@@ -2186,6 +2529,12 @@ class NetworkApplianceFirewallPortForwardingRulesResponse(_BaseSchema):
     rules: list[NetworkApplianceFirewallPortForwardingRulesResponseRulesItem] = Field(
         default_factory=list
     )
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceFirewallPortForwardingRulesResponseRulesItem(_BaseSchema):
@@ -2204,6 +2553,12 @@ class NetworkApplianceFirewallPortForwardingRulesResponseRulesItem(_BaseSchema):
         default=None, validation_alias="localPort", serialization_alias="localPort"
     )
     uplink: str | None = None
+
+    @field_validator("allowed_ips", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceFirewallSettingsResponse(_BaseSchema):
@@ -2312,6 +2667,12 @@ class NetworkApplianceSecurityMalwareResponse(_BaseSchema):
         default_factory=list, validation_alias="allowedFiles", serialization_alias="allowedFiles"
     )
 
+    @field_validator("allowed_urls", "allowed_files", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceSecurityMalwareResponseAllowedFilesItem(_BaseSchema):
     """Schema for NetworkApplianceSecurityMalwareResponseAllowedFilesItem."""
@@ -2374,6 +2735,12 @@ class NetworkApplianceSingleLanResponseIpv6(_BaseSchema):
         serialization_alias="prefixAssignments",
     )
 
+    @field_validator("prefix_assignments", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceSsidResponse(_BaseSchema):
     """Schema for NetworkApplianceSsidResponse."""
@@ -2397,6 +2764,12 @@ class NetworkApplianceSsidResponse(_BaseSchema):
         default=None, validation_alias="wpaEncryptionMode", serialization_alias="wpaEncryptionMode"
     )
     visible: bool | None = None
+
+    @field_validator("radius_servers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceStaticRouteResponse(_BaseSchema):
@@ -2428,6 +2801,12 @@ class NetworkApplianceStaticRouteResponse(_BaseSchema):
     gateway_vlan_id: int | None = Field(
         default=None, validation_alias="gatewayVlanId", serialization_alias="gatewayVlanId"
     )
+
+    @field_validator("reserved_ip_ranges", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
@@ -2475,6 +2854,12 @@ class NetworkApplianceTrafficShapingRulesResponse(_BaseSchema):
     )
     rules: list[NetworkApplianceTrafficShapingRulesResponseRulesItem] = Field(default_factory=list)
 
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceTrafficShapingRulesResponseRulesItem(_BaseSchema):
     """Schema for NetworkApplianceTrafficShapingRulesResponseRulesItem."""
@@ -2489,6 +2874,12 @@ class NetworkApplianceTrafficShapingRulesResponseRulesItem(_BaseSchema):
         default=None, validation_alias="dscpTagValue", serialization_alias="dscpTagValue"
     )
     priority: str | None = None
+
+    @field_validator("definitions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceTrafficShapingUplinkBandwidthResponse(_BaseSchema):
@@ -2542,6 +2933,14 @@ class NetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
         validation_alias="vpnTrafficUplinkPreferences",
         serialization_alias="vpnTrafficUplinkPreferences",
     )
+
+    @field_validator(
+        "wan_traffic_uplink_preferences", "vpn_traffic_uplink_preferences", mode="before"
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailback(_BaseSchema):
@@ -2615,6 +3014,12 @@ class NetworkApplianceVlanResponse(_BaseSchema):
     vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
 
+    @field_validator("dhcp_relay_server_ips", "reserved_ip_ranges", "dhcp_options", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceVlansSettingsResponse(_BaseSchema):
     """Schema for NetworkApplianceVlansSettingsResponse."""
@@ -2638,6 +3043,12 @@ class NetworkApplianceVpnBgpResponse(_BaseSchema):
         default=None, validation_alias="routerId", serialization_alias="routerId"
     )
     neighbors: list[NetworkApplianceVpnBgpResponseNeighborsItem] = Field(default_factory=list)
+
+    @field_validator("neighbors", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
@@ -2686,6 +3097,12 @@ class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
         default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
     )
 
+    @field_validator("path_prepend", "filter_in", "community_out", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
     """Schema for NetworkApplianceVpnSiteToSiteVpnResponse."""
@@ -2700,6 +3117,12 @@ class NetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
         validation_alias="hostTranslations",
         serialization_alias="hostTranslations",
     )
+
+    @field_validator("hubs", "subnets", "host_translations", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceVpnSiteToSiteVpnResponseHostTranslationsItem(_BaseSchema):
@@ -2780,6 +3203,12 @@ class OrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
     hostnames: list[str] = Field(default_factory=list)
     nameservers: ApplianceNameservers | None = None
 
+    @field_validator("hostnames", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class OrganizationApplianceRoutingVrfsSettingsResponse(_BaseSchema):
     """Schema for OrganizationApplianceRoutingVrfsSettingsResponse."""
@@ -2793,6 +3222,12 @@ class OrganizationApplianceSecurityIntrusionResponse(_BaseSchema):
     allowed_rules: list[OrganizationApplianceSecurityIntrusionResponseAllowedRulesItem] = Field(
         default_factory=list, validation_alias="allowedRules", serialization_alias="allowedRules"
     )
+
+    @field_validator("allowed_rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationApplianceSecurityIntrusionResponseAllowedRulesItem(_BaseSchema):
@@ -2811,6 +3246,12 @@ class OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
         default_factory=list
     )
     meta: OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseMeta | None = None
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem(_BaseSchema):
@@ -2834,6 +3275,12 @@ class OrganizationApplianceVpnThirdPartyVPNPeersResponse(_BaseSchema):
     peers: list[OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem] = Field(
         default_factory=list
     )
+
+    @field_validator("peers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema):
@@ -2891,6 +3338,12 @@ class OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema):
         default=None, validation_alias="priorityInGroup", serialization_alias="priorityInGroup"
     )
     group: AppliancePeersGroup | None = None
+
+    @field_validator("private_subnets", "network_tags", "ecmp_uplink_configs", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse(_BaseSchema):
@@ -2999,6 +3452,12 @@ class UpdateNetworkApplianceDevicesRedundancyResponse(_BaseSchema):
     )
     uplink: UpdateNetworkApplianceDevicesRedundancyResponseUplink | None = None
 
+    @field_validator("designations", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceDevicesRedundancyResponseDesignationsItem(_BaseSchema):
     """Schema for UpdateNetworkApplianceDevicesRedundancyResponseDesignationsItem."""
@@ -3017,6 +3476,12 @@ class UpdateNetworkApplianceDevicesRedundancyResponseUplink(_BaseSchema):
         default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
     )
 
+    @field_validator("interfaces", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceDevicesRedundancyUplink(_BaseSchema):
     """Uplink configuration."""
@@ -3027,6 +3492,12 @@ class UpdateNetworkApplianceDevicesRedundancyUplink(_BaseSchema):
     load_balancing: UpdateNetworkApplianceDevicesRedundancyUplinkLoadBalancing | None = Field(
         default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
     )
+
+    @field_validator("interfaces", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceDevicesRedundancyUplinkLoadBalancing(_BaseSchema):
@@ -3128,6 +3599,12 @@ class UpdateNetworkApplianceFirewallMulticastForwardingResponse(_BaseSchema):
     network: UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork
     rules: list[UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem]
 
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork(_BaseSchema):
     """Network details."""
@@ -3143,6 +3620,12 @@ class UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem(_BaseSc
     address: str
     vlan_ids: list[str] = Field(validation_alias="vlanIds", serialization_alias="vlanIds")
 
+    @field_validator("vlan_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceFirewallMulticastForwardingRulesItem(_BaseSchema):
     """Item schema for rules."""
@@ -3150,6 +3633,12 @@ class UpdateNetworkApplianceFirewallMulticastForwardingRulesItem(_BaseSchema):
     description: str
     address: str
     vlan_ids: list[str] = Field(validation_alias="vlanIds", serialization_alias="vlanIds")
+
+    @field_validator("vlan_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItem(_BaseSchema):
@@ -3160,6 +3649,12 @@ class UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItem(_BaseSchema):
     port_rules: list[ApplianceRulesPortRulesItem] = Field(
         validation_alias="portRules", serialization_alias="portRules"
     )
+
+    @field_validator("port_rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItem(_BaseSchema):
@@ -3177,6 +3672,12 @@ class UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItem(_BaseSchema):
         serialization_alias="allowedInbound",
     )
 
+    @field_validator("allowed_inbound", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem(_BaseSchema):
     """Item schema for rules."""
@@ -3188,6 +3689,12 @@ class UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem(_BaseSchema):
     local_port: str = Field(validation_alias="localPort", serialization_alias="localPort")
     allowed_ips: list[str] = Field(validation_alias="allowedIps", serialization_alias="allowedIps")
     protocol: str
+
+    @field_validator("allowed_ips", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceFirewallSettingsSpoofingProtection(_BaseSchema):
@@ -3232,6 +3739,12 @@ class UpdateNetworkAppliancePrefixesDelegatedStaticOrigin(_BaseSchema):
 
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     interfaces: list[str] = Field(default_factory=list)
+
+    @field_validator("interfaces", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceRfProfileFiveGhzSettings(_BaseSchema):
@@ -3282,6 +3795,12 @@ class UpdateNetworkApplianceSdwanInternetPoliciesResponse(_BaseSchema):
         serialization_alias="wanTrafficUplinkPreferences",
     )
 
+    @field_validator("wan_traffic_uplink_preferences", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem(_BaseSchema):
     """Item schema for wanTrafficUplinkPreferences."""
@@ -3299,6 +3818,12 @@ class UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem
         validation_alias="trafficFilters", serialization_alias="trafficFilters"
     )
 
+    @field_validator("traffic_filters", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceSecurityIntrusionProtectedNetworks(_BaseSchema):
     """Set the included/excluded networks from the intrusion engine (optional - omitting will leave
@@ -3314,6 +3839,12 @@ class UpdateNetworkApplianceSecurityIntrusionProtectedNetworks(_BaseSchema):
     excluded_cidr: list[str] = Field(
         default_factory=list, validation_alias="excludedCidr", serialization_alias="excludedCidr"
     )
+
+    @field_validator("included_cidr", "excluded_cidr", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
@@ -3362,6 +3893,12 @@ class UpdateNetworkApplianceSingleLanIpv6(_BaseSchema):
         validation_alias="prefixAssignments",
         serialization_alias="prefixAssignments",
     )
+
+    @field_validator("prefix_assignments", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceSingleLanIpv6PrefixAssignmentsItem(_BaseSchema):
@@ -3455,6 +3992,12 @@ class UpdateNetworkApplianceTrafficShapingRulesRulesItem(_BaseSchema):
     )
     priority: str | None = None
 
+    @field_validator("definitions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits(_BaseSchema):
     """A mapping of uplinks to their bandwidth settings (be sure to check which uplinks are
@@ -3490,6 +4033,12 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPrefere
         default=None, validation_alias="performanceClass", serialization_alias="performanceClass"
     )
 
+    @field_validator("traffic_filters", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesItem(
     _BaseSchema
@@ -3502,6 +4051,12 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPrefere
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
+
+    @field_validator("traffic_filters", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem(_BaseSchema):
@@ -3529,6 +4084,12 @@ class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse(_BaseSchema):
         UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseMajorApplicationsItem
     ] = Field(validation_alias="majorApplications", serialization_alias="majorApplications")
 
+    @field_validator("custom", "major_applications", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseCustomItem(_BaseSchema):
     """Schema for UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseCustomItem."""
@@ -3549,6 +4110,12 @@ class UpdateNetworkApplianceUplinksNatResponse(_BaseSchema):
     """Response for updateNetworkApplianceUplinksNat operation."""
 
     uplinks: list[UpdateNetworkApplianceUplinksNatResponseUplinksItem] = Field(default_factory=list)
+
+    @field_validator("uplinks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceUplinksNatResponseUplinksItem(_BaseSchema):
@@ -3582,6 +4149,12 @@ class UpdateNetworkApplianceVlanIpv6(_BaseSchema):
         validation_alias="prefixAssignments",
         serialization_alias="prefixAssignments",
     )
+
+    @field_validator("prefix_assignments", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkApplianceVlanIpv6PrefixAssignmentsItem(_BaseSchema):
@@ -3679,6 +4252,12 @@ class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
         default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
     )
 
+    @field_validator("path_prepend", "filter_in", "community_out", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkApplianceVpnBgpNeighborsItemIpv6(_BaseSchema):
     """Information regarding IPv6 address of the neighbor, Required if `ip` is not present."""
@@ -3746,6 +4325,12 @@ class UpdateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
     """Contains the nameserver information for redirection."""
 
     addresses: list[str] = Field(default_factory=list)
+
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem(_BaseSchema):
@@ -3819,6 +4404,12 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem(_BaseSchema):
     )
     group: AppliancePeersGroup | None = None
 
+    @field_validator("private_subnets", "network_tags", "ecmp_uplink_configs", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemEbgpNeighbor(_BaseSchema):
     """[optional] The BGP neighbor configuration for the VPN peer. Supported only for MX 19.1 and
@@ -3853,6 +4444,12 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemEbgpNeighbor(_Bas
     )
     weight: int | None = None
 
+    @field_validator("path_prepend", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemNetwork(_BaseSchema):
     """[optional] A list of network Names and IDs that will connect with this peer. Supported only
@@ -3860,6 +4457,12 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemNetwork(_BaseSche
     """
 
     ids: list[str] = Field(default_factory=list)
+
+    @field_validator("ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem(_BaseSchema):

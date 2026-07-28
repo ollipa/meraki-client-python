@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from pydantic import Field, RootModel
+from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
 
@@ -23,6 +23,12 @@ class CloneOrganizationSwitchDevicesResponse(_BaseSchema):
     target_serials: list[str] = Field(
         default_factory=list, validation_alias="targetSerials", serialization_alias="targetSerials"
     )
+
+    @field_validator("target_serials", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateDeviceSwitchRoutingInterfaceIpv6(_BaseSchema):
@@ -256,6 +262,12 @@ class CreateNetworkSwitchStackResponse(_BaseSchema):
         default=None, validation_alias="workflowId", serialization_alias="workflowId"
     )
 
+    @field_validator("serials", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class CreateNetworkSwitchStackRoutingInterfaceIpv6(_BaseSchema):
     """The IPv6 settings of the interface."""
@@ -302,6 +314,12 @@ class CycleDeviceSwitchPortsResponse(_BaseSchema):
     """Response for cycleDeviceSwitchPorts operation."""
 
     ports: list[str] = Field(default_factory=list)
+
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DeviceSwitchPortResponse(_BaseSchema):
@@ -405,6 +423,18 @@ class DeviceSwitchPortResponse(_BaseSchema):
         default=None, validation_alias="highSpeed", serialization_alias="highSpeed"
     )
 
+    @field_validator(
+        "tags",
+        "link_negotiation_capabilities",
+        "mac_allow_list",
+        "sticky_mac_allow_list",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class DeviceSwitchWarmSpareResponse(_BaseSchema):
     """Schema for DeviceSwitchWarmSpareResponse."""
@@ -435,6 +465,12 @@ class GetDeviceSwitchPortsStatusesPacketsResponseItem(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     packets: list[SwitchPacketsItem] = Field(default_factory=list)
+
+    @field_validator("packets", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceSwitchPortsStatusesResponse(
@@ -479,6 +515,12 @@ class GetDeviceSwitchPortsStatusesResponseItem(_BaseSchema):
     secure_port: SwitchSecurePort | None = Field(
         default=None, validation_alias="securePort", serialization_alias="securePort"
     )
+
+    @field_validator("errors", "warnings", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
@@ -533,6 +575,19 @@ class GetDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
         validation_alias="fixedIpAssignments",
         serialization_alias="fixedIpAssignments",
     )
+
+    @field_validator(
+        "dhcp_relay_server_ips",
+        "dns_custom_nameservers",
+        "dhcp_options",
+        "reserved_ip_ranges",
+        "fixed_ip_assignments",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetDeviceSwitchRoutingInterfaceDhcpResponseDhcpOptionsItem(_BaseSchema):
@@ -639,6 +694,12 @@ class GetNetworkSwitchDhcpV4ServersSeenResponseItem(_BaseSchema):
         default=None, validation_alias="lastPacket", serialization_alias="lastPacket"
     )
 
+    @field_validator("seen_by", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetNetworkSwitchLinkAggregationsResponse(
     RootModel[list["NetworkSwitchLinkAggregationResponse"]]
@@ -715,6 +776,12 @@ class GetOrganizationSwitchPortsBySwitchResponseItem(_BaseSchema):
     model: str
     ports: list[SwitchPortsItem]
 
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem."""
@@ -725,6 +792,12 @@ class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem(_BaseSc
     network: SwitchSchedule | None = None
     model: str | None = None
     ports: list[SwitchPortsItem2] = Field(default_factory=list)
+
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationSwitchPortsOverviewResponse(_BaseSchema):
@@ -752,6 +825,12 @@ class GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem(_BaseSchema):
     model: str | None = None
     ports: list[SwitchPortsItem3] = Field(default_factory=list)
 
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem."""
@@ -762,6 +841,12 @@ class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_Base
     network: SwitchSchedule | None = None
     model: str | None = None
     ports: list[SwitchPortsItem4] = Field(default_factory=list)
+
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(_BaseSchema):
@@ -774,11 +859,23 @@ class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(
     model: str | None = None
     ports: list[SwitchPortsItem5] = Field(default_factory=list)
 
+    @field_validator("ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchAccessControlListsResponse(_BaseSchema):
     """Schema for NetworkSwitchAccessControlListsResponse."""
 
     rules: list[NetworkSwitchAccessControlListsResponseRulesItem] = Field(default_factory=list)
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchAccessControlListsResponseRulesItem(_BaseSchema):
@@ -889,6 +986,17 @@ class NetworkSwitchAccessPolicyResponse(_BaseSchema):
         default=None, validation_alias="guestSgtId", serialization_alias="guestSgtId"
     )
 
+    @field_validator(
+        "radius_servers",
+        "radius_accounting_servers",
+        "url_redirect_walled_garden_ranges",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
     """Schema for NetworkSwitchAlternateManagementInterfaceResponse."""
@@ -904,6 +1012,12 @@ class NetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
     switches: list[NetworkSwitchAlternateManagementInterfaceResponseSwitchesItem] = Field(
         default_factory=list
     )
+
+    @field_validator("protocols", "switches", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchAlternateManagementInterfaceResponseSwitchesItem(_BaseSchema):
@@ -958,6 +1072,12 @@ class NetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
         default=None, validation_alias="arpInspection", serialization_alias="arpInspection"
     )
 
+    @field_validator("blocked_servers", "allowed_servers", "always_allowed_servers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchDhcpServerPolicyResponseAlerts(_BaseSchema):
     """Email alert settings for DHCP servers."""
@@ -975,11 +1095,23 @@ class NetworkSwitchDhcpServerPolicyResponseArpInspection(_BaseSchema):
         serialization_alias="unsupportedModels",
     )
 
+    @field_validator("unsupported_models", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchDscpToCosMappingsResponse(_BaseSchema):
     """Schema for NetworkSwitchDscpToCosMappingsResponse."""
 
     mappings: list[NetworkSwitchDscpToCosMappingsResponseMappingsItem] = Field(default_factory=list)
+
+    @field_validator("mappings", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchDscpToCosMappingsResponseMappingsItem(_BaseSchema):
@@ -998,6 +1130,12 @@ class NetworkSwitchLinkAggregationResponse(_BaseSchema):
         default_factory=list, validation_alias="switchPorts", serialization_alias="switchPorts"
     )
 
+    @field_validator("switch_ports", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchMtuResponse(_BaseSchema):
     """Schema for NetworkSwitchMtuResponse."""
@@ -1006,6 +1144,12 @@ class NetworkSwitchMtuResponse(_BaseSchema):
         default=None, validation_alias="defaultMtuSize", serialization_alias="defaultMtuSize"
     )
     overrides: list[NetworkSwitchMtuResponseOverridesItem] = Field(default_factory=list)
+
+    @field_validator("overrides", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchMtuResponseOverridesItem(_BaseSchema):
@@ -1018,6 +1162,12 @@ class NetworkSwitchMtuResponseOverridesItem(_BaseSchema):
         serialization_alias="switchProfiles",
     )
     mtu_size: int = Field(validation_alias="mtuSize", serialization_alias="mtuSize")
+
+    @field_validator("switches", "switch_profiles", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchPortScheduleResponse(_BaseSchema):
@@ -1061,6 +1211,12 @@ class NetworkSwitchQosRulesOrderResponse(_BaseSchema):
         default_factory=list, validation_alias="ruleIds", serialization_alias="ruleIds"
     )
 
+    @field_validator("rule_ids", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
     """Schema for NetworkSwitchRoutingMulticastRendezvousPointResponse."""
@@ -1089,6 +1245,12 @@ class NetworkSwitchRoutingMulticastResponse(_BaseSchema):
     overrides: list[NetworkSwitchRoutingMulticastResponseOverridesItem] = Field(
         default_factory=list
     )
+
+    @field_validator("overrides", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchRoutingMulticastResponseDefaultSettings(_BaseSchema):
@@ -1129,6 +1291,12 @@ class NetworkSwitchRoutingMulticastResponseOverridesItem(_BaseSchema):
         serialization_alias="floodUnknownMulticastTrafficEnabled",
     )
 
+    @field_validator("switches", "stacks", "switch_profiles", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchRoutingOspfResponse(_BaseSchema):
     """Schema for NetworkSwitchRoutingOspfResponse."""
@@ -1157,6 +1325,12 @@ class NetworkSwitchRoutingOspfResponse(_BaseSchema):
         serialization_alias="md5AuthenticationKey",
     )
     vrf: SwitchVrf | None = None
+
+    @field_validator("areas", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchRoutingOspfResponseAreasItem(_BaseSchema):
@@ -1198,6 +1372,12 @@ class NetworkSwitchRoutingOspfResponseV3(_BaseSchema):
     )
     areas: list[NetworkSwitchRoutingOspfResponseAreasItem] = Field(default_factory=list)
 
+    @field_validator("areas", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchSettingsResponse(_BaseSchema):
     """Schema for NetworkSwitchSettingsResponse."""
@@ -1227,6 +1407,12 @@ class NetworkSwitchSettingsResponse(_BaseSchema):
     uplink_selection: NetworkSwitchSettingsResponseUplinkSelection | None = Field(
         default=None, validation_alias="uplinkSelection", serialization_alias="uplinkSelection"
     )
+
+    @field_validator("power_exceptions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchSettingsResponsePowerExceptionsItem(_BaseSchema):
@@ -1259,6 +1445,12 @@ class NetworkSwitchStackResponse(_BaseSchema):
     )
     members: list[SwitchMembersItem] = Field(default_factory=list)
 
+    @field_validator("serials", "members", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchStormControlResponse(_BaseSchema):
     """Schema for NetworkSwitchStormControlResponse."""
@@ -1284,6 +1476,12 @@ class NetworkSwitchStormControlResponse(_BaseSchema):
         serialization_alias="treatTheseTrafficTypesAsOneThreshold",
     )
 
+    @field_validator("treat_these_traffic_types_as_one_threshold", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class NetworkSwitchStpResponse(_BaseSchema):
     """Schema for NetworkSwitchStpResponse."""
@@ -1296,6 +1494,12 @@ class NetworkSwitchStpResponse(_BaseSchema):
         validation_alias="stpBridgePriority",
         serialization_alias="stpBridgePriority",
     )
+
+    @field_validator("stp_bridge_priority", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkSwitchStpResponseStpBridgePriorityItem(_BaseSchema):
@@ -1311,6 +1515,12 @@ class NetworkSwitchStpResponseStpBridgePriorityItem(_BaseSchema):
     stp_priority: int | None = Field(
         default=None, validation_alias="stpPriority", serialization_alias="stpPriority"
     )
+
+    @field_validator("switches", "stacks", "switch_profiles", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class OrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
@@ -1402,6 +1612,18 @@ class OrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
     high_speed: SwitchDot3az | None = Field(
         default=None, validation_alias="highSpeed", serialization_alias="highSpeed"
     )
+
+    @field_validator(
+        "tags",
+        "link_negotiation_capabilities",
+        "mac_allow_list",
+        "sticky_mac_allow_list",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class SwitchActive(_BaseSchema):
@@ -1617,6 +1839,12 @@ class SwitchFields(_BaseSchema):
         default=None, validation_alias="magicCookie", serialization_alias="magicCookie"
     )
     options: list[SwitchOptionsItem] = Field(default_factory=list)
+
+    @field_validator("options", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class SwitchInactive(_BaseSchema):
@@ -1871,6 +2099,12 @@ class SwitchPortsItem(_BaseSchema):
         serialization_alias="stickyMacAllowListLimit",
     )
 
+    @field_validator("tags", "sticky_mac_allow_list", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class SwitchPortsItem2(_BaseSchema):
     """Schema for SwitchPortsItem2."""
@@ -1904,6 +2138,12 @@ class SwitchPortsItem3(_BaseSchema):
         default=None, validation_alias="securePort", serialization_alias="securePort"
     )
 
+    @field_validator("errors", "warnings", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class SwitchPortsItem4(_BaseSchema):
     """Schema for SwitchPortsItem4."""
@@ -1917,6 +2157,12 @@ class SwitchPortsItem4(_BaseSchema):
     cdp: list[SwitchOptionsItem] = Field(default_factory=list)
     lldp: list[SwitchOptionsItem] = Field(default_factory=list)
 
+    @field_validator("cdp", "lldp", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class SwitchPortsItem5(_BaseSchema):
     """Schema for SwitchPortsItem5."""
@@ -1925,6 +2171,12 @@ class SwitchPortsItem5(_BaseSchema):
         default=None, validation_alias="portId", serialization_alias="portId"
     )
     intervals: list[SwitchIntervalsItem] = Field(default_factory=list)
+
+    @field_validator("intervals", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class SwitchProfile(_BaseSchema):
@@ -2068,6 +2320,12 @@ class SwitchSpanningTree(_BaseSchema):
     """The Spanning Tree Protocol (STP) information of the connected device."""
 
     statuses: list[str] = Field(default_factory=list)
+
+    @field_validator("statuses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class SwitchSwitchPortsItem(_BaseSchema):
@@ -2387,6 +2645,12 @@ class UpdateNetworkSwitchMtuOverridesItem(_BaseSchema):
     )
     mtu_size: int = Field(validation_alias="mtuSize", serialization_alias="mtuSize")
 
+    @field_validator("switches", "switch_profiles", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkSwitchPortSchedulePortSchedule(_BaseSchema):
     """The schedule for switch port scheduling. Schedules are applied to days of the week. When
@@ -2438,6 +2702,12 @@ class UpdateNetworkSwitchRoutingMulticastOverridesItem(_BaseSchema):
         serialization_alias="floodUnknownMulticastTrafficEnabled",
     )
 
+    @field_validator("switch_profiles", "switches", "stacks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
 
 class UpdateNetworkSwitchRoutingMulticastRendezvousPointVrf(_BaseSchema):
     """The VRF with PIM enabled L3 interface."""
@@ -2477,6 +2747,12 @@ class UpdateNetworkSwitchRoutingOspfV3(_BaseSchema):
         serialization_alias="deadTimerInSeconds",
     )
     areas: list[UpdateNetworkSwitchRoutingOspfV3AreasItem] = Field(default_factory=list)
+
+    @field_validator("areas", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateNetworkSwitchRoutingOspfV3AreasItem(_BaseSchema):
@@ -2641,6 +2917,12 @@ class UpdateNetworkSwitchStpStpBridgePriorityItem(_BaseSchema):
     switches: list[str] = Field(default_factory=list)
     stacks: list[str] = Field(default_factory=list)
     stp_priority: int = Field(validation_alias="stpPriority", serialization_alias="stpPriority")
+
+    @field_validator("switch_profiles", "switches", "stacks", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class UpdateOrganizationConfigTemplateSwitchProfilePortDot3az(_BaseSchema):
