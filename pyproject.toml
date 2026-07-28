@@ -107,6 +107,7 @@ ignore = [
     "D401",     # first line should be in imperative mood (false positives)
     "PLR2004",  # magic-value-comparison
     "PLR0913",  # too-many-arguments
+    "PLR0917",  # too-many-positional-arguments
     "TRY003",   # raise-vanilla-args
     "TRY004",   # type-check-without-type-error
     "G004",     # logging-fstring-interpolation
