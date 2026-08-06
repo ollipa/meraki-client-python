@@ -681,7 +681,7 @@ class Switch:
                 ARP Inspection will allow the traffic.
             profile: Profile attributes.
             dot3az: dot3az settings for the port.
-            high_speed: High speed port enablement settings for C9500-32QC.
+            high_speed: High speed port enablement settings for a high-speed logical port.
 
         Returns:
             Successful operation.
@@ -6689,7 +6689,7 @@ class Switch:
                 ARP Inspection will allow the traffic.
             profile: Profile attributes.
             dot3az: dot3az settings for the port.
-            high_speed: High speed port enablement settings for C9500-32QC.
+            high_speed: High speed port enablement settings for a high-speed logical port.
 
         Returns:
             Successful operation.

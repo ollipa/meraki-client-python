@@ -513,10 +513,10 @@ class ActionBatchAppliance:
                 Routers also support VLAN ranges (e.g. '2-10,15'). Use 'all' to permit
                 all VLANs on the port.
             access_policy: The name of the policy. Only applicable to Access ports. Valid values
-                are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or
-                Z3 or any MX supporting the per port authentication feature. Otherwise,
-                'open' is the only valid value and 'open' is the default value if the
-                field is missing.
+                are: 'open', '8021x-radius', 'mac-radius', 'hybrid-radius', 'access-
+                manager' for MX64 or Z3 or any MX supporting the per port authentication
+                feature. Otherwise, 'open' is the only valid value and 'open' is the
+                default value if the field is missing.
             sgt: Security Group Tag settings for the port.
 
         """

@@ -11,7 +11,6 @@ from typing import Any
 from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
-    AttachOrganizationSaseSitesCallback,
     AttachOrganizationSaseSitesItemsItem,
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
     BatchOrganizationSaseConnectorsDeleteItemsItem,
@@ -26,6 +25,7 @@ from meraki_client.schemas import (
     CreateOrganizationAdaptivePolicyPolicySourceGroup,
     CreateOrganizationAlertsProfileAlertCondition,
     CreateOrganizationAlertsProfileRecipients,
+    CreateOrganizationAssuranceAlertsProfileConfiguration,
     CreateOrganizationBrandingPolicyAdminSettings,
     CreateOrganizationBrandingPolicyCustomLogo,
     CreateOrganizationBrandingPolicyHelpSettings,
@@ -35,7 +35,6 @@ from meraki_client.schemas import (
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
     CreateOrganizationSaseIntegrationApi,
-    DetachOrganizationSaseSitesCallback,
     DetachOrganizationSaseSitesItemsItem,
     DisableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
@@ -50,6 +49,7 @@ from meraki_client.schemas import (
     UpdateOrganizationAlertsProfileAlertCondition,
     UpdateOrganizationAlertsProfileRecipients,
     UpdateOrganizationApi,
+    UpdateOrganizationAssuranceAlertsProfileConfiguration,
     UpdateOrganizationBrandingPolicyAdminSettings,
     UpdateOrganizationBrandingPolicyCustomLogo,
     UpdateOrganizationBrandingPolicyHelpSettings,
@@ -591,6 +591,118 @@ class ActionBatchOrganizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def create_organization_assurance_alerts_profile(
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        network_ids: list[str],
+        alert_types: list[str],
+        configuration: CreateOrganizationAssuranceAlertsProfileConfiguration,
+        alert_schedule_id: str | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create an alert profile.
+
+        [API documentation: createOrganizationAssuranceAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-assurance-alerts-profile)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the alert profile.
+            network_ids: Networks associated with this alert profile.
+            alert_types: Alert types associated with this alert profile.
+            alert_schedule_id: ID of the alert schedule associated with this profile.
+            configuration: Alert configuration for this profile.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/assurance/alerts/profiles"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+        if alert_types is not None:
+            payload["alertTypes"] = alert_types
+        if alert_schedule_id is not None:
+            payload["alertScheduleId"] = alert_schedule_id
+        if configuration is not None:
+            payload["configuration"] = configuration.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def update_organization_assurance_alerts_profile(
+        self,
+        *,
+        organization_id: str,
+        profile_id: str,
+        name: str,
+        network_ids: list[str],
+        alert_types: list[str],
+        configuration: UpdateOrganizationAssuranceAlertsProfileConfiguration,
+        alert_schedule_id: str | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update an alert profile.
+
+        [API documentation: updateOrganizationAssuranceAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-assurance-alerts-profile)
+
+        Args:
+            organization_id: Organization ID.
+            profile_id: Profile ID.
+            name: Name of the alert profile.
+            network_ids: Networks associated with this alert profile.
+            alert_types: Alert types associated with this alert profile.
+            alert_schedule_id: ID of the alert schedule associated with this profile.
+            configuration: Alert configuration for this profile.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        path = f"/organizations/{organization_id}/assurance/alerts/profiles/{profile_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+        if alert_types is not None:
+            payload["alertTypes"] = alert_types
+        if alert_schedule_id is not None:
+            payload["alertScheduleId"] = alert_schedule_id
+        if configuration is not None:
+            payload["configuration"] = configuration.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_assurance_alerts_profile(
+        self, *, organization_id: str, profile_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete an alert profile for this organization.
+
+        [API documentation: deleteOrganizationAssuranceAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-assurance-alerts-profile)
+
+        Args:
+            organization_id: Organization ID.
+            profile_id: Profile ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        path = f"/organizations/{organization_id}/assurance/alerts/profiles/{profile_id}"
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1734,6 +1846,133 @@ class ActionBatchOrganizations:
             body=payload,
         )
 
+    def create_organization_networks_group(
+        self, *, organization_id: str, name: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create a network group.
+
+        [API documentation: createOrganizationNetworksGroup](https://developer.cisco.com/meraki/api-v1/#!create-organization-networks-group)
+
+        Args:
+            organization_id: Organization ID.
+            name: The name of the network group.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def update_organization_networks_group(
+        self, *, organization_id: str, group_id: str, name: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update a network group.
+
+        [API documentation: updateOrganizationNetworksGroup](https://developer.cisco.com/meraki/api-v1/#!update-organization-networks-group)
+
+        Args:
+            organization_id: Organization ID.
+            group_id: Group ID.
+            name: The new name of the network group.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        group_id = urllib.parse.quote(str(group_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/{group_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_networks_group(
+        self, *, organization_id: str, group_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete a network group.
+
+        [API documentation: deleteOrganizationNetworksGroup](https://developer.cisco.com/meraki/api-v1/#!delete-organization-networks-group)
+
+        Args:
+            organization_id: Organization ID.
+            group_id: Group ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        group_id = urllib.parse.quote(str(group_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/{group_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def bulk_organization_networks_group_assign(
+        self, *, organization_id: str, group_id: str, network_ids: list[str]
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Add networks to a network group.
+
+        [API documentation: bulkOrganizationNetworksGroupAssign](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-networks-group-assign)
+
+        Args:
+            organization_id: Organization ID.
+            group_id: Group ID.
+            network_ids: A list of network IDs to add to the network group.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        group_id = urllib.parse.quote(str(group_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/{group_id}/bulkAssign"
+
+        payload: dict[str, Any] = {}
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="bulk_assign",
+            body=payload,
+        )
+
+    def bulk_organization_networks_group_unassign(
+        self, *, organization_id: str, group_id: str, network_ids: list[str]
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Remove networks from a network group.
+
+        [API documentation: bulkOrganizationNetworksGroupUnassign](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-networks-group-unassign)
+
+        Args:
+            organization_id: Organization ID.
+            group_id: Group ID.
+            network_ids: A list of network IDs to remove from the network group.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        group_id = urllib.parse.quote(str(group_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/{group_id}/bulkUnassign"
+
+        payload: dict[str, Any] = {}
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="bulk_unassign",
+            body=payload,
+        )
+
     def create_organization_policies_global_firewall_ruleset(
         self, *, organization_id: str, name: str, description: str | None = None
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -2624,11 +2863,7 @@ class ActionBatchOrganizations:
         )
 
     def attach_organization_sase_sites(
-        self,
-        organization_id: str,
-        *,
-        items: list[AttachOrganizationSaseSitesItemsItem] | None = None,
-        callback: AttachOrganizationSaseSitesCallback | None = None,
+        self, *, organization_id: str, items: list[AttachOrganizationSaseSitesItemsItem]
     ) -> CreateOrganizationActionBatchActionsItem:
         """Attach sites in this organization to Secure Access.
 
@@ -2637,8 +2872,6 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             items: List of Meraki SD-WAN sites with the associated regions to be attached.
-            callback: Details for the callback. Please include either an httpServerId OR url and
-                sharedSecret.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2647,8 +2880,6 @@ class ActionBatchOrganizations:
         payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-        if callback is not None:
-            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -2661,7 +2892,6 @@ class ActionBatchOrganizations:
         organization_id: str,
         *,
         items: list[DetachOrganizationSaseSitesItemsItem] | None = None,
-        callback: DetachOrganizationSaseSitesCallback | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Detach sites in this organization from Secure Access.
 
@@ -2670,8 +2900,6 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             items: List of Secure Access sites to be detached.
-            callback: Details for the callback. Please include either an httpServerId OR url and
-                sharedSecret.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2680,8 +2908,6 @@ class ActionBatchOrganizations:
         payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-        if callback is not None:
-            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

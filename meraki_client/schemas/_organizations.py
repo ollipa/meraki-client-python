@@ -28,34 +28,45 @@ class AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy(_B
     id: str | None = None
 
 
-class AttachOrganizationSaseSitesCallback(_BaseSchema):
-    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
-
-    url: str | None = None
-    shared_secret: str | None = Field(
-        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
-    )
-    http_server: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
-        default=None, validation_alias="httpServer", serialization_alias="httpServer"
-    )
-    payload_template: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
-        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
-    )
-
-
 class AttachOrganizationSaseSitesItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: (
-        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile | None
-    ) = None
-    region: AttachOrganizationSaseSitesItemsItemRegion | None = None
+    network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    region: AttachOrganizationSaseSitesItemsItemRegion
 
 
 class AttachOrganizationSaseSitesItemsItemRegion(_BaseSchema):
     """Region metadata for the site."""
 
     slug: str
+
+
+class AttachOrganizationSaseSitesResponse(_BaseSchema):
+    """Response for attachOrganizationSaseSites operation."""
+
+    pipeline_id: str | None = Field(
+        default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
+    )
+    operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    status: str | None = None
+    counts: AttachOrganizationSaseSitesResponseCounts | None = None
+
+
+class AttachOrganizationSaseSitesResponseCounts(_BaseSchema):
+    """Job counts."""
+
+    jobs: OrganizationsJobs | None = None
+    by_job_operation: list[OrganizationsCountsByJobOperationItem2] = Field(
+        default_factory=list,
+        validation_alias="byJobOperation",
+        serialization_alias="byJobOperation",
+    )
+
+    @field_validator("by_job_operation", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem(_BaseSchema):
@@ -108,35 +119,31 @@ class BatchOrganizationSaseConnectorsDeleteItemsItem(_BaseSchema):
 
 
 class BatchOrganizationSaseConnectorsDeleteResponse(_BaseSchema):
-    """Schema for BatchOrganizationSaseConnectorsDeleteResponse."""
-
-    items: list[BatchOrganizationSaseConnectorsDeleteResponseItemsItem] = Field(
-        default_factory=list
-    )
-    meta: BatchOrganizationSaseConnectorsDeleteResponseMeta | None = None
-
-    @field_validator("items", mode="before")
-    @classmethod
-    def coerce_null_lists(cls, value: Any) -> Any:
-        """Convert null array values from the API to empty lists."""
-        return [] if value is None else value
-
-
-class BatchOrganizationSaseConnectorsDeleteResponseItemsItem(_BaseSchema):
-    """Schema for BatchOrganizationSaseConnectorsDeleteResponseItemsItem."""
+    """Response for batchOrganizationSaseConnectorsDelete operation."""
 
     pipeline_id: str | None = Field(
         default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
     )
     operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
     status: str | None = None
-    counts: OrganizationsCounts6 | None = None
+    counts: BatchOrganizationSaseConnectorsDeleteResponseCounts | None = None
 
 
-class BatchOrganizationSaseConnectorsDeleteResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
+class BatchOrganizationSaseConnectorsDeleteResponseCounts(_BaseSchema):
+    """Job counts."""
 
-    counts: OrganizationsMetaCounts | None = None
+    jobs: OrganizationsJobs | None = None
+    by_job_operation: list[OrganizationsCountsByJobOperationItem] = Field(
+        default_factory=list,
+        validation_alias="byJobOperation",
+        serialization_alias="byJobOperation",
+    )
+
+    @field_validator("by_job_operation", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem(_BaseSchema):
@@ -235,6 +242,20 @@ class BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem(_BaseS
     interface: str | None = None
 
     @field_validator("devices", "details", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class BulkOrganizationNetworksGroupAssignResponse(_BaseSchema):
+    """Response for bulkOrganizationNetworksGroupAssign operation."""
+
+    network_ids: list[str] = Field(
+        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
+    )
+
+    @field_validator("network_ids", mode="before")
     @classmethod
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
@@ -500,6 +521,26 @@ class CreateOrganizationAlertsProfileRecipients(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class CreateOrganizationAssuranceAlertsProfileConfiguration(_BaseSchema):
+    """Alert configuration for this profile."""
+
+    enabled: bool | None = None
+    maintenance: OrganizationsMaintenance | None = None
+    alert_destinations: (
+        CreateOrganizationAssuranceAlertsProfileConfigurationAlertDestinations | None
+    ) = Field(
+        default=None, validation_alias="alertDestinations", serialization_alias="alertDestinations"
+    )
+
+
+class CreateOrganizationAssuranceAlertsProfileConfigurationAlertDestinations(_BaseSchema):
+    """List of alert channels and destinations for the alert type."""
+
+    email: OrganizationsEmail2
+    sms: OrganizationsEmail2 | None = None
+    webhook: OrganizationsEmail2
 
 
 class CreateOrganizationBrandingPolicyAdminSettings(_BaseSchema):
@@ -925,25 +966,38 @@ class CreateOrganizationSplashThemeResponse(_BaseSchema):
         return [] if value is None else value
 
 
-class DetachOrganizationSaseSitesCallback(_BaseSchema):
-    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
-
-    url: str | None = None
-    shared_secret: str | None = Field(
-        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
-    )
-    http_server: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
-        default=None, validation_alias="httpServer", serialization_alias="httpServer"
-    )
-    payload_template: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
-        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
-    )
-
-
 class DetachOrganizationSaseSitesItemsItem(_BaseSchema):
     """Item schema for items."""
 
     site_id: str = Field(validation_alias="siteId", serialization_alias="siteId")
+
+
+class DetachOrganizationSaseSitesResponse(_BaseSchema):
+    """Response for detachOrganizationSaseSites operation."""
+
+    pipeline_id: str | None = Field(
+        default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
+    )
+    operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    status: str | None = None
+    counts: DetachOrganizationSaseSitesResponseCounts | None = None
+
+
+class DetachOrganizationSaseSitesResponseCounts(_BaseSchema):
+    """Job counts."""
+
+    jobs: OrganizationsJobs | None = None
+    by_job_operation: list[OrganizationsCountsByJobOperationItem3] = Field(
+        default_factory=list,
+        validation_alias="byJobOperation",
+        serialization_alias="byJobOperation",
+    )
+
+    @field_validator("by_job_operation", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DisableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
@@ -2058,6 +2112,10 @@ class GetOrganizationEarlyAccessFeaturesResponseItem(_BaseSchema):
     privacy_link: str | None = Field(
         default=None, validation_alias="privacyLink", serialization_alias="privacyLink"
     )
+    advantage: bool | None = None
+    advantage_trial: bool | None = Field(
+        default=None, validation_alias="advantageTrial", serialization_alias="advantageTrial"
+    )
 
 
 class GetOrganizationFirmwareUpgradesByDeviceResponse(
@@ -2440,6 +2498,26 @@ class GetOrganizationLicensesResponse(RootModel[list["OrganizationLicenseRespons
     """Response for getOrganizationLicenses operation."""
 
 
+class GetOrganizationNetworksGroupsOverviewByGroupResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationNetworksGroupsOverviewByGroupResponseItemsItem."""
+
+    group_id: str | None = Field(
+        default=None, validation_alias="groupId", serialization_alias="groupId"
+    )
+    name: str | None = None
+    clients: OrganizationsClients | None = None
+    statuses: OrganizationsStatuses | None = None
+    product_types: list[str] = Field(
+        default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
+    )
+
+    @field_validator("product_types", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class GetOrganizationNetworksResponse(RootModel[list["CreateOrganizationNetworkResponse"]]):
     """Response for getOrganizationNetworks operation."""
 
@@ -2718,7 +2796,7 @@ class GetOrganizationSummaryTopClientsByUsageResponseItem(_BaseSchema):
     mac: str | None = None
     id: str | None = None
     network: OrganizationsPolicyObjectsItem | None = None
-    usage: OrganizationsUsage2 | None = None
+    usage: OrganizationsUsage3 | None = None
 
 
 class GetOrganizationSummaryTopClientsManufacturersByUsageResponse(
@@ -2731,7 +2809,7 @@ class GetOrganizationSummaryTopClientsManufacturersByUsageResponseItem(_BaseSche
     """Schema for GetOrganizationSummaryTopClientsManufacturersByUsageResponseItem."""
 
     name: str | None = None
-    clients: OrganizationsClients | None = None
+    clients: OrganizationsClients2 | None = None
     usage: OrganizationsUsageOverall | None = None
 
 
@@ -2752,8 +2830,8 @@ class GetOrganizationSummaryTopDevicesByUsageResponseItem(_BaseSchema):
         default=None, validation_alias="productType", serialization_alias="productType"
     )
     network: OrganizationsPolicyObjectsItem | None = None
-    usage: OrganizationsUsage3 | None = None
-    clients: OrganizationsClients | None = None
+    usage: OrganizationsUsage4 | None = None
+    clients: OrganizationsClients2 | None = None
 
 
 class GetOrganizationSummaryTopDevicesModelsByUsageResponse(
@@ -2767,7 +2845,7 @@ class GetOrganizationSummaryTopDevicesModelsByUsageResponseItem(_BaseSchema):
 
     model: str | None = None
     count: int | None = None
-    usage: OrganizationsUsage4 | None = None
+    usage: OrganizationsUsage5 | None = None
 
 
 class GetOrganizationSummaryTopNetworksByStatusResponse(
@@ -2786,9 +2864,10 @@ class GetOrganizationSummaryTopNetworksByStatusResponseItem(_BaseSchema):
     url: str | None = None
     tags: list[str] = Field(default_factory=list)
     group: CreateOrganizationActionBatchCallbackHttpServer | None = None
-    clients: OrganizationsClients2 | None = None
-    statuses: OrganizationsStatuses | None = None
+    clients: OrganizationsClients | None = None
+    statuses: OrganizationsStatuses2 | None = None
     devices: OrganizationsDevices4 | None = None
+    permissions: OrganizationsPermissions | None = None
     product_types: list[str] = Field(
         default_factory=list, validation_alias="productTypes", serialization_alias="productTypes"
     )
@@ -2810,8 +2889,8 @@ class GetOrganizationSummaryTopSsidsByUsageResponseItem(_BaseSchema):
     """Schema for GetOrganizationSummaryTopSsidsByUsageResponseItem."""
 
     name: str | None = None
-    usage: OrganizationsUsage2 | None = None
-    clients: OrganizationsClients | None = None
+    usage: OrganizationsUsage3 | None = None
+    clients: OrganizationsClients2 | None = None
 
 
 class GetOrganizationSummaryTopSwitchesByEnergyUsageResponse(
@@ -3178,6 +3257,34 @@ class OrganizationAlertsProfileResponse(_BaseSchema):
     description: str | None = None
 
     @field_validator("network_tags", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class OrganizationAssuranceAlertsProfileResponse(_BaseSchema):
+    """Schema for OrganizationAssuranceAlertsProfileResponse."""
+
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
+    name: str | None = None
+    organization_id: str | None = Field(
+        default=None, validation_alias="organizationId", serialization_alias="organizationId"
+    )
+    network_ids: list[str] = Field(
+        default_factory=list, validation_alias="networkIds", serialization_alias="networkIds"
+    )
+    alert_types: list[str] = Field(
+        default_factory=list, validation_alias="alertTypes", serialization_alias="alertTypes"
+    )
+    alert_schedule_id: str | None = Field(
+        default=None, validation_alias="alertScheduleId", serialization_alias="alertScheduleId"
+    )
+    configuration: OrganizationsConfiguration | None = None
+
+    @field_validator("network_ids", "alert_types", mode="before")
     @classmethod
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
@@ -3624,6 +3731,18 @@ class OrganizationLoginSecurityResponseApiAuthentication(_BaseSchema):
     )
 
 
+class OrganizationNetworksGroupResponse(_BaseSchema):
+    """Schema for OrganizationNetworksGroupResponse."""
+
+    group_id: str | None = Field(
+        default=None, validation_alias="groupId", serialization_alias="groupId"
+    )
+    organization_id: str | None = Field(
+        default=None, validation_alias="organizationId", serialization_alias="organizationId"
+    )
+    name: str | None = None
+
+
 class OrganizationPoliciesGlobalFirewallRulesetResponse(_BaseSchema):
     """Schema for OrganizationPoliciesGlobalFirewallRulesetResponse."""
 
@@ -3925,6 +4044,14 @@ class OrganizationsAlertCondition(_BaseSchema):
     interface: str | None = None
 
 
+class OrganizationsAlertDestinations(_BaseSchema):
+    """List of alert channels and destinations for the alert type."""
+
+    email: OrganizationsEmail | None = None
+    sms: OrganizationsEmail | None = None
+    webhook: OrganizationsWebhook | None = None
+
+
 class OrganizationsApi(_BaseSchema):
     """API related settings."""
 
@@ -4165,16 +4292,16 @@ class OrganizationsClient3(_BaseSchema):
 
 
 class OrganizationsClients(_BaseSchema):
-    """Clients info."""
+    """Network group clients data."""
 
     counts: GetOrganizationClientsOverviewResponseCounts | None = None
+    usage: OrganizationsUsage2 | None = None
 
 
 class OrganizationsClients2(_BaseSchema):
-    """Network clients data."""
+    """Clients info."""
 
     counts: GetOrganizationClientsOverviewResponseCounts | None = None
-    usage: OrganizationsUsage5 | None = None
 
 
 class OrganizationsCloud(_BaseSchema):
@@ -4208,6 +4335,16 @@ class OrganizationsComponents(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class OrganizationsConfiguration(_BaseSchema):
+    """Alert configuration for this profile."""
+
+    enabled: bool | None = None
+    maintenance: OrganizationsMaintenance | None = None
+    alert_destinations: OrganizationsAlertDestinations | None = Field(
+        default=None, validation_alias="alertDestinations", serialization_alias="alertDestinations"
+    )
 
 
 class OrganizationsConnection(_BaseSchema):
@@ -4266,10 +4403,34 @@ class OrganizationsCounts5(_BaseSchema):
     )
 
 
-class OrganizationsCounts6(_BaseSchema):
-    """Job counts."""
+class OrganizationsCountsByJobOperationItem(_BaseSchema):
+    """Schema for OrganizationsCountsByJobOperationItem."""
 
-    jobs: OrganizationsJobs | None = None
+    name: str | None = None
+    total: int | None = None
+    by_status: OrganizationsByStatus | None = Field(
+        default=None, validation_alias="byStatus", serialization_alias="byStatus"
+    )
+
+
+class OrganizationsCountsByJobOperationItem2(_BaseSchema):
+    """Schema for OrganizationsCountsByJobOperationItem2."""
+
+    name: str | None = None
+    total: int | None = None
+    by_status: OrganizationsByStatus | None = Field(
+        default=None, validation_alias="byStatus", serialization_alias="byStatus"
+    )
+
+
+class OrganizationsCountsByJobOperationItem3(_BaseSchema):
+    """Schema for OrganizationsCountsByJobOperationItem3."""
+
+    name: str | None = None
+    total: int | None = None
+    by_status: OrganizationsByStatus | None = Field(
+        default=None, validation_alias="byStatus", serialization_alias="byStatus"
+    )
 
 
 class OrganizationsCountsBySeverityItem(_BaseSchema):
@@ -4592,6 +4753,32 @@ class OrganizationsDevicesItem3(_BaseSchema):
     description: str | None = None
 
 
+class OrganizationsEmail(_BaseSchema):
+    """Email channel configuration."""
+
+    enabled: bool | None = None
+    recipients: list[str] = Field(default_factory=list)
+
+    @field_validator("recipients", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class OrganizationsEmail2(_BaseSchema):
+    """Email channel configuration."""
+
+    enabled: bool
+    recipients: list[str] = Field(default_factory=list)
+
+    @field_validator("recipients", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class OrganizationsEncryption(_BaseSchema):
     """Encryption settings for the syslog server."""
 
@@ -4875,13 +5062,6 @@ class OrganizationsIntervalsItem2(_BaseSchema):
     memory: OrganizationsMemory | None = None
 
 
-class OrganizationsItems(_BaseSchema):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
 class OrganizationsJobs(_BaseSchema):
     """Job count breakdown."""
 
@@ -4942,6 +5122,12 @@ class OrganizationsLldp(_BaseSchema):
     port: str | None = None
 
 
+class OrganizationsMaintenance(_BaseSchema):
+    """Maintenance configuration for this profile."""
+
+    silencing: OrganizationsApi | None = None
+
+
 class OrganizationsManagement(_BaseSchema):
     """Information about the organization's management system."""
 
@@ -4965,12 +5151,6 @@ class OrganizationsMemory(_BaseSchema):
 
     used: OrganizationsUsed2 | None = None
     free: OrganizationsFree | None = None
-
-
-class OrganizationsMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: OrganizationsItems | None = None
 
 
 class OrganizationsModemsItem(_BaseSchema):
@@ -5126,6 +5306,14 @@ class OrganizationsPermanentlyQueuedLicensesItem(_BaseSchema):
     )
 
 
+class OrganizationsPermissions(_BaseSchema):
+    """Current user's network-level permissions."""
+
+    can_write: bool | None = Field(
+        default=None, validation_alias="canWrite", serialization_alias="canWrite"
+    )
+
+
 class OrganizationsPoe(_BaseSchema):
     """PoE info of the power supply."""
 
@@ -5221,6 +5409,14 @@ class OrganizationsRecipients(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class OrganizationsRecipientsItem(_BaseSchema):
+    """Schema for OrganizationsRecipientsItem."""
+
+    id: str | None = None
+    name: str | None = None
+    url: str | None = None
 
 
 class OrganizationsRecordsClientVpnConnectionsItem(_BaseSchema):
@@ -5626,6 +5822,21 @@ class OrganizationsStatus(_BaseSchema):
 
 
 class OrganizationsStatuses(_BaseSchema):
+    """Network group device statuses."""
+
+    overall: str | None = None
+    by_product_type: list[OrganizationsByProductTypeItem] = Field(
+        default_factory=list, validation_alias="byProductType", serialization_alias="byProductType"
+    )
+
+    @field_validator("by_product_type", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class OrganizationsStatuses2(_BaseSchema):
     """Network device statuses."""
 
     overall: str | None = None
@@ -5836,6 +6047,13 @@ class OrganizationsUsage(_BaseSchema):
 
 
 class OrganizationsUsage2(_BaseSchema):
+    """Network group client usage data."""
+
+    upstream: float | None = None
+    downstream: float | None = None
+
+
+class OrganizationsUsage3(_BaseSchema):
     """Data usage information."""
 
     total: float | None = None
@@ -5844,25 +6062,18 @@ class OrganizationsUsage2(_BaseSchema):
     percentage: float | None = None
 
 
-class OrganizationsUsage3(_BaseSchema):
+class OrganizationsUsage4(_BaseSchema):
     """Data usage of the device."""
 
     total: float | None = None
     percentage: float | None = None
 
 
-class OrganizationsUsage4(_BaseSchema):
+class OrganizationsUsage5(_BaseSchema):
     """Usage info in megabytes."""
 
     total: float | None = None
     average: float | None = None
-
-
-class OrganizationsUsage5(_BaseSchema):
-    """Network client usage data."""
-
-    upstream: float | None = None
-    downstream: float | None = None
 
 
 class OrganizationsUsage6(_BaseSchema):
@@ -5904,6 +6115,19 @@ class OrganizationsVpn(_BaseSchema):
     """VPN configuration for the site."""
 
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+
+
+class OrganizationsWebhook(_BaseSchema):
+    """Webhook channel configuration."""
+
+    enabled: bool | None = None
+    recipients: list[OrganizationsRecipientsItem] = Field(default_factory=list)
+
+    @field_validator("recipients", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class PreviewOrganizationInventoryOrdersResponse(_BaseSchema):
@@ -6133,6 +6357,18 @@ class UpdateOrganizationApi(_BaseSchema):
     """API-specific settings."""
 
     enabled: bool | None = None
+
+
+class UpdateOrganizationAssuranceAlertsProfileConfiguration(_BaseSchema):
+    """Alert configuration for this profile."""
+
+    enabled: bool | None = None
+    maintenance: OrganizationsMaintenance | None = None
+    alert_destinations: (
+        CreateOrganizationAssuranceAlertsProfileConfigurationAlertDestinations | None
+    ) = Field(
+        default=None, validation_alias="alertDestinations", serialization_alias="alertDestinations"
+    )
 
 
 class UpdateOrganizationBrandingPolicyAdminSettings(_BaseSchema):

@@ -144,21 +144,6 @@ class ApplianceBandwidthLimits(_BaseSchema):
     )
 
 
-class ApplianceByDeviceItem(_BaseSchema):
-    """Schema for ApplianceByDeviceItem."""
-
-    serial: str | None = None
-    vlan_ids: list[int] = Field(
-        default_factory=list, validation_alias="vlanIds", serialization_alias="vlanIds"
-    )
-
-    @field_validator("vlan_ids", mode="before")
-    @classmethod
-    def coerce_null_lists(cls, value: Any) -> Any:
-        """Convert null array values from the API to empty lists."""
-        return [] if value is None else value
-
-
 class ApplianceByInterfaceItem(_BaseSchema):
     """Schema for ApplianceByInterfaceItem."""
 
@@ -1158,15 +1143,6 @@ class ApplianceUplinkInterfacesItem(_BaseSchema):
         return [] if value is None else value
 
 
-class ApplianceUplinkLoadBalancing(_BaseSchema):
-    """Load balancing configuration."""
-
-    enabled: bool | None = None
-    vlan_selection: ApplianceVlanSelection | None = Field(
-        default=None, validation_alias="vlanSelection", serialization_alias="vlanSelection"
-    )
-
-
 class ApplianceUplinkSharing(_BaseSchema):
     """HA uplink sharing properties."""
 
@@ -1216,7 +1192,10 @@ class ApplianceUplinksItem2(_BaseSchema):
 
 
 class ApplianceUsageSummary(_BaseSchema):
-    """Usage summary."""
+    """Usage summary. Usage values are derived from 20-minute aggregate data. For accurate
+    usageSummary values, use query windows of at least 20 minutes. Shorter or very recent
+    windows may return 0 until aggregate data is available.
+    """
 
     received_in_kilobytes: int | None = Field(
         default=None,
@@ -1258,36 +1237,6 @@ class ApplianceVlan(_BaseSchema):
 
     id: int
     name: str
-
-
-class ApplianceVlanSelection(_BaseSchema):
-    """VLAN selection strategy."""
-
-    mode: str | None = None
-    by_device: list[ApplianceByDeviceItem] = Field(
-        default_factory=list, validation_alias="byDevice", serialization_alias="byDevice"
-    )
-
-    @field_validator("by_device", mode="before")
-    @classmethod
-    def coerce_null_lists(cls, value: Any) -> Any:
-        """Convert null array values from the API to empty lists."""
-        return [] if value is None else value
-
-
-class ApplianceVlanSelection2(_BaseSchema):
-    """VLAN selection strategy."""
-
-    mode: str | None = None
-    by_device: list[ApplianceByDeviceItem] = Field(
-        default_factory=list, validation_alias="byDevice", serialization_alias="byDevice"
-    )
-
-    @field_validator("by_device", mode="before")
-    @classmethod
-    def coerce_null_lists(cls, value: Any) -> Any:
-        """Convert null array values from the API to empty lists."""
-        return [] if value is None else value
 
 
 class ApplianceVlanTagging(_BaseSchema):
@@ -3472,9 +3421,6 @@ class UpdateNetworkApplianceDevicesRedundancyResponseUplink(_BaseSchema):
     mode: str | None = None
     interfaces: list[ApplianceUplinkInterfacesItem] = Field(default_factory=list)
     sharing: ApplianceUplinkSharing | None = None
-    load_balancing: ApplianceUplinkLoadBalancing | None = Field(
-        default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
-    )
 
     @field_validator("interfaces", mode="before")
     @classmethod
@@ -3489,24 +3435,12 @@ class UpdateNetworkApplianceDevicesRedundancyUplink(_BaseSchema):
     mode: str | None = None
     interfaces: list[ApplianceUplinkInterfacesItem] = Field(default_factory=list)
     sharing: ApplianceUplinkSharing | None = None
-    load_balancing: UpdateNetworkApplianceDevicesRedundancyUplinkLoadBalancing | None = Field(
-        default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
-    )
 
     @field_validator("interfaces", mode="before")
     @classmethod
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class UpdateNetworkApplianceDevicesRedundancyUplinkLoadBalancing(_BaseSchema):
-    """Load balancing configuration."""
-
-    enabled: bool | None = None
-    vlan_selection: ApplianceVlanSelection2 | None = Field(
-        default=None, validation_alias="vlanSelection", serialization_alias="vlanSelection"
-    )
 
 
 class UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem(_BaseSchema):

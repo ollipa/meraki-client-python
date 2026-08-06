@@ -228,7 +228,7 @@ class ActionBatchSwitch:
                 ARP Inspection will allow the traffic.
             profile: Profile attributes.
             dot3az: dot3az settings for the port.
-            high_speed: High speed port enablement settings for C9500-32QC.
+            high_speed: High speed port enablement settings for a high-speed logical port.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -2460,7 +2460,7 @@ class ActionBatchSwitch:
                 ARP Inspection will allow the traffic.
             profile: Profile attributes.
             dot3az: dot3az settings for the port.
-            high_speed: High speed port enablement settings for C9500-32QC.
+            high_speed: High speed port enablement settings for a high-speed logical port.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")

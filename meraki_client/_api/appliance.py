@@ -962,6 +962,23 @@ class Appliance:
                 "signature": "1:21516:9",
                 "sigSource": "",
                 "ruleId": "meraki:intrusion/snort/GID/1/SID/26267"
+              },
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "TLS Decrypt Alert",
+                "deviceMac": "00:18:0a:01:02:03",
+                "clientName": "COMPUTER-M-V78J",
+                "clientIp": "192.168.128.2",
+                "srcIp": "192.168.128.2:51528",
+                "destIp": "119.192.233.48:443",
+                "protocol": "tcp",
+                "sourcePort": 51528,
+                "destinationPort": 443,
+                "message": "Connection to destination failed to be decrypted",
+                "errorCode": 0,
+                "serverName": "www.example.com",
+                "direction": 2,
+                "nbarApplication": "web-browsing"
               }
             ]
             ```
@@ -1289,21 +1306,6 @@ class Appliance:
                       "parent": "primary"
                     }
                   ]
-                },
-                "loadBalancing": {
-                  "enabled": true,
-                  "vlanSelection": {
-                    "mode": "auto",
-                    "byDevice": [
-                      {
-                        "serial": "Q234-ABCD-5678",
-                        "vlanIds": [
-                          1,
-                          2
-                        ]
-                      }
-                    ]
-                  }
                 }
               }
             }
@@ -1381,21 +1383,6 @@ class Appliance:
                       "parent": "primary"
                     }
                   ]
-                },
-                "loadBalancing": {
-                  "enabled": true,
-                  "vlanSelection": {
-                    "mode": "auto",
-                    "byDevice": [
-                      {
-                        "serial": "Q234-ABCD-5678",
-                        "vlanIds": [
-                          1,
-                          2
-                        ]
-                      }
-                    ]
-                  }
                 }
               }
             }
@@ -2762,10 +2749,10 @@ class Appliance:
                 Routers also support VLAN ranges (e.g. '2-10,15'). Use 'all' to permit
                 all VLANs on the port.
             access_policy: The name of the policy. Only applicable to Access ports. Valid values
-                are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or
-                Z3 or any MX supporting the per port authentication feature. Otherwise,
-                'open' is the only valid value and 'open' is the default value if the
-                field is missing.
+                are: 'open', '8021x-radius', 'mac-radius', 'hybrid-radius', 'access-
+                manager' for MX64 or Z3 or any MX supporting the per port authentication
+                feature. Otherwise, 'open' is the only valid value and 'open' is the
+                default value if the field is missing.
             sgt: Security Group Tag settings for the port.
 
         Returns:
@@ -3540,6 +3527,23 @@ class Appliance:
                 "signature": "1:21516:9",
                 "sigSource": "",
                 "ruleId": "meraki:intrusion/snort/GID/1/SID/26267"
+              },
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "TLS Decrypt Alert",
+                "deviceMac": "00:18:0a:01:02:03",
+                "clientName": "COMPUTER-M-V78J",
+                "clientIp": "192.168.128.2",
+                "srcIp": "192.168.128.2:51528",
+                "destIp": "119.192.233.48:443",
+                "protocol": "tcp",
+                "sourcePort": 51528,
+                "destinationPort": 443,
+                "message": "Connection to destination failed to be decrypted",
+                "errorCode": 0,
+                "serverName": "www.example.com",
+                "direction": 2,
+                "nbarApplication": "web-browsing"
               }
             ]
             ```
@@ -4288,6 +4292,7 @@ class Appliance:
         subnet: str,
         gateway_ip: str,
         gateway_vlan_id: int | None = None,
+        enabled: bool | None = None,
     ) -> NetworkApplianceStaticRouteResponse:
         """Add a static route for an MX or teleworker network.
 
@@ -4299,6 +4304,7 @@ class Appliance:
             subnet: Subnet of the route.
             gateway_ip: Gateway IP address (next hop).
             gateway_vlan_id: Gateway VLAN ID.
+            enabled: Enable/disable the static route.
 
         Returns:
             Successful operation.
@@ -4343,6 +4349,8 @@ class Appliance:
             payload["gatewayIp"] = gateway_ip
         if gateway_vlan_id is not None:
             payload["gatewayVlanId"] = gateway_vlan_id
+        if enabled is not None:
+            payload["enabled"] = enabled
 
         return self._session.post(
             scope="appliance",
@@ -7336,21 +7344,6 @@ class Appliance:
                       "parent": "primary"
                     }
                   ]
-                },
-                "loadBalancing": {
-                  "enabled": true,
-                  "vlanSelection": {
-                    "mode": "auto",
-                    "byDevice": [
-                      {
-                        "serial": "Q234-ABCD-5678",
-                        "vlanIds": [
-                          1,
-                          2
-                        ]
-                      }
-                    ]
-                  }
                 }
               }
             }
@@ -8626,6 +8619,23 @@ class Appliance:
                 "signature": "1:21516:9",
                 "sigSource": "",
                 "ruleId": "meraki:intrusion/snort/GID/1/SID/26267"
+              },
+              {
+                "ts": "2018-02-11T00:00:00.090210Z",
+                "eventType": "TLS Decrypt Alert",
+                "deviceMac": "00:18:0a:01:02:03",
+                "clientName": "COMPUTER-M-V78J",
+                "clientIp": "192.168.128.2",
+                "srcIp": "192.168.128.2:51528",
+                "destIp": "119.192.233.48:443",
+                "protocol": "tcp",
+                "sourcePort": 51528,
+                "destinationPort": 443,
+                "message": "Connection to destination failed to be decrypted",
+                "errorCode": 0,
+                "serverName": "www.example.com",
+                "direction": 2,
+                "nbarApplication": "web-browsing"
               }
             ]
             ```
@@ -9264,7 +9274,7 @@ class Appliance:
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationApplianceVpnStatsResponseItem]:
-        """Show VPN history stat for networks in an organization.
+        """Show VPN history stats for networks in an organization.
 
         [API documentation: getOrganizationApplianceVpnStats](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats)
 

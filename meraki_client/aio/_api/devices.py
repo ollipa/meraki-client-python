@@ -931,7 +931,11 @@ class Devices:
         )
 
     async def create_device_live_tools_mac_table(
-        self, serial: str, *, callback: CreateDeviceLiveToolsMacTableCallback | None = None
+        self,
+        serial: str,
+        *,
+        mac: str | None = None,
+        callback: CreateDeviceLiveToolsMacTableCallback | None = None,
     ) -> CreateDeviceLiveToolsMacTableResponse:
         """Enqueue a job to request the MAC table from the device.
 
@@ -939,6 +943,9 @@ class Devices:
 
         Args:
             serial: Serial.
+            mac: Optional parameter to filter MAC table entries by MAC address. Must be a colon-
+                delimited six-octet MAC address, for example '00:11:22:a0:b1:c2'.
+                Matching is case-insensitive.
             callback: Details for the callback. Please include either an httpServerId OR url and
                 sharedSecret.
 
@@ -951,7 +958,8 @@ class Devices:
               "macTableId": "1284392014819",
               "url": "/devices/Q234-ABCD-5678/liveTools/macTable/1284392014819",
               "request": {
-                "serial": "Q234-ABCD-5678"
+                "serial": "Q234-ABCD-5678",
+                "mac": "00:11:22:a0:b1:c2"
               },
               "status": "complete",
               "callback": {
@@ -967,6 +975,8 @@ class Devices:
         path = f"/devices/{serial}/liveTools/macTable"
 
         payload: dict[str, Any] = {}
+        if mac is not None:
+            payload["mac"] = mac
         if callback is not None:
             payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
@@ -998,7 +1008,8 @@ class Devices:
               "macTableId": "1284392014819",
               "url": "/devices/Q234-ABCD-5678/liveTools/macTable/1284392014819",
               "request": {
-                "serial": "Q234-ABCD-5678"
+                "serial": "Q234-ABCD-5678",
+                "mac": "00:11:22:a0:b1:c2"
               },
               "status": "complete",
               "entries": [

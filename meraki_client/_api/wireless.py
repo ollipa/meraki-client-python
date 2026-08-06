@@ -30,7 +30,15 @@ from meraki_client.schemas import (
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryNetwork,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntrySsid,
+    CreateOrganizationWirelessSsidsProfilePrecedence,
+    CreateOrganizationWirelessSsidsProfilesAssignmentNetwork,
+    CreateOrganizationWirelessSsidsProfilesAssignmentProfile,
+    CreateOrganizationWirelessSsidsProfilesAssignmentResponse,
+    CreateOrganizationWirelessSsidsProfilesAssignmentSsid,
+    CreateOrganizationWirelessSsidsProfileSsid,
     CreateOrganizationWirelessZigbeeDisenrollmentResponse,
+    DeleteOrganizationWirelessSsidsProfilesAssignmentsNetwork,
+    DeleteOrganizationWirelessSsidsProfilesAssignmentsSsid,
     DeviceWirelessBluetoothSettingsResponse,
     DeviceWirelessElectronicShelfLabelResponse,
     DeviceWirelessRadioSettingsResponse,
@@ -56,7 +64,12 @@ from meraki_client.schemas import (
     GetNetworkWirelessRfProfilesResponse,
     GetNetworkWirelessSignalQualityHistoryResponseItem,
     GetNetworkWirelessUsageHistoryResponseItem,
+    GetOrganizationAssuranceImpactedDeviceWirelessByNetworkResponse,
+    GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseItemsItem,
     GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem,
+    GetOrganizationWirelessClientsUsageByNetworkBySsidResponseItemsItem,
+    GetOrganizationWirelessClientsUsageByNetworkResponseItemsItem,
+    GetOrganizationWirelessClientsUsageBySsidResponseItemsItem,
     GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem,
     GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem,
     GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalResponseItem,
@@ -72,6 +85,8 @@ from meraki_client.schemas import (
     GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem,
     GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem,
     GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem,
+    GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem,
+    GetOrganizationWirelessSsidsProfilesResponse,
     GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem,
     GetOrganizationWirelessZigbeeDisenrollmentResponse,
     NetworkWirelessAirMarshalRuleResponse,
@@ -81,6 +96,7 @@ from meraki_client.schemas import (
     NetworkWirelessEthernetPortsProfileResponse,
     NetworkWirelessSettingsResponse,
     NetworkWirelessSsidBonjourForwardingResponse,
+    NetworkWirelessSsidDeviceTypeGroupPoliciesResponse,
     NetworkWirelessSsidEapOverrideResponse,
     NetworkWirelessSsidFirewallL3FirewallRulesResponse,
     NetworkWirelessSsidFirewallL7FirewallRulesResponse,
@@ -126,6 +142,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidApTagsAndVlanIdsItem,
     UpdateNetworkWirelessSsidBonjourForwardingException,
     UpdateNetworkWirelessSsidBonjourForwardingRulesItem,
+    UpdateNetworkWirelessSsidCampusGateway,
     UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem,
     UpdateNetworkWirelessSsidDnsRewrite,
     UpdateNetworkWirelessSsidDot11r,
@@ -179,6 +196,7 @@ from meraki_client.schemas import (
     UpdateOrganizationWirelessMqttSettingsResponse,
     UpdateOrganizationWirelessMqttSettingsWifi,
     UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
+    UpdateOrganizationWirelessSsidsProfileSsid,
     UpdateOrganizationWirelessZigbeeDeviceResponse,
     UpdateOrganizationWirelessZigbeeDoorLockResponse,
 )
@@ -220,12 +238,21 @@ from meraki_client.types import (
     GetNetworkWirelessLatencyStatsSsid,
     GetNetworkWirelessSignalQualityHistoryBand,
     GetNetworkWirelessUsageHistoryBand,
+    GetOrganizationWirelessClientsUsageByNetworkBySsidUsageUnits,
+    GetOrganizationWirelessClientsUsageByNetworkUsageUnits,
+    GetOrganizationWirelessClientsUsageBySsidUsageUnits,
     GetOrganizationWirelessDevicesProvisioningDeploymentsDeploymentType,
     GetOrganizationWirelessDevicesProvisioningDeploymentsSortBy,
     GetOrganizationWirelessDevicesProvisioningDeploymentsSortOrder,
     GetOrganizationWirelessRadioRrmByNetworkSortOrder,
     GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes,
     GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesSsids,
+    GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortBy,
+    GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortOrder,
+    GetOrganizationWirelessSsidsProfilesOverviewsSortBy,
+    GetOrganizationWirelessSsidsProfilesOverviewsSortOrder,
+    GetOrganizationWirelessSsidsProfilesSortBy,
+    GetOrganizationWirelessSsidsProfilesSortOrder,
     UpdateNetworkWirelessAirMarshalRuleType,
     UpdateNetworkWirelessAirMarshalSettingsDefaultPolicy,
     UpdateNetworkWirelessAlternateManagementInterfaceProtocols,
@@ -3519,7 +3546,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-06-01T08:07:01Z"
+                "lastEnabledAt": "2026-07-05T08:07:39Z"
               }
             }
             ```
@@ -5379,6 +5406,7 @@ class Wireless:
                 "number": 0,
                 "name": "My SSID",
                 "enabled": true,
+                "wlanIdentifier": 16,
                 "splashPage": "Click-through splash page",
                 "ssidAdminAccessible": false,
                 "localAuth": false,
@@ -5466,6 +5494,11 @@ class Wireless:
                   "key": 5,
                   "clientIsolation": false
                 },
+                "campusGateway": {
+                  "cluster": {
+                    "id": "10"
+                  }
+                },
                 "lanIsolationEnabled": true,
                 "oauth": {
                   "allowedDomains": [
@@ -5549,6 +5582,7 @@ class Wireless:
               "number": 0,
               "name": "My SSID",
               "enabled": true,
+              "wlanIdentifier": 16,
               "splashPage": "Click-through splash page",
               "ssidAdminAccessible": false,
               "localAuth": false,
@@ -5635,6 +5669,11 @@ class Wireless:
                 },
                 "key": 5,
                 "clientIsolation": false
+              },
+              "campusGateway": {
+                "cluster": {
+                  "id": "10"
+                }
               },
               "lanIsolationEnabled": true,
               "oauth": {
@@ -5740,6 +5779,7 @@ class Wireless:
         radius_attribute_for_group_policies: UpdateNetworkWirelessSsidRadiusAttributeForGroupPolicies
         | None = None,
         ip_assignment_mode: str | None = None,
+        campus_gateway: UpdateNetworkWirelessSsidCampusGateway | None = None,
         use_vlan_tagging: bool | None = None,
         concentrator_network_id: str | None = None,
         secondary_concentrator_network_id: str | None = None,
@@ -5802,8 +5842,8 @@ class Wireless:
                 with custom RADIUS', 'Password-protected with Active Directory',
                 'Password-protected with LDAP', 'SMS authentication', 'Systems Manager
                 Sentry', 'Facebook Wi-Fi', 'Google OAuth', 'Microsoft Entra ID',
-                'Sponsored guest', 'Cisco ISE' or 'Google Apps domain').This attribute
-                is not supported for template children.
+                'Sponsored guest' or 'Cisco ISE').This attribute is not supported for
+                template children.
             splash_guest_sponsor_domains: Array of valid sponsor email domains for sponsored guest
                 splash type.
             oauth: The OAuth settings of this SSID. Only valid if splashPage is 'Google OAuth'.
@@ -5857,6 +5897,7 @@ class Wireless:
             ip_assignment_mode: The client IP assignment mode ('NAT mode', 'Bridge mode', 'Layer 3
                 roaming', 'Ethernet over GRE', 'Layer 3 roaming with a concentrator',
                 'VPN' or 'Campus Gateway').
+            campus_gateway: Campus gateway settings.
             use_vlan_tagging: Whether or not traffic should be directed to use specific VLANs. This
                 param is only valid if the ipAssignmentMode is 'Bridge mode' or 'Layer 3
                 roaming'.
@@ -5941,6 +5982,7 @@ class Wireless:
               "number": 0,
               "name": "My SSID",
               "enabled": true,
+              "wlanIdentifier": 16,
               "splashPage": "Click-through splash page",
               "ssidAdminAccessible": false,
               "localAuth": false,
@@ -6027,6 +6069,11 @@ class Wireless:
                 },
                 "key": 5,
                 "clientIsolation": false
+              },
+              "campusGateway": {
+                "cluster": {
+                  "id": "10"
+                }
               },
               "lanIsolationEnabled": true,
               "oauth": {
@@ -6158,6 +6205,8 @@ class Wireless:
             payload["radiusAttributeForGroupPolicies"] = radius_attribute_for_group_policies
         if ip_assignment_mode is not None:
             payload["ipAssignmentMode"] = ip_assignment_mode
+        if campus_gateway is not None:
+            payload["campusGateway"] = campus_gateway.model_dump(by_alias=True, exclude_none=True)
         if use_vlan_tagging is not None:
             payload["useVlanTagging"] = use_vlan_tagging
         if concentrator_network_id is not None:
@@ -6345,7 +6394,7 @@ class Wireless:
 
     def get_network_wireless_ssid_device_type_group_policies(
         self, *, network_id: str, number: str
-    ) -> DictResponse:
+    ) -> NetworkWirelessSsidDeviceTypeGroupPoliciesResponse:
         """List the device type group policies for the SSID.
 
         [API documentation: getNetworkWirelessSsidDeviceTypeGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-device-type-group-policies)
@@ -6362,10 +6411,6 @@ class Wireless:
             {
               "enabled": true,
               "deviceTypePolicies": [
-                {
-                  "deviceType": "Android",
-                  "devicePolicy": "Allowed"
-                },
                 {
                   "deviceType": "iPhone",
                   "devicePolicy": "Group policy",
@@ -6384,7 +6429,7 @@ class Wireless:
             scope="wireless",
             operation_id="getNetworkWirelessSsidDeviceTypeGroupPolicies",
             path=path,
-            response_schema=DictResponse,
+            response_schema=NetworkWirelessSsidDeviceTypeGroupPoliciesResponse,
         )
 
     def update_network_wireless_ssid_device_type_group_policies(
@@ -6397,7 +6442,7 @@ class Wireless:
             UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem
         ]
         | None = None,
-    ) -> DictResponse:
+    ) -> NetworkWirelessSsidDeviceTypeGroupPoliciesResponse:
         """Update the device type group policies for the SSID.
 
         [API documentation: updateNetworkWirelessSsidDeviceTypeGroupPolicies](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies)
@@ -6416,10 +6461,6 @@ class Wireless:
             {
               "enabled": true,
               "deviceTypePolicies": [
-                {
-                  "deviceType": "Android",
-                  "devicePolicy": "Allowed"
-                },
                 {
                   "deviceType": "iPhone",
                   "devicePolicy": "Group policy",
@@ -6447,7 +6488,7 @@ class Wireless:
             operation_id="updateNetworkWirelessSsidDeviceTypeGroupPolicies",
             path=path,
             json=payload,
-            response_schema=DictResponse,
+            response_schema=NetworkWirelessSsidDeviceTypeGroupPoliciesResponse,
         )
 
     def get_network_wireless_ssid_eap_override(
@@ -8046,6 +8087,105 @@ class Wireless:
             response_schema=UpdateNetworkWirelessZigbeeResponse,
         )
 
+    def get_organization_assurance_impacted_device_wireless_by_network(
+        self,
+        organization_id: str,
+        *,
+        network_group_ids: list[str] | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationAssuranceImpactedDeviceWirelessByNetworkResponse]:
+        """Returns count of impacted wireless devices per network on a given organization and time range.
+
+        [API documentation: getOrganizationAssuranceImpactedDeviceWirelessByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-impacted-device-wireless-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            network_group_ids: Filter results by a list of network group IDs.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 14 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 2 hours and be less than or
+                equal to 14 days. The default is 2 hours.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 5000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_1313915",
+                "name": "SBC Core Network - wireless"
+              },
+              "counts": {
+                "total": 2,
+                "byFailureType": [
+                  {
+                    "type": "AP reboot",
+                    "count": 1
+                  }
+                ]
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/assurance/impactedDevice/wireless/byNetwork"
+
+        params: dict[str, Any] = {}
+        if network_group_ids is not None:
+            params["networkGroupIds[]"] = network_group_ids
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationAssuranceImpactedDeviceWirelessByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationAssuranceImpactedDeviceWirelessByNetworkResponse,
+        )
+
     def get_organization_wireless_air_marshal_rules(
         self,
         organization_id: str,
@@ -8223,6 +8363,130 @@ class Wireless:
             item_schema=UpdateNetworkWirelessAirMarshalSettingsResponse,
         )
 
+    def get_organization_wireless_clients_connections_impacted_by_network_by_ssid(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        network_group_ids: list[str] | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseItemsItem
+    ]:
+        """Summarize the number of wireless clients impacted by connection failures on network SSIDs, across an organization.
+
+        [API documentation: getOrganizationWirelessClientsConnectionsImpactedByNetworkBySsid](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-connections-impacted-by-network-by-ssid)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Filter results by network.
+            network_group_ids: Filter results by a list of network group IDs.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 8 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 5 minutes and be less than or
+                equal to 7 days. The default is 2 hours.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_828099381482759642",
+                    "name": "Test Home"
+                  },
+                  "ssid": {
+                    "id": "1234",
+                    "name": "Test Net",
+                    "number": 0
+                  },
+                  "clients": {
+                    "impacted": {
+                      "byStep": {
+                        "association": 10,
+                        "authentication": 20,
+                        "ipAssignment": 30
+                      },
+                      "total": 60
+                    },
+                    "total": 100
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/clients/connections/impacted/byNetwork/bySsid"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if network_group_ids is not None:
+            params["networkGroupIds[]"] = network_group_ids
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessClientsConnectionsImpactedByNetworkBySsid",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseItemsItem,
+        )
+
     def get_organization_wireless_clients_overview_by_device(
         self,
         organization_id: str,
@@ -8323,6 +8587,435 @@ class Wireless:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem,
+        )
+
+    def get_organization_wireless_clients_usage_by_network(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        network_ids: list[str] | None = None,
+        network_group_ids: list[str] | None = None,
+        gateway_network_ids: list[str] | None = None,
+        usage_units: GetOrganizationWirelessClientsUsageByNetworkUsageUnits | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationWirelessClientsUsageByNetworkResponseItemsItem]:
+        """Returns client usage details for wireless networks within an organization.
+
+        [API documentation: getOrganizationWirelessClientsUsageByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-usage-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 8 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 1 hour and be less than or equal
+                to 7 days. The default is 2 hours.
+            network_ids: Filter results by a list of network IDs.
+            network_group_ids: Filter results by a list of network group IDs.
+            gateway_network_ids: Limit the results to clients tunneled to campus gateways in the
+                provided networks.
+            usage_units: Usage units to use in the response.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_123456",
+                    "name": "My Network"
+                  },
+                  "clients": {
+                    "total": 100
+                  },
+                  "devices": {
+                    "byProductType": {
+                      "wireless": 10
+                    }
+                  },
+                  "usage": {
+                    "total": 1000.0,
+                    "upstream": 500.0,
+                    "downstream": 500.0
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                },
+                "units": {
+                  "usage": {
+                    "name": "megabytes",
+                    "symbol": "MB"
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/clients/usage/byNetwork"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if network_group_ids is not None:
+            params["networkGroupIds[]"] = network_group_ids
+        if gateway_network_ids is not None:
+            params["gatewayNetworkIds[]"] = gateway_network_ids
+        if usage_units is not None:
+            params["usageUnits"] = usage_units
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessClientsUsageByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessClientsUsageByNetworkResponseItemsItem,
+        )
+
+    def get_organization_wireless_clients_usage_by_network_by_ssid(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        network_ids: list[str] | None = None,
+        network_group_ids: list[str] | None = None,
+        ssid_ids: list[str] | None = None,
+        ssid_names: list[str] | None = None,
+        gateway_network_ids: list[str] | None = None,
+        usage_units: GetOrganizationWirelessClientsUsageByNetworkBySsidUsageUnits | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationWirelessClientsUsageByNetworkBySsidResponseItemsItem]:
+        """Returns client usage details for wireless network SSIDs within an organization.
+
+        [API documentation: getOrganizationWirelessClientsUsageByNetworkBySsid](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-usage-by-network-by-ssid)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 8 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 1 hour and be less than or equal
+                to 7 days. The default is 2 hours.
+            network_ids: Filter results by a list of network IDs.
+            network_group_ids: Filter results by a list of network group IDs.
+            ssid_ids: Filter results by a list of SSID IDs.
+            ssid_names: Filter results by a list of SSID names.
+            gateway_network_ids: Limit the results to clients tunneled to campus gateways in the
+                provided networks.
+            usage_units: Usage units to use in the response.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_123456",
+                    "name": "My Network"
+                  },
+                  "ssid": {
+                    "id": "123456",
+                    "number": 1,
+                    "name": "My SSID",
+                    "tunneledTo": {
+                      "network": {
+                        "id": "N_123456",
+                        "name": "My Network"
+                      },
+                      "cluster": {
+                        "id": "123456",
+                        "name": "My Cluster"
+                      }
+                    }
+                  },
+                  "clients": {
+                    "total": 100
+                  },
+                  "devices": {
+                    "byProductType": {
+                      "wireless": 10
+                    }
+                  },
+                  "usage": {
+                    "total": 1000.0,
+                    "upstream": 500.0,
+                    "downstream": 500.0
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                },
+                "units": {
+                  "usage": {
+                    "name": "megabytes",
+                    "symbol": "MB"
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/clients/usage/byNetwork/bySsid"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if network_group_ids is not None:
+            params["networkGroupIds[]"] = network_group_ids
+        if ssid_ids is not None:
+            params["ssidIds[]"] = ssid_ids
+        if ssid_names is not None:
+            params["ssidNames[]"] = ssid_names
+        if gateway_network_ids is not None:
+            params["gatewayNetworkIds[]"] = gateway_network_ids
+        if usage_units is not None:
+            params["usageUnits"] = usage_units
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessClientsUsageByNetworkBySsid",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessClientsUsageByNetworkBySsidResponseItemsItem,
+        )
+
+    def get_organization_wireless_clients_usage_by_ssid(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        ssid_names: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        network_group_ids: list[str] | None = None,
+        gateway_network_ids: list[str] | None = None,
+        usage_units: GetOrganizationWirelessClientsUsageBySsidUsageUnits | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationWirelessClientsUsageBySsidResponseItemsItem]:
+        """Returns client usage details for SSIDs within an organization.
+
+        [API documentation: getOrganizationWirelessClientsUsageBySsid](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-usage-by-ssid)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 8 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 1 hour and be less than or equal
+                to 7 days. The default is 2 hours.
+            ssid_names: Filter results by a list of SSID names.
+            network_ids: Limit the results to clients that belong to one of the provided networks.
+            network_group_ids: Limit the results to clients that belong to one of the provided
+                network groups.
+            gateway_network_ids: Limit the results to clients tunneled to campus gateways in the
+                provided networks.
+            usage_units: Usage units to use in the response.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "ssid": {
+                    "name": "My SSID"
+                  },
+                  "clients": {
+                    "total": 100
+                  },
+                  "devices": {
+                    "byProductType": {
+                      "wireless": 10
+                    }
+                  },
+                  "usage": {
+                    "total": 1000.0,
+                    "upstream": 500.0,
+                    "downstream": 500.0
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                },
+                "units": {
+                  "usage": {
+                    "name": "megabytes",
+                    "symbol": "MB"
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/clients/usage/bySsid"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if ssid_names is not None:
+            params["ssidNames[]"] = ssid_names
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if network_group_ids is not None:
+            params["networkGroupIds[]"] = network_group_ids
+        if gateway_network_ids is not None:
+            params["gatewayNetworkIds[]"] = gateway_network_ids
+        if usage_units is not None:
+            params["usageUnits"] = usage_units
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessClientsUsageBySsid",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessClientsUsageBySsidResponseItemsItem,
         )
 
     def get_organization_wireless_devices_channel_utilization_by_device(
@@ -10923,7 +11616,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-06-01T08:07:01Z"
+                    "lastEnabledAt": "2026-07-05T08:07:39Z"
                   }
                 }
               ],
@@ -11462,6 +12155,1338 @@ class Wireless:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem,
+        )
+
+    def get_organization_wireless_ssids_profiles(
+        self,
+        organization_id: str,
+        *,
+        name: str | None = None,
+        sort_by: GetOrganizationWirelessSsidsProfilesSortBy | None = None,
+        sort_order: GetOrganizationWirelessSsidsProfilesSortOrder | None = None,
+        profile_ids: list[int] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationWirelessSsidsProfilesResponse]:
+        """Returns the SSID profiles for an organization.
+
+        [API documentation: getOrganizationWirelessSsidsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-profiles)
+
+        Args:
+            organization_id: Organization ID.
+            name: (Optional) Filter results by name. Case insensitive substring match.
+            sort_by: Column to sort results by. Default is `name`.
+            sort_order: Direction to sort results by. Default is `asc`.
+            profile_ids: (Optional) Filter results by a list of SSID profile IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "id": "12345",
+              "name": "Profile name",
+              "precedence": {
+                "radius": "network"
+              },
+              "ssid": {
+                "name": "SSID name",
+                "advertisement": {
+                  "enabled": true
+                },
+                "security": {
+                  "mode": "psk",
+                  "protocol": "WPA3 only",
+                  "encryption": {
+                    "ciphers": [
+                      "GCMP 256"
+                    ],
+                    "akms": [
+                      "SAE",
+                      "SAE-EXT"
+                    ]
+                  },
+                  "dhcp": {
+                    "mandatory": {
+                      "enabled": false
+                    }
+                  }
+                },
+                "radius": {
+                  "servers": [
+                    {
+                      "id": 123,
+                      "address": "radius.example.com",
+                      "name": "Example RADIUS Server",
+                      "modes": [
+                        {
+                          "mode": "auth",
+                          "port": 1812
+                        }
+                      ]
+                    }
+                  ],
+                  "accounting": {
+                    "enabled": true,
+                    "updateInterval": 60
+                  },
+                  "policies": {
+                    "failover": {
+                      "mode": "deny"
+                    },
+                    "loadBalancing": {
+                      "mode": "priority"
+                    },
+                    "fallback": {
+                      "enabled": false
+                    },
+                    "attribute": "Filter-Id",
+                    "timeout": 5,
+                    "numAttempts": 3
+                  },
+                  "proxy": {
+                    "enabled": false
+                  },
+                  "testing": {
+                    "enabled": true
+                  },
+                  "identifiers": {
+                    "calledStation": "1",
+                    "nas": "some-nas-identifier"
+                  },
+                  "das": {
+                    "coa": {
+                      "enabled": true
+                    }
+                  },
+                  "eapTimers": {
+                    "timeout": 5,
+                    "maxRetries": 2,
+                    "identity": {
+                      "timeout": 5,
+                      "maxRetries": 5
+                    },
+                    "eapolKey": {
+                      "maxRetries": 2,
+                      "timeoutInMs": 5000
+                    }
+                  }
+                },
+                "addressing": {
+                  "mode": "Bridge mode",
+                  "adultContentFiltering": {
+                    "enabled": true
+                  },
+                  "dnsRewrite": {
+                    "enabled": true,
+                    "dnsCustomNameservers": []
+                  },
+                  "bonjourForwarding": {
+                    "enabled": true,
+                    "rules": [
+                      {
+                        "description": "Desc",
+                        "vlan": {
+                          "id": 1
+                        },
+                        "services": [
+                          "All Services"
+                        ]
+                      }
+                    ]
+                  },
+                  "mdns": {
+                    "enabled": true,
+                    "rules": [
+                      {
+                        "services": [
+                          "airplay"
+                        ]
+                      }
+                    ]
+                  },
+                  "radius": {
+                    "guest": {
+                      "vlan": {
+                        "enabled": true
+                      }
+                    },
+                    "overrideVlanTag": false
+                  }
+                },
+                "splash": {
+                  "mode": "click-through",
+                  "captivePortal": {
+                    "provider": "hosted",
+                    "external": {
+                      "url": "https://example.com/splash"
+                    },
+                    "hosted": {
+                      "theme": {
+                        "id": "c3ddcb4f16785ee747ab5ffc10867d6c8ea704be"
+                      },
+                      "language": {
+                        "code": "EN"
+                      },
+                      "consent": {
+                        "required": true,
+                        "message": "By continuing, you agree to our terms and conditions."
+                      }
+                    }
+                  },
+                  "redirect": {
+                    "override": {
+                      "enabled": true,
+                      "url": "https://example.com/redirect"
+                    }
+                  },
+                  "timeout": 1440,
+                  "auth": {
+                    "simultaneousLogins": {
+                      "enabled": false
+                    },
+                    "oauth": {
+                      "domains": [
+                        "example.com",
+                        "subdomain.example.com"
+                      ]
+                    }
+                  },
+                  "controllerUnreachable": {
+                    "mode": "default"
+                  },
+                  "preAccess": {
+                    "mode": "block-all",
+                    "walledGarden": {
+                      "enabled": true,
+                      "ranges": [
+                        "192.168.1.0/24",
+                        "10.0.0.0/8"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles"
+
+        params: dict[str, Any] = {}
+        if name is not None:
+            params["name"] = name
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if profile_ids is not None:
+            params["profileIds[]"] = profile_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessSsidsProfiles",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessSsidsProfilesResponse,
+        )
+
+    def create_organization_wireless_ssids_profile(
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        ssid: CreateOrganizationWirelessSsidsProfileSsid,
+        precedence: CreateOrganizationWirelessSsidsProfilePrecedence | None = None,
+    ) -> GetOrganizationWirelessSsidsProfilesResponse:
+        """Create a new SSID profile in an organization.
+
+        [API documentation: createOrganizationWirelessSsidsProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-profile)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the SSID profile.
+            precedence: Precedence configuration for the SSID profile.
+            ssid: SSID configuration for the profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "12345",
+              "name": "Profile name",
+              "precedence": {
+                "radius": "network"
+              },
+              "ssid": {
+                "name": "SSID name",
+                "advertisement": {
+                  "enabled": true
+                },
+                "security": {
+                  "mode": "psk",
+                  "protocol": "WPA3 only",
+                  "encryption": {
+                    "ciphers": [
+                      "GCMP 256"
+                    ],
+                    "akms": [
+                      "SAE",
+                      "SAE-EXT"
+                    ]
+                  },
+                  "dhcp": {
+                    "mandatory": {
+                      "enabled": false
+                    }
+                  }
+                },
+                "radius": {
+                  "servers": [
+                    {
+                      "id": 123,
+                      "address": "radius.example.com",
+                      "name": "Example RADIUS Server",
+                      "modes": [
+                        {
+                          "mode": "auth",
+                          "port": 1812
+                        }
+                      ]
+                    }
+                  ],
+                  "accounting": {
+                    "enabled": true,
+                    "updateInterval": 60
+                  },
+                  "policies": {
+                    "failover": {
+                      "mode": "deny"
+                    },
+                    "loadBalancing": {
+                      "mode": "priority"
+                    },
+                    "fallback": {
+                      "enabled": false
+                    },
+                    "attribute": "Filter-Id",
+                    "timeout": 5,
+                    "numAttempts": 3
+                  },
+                  "proxy": {
+                    "enabled": false
+                  },
+                  "testing": {
+                    "enabled": true
+                  },
+                  "identifiers": {
+                    "calledStation": "1",
+                    "nas": "some-nas-identifier"
+                  },
+                  "das": {
+                    "coa": {
+                      "enabled": true
+                    }
+                  },
+                  "eapTimers": {
+                    "timeout": 5,
+                    "maxRetries": 2,
+                    "identity": {
+                      "timeout": 5,
+                      "maxRetries": 5
+                    },
+                    "eapolKey": {
+                      "maxRetries": 2,
+                      "timeoutInMs": 5000
+                    }
+                  }
+                },
+                "addressing": {
+                  "mode": "Bridge mode",
+                  "adultContentFiltering": {
+                    "enabled": true
+                  },
+                  "dnsRewrite": {
+                    "enabled": true,
+                    "dnsCustomNameservers": []
+                  },
+                  "bonjourForwarding": {
+                    "enabled": true,
+                    "rules": [
+                      {
+                        "description": "Desc",
+                        "vlan": {
+                          "id": 1
+                        },
+                        "services": [
+                          "All Services"
+                        ]
+                      }
+                    ]
+                  },
+                  "mdns": {
+                    "enabled": true,
+                    "rules": [
+                      {
+                        "services": [
+                          "airplay"
+                        ]
+                      }
+                    ]
+                  },
+                  "radius": {
+                    "guest": {
+                      "vlan": {
+                        "enabled": true
+                      }
+                    },
+                    "overrideVlanTag": false
+                  }
+                },
+                "splash": {
+                  "mode": "click-through",
+                  "captivePortal": {
+                    "provider": "hosted",
+                    "external": {
+                      "url": "https://example.com/splash"
+                    },
+                    "hosted": {
+                      "theme": {
+                        "id": "c3ddcb4f16785ee747ab5ffc10867d6c8ea704be"
+                      },
+                      "language": {
+                        "code": "EN"
+                      },
+                      "consent": {
+                        "required": true,
+                        "message": "By continuing, you agree to our terms and conditions."
+                      }
+                    }
+                  },
+                  "redirect": {
+                    "override": {
+                      "enabled": true,
+                      "url": "https://example.com/redirect"
+                    }
+                  },
+                  "timeout": 1440,
+                  "auth": {
+                    "simultaneousLogins": {
+                      "enabled": false
+                    },
+                    "oauth": {
+                      "domains": [
+                        "example.com",
+                        "subdomain.example.com"
+                      ]
+                    }
+                  },
+                  "controllerUnreachable": {
+                    "mode": "default"
+                  },
+                  "preAccess": {
+                    "mode": "block-all",
+                    "walledGarden": {
+                      "enabled": true,
+                      "ranges": [
+                        "192.168.1.0/24",
+                        "10.0.0.0/8"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if precedence is not None:
+            payload["precedence"] = precedence.model_dump(by_alias=True, exclude_none=True)
+        if ssid is not None:
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="wireless",
+            operation_id="createOrganizationWirelessSsidsProfile",
+            path=path,
+            json=payload,
+            response_schema=GetOrganizationWirelessSsidsProfilesResponse,
+        )
+
+    def get_organization_wireless_ssids_profiles_assignments(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        ssid_ids: list[str] | None = None,
+        profile_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[CreateOrganizationWirelessSsidsProfilesAssignmentResponse]:
+        """List the SSID profile assignments in an organization.
+
+        [API documentation: getOrganizationWirelessSsidsProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-profiles-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: The network IDs to include in the result set.
+            ssid_ids: The SSID IDs to include in the result set.
+            profile_ids: The SSID profile IDs to include in the result set.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "ssid": {
+                    "id": "1284392014819",
+                    "number": 0,
+                    "name": "SSID 1"
+                  },
+                  "profile": {
+                    "id": "1284392014819",
+                    "name": "Profile name"
+                  },
+                  "network": {
+                    "id": "N_24329156",
+                    "encryptedId": "6GREra",
+                    "name": "Network name"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 50,
+                    "remaining": 100
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/assignments"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if ssid_ids is not None:
+            params["ssidIds[]"] = ssid_ids
+        if profile_ids is not None:
+            params["profileIds[]"] = profile_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessSsidsProfilesAssignments",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=CreateOrganizationWirelessSsidsProfilesAssignmentResponse,
+        )
+
+    def create_organization_wireless_ssids_profiles_assignment(
+        self,
+        *,
+        organization_id: str,
+        profile: CreateOrganizationWirelessSsidsProfilesAssignmentProfile,
+        ssid: CreateOrganizationWirelessSsidsProfilesAssignmentSsid,
+        network: CreateOrganizationWirelessSsidsProfilesAssignmentNetwork | None = None,
+    ) -> CreateOrganizationWirelessSsidsProfilesAssignmentResponse:
+        """Assigns an SSID profile to an SSID in the organization.
+
+        [API documentation: createOrganizationWirelessSsidsProfilesAssignment](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-profiles-assignment)
+
+        Args:
+            organization_id: Organization ID.
+            profile: SSID profile to assign.
+            ssid: SSID to assign the SSID profile to.
+            network: Network containing the SSID (required if SSID number is used).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ssid": {
+                "id": "1284392014819",
+                "number": 0,
+                "name": "SSID 1"
+              },
+              "profile": {
+                "id": "1284392014819",
+                "name": "Profile name"
+              },
+              "network": {
+                "id": "N_24329156",
+                "encryptedId": "6GREra",
+                "name": "Network name"
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/assignments"
+
+        payload: dict[str, Any] = {}
+        if profile is not None:
+            payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
+        if ssid is not None:
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
+        if network is not None:
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="wireless",
+            operation_id="createOrganizationWirelessSsidsProfilesAssignment",
+            path=path,
+            json=payload,
+            response_schema=CreateOrganizationWirelessSsidsProfilesAssignmentResponse,
+        )
+
+    def delete_organization_wireless_ssids_profiles_assignments(
+        self,
+        *,
+        organization_id: str,
+        ssid: DeleteOrganizationWirelessSsidsProfilesAssignmentsSsid,
+        network: DeleteOrganizationWirelessSsidsProfilesAssignmentsNetwork | None = None,
+    ) -> None:
+        """Unassigns the SSID profile assigned to an SSID.
+
+        [API documentation: deleteOrganizationWirelessSsidsProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-profiles-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            ssid: SSID to delete the SSID profile assignment of.
+            network: Network containing the SSID (required if SSID number is used).
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/assignments"
+
+        payload: dict[str, Any] = {}
+        if ssid is not None:
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
+        if network is not None:
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.delete(
+            scope="wireless",
+            operation_id="deleteOrganizationWirelessSsidsProfilesAssignments",
+            path=path,
+        )
+
+    def get_organization_wireless_ssids_profiles_assignments_by_network(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        profile_ids: list[str] | None = None,
+        network_group_ids: list[str] | None = None,
+        include_all_networks: bool | None = None,
+        exclude_profile_ids: list[str] | None = None,
+        sort_by: GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortBy | None = None,
+        sort_order: GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortOrder | None = None,
+        search: str | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem
+    ]:
+        """List the SSID profile assignments in an organization, grouped by network.
+
+        [API documentation: getOrganizationWirelessSsidsProfilesAssignmentsByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-profiles-assignments-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: The network IDs to include in the result set.
+            profile_ids: The SSID profile IDs to include in the result set.
+            network_group_ids: The network group IDs to include in the result set.
+            include_all_networks: When set to true, include all networks in the organization, even
+                those without any SSID profile assignments. Defaults to false.
+            exclude_profile_ids: The SSID profile IDs to exclude from the result set.
+            sort_by: Optional parameter to specify the field used to sort results. (default:
+                network).
+            sort_order: Optional parameter to specify the sort order. Default value is asc.
+            search: Optional parameter to search on network name or network group name.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "id": "L_12345",
+              "name": "Network name",
+              "group": {
+                "id": "12345",
+                "name": "Group name"
+              },
+              "clientsUrl": "https://n123.meraki.com/Org-name/n/ABC123/manage/clients",
+              "assignments": [
+                {
+                  "profile": {
+                    "id": "1",
+                    "name": "Profile name"
+                  },
+                  "ssid": {
+                    "id": "123",
+                    "number": 0,
+                    "name": "SSID 1"
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/assignments/byNetwork"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if profile_ids is not None:
+            params["profileIds[]"] = profile_ids
+        if network_group_ids is not None:
+            params["networkGroupIds[]"] = network_group_ids
+        if include_all_networks is not None:
+            params["includeAllNetworks"] = include_all_networks
+        if exclude_profile_ids is not None:
+            params["excludeProfileIds[]"] = exclude_profile_ids
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if search is not None:
+            params["search"] = search
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessSsidsProfilesAssignmentsByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem,
+        )
+
+    def get_organization_wireless_ssids_profiles_overviews(
+        self,
+        organization_id: str,
+        *,
+        name: str | None = None,
+        sort_by: GetOrganizationWirelessSsidsProfilesOverviewsSortBy | None = None,
+        sort_order: GetOrganizationWirelessSsidsProfilesOverviewsSortOrder | None = None,
+        profile_ids: list[int] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationWirelessSsidsProfilesResponse]:
+        """Returns the SSID profiles' overview information for an organization.
+
+        [API documentation: getOrganizationWirelessSsidsProfilesOverviews](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-profiles-overviews)
+
+        Args:
+            organization_id: Organization ID.
+            name: (Optional) Filter results by name. Case insensitive substring match.
+            sort_by: Column to sort results by. Default is `name`.
+            sort_order: Direction to sort results by. Default is `asc`.
+            profile_ids: (Optional) Filter results by a list of SSID profile IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "id": "12345",
+              "name": "Profile name",
+              "precedence": {
+                "radius": "network"
+              },
+              "ssid": {
+                "name": "SSID name",
+                "advertisement": {
+                  "enabled": true
+                },
+                "security": {
+                  "mode": "psk",
+                  "protocol": "WPA3 only",
+                  "encryption": {
+                    "ciphers": [
+                      "GCMP 256"
+                    ],
+                    "akms": [
+                      "SAE",
+                      "SAE-EXT"
+                    ]
+                  },
+                  "dhcp": {
+                    "mandatory": {
+                      "enabled": false
+                    }
+                  }
+                },
+                "radius": {
+                  "servers": [
+                    {
+                      "id": 123,
+                      "address": "radius.example.com",
+                      "name": "Example RADIUS Server",
+                      "modes": [
+                        {
+                          "mode": "auth",
+                          "port": 1812
+                        }
+                      ]
+                    }
+                  ],
+                  "accounting": {
+                    "enabled": true,
+                    "updateInterval": 60
+                  },
+                  "policies": {
+                    "failover": {
+                      "mode": "deny"
+                    },
+                    "loadBalancing": {
+                      "mode": "priority"
+                    },
+                    "fallback": {
+                      "enabled": false
+                    },
+                    "attribute": "Filter-Id",
+                    "timeout": 5,
+                    "numAttempts": 3
+                  },
+                  "proxy": {
+                    "enabled": false
+                  },
+                  "testing": {
+                    "enabled": true
+                  },
+                  "identifiers": {
+                    "calledStation": "1",
+                    "nas": "some-nas-identifier"
+                  },
+                  "das": {
+                    "coa": {
+                      "enabled": true
+                    }
+                  },
+                  "eapTimers": {
+                    "timeout": 5,
+                    "maxRetries": 2,
+                    "identity": {
+                      "timeout": 5,
+                      "maxRetries": 5
+                    },
+                    "eapolKey": {
+                      "maxRetries": 2,
+                      "timeoutInMs": 5000
+                    }
+                  }
+                },
+                "addressing": {
+                  "mode": "Bridge mode",
+                  "adultContentFiltering": {
+                    "enabled": true
+                  },
+                  "dnsRewrite": {
+                    "enabled": true,
+                    "dnsCustomNameservers": []
+                  },
+                  "bonjourForwarding": {
+                    "enabled": true,
+                    "rules": [
+                      {
+                        "description": "Desc",
+                        "vlan": {
+                          "id": 1
+                        },
+                        "services": [
+                          "All Services"
+                        ]
+                      }
+                    ]
+                  },
+                  "mdns": {
+                    "enabled": true,
+                    "rules": [
+                      {
+                        "services": [
+                          "airplay"
+                        ]
+                      }
+                    ]
+                  },
+                  "radius": {
+                    "guest": {
+                      "vlan": {
+                        "enabled": true
+                      }
+                    },
+                    "overrideVlanTag": false
+                  }
+                },
+                "splash": {
+                  "mode": "click-through",
+                  "captivePortal": {
+                    "provider": "hosted",
+                    "external": {
+                      "url": "https://example.com/splash"
+                    },
+                    "hosted": {
+                      "theme": {
+                        "id": "c3ddcb4f16785ee747ab5ffc10867d6c8ea704be"
+                      },
+                      "language": {
+                        "code": "EN"
+                      },
+                      "consent": {
+                        "required": true,
+                        "message": "By continuing, you agree to our terms and conditions."
+                      }
+                    }
+                  },
+                  "redirect": {
+                    "override": {
+                      "enabled": true,
+                      "url": "https://example.com/redirect"
+                    }
+                  },
+                  "timeout": 1440,
+                  "auth": {
+                    "simultaneousLogins": {
+                      "enabled": false
+                    },
+                    "oauth": {
+                      "domains": [
+                        "example.com",
+                        "subdomain.example.com"
+                      ]
+                    }
+                  },
+                  "controllerUnreachable": {
+                    "mode": "default"
+                  },
+                  "preAccess": {
+                    "mode": "block-all",
+                    "walledGarden": {
+                      "enabled": true,
+                      "ranges": [
+                        "192.168.1.0/24",
+                        "10.0.0.0/8"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/overviews"
+
+        params: dict[str, Any] = {}
+        if name is not None:
+            params["name"] = name
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if profile_ids is not None:
+            params["profileIds[]"] = profile_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessSsidsProfilesOverviews",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessSsidsProfilesResponse,
+        )
+
+    def update_organization_wireless_ssids_profile(
+        self,
+        *,
+        organization_id: str,
+        id: str,
+        name: str | None = None,
+        ssid: UpdateOrganizationWirelessSsidsProfileSsid | None = None,
+    ) -> GetOrganizationWirelessSsidsProfilesResponse:
+        """Update this SSID profile.
+
+        [API documentation: updateOrganizationWirelessSsidsProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-profile)
+
+        Args:
+            organization_id: Organization ID.
+            id: ID.
+            name: Name of the SSID profile.
+            ssid: SSID configuration for the profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "id": "12345",
+              "name": "Profile name",
+              "precedence": {
+                "radius": "network"
+              },
+              "ssid": {
+                "name": "SSID name",
+                "advertisement": {
+                  "enabled": true
+                },
+                "security": {
+                  "mode": "psk",
+                  "protocol": "WPA3 only",
+                  "encryption": {
+                    "ciphers": [
+                      "GCMP 256"
+                    ],
+                    "akms": [
+                      "SAE",
+                      "SAE-EXT"
+                    ]
+                  },
+                  "dhcp": {
+                    "mandatory": {
+                      "enabled": false
+                    }
+                  }
+                },
+                "radius": {
+                  "servers": [
+                    {
+                      "id": 123,
+                      "address": "radius.example.com",
+                      "name": "Example RADIUS Server",
+                      "modes": [
+                        {
+                          "mode": "auth",
+                          "port": 1812
+                        }
+                      ]
+                    }
+                  ],
+                  "accounting": {
+                    "enabled": true,
+                    "updateInterval": 60
+                  },
+                  "policies": {
+                    "failover": {
+                      "mode": "deny"
+                    },
+                    "loadBalancing": {
+                      "mode": "priority"
+                    },
+                    "fallback": {
+                      "enabled": false
+                    },
+                    "attribute": "Filter-Id",
+                    "timeout": 5,
+                    "numAttempts": 3
+                  },
+                  "proxy": {
+                    "enabled": false
+                  },
+                  "testing": {
+                    "enabled": true
+                  },
+                  "identifiers": {
+                    "calledStation": "1",
+                    "nas": "some-nas-identifier"
+                  },
+                  "das": {
+                    "coa": {
+                      "enabled": true
+                    }
+                  },
+                  "eapTimers": {
+                    "timeout": 5,
+                    "maxRetries": 2,
+                    "identity": {
+                      "timeout": 5,
+                      "maxRetries": 5
+                    },
+                    "eapolKey": {
+                      "maxRetries": 2,
+                      "timeoutInMs": 5000
+                    }
+                  }
+                },
+                "addressing": {
+                  "mode": "Bridge mode",
+                  "adultContentFiltering": {
+                    "enabled": true
+                  },
+                  "dnsRewrite": {
+                    "enabled": true,
+                    "dnsCustomNameservers": []
+                  },
+                  "bonjourForwarding": {
+                    "enabled": true,
+                    "rules": [
+                      {
+                        "description": "Desc",
+                        "vlan": {
+                          "id": 1
+                        },
+                        "services": [
+                          "All Services"
+                        ]
+                      }
+                    ]
+                  },
+                  "mdns": {
+                    "enabled": true,
+                    "rules": [
+                      {
+                        "services": [
+                          "airplay"
+                        ]
+                      }
+                    ]
+                  },
+                  "radius": {
+                    "guest": {
+                      "vlan": {
+                        "enabled": true
+                      }
+                    },
+                    "overrideVlanTag": false
+                  }
+                },
+                "splash": {
+                  "mode": "click-through",
+                  "captivePortal": {
+                    "provider": "hosted",
+                    "external": {
+                      "url": "https://example.com/splash"
+                    },
+                    "hosted": {
+                      "theme": {
+                        "id": "c3ddcb4f16785ee747ab5ffc10867d6c8ea704be"
+                      },
+                      "language": {
+                        "code": "EN"
+                      },
+                      "consent": {
+                        "required": true,
+                        "message": "By continuing, you agree to our terms and conditions."
+                      }
+                    }
+                  },
+                  "redirect": {
+                    "override": {
+                      "enabled": true,
+                      "url": "https://example.com/redirect"
+                    }
+                  },
+                  "timeout": 1440,
+                  "auth": {
+                    "simultaneousLogins": {
+                      "enabled": false
+                    },
+                    "oauth": {
+                      "domains": [
+                        "example.com",
+                        "subdomain.example.com"
+                      ]
+                    }
+                  },
+                  "controllerUnreachable": {
+                    "mode": "default"
+                  },
+                  "preAccess": {
+                    "mode": "block-all",
+                    "walledGarden": {
+                      "enabled": true,
+                      "ranges": [
+                        "192.168.1.0/24",
+                        "10.0.0.0/8"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/{id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if ssid is not None:
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="wireless",
+            operation_id="updateOrganizationWirelessSsidsProfile",
+            path=path,
+            json=payload,
+            response_schema=GetOrganizationWirelessSsidsProfilesResponse,
+        )
+
+    def delete_organization_wireless_ssids_profile(self, *, organization_id: str, id: str) -> None:
+        """Delete an SSID profile.
+
+        [API documentation: deleteOrganizationWirelessSsidsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-profile)
+
+        Args:
+            organization_id: Organization ID.
+            id: ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/{id}"
+
+        return self._session.delete(
+            scope="wireless", operation_id="deleteOrganizationWirelessSsidsProfile", path=path
         )
 
     def get_organization_wireless_ssids_statuses_by_device(

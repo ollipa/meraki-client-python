@@ -66,7 +66,7 @@ from meraki_client.schemas import (
     GetNetworkTopologyLinkLayerResponse,
     GetNetworkTrafficResponseItem,
     GetNetworkTrafficShapingApplicationCategoriesResponse,
-    GetNetworkTrafficShapingDscpTaggingOptionsResponse,
+    GetNetworkTrafficShapingDscpTaggingOptionsResponseItem,
     GetNetworkVlanProfilesAssignmentsByDeviceResponseItem,
     NetworkAlertsSettingsResponse,
     NetworkClientPolicyResponse,
@@ -107,6 +107,7 @@ from meraki_client.schemas import (
     UpdateNetworkClientSplashAuthorizationStatusSsids,
     UpdateNetworkDevicesSyslogServersResponse,
     UpdateNetworkDevicesSyslogServersServersItem,
+    UpdateNetworkFirmwareUpgradesFeatureLossAcknowledgementsItem,
     UpdateNetworkFirmwareUpgradesProducts,
     UpdateNetworkFirmwareUpgradesResponse,
     UpdateNetworkFirmwareUpgradesStagedEventsStagesItem,
@@ -2365,6 +2366,7 @@ class Networks:
                   },
                   "nextUpgrade": {
                     "time": "2021-05-17T17:22:52Z",
+                    "strategy": "minimizeUpgradeTime",
                     "predownload": {
                       "enabled": false
                     },
@@ -2650,6 +2652,54 @@ class Networks:
                   },
                   "nextUpgrade": {
                     "time": "2021-05-17T17:22:52Z",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
+                "campusGateway": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "strategy": "minimizeUpgradeTime",
                     "toVersion": {
                       "id": "2134",
                       "firmware": "camera-15-5-2",
@@ -2739,6 +2789,10 @@ class Networks:
         upgrade_window: UpdateNetworkFirmwareUpgradesUpgradeWindow | None = None,
         timezone: str | None = None,
         products: UpdateNetworkFirmwareUpgradesProducts | None = None,
+        feature_loss_acknowledgements: list[
+            UpdateNetworkFirmwareUpgradesFeatureLossAcknowledgementsItem
+        ]
+        | None = None,
     ) -> UpdateNetworkFirmwareUpgradesResponse:
         """Update firmware upgrade information for a network.
 
@@ -2749,6 +2803,8 @@ class Networks:
             upgrade_window: Upgrade window for devices in network.
             timezone: The timezone for the network.
             products: Contains information about the network to update.
+            feature_loss_acknowledgements: Acknowledges the target version has removed certain
+                features that the network is currently using.
 
         Returns:
             Successful operation.
@@ -2789,6 +2845,7 @@ class Networks:
                   },
                   "nextUpgrade": {
                     "time": "2021-05-17T17:22:52Z",
+                    "strategy": "minimizeUpgradeTime",
                     "predownload": {
                       "enabled": false
                     },
@@ -3094,6 +3151,54 @@ class Networks:
                   ],
                   "participateInNextBetaRelease": false
                 },
+                "campusGateway": {
+                  "currentVersion": {
+                    "id": "4321",
+                    "firmware": "camera-11-2-1",
+                    "shortName": "MV 11.2.1",
+                    "releaseType": "stable",
+                    "releaseDate": "2020-03-17T17:22:52Z"
+                  },
+                  "lastUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "fromVersion": {
+                      "id": "1234",
+                      "firmware": "camera-10-8-1",
+                      "shortName": "MV 10.8.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-03-17T17:22:52Z"
+                    },
+                    "toVersion": {
+                      "id": "4321",
+                      "firmware": "camera-11-2-1",
+                      "shortName": "MV 11.2.1",
+                      "releaseType": "stable",
+                      "releaseDate": "2019-03-17T17:22:52Z"
+                    }
+                  },
+                  "nextUpgrade": {
+                    "time": "2021-05-17T17:22:52Z",
+                    "strategy": "minimizeUpgradeTime",
+                    "toVersion": {
+                      "id": "2134",
+                      "firmware": "camera-15-5-2",
+                      "shortName": "MV 25.5.2",
+                      "releaseType": "stable",
+                      "releaseDate": "2021-05-28T17:22:52Z"
+                    }
+                  },
+                  "isUpgradeAvailable": false,
+                  "availableVersions": [
+                    {
+                      "id": "3421",
+                      "firmware": "camera-16-x-y",
+                      "shortName": "MV 16.x.y",
+                      "releaseType": "beta",
+                      "releaseDate": "2020-11-28T17:22:52Z"
+                    }
+                  ],
+                  "participateInNextBetaRelease": false
+                },
                 "secureConnect": {
                   "currentVersion": {
                     "id": "4321",
@@ -3156,6 +3261,11 @@ class Networks:
             payload["timezone"] = timezone
         if products is not None:
             payload["products"] = products.model_dump(by_alias=True, exclude_none=True)
+        if feature_loss_acknowledgements is not None:
+            payload["featureLossAcknowledgements"] = [
+                item.model_dump(by_alias=True, exclude_none=True)
+                for item in feature_loss_acknowledgements
+            ]
 
         return await self._session.put(
             scope="networks",
@@ -6861,7 +6971,7 @@ class Networks:
                 target='_blank' href='http://switch.meraki.com/'>switch.meraki.com,
                 </a><a target='_blank'
                 href='http://wired.meraki.com/'>wired.meraki.com</a>). Optional
-                (defaults to false).
+                (defaults to true).
             remote_status_page_enabled: Enables / disables access to the device status page (<a
                 target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set
                 if localStatusPageEnabled is set to true.
@@ -7552,7 +7662,7 @@ class Networks:
 
     def get_network_traffic_shaping_dscp_tagging_options(
         self, network_id: str
-    ) -> AsyncPaginatedResponse[GetNetworkTrafficShapingDscpTaggingOptionsResponse]:
+    ) -> AsyncPaginatedResponse[GetNetworkTrafficShapingDscpTaggingOptionsResponseItem]:
         """Returns the available DSCP tagging options for your traffic shaping rules.
 
         [API documentation: getNetworkTrafficShapingDscpTaggingOptions](https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-dscp-tagging-options)
@@ -7574,18 +7684,6 @@ class Networks:
               {
                 "dscpTagValue": 10,
                 "description": "AF11 - High Throughput, Latency Insensitive, Low Drop"
-              },
-              {
-                "dscpTagValue": 12,
-                "description": "AF12 - High Throughput, Latency Insensitive, Medium Drop"
-              },
-              {
-                "dscpTagValue": 14,
-                "description": "AF13 - High Throughput, Latency Insensitive, High Drop"
-              },
-              {
-                "dscpTagValue": 18,
-                "description": "AF21 - Low Latency Data, Low Drop"
               }
             ]
             ```
@@ -7598,7 +7696,7 @@ class Networks:
             scope="networks",
             operation_id="getNetworkTrafficShapingDscpTaggingOptions",
             path=path,
-            item_schema=GetNetworkTrafficShapingDscpTaggingOptionsResponse,
+            item_schema=GetNetworkTrafficShapingDscpTaggingOptionsResponseItem,
         )
 
     async def unbind_network(
@@ -8106,6 +8204,7 @@ class Networks:
                 "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vbXlfY3VzdG9tX3dlYmhvb2s=",
                 "name": "Example Webhook Server",
                 "url": "https://www.example.com/my_custom_webhook",
+                "enabled": true,
                 "networkId": "N_12345678",
                 "payloadTemplate": {
                   "payloadTemplateId": "wpt_00001",
@@ -8156,6 +8255,7 @@ class Networks:
               "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vbXlfY3VzdG9tX3dlYmhvb2s=",
               "name": "Example Webhook Server",
               "url": "https://www.example.com/my_custom_webhook",
+              "enabled": true,
               "networkId": "N_12345678",
               "payloadTemplate": {
                 "payloadTemplateId": "wpt_00001",
@@ -8208,6 +8308,7 @@ class Networks:
               "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vbXlfY3VzdG9tX3dlYmhvb2s=",
               "name": "Example Webhook Server",
               "url": "https://www.example.com/my_custom_webhook",
+              "enabled": true,
               "networkId": "N_12345678",
               "payloadTemplate": {
                 "payloadTemplateId": "wpt_00001",
@@ -8258,6 +8359,7 @@ class Networks:
               "id": "aHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vbXlfY3VzdG9tX3dlYmhvb2s=",
               "name": "Example Webhook Server",
               "url": "https://www.example.com/my_custom_webhook",
+              "enabled": true,
               "networkId": "N_12345678",
               "payloadTemplate": {
                 "payloadTemplateId": "wpt_00001",

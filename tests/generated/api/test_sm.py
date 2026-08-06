@@ -19,7 +19,8 @@ def test_get_network_sm_devices(client: MerakiClient, network_id: str) -> None:
 def test_get_network_sm_profiles(client: MerakiClient, network_id: str) -> None:
     """Test get_network_sm_profiles endpoint."""
     with skip_on_unsupported():
-        client.sm.get_network_sm_profiles(network_id=network_id)
+        result = client.sm.get_network_sm_profiles(network_id=network_id).collect()
+    assert isinstance(result, list)
 
 
 def test_get_network_sm_target_groups(client: MerakiClient, network_id: str) -> None:

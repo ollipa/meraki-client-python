@@ -195,9 +195,16 @@ class CreateDeviceLiveToolsMacTableResponse(_BaseSchema):
         default=None, validation_alias="macTableId", serialization_alias="macTableId"
     )
     url: str | None = None
-    request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
+    request: CreateDeviceLiveToolsMacTableResponseRequest | None = None
     status: str | None = None
     callback: CreateDeviceLiveToolsArpTableResponseCallback | None = None
+
+
+class CreateDeviceLiveToolsMacTableResponseRequest(_BaseSchema):
+    """MAC table request parameters."""
+
+    serial: str | None = None
+    mac: str | None = None
 
 
 class CreateDeviceLiveToolsMulticastRoutingCallback(_BaseSchema):
@@ -963,7 +970,7 @@ class GetDeviceLiveToolsMacTableResponse(_BaseSchema):
         default=None, validation_alias="macTableId", serialization_alias="macTableId"
     )
     url: str | None = None
-    request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
+    request: CreateDeviceLiveToolsMacTableResponseRequest | None = None
     status: str | None = None
     entries: list[GetDeviceLiveToolsMacTableResponseEntriesItem] = Field(default_factory=list)
     error: str | None = None
