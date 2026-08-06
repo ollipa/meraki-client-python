@@ -1583,15 +1583,36 @@ class Sm:
         )
 
     def get_network_sm_profiles(
-        self, network_id: str, *, payload_types: list[str] | None = None
+        self,
+        network_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        payload_types: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkSmProfilesResponseItem]:
-        """List all profiles in a network.
+        """List profiles in a network.
 
         [API documentation: getNetworkSmProfiles](https://developer.cisco.com/meraki/api-v1/#!get-network-sm-profiles)
 
         Args:
             network_id: Network ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 50. Default
+                is 50.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
             payload_types: Filter by payload types.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         Returns:
             Successful operation.
@@ -1626,6 +1647,12 @@ class Sm:
         path = f"/networks/{network_id}/sm/profiles"
 
         params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
         if payload_types is not None:
             params["payloadTypes[]"] = payload_types
 
@@ -1634,6 +1661,8 @@ class Sm:
             operation_id="getNetworkSmProfiles",
             path=path,
             params=params,
+            total_pages=total_pages,
+            direction=direction,
             item_schema=GetNetworkSmProfilesResponseItem,
         )
 

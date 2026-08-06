@@ -16,14 +16,42 @@ from meraki_client.schemas import (
     CreateNetworkCampusGatewayClusterPortChannelsItem,
     CreateNetworkCampusGatewayClusterTunnelsItem,
     CreateNetworkCampusGatewayClusterUplinksItem,
+    GetOrganizationCampusGatewayClientsUsageByNetworkByClusterResponseItemsItem,
+    GetOrganizationCampusGatewayClustersFailoverTargetsByClusterResponseItemsItem,
+    GetOrganizationCampusGatewayClustersFailoverTargetsResponseItem,
+    GetOrganizationCampusGatewayClustersNetworksOverviewsResponseItemsItem,
     GetOrganizationCampusGatewayClustersResponseItemsItem,
+    GetOrganizationCampusGatewayClustersSsidsResponseItemsItem,
+    GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem,
+    GetOrganizationCampusGatewayConnectionsOverviewResponse,
+    GetOrganizationCampusGatewayConnectionsResponseItemsItem,
     GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem,
     NetworkCampusGatewayClusterResponse,
+    ProvisionOrganizationCampusGatewayClustersDevicesItem,
+    ProvisionOrganizationCampusGatewayClustersFailover,
+    ProvisionOrganizationCampusGatewayClustersNameservers,
+    ProvisionOrganizationCampusGatewayClustersNetwork,
+    ProvisionOrganizationCampusGatewayClustersPortChannelsItem,
+    ProvisionOrganizationCampusGatewayClustersResponse,
+    ProvisionOrganizationCampusGatewayClustersTunnelsItem,
+    ProvisionOrganizationCampusGatewayClustersUplinksItem,
     UpdateNetworkCampusGatewayClusterDevicesItem,
     UpdateNetworkCampusGatewayClusterNameservers,
     UpdateNetworkCampusGatewayClusterPortChannelsItem,
     UpdateNetworkCampusGatewayClusterTunnelsItem,
     UpdateNetworkCampusGatewayClusterUplinksItem,
+)
+from meraki_client.types import (
+    GetOrganizationCampusGatewayClientsUsageByNetworkByClusterUsageUnits,
+    GetOrganizationCampusGatewayClustersNetworksOverviewsSortBy,
+    GetOrganizationCampusGatewayClustersNetworksOverviewsSortOrder,
+    GetOrganizationCampusGatewayClustersNetworksOverviewsTunnelingSources,
+    GetOrganizationCampusGatewayClustersSsidsSortBy,
+    GetOrganizationCampusGatewayClustersSsidsSortOrder,
+    GetOrganizationCampusGatewayConnectionsDataEncryptionStatuses,
+    GetOrganizationCampusGatewayConnectionsOverviewDataEncryptionStatuses,
+    GetOrganizationCampusGatewayConnectionsSortBy,
+    GetOrganizationCampusGatewayConnectionsSortOrder,
 )
 
 if TYPE_CHECKING:
@@ -335,6 +363,173 @@ class CampusGateway:
             response_schema=NetworkCampusGatewayClusterResponse,
         )
 
+    def delete_network_campus_gateway_cluster(self, *, network_id: str, cluster_id: str) -> None:
+        """Delete a cluster.
+
+        [API documentation: deleteNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!delete-network-campus-gateway-cluster)
+
+        Args:
+            network_id: Network ID.
+            cluster_id: Cluster ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        cluster_id = urllib.parse.quote(str(cluster_id), safe="")
+        path = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
+
+        return self._session.delete(
+            scope="campusGateway", operation_id="deleteNetworkCampusGatewayCluster", path=path
+        )
+
+    def get_organization_campus_gateway_clients_usage_by_network_by_cluster(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        network_ids: list[str] | None = None,
+        network_group_ids: list[str] | None = None,
+        cluster_ids: list[str] | None = None,
+        usage_units: GetOrganizationCampusGatewayClientsUsageByNetworkByClusterUsageUnits
+        | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationCampusGatewayClientsUsageByNetworkByClusterResponseItemsItem
+    ]:
+        """Returns client usage details for campus gateway clusters within an organization.
+
+        [API documentation: getOrganizationCampusGatewayClientsUsageByNetworkByCluster](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clients-usage-by-network-by-cluster)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 8 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be greater than or equal to 1 hour and be less than or equal
+                to 7 days. The default is 2 hours.
+            network_ids: Filter results by a list of network IDs.
+            network_group_ids: Limit the results to clients that belong to one of the provided
+                network groups.
+            cluster_ids: Filter results by a list of cluster IDs.
+            usage_units: Usage units to use in the response.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_123456",
+                    "name": "My Network"
+                  },
+                  "cluster": {
+                    "id": "123456",
+                    "name": "My Cluster"
+                  },
+                  "clients": {
+                    "total": 100
+                  },
+                  "devices": {
+                    "byProductType": {
+                      "campusGateway": 2
+                    },
+                    "tunneled": {
+                      "byProductType": {
+                        "wireless": 2
+                      }
+                    }
+                  },
+                  "usage": {
+                    "total": 1000.0,
+                    "upstream": 500.0,
+                    "downstream": 500.0
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                },
+                "units": {
+                  "usage": {
+                    "name": "megabytes",
+                    "symbol": "MB"
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clients/usage/byNetwork/byCluster"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if network_group_ids is not None:
+            params["networkGroupIds[]"] = network_group_ids
+        if cluster_ids is not None:
+            params["clusterIds[]"] = cluster_ids
+        if usage_units is not None:
+            params["usageUnits"] = usage_units
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayClientsUsageByNetworkByCluster",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayClientsUsageByNetworkByClusterResponseItemsItem,
+        )
+
     def get_organization_campus_gateway_clusters(
         self,
         organization_id: str,
@@ -494,6 +689,990 @@ class CampusGateway:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationCampusGatewayClustersResponseItemsItem,
+        )
+
+    def get_organization_campus_gateway_clusters_failover_targets(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        cluster_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationCampusGatewayClustersFailoverTargetsResponseItem]:
+        """List the details of a Failover Targets for a Campus Gateway cluster.
+
+        [API documentation: getOrganizationCampusGatewayClustersFailoverTargets](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters-failover-targets)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Optional parameter to filter networks. This filter uses multiple exact
+                matches.
+            cluster_ids: Optional parameter to filter clusters. This filter uses multiple exact
+                matches.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 50.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            [
+              {
+                "clusterId": "1284392014819",
+                "network": {
+                  "id": "N_1234"
+                },
+                "failover": {
+                  "targets": [
+                    {
+                      "clusterId": "1284392014818",
+                      "name": "Backup Cluster",
+                      "priority": 1,
+                      "allowedVlans": "10-20"
+                    }
+                  ]
+                }
+              }
+            ]
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/failover/targets"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if cluster_ids is not None:
+            params["clusterIds[]"] = cluster_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayClustersFailoverTargets",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayClustersFailoverTargetsResponseItem,
+        )
+
+    def get_organization_campus_gateway_clusters_failover_targets_by_cluster(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        cluster_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationCampusGatewayClustersFailoverTargetsByClusterResponseItemsItem
+    ]:
+        """Get available backup cluster targets for campus gateway failover configuration.
+
+        [API documentation: getOrganizationCampusGatewayClustersFailoverTargetsByCluster](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters-failover-targets-by-cluster)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Networks for which backup cluster targets should be gathered.
+            cluster_ids: Cluster IDs to filter backup cluster targets.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 50.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "clusterId": "1284392014818",
+                  "name": "Primary Cluster Main",
+                  "network": {
+                    "id": "N_123456789012345678"
+                  },
+                  "model": "CW9800H1",
+                  "available": [
+                    {
+                      "clusterId": "1284392014819",
+                      "name": "Backup Cluster Alpha",
+                      "network": {
+                        "id": "N_123456789012345678"
+                      },
+                      "model": "CW9800H1",
+                      "allowedVlans": "2,3,5"
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 2,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/failover/targets/byCluster"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if cluster_ids is not None:
+            params["clusterIds[]"] = cluster_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayClustersFailoverTargetsByCluster",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayClustersFailoverTargetsByClusterResponseItemsItem,
+        )
+
+    def get_organization_campus_gateway_clusters_networks_overviews(
+        self,
+        organization_id: str,
+        *,
+        cluster_ids: list[str] | None = None,
+        site_ids: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        tunneling_sources: GetOrganizationCampusGatewayClustersNetworksOverviewsTunnelingSources
+        | None = None,
+        search: str | None = None,
+        sort_by: GetOrganizationCampusGatewayClustersNetworksOverviewsSortBy | None = None,
+        sort_order: GetOrganizationCampusGatewayClustersNetworksOverviewsSortOrder | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationCampusGatewayClustersNetworksOverviewsResponseItemsItem]:
+        """List networks tunneling through Campus Gateway clusters with their AP, ssids and client counts.
+
+        [API documentation: getOrganizationCampusGatewayClustersNetworksOverviews](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters-networks-overviews)
+
+        Args:
+            organization_id: Organization ID.
+            cluster_ids: Optional parameter to filter by MCG cluster IDs. This filter uses multiple
+                exact matches.
+            site_ids: Optional parameter to filter by site IDs. This filter uses multiple exact
+                matches.
+            network_ids: Optional parameter to filter networks. This filter uses multiple exact
+                matches.
+            tunneling_sources: Optional parameter to filter networks by tunneling source.
+                'configured' returns networks explicitly set up to tunnel through the
+                campus gateway. 'roaming' returns networks tunneling due to AP roaming
+                or disaster recovery. 'roaming' is only effective when 'clusterIds' is
+                also provided; without 'clusterIds', the filter defaults to configured-
+                only behavior. Defaults to 'configured' if omitted.
+            search: Optional parameter to filter networks by wireless network name. This filter uses
+                case-insensitive substring matching.
+            sort_by: Optional parameter to sort results. Default is 'name'. Use 'siteName' to sort
+                by site name.
+            sort_order: Optional parameter to specify sort direction. Default is 'asc'.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "networkId": "1234",
+                  "name": "ap network1",
+                  "tunneling": {
+                    "source": "configured"
+                  },
+                  "site": {
+                    "id": "5",
+                    "name": "Main campus",
+                    "url": "https://n1.meraki.com/o/abc123/manage/organization/network_groups/5/monitor"
+                  },
+                  "url": "networklink1",
+                  "counts": {
+                    "connections": {
+                      "total": 123
+                    },
+                    "clients": {
+                      "total": 345
+                    },
+                    "ssids": {
+                      "total": 15
+                    }
+                  },
+                  "cluster": {
+                    "id": "1",
+                    "name": "Campus Gateway 1"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 2,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/networks/overviews"
+
+        params: dict[str, Any] = {}
+        if cluster_ids is not None:
+            params["clusterIds[]"] = cluster_ids
+        if site_ids is not None:
+            params["siteIds[]"] = site_ids
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if tunneling_sources is not None:
+            params["tunnelingSources[]"] = tunneling_sources
+        if search is not None:
+            params["search"] = search
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayClustersNetworksOverviews",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayClustersNetworksOverviewsResponseItemsItem,
+        )
+
+    def provision_organization_campus_gateway_clusters(
+        self,
+        *,
+        organization_id: str,
+        cluster_id: str,
+        network: ProvisionOrganizationCampusGatewayClustersNetwork,
+        name: str,
+        uplinks: list[ProvisionOrganizationCampusGatewayClustersUplinksItem],
+        tunnels: list[ProvisionOrganizationCampusGatewayClustersTunnelsItem],
+        nameservers: ProvisionOrganizationCampusGatewayClustersNameservers,
+        port_channels: list[ProvisionOrganizationCampusGatewayClustersPortChannelsItem],
+        devices: list[ProvisionOrganizationCampusGatewayClustersDevicesItem] | None = None,
+        failover: ProvisionOrganizationCampusGatewayClustersFailover | None = None,
+        notes: str | None = None,
+    ) -> ProvisionOrganizationCampusGatewayClustersResponse:
+        """Provisions a cluster,adds campus gateways to it and associate/dissociate failover targets.
+
+        [API documentation: provisionOrganizationCampusGatewayClusters](https://developer.cisco.com/meraki/api-v1/#!provision-organization-campus-gateway-clusters)
+
+        Args:
+            organization_id: Organization ID.
+            cluster_id: ID of the cluster to be provisioned.
+            network: Network to be provisioned.
+            name: Name of the new cluster.
+            uplinks: Uplink interface settings of the cluster.
+            tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
+                interface.
+            nameservers: Nameservers of the cluster.
+            port_channels: Port channel settings of the cluster.
+            devices: Devices to be added to the cluster.
+            failover: Failover targets for the cluster.
+            notes: Notes about cluster with max size of 511 characters allowed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "clusterId": "1284392014818",
+              "name": "North Campus",
+              "uplinks": [
+                {
+                  "interface": "man1",
+                  "vlan": 5,
+                  "addresses": [
+                    {
+                      "assignmentMode": "static",
+                      "protocol": "ipv4",
+                      "gateway": "1.2.3.5",
+                      "subnetMask": "255.255.255.0"
+                    }
+                  ]
+                }
+              ],
+              "tunnels": [
+                {
+                  "uplink": {
+                    "interface": "man1"
+                  },
+                  "interface": "tun1",
+                  "vlan": 6,
+                  "addresses": [
+                    {
+                      "protocol": "ipv4",
+                      "gateway": "2.3.5.6",
+                      "subnetMask": "255.255.255.0"
+                    }
+                  ]
+                }
+              ],
+              "nameservers": {
+                "addresses": [
+                  "8.8.8.8",
+                  "8.8.4.4"
+                ]
+              },
+              "portChannels": [
+                {
+                  "id": "1284392014830",
+                  "name": "Port-channel1",
+                  "vlan": 25,
+                  "allowedVlans": "10-20"
+                }
+              ],
+              "devices": [
+                {
+                  "serial": "Q234-ABCD-0001",
+                  "memberId": "1",
+                  "uplinks": [
+                    {
+                      "interface": "man1",
+                      "addresses": [
+                        {
+                          "protocol": "ipv4",
+                          "address": "5.1.2.3"
+                        }
+                      ]
+                    }
+                  ],
+                  "tunnels": [
+                    {
+                      "interface": "tun1",
+                      "addresses": [
+                        {
+                          "protocol": "ipv4",
+                          "address": "6.2.6.7"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "notes": "This cluster is for New York Office",
+              "url": "https://n123.meraki.com/networkName/n/abc123/manage/campus_gateways/clusters",
+              "failover": {
+                "targets": [
+                  {
+                    "clusterId": "1284392014818",
+                    "name": "Backup Cluster",
+                    "priority": 1,
+                    "allowedVlans": "10-20"
+                  }
+                ]
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/provision"
+
+        payload: dict[str, Any] = {}
+        if cluster_id is not None:
+            payload["clusterId"] = cluster_id
+        if network is not None:
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
+        if name is not None:
+            payload["name"] = name
+        if uplinks is not None:
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
+            ]
+        if tunnels is not None:
+            payload["tunnels"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in tunnels
+            ]
+        if nameservers is not None:
+            payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
+        if port_channels is not None:
+            payload["portChannels"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in port_channels
+            ]
+        if devices is not None:
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
+        if failover is not None:
+            payload["failover"] = failover.model_dump(by_alias=True, exclude_none=True)
+        if notes is not None:
+            payload["notes"] = notes
+
+        return self._session.post(
+            scope="campusGateway",
+            operation_id="provisionOrganizationCampusGatewayClusters",
+            path=path,
+            json=payload,
+            response_schema=ProvisionOrganizationCampusGatewayClustersResponse,
+        )
+
+    def get_organization_campus_gateway_clusters_ssids(
+        self,
+        organization_id: str,
+        *,
+        cluster_ids: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        search: str | None = None,
+        sort_by: GetOrganizationCampusGatewayClustersSsidsSortBy | None = None,
+        sort_order: GetOrganizationCampusGatewayClustersSsidsSortOrder | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationCampusGatewayClustersSsidsResponseItemsItem]:
+        """List SSIDs tunneling through Campus Gateway clusters.
+
+        [API documentation: getOrganizationCampusGatewayClustersSsids](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters-ssids)
+
+        Args:
+            organization_id: Organization ID.
+            cluster_ids: Optional parameter to filter by MCG cluster IDs. This filter uses multiple
+                exact matches.
+            network_ids: Optional parameter to filter networks. This filter uses multiple exact
+                matches.
+            search: Optional parameter to filter SSIDs by name. This filter uses case-insensitive
+                starts with string matching.
+            sort_by: Optional parameter to sort results. Default is 'networkId'.
+            sort_order: Optional parameter to specify sort direction. Default is 'asc'.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "number": 1,
+                  "ssidId": "12345678",
+                  "name": "ssid1",
+                  "url": "ssidlink",
+                  "network": {
+                    "id": "4567"
+                  },
+                  "cluster": {
+                    "id": "1",
+                    "name": "cluster1"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 3,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/ssids"
+
+        params: dict[str, Any] = {}
+        if cluster_ids is not None:
+            params["clusterIds[]"] = cluster_ids
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if search is not None:
+            params["search"] = search
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayClustersSsids",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayClustersSsidsResponseItemsItem,
+        )
+
+    def get_organization_campus_gateway_clusters_tunnelable(
+        self,
+        *,
+        organization_id: str,
+        from_network_ids: list[str],
+        exclude_ssid_numbers: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem]:
+        """List available campus gateway clusters that can be used for wireless network tunneling.
+
+        [API documentation: getOrganizationCampusGatewayClustersTunnelable](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters-tunnelable)
+
+        Args:
+            organization_id: Organization ID.
+            from_network_ids: Filter results by wireless network IDs.
+            exclude_ssid_numbers: Optional SSID numbers (0-15) to exclude from restriction checks,
+                corresponding to each fromNetworkIds entry. Only one SSID per network
+                can be excluded.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 200. Default
+                is 200.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "clusterId": "1284392014818",
+                  "name": "Campus Gateway Cluster Alpha",
+                  "url": "https://api.meraki.com/networkName/n/abc123/manage/campus_gateways/clusters",
+                  "network": {
+                    "id": "N_123456789012345678",
+                    "name": "CG Group Alpha"
+                  },
+                  "source": {
+                    "network": {
+                      "id": "N_111222333444555666"
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 2,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/tunnelable"
+
+        params: dict[str, Any] = {}
+        if from_network_ids is not None:
+            params["fromNetworkIds[]"] = from_network_ids
+        if exclude_ssid_numbers is not None:
+            params["excludeSsidNumbers[]"] = exclude_ssid_numbers
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayClustersTunnelable",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem,
+        )
+
+    def get_organization_campus_gateway_connections(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        campus_gateway_serials: list[str] | None = None,
+        campus_gateway_cluster_ids: list[str] | None = None,
+        campus_gateway_tunnel_statuses: list[str] | None = None,
+        search: str | None = None,
+        models: list[str] | None = None,
+        data_encryption_statuses: GetOrganizationCampusGatewayConnectionsDataEncryptionStatuses
+        | None = None,
+        sort_by: GetOrganizationCampusGatewayConnectionsSortBy | None = None,
+        sort_order: GetOrganizationCampusGatewayConnectionsSortOrder | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationCampusGatewayConnectionsResponseItemsItem]:
+        """List the details of APs tunneling through the Campus Gateway clusters.
+
+        [API documentation: getOrganizationCampusGatewayConnections](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-connections)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Optional parameter to filter networks. This filter uses multiple exact
+                matches.
+            serials: Optional parameter to filter connections(APs) by its own serials. This filter
+                uses multiple exact matches.
+            campus_gateway_serials: Optional parameter to filter connections(APs) by MCG serials.
+                This filter uses multiple exact matches.
+            campus_gateway_cluster_ids: Optional parameter to filter connections(APs) by MCG cluster
+                IDs. This filter uses multiple exact matches.
+            campus_gateway_tunnel_statuses: Optional parameter to filter connections(APs) by tunnel
+                statuses. This filter uses multiple exact matches.
+            search: Optional parameter to filter connections(APs) on AP name, serial, MAC address,
+                network name, or interface IP address. This filter uses partial string
+                matching (ILIKE).
+            models: Optional parameter to filter connections(APs) by device model names. This filter
+                uses multiple exact matches.
+            data_encryption_statuses: Optional parameter to filter connections(APs) by data
+                encryption status. This filter uses multiple exact matches.
+            sort_by: Optional parameter to sort results. Available options: name, serial, status,
+                interfaces, clients, dataEncryption, networkName. Default is 'serial'.
+            sort_order: Optional parameter to specify sort direction. Default is 'asc'.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "name": "Temp-1-AP01",
+                  "serial": "QQQK-KKKK-DDDD",
+                  "mac": "aa:bb:cc:dd:ee:ff",
+                  "model": "MR56",
+                  "uptime": 86400,
+                  "status": "online",
+                  "tunnelStatus": "up",
+                  "tunnelAdmin": {
+                    "enabled": true
+                  },
+                  "tunnelSchedule": {
+                    "enabled": false
+                  },
+                  "interfaces": [
+                    "192.168.1.5"
+                  ],
+                  "url": "https://n1.meraki.ikarem.io/4th-MR/n/34_vpd/manage/access_points/QQQK-KKKK-DDDD/summary",
+                  "network": {
+                    "id": "1234",
+                    "name": "wireless_network1",
+                    "url": "network_link"
+                  },
+                  "counts": {
+                    "clients": {
+                      "total": 100
+                    }
+                  },
+                  "campusGateways": [
+                    {
+                      "name": "MCG 1",
+                      "priority": 0,
+                      "serial": "QQQQ-KKKK-DW9T",
+                      "mac": "ab:15:cd:ef:d5:5d",
+                      "tunnel": {
+                        "status": "up",
+                        "uptime": 86400
+                      },
+                      "data": {
+                        "encryption": {
+                          "status": "up"
+                        }
+                      },
+                      "url": "https://n1.meraki.ikarem.io/Mcg-D/n/eVbmxbl/manage/nodes/new_list/180835",
+                      "cluster": {
+                        "id": "123",
+                        "name": "Cluster 1"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/connections"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if campus_gateway_serials is not None:
+            params["campusGatewaySerials[]"] = campus_gateway_serials
+        if campus_gateway_cluster_ids is not None:
+            params["campusGatewayClusterIds[]"] = campus_gateway_cluster_ids
+        if campus_gateway_tunnel_statuses is not None:
+            params["campusGatewayTunnelStatuses[]"] = campus_gateway_tunnel_statuses
+        if search is not None:
+            params["search"] = search
+        if models is not None:
+            params["models[]"] = models
+        if data_encryption_statuses is not None:
+            params["dataEncryptionStatuses[]"] = data_encryption_statuses
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayConnections",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayConnectionsResponseItemsItem,
+        )
+
+    def get_organization_campus_gateway_connections_overview(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        campus_gateway_serials: list[str] | None = None,
+        campus_gateway_cluster_ids: list[str] | None = None,
+        campus_gateway_tunnel_statuses: list[str] | None = None,
+        search: str | None = None,
+        models: list[str] | None = None,
+        data_encryption_statuses: GetOrganizationCampusGatewayConnectionsOverviewDataEncryptionStatuses
+        | None = None,
+    ) -> GetOrganizationCampusGatewayConnectionsOverviewResponse:
+        """List the count of connections(APs) with tunneling status up and down through the Campus Gateway clusters.
+
+        [API documentation: getOrganizationCampusGatewayConnectionsOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-connections-overview)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Optional parameter to filter networks. This filter uses multiple exact
+                matches.
+            serials: Optional parameter to filter connections(APs) by its own serials. This filter
+                uses multiple exact matches.
+            campus_gateway_serials: Optional parameter to filter connections(APs) by Campus Gateway
+                serials. This filter uses multiple exact matches.
+            campus_gateway_cluster_ids: Optional parameter to filter connections(APs) by Campus
+                Gateway cluster IDs. This filter uses multiple exact matches.
+            campus_gateway_tunnel_statuses: Optional parameter to filter connections(APs) by tunnel
+                statuses. This filter uses multiple exact matches.
+            search: Optional setting that lets you filter access points (APs) by name, serial
+                number, MAC address, network name, or interface IP address. The filter
+                matches partial text, not just exact values (uses ILIKE matching).
+            models: Optional parameter to filter connections(APs) by device model names. This filter
+                uses multiple exact matches.
+            data_encryption_statuses: Optional parameter to filter connections(APs) by data
+                encryption status. This filter uses multiple exact matches.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "counts": {
+                "byTunnelStatus": {
+                  "up": 10,
+                  "down": 20
+                },
+                "total": 30
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/connections/overview"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if campus_gateway_serials is not None:
+            params["campusGatewaySerials[]"] = campus_gateway_serials
+        if campus_gateway_cluster_ids is not None:
+            params["campusGatewayClusterIds[]"] = campus_gateway_cluster_ids
+        if campus_gateway_tunnel_statuses is not None:
+            params["campusGatewayTunnelStatuses[]"] = campus_gateway_tunnel_statuses
+        if search is not None:
+            params["search"] = search
+        if models is not None:
+            params["models[]"] = models
+        if data_encryption_statuses is not None:
+            params["dataEncryptionStatuses[]"] = data_encryption_statuses
+
+        return self._session.get(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayConnectionsOverview",
+            path=path,
+            params=params,
+            response_schema=GetOrganizationCampusGatewayConnectionsOverviewResponse,
         )
 
     def get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(

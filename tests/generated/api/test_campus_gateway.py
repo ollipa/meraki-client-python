@@ -9,6 +9,17 @@ from meraki_client import MerakiClient
 from tests.generated.conftest import skip_on_unsupported
 
 
+def test_get_organization_campus_gateway_clients_usage_by_network_by_cluster(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_clients_usage_by_network_by_cluster endpoint."""
+    with skip_on_unsupported():
+        result = client.campus_gateway.get_organization_campus_gateway_clients_usage_by_network_by_cluster(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_campus_gateway_clusters(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -18,6 +29,71 @@ def test_get_organization_campus_gateway_clusters(
             organization_id=organization_id
         ).collect()
     assert isinstance(result, list)
+
+
+def test_get_organization_campus_gateway_clusters_failover_targets(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_clusters_failover_targets endpoint."""
+    with skip_on_unsupported():
+        result = client.campus_gateway.get_organization_campus_gateway_clusters_failover_targets(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_campus_gateway_clusters_failover_targets_by_cluster(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_clusters_failover_targets_by_cluster endpoint."""
+    with skip_on_unsupported():
+        result = client.campus_gateway.get_organization_campus_gateway_clusters_failover_targets_by_cluster(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_campus_gateway_clusters_networks_overviews(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_clusters_networks_overviews endpoint."""
+    with skip_on_unsupported():
+        result = client.campus_gateway.get_organization_campus_gateway_clusters_networks_overviews(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_campus_gateway_clusters_ssids(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_clusters_ssids endpoint."""
+    with skip_on_unsupported():
+        result = client.campus_gateway.get_organization_campus_gateway_clusters_ssids(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_campus_gateway_connections(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_connections endpoint."""
+    with skip_on_unsupported():
+        result = client.campus_gateway.get_organization_campus_gateway_connections(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_campus_gateway_connections_overview(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_connections_overview endpoint."""
+    with skip_on_unsupported():
+        client.campus_gateway.get_organization_campus_gateway_connections_overview(
+            organization_id=organization_id
+        )
 
 
 def test_get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(

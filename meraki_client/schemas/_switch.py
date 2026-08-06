@@ -2412,7 +2412,7 @@ class UpdateDeviceSwitchPortDot3az(_BaseSchema):
 
 
 class UpdateDeviceSwitchPortHighSpeed(_BaseSchema):
-    """High speed port enablement settings for C9500-32QC."""
+    """High speed port enablement settings for a high-speed logical port."""
 
     enabled: bool | None = None
 
@@ -2932,7 +2932,7 @@ class UpdateOrganizationConfigTemplateSwitchProfilePortDot3az(_BaseSchema):
 
 
 class UpdateOrganizationConfigTemplateSwitchProfilePortHighSpeed(_BaseSchema):
-    """High speed port enablement settings for C9500-32QC."""
+    """High speed port enablement settings for a high-speed logical port."""
 
     enabled: bool | None = None
 

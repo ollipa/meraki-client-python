@@ -122,6 +122,16 @@ __all__ = [
     "GetOrganizationAssuranceAlertsSortOrder",
     "GetOrganizationAssuranceAlertsTypes",
     "GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalBoundaryTypes",
+    "GetOrganizationCampusGatewayClientsUsageByNetworkByClusterUsageUnits",
+    "GetOrganizationCampusGatewayClustersNetworksOverviewsSortBy",
+    "GetOrganizationCampusGatewayClustersNetworksOverviewsSortOrder",
+    "GetOrganizationCampusGatewayClustersNetworksOverviewsTunnelingSources",
+    "GetOrganizationCampusGatewayClustersSsidsSortBy",
+    "GetOrganizationCampusGatewayClustersSsidsSortOrder",
+    "GetOrganizationCampusGatewayConnectionsDataEncryptionStatuses",
+    "GetOrganizationCampusGatewayConnectionsOverviewDataEncryptionStatuses",
+    "GetOrganizationCampusGatewayConnectionsSortBy",
+    "GetOrganizationCampusGatewayConnectionsSortOrder",
     "GetOrganizationDevicesAvailabilitiesChangeHistoryStatuses",
     "GetOrganizationDevicesAvailabilitiesStatuses",
     "GetOrganizationDevicesAvailabilitiesTagsFilterType",
@@ -148,6 +158,7 @@ __all__ = [
     "GetOrganizationInventoryDevicesTagsFilterType",
     "GetOrganizationInventoryDevicesUsedState",
     "GetOrganizationLicensesState",
+    "GetOrganizationNetworksGroupsOverviewByGroupSortBy",
     "GetOrganizationNetworksProductTypes",
     "GetOrganizationNetworksTagsFilterType",
     "GetOrganizationOpenapiSpecVersion",
@@ -155,12 +166,21 @@ __all__ = [
     "GetOrganizationSensorReadingsHistoryMetrics",
     "GetOrganizationSensorReadingsLatestMetrics",
     "GetOrganizationWebhooksAlertTypesProductType",
+    "GetOrganizationWirelessClientsUsageByNetworkBySsidUsageUnits",
+    "GetOrganizationWirelessClientsUsageByNetworkUsageUnits",
+    "GetOrganizationWirelessClientsUsageBySsidUsageUnits",
     "GetOrganizationWirelessDevicesProvisioningDeploymentsDeploymentType",
     "GetOrganizationWirelessDevicesProvisioningDeploymentsSortBy",
     "GetOrganizationWirelessDevicesProvisioningDeploymentsSortOrder",
     "GetOrganizationWirelessRadioRrmByNetworkSortOrder",
     "GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes",
     "GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesSsids",
+    "GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortBy",
+    "GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortOrder",
+    "GetOrganizationWirelessSsidsProfilesOverviewsSortBy",
+    "GetOrganizationWirelessSsidsProfilesOverviewsSortOrder",
+    "GetOrganizationWirelessSsidsProfilesSortBy",
+    "GetOrganizationWirelessSsidsProfilesSortOrder",
     "ProvisionNetworkClientsDevicePolicy",
     "UpdateDeviceCameraQualityAndRetentionMotionDetectorVersion",
     "UpdateDeviceCameraQualityAndRetentionQuality",
@@ -272,6 +292,7 @@ CreateNetworkApplianceVlanTemplateVlanType: TypeAlias = Literal["same", "unique"
 CreateNetworkFirmwareUpgradesRollbackProduct: TypeAlias = Literal[
     "appliance",
     "camera",
+    "campusGateway",
     "cellularGateway",
     "secureConnect",
     "switch",
@@ -1690,6 +1711,30 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
 GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalBoundaryTypes: TypeAlias = list[
     Literal["person", "vehicle"]
 ]
+GetOrganizationCampusGatewayClientsUsageByNetworkByClusterUsageUnits: TypeAlias = Literal[
+    "GB", "KB", "MB", "TB"
+]
+GetOrganizationCampusGatewayClustersNetworksOverviewsSortBy: TypeAlias = Literal[
+    "clients", "clusterId", "connections", "name", "networkId", "siteName", "ssids"
+]
+GetOrganizationCampusGatewayClustersNetworksOverviewsSortOrder: TypeAlias = Literal["asc", "desc"]
+GetOrganizationCampusGatewayClustersNetworksOverviewsTunnelingSources: TypeAlias = list[
+    Literal["configured", "roaming"]
+]
+GetOrganizationCampusGatewayClustersSsidsSortBy: TypeAlias = Literal[
+    "clusterId", "name", "networkId", "ssidId"
+]
+GetOrganizationCampusGatewayClustersSsidsSortOrder: TypeAlias = Literal["asc", "desc"]
+GetOrganizationCampusGatewayConnectionsDataEncryptionStatuses: TypeAlias = list[
+    Literal["down", "up"]
+]
+GetOrganizationCampusGatewayConnectionsOverviewDataEncryptionStatuses: TypeAlias = list[
+    Literal["down", "up"]
+]
+GetOrganizationCampusGatewayConnectionsSortBy: TypeAlias = Literal[
+    "clients", "dataEncryption", "interfaces", "name", "networkName", "serial", "status"
+]
+GetOrganizationCampusGatewayConnectionsSortOrder: TypeAlias = Literal["asc", "desc"]
 GetOrganizationDevicesAvailabilitiesChangeHistoryStatuses: TypeAlias = list[
     Literal["alerting", "dormant", "offline", "online"]
 ]
@@ -1841,6 +1886,7 @@ GetOrganizationInventoryDevicesUsedState: TypeAlias = Literal["unused", "used"]
 GetOrganizationLicensesState: TypeAlias = Literal[
     "active", "expired", "expiring", "recentlyQueued", "unused", "unusedActive"
 ]
+GetOrganizationNetworksGroupsOverviewByGroupSortBy: TypeAlias = Literal["status"]
 GetOrganizationNetworksProductTypes: TypeAlias = list[
     Literal[
         "appliance",
@@ -1910,6 +1956,11 @@ GetOrganizationSensorReadingsLatestMetrics: TypeAlias = list[
 GetOrganizationWebhooksAlertTypesProductType: TypeAlias = Literal[
     "appliance", "camera", "cellularGateway", "platform", "sensor", "sm", "switch", "wireless"
 ]
+GetOrganizationWirelessClientsUsageByNetworkBySsidUsageUnits: TypeAlias = Literal[
+    "GB", "KB", "MB", "TB"
+]
+GetOrganizationWirelessClientsUsageByNetworkUsageUnits: TypeAlias = Literal["GB", "KB", "MB", "TB"]
+GetOrganizationWirelessClientsUsageBySsidUsageUnits: TypeAlias = Literal["GB", "KB", "MB", "TB"]
 GetOrganizationWirelessDevicesProvisioningDeploymentsDeploymentType: TypeAlias = Literal[
     "deploy", "replace"
 ]
@@ -1935,6 +1986,16 @@ GetOrganizationWirelessRfProfilesAssignmentsByDeviceProductTypes: TypeAlias = li
 GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesSsids: TypeAlias = list[
     Literal[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 ]
+GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortBy: TypeAlias = Literal[
+    "group", "network"
+]
+GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortOrder: TypeAlias = Literal[
+    "asc", "desc"
+]
+GetOrganizationWirelessSsidsProfilesOverviewsSortBy: TypeAlias = Literal["name"]
+GetOrganizationWirelessSsidsProfilesOverviewsSortOrder: TypeAlias = Literal["asc", "desc"]
+GetOrganizationWirelessSsidsProfilesSortBy: TypeAlias = Literal["name"]
+GetOrganizationWirelessSsidsProfilesSortOrder: TypeAlias = Literal["asc", "desc"]
 ProvisionNetworkClientsDevicePolicy: TypeAlias = Literal[
     "Allowed", "Blocked", "Group policy", "Normal", "Per connection"
 ]
@@ -2084,7 +2145,6 @@ UpdateNetworkWirelessSsidSplashPage: TypeAlias = Literal[
     "Cisco ISE",
     "Click-through splash page",
     "Facebook Wi-Fi",
-    "Google Apps domain",
     "Google OAuth",
     "Microsoft Entra ID",
     "None",

@@ -162,6 +162,16 @@ def test_get_organization_assurance_alerts_overview_by_type(
     assert isinstance(result, list)
 
 
+def test_get_organization_assurance_alerts_profiles(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_assurance_alerts_profiles endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_assurance_alerts_profiles(
+            organization_id=organization_id
+        )
+
+
 def test_get_organization_assurance_alerts_taxonomy_categories(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -615,6 +625,26 @@ def test_get_organization_networks(client: MerakiClient, organization_id: str) -
     """Test get_organization_networks endpoint."""
     with skip_on_unsupported():
         result = client.organizations.get_organization_networks(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_networks_groups(client: MerakiClient, organization_id: str) -> None:
+    """Test get_organization_networks_groups endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_networks_groups(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_networks_groups_overview_by_group(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_networks_groups_overview_by_group endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_networks_groups_overview_by_group(
             organization_id=organization_id
         ).collect()
     assert isinstance(result, list)

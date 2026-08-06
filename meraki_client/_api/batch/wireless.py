@@ -27,6 +27,13 @@ from meraki_client.schemas import (
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryNetwork,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntrySsid,
+    CreateOrganizationWirelessSsidsProfilePrecedence,
+    CreateOrganizationWirelessSsidsProfilesAssignmentNetwork,
+    CreateOrganizationWirelessSsidsProfilesAssignmentProfile,
+    CreateOrganizationWirelessSsidsProfilesAssignmentSsid,
+    CreateOrganizationWirelessSsidsProfileSsid,
+    DeleteOrganizationWirelessSsidsProfilesAssignmentsNetwork,
+    DeleteOrganizationWirelessSsidsProfilesAssignmentsSsid,
     UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem,
     UpdateDeviceWirelessRadioSettingsFiveGhzSettings,
     UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings,
@@ -54,6 +61,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidApTagsAndVlanIdsItem,
     UpdateNetworkWirelessSsidBonjourForwardingException,
     UpdateNetworkWirelessSsidBonjourForwardingRulesItem,
+    UpdateNetworkWirelessSsidCampusGateway,
     UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem,
     UpdateNetworkWirelessSsidDnsRewrite,
     UpdateNetworkWirelessSsidDot11r,
@@ -102,6 +110,7 @@ from meraki_client.schemas import (
     UpdateOrganizationWirelessMqttSettingsNetwork,
     UpdateOrganizationWirelessMqttSettingsWifi,
     UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
+    UpdateOrganizationWirelessSsidsProfileSsid,
 )
 from meraki_client.types import (
     CreateNetworkWirelessAirMarshalRuleType,
@@ -1038,6 +1047,7 @@ class ActionBatchWireless:
         radius_attribute_for_group_policies: UpdateNetworkWirelessSsidRadiusAttributeForGroupPolicies
         | None = None,
         ip_assignment_mode: str | None = None,
+        campus_gateway: UpdateNetworkWirelessSsidCampusGateway | None = None,
         use_vlan_tagging: bool | None = None,
         concentrator_network_id: str | None = None,
         secondary_concentrator_network_id: str | None = None,
@@ -1100,8 +1110,8 @@ class ActionBatchWireless:
                 with custom RADIUS', 'Password-protected with Active Directory',
                 'Password-protected with LDAP', 'SMS authentication', 'Systems Manager
                 Sentry', 'Facebook Wi-Fi', 'Google OAuth', 'Microsoft Entra ID',
-                'Sponsored guest', 'Cisco ISE' or 'Google Apps domain').This attribute
-                is not supported for template children.
+                'Sponsored guest' or 'Cisco ISE').This attribute is not supported for
+                template children.
             splash_guest_sponsor_domains: Array of valid sponsor email domains for sponsored guest
                 splash type.
             oauth: The OAuth settings of this SSID. Only valid if splashPage is 'Google OAuth'.
@@ -1155,6 +1165,7 @@ class ActionBatchWireless:
             ip_assignment_mode: The client IP assignment mode ('NAT mode', 'Bridge mode', 'Layer 3
                 roaming', 'Ethernet over GRE', 'Layer 3 roaming with a concentrator',
                 'VPN' or 'Campus Gateway').
+            campus_gateway: Campus gateway settings.
             use_vlan_tagging: Whether or not traffic should be directed to use specific VLANs. This
                 param is only valid if the ipAssignmentMode is 'Bridge mode' or 'Layer 3
                 roaming'.
@@ -1309,6 +1320,8 @@ class ActionBatchWireless:
             payload["radiusAttributeForGroupPolicies"] = radius_attribute_for_group_policies
         if ip_assignment_mode is not None:
             payload["ipAssignmentMode"] = ip_assignment_mode
+        if campus_gateway is not None:
+            payload["campusGateway"] = campus_gateway.model_dump(by_alias=True, exclude_none=True)
         if use_vlan_tagging is not None:
             payload["useVlanTagging"] = use_vlan_tagging
         if concentrator_network_id is not None:
@@ -2436,6 +2449,166 @@ class ActionBatchWireless:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         entry_id = urllib.parse.quote(str(entry_id), safe="")
         path = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def create_organization_wireless_ssids_profile(
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        ssid: CreateOrganizationWirelessSsidsProfileSsid,
+        precedence: CreateOrganizationWirelessSsidsProfilePrecedence | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create a new SSID profile in an organization.
+
+        [API documentation: createOrganizationWirelessSsidsProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-profile)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the SSID profile.
+            precedence: Precedence configuration for the SSID profile.
+            ssid: SSID configuration for the profile.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if precedence is not None:
+            payload["precedence"] = precedence.model_dump(by_alias=True, exclude_none=True)
+        if ssid is not None:
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def create_organization_wireless_ssids_profiles_assignment(
+        self,
+        *,
+        organization_id: str,
+        profile: CreateOrganizationWirelessSsidsProfilesAssignmentProfile,
+        ssid: CreateOrganizationWirelessSsidsProfilesAssignmentSsid,
+        network: CreateOrganizationWirelessSsidsProfilesAssignmentNetwork | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Assigns an SSID profile to an SSID in the organization.
+
+        [API documentation: createOrganizationWirelessSsidsProfilesAssignment](https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-profiles-assignment)
+
+        Args:
+            organization_id: Organization ID.
+            profile: SSID profile to assign.
+            ssid: SSID to assign the SSID profile to.
+            network: Network containing the SSID (required if SSID number is used).
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/assignments"
+
+        payload: dict[str, Any] = {}
+        if profile is not None:
+            payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
+        if ssid is not None:
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
+        if network is not None:
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def delete_organization_wireless_ssids_profiles_assignments(
+        self,
+        *,
+        organization_id: str,
+        ssid: DeleteOrganizationWirelessSsidsProfilesAssignmentsSsid,
+        network: DeleteOrganizationWirelessSsidsProfilesAssignmentsNetwork | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Unassigns the SSID profile assigned to an SSID.
+
+        [API documentation: deleteOrganizationWirelessSsidsProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-profiles-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            ssid: SSID to delete the SSID profile assignment of.
+            network: Network containing the SSID (required if SSID number is used).
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/assignments"
+
+        payload: dict[str, Any] = {}
+        if ssid is not None:
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
+        if network is not None:
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+            body=payload,
+        )
+
+    def update_organization_wireless_ssids_profile(
+        self,
+        *,
+        organization_id: str,
+        id: str,
+        name: str | None = None,
+        ssid: UpdateOrganizationWirelessSsidsProfileSsid | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update this SSID profile.
+
+        [API documentation: updateOrganizationWirelessSsidsProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-profile)
+
+        Args:
+            organization_id: Organization ID.
+            id: ID.
+            name: Name of the SSID profile.
+            ssid: SSID configuration for the profile.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/{id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if ssid is not None:
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_wireless_ssids_profile(
+        self, *, organization_id: str, id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete an SSID profile.
+
+        [API documentation: deleteOrganizationWirelessSsidsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-profile)
+
+        Args:
+            organization_id: Organization ID.
+            id: ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/profiles/{id}"
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

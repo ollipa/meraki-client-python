@@ -128,6 +128,17 @@ def test_get_network_wireless_ssids(client: MerakiClient, network_id: str) -> No
         client.wireless.get_network_wireless_ssids(network_id=network_id)
 
 
+def test_get_organization_assurance_impacted_device_wireless_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_assurance_impacted_device_wireless_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_assurance_impacted_device_wireless_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_wireless_air_marshal_rules(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -150,12 +161,56 @@ def test_get_organization_wireless_air_marshal_settings_by_network(
     assert isinstance(result, list)
 
 
+def test_get_organization_wireless_clients_connections_impacted_by_network_by_ssid(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_clients_connections_impacted_by_network_by_ssid endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_clients_connections_impacted_by_network_by_ssid(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_wireless_clients_overview_by_device(
     client: MerakiClient, organization_id: str
 ) -> None:
     """Test get_organization_wireless_clients_overview_by_device endpoint."""
     with skip_on_unsupported():
         result = client.wireless.get_organization_wireless_clients_overview_by_device(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_wireless_clients_usage_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_clients_usage_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_clients_usage_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_wireless_clients_usage_by_network_by_ssid(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_clients_usage_by_network_by_ssid endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_clients_usage_by_network_by_ssid(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_wireless_clients_usage_by_ssid(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_clients_usage_by_ssid endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_clients_usage_by_ssid(
             organization_id=organization_id
         ).collect()
     assert isinstance(result, list)
@@ -397,6 +452,50 @@ def test_get_organization_wireless_ssids_open_roaming_by_network(
     """Test get_organization_wireless_ssids_open_roaming_by_network endpoint."""
     with skip_on_unsupported():
         result = client.wireless.get_organization_wireless_ssids_open_roaming_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_wireless_ssids_profiles(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_ssids_profiles endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_ssids_profiles(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_wireless_ssids_profiles_assignments(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_ssids_profiles_assignments endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_ssids_profiles_assignments(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_wireless_ssids_profiles_assignments_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_ssids_profiles_assignments_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_ssids_profiles_assignments_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_wireless_ssids_profiles_overviews(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_ssids_profiles_overviews endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_ssids_profiles_overviews(
             organization_id=organization_id
         ).collect()
     assert isinstance(result, list)

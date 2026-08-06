@@ -227,7 +227,7 @@ class CreateNetworkFirmwareUpgradesStagedEventProducts(_BaseSchema):
 class CreateNetworkFirmwareUpgradesStagedEventProductsSwitch(_BaseSchema):
     """Version information for the switch network being upgraded."""
 
-    next_upgrade: NetworksNextUpgrade6 | None = Field(
+    next_upgrade: NetworksNextUpgrade8 | None = Field(
         default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
     )
 
@@ -980,6 +980,9 @@ class GetNetworkFirmwareUpgradesResponseProducts(_BaseSchema):
         validation_alias="wirelessController",
         serialization_alias="wirelessController",
     )
+    campus_gateway: NetworksProductsCampusGateway | None = Field(
+        default=None, validation_alias="campusGateway", serialization_alias="campusGateway"
+    )
     secure_connect: NetworksProductsAppliance | None = Field(
         default=None, validation_alias="secureConnect", serialization_alias="secureConnect"
     )
@@ -1263,8 +1266,19 @@ class GetNetworkTrafficShapingApplicationCategoriesResponseApplicationCategories
         return [] if value is None else value
 
 
-class GetNetworkTrafficShapingDscpTaggingOptionsResponse(RootModel[list[dict[str, Any]]]):
+class GetNetworkTrafficShapingDscpTaggingOptionsResponse(
+    RootModel[list["GetNetworkTrafficShapingDscpTaggingOptionsResponseItem"]]
+):
     """Response for getNetworkTrafficShapingDscpTaggingOptions operation."""
+
+
+class GetNetworkTrafficShapingDscpTaggingOptionsResponseItem(_BaseSchema):
+    """Schema for GetNetworkTrafficShapingDscpTaggingOptionsResponseItem."""
+
+    dscp_tag_value: int | None = Field(
+        default=None, validation_alias="dscpTagValue", serialization_alias="dscpTagValue"
+    )
+    description: str | None = None
 
 
 class GetNetworkVlanProfilesAssignmentsByDeviceResponse(
@@ -1778,6 +1792,7 @@ class NetworkWebhooksHttpServerResponse(_BaseSchema):
     id: str
     name: str
     url: str
+    enabled: bool | None = None
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
     payload_template: NetworksPayloadTemplate | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
@@ -2417,6 +2432,7 @@ class NetworksNextUpgrade(_BaseSchema):
     """Details of the next firmware upgrade on the device."""
 
     time: str | None = None
+    strategy: str | None = None
     predownload: NetworksMutingByPortSchedules | None = None
     to_version: NetworksCurrentVersion | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
@@ -2433,11 +2449,11 @@ class NetworksNextUpgrade2(_BaseSchema):
 
 
 class NetworksNextUpgrade3(_BaseSchema):
-    """The pending firmware upgrade if it exists."""
+    """Details of the next firmware upgrade on the device."""
 
-    predownload: NetworksMutingByPortSchedules | None = None
-    time: str | None = None
-    to_version: NetworksCertificate | None = Field(
+    time: datetime | None = None
+    strategy: str | None = None
+    to_version: NetworksCurrentVersion | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2445,6 +2461,8 @@ class NetworksNextUpgrade3(_BaseSchema):
 class NetworksNextUpgrade4(_BaseSchema):
     """The pending firmware upgrade if it exists."""
 
+    strategy: str | None = None
+    predownload: NetworksMutingByPortSchedules | None = None
     time: str | None = None
     to_version: NetworksCertificate | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
@@ -2452,6 +2470,25 @@ class NetworksNextUpgrade4(_BaseSchema):
 
 
 class NetworksNextUpgrade5(_BaseSchema):
+    """The pending firmware upgrade if it exists."""
+
+    time: str | None = None
+    to_version: NetworksCertificate | None = Field(
+        default=None, validation_alias="toVersion", serialization_alias="toVersion"
+    )
+
+
+class NetworksNextUpgrade6(_BaseSchema):
+    """The pending firmware upgrade if it exists."""
+
+    strategy: str | None = None
+    time: str | None = None
+    to_version: NetworksCertificate | None = Field(
+        default=None, validation_alias="toVersion", serialization_alias="toVersion"
+    )
+
+
+class NetworksNextUpgrade7(_BaseSchema):
     """Details of the next firmware upgrade."""
 
     to_version: NetworksToVersion | None = Field(
@@ -2459,7 +2496,7 @@ class NetworksNextUpgrade5(_BaseSchema):
     )
 
 
-class NetworksNextUpgrade6(_BaseSchema):
+class NetworksNextUpgrade8(_BaseSchema):
     """The next upgrade version for the switch network."""
 
     to_version: UpdateNetworkDevicesSyslogServersResponseNetwork | None = Field(
@@ -2581,10 +2618,45 @@ class NetworksProductsAppliance(_BaseSchema):
         return [] if value is None else value
 
 
+class NetworksProductsCampusGateway(_BaseSchema):
+    """The network device to be updated."""
+
+    current_version: NetworksCurrentVersion | None = Field(
+        default=None, validation_alias="currentVersion", serialization_alias="currentVersion"
+    )
+    last_upgrade: NetworksLastUpgrade | None = Field(
+        default=None, validation_alias="lastUpgrade", serialization_alias="lastUpgrade"
+    )
+    next_upgrade: NetworksNextUpgrade3 | None = Field(
+        default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
+    )
+    is_upgrade_available: bool | None = Field(
+        default=None,
+        validation_alias="isUpgradeAvailable",
+        serialization_alias="isUpgradeAvailable",
+    )
+    available_versions: list[NetworksCurrentVersion] = Field(
+        default_factory=list,
+        validation_alias="availableVersions",
+        serialization_alias="availableVersions",
+    )
+    participate_in_next_beta_release: bool | None = Field(
+        default=None,
+        validation_alias="participateInNextBetaRelease",
+        serialization_alias="participateInNextBetaRelease",
+    )
+
+    @field_validator("available_versions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class NetworksProductsSwitch(_BaseSchema):
     """The Switch network to be updated."""
 
-    next_upgrade: NetworksNextUpgrade5 | None = Field(
+    next_upgrade: NetworksNextUpgrade7 | None = Field(
         default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
     )
 
@@ -3270,6 +3342,24 @@ class UpdateNetworkDevicesSyslogServersServersItem(_BaseSchema):
         return [] if value is None else value
 
 
+class UpdateNetworkFirmwareUpgradesFeatureLossAcknowledgementsItem(_BaseSchema):
+    """Item schema for featureLossAcknowledgements."""
+
+    network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
+    product_type: str | None = Field(
+        default=None, validation_alias="productType", serialization_alias="productType"
+    )
+    removed_feature_check_names: list[str] = Field(
+        validation_alias="removedFeatureCheckNames", serialization_alias="removedFeatureCheckNames"
+    )
+
+    @field_validator("removed_feature_check_names", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class UpdateNetworkFirmwareUpgradesProducts(_BaseSchema):
     """Contains information about the network to update."""
 
@@ -3286,6 +3376,9 @@ class UpdateNetworkFirmwareUpgradesProducts(_BaseSchema):
         validation_alias="wirelessController",
         serialization_alias="wirelessController",
     )
+    campus_gateway: UpdateNetworkFirmwareUpgradesProductsCampusGateway | None = Field(
+        default=None, validation_alias="campusGateway", serialization_alias="campusGateway"
+    )
     secure_connect: UpdateNetworkFirmwareUpgradesProductsAppliance | None = Field(
         default=None, validation_alias="secureConnect", serialization_alias="secureConnect"
     )
@@ -3297,7 +3390,20 @@ class UpdateNetworkFirmwareUpgradesProducts(_BaseSchema):
 class UpdateNetworkFirmwareUpgradesProductsAppliance(_BaseSchema):
     """The network device to be updated."""
 
-    next_upgrade: NetworksNextUpgrade4 | None = Field(
+    next_upgrade: NetworksNextUpgrade5 | None = Field(
+        default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
+    )
+    participate_in_next_beta_release: bool | None = Field(
+        default=None,
+        validation_alias="participateInNextBetaRelease",
+        serialization_alias="participateInNextBetaRelease",
+    )
+
+
+class UpdateNetworkFirmwareUpgradesProductsCampusGateway(_BaseSchema):
+    """The network device to be updated."""
+
+    next_upgrade: NetworksNextUpgrade6 | None = Field(
         default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
     )
     participate_in_next_beta_release: bool | None = Field(
@@ -3310,7 +3416,7 @@ class UpdateNetworkFirmwareUpgradesProductsAppliance(_BaseSchema):
 class UpdateNetworkFirmwareUpgradesProductsWireless(_BaseSchema):
     """The network device to be updated."""
 
-    next_upgrade: NetworksNextUpgrade3 | None = Field(
+    next_upgrade: NetworksNextUpgrade4 | None = Field(
         default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
     )
     participate_in_next_beta_release: bool | None = Field(

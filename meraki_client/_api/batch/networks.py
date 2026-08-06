@@ -35,6 +35,7 @@ from meraki_client.schemas import (
     PublishNetworkFloorPlansAutoLocateJobDevicesItem,
     RecalculateNetworkFloorPlansAutoLocateJobDevicesItem,
     UpdateNetworkDevicesSyslogServersServersItem,
+    UpdateNetworkFirmwareUpgradesFeatureLossAcknowledgementsItem,
     UpdateNetworkFirmwareUpgradesProducts,
     UpdateNetworkFirmwareUpgradesUpgradeWindow,
     UpdateNetworkFloorPlanBottomLeftCorner,
@@ -356,6 +357,10 @@ class ActionBatchNetworks:
         upgrade_window: UpdateNetworkFirmwareUpgradesUpgradeWindow | None = None,
         timezone: str | None = None,
         products: UpdateNetworkFirmwareUpgradesProducts | None = None,
+        feature_loss_acknowledgements: list[
+            UpdateNetworkFirmwareUpgradesFeatureLossAcknowledgementsItem
+        ]
+        | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update firmware upgrade information for a network.
 
@@ -366,6 +371,8 @@ class ActionBatchNetworks:
             upgrade_window: Upgrade window for devices in network.
             timezone: The timezone for the network.
             products: Contains information about the network to update.
+            feature_loss_acknowledgements: Acknowledges the target version has removed certain
+                features that the network is currently using.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -378,6 +385,11 @@ class ActionBatchNetworks:
             payload["timezone"] = timezone
         if products is not None:
             payload["products"] = products.model_dump(by_alias=True, exclude_none=True)
+        if feature_loss_acknowledgements is not None:
+            payload["featureLossAcknowledgements"] = [
+                item.model_dump(by_alias=True, exclude_none=True)
+                for item in feature_loss_acknowledgements
+            ]
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1181,7 +1193,7 @@ class ActionBatchNetworks:
                 target='_blank' href='http://switch.meraki.com/'>switch.meraki.com,
                 </a><a target='_blank'
                 href='http://wired.meraki.com/'>wired.meraki.com</a>). Optional
-                (defaults to false).
+                (defaults to true).
             remote_status_page_enabled: Enables / disables access to the device status page (<a
                 target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set
                 if localStatusPageEnabled is set to true.

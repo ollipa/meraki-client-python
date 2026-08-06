@@ -15,6 +15,13 @@ from meraki_client.schemas import (
     CreateNetworkCampusGatewayClusterTunnelsItem,
     CreateNetworkCampusGatewayClusterUplinksItem,
     CreateOrganizationActionBatchActionsItem,
+    ProvisionOrganizationCampusGatewayClustersDevicesItem,
+    ProvisionOrganizationCampusGatewayClustersFailover,
+    ProvisionOrganizationCampusGatewayClustersNameservers,
+    ProvisionOrganizationCampusGatewayClustersNetwork,
+    ProvisionOrganizationCampusGatewayClustersPortChannelsItem,
+    ProvisionOrganizationCampusGatewayClustersTunnelsItem,
+    ProvisionOrganizationCampusGatewayClustersUplinksItem,
     UpdateNetworkCampusGatewayClusterDevicesItem,
     UpdateNetworkCampusGatewayClusterNameservers,
     UpdateNetworkCampusGatewayClusterPortChannelsItem,
@@ -151,5 +158,99 @@ class ActionBatchCampusGateway:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="update",
+            body=payload,
+        )
+
+    def delete_network_campus_gateway_cluster(
+        self, *, network_id: str, cluster_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete a cluster.
+
+        [API documentation: deleteNetworkCampusGatewayCluster](https://developer.cisco.com/meraki/api-v1/#!delete-network-campus-gateway-cluster)
+
+        Args:
+            network_id: Network ID.
+            cluster_id: Cluster ID.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        cluster_id = urllib.parse.quote(str(cluster_id), safe="")
+        path = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def provision_organization_campus_gateway_clusters(
+        self,
+        *,
+        organization_id: str,
+        cluster_id: str,
+        network: ProvisionOrganizationCampusGatewayClustersNetwork,
+        name: str,
+        uplinks: list[ProvisionOrganizationCampusGatewayClustersUplinksItem],
+        tunnels: list[ProvisionOrganizationCampusGatewayClustersTunnelsItem],
+        nameservers: ProvisionOrganizationCampusGatewayClustersNameservers,
+        port_channels: list[ProvisionOrganizationCampusGatewayClustersPortChannelsItem],
+        devices: list[ProvisionOrganizationCampusGatewayClustersDevicesItem] | None = None,
+        failover: ProvisionOrganizationCampusGatewayClustersFailover | None = None,
+        notes: str | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Provisions a cluster,adds campus gateways to it and associate/dissociate failover targets.
+
+        [API documentation: provisionOrganizationCampusGatewayClusters](https://developer.cisco.com/meraki/api-v1/#!provision-organization-campus-gateway-clusters)
+
+        Args:
+            organization_id: Organization ID.
+            cluster_id: ID of the cluster to be provisioned.
+            network: Network to be provisioned.
+            name: Name of the new cluster.
+            uplinks: Uplink interface settings of the cluster.
+            tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
+                interface.
+            nameservers: Nameservers of the cluster.
+            port_channels: Port channel settings of the cluster.
+            devices: Devices to be added to the cluster.
+            failover: Failover targets for the cluster.
+            notes: Notes about cluster with max size of 511 characters allowed.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/provision"
+
+        payload: dict[str, Any] = {}
+        if cluster_id is not None:
+            payload["clusterId"] = cluster_id
+        if network is not None:
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
+        if name is not None:
+            payload["name"] = name
+        if uplinks is not None:
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
+            ]
+        if tunnels is not None:
+            payload["tunnels"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in tunnels
+            ]
+        if nameservers is not None:
+            payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
+        if port_channels is not None:
+            payload["portChannels"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in port_channels
+            ]
+        if devices is not None:
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
+        if failover is not None:
+            payload["failover"] = failover.model_dump(by_alias=True, exclude_none=True)
+        if notes is not None:
+            payload["notes"] = notes
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="provision",
             body=payload,
         )

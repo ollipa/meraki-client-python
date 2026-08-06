@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING, Any, Literal
 from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
-    AttachOrganizationSaseSitesCallback,
     AttachOrganizationSaseSitesItemsItem,
+    AttachOrganizationSaseSitesResponse,
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponse,
     BatchOrganizationSaseConnectorsDeleteItemsItem,
@@ -23,6 +23,7 @@ from meraki_client.schemas import (
     BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced,
     BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateResponse,
+    BulkOrganizationNetworksGroupAssignResponse,
     BulkUpdateOrganizationDevicesDetailsDetailsItem,
     BulkUpdateOrganizationDevicesDetailsResponse,
     ClaimIntoOrganizationInventoryLicensesItem,
@@ -45,6 +46,7 @@ from meraki_client.schemas import (
     CreateOrganizationAdminTagsItem,
     CreateOrganizationAlertsProfileAlertCondition,
     CreateOrganizationAlertsProfileRecipients,
+    CreateOrganizationAssuranceAlertsProfileConfiguration,
     CreateOrganizationBrandingPolicyAdminSettings,
     CreateOrganizationBrandingPolicyCustomLogo,
     CreateOrganizationBrandingPolicyHelpSettings,
@@ -62,8 +64,8 @@ from meraki_client.schemas import (
     CreateOrganizationSamlRoleTagsItem,
     CreateOrganizationSaseIntegrationApi,
     CreateOrganizationSplashThemeResponse,
-    DetachOrganizationSaseSitesCallback,
     DetachOrganizationSaseSitesItemsItem,
+    DetachOrganizationSaseSitesResponse,
     DictResponse,
     DisableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
@@ -121,6 +123,7 @@ from meraki_client.schemas import (
     GetOrganizationInventoryDevicesEoxOverviewResponse,
     GetOrganizationInventoryDevicesResponseItem,
     GetOrganizationLicensesOverviewResponse,
+    GetOrganizationNetworksGroupsOverviewByGroupResponseItemsItem,
     GetOrganizationPoliciesAssignmentsByClientResponseItem,
     GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem,
     GetOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignmentsResponseItemsItem,
@@ -156,6 +159,7 @@ from meraki_client.schemas import (
     OrganizationAdaptivePolicySettingsResponse,
     OrganizationAdminResponse,
     OrganizationAlertsProfileResponse,
+    OrganizationAssuranceAlertsProfileResponse,
     OrganizationBrandingPoliciesPrioritiesResponse,
     OrganizationBrandingPolicyResponse,
     OrganizationConfigTemplateResponse,
@@ -167,6 +171,7 @@ from meraki_client.schemas import (
     OrganizationLicenseResponse,
     OrganizationLicensesSeatsResponse,
     OrganizationLoginSecurityResponse,
+    OrganizationNetworksGroupResponse,
     OrganizationPoliciesGlobalFirewallRulesetResponse,
     OrganizationPoliciesGlobalFirewallRulesetsRuleResponse,
     OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
@@ -197,6 +202,7 @@ from meraki_client.schemas import (
     UpdateOrganizationAlertsProfileAlertCondition,
     UpdateOrganizationAlertsProfileRecipients,
     UpdateOrganizationApi,
+    UpdateOrganizationAssuranceAlertsProfileConfiguration,
     UpdateOrganizationBrandingPolicyAdminSettings,
     UpdateOrganizationBrandingPolicyCustomLogo,
     UpdateOrganizationBrandingPolicyHelpSettings,
@@ -274,6 +280,7 @@ from meraki_client.types import (
     GetOrganizationInventoryDevicesTagsFilterType,
     GetOrganizationInventoryDevicesUsedState,
     GetOrganizationLicensesState,
+    GetOrganizationNetworksGroupsOverviewByGroupSortBy,
     GetOrganizationNetworksProductTypes,
     GetOrganizationNetworksTagsFilterType,
     GetOrganizationOpenapiSpecVersion,
@@ -3530,6 +3537,323 @@ class Organizations:
             path=path,
             params=params,
             item_schema=GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem,
+        )
+
+    def get_organization_assurance_alerts_profiles(
+        self, organization_id: str
+    ) -> PaginatedResponse[OrganizationAssuranceAlertsProfileResponse]:
+        """List the alert profiles for this organization.
+
+        [API documentation: getOrganizationAssuranceAlertsProfiles](https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-profiles)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "profileId": "12761247612764",
+                  "name": "alert_profile_1",
+                  "organizationId": "1234567898",
+                  "networkIds": [
+                    "N_123657123",
+                    "N_9876143"
+                  ],
+                  "alertTypes": [
+                    "unreachable",
+                    "vlan_mismatch"
+                  ],
+                  "alertScheduleId": "9876543210",
+                  "configuration": {
+                    "enabled": true,
+                    "maintenance": {
+                      "silencing": {
+                        "enabled": true
+                      }
+                    },
+                    "alertDestinations": {
+                      "email": {
+                        "enabled": true,
+                        "recipients": [
+                          "miles@meraki.net"
+                        ]
+                      },
+                      "sms": {
+                        "enabled": true,
+                        "recipients": [
+                          "+1 (999) 999-1111"
+                        ]
+                      },
+                      "webhook": {
+                        "enabled": true,
+                        "recipients": [
+                          {
+                            "id": "aHR0cHM6Ly9nb29nbGUuY29tL2Zha2U=",
+                            "name": "Meraki",
+                            "url": "http://www.example.org"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/assurance/alerts/profiles"
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationAssuranceAlertsProfiles",
+            path=path,
+            item_schema=OrganizationAssuranceAlertsProfileResponse,
+        )
+
+    def create_organization_assurance_alerts_profile(
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        network_ids: list[str],
+        alert_types: list[str],
+        configuration: CreateOrganizationAssuranceAlertsProfileConfiguration,
+        alert_schedule_id: str | None = None,
+    ) -> OrganizationAssuranceAlertsProfileResponse:
+        """Create an alert profile.
+
+        [API documentation: createOrganizationAssuranceAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!create-organization-assurance-alerts-profile)
+
+        Args:
+            organization_id: Organization ID.
+            name: Name of the alert profile.
+            network_ids: Networks associated with this alert profile.
+            alert_types: Alert types associated with this alert profile.
+            alert_schedule_id: ID of the alert schedule associated with this profile.
+            configuration: Alert configuration for this profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "12761247612764",
+              "name": "alert_profile_1",
+              "organizationId": "1234567898",
+              "networkIds": [
+                "N_123657123",
+                "N_9876143"
+              ],
+              "alertTypes": [
+                "unreachable",
+                "vlan_mismatch"
+              ],
+              "alertScheduleId": "9876543210",
+              "configuration": {
+                "enabled": true,
+                "maintenance": {
+                  "silencing": {
+                    "enabled": true
+                  }
+                },
+                "alertDestinations": {
+                  "email": {
+                    "enabled": true,
+                    "recipients": [
+                      "miles@meraki.net"
+                    ]
+                  },
+                  "sms": {
+                    "enabled": true,
+                    "recipients": [
+                      "+1 (999) 999-1111"
+                    ]
+                  },
+                  "webhook": {
+                    "enabled": true,
+                    "recipients": [
+                      {
+                        "id": "aHR0cHM6Ly9nb29nbGUuY29tL2Zha2U=",
+                        "name": "Meraki",
+                        "url": "http://www.example.org"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/assurance/alerts/profiles"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+        if alert_types is not None:
+            payload["alertTypes"] = alert_types
+        if alert_schedule_id is not None:
+            payload["alertScheduleId"] = alert_schedule_id
+        if configuration is not None:
+            payload["configuration"] = configuration.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="createOrganizationAssuranceAlertsProfile",
+            path=path,
+            json=payload,
+            response_schema=OrganizationAssuranceAlertsProfileResponse,
+        )
+
+    def update_organization_assurance_alerts_profile(
+        self,
+        *,
+        organization_id: str,
+        profile_id: str,
+        name: str,
+        network_ids: list[str],
+        alert_types: list[str],
+        configuration: UpdateOrganizationAssuranceAlertsProfileConfiguration,
+        alert_schedule_id: str | None = None,
+    ) -> OrganizationAssuranceAlertsProfileResponse:
+        """Update an alert profile.
+
+        [API documentation: updateOrganizationAssuranceAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!update-organization-assurance-alerts-profile)
+
+        Args:
+            organization_id: Organization ID.
+            profile_id: Profile ID.
+            name: Name of the alert profile.
+            network_ids: Networks associated with this alert profile.
+            alert_types: Alert types associated with this alert profile.
+            alert_schedule_id: ID of the alert schedule associated with this profile.
+            configuration: Alert configuration for this profile.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "profileId": "12761247612764",
+              "name": "alert_profile_1",
+              "organizationId": "1234567898",
+              "networkIds": [
+                "N_123657123",
+                "N_9876143"
+              ],
+              "alertTypes": [
+                "unreachable",
+                "vlan_mismatch"
+              ],
+              "alertScheduleId": "9876543210",
+              "configuration": {
+                "enabled": true,
+                "maintenance": {
+                  "silencing": {
+                    "enabled": true
+                  }
+                },
+                "alertDestinations": {
+                  "email": {
+                    "enabled": true,
+                    "recipients": [
+                      "miles@meraki.net"
+                    ]
+                  },
+                  "sms": {
+                    "enabled": true,
+                    "recipients": [
+                      "+1 (999) 999-1111"
+                    ]
+                  },
+                  "webhook": {
+                    "enabled": true,
+                    "recipients": [
+                      {
+                        "id": "aHR0cHM6Ly9nb29nbGUuY29tL2Zha2U=",
+                        "name": "Meraki",
+                        "url": "http://www.example.org"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        path = f"/organizations/{organization_id}/assurance/alerts/profiles/{profile_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+        if alert_types is not None:
+            payload["alertTypes"] = alert_types
+        if alert_schedule_id is not None:
+            payload["alertScheduleId"] = alert_schedule_id
+        if configuration is not None:
+            payload["configuration"] = configuration.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="organizations",
+            operation_id="updateOrganizationAssuranceAlertsProfile",
+            path=path,
+            json=payload,
+            response_schema=OrganizationAssuranceAlertsProfileResponse,
+        )
+
+    def delete_organization_assurance_alerts_profile(
+        self, *, organization_id: str, profile_id: str
+    ) -> None:
+        """Delete an alert profile for this organization.
+
+        [API documentation: deleteOrganizationAssuranceAlertsProfile](https://developer.cisco.com/meraki/api-v1/#!delete-organization-assurance-alerts-profile)
+
+        Args:
+            organization_id: Organization ID.
+            profile_id: Profile ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        path = f"/organizations/{organization_id}/assurance/alerts/profiles/{profile_id}"
+
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationAssuranceAlertsProfile",
+            path=path,
         )
 
     def restore_organization_assurance_alerts(
@@ -8691,7 +9015,9 @@ class Organizations:
                 "isOrgScopedOnly": true,
                 "documentationLink": "https://documentation.meraki.com/",
                 "supportLink": "https://community.meraki.com/",
-                "privacyLink": "https://meraki.com/privacy"
+                "privacyLink": "https://meraki.com/privacy",
+                "advantage": false,
+                "advantageTrial": false
               }
             ]
             ```
@@ -11354,6 +11680,376 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=CombineOrganizationNetworksResponse,
+        )
+
+    def get_organization_networks_groups(
+        self,
+        organization_id: str,
+        *,
+        group_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[OrganizationNetworksGroupResponse]:
+        """List the network groups in an organization.
+
+        [API documentation: getOrganizationNetworksGroups](https://developer.cisco.com/meraki/api-v1/#!get-organization-networks-groups)
+
+        Args:
+            organization_id: Organization ID.
+            group_ids: Optional parameter to filter network groups by ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "groupId": "1284392014819",
+                  "organizationId": "2930418",
+                  "name": "Main campus"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups"
+
+        params: dict[str, Any] = {}
+        if group_ids is not None:
+            params["groupIds[]"] = group_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationNetworksGroups",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationNetworksGroupResponse,
+        )
+
+    def create_organization_networks_group(
+        self, *, organization_id: str, name: str
+    ) -> OrganizationNetworksGroupResponse:
+        """Create a network group.
+
+        [API documentation: createOrganizationNetworksGroup](https://developer.cisco.com/meraki/api-v1/#!create-organization-networks-group)
+
+        Args:
+            organization_id: Organization ID.
+            name: The name of the network group.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupId": "1284392014819",
+              "organizationId": "2930418",
+              "name": "Main campus"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="createOrganizationNetworksGroup",
+            path=path,
+            json=payload,
+            response_schema=OrganizationNetworksGroupResponse,
+        )
+
+    def get_organization_networks_groups_overview_by_group(
+        self,
+        organization_id: str,
+        *,
+        sort_by: GetOrganizationNetworksGroupsOverviewByGroupSortBy | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationNetworksGroupsOverviewByGroupResponseItemsItem]:
+        """List the client and status overview information for the network groups in an organization.
+
+        [API documentation: getOrganizationNetworksGroupsOverviewByGroup](https://developer.cisco.com/meraki/api-v1/#!get-organization-networks-groups-overview-by-group)
+
+        Args:
+            organization_id: Organization ID.
+            sort_by: Field by which to sort the results.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 5000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "groupId": "1284392014819",
+                  "name": "Main campus",
+                  "clients": {
+                    "counts": {
+                      "total": 72
+                    },
+                    "usage": {
+                      "upstream": 3732658.44,
+                      "downstream": 983732658.87
+                    }
+                  },
+                  "statuses": {
+                    "overall": "online",
+                    "byProductType": [
+                      {
+                        "productType": "wireless",
+                        "counts": {
+                          "online": 2,
+                          "offline": 1,
+                          "alerting": 0,
+                          "dormant": 3
+                        }
+                      }
+                    ]
+                  },
+                  "productTypes": [
+                    "wirelessController",
+                    "wireless",
+                    "switch"
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/overview/byGroup"
+
+        params: dict[str, Any] = {}
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationNetworksGroupsOverviewByGroup",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationNetworksGroupsOverviewByGroupResponseItemsItem,
+        )
+
+    def update_organization_networks_group(
+        self, *, organization_id: str, group_id: str, name: str
+    ) -> OrganizationNetworksGroupResponse:
+        """Update a network group.
+
+        [API documentation: updateOrganizationNetworksGroup](https://developer.cisco.com/meraki/api-v1/#!update-organization-networks-group)
+
+        Args:
+            organization_id: Organization ID.
+            group_id: Group ID.
+            name: The new name of the network group.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "groupId": "1284392014819",
+              "organizationId": "2930418",
+              "name": "Main campus"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        group_id = urllib.parse.quote(str(group_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/{group_id}"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+
+        return self._session.put(
+            scope="organizations",
+            operation_id="updateOrganizationNetworksGroup",
+            path=path,
+            json=payload,
+            response_schema=OrganizationNetworksGroupResponse,
+        )
+
+    def delete_organization_networks_group(self, *, organization_id: str, group_id: str) -> None:
+        """Delete a network group.
+
+        [API documentation: deleteOrganizationNetworksGroup](https://developer.cisco.com/meraki/api-v1/#!delete-organization-networks-group)
+
+        Args:
+            organization_id: Organization ID.
+            group_id: Group ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        group_id = urllib.parse.quote(str(group_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/{group_id}"
+
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationNetworksGroup", path=path
+        )
+
+    def bulk_organization_networks_group_assign(
+        self, *, organization_id: str, group_id: str, network_ids: list[str]
+    ) -> BulkOrganizationNetworksGroupAssignResponse:
+        """Add networks to a network group.
+
+        [API documentation: bulkOrganizationNetworksGroupAssign](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-networks-group-assign)
+
+        Args:
+            organization_id: Organization ID.
+            group_id: Group ID.
+            network_ids: A list of network IDs to add to the network group.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "networkIds": [
+                "N_839506",
+                "N_17389"
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        group_id = urllib.parse.quote(str(group_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/{group_id}/bulkAssign"
+
+        payload: dict[str, Any] = {}
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="bulkOrganizationNetworksGroupAssign",
+            path=path,
+            json=payload,
+            response_schema=BulkOrganizationNetworksGroupAssignResponse,
+        )
+
+    def bulk_organization_networks_group_unassign(
+        self, *, organization_id: str, group_id: str, network_ids: list[str]
+    ) -> None:
+        """Remove networks from a network group.
+
+        [API documentation: bulkOrganizationNetworksGroupUnassign](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-networks-group-unassign)
+
+        Args:
+            organization_id: Organization ID.
+            group_id: Group ID.
+            network_ids: A list of network IDs to remove from the network group.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        group_id = urllib.parse.quote(str(group_id), safe="")
+        path = f"/organizations/{organization_id}/networks/groups/{group_id}/bulkUnassign"
+
+        payload: dict[str, Any] = {}
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+
+        return self._session.post(
+            scope="organizations",
+            operation_id="bulkOrganizationNetworksGroupUnassign",
+            path=path,
+            json=payload,
         )
 
     def get_network_moves(
@@ -14501,32 +15197,31 @@ class Organizations:
         Example API response:
             ```json
             {
-              "items": [
-                {
-                  "pipelineId": "1234",
-                  "operation": {
-                    "id": "enrollOrganizationSaseSites"
-                  },
-                  "status": "active",
-                  "counts": {
-                    "jobs": {
-                      "total": 3,
-                      "byStatus": {
-                        "completed": 1,
-                        "failed": 1,
-                        "pending": 1
-                      }
+              "pipelineId": "1234",
+              "operation": {
+                "id": "batchOrganizationSaseConnectorsDelete"
+              },
+              "status": "active",
+              "counts": {
+                "jobs": {
+                  "total": 3,
+                  "byStatus": {
+                    "completed": 1,
+                    "failed": 1,
+                    "pending": 1
+                  }
+                },
+                "byJobOperation": [
+                  {
+                    "name": "teardown CNHE SSE connector",
+                    "total": 2,
+                    "byStatus": {
+                      "completed": 1,
+                      "failed": 0,
+                      "pending": 1
                     }
                   }
-                }
-              ],
-              "meta": {
-                "counts": {
-                  "items": {
-                    "total": 100,
-                    "remaining": 10
-                  }
-                }
+                ]
               }
             }
             ```
@@ -14953,12 +15648,8 @@ class Organizations:
         )
 
     def attach_organization_sase_sites(
-        self,
-        organization_id: str,
-        *,
-        items: list[AttachOrganizationSaseSitesItemsItem] | None = None,
-        callback: AttachOrganizationSaseSitesCallback | None = None,
-    ) -> BatchOrganizationSaseConnectorsDeleteResponse:
+        self, *, organization_id: str, items: list[AttachOrganizationSaseSitesItemsItem]
+    ) -> AttachOrganizationSaseSitesResponse:
         """Attach sites in this organization to Secure Access.
 
         [API documentation: attachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!attach-organization-sase-sites)
@@ -14966,8 +15657,6 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             items: List of Meraki SD-WAN sites with the associated regions to be attached.
-            callback: Details for the callback. Please include either an httpServerId OR url and
-                sharedSecret.
 
         Returns:
             Successful operation.
@@ -14975,32 +15664,31 @@ class Organizations:
         Example API response:
             ```json
             {
-              "items": [
-                {
-                  "pipelineId": "1234",
-                  "operation": {
-                    "id": "enrollOrganizationSaseSites"
-                  },
-                  "status": "active",
-                  "counts": {
-                    "jobs": {
-                      "total": 3,
-                      "byStatus": {
-                        "completed": 1,
-                        "failed": 1,
-                        "pending": 1
-                      }
+              "pipelineId": "1234",
+              "operation": {
+                "id": "attachOrganizationSaseSites"
+              },
+              "status": "active",
+              "counts": {
+                "jobs": {
+                  "total": 3,
+                  "byStatus": {
+                    "completed": 1,
+                    "failed": 1,
+                    "pending": 1
+                  }
+                },
+                "byJobOperation": [
+                  {
+                    "name": "enroll wired site",
+                    "total": 2,
+                    "byStatus": {
+                      "completed": 1,
+                      "failed": 0,
+                      "pending": 1
                     }
                   }
-                }
-              ],
-              "meta": {
-                "counts": {
-                  "items": {
-                    "total": 100,
-                    "remaining": 10
-                  }
-                }
+                ]
               }
             }
             ```
@@ -15012,15 +15700,13 @@ class Organizations:
         payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-        if callback is not None:
-            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="organizations",
             operation_id="attachOrganizationSaseSites",
             path=path,
             json=payload,
-            response_schema=BatchOrganizationSaseConnectorsDeleteResponse,
+            response_schema=AttachOrganizationSaseSitesResponse,
         )
 
     def get_organization_sase_sites_connectivity_history_by_site(
@@ -15152,8 +15838,7 @@ class Organizations:
         organization_id: str,
         *,
         items: list[DetachOrganizationSaseSitesItemsItem] | None = None,
-        callback: DetachOrganizationSaseSitesCallback | None = None,
-    ) -> None:
+    ) -> DetachOrganizationSaseSitesResponse:
         """Detach sites in this organization from Secure Access.
 
         [API documentation: detachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!detach-organization-sase-sites)
@@ -15161,8 +15846,6 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             items: List of Secure Access sites to be detached.
-            callback: Details for the callback. Please include either an httpServerId OR url and
-                sharedSecret.
 
         Returns:
             Successful operation.
@@ -15170,32 +15853,31 @@ class Organizations:
         Example API response:
             ```json
             {
-              "items": [
-                {
-                  "pipelineId": "1234",
-                  "operation": {
-                    "id": "enrollOrganizationSaseSites"
-                  },
-                  "status": "active",
-                  "counts": {
-                    "jobs": {
-                      "total": 3,
-                      "byStatus": {
-                        "completed": 1,
-                        "failed": 1,
-                        "pending": 1
-                      }
+              "pipelineId": "1234",
+              "operation": {
+                "id": "detachOrganizationSaseSites"
+              },
+              "status": "active",
+              "counts": {
+                "jobs": {
+                  "total": 3,
+                  "byStatus": {
+                    "completed": 1,
+                    "failed": 1,
+                    "pending": 1
+                  }
+                },
+                "byJobOperation": [
+                  {
+                    "name": "detach wired site",
+                    "total": 2,
+                    "byStatus": {
+                      "completed": 1,
+                      "failed": 0,
+                      "pending": 1
                     }
                   }
-                }
-              ],
-              "meta": {
-                "counts": {
-                  "items": {
-                    "total": 100,
-                    "remaining": 10
-                  }
-                }
+                ]
               }
             }
             ```
@@ -15207,11 +15889,13 @@ class Organizations:
         payload: dict[str, Any] = {}
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-        if callback is not None:
-            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
-        return self._session.delete(
-            scope="organizations", operation_id="detachOrganizationSaseSites", path=path
+        return self._session.post(
+            scope="organizations",
+            operation_id="detachOrganizationSaseSites",
+            path=path,
+            json=payload,
+            response_schema=DetachOrganizationSaseSitesResponse,
         )
 
     def update_organization_sase_site(
@@ -16322,6 +17006,9 @@ class Organizations:
                       "url": "https://n1.meraki.com//n//manage/nodes/new_list/000000000000"
                     }
                   ]
+                },
+                "permissions": {
+                  "canWrite": true
                 },
                 "productTypes": [
                   "appliance",

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import Field, field_validator
+from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
 
@@ -48,6 +48,89 @@ class CampusGatewayAddressesItem4(_BaseSchema):
     address: str | None = None
 
 
+class CampusGatewayAvailableItem(_BaseSchema):
+    """Schema for CampusGatewayAvailableItem."""
+
+    cluster_id: str | None = Field(
+        default=None, validation_alias="clusterId", serialization_alias="clusterId"
+    )
+    name: str | None = None
+    network: CampusGatewayNetwork2 | None = None
+    model: str | None = None
+    allowed_vlans: str | None = Field(
+        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
+    )
+
+
+class CampusGatewayByProductType(_BaseSchema):
+    """Details by product type."""
+
+    campus_gateway: int = Field(
+        validation_alias="campusGateway", serialization_alias="campusGateway"
+    )
+
+
+class CampusGatewayByProductType2(_BaseSchema):
+    """Details by product type."""
+
+    wireless: int
+
+
+class CampusGatewayCampusGatewaysItem(_BaseSchema):
+    """Schema for CampusGatewayCampusGatewaysItem."""
+
+    name: str
+    priority: int
+    serial: str
+    mac: str
+    tunnel: CampusGatewayTunnel
+    data: CampusGatewayData
+    url: str
+    cluster: CampusGatewayNetwork
+
+
+class CampusGatewayClients(_BaseSchema):
+    """Details about clients tunneled to the cluster."""
+
+    total: int
+
+
+class CampusGatewayCounts(_BaseSchema):
+    """Network statistics."""
+
+    connections: CampusGatewayClients
+    clients: CampusGatewayClients
+    ssids: CampusGatewayClients
+
+
+class CampusGatewayCounts2(_BaseSchema):
+    """Count information."""
+
+    clients: CampusGatewayClients
+
+
+class CampusGatewayCountsByTunnelStatus(_BaseSchema):
+    """Connections counts by tunnel status."""
+
+    up: int
+    down: int
+
+
+class CampusGatewayData(_BaseSchema):
+    """Attributes related to the data plane."""
+
+    encryption: CampusGatewayEncryption
+
+
+class CampusGatewayDevices(_BaseSchema):
+    """Details about network devices."""
+
+    by_product_type: CampusGatewayByProductType = Field(
+        validation_alias="byProductType", serialization_alias="byProductType"
+    )
+    tunneled: CampusGatewayTunneled
+
+
 class CampusGatewayDevicesUplinksItem(_BaseSchema):
     """Schema for CampusGatewayDevicesUplinksItem."""
 
@@ -61,10 +144,103 @@ class CampusGatewayDevicesUplinksItem(_BaseSchema):
         return [] if value is None else value
 
 
+class CampusGatewayEncryption(_BaseSchema):
+    """Encryption status of the data plane."""
+
+    status: str
+
+
+class CampusGatewayFailover(_BaseSchema):
+    """Failover settings of the cluster."""
+
+    targets: list[CampusGatewayTargetsItem] = Field(default_factory=list)
+
+    @field_validator("targets", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class CampusGatewayNetwork(_BaseSchema):
+    """Details about the network."""
+
+    id: str
+    name: str
+
+
+class CampusGatewayNetwork2(_BaseSchema):
     """Network details of the cluster."""
 
     id: str | None = None
+
+
+class CampusGatewayNetwork3(_BaseSchema):
+    """Associated network."""
+
+    id: str
+
+
+class CampusGatewayNetwork4(_BaseSchema):
+    """Network information."""
+
+    id: str
+    name: str
+    url: str
+
+
+class CampusGatewaySite(_BaseSchema):
+    """site information."""
+
+    id: str
+    name: str | None = None
+    url: str | None = None
+
+
+class CampusGatewaySource(_BaseSchema):
+    """The source network from which the cluster is tunnelable."""
+
+    network: CampusGatewayNetwork3
+
+
+class CampusGatewayTargetsItem(_BaseSchema):
+    """Schema for CampusGatewayTargetsItem."""
+
+    cluster_id: str | None = Field(
+        default=None, validation_alias="clusterId", serialization_alias="clusterId"
+    )
+    name: str | None = None
+    priority: int | None = None
+    allowed_vlans: str | None = Field(
+        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
+    )
+
+
+class CampusGatewayTunnel(_BaseSchema):
+    """Tunnel information."""
+
+    status: str
+    uptime: int | None = None
+
+
+class CampusGatewayTunnelAdmin(_BaseSchema):
+    """Tunnel administrative settings."""
+
+    enabled: bool
+
+
+class CampusGatewayTunneled(_BaseSchema):
+    """Details about tunneled network devices."""
+
+    by_product_type: CampusGatewayByProductType2 = Field(
+        validation_alias="byProductType", serialization_alias="byProductType"
+    )
+
+
+class CampusGatewayTunneling(_BaseSchema):
+    """Tunneling relationship details."""
+
+    source: str
 
 
 class CampusGatewayTunnelsAddressesItem(_BaseSchema):
@@ -108,6 +284,14 @@ class CampusGatewayUplinksAddressesItem(_BaseSchema):
     subnet_mask: str | None = Field(
         default=None, validation_alias="subnetMask", serialization_alias="subnetMask"
     )
+
+
+class CampusGatewayUsage(_BaseSchema):
+    """Details about tunneled client usage for the campus gateway cluster over the given timespan."""
+
+    total: float
+    upstream: float
+    downstream: float
 
 
 class CreateNetworkCampusGatewayClusterDevicesItem(_BaseSchema):
@@ -219,10 +403,66 @@ class CreateNetworkCampusGatewayClusterUplinksItemAddressesItem(_BaseSchema):
     )
 
 
+class GetOrganizationCampusGatewayClientsUsageByNetworkByClusterResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationCampusGatewayClientsUsageByNetworkByClusterResponseItemsItem."""
+
+    network: CampusGatewayNetwork
+    cluster: CampusGatewayNetwork
+    clients: CampusGatewayClients
+    devices: CampusGatewayDevices
+    usage: CampusGatewayUsage
+
+
+class GetOrganizationCampusGatewayClustersFailoverTargetsByClusterResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationCampusGatewayClustersFailoverTargetsByClusterResponseItemsItem."""
+
+    cluster_id: str | None = Field(
+        default=None, validation_alias="clusterId", serialization_alias="clusterId"
+    )
+    name: str | None = None
+    network: CampusGatewayNetwork2 | None = None
+    model: str | None = None
+    available: list[CampusGatewayAvailableItem] = Field(default_factory=list)
+
+    @field_validator("available", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class GetOrganizationCampusGatewayClustersFailoverTargetsResponse(
+    RootModel[list["GetOrganizationCampusGatewayClustersFailoverTargetsResponseItem"]]
+):
+    """Response for getOrganizationCampusGatewayClustersFailoverTargets operation."""
+
+
+class GetOrganizationCampusGatewayClustersFailoverTargetsResponseItem(_BaseSchema):
+    """Schema for GetOrganizationCampusGatewayClustersFailoverTargetsResponseItem."""
+
+    cluster_id: str | None = Field(
+        default=None, validation_alias="clusterId", serialization_alias="clusterId"
+    )
+    network: CampusGatewayNetwork2 | None = None
+    failover: CampusGatewayFailover | None = None
+
+
+class GetOrganizationCampusGatewayClustersNetworksOverviewsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationCampusGatewayClustersNetworksOverviewsResponseItemsItem."""
+
+    network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
+    name: str
+    tunneling: CampusGatewayTunneling
+    site: CampusGatewaySite | None = None
+    url: str
+    counts: CampusGatewayCounts
+    cluster: CampusGatewayNetwork
+
+
 class GetOrganizationCampusGatewayClustersResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCampusGatewayClustersResponseItemsItem."""
 
-    network: CampusGatewayNetwork | None = None
+    network: CampusGatewayNetwork2 | None = None
     cluster_id: str | None = Field(
         default=None, validation_alias="clusterId", serialization_alias="clusterId"
     )
@@ -238,6 +478,73 @@ class GetOrganizationCampusGatewayClustersResponseItemsItem(_BaseSchema):
     url: str | None = None
 
     @field_validator("uplinks", "tunnels", "port_channels", "devices", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class GetOrganizationCampusGatewayClustersSsidsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationCampusGatewayClustersSsidsResponseItemsItem."""
+
+    number: int
+    ssid_id: str = Field(validation_alias="ssidId", serialization_alias="ssidId")
+    name: str
+    url: str
+    network: CampusGatewayNetwork3
+    cluster: CampusGatewayNetwork
+
+
+class GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem."""
+
+    cluster_id: str = Field(validation_alias="clusterId", serialization_alias="clusterId")
+    name: str
+    url: str
+    network: CampusGatewayNetwork
+    source: CampusGatewaySource
+
+
+class GetOrganizationCampusGatewayConnectionsOverviewResponse(_BaseSchema):
+    """Response for getOrganizationCampusGatewayConnectionsOverview operation."""
+
+    counts: GetOrganizationCampusGatewayConnectionsOverviewResponseCounts
+
+
+class GetOrganizationCampusGatewayConnectionsOverviewResponseCounts(_BaseSchema):
+    """Connections counts."""
+
+    by_tunnel_status: CampusGatewayCountsByTunnelStatus = Field(
+        validation_alias="byTunnelStatus", serialization_alias="byTunnelStatus"
+    )
+    total: int
+
+
+class GetOrganizationCampusGatewayConnectionsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationCampusGatewayConnectionsResponseItemsItem."""
+
+    name: str
+    serial: str
+    mac: str
+    model: str
+    uptime: int
+    status: str
+    tunnel_status: str = Field(validation_alias="tunnelStatus", serialization_alias="tunnelStatus")
+    tunnel_admin: CampusGatewayTunnelAdmin = Field(
+        validation_alias="tunnelAdmin", serialization_alias="tunnelAdmin"
+    )
+    tunnel_schedule: CampusGatewayTunnelAdmin = Field(
+        validation_alias="tunnelSchedule", serialization_alias="tunnelSchedule"
+    )
+    interfaces: list[str]
+    url: str
+    network: CampusGatewayNetwork4
+    counts: CampusGatewayCounts2
+    campus_gateways: list[CampusGatewayCampusGatewaysItem] = Field(
+        validation_alias="campusGateways", serialization_alias="campusGateways"
+    )
+
+    @field_validator("interfaces", "campus_gateways", mode="before")
     @classmethod
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
@@ -342,6 +649,128 @@ class NetworkCampusGatewayClusterResponseUplinksItem(_BaseSchema):
     interface: str | None = None
     vlan: int | None = None
     addresses: list[CampusGatewayUplinksAddressesItem] = Field(default_factory=list)
+
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ProvisionOrganizationCampusGatewayClustersDevicesItem(_BaseSchema):
+    """Item schema for devices."""
+
+    serial: str
+    uplinks: list[CreateNetworkCampusGatewayClusterDevicesItemUplinksItem] = Field(
+        default_factory=list
+    )
+    tunnels: list[CreateNetworkCampusGatewayClusterDevicesItemUplinksItem] = Field(
+        default_factory=list
+    )
+
+    @field_validator("uplinks", "tunnels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ProvisionOrganizationCampusGatewayClustersFailover(_BaseSchema):
+    """Failover targets for the cluster."""
+
+    targets: list[ProvisionOrganizationCampusGatewayClustersFailoverTargetsItem] = Field(
+        default_factory=list
+    )
+
+    @field_validator("targets", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ProvisionOrganizationCampusGatewayClustersFailoverTargetsItem(_BaseSchema):
+    """Schema for ProvisionOrganizationCampusGatewayClustersFailoverTargetsItem."""
+
+    cluster_id: str = Field(validation_alias="clusterId", serialization_alias="clusterId")
+    priority: int | None = None
+
+
+class ProvisionOrganizationCampusGatewayClustersNameservers(_BaseSchema):
+    """Nameservers of the cluster."""
+
+    addresses: list[str] = Field(default_factory=list)
+
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ProvisionOrganizationCampusGatewayClustersNetwork(_BaseSchema):
+    """Network to be provisioned."""
+
+    id: str | None = None
+
+
+class ProvisionOrganizationCampusGatewayClustersPortChannelsItem(_BaseSchema):
+    """Item schema for portChannels."""
+
+    id: str | None = None
+    name: str
+    vlan: int
+    allowed_vlans: str = Field(validation_alias="allowedVlans", serialization_alias="allowedVlans")
+
+
+class ProvisionOrganizationCampusGatewayClustersResponse(_BaseSchema):
+    """Response for provisionOrganizationCampusGatewayClusters operation."""
+
+    cluster_id: str | None = Field(
+        default=None, validation_alias="clusterId", serialization_alias="clusterId"
+    )
+    name: str | None = None
+    uplinks: list[NetworkCampusGatewayClusterResponseUplinksItem] = Field(default_factory=list)
+    tunnels: list[NetworkCampusGatewayClusterResponseTunnelsItem] = Field(default_factory=list)
+    nameservers: NetworkCampusGatewayClusterResponseNameservers | None = None
+    port_channels: list[NetworkCampusGatewayClusterResponsePortChannelsItem] = Field(
+        default_factory=list, validation_alias="portChannels", serialization_alias="portChannels"
+    )
+    devices: list[NetworkCampusGatewayClusterResponseDevicesItem] = Field(default_factory=list)
+    notes: str | None = None
+    url: str | None = None
+    failover: CampusGatewayFailover | None = None
+
+    @field_validator("uplinks", "tunnels", "port_channels", "devices", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ProvisionOrganizationCampusGatewayClustersTunnelsItem(_BaseSchema):
+    """Item schema for tunnels."""
+
+    uplink: CreateNetworkCampusGatewayClusterTunnelsItemUplink | None = None
+    interface: str | None = None
+    vlan: int | None = None
+    addresses: list[CreateNetworkCampusGatewayClusterTunnelsItemAddressesItem] = Field(
+        default_factory=list
+    )
+
+    @field_validator("addresses", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ProvisionOrganizationCampusGatewayClustersUplinksItem(_BaseSchema):
+    """Item schema for uplinks."""
+
+    interface: str
+    vlan: int
+    addresses: list[CreateNetworkCampusGatewayClusterUplinksItemAddressesItem]
 
     @field_validator("addresses", mode="before")
     @classmethod

@@ -352,6 +352,95 @@ class CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntrySsid(_BaseSc
     number: int | None = None
 
 
+class CreateOrganizationWirelessSsidsProfilePrecedence(_BaseSchema):
+    """Precedence configuration for the SSID profile."""
+
+    radius: str | None = None
+
+
+class CreateOrganizationWirelessSsidsProfileSsid(_BaseSchema):
+    """SSID configuration for the profile."""
+
+    name: str | None = None
+    advertisement: WirelessBusyHourMinimizeChanges | None = None
+    security: CreateOrganizationWirelessSsidsProfileSsidSecurity | None = None
+    radius: CreateOrganizationWirelessSsidsProfileSsidRadius | None = None
+    addressing: CreateOrganizationWirelessSsidsProfileSsidAddressing | None = None
+    splash: WirelessSsidSplash | None = None
+
+
+class CreateOrganizationWirelessSsidsProfileSsidAddressing(_BaseSchema):
+    """Addressing settings for the SSID."""
+
+    mode: str | None = None
+    bonjour_forwarding: WirelessBonjourForwarding2 | None = Field(
+        default=None, validation_alias="bonjourForwarding", serialization_alias="bonjourForwarding"
+    )
+    mdns: WirelessMdns | None = None
+    radius: WirelessRadius2 | None = None
+
+
+class CreateOrganizationWirelessSsidsProfileSsidRadius(_BaseSchema):
+    """RADIUS settings for the SSID."""
+
+    servers: list[WirelessCluster] = Field(default_factory=list)
+    accounting: WirelessAccounting | None = None
+    policies: WirelessPolicies2 | None = None
+    proxy: WirelessBusyHourMinimizeChanges | None = None
+    testing: WirelessBusyHourMinimizeChanges | None = None
+    identifiers: WirelessIdentifiers | None = None
+    das: WirelessDas | None = None
+    eap_timers: WirelessEapTimers | None = Field(
+        default=None, validation_alias="eapTimers", serialization_alias="eapTimers"
+    )
+
+    @field_validator("servers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class CreateOrganizationWirelessSsidsProfileSsidSecurity(_BaseSchema):
+    """Security settings for the SSID."""
+
+    mode: str | None = None
+    protocol: str | None = None
+    encryption: WirelessEncryption3 | None = None
+    identity_passphrase: WirelessIdentityPassphrase | None = Field(
+        default=None,
+        validation_alias="identityPassphrase",
+        serialization_alias="identityPassphrase",
+    )
+
+
+class CreateOrganizationWirelessSsidsProfilesAssignmentNetwork(_BaseSchema):
+    """Network containing the SSID (required if SSID number is used)."""
+
+    id: str | None = None
+
+
+class CreateOrganizationWirelessSsidsProfilesAssignmentProfile(_BaseSchema):
+    """SSID profile to assign."""
+
+    id: str | None = None
+
+
+class CreateOrganizationWirelessSsidsProfilesAssignmentResponse(_BaseSchema):
+    """Response for createOrganizationWirelessSsidsProfilesAssignment operation."""
+
+    ssid: WirelessSsid | None = None
+    profile: WirelessDoorLocksNetwork | None = None
+    network: WirelessNetwork4 | None = None
+
+
+class CreateOrganizationWirelessSsidsProfilesAssignmentSsid(_BaseSchema):
+    """SSID to assign the SSID profile to."""
+
+    id: str | None = None
+    number: int | None = None
+
+
 class CreateOrganizationWirelessZigbeeDisenrollmentResponse(_BaseSchema):
     """Response for createOrganizationWirelessZigbeeDisenrollment operation."""
 
@@ -375,6 +464,19 @@ class CreateOrganizationWirelessZigbeeDisenrollmentResponseRequest(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class DeleteOrganizationWirelessSsidsProfilesAssignmentsNetwork(_BaseSchema):
+    """Network containing the SSID (required if SSID number is used)."""
+
+    id: str | None = None
+
+
+class DeleteOrganizationWirelessSsidsProfilesAssignmentsSsid(_BaseSchema):
+    """SSID to delete the SSID profile assignment of."""
+
+    id: str | None = None
+    number: int | None = None
 
 
 class DeviceWirelessBluetoothSettingsResponse(_BaseSchema):
@@ -1127,12 +1229,74 @@ class GetNetworkWirelessUsageHistoryResponseItem(_BaseSchema):
     )
 
 
+class GetOrganizationAssuranceImpactedDeviceWirelessByNetworkResponse(_BaseSchema):
+    """Response for getOrganizationAssuranceImpactedDeviceWirelessByNetwork operation."""
+
+    network: WirelessDoorLocksNetwork | None = None
+    counts: GetOrganizationAssuranceImpactedDeviceWirelessByNetworkResponseCounts | None = None
+
+
+class GetOrganizationAssuranceImpactedDeviceWirelessByNetworkResponseCounts(_BaseSchema):
+    """Counts of impacted infrastructure."""
+
+    total: int | None = None
+    by_failure_type: list[WirelessCountsByFailureTypeItem] = Field(
+        default_factory=list, validation_alias="byFailureType", serialization_alias="byFailureType"
+    )
+
+    @field_validator("by_failure_type", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseItemsItem.
+    """
+
+    network: WirelessDoorLocksNetwork | None = None
+    ssid: WirelessSsid | None = None
+    clients: WirelessClients | None = None
+
+
 class GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem."""
 
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     serial: str | None = None
     counts: WirelessCounts | None = None
+
+
+class GetOrganizationWirelessClientsUsageByNetworkBySsidResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessClientsUsageByNetworkBySsidResponseItemsItem."""
+
+    network: WirelessNetwork
+    ssid: WirelessSsid2
+    clients: WirelessClients2
+    devices: WirelessDevices
+    usage: WirelessUsage
+
+
+class GetOrganizationWirelessClientsUsageByNetworkResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessClientsUsageByNetworkResponseItemsItem."""
+
+    network: WirelessNetwork
+    clients: WirelessClients2
+    devices: WirelessDevices
+    usage: WirelessUsage
+
+
+class GetOrganizationWirelessClientsUsageBySsidResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessClientsUsageBySsidResponseItemsItem."""
+
+    ssid: WirelessSsid3
+    clients: WirelessClients2
+    devices: WirelessDevices
+    usage: WirelessUsage
 
 
 class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponse(
@@ -1146,7 +1310,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem(_Base
 
     serial: str | None = None
     mac: str | None = None
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1167,7 +1331,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponse(
 class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem."""
 
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1206,7 +1370,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalR
     )
     serial: str | None = None
     mac: str | None = None
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1243,7 +1407,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
     end_ts: datetime | None = Field(
         default=None, validation_alias="endTs", serialization_alias="endTs"
     )
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1266,7 +1430,7 @@ class GetOrganizationWirelessDevicesEthernetStatusesResponseItem(_BaseSchema):
 
     serial: str | None = None
     name: str | None = None
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     power: WirelessPower | None = None
     ports: list[WirelessPortsItem2] = Field(default_factory=list)
     aggregation: WirelessAggregation | None = None
@@ -1330,7 +1494,7 @@ class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchem
     name: str | None = None
     mac: str | None = None
     tags: list[str] = Field(default_factory=list)
-    network: WirelessNetwork | None = None
+    network: WirelessNetwork2 | None = None
     events: list[WirelessEventsItem] = Field(default_factory=list)
 
     @field_validator("tags", "events", mode="before")
@@ -1371,7 +1535,7 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
     name: str | None = None
     mac: str | None = None
     tags: list[str] = Field(default_factory=list)
-    network: WirelessNetwork | None = None
+    network: WirelessNetwork2 | None = None
     cpu_count: int | None = Field(
         default=None, validation_alias="cpuCount", serialization_alias="cpuCount"
     )
@@ -1387,7 +1551,7 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
 class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem."""
 
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     serial: str | None = None
     controller: CreateDeviceWirelessZigbeeEnrollmentResponseRequest | None = None
     joined_at: str | None = Field(
@@ -1428,7 +1592,7 @@ class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponse(
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem."""
 
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     name: str | None = None
     serial: str | None = None
     model: str | None = None
@@ -1453,6 +1617,59 @@ class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem(_BaseSch
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponse(_BaseSchema):
+    """Response for getOrganizationWirelessSsidsProfilesAssignmentsByNetwork operation."""
+
+    id: str | None = None
+    name: str | None = None
+    group: WirelessDoorLocksNetwork | None = None
+    clients_url: str | None = Field(
+        default=None, validation_alias="clientsUrl", serialization_alias="clientsUrl"
+    )
+    assignments: list[
+        GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem
+    ] = Field(default_factory=list)
+
+    @field_validator("assignments", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem."""
+
+    profile: WirelessDoorLocksNetwork | None = None
+    ssid: WirelessSsid | None = None
+
+
+class GetOrganizationWirelessSsidsProfilesResponse(_BaseSchema):
+    """Schema for GetOrganizationWirelessSsidsProfilesResponse."""
+
+    id: str | None = None
+    name: str | None = None
+    precedence: GetOrganizationWirelessSsidsProfilesResponsePrecedence | None = None
+    ssid: GetOrganizationWirelessSsidsProfilesResponseSsid | None = None
+
+
+class GetOrganizationWirelessSsidsProfilesResponsePrecedence(_BaseSchema):
+    """Precedence of the SSID profile."""
+
+    radius: str | None = None
+
+
+class GetOrganizationWirelessSsidsProfilesResponseSsid(_BaseSchema):
+    """SSID configuration."""
+
+    name: str | None = None
+    advertisement: WirelessBusyHourMinimizeChanges | None = None
+    security: WirelessSsidSecurity | None = None
+    radius: WirelessSsidRadius | None = None
+    addressing: WirelessSsidAddressing | None = None
+    splash: WirelessSsidSplash | None = None
 
 
 class GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem(_BaseSchema):
@@ -1724,6 +1941,39 @@ class NetworkWirelessSsidBonjourForwardingResponseRulesItem(_BaseSchema):
         return [] if value is None else value
 
 
+class NetworkWirelessSsidDeviceTypeGroupPoliciesResponse(_BaseSchema):
+    """Schema for NetworkWirelessSsidDeviceTypeGroupPoliciesResponse."""
+
+    enabled: bool | None = None
+    device_type_policies: list[
+        NetworkWirelessSsidDeviceTypeGroupPoliciesResponseDeviceTypePoliciesItem
+    ] = Field(
+        default_factory=list,
+        validation_alias="deviceTypePolicies",
+        serialization_alias="deviceTypePolicies",
+    )
+
+    @field_validator("device_type_policies", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class NetworkWirelessSsidDeviceTypeGroupPoliciesResponseDeviceTypePoliciesItem(_BaseSchema):
+    """Schema for NetworkWirelessSsidDeviceTypeGroupPoliciesResponseDeviceTypePoliciesItem."""
+
+    device_type: str | None = Field(
+        default=None, validation_alias="deviceType", serialization_alias="deviceType"
+    )
+    device_policy: str | None = Field(
+        default=None, validation_alias="devicePolicy", serialization_alias="devicePolicy"
+    )
+    group_policy_id: int | None = Field(
+        default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
+    )
+
+
 class NetworkWirelessSsidEapOverrideResponse(_BaseSchema):
     """Schema for NetworkWirelessSsidEapOverrideResponse."""
 
@@ -1896,6 +2146,9 @@ class NetworkWirelessSsidResponse(_BaseSchema):
     number: int
     name: str
     enabled: bool
+    wlan_identifier: int | None = Field(
+        default=None, validation_alias="wlanIdentifier", serialization_alias="wlanIdentifier"
+    )
     splash_page: str = Field(validation_alias="splashPage", serialization_alias="splashPage")
     ssid_admin_accessible: bool = Field(
         validation_alias="ssidAdminAccessible", serialization_alias="ssidAdminAccessible"
@@ -2058,6 +2311,9 @@ class NetworkWirelessSsidResponse(_BaseSchema):
         default=None, validation_alias="dnsRewrite", serialization_alias="dnsRewrite"
     )
     gre: WirelessGre | None = None
+    campus_gateway: WirelessCampusGateway | None = Field(
+        default=None, validation_alias="campusGateway", serialization_alias="campusGateway"
+    )
     lan_isolation_enabled: bool | None = Field(
         default=None,
         validation_alias="lanIsolationEnabled",
@@ -2241,7 +2497,7 @@ class NetworkWirelessSsidSplashSettingsResponseSelfRegistration(_BaseSchema):
 class NetworkWirelessSsidSplashSettingsResponseSentryEnrollment(_BaseSchema):
     """Systems Manager sentry enrollment splash settings."""
 
-    systems_manager_network: WirelessSentryEnrollmentSystemsManagerNetwork | None = Field(
+    systems_manager_network: WirelessCluster | None = Field(
         default=None,
         validation_alias="systemsManagerNetwork",
         serialization_alias="systemsManagerNetwork",
@@ -2396,8 +2652,8 @@ class OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse(_BaseSche
     )
     description: str | None = None
     client: WirelessClient2 | None = None
-    ssid: WirelessSsid | None = None
-    network: WirelessNetwork2 | None = None
+    ssid: WirelessSsid4 | None = None
+    network: WirelessNetwork3 | None = None
 
 
 class RecalculateOrganizationWirelessRadioAutoRfChannelsResponse(_BaseSchema):
@@ -2899,6 +3155,12 @@ class UpdateNetworkWirelessSsidBonjourForwardingRulesItem(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class UpdateNetworkWirelessSsidCampusGateway(_BaseSchema):
+    """Campus gateway settings."""
+
+    cluster: WirelessCluster | None = None
 
 
 class UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem(_BaseSchema):
@@ -3447,7 +3709,7 @@ class UpdateNetworkWirelessZigbeeLockManagement(_BaseSchema):
 class UpdateNetworkWirelessZigbeeResponse(_BaseSchema):
     """Response for updateNetworkWirelessZigbee operation."""
 
-    network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
+    network: WirelessCluster | None = None
     enabled: bool | None = None
     iot_controller: UpdateNetworkWirelessZigbeeResponseIotController | None = Field(
         default=None, validation_alias="iotController", serialization_alias="iotController"
@@ -3624,6 +3886,27 @@ class UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient(_Base
     mac: str | None = None
 
 
+class UpdateOrganizationWirelessSsidsProfileSsid(_BaseSchema):
+    """SSID configuration for the profile."""
+
+    name: str | None = None
+    advertisement: WirelessBusyHourMinimizeChanges | None = None
+    security: CreateOrganizationWirelessSsidsProfileSsidSecurity | None = None
+    radius: CreateOrganizationWirelessSsidsProfileSsidRadius | None = None
+    addressing: UpdateOrganizationWirelessSsidsProfileSsidAddressing | None = None
+    splash: WirelessSsidSplash | None = None
+
+
+class UpdateOrganizationWirelessSsidsProfileSsidAddressing(_BaseSchema):
+    """Addressing settings for the SSID."""
+
+    bonjour_forwarding: WirelessBonjourForwarding2 | None = Field(
+        default=None, validation_alias="bonjourForwarding", serialization_alias="bonjourForwarding"
+    )
+    mdns: WirelessMdns | None = None
+    radius: WirelessRadius2 | None = None
+
+
 class UpdateOrganizationWirelessZigbeeDeviceResponse(_BaseSchema):
     """Response for updateOrganizationWirelessZigbeeDevice operation."""
 
@@ -3670,6 +3953,15 @@ class WirelessAc(_BaseSchema):
 
     is_connected: bool | None = Field(
         default=None, validation_alias="isConnected", serialization_alias="isConnected"
+    )
+
+
+class WirelessAccounting(_BaseSchema):
+    """RADIUS accounting settings."""
+
+    enabled: bool | None = None
+    update_interval: int | None = Field(
+        default=None, validation_alias="updateInterval", serialization_alias="updateInterval"
     )
 
 
@@ -3733,6 +4025,17 @@ class WirelessApiValidator(_BaseSchema):
     """Validator for push API."""
 
     string: str | None = None
+
+
+class WirelessAuth(_BaseSchema):
+    """Authentication-related splash settings."""
+
+    simultaneous_logins: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None,
+        validation_alias="simultaneousLogins",
+        serialization_alias="simultaneousLogins",
+    )
+    oauth: WirelessOauth2 | None = None
 
 
 class WirelessAuthenticationTypes(_BaseSchema):
@@ -3803,7 +4106,7 @@ class WirelessBasicServiceSetsItem(_BaseSchema):
     """Schema for WirelessBasicServiceSetsItem."""
 
     bssid: str | None = None
-    ssid: WirelessSsid2 | None = None
+    ssid: WirelessSsid5 | None = None
     radio: WirelessRadio2 | None = None
 
 
@@ -3826,6 +4129,32 @@ class WirelessBle(_BaseSchema):
         default=None, validation_alias="allowLists", serialization_alias="allowLists"
     )
     hysteresis: WirelessHysteresis | None = None
+
+
+class WirelessBonjourForwarding(_BaseSchema):
+    """Bonjour forwarding settings."""
+
+    enabled: bool | None = None
+    rules: list[WirelessRulesItem] = Field(default_factory=list)
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class WirelessBonjourForwarding2(_BaseSchema):
+    """Bonjour forwarding settings."""
+
+    enabled: bool | None = None
+    rules: list[WirelessRulesItem3] = Field(default_factory=list)
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessBssidsItem(_BaseSchema):
@@ -3884,6 +4213,12 @@ class WirelessByBandItem(_BaseSchema):
     total: WirelessWifi | None = None
 
 
+class WirelessByProductType(_BaseSchema):
+    """Details by product type."""
+
+    wireless: int
+
+
 class WirelessByStatus(_BaseSchema):
     """Associated client count on access point by status."""
 
@@ -3896,6 +4231,30 @@ class WirelessByStatus2(_BaseSchema):
     online: int | None = None
     offline: int | None = None
     dormant: int | None = None
+
+
+class WirelessByStep(_BaseSchema):
+    """Clients impacted by connection step."""
+
+    association: int | None = None
+    authentication: int | None = None
+    ip_assignment: int | None = Field(
+        default=None, validation_alias="ipAssignment", serialization_alias="ipAssignment"
+    )
+
+
+class WirelessCampusGateway(_BaseSchema):
+    """Campus gateway settings. Only present when ipAssignmentMode is 'Campus Gateway'."""
+
+    cluster: WirelessCluster | None = None
+
+
+class WirelessCaptivePortal(_BaseSchema):
+    """Captive portal configuration."""
+
+    provider: str | None = None
+    external: WirelessExternal | None = None
+    hosted: WirelessHosted | None = None
 
 
 class WirelessClient(_BaseSchema):
@@ -3911,10 +4270,35 @@ class WirelessClient2(_BaseSchema):
     mac: str
 
 
+class WirelessClients(_BaseSchema):
+    """Client connection summary."""
+
+    impacted: WirelessImpacted | None = None
+    total: int | None = None
+
+
+class WirelessClients2(_BaseSchema):
+    """Details about clients connected to the network."""
+
+    total: int
+
+
+class WirelessCluster(_BaseSchema):
+    """Cluster configuration."""
+
+    id: str | None = None
+
+
 class WirelessConcentrator(_BaseSchema):
     """The EoGRE concentrator's settings."""
 
     host: str | None = None
+
+
+class WirelessControllerUnreachable(_BaseSchema):
+    """Behavior when the Meraki Cloud Splash controller is unreachable."""
+
+    mode: str | None = None
 
 
 class WirelessCounts(_BaseSchema):
@@ -3937,6 +4321,19 @@ class WirelessCounts3(_BaseSchema):
     door_locks: WirelessDoorLocks | None = Field(
         default=None, validation_alias="doorLocks", serialization_alias="doorLocks"
     )
+
+
+class WirelessCountsByFailureTypeItem(_BaseSchema):
+    """Schema for WirelessCountsByFailureTypeItem."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    count: int | None = None
+
+
+class WirelessDas(_BaseSchema):
+    """Direct Access Server settings."""
+
+    coa: WirelessBusyHourMinimizeChanges | None = None
 
 
 class WirelessDetailsItem(_BaseSchema):
@@ -3962,10 +4359,24 @@ class WirelessDevice(_BaseSchema):
 
 
 class WirelessDevices(_BaseSchema):
+    """Details about wireless devices."""
+
+    by_product_type: WirelessByProductType = Field(
+        validation_alias="byProductType", serialization_alias="byProductType"
+    )
+
+
+class WirelessDevices2(_BaseSchema):
     """An array composed of old and new devices."""
 
     old: WirelessOld | None = None
     new: WirelessNew
+
+
+class WirelessDhcp(_BaseSchema):
+    """DHCP settings."""
+
+    mandatory: WirelessBusyHourMinimizeChanges | None = None
 
 
 class WirelessDnsRewrite(_BaseSchema):
@@ -4035,11 +4446,64 @@ class WirelessDownstream(_BaseSchema):
     )
 
 
+class WirelessEapTimers(_BaseSchema):
+    """EAP timers settings."""
+
+    timeout: int | None = None
+    max_retries: int | None = Field(
+        default=None, validation_alias="maxRetries", serialization_alias="maxRetries"
+    )
+    identity: WirelessIdentity | None = None
+    eapol_key: WirelessEapolKey | None = Field(
+        default=None, validation_alias="eapolKey", serialization_alias="eapolKey"
+    )
+
+
+class WirelessEapolKey(_BaseSchema):
+    """EAPOL Key settings."""
+
+    max_retries: int | None = Field(
+        default=None, validation_alias="maxRetries", serialization_alias="maxRetries"
+    )
+    timeout_in_ms: int | None = Field(
+        default=None, validation_alias="timeoutInMs", serialization_alias="timeoutInMs"
+    )
+
+
 class WirelessEncryption(_BaseSchema):
     """Encryption settings for WPA3 modes."""
 
     ciphers: list[str] = Field(default_factory=list)
     akms: list[str] = Field(default_factory=list)
+
+    @field_validator("ciphers", "akms", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class WirelessEncryption2(_BaseSchema):
+    """Encryption settings for the SSID."""
+
+    ciphers: list[str] = Field(default_factory=list)
+    akms: list[str] = Field(default_factory=list)
+
+    @field_validator("ciphers", "akms", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class WirelessEncryption3(_BaseSchema):
+    """Encryption settings for the SSID."""
+
+    ciphers: list[str] = Field(default_factory=list)
+    akms: list[str] = Field(default_factory=list)
+    passphrase: str | None = None
+    dot11w: WirelessDot11w | None = None
+    dot11r: WirelessDot11r | None = None
 
     @field_validator("ciphers", "akms", mode="before")
     @classmethod
@@ -4055,6 +4519,24 @@ class WirelessEventsItem(_BaseSchema):
     power_mode: str | None = Field(
         default=None, validation_alias="powerMode", serialization_alias="powerMode"
     )
+
+
+class WirelessExternal(_BaseSchema):
+    """External captive portal configuration."""
+
+    url: str | None = None
+
+
+class WirelessFailover(_BaseSchema):
+    """Failover policy."""
+
+    mode: str | None = None
+
+
+class WirelessFailover2(_BaseSchema):
+    """Failover policy."""
+
+    mode: str | None = None
 
 
 class WirelessFlush(_BaseSchema):
@@ -4088,6 +4570,12 @@ class WirelessGre(_BaseSchema):
     )
 
 
+class WirelessGuest(_BaseSchema):
+    """Guest VLAN settings."""
+
+    vlan: WirelessBusyHourMinimizeChanges | None = None
+
+
 class WirelessGuestVlan(_BaseSchema):
     """Guest VLAN settings."""
 
@@ -4095,11 +4583,54 @@ class WirelessGuestVlan(_BaseSchema):
     name: str | None = None
 
 
+class WirelessHosted(_BaseSchema):
+    """Hosted splash configuration."""
+
+    theme: WirelessCluster | None = None
+    language: WirelessLanguage | None = None
+    consent: NetworkWirelessSsidSplashSettingsResponseUserConsent | None = None
+
+
 class WirelessHysteresis(_BaseSchema):
     """BLE Hysteresis Settings for network."""
 
     enabled: bool | None = None
     threshold: int | None = None
+
+
+class WirelessIdentifiers(_BaseSchema):
+    """RADIUS identifiers."""
+
+    called_station: str | None = Field(
+        default=None, validation_alias="calledStation", serialization_alias="calledStation"
+    )
+    nas: str | None = None
+
+
+class WirelessIdentity(_BaseSchema):
+    """EAP identity request settings."""
+
+    timeout: int | None = None
+    max_retries: int | None = Field(
+        default=None, validation_alias="maxRetries", serialization_alias="maxRetries"
+    )
+
+
+class WirelessIdentityPassphrase(_BaseSchema):
+    """Identity passphrase settings."""
+
+    personal_network: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None, validation_alias="personalNetwork", serialization_alias="personalNetwork"
+    )
+
+
+class WirelessImpacted(_BaseSchema):
+    """Clients impacted by connection failures."""
+
+    by_step: WirelessByStep | None = Field(
+        default=None, validation_alias="byStep", serialization_alias="byStep"
+    )
+    total: int | None = None
 
 
 class WirelessItems(_BaseSchema):
@@ -4113,7 +4644,7 @@ class WirelessItemsItem(_BaseSchema):
     """Schema for WirelessItemsItem."""
 
     deployment_id: str = Field(validation_alias="deploymentId", serialization_alias="deploymentId")
-    devices: WirelessDevices
+    devices: WirelessDevices2
     status: str
     type_: str = Field(validation_alias="type", serialization_alias="type")
     network: WirelessDoorLocksNetwork | None = None
@@ -4136,6 +4667,12 @@ class WirelessItemsItem(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class WirelessLanguage(_BaseSchema):
+    """Splash page language."""
+
+    code: str | None = None
 
 
 class WirelessLatencyBinsByCategory(_BaseSchema):
@@ -4181,6 +4718,12 @@ class WirelessLinkNegotiation(_BaseSchema):
     speed: int | None = None
 
 
+class WirelessLoadBalancing(_BaseSchema):
+    """Load balancing policy."""
+
+    mode: str | None = None
+
+
 class WirelessLocalAuthFallback(_BaseSchema):
     """The current configuration for Local Authentication Fallback. Only present when the network
     supports local auth fallback and the SSID uses WPA-EAP or open-with-RADIUS.
@@ -4197,10 +4740,30 @@ class WirelessLocalAuthFallback(_BaseSchema):
     )
 
 
+class WirelessMdns(_BaseSchema):
+    """mDNS gateway settings and rules for an SSID and cluster."""
+
+    enabled: bool | None = None
+    rules: list[WirelessRulesItem2] = Field(default_factory=list)
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class WirelessMeta(_BaseSchema):
     """Metadata relevant to the paginated dataset."""
 
     counts: WirelessCounts2 | None = None
+
+
+class WirelessModesItem(_BaseSchema):
+    """Schema for WirelessModesItem."""
+
+    mode: str | None = None
+    port: int | None = None
 
 
 class WirelessMqtt(_BaseSchema):
@@ -4250,6 +4813,13 @@ class WirelessNamedVlansPoolDhcpMonitoring(_BaseSchema):
 
 
 class WirelessNetwork(_BaseSchema):
+    """Details about the network."""
+
+    id: str
+    name: str
+
+
+class WirelessNetwork2(_BaseSchema):
     """Information regarding the network the device belongs to."""
 
     id: str | None = None
@@ -4263,10 +4833,20 @@ class WirelessNetwork(_BaseSchema):
         return [] if value is None else value
 
 
-class WirelessNetwork2(_BaseSchema):
+class WirelessNetwork3(_BaseSchema):
     """The network that allowlist SSID belongs to."""
 
     id: str
+    name: str | None = None
+
+
+class WirelessNetwork4(_BaseSchema):
+    """Network information."""
+
+    id: str | None = None
+    encrypted_id: str | None = Field(
+        default=None, validation_alias="encryptedId", serialization_alias="encryptedId"
+    )
     name: str | None = None
 
 
@@ -4326,6 +4906,18 @@ class WirelessOauth(_BaseSchema):
         return [] if value is None else value
 
 
+class WirelessOauth2(_BaseSchema):
+    """OAuth settings."""
+
+    domains: list[str] = Field(default_factory=list)
+
+    @field_validator("domains", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class WirelessOld(_BaseSchema):
     """Old device."""
 
@@ -4355,6 +4947,13 @@ class WirelessOpenRoaming(_BaseSchema):
     tenant_id: str | None = Field(
         default=None, validation_alias="tenantId", serialization_alias="tenantId"
     )
+
+
+class WirelessOverride(_BaseSchema):
+    """Override settings for post-Splash redirection."""
+
+    enabled: bool | None = None
+    url: str | None = None
 
 
 class WirelessPerSsidSettings0(_BaseSchema):
@@ -4392,6 +4991,32 @@ class WirelessPoe(_BaseSchema):
     standard: str | None = None
 
 
+class WirelessPolicies(_BaseSchema):
+    """RADIUS policies."""
+
+    failover: WirelessFailover | None = None
+    load_balancing: WirelessFailover | None = Field(
+        default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
+    )
+    fallback: WirelessBusyHourMinimizeChanges | None = None
+    attribute: str | None = None
+    timeout: int | None = None
+    num_attempts: int | None = Field(
+        default=None, validation_alias="numAttempts", serialization_alias="numAttempts"
+    )
+
+
+class WirelessPolicies2(_BaseSchema):
+    """RADIUS policies."""
+
+    failover: WirelessFailover2 | None = None
+    load_balancing: WirelessLoadBalancing | None = Field(
+        default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
+    )
+    fallback: WirelessBusyHourMinimizeChanges | None = None
+    attribute: str | None = None
+
+
 class WirelessPortsItem(_BaseSchema):
     """Schema for WirelessPortsItem."""
 
@@ -4420,6 +5045,15 @@ class WirelessPower(_BaseSchema):
     mode: str | None = None
     ac: WirelessAc | None = None
     poe: WirelessAc | None = None
+
+
+class WirelessPreAccess(_BaseSchema):
+    """Pre-access settings before splash completion."""
+
+    mode: str | None = None
+    walled_garden: WirelessWalledGarden | None = Field(
+        default=None, validation_alias="walledGarden", serialization_alias="walledGarden"
+    )
 
 
 class WirelessPublishing(_BaseSchema):
@@ -4458,6 +5092,15 @@ class WirelessRadius(_BaseSchema):
     )
 
 
+class WirelessRadius2(_BaseSchema):
+    """RADIUS addressing settings."""
+
+    guest: WirelessGuest | None = None
+    override_vlan_tag: bool | None = Field(
+        default=None, validation_alias="overrideVlanTag", serialization_alias="overrideVlanTag"
+    )
+
+
 class WirelessRadiusAccountingServersItem(_BaseSchema):
     """Schema for WirelessRadiusAccountingServersItem."""
 
@@ -4492,6 +5135,12 @@ class WirelessRadiusServersItem(_BaseSchema):
     )
 
 
+class WirelessRedirect(_BaseSchema):
+    """Post-Splash redirect settings."""
+
+    override: WirelessOverride | None = None
+
+
 class WirelessRfProfile(_BaseSchema):
     """Information regarding the RF Profile of the device."""
 
@@ -4512,6 +5161,46 @@ class WirelessRulesDefinitionsItem(_BaseSchema):
     value: str
 
 
+class WirelessRulesItem(_BaseSchema):
+    """Schema for WirelessRulesItem."""
+
+    description: str | None = None
+    vlan: WirelessVlan | None = None
+    services: list[str] = Field(default_factory=list)
+
+    @field_validator("services", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class WirelessRulesItem2(_BaseSchema):
+    """Schema for WirelessRulesItem2."""
+
+    services: list[str] = Field(default_factory=list)
+
+    @field_validator("services", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class WirelessRulesItem3(_BaseSchema):
+    """Schema for WirelessRulesItem3."""
+
+    description: str | None = None
+    vlan: WirelessVlan2
+    services: list[str] = Field(default_factory=list)
+
+    @field_validator("services", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class WirelessRulesPerClientBandwidthLimits(_BaseSchema):
     """An object describing the bandwidth settings for your rule."""
 
@@ -4525,12 +5214,6 @@ class WirelessSecurity(_BaseSchema):
     """Security settings for the SSID. Only present when WPA3 is configured."""
 
     encryption: WirelessEncryption | None = None
-
-
-class WirelessSentryEnrollmentSystemsManagerNetwork(_BaseSchema):
-    """Systems Manager network targeted for sentry enrollment."""
-
-    id: str | None = None
 
 
 class WirelessSeriesItem(_BaseSchema):
@@ -4548,6 +5231,21 @@ class WirelessServerCaCertificate(_BaseSchema):
     contents: str | None = None
 
 
+class WirelessServersItem(_BaseSchema):
+    """Schema for WirelessServersItem."""
+
+    id: int | None = None
+    address: str | None = None
+    name: str | None = None
+    modes: list[WirelessModesItem] = Field(default_factory=list)
+
+    @field_validator("modes", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class WirelessSplitTunnelRulesItem(_BaseSchema):
     """Schema for WirelessSplitTunnelRulesItem."""
 
@@ -4563,6 +5261,31 @@ class WirelessSplitTunnelRulesItem(_BaseSchema):
 
 
 class WirelessSsid(_BaseSchema):
+    """SSID information."""
+
+    id: str | None = None
+    name: str | None = None
+    number: int | None = None
+
+
+class WirelessSsid2(_BaseSchema):
+    """Details about the SSID."""
+
+    id: str
+    number: int
+    name: str
+    tunneled_to: WirelessTunneledTo = Field(
+        validation_alias="tunneledTo", serialization_alias="tunneledTo"
+    )
+
+
+class WirelessSsid3(_BaseSchema):
+    """Details about the SSID."""
+
+    name: str
+
+
+class WirelessSsid4(_BaseSchema):
     """The SSID that allowlist belongs to."""
 
     id: str
@@ -4570,13 +5293,32 @@ class WirelessSsid(_BaseSchema):
     number: int | None = None
 
 
-class WirelessSsid2(_BaseSchema):
+class WirelessSsid5(_BaseSchema):
     """Wireless access point and network identifier."""
 
     name: str | None = None
     number: int | None = None
     enabled: bool | None = None
     advertised: bool | None = None
+
+
+class WirelessSsidAddressing(_BaseSchema):
+    """Addressing settings for the SSID."""
+
+    mode: str | None = None
+    adult_content_filtering: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None,
+        validation_alias="adultContentFiltering",
+        serialization_alias="adultContentFiltering",
+    )
+    dns_rewrite: WirelessDnsRewrite | None = Field(
+        default=None, validation_alias="dnsRewrite", serialization_alias="dnsRewrite"
+    )
+    bonjour_forwarding: WirelessBonjourForwarding | None = Field(
+        default=None, validation_alias="bonjourForwarding", serialization_alias="bonjourForwarding"
+    )
+    mdns: WirelessMdns | None = None
+    radius: WirelessRadius2 | None = None
 
 
 class WirelessSsidItem(_BaseSchema):
@@ -4587,6 +5329,56 @@ class WirelessSsidItem(_BaseSchema):
     enabled: bool | None = None
     open_roaming: WirelessOpenRoaming | None = Field(
         default=None, validation_alias="openRoaming", serialization_alias="openRoaming"
+    )
+
+
+class WirelessSsidRadius(_BaseSchema):
+    """RADIUS settings for the SSID."""
+
+    servers: list[WirelessServersItem] = Field(default_factory=list)
+    accounting: WirelessAccounting | None = None
+    policies: WirelessPolicies | None = None
+    proxy: WirelessBusyHourMinimizeChanges | None = None
+    testing: WirelessBusyHourMinimizeChanges | None = None
+    identifiers: WirelessIdentifiers | None = None
+    das: WirelessDas | None = None
+    eap_timers: WirelessEapTimers | None = Field(
+        default=None, validation_alias="eapTimers", serialization_alias="eapTimers"
+    )
+
+    @field_validator("servers", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class WirelessSsidSecurity(_BaseSchema):
+    """Security settings for the SSID."""
+
+    mode: str | None = None
+    protocol: str | None = None
+    encryption: WirelessEncryption2 | None = None
+    dhcp: WirelessDhcp | None = None
+
+
+class WirelessSsidSplash(_BaseSchema):
+    """Splash settings for the SSID."""
+
+    mode: str | None = None
+    captive_portal: WirelessCaptivePortal | None = Field(
+        default=None, validation_alias="captivePortal", serialization_alias="captivePortal"
+    )
+    redirect: WirelessRedirect | None = None
+    timeout: int | None = None
+    auth: WirelessAuth | None = None
+    controller_unreachable: WirelessControllerUnreachable | None = Field(
+        default=None,
+        validation_alias="controllerUnreachable",
+        serialization_alias="controllerUnreachable",
+    )
+    pre_access: WirelessPreAccess | None = Field(
+        default=None, validation_alias="preAccess", serialization_alias="preAccess"
     )
 
 
@@ -4616,12 +5408,54 @@ class WirelessTagsItem(_BaseSchema):
     rf: str | None = None
 
 
+class WirelessTunneledTo(_BaseSchema):
+    """Details about the network to which the SSID is tunneling traffic."""
+
+    network: WirelessNetwork
+    cluster: WirelessNetwork
+
+
+class WirelessUsage(_BaseSchema):
+    """Details about client usage of wireless devices in the network. Includes wired client usage
+    of hospitality devices.
+    """
+
+    total: float
+    upstream: float
+    downstream: float
+
+
 class WirelessUsbPortsItem(_BaseSchema):
     """Schema for WirelessUsbPortsItem."""
 
     name: str | None = None
     enabled: bool | None = None
     ssid: int | None = None
+
+
+class WirelessVlan(_BaseSchema):
+    """VLAN settings for the rule."""
+
+    id: int | None = None
+
+
+class WirelessVlan2(_BaseSchema):
+    """VLAN settings for the rule."""
+
+    id: int
+
+
+class WirelessWalledGarden(_BaseSchema):
+    """Walled garden settings."""
+
+    enabled: bool | None = None
+    ranges: list[str] = Field(default_factory=list)
+
+    @field_validator("ranges", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class WirelessWifi(_BaseSchema):
