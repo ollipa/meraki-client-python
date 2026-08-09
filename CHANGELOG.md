@@ -11,7 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Update to Meraki API v1.73.0
 
-- TODO: summarize generated SDK changes for Meraki API v1.73.0.
+- Added campus gateway endpoints `delete_network_campus_gateway_cluster`, `provision_organization_campus_gateway_clusters`, `get_organization_campus_gateway_clients_usage_by_network_by_cluster`, `get_organization_campus_gateway_clusters_failover_targets`, `get_organization_campus_gateway_clusters_failover_targets_by_cluster`, `get_organization_campus_gateway_clusters_networks_overviews`, `get_organization_campus_gateway_clusters_ssids`, `get_organization_campus_gateway_clusters_tunnelable`, `get_organization_campus_gateway_connections`, and `get_organization_campus_gateway_connections_overview`.
+- Added organization-wide wireless SSID profile endpoints `get_organization_wireless_ssids_profiles`, `create_organization_wireless_ssids_profile`, `update_organization_wireless_ssids_profile`, `delete_organization_wireless_ssids_profile`, `get_organization_wireless_ssids_profiles_overviews`, `get_organization_wireless_ssids_profiles_assignments`, `get_organization_wireless_ssids_profiles_assignments_by_network`, `create_organization_wireless_ssids_profiles_assignment`, and `delete_organization_wireless_ssids_profiles_assignments`.
+- Added wireless client usage endpoints `get_organization_wireless_clients_usage_by_network`, `get_organization_wireless_clients_usage_by_network_by_ssid`, `get_organization_wireless_clients_usage_by_ssid`, and `get_organization_wireless_clients_connections_impacted_by_network_by_ssid`.
+- Added network group endpoints `get_organization_networks_groups`, `create_organization_networks_group`, `update_organization_networks_group`, `delete_organization_networks_group`, `get_organization_networks_groups_overview_by_group`, `bulk_organization_networks_group_assign`, and `bulk_organization_networks_group_unassign`.
+- Added assurance alert profile endpoints `get_organization_assurance_alerts_profiles`, `create_organization_assurance_alerts_profile`, `update_organization_assurance_alerts_profile`, and `delete_organization_assurance_alerts_profile`, plus `get_organization_assurance_impacted_device_wireless_by_network`.
+- Added campus gateway support to existing endpoints: a `campus_gateway` parameter on `update_network_wireless_ssid`, a `campusGateway` product in `create_network_firmware_upgrades_rollback` and `get_network_firmware_upgrades` responses.
+- Added `enabled` parameter to `create_network_appliance_static_route`, `mac` to `create_device_live_tools_mac_table`, and `feature_loss_acknowledgements` to `update_network_firmware_upgrades`.
+- Added pagination parameters (`per_page`, `starting_after`, `ending_before`, `total_pages`, `direction`) to `get_network_sm_profiles`.
+- Added `enabled` to webhook HTTP server responses and `strategy` to firmware `nextUpgrade` response schemas.
+- Changed previously untyped responses to typed schemas: `get_network_traffic_shaping_dscp_tagging_options` now yields `GetNetworkTrafficShapingDscpTaggingOptionsResponseItem` items, `get_network_wireless_ssid_device_type_group_policies` and `update_network_wireless_ssid_device_type_group_policies` return `NetworkWirelessSsidDeviceTypeGroupPoliciesResponse` instead of `DictResponse`, and `attach_organization_sase_sites` / `detach_organization_sase_sites` return dedicated response schemas instead of `BatchOrganizationSaseConnectorsDeleteResponse` / `None`.
+- Removed the `callback` parameter from `attach_organization_sase_sites` and `detach_organization_sase_sites`; `items` is now required on `attach_organization_sase_sites`.
+- Removed the `Google Apps domain` splash page option from `update_network_wireless_ssid`.
+- Removed MV14, MV24, MV34, MV54N, MV64, MV74, and MV94 video settings from `create_network_camera_quality_retention_profile` and `update_network_camera_quality_retention_profile`; the v1.73.0 spec no longer defines them.
+- Removed `load_balancing` from the `uplink` parameter and response of `update_network_appliance_devices_redundancy`.
 
 ## v0.18.0
 
