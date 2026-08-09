@@ -43,7 +43,7 @@ __all__ = [
     "BaseURL",
     "types",
 ]
-__version__ = "0.18.0"
+__version__ = "0.19.0"
 __api_version__ = "v1.73.0"
 
 
