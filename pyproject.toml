@@ -26,18 +26,29 @@ dev = [
     "jinja2>=3.0.0",
     "markdown-include>=0.8.0",
     "mkdocstrings[python]>=1.0.0",
-    "openapi-pydantic>=0.6.0",
+    "openapi-pydantic>=0.5.0",
     "pytest>=9.0.0",
     "pytest-asyncio>=1.0.0",
     "pytest-socket>=0.8.0",
     "ruff>=0.16.0",
     "ty>=0.0.84",
-    "zensical>=0.0.67",
+    "zensical>=0.0.65",
 ]
 
 [project.urls]
 homepage = "https://meraki-client.readthedocs.io"
 repository = "https://github.com/ollipa/meraki-client-python"
+
+[tool.uv]
+# Malware check is a preview feature; opting in silences the experimental warning.
+preview-features = ["malware-check"]
+# Ignore releases newer than this to give time for malicious uploads to be caught.
+exclude-newer = "7 days"
+# Never build source distributions of dependencies (avoids running their build code).
+no-build = true
+
+[tool.uv.audit]
+malware-check = true
 
 [build-system]
 requires = ["hatchling"]
