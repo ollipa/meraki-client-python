@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 PYPROJECT = ROOT / "pyproject.toml"
 CHANGELOG = ROOT / "CHANGELOG.md"
+MAIN_BRANCH = "main"
 
 
 def get_current_version() -> tuple[int, int, int]:
@@ -70,6 +71,48 @@ def check_git_clean() -> None:
         sys.exit(1)
 
 
+def check_on_main_branch() -> None:
+    """Check that main is checked out and in sync with origin/main."""
+    branch = subprocess.run(
+        ["git", "branch", "--show-current"],
+        capture_output=True,
+        text=True,
+        check=True,
+        cwd=ROOT,
+    ).stdout.strip()
+    if branch != MAIN_BRANCH:
+        print(
+            f"Error: Must be on '{MAIN_BRANCH}' branch to bump version (currently on '{branch}')."
+        )
+        sys.exit(1)
+
+    subprocess.run(["git", "fetch", "origin", MAIN_BRANCH], check=True, cwd=ROOT)
+    local, remote = (
+        subprocess.run(
+            ["git", "rev-parse", ref],
+            capture_output=True,
+            text=True,
+            check=True,
+            cwd=ROOT,
+        ).stdout.strip()
+        for ref in ("HEAD", f"origin/{MAIN_BRANCH}")
+    )
+    if local != remote:
+        print(f"Error: Local '{MAIN_BRANCH}' is not in sync with 'origin/{MAIN_BRANCH}'.")
+        sys.exit(1)
+
+
+def get_head_sha() -> str:
+    """Get the commit SHA of HEAD."""
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=True,
+        cwd=ROOT,
+    ).stdout.strip()
+
+
 def show_diff() -> None:
     """Show the git diff of changes."""
     subprocess.run(["git", "diff"], check=True, cwd=ROOT)
@@ -106,8 +149,8 @@ def get_release_notes(version: str) -> str:
     return match.group(1).strip()
 
 
-def create_github_release(version: str) -> bool:
-    """Create a GitHub release using gh CLI. Returns True if created."""
+def create_github_release(version: str, target: str) -> bool:
+    """Create a GitHub release at the target commit using gh CLI. Returns True if created."""
     notes = get_release_notes(version)
     print(f"\nRelease notes for v{version}:\n")
     print(notes)
@@ -115,7 +158,18 @@ def create_github_release(version: str) -> bool:
     if response.lower() not in ("y", "yes"):
         return False
     subprocess.run(
-        ["gh", "release", "create", f"v{version}", "--title", f"v{version}", "--notes", notes],
+        [
+            "gh",
+            "release",
+            "create",
+            f"v{version}",
+            "--target",
+            target,
+            "--title",
+            f"v{version}",
+            "--notes",
+            notes,
+        ],
         check=True,
         cwd=ROOT,
     )
@@ -129,6 +183,7 @@ def main() -> None:
     args = parser.parse_args()
 
     check_git_clean()
+    check_on_main_branch()
 
     major, minor, patch = get_current_version()
     new_major, new_minor, new_patch = bump_version(major, minor, patch, args.bump_type)
@@ -153,7 +208,7 @@ def main() -> None:
 
     git_commit(new_version)
     git_push()
-    release_created = create_github_release(new_version)
+    release_created = create_github_release(new_version, get_head_sha())
     print(f"\nBumped version to v{new_version}")
     if release_created:
         print(f"Created GitHub release v{new_version}")
