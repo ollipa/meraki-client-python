@@ -17,6 +17,7 @@ from meraki_client.schemas import (
     CreateNetworkWirelessEthernetPortsProfilePortsItem,
     CreateNetworkWirelessEthernetPortsProfileUsbPortsItem,
     CreateNetworkWirelessRfProfileApBandSettings,
+    CreateNetworkWirelessRfProfileDot11be,
     CreateNetworkWirelessRfProfileFiveGhzSettings,
     CreateNetworkWirelessRfProfileFlexRadios,
     CreateNetworkWirelessRfProfilePerSsidSettings,
@@ -41,6 +42,7 @@ from meraki_client.schemas import (
     DeleteOrganizationWirelessSsidsProfilesAssignmentsSsid,
     DeviceWirelessBluetoothSettingsResponse,
     DeviceWirelessElectronicShelfLabelResponse,
+    DeviceWirelessRadioOverridesResponse,
     DeviceWirelessRadioSettingsResponse,
     DictResponse,
     GetDeviceWirelessConnectionStatsResponse,
@@ -113,6 +115,8 @@ from meraki_client.schemas import (
     SetNetworkWirelessEthernetPortsProfilesDefaultResponse,
     UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem,
     UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response,
+    UpdateDeviceWirelessRadioOverridesRadiosItem,
+    UpdateDeviceWirelessRadioOverridesRfProfile,
     UpdateDeviceWirelessRadioSettingsFiveGhzSettings,
     UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings,
     UpdateNetworkWirelessAirMarshalRuleMatch,
@@ -129,6 +133,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessRadioRrmFra,
     UpdateNetworkWirelessRadioRrmResponse,
     UpdateNetworkWirelessRfProfileApBandSettings,
+    UpdateNetworkWirelessRfProfileDot11be,
     UpdateNetworkWirelessRfProfileFiveGhzSettings,
     UpdateNetworkWirelessRfProfileFlexRadios,
     UpdateNetworkWirelessRfProfilePerSsidSettings,
@@ -668,6 +673,120 @@ class Wireless:
             path=path,
             params=params,
             response_schema=GetDeviceWirelessLatencyStatsResponse,
+        )
+
+    def get_device_wireless_radio_overrides(
+        self, serial: str
+    ) -> DeviceWirelessRadioOverridesResponse:
+        """Return the radio overrides of a device.
+
+        [API documentation: getDeviceWirelessRadioOverrides](https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-radio-overrides)
+
+        Args:
+            serial: Serial.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serial": "Q234-ABCD-5678",
+              "network": {
+                "id": "N_24329156"
+              },
+              "rfProfile": {
+                "id": "1234"
+              },
+              "radios": [
+                {
+                  "enabled": true,
+                  "index": "1",
+                  "band": "5",
+                  "channel": 149,
+                  "channelWidth": 20,
+                  "targetPower": 15
+                }
+              ]
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/wireless/radio/overrides"
+
+        return self._session.get(
+            scope="wireless",
+            operation_id="getDeviceWirelessRadioOverrides",
+            path=path,
+            response_schema=DeviceWirelessRadioOverridesResponse,
+        )
+
+    def update_device_wireless_radio_overrides(
+        self,
+        serial: str,
+        *,
+        rf_profile: UpdateDeviceWirelessRadioOverridesRfProfile | None = None,
+        radios: list[UpdateDeviceWirelessRadioOverridesRadiosItem] | None = None,
+    ) -> DeviceWirelessRadioOverridesResponse:
+        """Update 2.4 GHz, 5 GHz, and 6 GHz radio settings (channel, channel width, power, and enable/disable) that override RF profiles.
+
+        [API documentation: updateDeviceWirelessRadioOverrides](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-overrides)
+
+        Args:
+            serial: Serial.
+            rf_profile: This device's RF profile. If omitted, the existing RF profile assignment
+                remains unchanged.
+            radios: Radio overrides. If omitted, existing per-radio override settings remain
+                unchanged. If provided, only the radios included in the array are
+                updated; the array does not replace the device's full existing set of
+                radio overrides. Read-only response fields for each radio, such as
+                'band', may be included in the request body and are ignored.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "serial": "Q234-ABCD-5678",
+              "network": {
+                "id": "N_24329156"
+              },
+              "rfProfile": {
+                "id": "1234"
+              },
+              "radios": [
+                {
+                  "enabled": true,
+                  "index": "1",
+                  "band": "5",
+                  "channel": 149,
+                  "channelWidth": 20,
+                  "targetPower": 15
+                }
+              ]
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/wireless/radio/overrides"
+
+        payload: dict[str, Any] = {}
+        if rf_profile is not None:
+            payload["rfProfile"] = rf_profile.model_dump(by_alias=True, exclude_none=True)
+        if radios is not None:
+            payload["radios"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in radios
+            ]
+
+        return self._session.put(
+            scope="wireless",
+            operation_id="updateDeviceWirelessRadioOverrides",
+            path=path,
+            json=payload,
+            response_schema=DeviceWirelessRadioOverridesResponse,
         )
 
     def get_device_wireless_radio_settings(
@@ -3546,7 +3665,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-07-05T08:07:39Z"
+                "lastEnabledAt": "2026-08-02T08:06:48Z"
               }
             }
             ```
@@ -3624,6 +3743,9 @@ class Wireless:
                   11
                 ],
                 "axEnabled": true,
+                "dot11ax": {
+                  "enabled": true
+                },
                 "rxsop": -95
               },
               "fiveGhzSettings": {
@@ -3658,7 +3780,10 @@ class Wireless:
                   165
                 ],
                 "channelWidth": "auto",
-                "rxsop": -95
+                "rxsop": -95,
+                "dot11ax": {
+                  "enabled": true
+                }
               },
               "sixGhzSettings": {
                 "maxPower": 30,
@@ -3914,7 +4039,10 @@ class Wireless:
                 }
               },
               "isIndoorDefault": false,
-              "isOutdoorDefault": false
+              "isOutdoorDefault": false,
+              "dot11be": {
+                "enabled": false
+              }
             }
             ```
 
@@ -3949,6 +4077,7 @@ class Wireless:
         transmission: CreateNetworkWirelessRfProfileTransmission | None = None,
         per_ssid_settings: CreateNetworkWirelessRfProfilePerSsidSettings | None = None,
         flex_radios: CreateNetworkWirelessRfProfileFlexRadios | None = None,
+        dot11be: CreateNetworkWirelessRfProfileDot11be | None = None,
     ) -> GetNetworkWirelessRfProfilesResponse:
         """Creates new RF profile for this network.
 
@@ -3971,6 +4100,7 @@ class Wireless:
             transmission: Settings related to radio transmission.
             per_ssid_settings: Per-SSID radio settings by number.
             flex_radios: Flex radio settings.
+            dot11be: 802.11be settings.
 
         Returns:
             Successful operation.
@@ -4004,6 +4134,9 @@ class Wireless:
                   11
                 ],
                 "axEnabled": true,
+                "dot11ax": {
+                  "enabled": true
+                },
                 "rxsop": -95
               },
               "fiveGhzSettings": {
@@ -4038,7 +4171,10 @@ class Wireless:
                   165
                 ],
                 "channelWidth": "auto",
-                "rxsop": -95
+                "rxsop": -95,
+                "dot11ax": {
+                  "enabled": true
+                }
               },
               "sixGhzSettings": {
                 "maxPower": 30,
@@ -4294,7 +4430,10 @@ class Wireless:
                 }
               },
               "isIndoorDefault": false,
-              "isOutdoorDefault": false
+              "isOutdoorDefault": false,
+              "dot11be": {
+                "enabled": false
+              }
             }
             ```
 
@@ -4335,6 +4474,8 @@ class Wireless:
             )
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios.model_dump(by_alias=True, exclude_none=True)
+        if dot11be is not None:
+            payload["dot11be"] = dot11be.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="wireless",
@@ -4387,6 +4528,9 @@ class Wireless:
                   11
                 ],
                 "axEnabled": true,
+                "dot11ax": {
+                  "enabled": true
+                },
                 "rxsop": -95
               },
               "fiveGhzSettings": {
@@ -4421,7 +4565,10 @@ class Wireless:
                   165
                 ],
                 "channelWidth": "auto",
-                "rxsop": -95
+                "rxsop": -95,
+                "dot11ax": {
+                  "enabled": true
+                }
               },
               "sixGhzSettings": {
                 "maxPower": 30,
@@ -4677,7 +4824,10 @@ class Wireless:
                 }
               },
               "isIndoorDefault": false,
-              "isOutdoorDefault": false
+              "isOutdoorDefault": false,
+              "dot11be": {
+                "enabled": false
+              }
             }
             ```
 
@@ -4711,6 +4861,7 @@ class Wireless:
         transmission: UpdateNetworkWirelessRfProfileTransmission | None = None,
         per_ssid_settings: UpdateNetworkWirelessRfProfilePerSsidSettings | None = None,
         flex_radios: UpdateNetworkWirelessRfProfileFlexRadios | None = None,
+        dot11be: UpdateNetworkWirelessRfProfileDot11be | None = None,
     ) -> GetNetworkWirelessRfProfilesResponse:
         """Updates specified RF profile for this network.
 
@@ -4738,6 +4889,7 @@ class Wireless:
             transmission: Settings related to radio transmission.
             per_ssid_settings: Per-SSID radio settings by number.
             flex_radios: Flex radio settings.
+            dot11be: 802.11be settings.
 
         Returns:
             Successful operation.
@@ -4771,6 +4923,9 @@ class Wireless:
                   11
                 ],
                 "axEnabled": true,
+                "dot11ax": {
+                  "enabled": true
+                },
                 "rxsop": -95
               },
               "fiveGhzSettings": {
@@ -4805,7 +4960,10 @@ class Wireless:
                   165
                 ],
                 "channelWidth": "auto",
-                "rxsop": -95
+                "rxsop": -95,
+                "dot11ax": {
+                  "enabled": true
+                }
               },
               "sixGhzSettings": {
                 "maxPower": 30,
@@ -5061,7 +5219,10 @@ class Wireless:
                 }
               },
               "isIndoorDefault": false,
-              "isOutdoorDefault": false
+              "isOutdoorDefault": false,
+              "dot11be": {
+                "enabled": false
+              }
             }
             ```
 
@@ -5107,6 +5268,8 @@ class Wireless:
             )
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios.model_dump(by_alias=True, exclude_none=True)
+        if dot11be is not None:
+            payload["dot11be"] = dot11be.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -11547,6 +11710,111 @@ class Wireless:
             response_schema=RecalculateOrganizationWirelessRadioAutoRfChannelsResponse,
         )
 
+    def get_organization_wireless_radio_overrides_by_device(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[DeviceWirelessRadioOverridesResponse]:
+        """Return a list of radio overrides.
+
+        [API documentation: getOrganizationWirelessRadioOverridesByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-radio-overrides-by-device)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            network_ids: A list of network IDs. The returned radio overrides will be filtered to
+                only include these networks.
+            serials: A list of serial numbers. The returned radio overrides will be filtered to only
+                include these serials.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "network": {
+                    "id": "N_24329156"
+                  },
+                  "rfProfile": {
+                    "id": "1234"
+                  },
+                  "radios": [
+                    {
+                      "enabled": true,
+                      "index": "1",
+                      "band": "5",
+                      "channel": 149,
+                      "channelWidth": 20,
+                      "targetPower": 15
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 42,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/radio/overrides/byDevice"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessRadioOverridesByDevice",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=DeviceWirelessRadioOverridesResponse,
+        )
+
     def get_organization_wireless_radio_rrm_by_network(
         self,
         organization_id: str,
@@ -11616,7 +11884,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-07-05T08:07:39Z"
+                    "lastEnabledAt": "2026-08-02T08:06:48Z"
                   }
                 }
               ],

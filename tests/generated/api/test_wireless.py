@@ -23,6 +23,12 @@ def test_get_device_wireless_electronic_shelf_label(
         client.wireless.get_device_wireless_electronic_shelf_label(serial=device_serial)
 
 
+def test_get_device_wireless_radio_overrides(client: MerakiClient, device_serial: str) -> None:
+    """Test get_device_wireless_radio_overrides endpoint."""
+    with skip_on_unsupported():
+        client.wireless.get_device_wireless_radio_overrides(serial=device_serial)
+
+
 def test_get_device_wireless_radio_settings(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_wireless_radio_settings endpoint."""
     with skip_on_unsupported():
@@ -406,6 +412,17 @@ def test_get_organization_wireless_mqtt_settings(
     """Test get_organization_wireless_mqtt_settings endpoint."""
     with skip_on_unsupported():
         result = client.wireless.get_organization_wireless_mqtt_settings(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_wireless_radio_overrides_by_device(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_radio_overrides_by_device endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_radio_overrides_by_device(
             organization_id=organization_id
         ).collect()
     assert isinstance(result, list)

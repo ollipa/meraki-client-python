@@ -332,6 +332,12 @@ class DeviceSwitchPortResponse(_BaseSchema):
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
     )
+    perpetual_poe: SwitchPerpetualPoe | None = Field(
+        default=None, validation_alias="perpetualPoe", serialization_alias="perpetualPoe"
+    )
+    fast_poe: SwitchPerpetualPoe | None = Field(
+        default=None, validation_alias="fastPoe", serialization_alias="fastPoe"
+    )
     type_: str = Field(validation_alias="type", serialization_alias="type")
     vlan: int | None = None
     voice_vlan: int | None = Field(
@@ -418,8 +424,8 @@ class DeviceSwitchPortResponse(_BaseSchema):
     profile: SwitchProfile | None = None
     module: SwitchModule | None = None
     mirror: SwitchMirror | None = None
-    dot3az: SwitchDot3az | None = None
-    high_speed: SwitchDot3az | None = Field(
+    dot3az: SwitchPerpetualPoe | None = None
+    high_speed: SwitchPerpetualPoe | None = Field(
         default=None, validation_alias="highSpeed", serialization_alias="highSpeed"
     )
 
@@ -1082,7 +1088,7 @@ class NetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
 class NetworkSwitchDhcpServerPolicyResponseAlerts(_BaseSchema):
     """Email alert settings for DHCP servers."""
 
-    email: SwitchDot3az | None = None
+    email: SwitchPerpetualPoe | None = None
 
 
 class NetworkSwitchDhcpServerPolicyResponseArpInspection(_BaseSchema):
@@ -1391,12 +1397,12 @@ class NetworkSwitchSettingsResponse(_BaseSchema):
         validation_alias="powerExceptions",
         serialization_alias="powerExceptions",
     )
-    uplink_client_sampling: SwitchDot3az | None = Field(
+    uplink_client_sampling: SwitchPerpetualPoe | None = Field(
         default=None,
         validation_alias="uplinkClientSampling",
         serialization_alias="uplinkClientSampling",
     )
-    mac_blocklist: SwitchDot3az | None = Field(
+    mac_blocklist: SwitchPerpetualPoe | None = Field(
         default=None, validation_alias="macBlocklist", serialization_alias="macBlocklist"
     )
     port_channel_fallback: bool | None = Field(
@@ -1427,7 +1433,7 @@ class NetworkSwitchSettingsResponsePowerExceptionsItem(_BaseSchema):
 class NetworkSwitchSettingsResponseUplinkSelection(_BaseSchema):
     """Settings related to uplink selection on IOS-XE switches."""
 
-    failback: SwitchDot3az | None = None
+    failback: SwitchPerpetualPoe | None = None
     candidates: str | None = None
 
 
@@ -1608,8 +1614,8 @@ class OrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
     profile: SwitchProfile | None = None
     module: SwitchModule | None = None
     mirror: SwitchMirror | None = None
-    dot3az: SwitchDot3az | None = None
-    high_speed: SwitchDot3az | None = Field(
+    dot3az: SwitchPerpetualPoe | None = None
+    high_speed: SwitchPerpetualPoe | None = Field(
         default=None, validation_alias="highSpeed", serialization_alias="highSpeed"
     )
 
@@ -1792,12 +1798,6 @@ class SwitchDot1x(_BaseSchema):
     control_direction: str | None = Field(
         default=None, validation_alias="controlDirection", serialization_alias="controlDirection"
     )
-
-
-class SwitchDot3az(_BaseSchema):
-    """dot3az settings for the port."""
-
-    enabled: bool | None = None
 
 
 class SwitchDscp(_BaseSchema):
@@ -2040,6 +2040,12 @@ class SwitchPacketsItem(_BaseSchema):
     )
 
 
+class SwitchPerpetualPoe(_BaseSchema):
+    """Perpetual PoE settings for the switch port."""
+
+    enabled: bool | None = None
+
+
 class SwitchPoe(_BaseSchema):
     """PoE status of the port."""
 
@@ -2076,6 +2082,10 @@ class SwitchPortsItem(_BaseSchema):
     tags: list[str]
     enabled: bool
     poe_enabled: bool = Field(validation_alias="poeEnabled", serialization_alias="poeEnabled")
+    perpetual_poe: SwitchPerpetualPoe = Field(
+        validation_alias="perpetualPoe", serialization_alias="perpetualPoe"
+    )
+    fast_poe: SwitchPerpetualPoe = Field(validation_alias="fastPoe", serialization_alias="fastPoe")
     type_: str = Field(validation_alias="type", serialization_alias="type")
     vlan: int | None
     voice_vlan: int | None = Field(validation_alias="voiceVlan", serialization_alias="voiceVlan")
@@ -2411,8 +2421,20 @@ class UpdateDeviceSwitchPortDot3az(_BaseSchema):
     enabled: bool | None = None
 
 
+class UpdateDeviceSwitchPortFastPoe(_BaseSchema):
+    """Fast PoE settings for the switch port."""
+
+    enabled: bool | None = None
+
+
 class UpdateDeviceSwitchPortHighSpeed(_BaseSchema):
     """High speed port enablement settings for a high-speed logical port."""
+
+    enabled: bool | None = None
+
+
+class UpdateDeviceSwitchPortPerpetualPoe(_BaseSchema):
+    """Perpetual PoE settings for the switch port."""
 
     enabled: bool | None = None
 
@@ -2597,7 +2619,7 @@ class UpdateNetworkSwitchAlternateManagementInterfaceSwitchesItem(_BaseSchema):
 class UpdateNetworkSwitchDhcpServerPolicyAlerts(_BaseSchema):
     """Alert settings for DHCP servers."""
 
-    email: SwitchDot3az | None = None
+    email: SwitchPerpetualPoe | None = None
 
 
 class UpdateNetworkSwitchDhcpServerPolicyArpInspection(_BaseSchema):

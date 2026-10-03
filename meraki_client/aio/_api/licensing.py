@@ -21,6 +21,7 @@ from meraki_client.schemas import (
     MoveOrganizationLicensingCotermLicensesResponse,
 )
 from meraki_client.types import (
+    GetAdministeredLicensingSubscriptionEntitlementsSubscriptionType,
     GetAdministeredLicensingSubscriptionSubscriptionsProductTypes,
     GetAdministeredLicensingSubscriptionSubscriptionsStatuses,
 )
@@ -36,7 +37,11 @@ class Licensing:
         self._session = session
 
     def get_administered_licensing_subscription_entitlements(
-        self, *, skus: list[str] | None = None
+        self,
+        *,
+        skus: list[str] | None = None,
+        subscription_type: GetAdministeredLicensingSubscriptionEntitlementsSubscriptionType
+        | None = None,
     ) -> AsyncPaginatedResponse[GetAdministeredLicensingSubscriptionEntitlementsResponseItem]:
         """Retrieve the list of purchasable entitlements.
 
@@ -44,6 +49,7 @@ class Licensing:
 
         Args:
             skus: Filter to entitlements with the specified SKUs.
+            subscription_type: Filter entitlements by subscription type.
 
         Returns:
             Successful operation.
@@ -72,6 +78,8 @@ class Licensing:
         params: dict[str, Any] = {}
         if skus is not None:
             params["skus[]"] = skus
+        if subscription_type is not None:
+            params["subscriptionType"] = subscription_type
 
         return self._session.get_pages(
             scope="licensing",

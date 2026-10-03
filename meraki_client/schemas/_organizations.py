@@ -2342,6 +2342,7 @@ class GetOrganizationInventoryDeviceResponse(_BaseSchema):
     mac: str | None = None
     serial: str | None = None
     name: str | None = None
+    address: str | None = None
     model: str | None = None
     sku: str | None = None
     network_id: str | None = Field(
@@ -2401,6 +2402,7 @@ class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
     mac: str
     serial: str
     name: str | None = None
+    address: str | None = None
     model: str
     sku: str | None = None
     network_id: str | None = Field(

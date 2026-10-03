@@ -11,6 +11,8 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
+    BatchOrganizationCampusGatewayClustersTunnelingUpdateItemsItem,
+    BatchOrganizationCampusGatewayClustersTunnelingUpdateResponse,
     CreateNetworkCampusGatewayClusterDevicesItem,
     CreateNetworkCampusGatewayClusterNameservers,
     CreateNetworkCampusGatewayClusterPortChannelsItem,
@@ -23,6 +25,7 @@ from meraki_client.schemas import (
     GetOrganizationCampusGatewayClustersResponseItemsItem,
     GetOrganizationCampusGatewayClustersSsidsResponseItemsItem,
     GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem,
+    GetOrganizationCampusGatewayClustersTunnelingByClusterByNetworkResponseItemsItem,
     GetOrganizationCampusGatewayConnectionsOverviewResponse,
     GetOrganizationCampusGatewayConnectionsResponseItemsItem,
     GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem,
@@ -40,6 +43,8 @@ from meraki_client.schemas import (
     UpdateNetworkCampusGatewayClusterPortChannelsItem,
     UpdateNetworkCampusGatewayClusterTunnelsItem,
     UpdateNetworkCampusGatewayClusterUplinksItem,
+    UpdateNetworkCampusGatewaySsidMdnsResponse,
+    UpdateNetworkCampusGatewaySsidMdnsRulesItem,
 )
 from meraki_client.types import (
     GetOrganizationCampusGatewayClientsUsageByNetworkByClusterUsageUnits,
@@ -382,6 +387,61 @@ class CampusGateway:
 
         return self._session.delete(
             scope="campusGateway", operation_id="deleteNetworkCampusGatewayCluster", path=path
+        )
+
+    def update_network_campus_gateway_ssid_mdns(
+        self,
+        *,
+        network_id: str,
+        number: str,
+        enabled: bool | None = None,
+        rules: list[UpdateNetworkCampusGatewaySsidMdnsRulesItem] | None = None,
+    ) -> UpdateNetworkCampusGatewaySsidMdnsResponse:
+        """Update the mDNS gateway settings and rules for a SSID and cluster.
+
+        [API documentation: updateNetworkCampusGatewaySsidMdns](https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-ssid-mdns)
+
+        Args:
+            network_id: Network ID.
+            number: Number.
+            enabled: If true, mDNS gateway is enabled for this SSID and cluster.
+            rules: List of mDNS forwarding rules.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "enabled": true,
+              "rules": [
+                {
+                  "services": [
+                    "airplay",
+                    "ftp"
+                  ]
+                }
+              ]
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        path = f"/networks/{network_id}/campusGateway/ssids/{number}/mdns"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if rules is not None:
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
+
+        return self._session.put(
+            scope="campusGateway",
+            operation_id="updateNetworkCampusGatewaySsidMdns",
+            path=path,
+            json=payload,
+            response_schema=UpdateNetworkCampusGatewaySsidMdnsResponse,
         )
 
     def get_organization_campus_gateway_clients_usage_by_network_by_cluster(
@@ -1411,6 +1471,170 @@ class CampusGateway:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem,
+        )
+
+    def batch_organization_campus_gateway_clusters_tunneling_update(
+        self,
+        *,
+        organization_id: str,
+        items: list[BatchOrganizationCampusGatewayClustersTunnelingUpdateItemsItem],
+    ) -> BatchOrganizationCampusGatewayClustersTunnelingUpdateResponse:
+        """Update MCG cluster-network tunnel settings for multiple networks.
+
+        [API documentation: batchOrganizationCampusGatewayClustersTunnelingUpdate](https://developer.cisco.com/meraki/api-v1/#!batch-organization-campus-gateway-clusters-tunneling-update)
+
+        Args:
+            organization_id: Organization ID.
+            items: MCG cluster-network tunnel settings.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "cluster": {
+                    "id": "1205"
+                  },
+                  "network": {
+                    "id": "N_1"
+                  },
+                  "data": {
+                    "encryption": {
+                      "enabled": true
+                    }
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/tunneling/batchUpdate"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return self._session.post(
+            scope="campusGateway",
+            operation_id="batchOrganizationCampusGatewayClustersTunnelingUpdate",
+            path=path,
+            json=payload,
+            response_schema=BatchOrganizationCampusGatewayClustersTunnelingUpdateResponse,
+        )
+
+    def get_organization_campus_gateway_clusters_tunneling_by_cluster_by_network(
+        self,
+        organization_id: str,
+        *,
+        cluster_ids: list[str] | None = None,
+        data_encryption_enabled: bool | None = None,
+        network_ids: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationCampusGatewayClustersTunnelingByClusterByNetworkResponseItemsItem
+    ]:
+        """List all the MCG cluster-network tunnel settings.
+
+        [API documentation: getOrganizationCampusGatewayClustersTunnelingByClusterByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters-tunneling-by-cluster-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            cluster_ids: Optional parameter to filter MCG clusters. This filter uses multiple exact
+                matches.
+            data_encryption_enabled: Optional parameter to filter cluster-network tunnel settings by
+                data encryption configuration.
+            network_ids: Optional parameter to filter networks. This filter uses multiple exact
+                matches.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 50.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "cluster": {
+                    "id": "1205",
+                    "name": "SFO Cluster"
+                  },
+                  "network": {
+                    "id": "N_1",
+                    "name": "SFO wireless"
+                  },
+                  "data": {
+                    "encryption": {
+                      "enabled": true
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = (
+            f"/organizations/{organization_id}/campusGateway/clusters/tunneling/byCluster/byNetwork"
+        )
+
+        params: dict[str, Any] = {}
+        if cluster_ids is not None:
+            params["clusterIds[]"] = cluster_ids
+        if data_encryption_enabled is not None:
+            params["dataEncryptionEnabled"] = data_encryption_enabled
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayClustersTunnelingByClusterByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayClustersTunnelingByClusterByNetworkResponseItemsItem,
         )
 
     def get_organization_campus_gateway_connections(

@@ -110,6 +110,7 @@ from meraki_client.schemas import (
     UpdateNetworkFirmwareUpgradesFeatureLossAcknowledgementsItem,
     UpdateNetworkFirmwareUpgradesProducts,
     UpdateNetworkFirmwareUpgradesResponse,
+    UpdateNetworkFirmwareUpgradesStagedEventsProducts,
     UpdateNetworkFirmwareUpgradesStagedEventsStagesItem,
     UpdateNetworkFirmwareUpgradesStagedGroupAssignedDevices,
     UpdateNetworkFirmwareUpgradesStagedStagesJsonItem,
@@ -3376,6 +3377,14 @@ class Networks:
                       "shortName": "MS 15.2.1"
                     }
                   }
+                },
+                "switchCatalyst": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "4321",
+                      "shortName": "CS 1.0"
+                    }
+                  }
                 }
               },
               "stages": [
@@ -3415,7 +3424,11 @@ class Networks:
         )
 
     async def update_network_firmware_upgrades_staged_events(
-        self, *, network_id: str, stages: list[UpdateNetworkFirmwareUpgradesStagedEventsStagesItem]
+        self,
+        *,
+        network_id: str,
+        stages: list[UpdateNetworkFirmwareUpgradesStagedEventsStagesItem],
+        products: UpdateNetworkFirmwareUpgradesStagedEventsProducts | None = None,
     ) -> GetNetworkFirmwareUpgradesStagedEventsResponse:
         """Update the Staged Upgrade Event for a network.
 
@@ -3423,6 +3436,7 @@ class Networks:
 
         Args:
             network_id: Network ID.
+            products: Contains firmware upgrade settings.
             stages: All firmware upgrade stages in the network with their start time.
 
         Returns:
@@ -3437,6 +3451,14 @@ class Networks:
                     "toVersion": {
                       "id": "1234",
                       "shortName": "MS 15.2.1"
+                    }
+                  }
+                },
+                "switchCatalyst": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "4321",
+                      "shortName": "CS 1.0"
                     }
                   }
                 }
@@ -3471,6 +3493,8 @@ class Networks:
         path = f"/networks/{network_id}/firmwareUpgrades/staged/events"
 
         payload: dict[str, Any] = {}
+        if products is not None:
+            payload["products"] = products.model_dump(by_alias=True, exclude_none=True)
         if stages is not None:
             payload["stages"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in stages
@@ -3512,6 +3536,14 @@ class Networks:
                     "toVersion": {
                       "id": "1234",
                       "shortName": "MS 15.2.1"
+                    }
+                  }
+                },
+                "switchCatalyst": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "4321",
+                      "shortName": "CS 1.0"
                     }
                   }
                 }
@@ -3585,6 +3617,14 @@ class Networks:
                       "shortName": "MS 15.2.1"
                     }
                   }
+                },
+                "switchCatalyst": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "4321",
+                      "shortName": "CS 1.0"
+                    }
+                  }
                 }
               },
               "stages": [
@@ -3652,6 +3692,14 @@ class Networks:
                     "toVersion": {
                       "id": "1234",
                       "shortName": "MS 15.2.1"
+                    }
+                  }
+                },
+                "switchCatalyst": {
+                  "nextUpgrade": {
+                    "toVersion": {
+                      "id": "4321",
+                      "shortName": "CS 1.0"
                     }
                   }
                 }

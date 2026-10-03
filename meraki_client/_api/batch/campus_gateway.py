@@ -9,6 +9,7 @@ import urllib.parse
 from typing import Any
 
 from meraki_client.schemas import (
+    BatchOrganizationCampusGatewayClustersTunnelingUpdateItemsItem,
     CreateNetworkCampusGatewayClusterDevicesItem,
     CreateNetworkCampusGatewayClusterNameservers,
     CreateNetworkCampusGatewayClusterPortChannelsItem,
@@ -27,6 +28,7 @@ from meraki_client.schemas import (
     UpdateNetworkCampusGatewayClusterPortChannelsItem,
     UpdateNetworkCampusGatewayClusterTunnelsItem,
     UpdateNetworkCampusGatewayClusterUplinksItem,
+    UpdateNetworkCampusGatewaySsidMdnsRulesItem,
 )
 
 
@@ -182,6 +184,41 @@ class ActionBatchCampusGateway:
             operation="destroy",
         )
 
+    def update_network_campus_gateway_ssid_mdns(
+        self,
+        *,
+        network_id: str,
+        number: str,
+        enabled: bool | None = None,
+        rules: list[UpdateNetworkCampusGatewaySsidMdnsRulesItem] | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update the mDNS gateway settings and rules for a SSID and cluster.
+
+        [API documentation: updateNetworkCampusGatewaySsidMdns](https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-ssid-mdns)
+
+        Args:
+            network_id: Network ID.
+            number: Number.
+            enabled: If true, mDNS gateway is enabled for this SSID and cluster.
+            rules: List of mDNS forwarding rules.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        path = f"/networks/{network_id}/campusGateway/ssids/{number}/mdns"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if rules is not None:
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
     def provision_organization_campus_gateway_clusters(
         self,
         *,
@@ -252,5 +289,33 @@ class ActionBatchCampusGateway:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="provision",
+            body=payload,
+        )
+
+    def batch_organization_campus_gateway_clusters_tunneling_update(
+        self,
+        *,
+        organization_id: str,
+        items: list[BatchOrganizationCampusGatewayClustersTunnelingUpdateItemsItem],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update MCG cluster-network tunnel settings for multiple networks.
+
+        [API documentation: batchOrganizationCampusGatewayClustersTunnelingUpdate](https://developer.cisco.com/meraki/api-v1/#!batch-organization-campus-gateway-clusters-tunneling-update)
+
+        Args:
+            organization_id: Organization ID.
+            items: MCG cluster-network tunnel settings.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/clusters/tunneling/batchUpdate"
+
+        payload: dict[str, Any] = {}
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="batch_update",
             body=payload,
         )

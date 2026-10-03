@@ -13,6 +13,7 @@ from meraki_client.schemas import (
     CreateNetworkWirelessEthernetPortsProfilePortsItem,
     CreateNetworkWirelessEthernetPortsProfileUsbPortsItem,
     CreateNetworkWirelessRfProfileApBandSettings,
+    CreateNetworkWirelessRfProfileDot11be,
     CreateNetworkWirelessRfProfileFiveGhzSettings,
     CreateNetworkWirelessRfProfileFlexRadios,
     CreateNetworkWirelessRfProfilePerSsidSettings,
@@ -35,6 +36,8 @@ from meraki_client.schemas import (
     DeleteOrganizationWirelessSsidsProfilesAssignmentsNetwork,
     DeleteOrganizationWirelessSsidsProfilesAssignmentsSsid,
     UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem,
+    UpdateDeviceWirelessRadioOverridesRadiosItem,
+    UpdateDeviceWirelessRadioOverridesRfProfile,
     UpdateDeviceWirelessRadioSettingsFiveGhzSettings,
     UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings,
     UpdateNetworkWirelessAirMarshalRuleMatch,
@@ -48,6 +51,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessRadioRrmChannel,
     UpdateNetworkWirelessRadioRrmFra,
     UpdateNetworkWirelessRfProfileApBandSettings,
+    UpdateNetworkWirelessRfProfileDot11be,
     UpdateNetworkWirelessRfProfileFiveGhzSettings,
     UpdateNetworkWirelessRfProfileFlexRadios,
     UpdateNetworkWirelessRfProfilePerSsidSettings,
@@ -235,6 +239,45 @@ class ActionBatchWireless:
             payload["channel"] = channel
         if enabled is not None:
             payload["enabled"] = enabled
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def update_device_wireless_radio_overrides(
+        self,
+        serial: str,
+        *,
+        rf_profile: UpdateDeviceWirelessRadioOverridesRfProfile | None = None,
+        radios: list[UpdateDeviceWirelessRadioOverridesRadiosItem] | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update 2.4 GHz, 5 GHz, and 6 GHz radio settings (channel, channel width, power, and enable/disable) that override RF profiles.
+
+        [API documentation: updateDeviceWirelessRadioOverrides](https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-overrides)
+
+        Args:
+            serial: Serial.
+            rf_profile: This device's RF profile. If omitted, the existing RF profile assignment
+                remains unchanged.
+            radios: Radio overrides. If omitted, existing per-radio override settings remain
+                unchanged. If provided, only the radios included in the array are
+                updated; the array does not replace the device's full existing set of
+                radio overrides. Read-only response fields for each radio, such as
+                'band', may be included in the request body and are ignored.
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        path = f"/devices/{serial}/wireless/radio/overrides"
+
+        payload: dict[str, Any] = {}
+        if rf_profile is not None:
+            payload["rfProfile"] = rf_profile.model_dump(by_alias=True, exclude_none=True)
+        if radios is not None:
+            payload["radios"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in radios
+            ]
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -759,6 +802,7 @@ class ActionBatchWireless:
         transmission: CreateNetworkWirelessRfProfileTransmission | None = None,
         per_ssid_settings: CreateNetworkWirelessRfProfilePerSsidSettings | None = None,
         flex_radios: CreateNetworkWirelessRfProfileFlexRadios | None = None,
+        dot11be: CreateNetworkWirelessRfProfileDot11be | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Creates new RF profile for this network.
 
@@ -781,6 +825,7 @@ class ActionBatchWireless:
             transmission: Settings related to radio transmission.
             per_ssid_settings: Per-SSID radio settings by number.
             flex_radios: Flex radio settings.
+            dot11be: 802.11be settings.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -819,6 +864,8 @@ class ActionBatchWireless:
             )
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios.model_dump(by_alias=True, exclude_none=True)
+        if dot11be is not None:
+            payload["dot11be"] = dot11be.model_dump(by_alias=True, exclude_none=True)
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -844,6 +891,7 @@ class ActionBatchWireless:
         transmission: UpdateNetworkWirelessRfProfileTransmission | None = None,
         per_ssid_settings: UpdateNetworkWirelessRfProfilePerSsidSettings | None = None,
         flex_radios: UpdateNetworkWirelessRfProfileFlexRadios | None = None,
+        dot11be: UpdateNetworkWirelessRfProfileDot11be | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Updates specified RF profile for this network.
 
@@ -871,6 +919,7 @@ class ActionBatchWireless:
             transmission: Settings related to radio transmission.
             per_ssid_settings: Per-SSID radio settings by number.
             flex_radios: Flex radio settings.
+            dot11be: 802.11be settings.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -914,6 +963,8 @@ class ActionBatchWireless:
             )
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios.model_dump(by_alias=True, exclude_none=True)
+        if dot11be is not None:
+            payload["dot11be"] = dot11be.model_dump(by_alias=True, exclude_none=True)
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

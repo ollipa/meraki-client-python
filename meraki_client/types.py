@@ -40,6 +40,7 @@ __all__ = [
     "CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy",
     "CreateOrganizationPolicyObjectType",
     "CreateOrganizationSmAdminsRoleScope",
+    "GetAdministeredLicensingSubscriptionEntitlementsSubscriptionType",
     "GetAdministeredLicensingSubscriptionSubscriptionsProductTypes",
     "GetAdministeredLicensingSubscriptionSubscriptionsStatuses",
     "GetDeviceCameraAnalyticsOverviewObjectType",
@@ -353,6 +354,9 @@ CreateOrganizationPolicyObjectType: TypeAlias = Literal["adaptivePolicyIpv4Cidr"
 CreateOrganizationSmAdminsRoleScope: TypeAlias = Literal[
     "all_tags", "some", "without_all_tags", "without_some"
 ]
+GetAdministeredLicensingSubscriptionEntitlementsSubscriptionType: TypeAlias = Literal[
+    "termed", "unified"
+]
 GetAdministeredLicensingSubscriptionSubscriptionsProductTypes: TypeAlias = list[
     Literal[
         "appliance",
@@ -568,6 +572,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "configuration_change",
         "console_error_authorization",
         "console_error_timeout",
+        "copp_drops",
         "country_mismatch",
         "crc_errors",
         "dashboard_config_generation_failure",
@@ -586,6 +591,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "fan_tray_failure",
         "faulty_cable",
         "firewall",
         "firmware_version",
@@ -609,6 +615,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
         "low_power",
@@ -665,6 +672,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "probe_cable_unknown",
         "push_api_device_availability",
         "radar_detection",
+        "radius_ca_certificate_installation",
         "reboot_count",
         "reboot_count_no_xmit_mon",
         "reboot_count_panic",
@@ -816,6 +824,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "configuration_change",
         "console_error_authorization",
         "console_error_timeout",
+        "copp_drops",
         "country_mismatch",
         "crc_errors",
         "dashboard_config_generation_failure",
@@ -834,6 +843,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "fan_tray_failure",
         "faulty_cable",
         "firewall",
         "firmware_version",
@@ -857,6 +867,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
         "low_power",
@@ -913,6 +924,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "probe_cable_unknown",
         "push_api_device_availability",
         "radar_detection",
+        "radius_ca_certificate_installation",
         "reboot_count",
         "reboot_count_no_xmit_mon",
         "reboot_count_panic",
@@ -1079,6 +1091,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "configuration_change",
         "console_error_authorization",
         "console_error_timeout",
+        "copp_drops",
         "country_mismatch",
         "crc_errors",
         "dashboard_config_generation_failure",
@@ -1097,6 +1110,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "fan_tray_failure",
         "faulty_cable",
         "firewall",
         "firmware_version",
@@ -1120,6 +1134,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
         "low_power",
@@ -1176,6 +1191,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "probe_cable_unknown",
         "push_api_device_availability",
         "radar_detection",
+        "radius_ca_certificate_installation",
         "reboot_count",
         "reboot_count_no_xmit_mon",
         "reboot_count_panic",
@@ -1300,6 +1316,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "configuration_change",
         "console_error_authorization",
         "console_error_timeout",
+        "copp_drops",
         "country_mismatch",
         "crc_errors",
         "dashboard_config_generation_failure",
@@ -1318,6 +1335,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "fan_tray_failure",
         "faulty_cable",
         "firewall",
         "firmware_version",
@@ -1341,6 +1359,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
         "low_power",
@@ -1397,6 +1416,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "probe_cable_unknown",
         "push_api_device_availability",
         "radar_detection",
+        "radius_ca_certificate_installation",
         "reboot_count",
         "reboot_count_no_xmit_mon",
         "reboot_count_panic",
@@ -1525,6 +1545,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "configuration_change",
         "console_error_authorization",
         "console_error_timeout",
+        "copp_drops",
         "country_mismatch",
         "crc_errors",
         "dashboard_config_generation_failure",
@@ -1543,6 +1564,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "ethernet_negotiation_failure",
         "eu_regulatory_firmware_mismatch",
         "fan_down",
+        "fan_tray_failure",
         "faulty_cable",
         "firewall",
         "firmware_version",
@@ -1566,6 +1588,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
         "low_power",
@@ -1622,6 +1645,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "probe_cable_unknown",
         "push_api_device_availability",
         "radar_detection",
+        "radius_ca_certificate_installation",
         "reboot_count",
         "reboot_count_no_xmit_mon",
         "reboot_count_panic",
@@ -2047,7 +2071,7 @@ UpdateNetworkApplianceSettingsClientTrackingMethod: TypeAlias = Literal[
 ]
 UpdateNetworkApplianceSettingsDeploymentMode: TypeAlias = Literal["passthrough", "routed"]
 UpdateNetworkApplianceSsidAuthMode: TypeAlias = Literal[
-    "8021x-meraki", "8021x-radius", "open", "psk"
+    "8021x-meraki", "8021x-nac", "8021x-radius", "open", "psk"
 ]
 UpdateNetworkApplianceSsidEncryptionMode: TypeAlias = Literal["wep", "wpa"]
 UpdateNetworkApplianceSsidWpaEncryptionMode: TypeAlias = Literal[

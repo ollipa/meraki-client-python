@@ -20,6 +20,7 @@ from meraki_client.schemas import (
     CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerIpv4,
     CreateNetworkSwitchLinkAggregationSwitchPortsItem,
     CreateNetworkSwitchLinkAggregationSwitchProfilePortsItem,
+    CreateNetworkSwitchPortSchedulePortSchedule,
     CreateNetworkSwitchRoutingMulticastRendezvousPointVrf,
     CreateNetworkSwitchStackRoutingInterfaceIpv6,
     CreateNetworkSwitchStackRoutingInterfaceOspfSettings,
@@ -27,7 +28,9 @@ from meraki_client.schemas import (
     CreateNetworkSwitchStackRoutingStaticRouteVrf,
     CreateOrganizationActionBatchActionsItem,
     UpdateDeviceSwitchPortDot3az,
+    UpdateDeviceSwitchPortFastPoe,
     UpdateDeviceSwitchPortHighSpeed,
+    UpdateDeviceSwitchPortPerpetualPoe,
     UpdateDeviceSwitchPortProfile,
     UpdateDeviceSwitchRoutingInterfaceDhcpDhcpOptionsItem,
     UpdateDeviceSwitchRoutingInterfaceDhcpFixedIpAssignmentsItem,
@@ -144,6 +147,8 @@ class ActionBatchSwitch:
         tags: list[str] | None = None,
         enabled: bool | None = None,
         poe_enabled: bool | None = None,
+        perpetual_poe: UpdateDeviceSwitchPortPerpetualPoe | None = None,
+        fast_poe: UpdateDeviceSwitchPortFastPoe | None = None,
         type_: UpdateDeviceSwitchPortType | None = None,
         vlan: int | None = None,
         voice_vlan: int | None = None,
@@ -181,6 +186,8 @@ class ActionBatchSwitch:
             tags: The list of tags of the switch port.
             enabled: The status of the switch port.
             poe_enabled: The PoE status of the switch port.
+            perpetual_poe: Perpetual PoE settings for the switch port.
+            fast_poe: Fast PoE settings for the switch port.
             type_: The type of the switch port ('access', 'trunk', 'stack', 'routed', 'svl' or
                 'dad').
             vlan: The VLAN of the switch port. For a trunk port, this is the native VLAN. A null
@@ -244,6 +251,10 @@ class ActionBatchSwitch:
             payload["enabled"] = enabled
         if poe_enabled is not None:
             payload["poeEnabled"] = poe_enabled
+        if perpetual_poe is not None:
+            payload["perpetualPoe"] = perpetual_poe.model_dump(by_alias=True, exclude_none=True)
+        if fast_poe is not None:
+            payload["fastPoe"] = fast_poe.model_dump(by_alias=True, exclude_none=True)
         if type_ is not None:
             payload["type"] = type_
         if vlan is not None:
@@ -327,10 +338,13 @@ class ActionBatchSwitch:
             serial: Serial.
             name: A friendly name or description for the interface or VLAN (max length 128
                 characters).
-            mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback'. Default is 'vlan'.
-                CS 17.18 or higher is required for 'routed' mode.
+            mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback', or
+                'oob_management'. Default is 'vlan'. IOS XE firmware 17.18 or higher is
+                required for 'routed' mode; IOS XE firmware 26.1.2 or higher is required
+                for 'oob_management' mode.
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
-            switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
+            switch_port_id: Switch Port ID when in Routed mode (IOS XE firmware 17.18 or higher
+                required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
                 subnet. This cannot be the same as the device management IP.
             mtu: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and
@@ -413,7 +427,8 @@ class ActionBatchSwitch:
             name: A friendly name or description for the interface or VLAN (max length 128
                 characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
-            switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
+            switch_port_id: Switch Port ID when in Routed mode (IOS XE firmware 17.18 or higher
+                required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
                 subnet. This cannot be the same as the device management IP.
             mtu: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and
@@ -1356,6 +1371,41 @@ class ActionBatchSwitch:
             body=payload,
         )
 
+    def create_network_switch_port_schedule(
+        self,
+        *,
+        network_id: str,
+        name: str,
+        port_schedule: CreateNetworkSwitchPortSchedulePortSchedule | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Add a switch port schedule.
+
+        [API documentation: createNetworkSwitchPortSchedule](https://developer.cisco.com/meraki/api-v1/#!create-network-switch-port-schedule)
+
+        Args:
+            network_id: Network ID.
+            name: The name for your port schedule. Required.
+            port_schedule: The schedule for switch port scheduling. Schedules are applied to days of
+                the week. When it's empty, default schedule with all days of a week are
+                configured. Any unspecified day in the schedule is added as a default
+                schedule configuration of the day.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/switch/portSchedules"
+
+        payload: dict[str, Any] = {}
+        if name is not None:
+            payload["name"] = name
+        if port_schedule is not None:
+            payload["portSchedule"] = port_schedule.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
     def update_network_switch_port_schedule(
         self,
         *,
@@ -1814,7 +1864,7 @@ class ActionBatchSwitch:
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
-            operation="settings/actions/update",
+            operation="update",
             body=payload,
         )
 
@@ -1885,10 +1935,13 @@ class ActionBatchSwitch:
             switch_stack_id: Switch stack ID.
             name: A friendly name or description for the interface or VLAN (max length 128
                 characters).
-            mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback'. Default is 'vlan'.
-                CS 17.18 or higher is required for 'routed' mode.
+            mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback', or
+                'oob_management'. Default is 'vlan'. IOS XE firmware 17.18 or higher is
+                required for 'routed' mode; IOS XE firmware 26.1.2 or higher is required
+                for 'oob_management' mode.
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
-            switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
+            switch_port_id: Switch Port ID when in Routed mode (IOS XE firmware 17.18 or higher
+                required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
                 subnet. This cannot be the same as the device management IP.
             mtu: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and
@@ -1974,7 +2027,8 @@ class ActionBatchSwitch:
             name: A friendly name or description for the interface or VLAN (max length 128
                 characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
-            switch_port_id: Switch Port ID when in Routed mode (CS 17.18 or higher required).
+            switch_port_id: Switch Port ID when in Routed mode (IOS XE firmware 17.18 or higher
+                required).
             interface_ip: The IP address that will be used for Layer 3 routing on this VLAN or
                 subnet. This cannot be the same as the device management IP.
             mtu: The interface MTU. Applies to native switch layer 3 interfaces, including VLAN and

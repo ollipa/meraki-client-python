@@ -75,6 +75,17 @@ def test_get_organization_campus_gateway_clusters_ssids(
     assert isinstance(result, list)
 
 
+def test_get_organization_campus_gateway_clusters_tunneling_by_cluster_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_clusters_tunneling_by_cluster_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.campus_gateway.get_organization_campus_gateway_clusters_tunneling_by_cluster_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_campus_gateway_connections(
     client: MerakiClient, organization_id: str
 ) -> None:

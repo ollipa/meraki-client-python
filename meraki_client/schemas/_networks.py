@@ -1021,6 +1021,9 @@ class GetNetworkFirmwareUpgradesStagedEventsResponseProducts(_BaseSchema):
     """The network devices to be updated."""
 
     switch: NetworksProductsSwitch | None = None
+    switch_catalyst: NetworksProductsSwitch | None = Field(
+        default=None, validation_alias="switchCatalyst", serialization_alias="switchCatalyst"
+    )
 
 
 class GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem(_BaseSchema):
@@ -3434,6 +3437,22 @@ class UpdateNetworkFirmwareUpgradesResponse(_BaseSchema):
     )
     timezone: str | None = None
     products: GetNetworkFirmwareUpgradesResponseProducts | None = None
+
+
+class UpdateNetworkFirmwareUpgradesStagedEventsProducts(_BaseSchema):
+    """Contains firmware upgrade settings."""
+
+    switch_catalyst: UpdateNetworkFirmwareUpgradesStagedEventsProductsSwitchCatalyst | None = Field(
+        default=None, validation_alias="switchCatalyst", serialization_alias="switchCatalyst"
+    )
+
+
+class UpdateNetworkFirmwareUpgradesStagedEventsProductsSwitchCatalyst(_BaseSchema):
+    """Settings for the switch Catalyst network being upgraded."""
+
+    next_upgrade: dict[str, Any] | None = Field(
+        default=None, validation_alias="nextUpgrade", serialization_alias="nextUpgrade"
+    )
 
 
 class UpdateNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):

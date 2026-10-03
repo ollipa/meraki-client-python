@@ -13,6 +13,34 @@ from pydantic import Field, RootModel, field_validator
 from meraki_client.schemas._base import _BaseSchema
 
 
+class BatchOrganizationCampusGatewayClustersTunnelingUpdateItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    cluster: CampusGatewayNetwork3
+    network: CampusGatewayNetwork3
+    data: CampusGatewayData
+
+
+class BatchOrganizationCampusGatewayClustersTunnelingUpdateResponse(_BaseSchema):
+    """Response for batchOrganizationCampusGatewayClustersTunnelingUpdate operation."""
+
+    items: list[BatchOrganizationCampusGatewayClustersTunnelingUpdateResponseItemsItem]
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class BatchOrganizationCampusGatewayClustersTunnelingUpdateResponseItemsItem(_BaseSchema):
+    """Schema for BatchOrganizationCampusGatewayClustersTunnelingUpdateResponseItemsItem."""
+
+    cluster: CampusGatewayNetwork3
+    network: CampusGatewayNetwork3
+    data: CampusGatewayData
+
+
 class CampusGatewayAddressesItem(_BaseSchema):
     """Schema for CampusGatewayAddressesItem."""
 
@@ -84,7 +112,7 @@ class CampusGatewayCampusGatewaysItem(_BaseSchema):
     serial: str
     mac: str
     tunnel: CampusGatewayTunnel
-    data: CampusGatewayData
+    data: CampusGatewayData2
     url: str
     cluster: CampusGatewayNetwork
 
@@ -122,6 +150,12 @@ class CampusGatewayData(_BaseSchema):
     encryption: CampusGatewayEncryption
 
 
+class CampusGatewayData2(_BaseSchema):
+    """Attributes related to the data plane."""
+
+    encryption: CampusGatewayEncryption2
+
+
 class CampusGatewayDevices(_BaseSchema):
     """Details about network devices."""
 
@@ -145,6 +179,12 @@ class CampusGatewayDevicesUplinksItem(_BaseSchema):
 
 
 class CampusGatewayEncryption(_BaseSchema):
+    """Configured encryption settings of the data plane."""
+
+    enabled: bool
+
+
+class CampusGatewayEncryption2(_BaseSchema):
     """Encryption status of the data plane."""
 
     status: str
@@ -221,12 +261,6 @@ class CampusGatewayTunnel(_BaseSchema):
 
     status: str
     uptime: int | None = None
-
-
-class CampusGatewayTunnelAdmin(_BaseSchema):
-    """Tunnel administrative settings."""
-
-    enabled: bool
 
 
 class CampusGatewayTunneled(_BaseSchema):
@@ -505,6 +539,14 @@ class GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem(_BaseSchem
     source: CampusGatewaySource
 
 
+class GetOrganizationCampusGatewayClustersTunnelingByClusterByNetworkResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationCampusGatewayClustersTunnelingByClusterByNetworkResponseItemsItem."""
+
+    cluster: CampusGatewayNetwork
+    network: CampusGatewayNetwork
+    data: CampusGatewayData
+
+
 class GetOrganizationCampusGatewayConnectionsOverviewResponse(_BaseSchema):
     """Response for getOrganizationCampusGatewayConnectionsOverview operation."""
 
@@ -530,10 +572,10 @@ class GetOrganizationCampusGatewayConnectionsResponseItemsItem(_BaseSchema):
     uptime: int
     status: str
     tunnel_status: str = Field(validation_alias="tunnelStatus", serialization_alias="tunnelStatus")
-    tunnel_admin: CampusGatewayTunnelAdmin = Field(
+    tunnel_admin: CampusGatewayEncryption = Field(
         validation_alias="tunnelAdmin", serialization_alias="tunnelAdmin"
     )
-    tunnel_schedule: CampusGatewayTunnelAdmin = Field(
+    tunnel_schedule: CampusGatewayEncryption = Field(
         validation_alias="tunnelSchedule", serialization_alias="tunnelSchedule"
     )
     interfaces: list[str]
@@ -886,3 +928,40 @@ class UpdateNetworkCampusGatewayClusterUplinksItemAddressesItem(_BaseSchema):
     subnet_mask: str | None = Field(
         default=None, validation_alias="subnetMask", serialization_alias="subnetMask"
     )
+
+
+class UpdateNetworkCampusGatewaySsidMdnsResponse(_BaseSchema):
+    """Response for updateNetworkCampusGatewaySsidMdns operation."""
+
+    enabled: bool
+    rules: list[UpdateNetworkCampusGatewaySsidMdnsResponseRulesItem]
+
+    @field_validator("rules", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class UpdateNetworkCampusGatewaySsidMdnsResponseRulesItem(_BaseSchema):
+    """Schema for UpdateNetworkCampusGatewaySsidMdnsResponseRulesItem."""
+
+    services: list[str]
+
+    @field_validator("services", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class UpdateNetworkCampusGatewaySsidMdnsRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    services: list[str] = Field(default_factory=list)
+
+    @field_validator("services", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
