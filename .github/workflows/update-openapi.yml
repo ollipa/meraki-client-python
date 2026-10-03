@@ -90,7 +90,15 @@ jobs:
           set -euo pipefail
           echo "${LATEST_VERSION}" > .api-version
           make generate
-          make lint
+
+      # Lint failures should not block the PR; they are reported in the PR body instead.
+      - name: Run linters
+        if: steps.detect.outputs.update_needed == 'true'
+        id: lint
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          make -k lint 2>&1 | tee "${RUNNER_TEMP}/lint.log"
 
       - name: Update changelog with placeholder entry
         if: steps.detect.outputs.update_needed == 'true'
@@ -134,6 +142,7 @@ jobs:
           TARGET_BRANCH: ${{ steps.detect.outputs.target_branch }}
           CURRENT_VERSION: ${{ steps.detect.outputs.current_version }}
           LATEST_VERSION: ${{ steps.detect.outputs.latest_version }}
+          LINT_OUTCOME: ${{ steps.lint.outcome }}
         run: |
           set -euo pipefail
 
@@ -145,9 +154,38 @@ jobs:
           - Updated \`.api-version\` from \`${CURRENT_VERSION}\` to \`${LATEST_VERSION}\`
           EOF
           )
+
+          DRAFT_FLAG=()
+          if [ "${LINT_OUTCOME}" != "success" ]; then
+            DRAFT_FLAG=(--draft)
+            LINT_LOG="$(tail -n 200 "${RUNNER_TEMP}/lint.log" 2>/dev/null || echo "Lint log not available.")"
+            PR_BODY+=$(cat <<EOF
+
+
+          ## ⚠️ Lint failed
+          The generated code does not pass \`make lint\`. Fix the codegen before merging.
+
+          <details><summary>Lint output (last 200 lines)</summary>
+
+          ~~~~
+          ${LINT_LOG}
+          ~~~~
+
+          </details>
+          EOF
+          )
+          fi
+
           gh pr create \
             --base main \
             --head "${TARGET_BRANCH}" \
             --title "${PR_TITLE}" \
             --body "${PR_BODY}" \
-            --reviewer ollipa
+            --reviewer ollipa \
+            "${DRAFT_FLAG[@]}"
+
+      - name: Fail when lint failed
+        if: steps.lint.outcome == 'failure'
+        run: |
+          echo "Generated code failed lint; see the pull request for details."
+          exit 1
