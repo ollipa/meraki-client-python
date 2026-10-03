@@ -73,37 +73,47 @@ jobs:
 
       - name: Stop when update is not needed
         if: steps.detect.outputs.update_needed != 'true'
+        env:
+          SKIP_REASON: ${{ steps.detect.outputs.skip_reason }}
+          CURRENT_VERSION: ${{ steps.detect.outputs.current_version }}
+          LATEST_VERSION: ${{ steps.detect.outputs.latest_version }}
         run: |
-          echo "${{ steps.detect.outputs.skip_reason }}"
-          echo "Current version: ${{ steps.detect.outputs.current_version }}"
-          echo "Latest stable version: ${{ steps.detect.outputs.latest_version }}"
+          echo "${SKIP_REASON}"
+          echo "Current version: ${CURRENT_VERSION}"
+          echo "Latest stable version: ${LATEST_VERSION}"
 
       - name: Update API version and regenerate SDK
         if: steps.detect.outputs.update_needed == 'true'
+        env:
+          LATEST_VERSION: ${{ steps.detect.outputs.latest_version }}
         run: |
           set -euo pipefail
-          echo "${{ steps.detect.outputs.latest_version }}" > .api-version
+          echo "${LATEST_VERSION}" > .api-version
           make generate
           make lint
 
       - name: Update changelog with placeholder entry
         if: steps.detect.outputs.update_needed == 'true'
+        env:
+          LATEST_VERSION: ${{ steps.detect.outputs.latest_version }}
         run: |
           set -euo pipefail
           uv run python scripts/update_changelog.py \
-            --api-version "${{ steps.detect.outputs.latest_version }}" \
+            --api-version "${LATEST_VERSION}" \
             --changelog-path CHANGELOG.md
 
       - name: Commit and push update branch
         if: steps.detect.outputs.update_needed == 'true'
         id: commit
+        env:
+          TARGET_BRANCH: ${{ steps.detect.outputs.target_branch }}
+          LATEST_VERSION: ${{ steps.detect.outputs.latest_version }}
         run: |
           set -euo pipefail
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          TARGET_BRANCH="${{ steps.detect.outputs.target_branch }}"
           git switch -c "${TARGET_BRANCH}"
 
           git add -A .api-version CHANGELOG.md meraki_client tests/generated docs/api_reference
@@ -114,22 +124,25 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Update Meraki OpenAPI to v${{ steps.detect.outputs.latest_version }}"
+          git commit -m "Update Meraki OpenAPI to v${LATEST_VERSION}"
           git push --set-upstream origin "${TARGET_BRANCH}"
           echo "has_changes=true" >> "${GITHUB_OUTPUT}"
 
       - name: Create or update pull request
         if: steps.detect.outputs.update_needed == 'true' && steps.commit.outputs.has_changes == 'true'
+        env:
+          TARGET_BRANCH: ${{ steps.detect.outputs.target_branch }}
+          CURRENT_VERSION: ${{ steps.detect.outputs.current_version }}
+          LATEST_VERSION: ${{ steps.detect.outputs.latest_version }}
         run: |
           set -euo pipefail
 
-          TARGET_BRANCH="${{ steps.detect.outputs.target_branch }}"
-          PR_TITLE="Update Meraki OpenAPI to v${{ steps.detect.outputs.latest_version }}"
+          PR_TITLE="Update Meraki OpenAPI to v${LATEST_VERSION}"
           PR_BODY=$(cat <<EOF
           This PR updates generated SDK output to the latest stable Meraki OpenAPI version.
 
           ## What changed
-          - Updated \`.api-version\` from \`${{ steps.detect.outputs.current_version }}\` to \`${{ steps.detect.outputs.latest_version }}\`
+          - Updated \`.api-version\` from \`${CURRENT_VERSION}\` to \`${LATEST_VERSION}\`
           EOF
           )
           gh pr create \
