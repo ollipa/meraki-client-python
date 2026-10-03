@@ -146,6 +146,7 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceSettingsDynamicDns,
     UpdateNetworkApplianceSingleLanIpv6,
     UpdateNetworkApplianceSingleLanMandatoryDhcp,
+    UpdateNetworkApplianceSingleLanVrf,
     UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication,
     UpdateNetworkApplianceSsidDot11w,
     UpdateNetworkApplianceSsidRadiusServersItem,
@@ -2563,7 +2564,7 @@ class Appliance:
         Args:
             network_id: Network ID.
             interface_id: Interface ID.
-            port: Port configuration.
+            port: Port configuration. Set to null to remove the port association.
             ipv4: IPv4 configuration.
 
         Returns:
@@ -3934,6 +3935,10 @@ class Appliance:
                     }
                   }
                 ]
+              },
+              "vrf": {
+                "id": "1000",
+                "name": "VRF BLUE"
               }
             }
             ```
@@ -3957,6 +3962,7 @@ class Appliance:
         appliance_ip: str | None = None,
         ipv6: UpdateNetworkApplianceSingleLanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceSingleLanMandatoryDhcp | None = None,
+        vrf: UpdateNetworkApplianceSingleLanVrf | None = None,
     ) -> NetworkApplianceSingleLanResponse:
         """Update single LAN configuration.
 
@@ -3971,6 +3977,7 @@ class Appliance:
                 the IP address assigned by the DHCP server. Clients who use a static IP
                 address won't be able to associate. Only available on firmware versions
                 17.0 and above.
+            vrf: VRF configuration on the Single LAN. Omit this field to preserve the current VRF.
 
         Returns:
             Successful operation.
@@ -3998,6 +4005,10 @@ class Appliance:
                     }
                   }
                 ]
+              },
+              "vrf": {
+                "id": "1000",
+                "name": "VRF BLUE"
               }
             }
             ```
@@ -4015,6 +4026,8 @@ class Appliance:
             payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
+        if vrf is not None:
+            payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="appliance",
@@ -4150,8 +4163,8 @@ class Appliance:
             enabled: Whether or not the SSID is enabled.
             default_vlan_id: The VLAN ID of the VLAN associated to this SSID. This parameter is only
                 valid if the network is in routed mode.
-            auth_mode: The association control method for the SSID ('open', 'psk', '8021x-meraki' or
-                '8021x-radius').
+            auth_mode: The association control method for the SSID ('open', 'psk', '8021x-meraki',
+                '8021x-radius' or '8021x-nac').
             psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
             radius_servers: The RADIUS 802.1x servers to be used for authentication. This param is
                 only valid if the authMode is '8021x-radius'.
@@ -4160,7 +4173,8 @@ class Appliance:
             wpa_encryption_mode: The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3
                 Transition Mode' or 'WPA3 only'). This param is only valid if (1) the
                 authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is
-                '8021x-meraki' OR (3) the authMode is '8021x-radius'.
+                '8021x-meraki' OR (3) the authMode is '8021x-radius' OR (4) the authMode
+                is '8021x-nac'.
             visible: Boolean indicating whether the MX should advertise or hide this SSID.
             dhcp_enforced_deauthentication: DHCP Enforced Deauthentication enables the
                 disassociation of wireless clients in addition to Mandatory DHCP. This
@@ -5104,7 +5118,11 @@ class Appliance:
                       }
                     }
                   ],
-                  "preferredUplink": "wan1"
+                  "preferredUplink": "wan1",
+                  "vrf": {
+                    "id": "12345",
+                    "name": "Blue"
+                  }
                 }
               ],
               "vpnTrafficUplinkPreferences": [
@@ -5134,6 +5152,10 @@ class Appliance:
                     }
                   ],
                   "preferredUplink": "bestForVoIP",
+                  "vrf": {
+                    "id": "12345",
+                    "name": "Blue"
+                  },
                   "failOverCriterion": "poorPerformance",
                   "performanceClass": {
                     "type": "custom",
@@ -5228,7 +5250,11 @@ class Appliance:
                       }
                     }
                   ],
-                  "preferredUplink": "wan1"
+                  "preferredUplink": "wan1",
+                  "vrf": {
+                    "id": "12345",
+                    "name": "Blue"
+                  }
                 }
               ],
               "vpnTrafficUplinkPreferences": [
@@ -5258,6 +5284,10 @@ class Appliance:
                     }
                   ],
                   "preferredUplink": "bestForVoIP",
+                  "vrf": {
+                    "id": "12345",
+                    "name": "Blue"
+                  },
                   "failOverCriterion": "poorPerformance",
                   "performanceClass": {
                     "type": "custom",
@@ -6442,7 +6472,11 @@ class Appliance:
                   "communityOut": [
                     "64515:100",
                     "NO_EXPORT"
-                  ]
+                  ],
+                  "vrf": {
+                    "id": "12345",
+                    "name": "VRF Blue"
+                  }
                 }
               ]
             }
@@ -6533,7 +6567,11 @@ class Appliance:
                   "communityOut": [
                     "64515:100",
                     "NO_EXPORT"
-                  ]
+                  ],
+                  "vrf": {
+                    "id": "12345",
+                    "name": "VRF Blue"
+                  }
                 }
               ]
             }

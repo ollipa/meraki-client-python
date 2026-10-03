@@ -11,9 +11,7 @@ from typing import Any
 from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
-    AttachOrganizationSaseSitesItemsItem,
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
-    BatchOrganizationSaseConnectorsDeleteItemsItem,
     BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem,
     BulkUpdateOrganizationDevicesDetailsDetailsItem,
     ClaimOrganizationInventoryOrdersSubscriptionsItem,
@@ -35,7 +33,6 @@ from meraki_client.schemas import (
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
     CreateOrganizationSaseIntegrationApi,
-    DetachOrganizationSaseSitesItemsItem,
     DisableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
     RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
@@ -2788,34 +2785,6 @@ class ActionBatchOrganizations:
             operation="destroy",
         )
 
-    def batch_organization_sase_connectors_delete(
-        self,
-        organization_id: str,
-        *,
-        items: list[BatchOrganizationSaseConnectorsDeleteItemsItem] | None = None,
-    ) -> CreateOrganizationActionBatchActionsItem:
-        """Delete SSE Connectors by ID.
-
-        [API documentation: batchOrganizationSaseConnectorsDelete](https://developer.cisco.com/meraki/api-v1/#!batch-organization-sase-connectors-delete)
-
-        Args:
-            organization_id: Organization ID.
-            items: List of connectors to delete (maximum 20 items).
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/sase/connectors/batchDelete"
-
-        payload: dict[str, Any] = {}
-        if items is not None:
-            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-
-        return CreateOrganizationActionBatchActionsItem(
-            resource=path,
-            operation="teardown",
-            body=payload,
-        )
-
     def create_organization_sase_integration(
         self, *, organization_id: str, api: CreateOrganizationSaseIntegrationApi
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -2860,59 +2829,6 @@ class ActionBatchOrganizations:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="destroy",
-        )
-
-    def attach_organization_sase_sites(
-        self, *, organization_id: str, items: list[AttachOrganizationSaseSitesItemsItem]
-    ) -> CreateOrganizationActionBatchActionsItem:
-        """Attach sites in this organization to Secure Access.
-
-        [API documentation: attachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!attach-organization-sase-sites)
-
-        Args:
-            organization_id: Organization ID.
-            items: List of Meraki SD-WAN sites with the associated regions to be attached.
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/sase/sites/attach"
-
-        payload: dict[str, Any] = {}
-        if items is not None:
-            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-
-        return CreateOrganizationActionBatchActionsItem(
-            resource=path,
-            operation="create",
-            body=payload,
-        )
-
-    def detach_organization_sase_sites(
-        self,
-        organization_id: str,
-        *,
-        items: list[DetachOrganizationSaseSitesItemsItem] | None = None,
-    ) -> CreateOrganizationActionBatchActionsItem:
-        """Detach sites in this organization from Secure Access.
-
-        [API documentation: detachOrganizationSaseSites](https://developer.cisco.com/meraki/api-v1/#!detach-organization-sase-sites)
-
-        Args:
-            organization_id: Organization ID.
-            items: List of Secure Access sites to be detached.
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/sase/sites/detach"
-
-        payload: dict[str, Any] = {}
-        if items is not None:
-            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
-
-        return CreateOrganizationActionBatchActionsItem(
-            resource=path,
-            operation="detach",
-            body=payload,
         )
 
     def update_organization_sase_site(

@@ -16,6 +16,7 @@ from meraki_client.schemas import (
     CreateDeviceLiveToolsRoutingTableLookupDestination,
     CreateDeviceLiveToolsRoutingTableLookupNextHop,
     CreateDeviceLiveToolsRoutingTableLookupVpn,
+    CreateDeviceLiveToolsRoutingTableLookupVrf,
     CreateDeviceLiveToolsRoutingTableSummaryCallback,
     CreateDeviceLiveToolsThroughputTestCallback,
     CreateOrganizationActionBatchActionsItem,
@@ -259,6 +260,7 @@ class ActionBatchDevices:
         destination: CreateDeviceLiveToolsRoutingTableLookupDestination | None = None,
         next_hop: CreateDeviceLiveToolsRoutingTableLookupNextHop | None = None,
         vpn: CreateDeviceLiveToolsRoutingTableLookupVpn | None = None,
+        vrf: CreateDeviceLiveToolsRoutingTableLookupVrf | None = None,
         callback: CreateDeviceLiveToolsRoutingTableLookupCallback | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Enqueue a job to perform a routing table lookup request for a device.
@@ -271,6 +273,7 @@ class ActionBatchDevices:
             destination: The destination IP or subnet to lookup.
             next_hop: The next hop to lookup.
             vpn: VPN related search criteria.
+            vrf: Virtual routing and forwarding (VRF) search criteria.
             callback: Details for the callback. Please include either an httpServerId OR url and
                 sharedSecret.
 
@@ -287,6 +290,8 @@ class ActionBatchDevices:
             payload["nextHop"] = next_hop.model_dump(by_alias=True, exclude_none=True)
         if vpn is not None:
             payload["vpn"] = vpn.model_dump(by_alias=True, exclude_none=True)
+        if vrf is not None:
+            payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if callback is not None:
             payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 

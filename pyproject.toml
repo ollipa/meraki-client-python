@@ -142,6 +142,7 @@ packages = ["meraki_client"]
     "E501",    # line-too-long
     "PLR0915", # too-many-statements
     "F541",    # f-string-missing-placeholders
+    "D404",    # docstring-starts-with-this (descriptions come from the spec)
 ]
 
 [tool.ruff.lint.flake8-builtins]

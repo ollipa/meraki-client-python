@@ -7,7 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Changed
+
+#### Update to Meraki API v1.74.0
+
+- Added wireless radio override endpoints `get_device_wireless_radio_overrides`, `update_device_wireless_radio_overrides`, and `get_organization_wireless_radio_overrides_by_device`.
+- Added campus gateway endpoints `update_network_campus_gateway_ssid_mdns`, `batch_organization_campus_gateway_clusters_tunneling_update`, and `get_organization_campus_gateway_clusters_tunneling_by_cluster_by_network`.
+- Added action batch helpers `update_network_campus_gateway_ssid_mdns`, `batch_organization_campus_gateway_clusters_tunneling_update`, `update_device_wireless_radio_overrides`, and `create_network_switch_port_schedule`.
+- Added VRF support: `vrf` parameter on `update_network_appliance_single_lan` and `create_device_live_tools_routing_table_lookup`, plus `vrf` fields in appliance single LAN, uplink selection, and VPN BGP responses.
+- Added `perpetual_poe` and `fast_poe` parameters to `update_device_switch_port`, `dot11be` to `create_network_wireless_rf_profile` and `update_network_wireless_rf_profile`, `products` to `update_network_firmware_upgrades_staged_events`, and `subscription_type` to `get_administered_licensing_subscription_entitlements`.
+- Added `8021x-nac` auth mode to `update_network_appliance_ssid`, `oob_management` mode to switch routing interfaces, and new alert types to assurance alert filters.
+- Added `switchCatalyst` to firmware upgrade staged event products, `dot11ax` to RF profile band settings, a dedicated `six_ghz_settings` schema to RF profile responses, and `address` to organization inventory device responses.
+- Changed action batch `update_network_switch_settings` operation from `settings/actions/update` to `update`.
+- Removed action batch helpers `batch_organization_sase_connectors_delete`, `attach_organization_sase_sites`, and `detach_organization_sase_sites`.
+- Renamed deduplicated shared schemas: `SwitchDot3az` is now `SwitchPerpetualPoe`, `WirelessCluster` is now `DeviceWirelessRadioOverridesResponseNetwork`, `CampusGatewayTunnelAdmin` is now `CampusGatewayEncryption`, and `DevicesPeer` is now `DevicesVlan`. Code importing the old names must be updated.
 
 ## v0.19.0
 

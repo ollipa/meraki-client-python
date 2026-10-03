@@ -37,6 +37,7 @@ from meraki_client.schemas import (
     CreateDeviceLiveToolsRoutingTableLookupNextHop,
     CreateDeviceLiveToolsRoutingTableLookupResponse,
     CreateDeviceLiveToolsRoutingTableLookupVpn,
+    CreateDeviceLiveToolsRoutingTableLookupVrf,
     CreateDeviceLiveToolsRoutingTableSummaryCallback,
     CreateDeviceLiveToolsRoutingTableSummaryResponse,
     CreateDeviceLiveToolsThroughputTestCallback,
@@ -1704,6 +1705,7 @@ class Devices:
         destination: CreateDeviceLiveToolsRoutingTableLookupDestination | None = None,
         next_hop: CreateDeviceLiveToolsRoutingTableLookupNextHop | None = None,
         vpn: CreateDeviceLiveToolsRoutingTableLookupVpn | None = None,
+        vrf: CreateDeviceLiveToolsRoutingTableLookupVrf | None = None,
         callback: CreateDeviceLiveToolsRoutingTableLookupCallback | None = None,
     ) -> CreateDeviceLiveToolsRoutingTableLookupResponse:
         """Enqueue a job to perform a routing table lookup request for a device.
@@ -1716,6 +1718,7 @@ class Devices:
             destination: The destination IP or subnet to lookup.
             next_hop: The next hop to lookup.
             vpn: VPN related search criteria.
+            vrf: Virtual routing and forwarding (VRF) search criteria.
             callback: Details for the callback. Please include either an httpServerId OR url and
                 sharedSecret.
 
@@ -1741,6 +1744,11 @@ class Devices:
                   "peer": {
                     "id": "N_12345678"
                   }
+                },
+                "vrf": {
+                  "names": [
+                    "default"
+                  ]
                 }
               },
               "status": "scheduled",
@@ -1765,6 +1773,8 @@ class Devices:
             payload["nextHop"] = next_hop.model_dump(by_alias=True, exclude_none=True)
         if vpn is not None:
             payload["vpn"] = vpn.model_dump(by_alias=True, exclude_none=True)
+        if vrf is not None:
+            payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if callback is not None:
             payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
@@ -1809,6 +1819,11 @@ class Devices:
                   "peer": {
                     "id": "N_12345678"
                   }
+                },
+                "vrf": {
+                  "names": [
+                    "default"
+                  ]
                 }
               },
               "status": "scheduled",
@@ -1820,6 +1835,10 @@ class Devices:
                     {
                       "number": 1,
                       "address": "10.10.0.1",
+                      "vlan": {
+                        "id": "1",
+                        "name": "Data"
+                      },
                       "vpn": {
                         "peer": {
                           "id": "N_12345678",

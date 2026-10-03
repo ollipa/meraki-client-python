@@ -98,6 +98,20 @@ class CreateNetworkWirelessRfProfileApBandSettingsBands(_BaseSchema):
         return [] if value is None else value
 
 
+class CreateNetworkWirelessRfProfileDot11be(_BaseSchema):
+    """802.11be settings."""
+
+    enabled: bool | None = None
+    mode: str | None = None
+    ssids: CreateNetworkWirelessRfProfileDot11beSsids | None = None
+
+
+class CreateNetworkWirelessRfProfileDot11beSsids(_BaseSchema):
+    """802.11be settings for SSIDs."""
+
+    groups: WirelessGroups | None = None
+
+
 class CreateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     """Settings related to 5Ghz band."""
 
@@ -118,6 +132,7 @@ class CreateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
     )
+    dot11ax: WirelessBusyHourMinimizeChanges | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -276,6 +291,7 @@ class CreateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
     )
+    dot11ax: WirelessBusyHourMinimizeChanges | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -383,7 +399,7 @@ class CreateOrganizationWirelessSsidsProfileSsidAddressing(_BaseSchema):
 class CreateOrganizationWirelessSsidsProfileSsidRadius(_BaseSchema):
     """RADIUS settings for the SSID."""
 
-    servers: list[WirelessCluster] = Field(default_factory=list)
+    servers: list[DeviceWirelessRadioOverridesResponseNetwork] = Field(default_factory=list)
     accounting: WirelessAccounting | None = None
     policies: WirelessPolicies2 | None = None
     proxy: WirelessBusyHourMinimizeChanges | None = None
@@ -501,6 +517,44 @@ class DeviceWirelessElectronicShelfLabelResponse(_BaseSchema):
     )
     hostname: str | None = None
     provider: str | None = None
+
+
+class DeviceWirelessRadioOverridesResponse(_BaseSchema):
+    """Schema for DeviceWirelessRadioOverridesResponse."""
+
+    serial: str | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    rf_profile: DeviceWirelessRadioOverridesResponseNetwork | None = Field(
+        default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
+    )
+    radios: list[DeviceWirelessRadioOverridesResponseRadiosItem] = Field(default_factory=list)
+
+    @field_validator("radios", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class DeviceWirelessRadioOverridesResponseNetwork(_BaseSchema):
+    """The device's network."""
+
+    id: str | None = None
+
+
+class DeviceWirelessRadioOverridesResponseRadiosItem(_BaseSchema):
+    """Schema for DeviceWirelessRadioOverridesResponseRadiosItem."""
+
+    enabled: bool | None = None
+    index: str | None = None
+    band: str | None = None
+    channel: int | None = None
+    channel_width: int | None = Field(
+        default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
+    )
+    target_power: int | None = Field(
+        default=None, validation_alias="targetPower", serialization_alias="targetPower"
+    )
 
 
 class DeviceWirelessRadioSettingsResponse(_BaseSchema):
@@ -1037,7 +1091,7 @@ class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
     five_ghz_settings: GetNetworkWirelessRfProfilesResponseFiveGhzSettings | None = Field(
         default=None, validation_alias="fiveGhzSettings", serialization_alias="fiveGhzSettings"
     )
-    six_ghz_settings: GetNetworkWirelessRfProfilesResponseFiveGhzSettings | None = Field(
+    six_ghz_settings: GetNetworkWirelessRfProfilesResponseSixGhzSettings | None = Field(
         default=None, validation_alias="sixGhzSettings", serialization_alias="sixGhzSettings"
     )
     transmission: WirelessBusyHourMinimizeChanges | None = None
@@ -1050,6 +1104,7 @@ class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
     is_outdoor_default: bool | None = Field(
         default=None, validation_alias="isOutdoorDefault", serialization_alias="isOutdoorDefault"
     )
+    dot11be: WirelessBusyHourMinimizeChanges | None = None
 
 
 class GetNetworkWirelessRfProfilesResponseApBandSettings(_BaseSchema):
@@ -1087,6 +1142,7 @@ class GetNetworkWirelessRfProfilesResponseFiveGhzSettings(_BaseSchema):
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
     )
     rxsop: int | None = None
+    dot11ax: WirelessBusyHourMinimizeChanges | None = None
 
     @field_validator("valid_auto_channels", mode="before")
     @classmethod
@@ -1145,6 +1201,35 @@ class GetNetworkWirelessRfProfilesResponsePerSsidSettings(_BaseSchema):
     )
 
 
+class GetNetworkWirelessRfProfilesResponseSixGhzSettings(_BaseSchema):
+    """Settings related to 6Ghz band. Only applicable to networks with 6Ghz capable APs."""
+
+    max_power: int | None = Field(
+        default=None, validation_alias="maxPower", serialization_alias="maxPower"
+    )
+    min_power: int | None = Field(
+        default=None, validation_alias="minPower", serialization_alias="minPower"
+    )
+    min_bitrate: int | None = Field(
+        default=None, validation_alias="minBitrate", serialization_alias="minBitrate"
+    )
+    valid_auto_channels: list[int] = Field(
+        default_factory=list,
+        validation_alias="validAutoChannels",
+        serialization_alias="validAutoChannels",
+    )
+    channel_width: str | None = Field(
+        default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
+    )
+    rxsop: int | None = None
+
+    @field_validator("valid_auto_channels", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class GetNetworkWirelessRfProfilesResponseTwoFourGhzSettings(_BaseSchema):
     """Settings related to 2.4Ghz band."""
 
@@ -1165,6 +1250,7 @@ class GetNetworkWirelessRfProfilesResponseTwoFourGhzSettings(_BaseSchema):
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
     )
+    dot11ax: WirelessBusyHourMinimizeChanges | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -1266,7 +1352,7 @@ class GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseIt
 class GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem."""
 
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     serial: str | None = None
     counts: WirelessCounts | None = None
 
@@ -1310,7 +1396,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem(_Base
 
     serial: str | None = None
     mac: str | None = None
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1331,7 +1417,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponse(
 class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem."""
 
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1370,7 +1456,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalR
     )
     serial: str | None = None
     mac: str | None = None
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1407,7 +1493,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
     end_ts: datetime | None = Field(
         default=None, validation_alias="endTs", serialization_alias="endTs"
     )
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1430,7 +1516,7 @@ class GetOrganizationWirelessDevicesEthernetStatusesResponseItem(_BaseSchema):
 
     serial: str | None = None
     name: str | None = None
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     power: WirelessPower | None = None
     ports: list[WirelessPortsItem2] = Field(default_factory=list)
     aggregation: WirelessAggregation | None = None
@@ -1551,7 +1637,7 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
 class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem."""
 
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     serial: str | None = None
     controller: CreateDeviceWirelessZigbeeEnrollmentResponseRequest | None = None
     joined_at: str | None = Field(
@@ -1592,7 +1678,7 @@ class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponse(
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem."""
 
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     name: str | None = None
     serial: str | None = None
     model: str | None = None
@@ -2497,7 +2583,7 @@ class NetworkWirelessSsidSplashSettingsResponseSelfRegistration(_BaseSchema):
 class NetworkWirelessSsidSplashSettingsResponseSentryEnrollment(_BaseSchema):
     """Systems Manager sentry enrollment splash settings."""
 
-    systems_manager_network: WirelessCluster | None = Field(
+    systems_manager_network: DeviceWirelessRadioOverridesResponseNetwork | None = Field(
         default=None,
         validation_alias="systemsManagerNetwork",
         serialization_alias="systemsManagerNetwork",
@@ -2714,6 +2800,26 @@ class UpdateDeviceWirelessAlternateManagementInterfaceIpv6ResponseAddressesItem(
     nameservers: WirelessAddressesNameservers | None = None
 
 
+class UpdateDeviceWirelessRadioOverridesRadiosItem(_BaseSchema):
+    """Item schema for radios."""
+
+    enabled: bool | None = None
+    index: str
+    channel: int | None = None
+    target_power: int | None = Field(
+        default=None, validation_alias="targetPower", serialization_alias="targetPower"
+    )
+    channel_width: int | None = Field(
+        default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
+    )
+
+
+class UpdateDeviceWirelessRadioOverridesRfProfile(_BaseSchema):
+    """This device's RF profile. If omitted, the existing RF profile assignment remains unchanged."""
+
+    id: str | None = None
+
+
 class UpdateDeviceWirelessRadioSettingsFiveGhzSettings(_BaseSchema):
     """Manual radio settings for 5 GHz."""
 
@@ -2908,6 +3014,14 @@ class UpdateNetworkWirelessRfProfileApBandSettings(_BaseSchema):
     )
 
 
+class UpdateNetworkWirelessRfProfileDot11be(_BaseSchema):
+    """802.11be settings."""
+
+    enabled: bool | None = None
+    mode: str | None = None
+    ssids: CreateNetworkWirelessRfProfileDot11beSsids | None = None
+
+
 class UpdateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     """Settings related to 5Ghz band."""
 
@@ -2928,6 +3042,7 @@ class UpdateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
     )
+    dot11ax: WirelessBusyHourMinimizeChanges | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -3056,6 +3171,7 @@ class UpdateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
     )
+    dot11ax: WirelessBusyHourMinimizeChanges | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -3160,7 +3276,7 @@ class UpdateNetworkWirelessSsidBonjourForwardingRulesItem(_BaseSchema):
 class UpdateNetworkWirelessSsidCampusGateway(_BaseSchema):
     """Campus gateway settings."""
 
-    cluster: WirelessCluster | None = None
+    cluster: DeviceWirelessRadioOverridesResponseNetwork | None = None
 
 
 class UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem(_BaseSchema):
@@ -3709,7 +3825,7 @@ class UpdateNetworkWirelessZigbeeLockManagement(_BaseSchema):
 class UpdateNetworkWirelessZigbeeResponse(_BaseSchema):
     """Response for updateNetworkWirelessZigbee operation."""
 
-    network: WirelessCluster | None = None
+    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
     enabled: bool | None = None
     iot_controller: UpdateNetworkWirelessZigbeeResponseIotController | None = Field(
         default=None, validation_alias="iotController", serialization_alias="iotController"
@@ -4246,7 +4362,7 @@ class WirelessByStep(_BaseSchema):
 class WirelessCampusGateway(_BaseSchema):
     """Campus gateway settings. Only present when ipAssignmentMode is 'Campus Gateway'."""
 
-    cluster: WirelessCluster | None = None
+    cluster: DeviceWirelessRadioOverridesResponseNetwork | None = None
 
 
 class WirelessCaptivePortal(_BaseSchema):
@@ -4281,12 +4397,6 @@ class WirelessClients2(_BaseSchema):
     """Details about clients connected to the network."""
 
     total: int
-
-
-class WirelessCluster(_BaseSchema):
-    """Cluster configuration."""
-
-    id: str | None = None
 
 
 class WirelessConcentrator(_BaseSchema):
@@ -4570,6 +4680,23 @@ class WirelessGre(_BaseSchema):
     )
 
 
+class WirelessGroups(_BaseSchema):
+    """802.11be settings for SSID groups."""
+
+    n_1: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None, validation_alias="1", serialization_alias="1"
+    )
+    n_2: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None, validation_alias="2", serialization_alias="2"
+    )
+    n_3: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None, validation_alias="3", serialization_alias="3"
+    )
+    n_4: WirelessBusyHourMinimizeChanges | None = Field(
+        default=None, validation_alias="4", serialization_alias="4"
+    )
+
+
 class WirelessGuest(_BaseSchema):
     """Guest VLAN settings."""
 
@@ -4586,7 +4713,7 @@ class WirelessGuestVlan(_BaseSchema):
 class WirelessHosted(_BaseSchema):
     """Hosted splash configuration."""
 
-    theme: WirelessCluster | None = None
+    theme: DeviceWirelessRadioOverridesResponseNetwork | None = None
     language: WirelessLanguage | None = None
     consent: NetworkWirelessSsidSplashSettingsResponseUserConsent | None = None
 

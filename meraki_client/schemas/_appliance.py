@@ -1257,6 +1257,7 @@ class ApplianceVpnTrafficUplinkPreferencesItem(_BaseSchema):
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
+    vrf: UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork | None = None
     fail_over_criterion: str | None = Field(
         default=None, validation_alias="failOverCriterion", serialization_alias="failOverCriterion"
     )
@@ -1269,6 +1270,14 @@ class ApplianceVpnTrafficUplinkPreferencesItem(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class ApplianceVrf(_BaseSchema):
+    """VRF settings for this uplink preference rule. Omit this field to use the default VRF for the
+    rule. Only 'vrf.id' may be set by the client.
+    """
+
+    id: str
 
 
 class ApplianceWanTrafficUplinkPreferencesItem(_BaseSchema):
@@ -1303,6 +1312,7 @@ class ApplianceWanTrafficUplinkPreferencesItem2(_BaseSchema):
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
+    vrf: UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork | None = None
 
     @field_validator("traffic_filters", mode="before")
     @classmethod
@@ -1564,7 +1574,7 @@ class CreateNetworkApplianceVlanIpv6(_BaseSchema):
     """IPv6 configuration on the VLAN."""
 
     enabled: bool | None = None
-    prefix_assignments: list[UpdateNetworkApplianceSingleLanIpv6PrefixAssignmentsItem] = Field(
+    prefix_assignments: list[CreateNetworkApplianceVlanIpv6PrefixAssignmentsItem] = Field(
         default_factory=list,
         validation_alias="prefixAssignments",
         serialization_alias="prefixAssignments",
@@ -1575,6 +1585,22 @@ class CreateNetworkApplianceVlanIpv6(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class CreateNetworkApplianceVlanIpv6PrefixAssignmentsItem(_BaseSchema):
+    """Schema for CreateNetworkApplianceVlanIpv6PrefixAssignmentsItem."""
+
+    autonomous: bool | None = None
+    disabled: bool | None = None
+    static_prefix: str | None = Field(
+        default=None, validation_alias="staticPrefix", serialization_alias="staticPrefix"
+    )
+    static_appliance_ip6: str | None = Field(
+        default=None,
+        validation_alias="staticApplianceIp6",
+        serialization_alias="staticApplianceIp6",
+    )
+    origin: ApplianceOrigin5 | None = None
 
 
 class CreateNetworkApplianceVlanMandatoryDhcp(_BaseSchema):
@@ -2672,6 +2698,7 @@ class NetworkApplianceSingleLanResponse(_BaseSchema):
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
+    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
 
 
 class NetworkApplianceSingleLanResponseIpv6(_BaseSchema):
@@ -3045,6 +3072,7 @@ class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
     community_out: list[str] = Field(
         default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
     )
+    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
 
     @field_validator("path_prepend", "filter_in", "community_out", mode="before")
     @classmethod
@@ -3647,7 +3675,7 @@ class UpdateNetworkApplianceInterfacesL3Ipv4(_BaseSchema):
 
 
 class UpdateNetworkApplianceInterfacesL3Port(_BaseSchema):
-    """Port configuration."""
+    """Port configuration. Set to null to remove the port association."""
 
     interface: UpdateNetworkApplianceInterfacesL3PortInterface | None = None
 
@@ -3860,6 +3888,12 @@ class UpdateNetworkApplianceSingleLanMandatoryDhcp(_BaseSchema):
     enabled: bool | None = None
 
 
+class UpdateNetworkApplianceSingleLanVrf(_BaseSchema):
+    """VRF configuration on the Single LAN. Omit this field to preserve the current VRF."""
+
+    id: str | None = None
+
+
 class UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication(_BaseSchema):
     """DHCP Enforced Deauthentication enables the disassociation of wireless clients in addition to
     Mandatory DHCP. This param is only valid on firmware versions >= MX 17.0 where the
@@ -3960,6 +3994,7 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPrefere
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
+    vrf: ApplianceVrf | None = None
     fail_over_criterion: str | None = Field(
         default=None, validation_alias="failOverCriterion", serialization_alias="failOverCriterion"
     )
@@ -3985,6 +4020,7 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPrefere
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
+    vrf: ApplianceVrf | None = None
 
     @field_validator("traffic_filters", mode="before")
     @classmethod

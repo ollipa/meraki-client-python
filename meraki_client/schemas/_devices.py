@@ -422,12 +422,25 @@ class CreateDeviceLiveToolsRoutingTableLookupResponseRequest(_BaseSchema):
         default=None, validation_alias="nextHop", serialization_alias="nextHop"
     )
     vpn: DevicesRequestVpn | None = None
+    vrf: DevicesRequestVrf | None = None
 
 
 class CreateDeviceLiveToolsRoutingTableLookupVpn(_BaseSchema):
     """VPN related search criteria."""
 
     peer: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = None
+
+
+class CreateDeviceLiveToolsRoutingTableLookupVrf(_BaseSchema):
+    """Virtual routing and forwarding (VRF) search criteria."""
+
+    names: list[str] = Field(default_factory=list)
+
+    @field_validator("names", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class CreateDeviceLiveToolsRoutingTableSummaryCallback(_BaseSchema):
@@ -723,6 +736,7 @@ class DevicesEntriesNextHopsItem(_BaseSchema):
 
     number: int | None = None
     address: str | None = None
+    vlan: DevicesVlan | None = None
     vpn: DevicesVpn | None = None
 
 
@@ -736,13 +750,6 @@ class DevicesIpv4(_BaseSchema):
     """The IPv4 counts in the VRF."""
 
     total: int | None = None
-
-
-class DevicesPeer(_BaseSchema):
-    """The VPN peer details."""
-
-    id: str | None = None
-    name: str | None = None
 
 
 class DevicesRequestDestination(_BaseSchema):
@@ -762,6 +769,18 @@ class DevicesRequestVpn(_BaseSchema):
     """VPN related search criteria."""
 
     peer: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = None
+
+
+class DevicesRequestVrf(_BaseSchema):
+    """Virtual routing and forwarding (VRF) search criteria."""
+
+    names: list[str] = Field(default_factory=list)
+
+    @field_validator("names", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DevicesResultSpeeds(_BaseSchema):
@@ -844,10 +863,17 @@ class DevicesUsage(_BaseSchema):
     recv: float | None = None
 
 
+class DevicesVlan(_BaseSchema):
+    """The VLAN associated with this next hop."""
+
+    id: str | None = None
+    name: str | None = None
+
+
 class DevicesVpn(_BaseSchema):
     """The VPN peer details, if the next hop is a VPN peer."""
 
-    peer: DevicesPeer | None = None
+    peer: DevicesVlan | None = None
 
 
 class GetDeviceClientsResponse(RootModel[list["GetDeviceClientsResponseItem"]]):
