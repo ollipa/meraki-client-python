@@ -87,7 +87,9 @@ from meraki_client.schemas import (
     GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem,
     GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem,
     GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem,
+    GetOrganizationWirelessSsidsOweByNetworkResponseItemsItem,
     GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem,
+    GetOrganizationWirelessSsidsProfilesOverviewsResponse,
     GetOrganizationWirelessSsidsProfilesResponse,
     GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem,
     GetOrganizationWirelessZigbeeDisenrollmentResponse,
@@ -104,6 +106,7 @@ from meraki_client.schemas import (
     NetworkWirelessSsidFirewallL7FirewallRulesResponse,
     NetworkWirelessSsidHotspot20Response,
     NetworkWirelessSsidIdentityPskResponse,
+    NetworkWirelessSsidOverridesResponse,
     NetworkWirelessSsidResponse,
     NetworkWirelessSsidSchedulesResponse,
     NetworkWirelessSsidSplashSettingsResponse,
@@ -173,6 +176,8 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidSchedulesRangesInSecondsItem,
     UpdateNetworkWirelessSsidSchedulesRangesItem,
     UpdateNetworkWirelessSsidSecurity,
+    UpdateNetworkWirelessSsidsOweResponse,
+    UpdateNetworkWirelessSsidsOweTransitionsItem,
     UpdateNetworkWirelessSsidSpeedBurst,
     UpdateNetworkWirelessSsidSplashSettingsBilling,
     UpdateNetworkWirelessSsidSplashSettingsGuestSponsorship,
@@ -549,8 +554,9 @@ class Wireless:
 
         Args:
             serial: Serial.
-            channel: Desired ESL channel for the device, or 'Auto' (case insensitive) to use the
-                recommended channel.
+            channel: Desired ESL channel for the device. Only configurable for devices assigned the
+                High frequency ESL or sepioo IIoT role. Use 'Auto' (case insensitive) to
+                use the recommended channel.
             enabled: Turn ESL features on and off for this device.
 
         Returns:
@@ -2753,10 +2759,7 @@ class Wireless:
             {
               "hostname": "example.com",
               "enabled": true,
-              "mode": "high frequency",
-              "sepioo": {
-                "hostname": "example.com"
-              }
+              "mode": "high frequency"
             }
             ```
 
@@ -2798,10 +2801,7 @@ class Wireless:
             {
               "hostname": "example.com",
               "enabled": true,
-              "mode": "high frequency",
-              "sepioo": {
-                "hostname": "example.com"
-              }
+              "mode": "high frequency"
             }
             ```
 
@@ -2849,10 +2849,7 @@ class Wireless:
               {
                 "hostname": "example.com",
                 "enabled": true,
-                "mode": "high frequency",
-                "sepioo": {
-                  "hostname": "example.com"
-                }
+                "mode": "high frequency"
               }
             ]
             ```
@@ -3662,6 +3659,11 @@ class Wireless:
               "channel": {
                 "avoidance": {
                   "enabled": true
+                },
+                "selection": {
+                  "preferred": {
+                    "mode": "automatic"
+                  }
                 }
               },
               "fra": {
@@ -3669,7 +3671,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-08-02T08:06:48Z"
+                "lastEnabledAt": "2026-09-07T08:09:02Z"
               }
             }
             ```
@@ -5733,6 +5735,64 @@ class Wireless:
             item_schema=NetworkWirelessSsidResponse,
         )
 
+    async def update_network_wireless_ssids_owe(
+        self, *, network_id: str, transitions: list[UpdateNetworkWirelessSsidsOweTransitionsItem]
+    ) -> UpdateNetworkWirelessSsidsOweResponse:
+        """Update the OWE transition pairs for a network.
+
+        [API documentation: updateNetworkWirelessSsidsOwe](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssids-owe)
+
+        Args:
+            network_id: Network ID.
+            transitions: Array of OWE transition pairs.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_1234",
+                    "name": "MR wireless 1"
+                  },
+                  "transitions": [
+                    {
+                      "ssids": {
+                        "legacy": {
+                          "number": 2
+                        },
+                        "encrypted": {
+                          "number": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/wireless/ssids/owe"
+
+        payload: dict[str, Any] = {}
+        if transitions is not None:
+            payload["transitions"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in transitions
+            ]
+
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidsOwe",
+            path=path,
+            json=payload,
+            response_schema=UpdateNetworkWirelessSsidsOweResponse,
+        )
+
     async def get_network_wireless_ssid(
         self, *, network_id: str, number: str
     ) -> NetworkWirelessSsidResponse:
@@ -7441,6 +7501,80 @@ class Wireless:
             path=path,
             json=payload,
             response_schema=UpdateNetworkWirelessSsidOpenRoamingResponse,
+        )
+
+    async def get_network_wireless_ssid_overrides(
+        self, *, network_id: str, number: str
+    ) -> NetworkWirelessSsidOverridesResponse:
+        """Display the overrides for this SSID.
+
+        [API documentation: getNetworkWirelessSsidOverrides](https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-overrides)
+
+        Args:
+            network_id: Network ID.
+            number: Number.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ccxNameIeEnabled": true
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        path = f"/networks/{network_id}/wireless/ssids/{number}/overrides"
+
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessSsidOverrides",
+            path=path,
+            response_schema=NetworkWirelessSsidOverridesResponse,
+        )
+
+    async def update_network_wireless_ssid_overrides(
+        self, *, network_id: str, number: str, ccx_name_ie_enabled: bool | None = None
+    ) -> NetworkWirelessSsidOverridesResponse:
+        """Update the overrides for this SSID.
+
+        [API documentation: updateNetworkWirelessSsidOverrides](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-overrides)
+
+        Args:
+            network_id: Network ID.
+            number: Number.
+            ccx_name_ie_enabled: When true, enables CCX name IE, which allows the AP to broadcast
+                its device name as part of its beacon (as defined by the network admin
+                in the Dashboard).
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "ccxNameIeEnabled": true
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        path = f"/networks/{network_id}/wireless/ssids/{number}/overrides"
+
+        payload: dict[str, Any] = {}
+        if ccx_name_ie_enabled is not None:
+            payload["ccxNameIeEnabled"] = ccx_name_ie_enabled
+
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidOverrides",
+            path=path,
+            json=payload,
+            response_schema=NetworkWirelessSsidOverridesResponse,
         )
 
     async def get_network_wireless_ssid_schedules(
@@ -11895,6 +12029,11 @@ class Wireless:
                   "channel": {
                     "avoidance": {
                       "enabled": true
+                    },
+                    "selection": {
+                      "preferred": {
+                        "mode": "automatic"
+                      }
                     }
                   },
                   "fra": {
@@ -11902,7 +12041,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-08-02T08:06:48Z"
+                    "lastEnabledAt": "2026-09-07T08:09:02Z"
                   }
                 }
               ],
@@ -12441,6 +12580,104 @@ class Wireless:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem,
+        )
+
+    def get_organization_wireless_ssids_owe_by_network(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[GetOrganizationWirelessSsidsOweByNetworkResponseItemsItem]:
+        """Returns an array of objects, each containing OWE transition pairs for the corresponding network.
+
+        [API documentation: getOrganizationWirelessSsidsOweByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-owe-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            network_ids: Optional parameter to filter OWE transition configuration by Network Id.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_1234",
+                    "name": "MR wireless 1"
+                  },
+                  "transitions": [
+                    {
+                      "ssids": {
+                        "legacy": {
+                          "number": 2
+                        },
+                        "encrypted": {
+                          "number": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 25
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/wireless/ssids/owe/byNetwork"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="getOrganizationWirelessSsidsOweByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWirelessSsidsOweByNetworkResponseItemsItem,
         )
 
     def get_organization_wireless_ssids_profiles(
@@ -13268,12 +13505,15 @@ class Wireless:
         sort_by: GetOrganizationWirelessSsidsProfilesOverviewsSortBy | None = None,
         sort_order: GetOrganizationWirelessSsidsProfilesOverviewsSortOrder | None = None,
         profile_ids: list[int] | None = None,
+        network_ids: list[str] | None = None,
+        ssid_numbers: list[int] | None = None,
+        attachable: bool | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[GetOrganizationWirelessSsidsProfilesResponse]:
+    ) -> AsyncPaginatedResponse[GetOrganizationWirelessSsidsProfilesOverviewsResponse]:
         """Returns the SSID profiles' overview information for an organization.
 
         [API documentation: getOrganizationWirelessSsidsProfilesOverviews](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-profiles-overviews)
@@ -13281,9 +13521,18 @@ class Wireless:
         Args:
             organization_id: Organization ID.
             name: (Optional) Filter results by name. Case insensitive substring match.
-            sort_by: Column to sort results by. Default is `name`.
-            sort_order: Direction to sort results by. Default is `asc`.
+            sort_by: Sort by `name` or `attached`. Default is `name`. For `attached`, provide
+                `networkIds` and `ssidNumbers`. With `sortOrder=asc`, attached profile
+                is first. With `sortOrder=desc`, it is last.
+            sort_order: Sort direction for either `sortBy` mode. Default is `asc`.
             profile_ids: (Optional) Filter results by a list of SSID profile IDs.
+            network_ids: (Optional) Network ID for the selected SSID. Provide one value. Required
+                when `attachable` is true.
+            ssid_numbers: (Optional) SSID number (0-14) for the selected SSID. Provide one value.
+                Required when `attachable` is true.
+            attachable: (Optional) When true, returns profiles not assigned to another SSID in the
+                selected network. Includes the currently attached profile. Requires
+                `networkIds` and `ssidNumbers`.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
                 is 1000.
             starting_after: A token used by the server to indicate the start of the page. Often this
@@ -13491,7 +13740,8 @@ class Wireless:
                     }
                   }
                 }
-              }
+              },
+              "isAttached": false
             }
             ```
 
@@ -13508,6 +13758,12 @@ class Wireless:
             params["sortOrder"] = sort_order
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if ssid_numbers is not None:
+            params["ssidNumbers[]"] = ssid_numbers
+        if attachable is not None:
+            params["attachable"] = attachable
         if per_page is not None:
             params["perPage"] = per_page
         if starting_after is not None:
@@ -13522,7 +13778,7 @@ class Wireless:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationWirelessSsidsProfilesResponse,
+            item_schema=GetOrganizationWirelessSsidsProfilesOverviewsResponse,
         )
 
     async def update_organization_wireless_ssids_profile(

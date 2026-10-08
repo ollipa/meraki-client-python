@@ -1277,6 +1277,7 @@ class ActionBatchNetworks:
         vlan_names: list[CreateNetworkVlanProfileVlanNamesItem],
         vlan_groups: list[CreateNetworkVlanProfileVlanGroupsItem],
         iname: str,
+        active_vlans: str | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a VLAN profile for a network.
 
@@ -1285,6 +1286,8 @@ class ActionBatchNetworks:
         Args:
             network_id: Network ID.
             name: Name of the profile, string length must be from 1 to 255 characters.
+            active_vlans: The active VLANs for the VLAN profile. Only applicable to trunk ports. The
+                given range must be inclusive of all named VLANs.
             vlan_names: An array of named VLANs.
             vlan_groups: An array of VLAN groups.
             iname: IName of the profile.
@@ -1296,6 +1299,8 @@ class ActionBatchNetworks:
         payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
+        if active_vlans is not None:
+            payload["activeVlans"] = active_vlans
         if vlan_names is not None:
             payload["vlanNames"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in vlan_names

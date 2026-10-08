@@ -107,6 +107,17 @@ def test_get_organization_campus_gateway_connections_overview(
         )
 
 
+def test_get_organization_campus_gateway_devices_system_cpu_load(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_campus_gateway_devices_system_cpu_load endpoint."""
+    with skip_on_unsupported():
+        result = client.campus_gateway.get_organization_campus_gateway_devices_system_cpu_load(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(
     client: MerakiClient, organization_id: str
 ) -> None:

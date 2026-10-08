@@ -90,6 +90,7 @@ from meraki_client.schemas import (
     UpdateNetworkWirelessSsidSchedulesRangesInSecondsItem,
     UpdateNetworkWirelessSsidSchedulesRangesItem,
     UpdateNetworkWirelessSsidSecurity,
+    UpdateNetworkWirelessSsidsOweTransitionsItem,
     UpdateNetworkWirelessSsidSpeedBurst,
     UpdateNetworkWirelessSsidSplashSettingsBilling,
     UpdateNetworkWirelessSsidSplashSettingsGuestSponsorship,
@@ -226,8 +227,9 @@ class ActionBatchWireless:
 
         Args:
             serial: Serial.
-            channel: Desired ESL channel for the device, or 'Auto' (case insensitive) to use the
-                recommended channel.
+            channel: Desired ESL channel for the device. Only configurable for devices assigned the
+                High frequency ESL or sepioo IIoT role. Use 'Auto' (case insensitive) to
+                use the recommended channel.
             enabled: Turn ESL features on and off for this device.
 
         """
@@ -1057,6 +1059,33 @@ class ActionBatchWireless:
             body=payload,
         )
 
+    def update_network_wireless_ssids_owe(
+        self, *, network_id: str, transitions: list[UpdateNetworkWirelessSsidsOweTransitionsItem]
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update the OWE transition pairs for a network.
+
+        [API documentation: updateNetworkWirelessSsidsOwe](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssids-owe)
+
+        Args:
+            network_id: Network ID.
+            transitions: Array of OWE transition pairs.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/wireless/ssids/owe"
+
+        payload: dict[str, Any] = {}
+        if transitions is not None:
+            payload["transitions"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in transitions
+            ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
     def update_network_wireless_ssid(
         self,
         *,
@@ -1847,6 +1876,35 @@ class ActionBatchWireless:
             payload["enabled"] = enabled
         if tenant_id is not None:
             payload["tenantId"] = tenant_id
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def update_network_wireless_ssid_overrides(
+        self, *, network_id: str, number: str, ccx_name_ie_enabled: bool | None = None
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update the overrides for this SSID.
+
+        [API documentation: updateNetworkWirelessSsidOverrides](https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-overrides)
+
+        Args:
+            network_id: Network ID.
+            number: Number.
+            ccx_name_ie_enabled: When true, enables CCX name IE, which allows the AP to broadcast
+                its device name as part of its beacon (as defined by the network admin
+                in the Dashboard).
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        path = f"/networks/{network_id}/wireless/ssids/{number}/overrides"
+
+        payload: dict[str, Any] = {}
+        if ccx_name_ie_enabled is not None:
+            payload["ccxNameIeEnabled"] = ccx_name_ie_enabled
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

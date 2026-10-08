@@ -31,6 +31,15 @@ class CloneOrganizationSwitchDevicesResponse(_BaseSchema):
         return [] if value is None else value
 
 
+class CreateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection(_BaseSchema):
+    """BFD configuration for the L3 interface."""
+
+    enabled: bool | None = None
+    interval_interface: SwitchIntervalInterface | None = Field(
+        default=None, validation_alias="intervalInterface", serialization_alias="intervalInterface"
+    )
+
+
 class CreateDeviceSwitchRoutingInterfaceIpv6(_BaseSchema):
     """The IPv6 settings of the interface."""
 
@@ -93,6 +102,11 @@ class CreateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
     ipv6: SwitchIpv6 | None = None
     vrf: SwitchVrf | None = None
     loopback: dict[str, Any] | None = None
+    bidirectional_forwarding_detection: SwitchBidirectionalForwardingDetection | None = Field(
+        default=None,
+        validation_alias="bidirectionalForwardingDetection",
+        serialization_alias="bidirectionalForwardingDetection",
+    )
     default_gateway: str | None = Field(
         default=None, validation_alias="defaultGateway", serialization_alias="defaultGateway"
     )
@@ -182,6 +196,9 @@ class CreateNetworkSwitchAccessPolicyRadius(_BaseSchema):
 class CreateNetworkSwitchAccessPolicyRadiusAccountingServersItem(_BaseSchema):
     """Item schema for radiusAccountingServers."""
 
+    server_id: str | None = Field(
+        default=None, validation_alias="serverId", serialization_alias="serverId"
+    )
     organization_radius_server_id: str | None = Field(
         default=None,
         validation_alias="organizationRadiusServerId",
@@ -190,6 +207,7 @@ class CreateNetworkSwitchAccessPolicyRadiusAccountingServersItem(_BaseSchema):
     host: str | None = None
     port: int | None = None
     secret: str | None = None
+    radsec: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
 
 
 class CreateNetworkSwitchAccessPolicyRadiusAuthentication(_BaseSchema):
@@ -201,6 +219,9 @@ class CreateNetworkSwitchAccessPolicyRadiusAuthentication(_BaseSchema):
 class CreateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
     """Item schema for radiusServers."""
 
+    server_id: str | None = Field(
+        default=None, validation_alias="serverId", serialization_alias="serverId"
+    )
     organization_radius_server_id: str | None = Field(
         default=None,
         validation_alias="organizationRadiusServerId",
@@ -209,6 +230,15 @@ class CreateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
     host: str | None = None
     port: int | None = None
     secret: str | None = None
+    radsec: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
+
+
+class CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec(_BaseSchema):
+    """RadSec settings for this RADIUS server assignment. If omitted, a copied server preserves its
+    current transport and a new server uses RADIUS over UDP.
+    """
+
+    enabled: bool
 
 
 class CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerIpv4(_BaseSchema):
@@ -267,6 +297,15 @@ class CreateNetworkSwitchStackResponse(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class CreateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection(_BaseSchema):
+    """BFD configuration for the L3 interface."""
+
+    enabled: bool | None = None
+    interval_interface: SwitchIntervalInterface | None = Field(
+        default=None, validation_alias="intervalInterface", serialization_alias="intervalInterface"
+    )
 
 
 class CreateNetworkSwitchStackRoutingInterfaceIpv6(_BaseSchema):
@@ -580,6 +619,14 @@ class GetDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
         default_factory=list,
         validation_alias="fixedIpAssignments",
         serialization_alias="fixedIpAssignments",
+    )
+    dhcp_default_router_ips: str | None = Field(
+        default=None,
+        validation_alias="dhcpDefaultRouterIps",
+        serialization_alias="dhcpDefaultRouterIps",
+    )
+    dhcp_domain_name: str | None = Field(
+        default=None, validation_alias="dhcpDomainName", serialization_alias="dhcpDomainName"
     )
 
     @field_validator(
@@ -1541,6 +1588,12 @@ class OrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
     )
+    perpetual_poe: SwitchPerpetualPoe | None = Field(
+        default=None, validation_alias="perpetualPoe", serialization_alias="perpetualPoe"
+    )
+    fast_poe: SwitchPerpetualPoe | None = Field(
+        default=None, validation_alias="fastPoe", serialization_alias="fastPoe"
+    )
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     vlan: int | None = None
     voice_vlan: int | None = Field(
@@ -1655,6 +1708,15 @@ class SwitchBandwidth(_BaseSchema):
     """
 
     usage: SwitchUsage2 | None = None
+
+
+class SwitchBidirectionalForwardingDetection(_BaseSchema):
+    """BFD configuration for the L3 interface."""
+
+    enabled: bool | None = None
+    interval_interface: SwitchIntervalInterface | None = Field(
+        default=None, validation_alias="intervalInterface", serialization_alias="intervalInterface"
+    )
 
 
 class SwitchByMedia(_BaseSchema):
@@ -1861,6 +1923,14 @@ class SwitchInterface(_BaseSchema):
 
     name: str | None = None
     url: str | None = None
+
+
+class SwitchIntervalInterface(_BaseSchema):
+    """BFD interval configuration for the L3 interface."""
+
+    msecs: int | None = None
+    min_rx: int | None = Field(default=None, validation_alias="minRx", serialization_alias="minRx")
+    multiplier: int | None = None
 
 
 class SwitchIntervalsItem(_BaseSchema):
@@ -2241,6 +2311,7 @@ class SwitchRadiusServersItem(_BaseSchema):
     )
     host: str | None = None
     port: int | None = None
+    radsec: SwitchPerpetualPoe | None = None
 
 
 class SwitchRj45(_BaseSchema):
@@ -2405,7 +2476,7 @@ class SwitchVrf(_BaseSchema):
 
 
 class SwitchVrf2(_BaseSchema):
-    """VRF settings. Included on networks with IOS XE 17.18 or higher."""
+    """VRF settings of the static route. Requires IOS XE 17.18 or higher."""
 
     name: str | None = None
     leak_route_to_default_vrf: bool | None = Field(
@@ -2445,6 +2516,15 @@ class UpdateDeviceSwitchPortProfile(_BaseSchema):
     enabled: bool | None = None
     id: str | None = None
     iname: str | None = None
+
+
+class UpdateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection(_BaseSchema):
+    """BFD configuration for the L3 interface."""
+
+    enabled: bool | None = None
+    interval_interface: SwitchIntervalInterface | None = Field(
+        default=None, validation_alias="intervalInterface", serialization_alias="intervalInterface"
+    )
 
 
 class UpdateDeviceSwitchRoutingInterfaceDhcpDhcpOptionsItem(_BaseSchema):
@@ -2585,6 +2665,7 @@ class UpdateNetworkSwitchAccessPolicyRadiusAccountingServersItem(_BaseSchema):
     host: str | None = None
     port: int | None = None
     secret: str | None = None
+    radsec: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
 
 
 class UpdateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
@@ -2601,6 +2682,7 @@ class UpdateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
     host: str | None = None
     port: int | None = None
     secret: str | None = None
+    radsec: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
 
 
 class UpdateNetworkSwitchAlternateManagementInterfaceSwitchesItem(_BaseSchema):
@@ -2807,20 +2889,23 @@ class UpdateNetworkSwitchSettingsUplinkClientSampling(_BaseSchema):
 class UpdateNetworkSwitchSettingsUplinkSelection(_BaseSchema):
     """Settings related to uplink selection on IOS-XE switches."""
 
-    failback: UpdateNetworkSwitchSettingsUplinkSelectionFailback | None = None
+    failback: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
     candidates: str | None = None
-
-
-class UpdateNetworkSwitchSettingsUplinkSelectionFailback(_BaseSchema):
-    """If a preferred uplink ever goes offline, we will periodically reattempt it."""
-
-    enabled: bool
 
 
 class UpdateNetworkSwitchStackMembersItem(_BaseSchema):
     """Item schema for members."""
 
     serial: str
+
+
+class UpdateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection(_BaseSchema):
+    """BFD configuration for the L3 interface."""
+
+    enabled: bool | None = None
+    interval_interface: SwitchIntervalInterface | None = Field(
+        default=None, validation_alias="intervalInterface", serialization_alias="intervalInterface"
+    )
 
 
 class UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpOptionsItem(_BaseSchema):
@@ -2909,6 +2994,11 @@ class UpdateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
     ipv6: SwitchIpv6 | None = None
     vrf: SwitchVrf | None = None
     loopback: dict[str, Any] | None = None
+    bidirectional_forwarding_detection: SwitchBidirectionalForwardingDetection | None = Field(
+        default=None,
+        validation_alias="bidirectionalForwardingDetection",
+        serialization_alias="bidirectionalForwardingDetection",
+    )
 
 
 class UpdateNetworkSwitchStackRoutingInterfaceVrf(_BaseSchema):
@@ -2953,8 +3043,20 @@ class UpdateOrganizationConfigTemplateSwitchProfilePortDot3az(_BaseSchema):
     enabled: bool | None = None
 
 
+class UpdateOrganizationConfigTemplateSwitchProfilePortFastPoe(_BaseSchema):
+    """Fast PoE settings for the switch template port."""
+
+    enabled: bool | None = None
+
+
 class UpdateOrganizationConfigTemplateSwitchProfilePortHighSpeed(_BaseSchema):
     """High speed port enablement settings for a high-speed logical port."""
+
+    enabled: bool | None = None
+
+
+class UpdateOrganizationConfigTemplateSwitchProfilePortPerpetualPoe(_BaseSchema):
+    """Perpetual PoE settings for the switch template port."""
 
     enabled: bool | None = None
 

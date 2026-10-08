@@ -331,6 +331,17 @@ def test_get_organization_appliance_devices_interfaces_ports_by_device(
         )
 
 
+def test_get_organization_appliance_devices_interfaces_ports_profiles_assignments(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_devices_interfaces_ports_profiles_assignments endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_devices_interfaces_ports_profiles_assignments(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_appliance_devices_ports_transceivers_readings_history_by_device(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -456,6 +467,87 @@ def test_get_organization_appliance_security_intrusion(
         client.appliance.get_organization_appliance_security_intrusion(
             organization_id=organization_id
         )
+
+
+def test_get_organization_appliance_security_intrusion_policies(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_security_intrusion_policies endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_security_intrusion_policies(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_appliance_security_intrusion_policies_overviews(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_security_intrusion_policies_overviews endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_security_intrusion_policies_overviews(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_appliance_security_intrusion_rule_groups(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_security_intrusion_rule_groups endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_security_intrusion_rule_groups(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_appliance_security_intrusion_rule_groups_overrides(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_security_intrusion_rule_groups_overrides endpoint."""
+    with skip_on_unsupported():
+        result = (
+            client.appliance.get_organization_appliance_security_intrusion_rule_groups_overrides(
+                organization_id=organization_id
+            ).collect()
+        )
+    assert isinstance(result, list)
+
+
+def test_get_organization_appliance_security_intrusion_rule_groups_overviews(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_security_intrusion_rule_groups_overviews endpoint."""
+    with skip_on_unsupported():
+        result = (
+            client.appliance.get_organization_appliance_security_intrusion_rule_groups_overviews(
+                organization_id=organization_id
+            ).collect()
+        )
+    assert isinstance(result, list)
+
+
+def test_get_organization_appliance_security_intrusion_rules(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_security_intrusion_rules endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_security_intrusion_rules(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_appliance_security_intrusion_rules_overrides(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_security_intrusion_rules_overrides endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_security_intrusion_rules_overrides(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
 
 
 def test_get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(

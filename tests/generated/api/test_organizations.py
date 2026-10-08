@@ -86,6 +86,17 @@ def test_get_organization_alerts_profiles(client: MerakiClient, organization_id:
         client.organizations.get_organization_alerts_profiles(organization_id=organization_id)
 
 
+def test_get_organization_api_rest_provisioning_pipelines(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_api_rest_provisioning_pipelines endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_api_rest_provisioning_pipelines(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_api_rest_provisioning_pipelines_jobs_overviews_by_pipeline(
     client: MerakiClient, organization_id: str
 ) -> None:
@@ -728,6 +739,28 @@ def test_get_organization_policies_global_group_policies_firewall_rulesets_assig
     assert isinstance(result, list)
 
 
+def test_get_organization_policies_global_group_policies_networks(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_group_policies_networks endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_policies_global_group_policies_networks(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_get_organization_policies_global_group_policies_networks_assignments(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_policies_global_group_policies_networks_assignments endpoint."""
+    with skip_on_unsupported():
+        result = client.organizations.get_organization_policies_global_group_policies_networks_assignments(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_policy_objects(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_policy_objects endpoint."""
     with skip_on_unsupported():
@@ -826,6 +859,66 @@ def test_get_organization_splash_themes(client: MerakiClient, organization_id: s
     """Test get_organization_splash_themes endpoint."""
     with skip_on_unsupported():
         client.organizations.get_organization_splash_themes(organization_id=organization_id)
+
+
+def test_get_organization_summary_sustainability_daily_consumer_metrics_networks(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_summary_sustainability_daily_consumer_metrics_networks endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_summary_sustainability_daily_consumer_metrics_networks(
+            organization_id=organization_id
+        )
+
+
+def test_get_organization_summary_sustainability_summary_consumer_metrics_device_categories(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_summary_sustainability_summary_consumer_metrics_device_categories endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_summary_sustainability_summary_consumer_metrics_device_categories(
+            organization_id=organization_id
+        )
+
+
+def test_get_organization_summary_sustainability_summary_consumer_metrics_device_categories_aggregated(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_summary_sustainability_summary_consumer_metrics_device_categories_aggregated endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_summary_sustainability_summary_consumer_metrics_device_categories_aggregated(
+            organization_id=organization_id
+        )
+
+
+def test_get_organization_summary_sustainability_summary_consumer_metrics_devices(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_summary_sustainability_summary_consumer_metrics_devices endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_summary_sustainability_summary_consumer_metrics_devices(
+            organization_id=organization_id
+        )
+
+
+def test_get_organization_summary_sustainability_summary_consumer_metrics_networks(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_summary_sustainability_summary_consumer_metrics_networks endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_summary_sustainability_summary_consumer_metrics_networks(
+            organization_id=organization_id
+        )
+
+
+def test_get_organization_summary_sustainability_summary_consumer_metrics_networks_aggregated(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_summary_sustainability_summary_consumer_metrics_networks_aggregated endpoint."""
+    with skip_on_unsupported():
+        client.organizations.get_organization_summary_sustainability_summary_consumer_metrics_networks_aggregated(
+            organization_id=organization_id
+        )
 
 
 def test_get_organization_summary_top_appliances_by_utilization(

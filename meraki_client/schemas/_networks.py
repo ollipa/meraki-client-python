@@ -1775,6 +1775,9 @@ class NetworkVlanProfileResponse(_BaseSchema):
     is_default: bool | None = Field(
         default=None, validation_alias="isDefault", serialization_alias="isDefault"
     )
+    active_vlans: str | None = Field(
+        default=None, validation_alias="activeVlans", serialization_alias="activeVlans"
+    )
     vlan_names: list[NetworksVlanNamesItem] = Field(
         default_factory=list, validation_alias="vlanNames", serialization_alias="vlanNames"
     )
@@ -2212,6 +2215,11 @@ class NetworksDevicesItem2(_BaseSchema):
         default=None, validation_alias="productType", serialization_alias="productType"
     )
     details: list[NetworksDetailsItem] = Field(default_factory=list)
+    configuration_updated_at: datetime | None = Field(
+        default=None,
+        validation_alias="configurationUpdatedAt",
+        serialization_alias="configurationUpdatedAt",
+    )
 
     @field_validator("tags", "details", mode="before")
     @classmethod
@@ -3793,6 +3801,11 @@ class VmxNetworkDevicesClaimResponse(_BaseSchema):
         default=None, validation_alias="productType", serialization_alias="productType"
     )
     details: list[NetworksDetailsItem] = Field(default_factory=list)
+    configuration_updated_at: datetime | None = Field(
+        default=None,
+        validation_alias="configurationUpdatedAt",
+        serialization_alias="configurationUpdatedAt",
+    )
 
     @field_validator("tags", "details", mode="before")
     @classmethod

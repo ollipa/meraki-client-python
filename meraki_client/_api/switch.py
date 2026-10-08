@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
     CloneOrganizationSwitchDevicesResponse,
+    CreateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection,
     CreateDeviceSwitchRoutingInterfaceIpv6,
     CreateDeviceSwitchRoutingInterfaceOspfSettings,
     CreateDeviceSwitchRoutingInterfaceResponse,
@@ -28,6 +29,7 @@ from meraki_client.schemas import (
     CreateNetworkSwitchPortSchedulePortSchedule,
     CreateNetworkSwitchRoutingMulticastRendezvousPointVrf,
     CreateNetworkSwitchStackResponse,
+    CreateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection,
     CreateNetworkSwitchStackRoutingInterfaceIpv6,
     CreateNetworkSwitchStackRoutingInterfaceOspfSettings,
     CreateNetworkSwitchStackRoutingInterfaceVrf,
@@ -72,6 +74,7 @@ from meraki_client.schemas import (
     UpdateDeviceSwitchPortHighSpeed,
     UpdateDeviceSwitchPortPerpetualPoe,
     UpdateDeviceSwitchPortProfile,
+    UpdateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection,
     UpdateDeviceSwitchRoutingInterfaceDhcpDhcpOptionsItem,
     UpdateDeviceSwitchRoutingInterfaceDhcpFixedIpAssignmentsItem,
     UpdateDeviceSwitchRoutingInterfaceDhcpReservedIpRangesItem,
@@ -104,6 +107,7 @@ from meraki_client.schemas import (
     UpdateNetworkSwitchSettingsUplinkClientSampling,
     UpdateNetworkSwitchSettingsUplinkSelection,
     UpdateNetworkSwitchStackMembersItem,
+    UpdateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpOptionsItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpFixedIpAssignmentsItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpReservedIpRangesItem,
@@ -114,7 +118,9 @@ from meraki_client.schemas import (
     UpdateNetworkSwitchStackRoutingStaticRouteVrf,
     UpdateNetworkSwitchStpStpBridgePriorityItem,
     UpdateOrganizationConfigTemplateSwitchProfilePortDot3az,
+    UpdateOrganizationConfigTemplateSwitchProfilePortFastPoe,
     UpdateOrganizationConfigTemplateSwitchProfilePortHighSpeed,
+    UpdateOrganizationConfigTemplateSwitchProfilePortPerpetualPoe,
     UpdateOrganizationConfigTemplateSwitchProfilePortProfile,
 )
 from meraki_client.types import (
@@ -642,7 +648,9 @@ class Switch:
         Args:
             serial: Serial.
             port_id: Port ID.
-            name: The name of the switch port.
+            name: The name of the switch port. Dashboard displays this value as the port
+                description. For Cisco Catalyst switches running IOS XE, it corresponds
+                to the configured interface description.
             tags: The list of tags of the switch port.
             enabled: The status of the switch port.
             poe_enabled: The PoE status of the switch port.
@@ -917,6 +925,14 @@ class Switch:
                 "vrf": {
                   "name": "Blue"
                 },
+                "bidirectionalForwardingDetection": {
+                  "enabled": true,
+                  "intervalInterface": {
+                    "msecs": 100,
+                    "minRx": 75,
+                    "multiplier": 5
+                  }
+                },
                 "defaultGateway": "192.168.1.1"
               }
             ]
@@ -957,6 +973,8 @@ class Switch:
         ipv6: CreateDeviceSwitchRoutingInterfaceIpv6 | None = None,
         vrf: CreateDeviceSwitchRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
+        bidirectional_forwarding_detection: CreateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection
+        | None = None,
     ) -> CreateDeviceSwitchRoutingInterfaceResponse:
         """Create a layer 3 interface for a switch.
 
@@ -988,6 +1006,7 @@ class Switch:
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+            bidirectional_forwarding_detection: BFD configuration for the L3 interface.
 
         Returns:
             Successful operation.
@@ -1028,6 +1047,14 @@ class Switch:
               "vrf": {
                 "name": "Blue"
               },
+              "bidirectionalForwardingDetection": {
+                "enabled": true,
+                "intervalInterface": {
+                  "msecs": 100,
+                  "minRx": 75,
+                  "multiplier": 5
+                }
+              },
               "defaultGateway": "192.168.1.1"
             }
             ```
@@ -1063,6 +1090,10 @@ class Switch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if loopback is not None:
             payload["loopback"] = loopback
+        if bidirectional_forwarding_detection is not None:
+            payload["bidirectionalForwardingDetection"] = (
+                bidirectional_forwarding_detection.model_dump(by_alias=True, exclude_none=True)
+            )
 
         return self._session.post(
             scope="switch",
@@ -1122,6 +1153,14 @@ class Switch:
               "vrf": {
                 "name": "Blue"
               },
+              "bidirectionalForwardingDetection": {
+                "enabled": true,
+                "intervalInterface": {
+                  "msecs": 100,
+                  "minRx": 75,
+                  "multiplier": 5
+                }
+              },
               "defaultGateway": "192.168.1.1"
             }
             ```
@@ -1155,6 +1194,8 @@ class Switch:
         ipv6: UpdateDeviceSwitchRoutingInterfaceIpv6 | None = None,
         vrf: UpdateDeviceSwitchRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
+        bidirectional_forwarding_detection: UpdateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection
+        | None = None,
     ) -> CreateDeviceSwitchRoutingInterfaceResponse:
         """Update a layer 3 interface for a switch.
 
@@ -1183,6 +1224,7 @@ class Switch:
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+            bidirectional_forwarding_detection: BFD configuration for the L3 interface.
 
         Returns:
             Successful operation.
@@ -1223,6 +1265,14 @@ class Switch:
               "vrf": {
                 "name": "Blue"
               },
+              "bidirectionalForwardingDetection": {
+                "enabled": true,
+                "intervalInterface": {
+                  "msecs": 100,
+                  "minRx": 75,
+                  "multiplier": 5
+                }
+              },
               "defaultGateway": "192.168.1.1"
             }
             ```
@@ -1257,6 +1307,10 @@ class Switch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if loopback is not None:
             payload["loopback"] = loopback
+        if bidirectional_forwarding_detection is not None:
+            payload["bidirectionalForwardingDetection"] = (
+                bidirectional_forwarding_detection.model_dump(by_alias=True, exclude_none=True)
+            )
 
         return self._session.put(
             scope="switch",
@@ -1336,7 +1390,9 @@ class Switch:
                   "mac": "22:33:44:55:66:77",
                   "ip": "192.168.1.12"
                 }
-              ]
+              ],
+              "dhcpDefaultRouterIps": "192.168.1.1, 192.168.1.2",
+              "dhcpDomainName": "example.com"
             }
             ```
 
@@ -1371,6 +1427,8 @@ class Switch:
         | None = None,
         fixed_ip_assignments: list[UpdateDeviceSwitchRoutingInterfaceDhcpFixedIpAssignmentsItem]
         | None = None,
+        dhcp_default_router_ips: str | None = None,
+        dhcp_domain_name: str | None = None,
     ) -> GetDeviceSwitchRoutingInterfaceDhcpResponse:
         """Update a layer 3 interface DHCP configuration for a switch.
 
@@ -1402,6 +1460,10 @@ class Switch:
                 the switch interface.
             fixed_ip_assignments: Array of DHCP fixed IP assignments for the DHCP server running on
                 the switch interface.
+            dhcp_default_router_ips: The DHCP default router IPs for the DHCP server running on the
+                switch interface.
+            dhcp_domain_name: The DHCP domain name for the DHCP server running on the switch
+                interface.
 
         Returns:
             Successful operation.
@@ -1441,7 +1503,9 @@ class Switch:
                   "mac": "22:33:44:55:66:77",
                   "ip": "192.168.1.12"
                 }
-              ]
+              ],
+              "dhcpDefaultRouterIps": "192.168.1.1, 192.168.1.2",
+              "dhcpDomainName": "example.com"
             }
             ```
 
@@ -1479,6 +1543,10 @@ class Switch:
             payload["fixedIpAssignments"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in fixed_ip_assignments
             ]
+        if dhcp_default_router_ips is not None:
+            payload["dhcpDefaultRouterIps"] = dhcp_default_router_ips
+        if dhcp_domain_name is not None:
+            payload["dhcpDomainName"] = dhcp_domain_name
 
         return self._session.put(
             scope="switch",
@@ -1948,7 +2016,10 @@ class Switch:
                     "serverId": "1",
                     "organizationRadiusServerId": "42",
                     "host": "1.2.3.4",
-                    "port": 22
+                    "port": 22,
+                    "radsec": {
+                      "enabled": false
+                    }
                   }
                 ],
                 "radius": {
@@ -1984,7 +2055,10 @@ class Switch:
                     "serverId": "2",
                     "organizationRadiusServerId": "42",
                     "host": "1.2.3.4",
-                    "port": 22
+                    "port": 22,
+                    "radsec": {
+                      "enabled": true
+                    }
                   }
                 ],
                 "radiusGroupAttribute": "11",
@@ -2101,7 +2175,10 @@ class Switch:
                   "serverId": "1",
                   "organizationRadiusServerId": "42",
                   "host": "1.2.3.4",
-                  "port": 22
+                  "port": 22,
+                  "radsec": {
+                    "enabled": false
+                  }
                 }
               ],
               "radius": {
@@ -2137,7 +2214,10 @@ class Switch:
                   "serverId": "2",
                   "organizationRadiusServerId": "42",
                   "host": "1.2.3.4",
-                  "port": 22
+                  "port": 22,
+                  "radsec": {
+                    "enabled": true
+                  }
                 }
               ],
               "radiusGroupAttribute": "11",
@@ -2244,7 +2324,10 @@ class Switch:
                   "serverId": "1",
                   "organizationRadiusServerId": "42",
                   "host": "1.2.3.4",
-                  "port": 22
+                  "port": 22,
+                  "radsec": {
+                    "enabled": false
+                  }
                 }
               ],
               "radius": {
@@ -2280,7 +2363,10 @@ class Switch:
                   "serverId": "2",
                   "organizationRadiusServerId": "42",
                   "host": "1.2.3.4",
-                  "port": 22
+                  "port": 22,
+                  "radsec": {
+                    "enabled": true
+                  }
                 }
               ],
               "radiusGroupAttribute": "11",
@@ -2399,7 +2485,10 @@ class Switch:
                   "serverId": "1",
                   "organizationRadiusServerId": "42",
                   "host": "1.2.3.4",
-                  "port": 22
+                  "port": 22,
+                  "radsec": {
+                    "enabled": false
+                  }
                 }
               ],
               "radius": {
@@ -2435,7 +2524,10 @@ class Switch:
                   "serverId": "2",
                   "organizationRadiusServerId": "42",
                   "host": "1.2.3.4",
-                  "port": 22
+                  "port": 22,
+                  "radsec": {
+                    "enabled": true
+                  }
                 }
               ],
               "radiusGroupAttribute": "11",
@@ -5298,6 +5390,14 @@ class Switch:
                 "vrf": {
                   "name": "Blue"
                 },
+                "bidirectionalForwardingDetection": {
+                  "enabled": true,
+                  "intervalInterface": {
+                    "msecs": 100,
+                    "minRx": 75,
+                    "multiplier": 5
+                  }
+                },
                 "defaultGateway": "192.168.1.1"
               }
             ]
@@ -5340,6 +5440,8 @@ class Switch:
         ipv6: CreateNetworkSwitchStackRoutingInterfaceIpv6 | None = None,
         vrf: CreateNetworkSwitchStackRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
+        bidirectional_forwarding_detection: CreateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection
+        | None = None,
     ) -> CreateDeviceSwitchRoutingInterfaceResponse:
         """Create a layer 3 interface for a switch stack.
 
@@ -5372,6 +5474,7 @@ class Switch:
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+            bidirectional_forwarding_detection: BFD configuration for the L3 interface.
 
         Returns:
             Successful operation.
@@ -5412,6 +5515,14 @@ class Switch:
               "vrf": {
                 "name": "Blue"
               },
+              "bidirectionalForwardingDetection": {
+                "enabled": true,
+                "intervalInterface": {
+                  "msecs": 100,
+                  "minRx": 75,
+                  "multiplier": 5
+                }
+              },
               "defaultGateway": "192.168.1.1"
             }
             ```
@@ -5448,6 +5559,10 @@ class Switch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if loopback is not None:
             payload["loopback"] = loopback
+        if bidirectional_forwarding_detection is not None:
+            payload["bidirectionalForwardingDetection"] = (
+                bidirectional_forwarding_detection.model_dump(by_alias=True, exclude_none=True)
+            )
 
         return self._session.post(
             scope="switch",
@@ -5508,6 +5623,14 @@ class Switch:
               "vrf": {
                 "name": "Blue"
               },
+              "bidirectionalForwardingDetection": {
+                "enabled": true,
+                "intervalInterface": {
+                  "msecs": 100,
+                  "minRx": 75,
+                  "multiplier": 5
+                }
+              },
               "defaultGateway": "192.168.1.1"
             }
             ```
@@ -5543,6 +5666,8 @@ class Switch:
         ipv6: UpdateNetworkSwitchStackRoutingInterfaceIpv6 | None = None,
         vrf: UpdateNetworkSwitchStackRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
+        bidirectional_forwarding_detection: UpdateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection
+        | None = None,
     ) -> UpdateNetworkSwitchStackRoutingInterfaceResponse:
         """Update a layer 3 interface for a switch stack.
 
@@ -5572,6 +5697,7 @@ class Switch:
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+            bidirectional_forwarding_detection: BFD configuration for the L3 interface.
 
         Returns:
             Successful operation.
@@ -5611,6 +5737,14 @@ class Switch:
               },
               "vrf": {
                 "name": "Blue"
+              },
+              "bidirectionalForwardingDetection": {
+                "enabled": true,
+                "intervalInterface": {
+                  "msecs": 100,
+                  "minRx": 75,
+                  "multiplier": 5
+                }
               }
             }
             ```
@@ -5646,6 +5780,10 @@ class Switch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if loopback is not None:
             payload["loopback"] = loopback
+        if bidirectional_forwarding_detection is not None:
+            payload["bidirectionalForwardingDetection"] = (
+                bidirectional_forwarding_detection.model_dump(by_alias=True, exclude_none=True)
+            )
 
         return self._session.put(
             scope="switch",
@@ -5730,7 +5868,9 @@ class Switch:
                   "mac": "22:33:44:55:66:77",
                   "ip": "192.168.1.12"
                 }
-              ]
+              ],
+              "dhcpDefaultRouterIps": "192.168.1.1, 192.168.1.2",
+              "dhcpDomainName": "example.com"
             }
             ```
 
@@ -5770,6 +5910,8 @@ class Switch:
             UpdateNetworkSwitchStackRoutingInterfaceDhcpFixedIpAssignmentsItem
         ]
         | None = None,
+        dhcp_default_router_ips: str | None = None,
+        dhcp_domain_name: str | None = None,
     ) -> GetDeviceSwitchRoutingInterfaceDhcpResponse:
         """Update a layer 3 interface DHCP configuration for a switch stack.
 
@@ -5802,6 +5944,10 @@ class Switch:
                 the switch stack interface.
             fixed_ip_assignments: Array of DHCP fixed IP assignments for the DHCP server running on
                 the switch stack interface.
+            dhcp_default_router_ips: The DHCP default router IPs for the DHCP server running on the
+                switch stack interface.
+            dhcp_domain_name: The DHCP domain name for the DHCP server running on the switch stack
+                interface.
 
         Returns:
             Successful operation.
@@ -5841,7 +5987,9 @@ class Switch:
                   "mac": "22:33:44:55:66:77",
                   "ip": "192.168.1.12"
                 }
-              ]
+              ],
+              "dhcpDefaultRouterIps": "192.168.1.1, 192.168.1.2",
+              "dhcpDomainName": "example.com"
             }
             ```
 
@@ -5880,6 +6028,10 @@ class Switch:
             payload["fixedIpAssignments"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in fixed_ip_assignments
             ]
+        if dhcp_default_router_ips is not None:
+            payload["dhcpDefaultRouterIps"] = dhcp_default_router_ips
+        if dhcp_domain_name is not None:
+            payload["dhcpDomainName"] = dhcp_domain_name
 
         return self._session.put(
             scope="switch",
@@ -6461,6 +6613,12 @@ class Switch:
                 ],
                 "enabled": true,
                 "poeEnabled": true,
+                "perpetualPoe": {
+                  "enabled": true
+                },
+                "fastPoe": {
+                  "enabled": true
+                },
                 "type": "access",
                 "vlan": 10,
                 "voiceVlan": 20,
@@ -6558,6 +6716,12 @@ class Switch:
               ],
               "enabled": true,
               "poeEnabled": true,
+              "perpetualPoe": {
+                "enabled": true
+              },
+              "fastPoe": {
+                "enabled": true
+              },
               "type": "access",
               "vlan": 10,
               "voiceVlan": 20,
@@ -6639,6 +6803,8 @@ class Switch:
         tags: list[str] | None = None,
         enabled: bool | None = None,
         poe_enabled: bool | None = None,
+        perpetual_poe: UpdateOrganizationConfigTemplateSwitchProfilePortPerpetualPoe | None = None,
+        fast_poe: UpdateOrganizationConfigTemplateSwitchProfilePortFastPoe | None = None,
         type_: UpdateOrganizationConfigTemplateSwitchProfilePortType | None = None,
         vlan: int | None = None,
         voice_vlan: int | None = None,
@@ -6673,10 +6839,14 @@ class Switch:
             config_template_id: Config template ID.
             profile_id: Profile ID.
             port_id: Port ID.
-            name: The name of the switch template port.
+            name: The name of the switch template port. Dashboard displays this value as the port
+                description. For Cisco Catalyst switches running IOS XE, it corresponds
+                to the configured interface description.
             tags: The list of tags of the switch template port.
             enabled: The status of the switch template port.
             poe_enabled: The PoE status of the switch template port.
+            perpetual_poe: Perpetual PoE settings for the switch template port.
+            fast_poe: Fast PoE settings for the switch template port.
             type_: The type of the switch template port ('access', 'trunk', 'stack', 'routed', 'svl'
                 or 'dad').
             vlan: The VLAN of the switch template port. For a trunk port, this is the native VLAN. A
@@ -6735,6 +6905,12 @@ class Switch:
               ],
               "enabled": true,
               "poeEnabled": true,
+              "perpetualPoe": {
+                "enabled": true
+              },
+              "fastPoe": {
+                "enabled": true
+              },
               "type": "access",
               "vlan": 10,
               "voiceVlan": 20,
@@ -6807,6 +6983,10 @@ class Switch:
             payload["enabled"] = enabled
         if poe_enabled is not None:
             payload["poeEnabled"] = poe_enabled
+        if perpetual_poe is not None:
+            payload["perpetualPoe"] = perpetual_poe.model_dump(by_alias=True, exclude_none=True)
+        if fast_poe is not None:
+            payload["fastPoe"] = fast_poe.model_dump(by_alias=True, exclude_none=True)
         if type_ is not None:
             payload["type"] = type_
         if vlan is not None:

@@ -144,6 +144,48 @@ class ApplianceBandwidthLimits(_BaseSchema):
     )
 
 
+class ApplianceBase(_BaseSchema):
+    """Base security configuration."""
+
+    security: ApplianceSecurity | None = None
+
+
+class ApplianceBase2(_BaseSchema):
+    """Base rule configuration."""
+
+    enabled: bool | None = None
+    action: str | None = None
+
+
+class ApplianceBorderRelay(_BaseSchema):
+    """Settings for the border relay for the IPoE transition Authentication."""
+
+    mode: str | None = None
+    address: str | None = None
+
+
+class ApplianceBorderRelay2(_BaseSchema):
+    """MAP border relay address or prefix."""
+
+    address: str | None = None
+    prefix: str | None = None
+
+
+class ApplianceByAction(_BaseSchema):
+    """Rules grouped by configured action."""
+
+    alert: int | None = None
+    block: int | None = None
+
+
+class ApplianceByAction2(_BaseSchema):
+    """Child rules grouped by action."""
+
+    alert: int | None = None
+    block: int | None = None
+    other: int | None = None
+
+
 class ApplianceByInterfaceItem(_BaseSchema):
     """Schema for ApplianceByInterfaceItem."""
 
@@ -172,6 +214,16 @@ class ApplianceByMetric(_BaseSchema):
     )
 
 
+class ApplianceBySecurityLevel(_BaseSchema):
+    """Child rule groups grouped by security level."""
+
+    n_1: int | None = Field(default=None, validation_alias="1", serialization_alias="1")
+    n_2: int | None = Field(default=None, validation_alias="2", serialization_alias="2")
+    n_3: int | None = Field(default=None, validation_alias="3", serialization_alias="3")
+    n_4: int | None = Field(default=None, validation_alias="4", serialization_alias="4")
+    unknown: int | None = None
+
+
 class ApplianceByTypeItem(_BaseSchema):
     """Schema for ApplianceByTypeItem."""
 
@@ -196,6 +248,22 @@ class ApplianceCounts(_BaseSchema):
 
     assigned: int
     available: int
+
+
+class ApplianceCounts2(_BaseSchema):
+    """Collection of policy-related counts."""
+
+    networks: ApplianceNetworks | None = None
+    rules: ApplianceRules3 | None = None
+
+
+class ApplianceCounts3(_BaseSchema):
+    """Aggregated child counts for the rule group."""
+
+    rule_groups: ApplianceRuleGroups | None = Field(
+        default=None, validation_alias="ruleGroups", serialization_alias="ruleGroups"
+    )
+    rules: ApplianceRules4 | None = None
 
 
 class ApplianceCountsByStatus(_BaseSchema):
@@ -240,6 +308,14 @@ class ApplianceDestination3(_BaseSchema):
 
     port: str | None = None
     cidr: str | None = None
+
+
+class ApplianceDevice(_BaseSchema):
+    """The appliance with the assigned port profile."""
+
+    name: str | None = None
+    mac: str | None = None
+    serial: str | None = None
 
 
 class ApplianceDhcpOptionsItem(_BaseSchema):
@@ -290,6 +366,34 @@ class ApplianceEbgpNeighbor(_BaseSchema):
     source_ip: str | None = Field(
         default=None, validation_alias="sourceIp", serialization_alias="sourceIp"
     )
+
+
+class ApplianceEntriesItem(_BaseSchema):
+    """Schema for ApplianceEntriesItem."""
+
+    ipv6: ApplianceIpv63 | None = None
+    ipv4: ApplianceIpv63 | None = None
+    border_relay: ApplianceBorderRelay2 | None = Field(
+        default=None, validation_alias="borderRelay", serialization_alias="borderRelay"
+    )
+    ea_bit_length: int | None = Field(
+        default=None, validation_alias="eaBitLength", serialization_alias="eaBitLength"
+    )
+    ps_id_offset: int | None = Field(
+        default=None, validation_alias="psIdOffset", serialization_alias="psIdOffset"
+    )
+
+
+class ApplianceEntriesItem2(_BaseSchema):
+    """Schema for ApplianceEntriesItem2."""
+
+    ipv6: ApplianceIpv64
+    ipv4: ApplianceIpv64
+    border_relay: ApplianceBorderRelay2 = Field(
+        validation_alias="borderRelay", serialization_alias="borderRelay"
+    )
+    ea_bit_length: int = Field(validation_alias="eaBitLength", serialization_alias="eaBitLength")
+    ps_id_offset: int = Field(validation_alias="psIdOffset", serialization_alias="psIdOffset")
 
 
 class ApplianceExportedSubnetsItem(_BaseSchema):
@@ -361,6 +465,7 @@ class ApplianceInterfacesWan1(_BaseSchema):
     )
     svis: ApplianceSvis | None = None
     pppoe: AppliancePppoe | None = None
+    transition: ApplianceTransition | None = None
 
 
 class ApplianceIpsec(_BaseSchema):
@@ -388,6 +493,12 @@ class ApplianceIpv4(_BaseSchema):
     nameservers: ApplianceNameservers | None = None
 
 
+class ApplianceIpv42(_BaseSchema):
+    """IPv4 specific settings for the IPoE transition."""
+
+    local: ApplianceLinkLocal | None = None
+
+
 class ApplianceIpv6(_BaseSchema):
     """IPv6 assignment details for the VLAN."""
 
@@ -401,6 +512,29 @@ class ApplianceIpv6(_BaseSchema):
         validation_alias="solicitedNodeMulticast",
         serialization_alias="solicitedNodeMulticast",
     )
+
+
+class ApplianceIpv62(_BaseSchema):
+    """IPv6 specific settings for the IPoE transition."""
+
+    border_relay: ApplianceBorderRelay | None = Field(
+        default=None, validation_alias="borderRelay", serialization_alias="borderRelay"
+    )
+    interface_id: str | None = Field(
+        default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
+    )
+
+
+class ApplianceIpv63(_BaseSchema):
+    """IPv6 settings used by the MAP rule."""
+
+    prefix: AppliancePrefix | None = None
+
+
+class ApplianceIpv64(_BaseSchema):
+    """IPv6 settings used by the MAP rule."""
+
+    prefix: AppliancePrefix2
 
 
 class ApplianceIpv6PrefixAssignmentsItem(_BaseSchema):
@@ -418,11 +552,39 @@ class ApplianceIpv6PrefixAssignmentsItem(_BaseSchema):
     origin: ApplianceOrigin4 | None = None
 
 
+class ApplianceIsp(_BaseSchema):
+    """ISP selection for the IPoE transition."""
+
+    name: str | None = None
+
+
 class ApplianceItems(_BaseSchema):
     """Counts relating to the paginated items."""
 
     total: int | None = None
     remaining: int | None = None
+
+
+class ApplianceItemsItem(_BaseSchema):
+    """Schema for ApplianceItemsItem."""
+
+    override_id: str | None = Field(
+        default=None, validation_alias="overrideId", serialization_alias="overrideId"
+    )
+    policy: ApplianceDownlinkSgt | None = None
+    group: ApplianceDownlinkSgt | None = None
+    security: ApplianceSecurity | None = None
+
+
+class ApplianceItemsItem2(_BaseSchema):
+    """Schema for ApplianceItemsItem2."""
+
+    override_id: str | None = Field(
+        default=None, validation_alias="overrideId", serialization_alias="overrideId"
+    )
+    policy: ApplianceDownlinkSgt | None = None
+    rule: ApplianceDownlinkSgt | None = None
+    action: str | None = None
 
 
 class ApplianceJitterSummariesItem(_BaseSchema):
@@ -495,6 +657,20 @@ class ApplianceLossPercentageSummariesItem(_BaseSchema):
     max_loss_percentage: float | None = Field(
         default=None, validation_alias="maxLossPercentage", serialization_alias="maxLossPercentage"
     )
+
+
+class ApplianceMap(_BaseSchema):
+    """MAP-E/MAP-T settings for the IPoE transition."""
+
+    rules: ApplianceRules | None = None
+    draft: ApplianceSgt | None = None
+
+
+class ApplianceMap2(_BaseSchema):
+    """MAP-E/MAP-T settings for the IPoE transition."""
+
+    rules: ApplianceRules2 | None = None
+    draft: ApplianceSgt | None = None
 
 
 class ApplianceMerakiVpnPeersItem(_BaseSchema):
@@ -598,6 +774,24 @@ class ApplianceNeighborsAuthentication(_BaseSchema):
     password: str | None = None
 
 
+class ApplianceNeighborsFilter(_BaseSchema):
+    """Filters routes received from an eBGP neighbor."""
+
+    out: list[str] = Field(default_factory=list)
+
+    @field_validator("out", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ApplianceNetworks(_BaseSchema):
+    """Network usage counts."""
+
+    total: int | None = None
+
+
 class ApplianceOrigin(_BaseSchema):
     """Origin details for the delegated prefix."""
 
@@ -650,6 +844,20 @@ class ApplianceOrigin5(_BaseSchema):
         return [] if value is None else value
 
 
+class ApplianceOverride(_BaseSchema):
+    """Override applied to this rule group."""
+
+    id: str | None = None
+    security: ApplianceSecurity | None = None
+
+
+class ApplianceOverride2(_BaseSchema):
+    """Override metadata, when the rule has been customized."""
+
+    id: str | None = None
+    action: str | None = None
+
+
 class AppliancePeersEbgpNeighbor(_BaseSchema):
     """[optional] The BGP neighbor configuration for the VPN peer. Supported only for MX 19.1 and
     above.
@@ -676,8 +884,29 @@ class AppliancePeersEbgpNeighbor(_BaseSchema):
     source_ip: str | None = Field(
         default=None, validation_alias="sourceIp", serialization_alias="sourceIp"
     )
+    ttl_security: ApplianceSgt | None = Field(
+        default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
+    )
+    authentication: ApplianceNeighborsAuthentication | None = None
+    allow_transit: bool | None = Field(
+        default=None, validation_alias="allowTransit", serialization_alias="allowTransit"
+    )
     receive_limit: int | None = Field(
         default=None, validation_alias="receiveLimit", serialization_alias="receiveLimit"
+    )
+    explicit_outbound_route_advertisement: ApplianceSgt | None = Field(
+        default=None,
+        validation_alias="explicitOutboundRouteAdvertisement",
+        serialization_alias="explicitOutboundRouteAdvertisement",
+    )
+    filter_: ApplianceNeighborsFilter | None = Field(
+        default=None, validation_alias="filter", serialization_alias="filter"
+    )
+    filter_in: list[str] = Field(
+        default_factory=list, validation_alias="filterIn", serialization_alias="filterIn"
+    )
+    community_out: list[str] = Field(
+        default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
     )
     path_prepend: list[int] = Field(
         default_factory=list, validation_alias="pathPrepend", serialization_alias="pathPrepend"
@@ -689,7 +918,7 @@ class AppliancePeersEbgpNeighbor(_BaseSchema):
     )
     weight: int | None = None
 
-    @field_validator("path_prepend", mode="before")
+    @field_validator("filter_in", "community_out", "path_prepend", mode="before")
     @classmethod
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
@@ -862,6 +1091,7 @@ class AppliancePortsItem(_BaseSchema):
     personality: CreateDeviceApplianceInterfacesPortsUpdateResponsePersonality | None = None
     uplink: CreateDeviceApplianceInterfacesPortsUpdateResponseUplink | None = None
     downlink: CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink | None = None
+    profile: ApplianceDownlinkSgt | None = None
 
 
 class AppliancePortsItem2(_BaseSchema):
@@ -904,6 +1134,20 @@ class AppliancePppoe2(_BaseSchema):
     authentication: ApplianceAuthentication2 | None = None
 
 
+class AppliancePrefix(_BaseSchema):
+    """IPv6 prefix used by the MAP rule."""
+
+    address: str | None = None
+    length: int | None = None
+
+
+class AppliancePrefix2(_BaseSchema):
+    """IPv6 prefix used by the MAP rule."""
+
+    address: str
+    length: int
+
+
 class ApplianceRadiusServersItem(_BaseSchema):
     """Schema for ApplianceRadiusServersItem."""
 
@@ -940,6 +1184,60 @@ class ApplianceReservedIpRangesItem(_BaseSchema):
     start: str
     end: str
     comment: str
+
+
+class ApplianceRuleGroups(_BaseSchema):
+    """Child rule group counts."""
+
+    total: int | None = None
+    by_security_level: ApplianceBySecurityLevel | None = Field(
+        default=None, validation_alias="bySecurityLevel", serialization_alias="bySecurityLevel"
+    )
+
+
+class ApplianceRules(_BaseSchema):
+    """MAP rule source and manual rule entries."""
+
+    source: str | None = None
+    entries: list[ApplianceEntriesItem] = Field(default_factory=list)
+
+    @field_validator("entries", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ApplianceRules2(_BaseSchema):
+    """MAP rule source and manual rule entries."""
+
+    source: str | None = None
+    entries: list[ApplianceEntriesItem2] = Field(default_factory=list)
+
+    @field_validator("entries", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class ApplianceRules3(_BaseSchema):
+    """Rule statistics."""
+
+    total: int | None = None
+    overridden: ApplianceNetworks | None = None
+    by_action: ApplianceByAction | None = Field(
+        default=None, validation_alias="byAction", serialization_alias="byAction"
+    )
+
+
+class ApplianceRules4(_BaseSchema):
+    """Child rule counts."""
+
+    total: int | None = None
+    by_action: ApplianceByAction2 | None = Field(
+        default=None, validation_alias="byAction", serialization_alias="byAction"
+    )
 
 
 class ApplianceRulesAllowedInboundItem(_BaseSchema):
@@ -1001,6 +1299,18 @@ class ApplianceRulesPortRulesItem(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class ApplianceSecurity(_BaseSchema):
+    """Security metadata."""
+
+    level: int | None = None
+
+
+class ApplianceSecurity2(_BaseSchema):
+    """Security metadata."""
+
+    level: int
 
 
 class ApplianceSgt(_BaseSchema):
@@ -1120,6 +1430,30 @@ class ApplianceTrafficFiltersItem4(_BaseSchema):
 
     type_: str = Field(validation_alias="type", serialization_alias="type")
     value: ApplianceValue3
+
+
+class ApplianceTransition(_BaseSchema):
+    """Configuration options for IPoE transition IPv4 to IPv6."""
+
+    enabled: bool | None = None
+    mode: str | None = None
+    authentication: ApplianceAuthentication | None = None
+    ipv4: ApplianceIpv42 | None = None
+    ipv6: ApplianceIpv62 | None = None
+    isp: ApplianceIsp | None = None
+    map: ApplianceMap | None = None
+
+
+class ApplianceTransition2(_BaseSchema):
+    """Configuration options for IPoE transition IPv4 to IPv6."""
+
+    enabled: bool | None = None
+    mode: str | None = None
+    authentication: ApplianceAuthentication2 | None = None
+    ipv4: ApplianceIpv42 | None = None
+    ipv6: ApplianceIpv62 | None = None
+    isp: ApplianceIsp | None = None
+    map: ApplianceMap2 | None = None
 
 
 class ApplianceTransmit(_BaseSchema):
@@ -1413,8 +1747,14 @@ class CreateDeviceApplianceInterfacesPortsUpdatePersonalityLayer(_BaseSchema):
     mode: int | None = None
 
 
+class CreateDeviceApplianceInterfacesPortsUpdateProfile(_BaseSchema):
+    """The optional LAN port's profile which it inherits from."""
+
+    id: str | None = None
+
+
 class CreateDeviceApplianceInterfacesPortsUpdateResponse(_BaseSchema):
-    """Response for createDeviceApplianceInterfacesPortsUpdate operation."""
+    """Schema for CreateDeviceApplianceInterfacesPortsUpdateResponse."""
 
     number: str | None = None
     interface: CreateDeviceApplianceInterfacesPortsUpdateResponseInterface | None = None
@@ -1423,6 +1763,7 @@ class CreateDeviceApplianceInterfacesPortsUpdateResponse(_BaseSchema):
     personality: CreateDeviceApplianceInterfacesPortsUpdateResponsePersonality | None = None
     uplink: CreateDeviceApplianceInterfacesPortsUpdateResponseUplink | None = None
     downlink: CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink | None = None
+    profile: ApplianceDownlinkSgt | None = None
 
 
 class CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink(_BaseSchema):
@@ -1562,6 +1903,12 @@ class CreateNetworkApplianceRfProfileTwoFourGhzSettings(_BaseSchema):
     )
 
 
+class CreateNetworkApplianceStaticRouteVrf(_BaseSchema):
+    """VRF settings for the static route."""
+
+    id: str | None = None
+
+
 class CreateNetworkApplianceVlanDhcpOptionsItem(_BaseSchema):
     """Item schema for dhcpOptions."""
 
@@ -1698,6 +2045,68 @@ class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem(
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
+
+
+class CreateOrganizationApplianceSecurityIntrusionPolicyPolicy(_BaseSchema):
+    """Attributes for the intrusion policy."""
+
+    name: str | None = None
+    description: str | None = None
+    base_policy: ApplianceVrf | None = Field(
+        default=None, validation_alias="basePolicy", serialization_alias="basePolicy"
+    )
+
+
+class CreateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride(_BaseSchema):
+    """Attributes for the override for a rule group in a intrusion policy."""
+
+    security: ApplianceSecurity2 | None = None
+
+
+class CreateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride(_BaseSchema):
+    """Rule override to create."""
+
+    action: str | None = None
+
+
+class DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    group: ApplianceVrf
+    security: ApplianceSecurity2
+
+
+class DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesResponse(_BaseSchema):
+    """Response for declareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverrides
+    operation.
+    """
+
+    items: list[ApplianceItemsItem] = Field(default_factory=list)
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    rule: ApplianceVrf
+    action: str
+
+
+class DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesResponse(_BaseSchema):
+    """Response for declareOrganizationApplianceSecurityIntrusionPolicyRulesOverrides operation."""
+
+    items: list[ApplianceItemsItem2] = Field(default_factory=list)
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class DeviceApplianceRadioSettingsResponse(_BaseSchema):
@@ -1951,6 +2360,7 @@ class GetNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
     ids_rulesets: str | None = Field(
         default=None, validation_alias="idsRulesets", serialization_alias="idsRulesets"
     )
+    policy: GetNetworkApplianceSecurityIntrusionResponsePolicy | None = None
     protected_networks: GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = (
         Field(
             default=None,
@@ -1958,6 +2368,14 @@ class GetNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
             serialization_alias="protectedNetworks",
         )
     )
+
+
+class GetNetworkApplianceSecurityIntrusionResponsePolicy(_BaseSchema):
+    """Selected custom intrusion policy details when a custom policy is configured."""
+
+    id: str | None = None
+    name: str | None = None
+    description: str | None = None
 
 
 class GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks(_BaseSchema):
@@ -2050,6 +2468,18 @@ class GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem(_B
         return [] if value is None else value
 
 
+class GetOrganizationApplianceDevicesInterfacesPortsProfilesAssignmentsResponseItemsItem(
+    _BaseSchema
+):
+    """Schema for
+    GetOrganizationApplianceDevicesInterfacesPortsProfilesAssignmentsResponseItemsItem.
+    """
+
+    device: ApplianceDevice | None = None
+    port: NetworkApplianceInterfacesL3ResponsePort | None = None
+    profile: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+
+
 class GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem(
     _BaseSchema
 ):
@@ -2108,6 +2538,54 @@ class GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsIte
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class GetOrganizationApplianceSecurityIntrusionPoliciesOverviewsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceSecurityIntrusionPoliciesOverviewsResponseItemsItem."""
+
+    policy_id: str | None = Field(
+        default=None, validation_alias="policyId", serialization_alias="policyId"
+    )
+    counts: ApplianceCounts2 | None = None
+
+
+class GetOrganizationApplianceSecurityIntrusionRuleGroupsOverviewsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceSecurityIntrusionRuleGroupsOverviewsResponseItemsItem."""
+
+    rule_group_id: str | None = Field(
+        default=None, validation_alias="ruleGroupId", serialization_alias="ruleGroupId"
+    )
+    policy: ApplianceDownlinkSgt | None = None
+    counts: ApplianceCounts3 | None = None
+
+
+class GetOrganizationApplianceSecurityIntrusionRuleGroupsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceSecurityIntrusionRuleGroupsResponseItemsItem."""
+
+    group_id: str | None = Field(
+        default=None, validation_alias="groupId", serialization_alias="groupId"
+    )
+    parent: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    name: str | None = None
+    description: str | None = None
+    policy: ApplianceDownlinkSgt | None = None
+    base: ApplianceBase | None = None
+    override: ApplianceOverride | None = None
+
+
+class GetOrganizationApplianceSecurityIntrusionRulesResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationApplianceSecurityIntrusionRulesResponseItemsItem."""
+
+    rule_id: str | None = Field(
+        default=None, validation_alias="ruleId", serialization_alias="ruleId"
+    )
+    gid: int | None = None
+    sid: int | None = None
+    name: str | None = None
+    description: str | None = None
+    base: ApplianceBase2 | None = None
+    override: ApplianceOverride2 | None = None
+    policy: ApplianceDownlinkSgt | None = None
 
 
 class GetOrganizationApplianceUplinkStatusesResponse(
@@ -2777,6 +3255,7 @@ class NetworkApplianceStaticRouteResponse(_BaseSchema):
     gateway_vlan_id: int | None = Field(
         default=None, validation_alias="gatewayVlanId", serialization_alias="gatewayVlanId"
     )
+    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
 
     @field_validator("reserved_ip_ranges", mode="before")
     @classmethod
@@ -3015,6 +3494,18 @@ class NetworkApplianceVpnBgpResponse(_BaseSchema):
     ibgp_hold_timer: int | None = Field(
         default=None, validation_alias="ibgpHoldTimer", serialization_alias="ibgpHoldTimer"
     )
+    ipv6: NetworkApplianceVpnBgpResponseIpv6 | None = None
+    tunnel_down_termination: ApplianceSgt | None = Field(
+        default=None,
+        validation_alias="tunnelDownTermination",
+        serialization_alias="tunnelDownTermination",
+    )
+    local_as_number: int | None = Field(
+        default=None, validation_alias="localAsNumber", serialization_alias="localAsNumber"
+    )
+    priority_route: str | None = Field(
+        default=None, validation_alias="priorityRoute", serialization_alias="priorityRoute"
+    )
     router_id: str | None = Field(
         default=None, validation_alias="routerId", serialization_alias="routerId"
     )
@@ -3025,6 +3516,14 @@ class NetworkApplianceVpnBgpResponse(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class NetworkApplianceVpnBgpResponseIpv6(_BaseSchema):
+    """Settings for IPv6 configurations on the organization."""
+
+    single_peering: ApplianceSgt | None = Field(
+        default=None, validation_alias="singlePeering", serialization_alias="singlePeering"
+    )
 
 
 class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
@@ -3072,6 +3571,14 @@ class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
     community_out: list[str] = Field(
         default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
     )
+    filter_: ApplianceNeighborsFilter | None = Field(
+        default=None, validation_alias="filter", serialization_alias="filter"
+    )
+    explicit_outbound_route_advertisement: ApplianceSgt | None = Field(
+        default=None,
+        validation_alias="explicitOutboundRouteAdvertisement",
+        serialization_alias="explicitOutboundRouteAdvertisement",
+    )
     vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
 
     @field_validator("path_prepend", "filter_in", "community_out", mode="before")
@@ -3117,6 +3624,15 @@ class NetworkApplianceVpnSiteToSiteVpnResponseHubsItem(_BaseSchema):
     use_default_route: bool | None = Field(
         default=None, validation_alias="useDefaultRoute", serialization_alias="useDefaultRoute"
     )
+    vrfs: list[NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem] = Field(
+        default_factory=list
+    )
+
+    @field_validator("vrfs", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
 
 
 class NetworkApplianceVpnSiteToSiteVpnResponseSubnet(_BaseSchema):
@@ -3191,6 +3707,44 @@ class OrganizationApplianceRoutingVrfsSettingsResponse(_BaseSchema):
     """Schema for OrganizationApplianceRoutingVrfsSettingsResponse."""
 
     enabled: bool | None = None
+
+
+class OrganizationApplianceSecurityIntrusionPolicyResponse(_BaseSchema):
+    """Schema for OrganizationApplianceSecurityIntrusionPolicyResponse."""
+
+    policy_id: str | None = Field(
+        default=None, validation_alias="policyId", serialization_alias="policyId"
+    )
+    name: str | None = None
+    description: str | None = None
+    base_policy: ApplianceDownlinkSgt | None = Field(
+        default=None, validation_alias="basePolicy", serialization_alias="basePolicy"
+    )
+    is_base_policy: bool | None = Field(
+        default=None, validation_alias="isBasePolicy", serialization_alias="isBasePolicy"
+    )
+
+
+class OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse(_BaseSchema):
+    """Schema for OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse."""
+
+    override_id: str | None = Field(
+        default=None, validation_alias="overrideId", serialization_alias="overrideId"
+    )
+    policy: ApplianceDownlinkSgt | None = None
+    group: ApplianceDownlinkSgt | None = None
+    security: ApplianceSecurity | None = None
+
+
+class OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse(_BaseSchema):
+    """Schema for OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse."""
+
+    override_id: str | None = Field(
+        default=None, validation_alias="overrideId", serialization_alias="overrideId"
+    )
+    policy: ApplianceDownlinkSgt | None = None
+    rule: ApplianceDownlinkSgt | None = None
+    action: str | None = None
 
 
 class OrganizationApplianceSecurityIntrusionResponse(_BaseSchema):
@@ -3361,6 +3915,34 @@ class RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem(_Base
     interface_id: str = Field(validation_alias="interfaceId", serialization_alias="interfaceId")
 
 
+class UpdateDeviceApplianceInterfacesPortDownlink(_BaseSchema):
+    """The port's VLAN settings when in LAN mode."""
+
+    mode: str | None = None
+    sgt: ApplianceDownlinkSgt | None = None
+    access: ApplianceDownlinkAccess | None = None
+    trunk: ApplianceDownlinkTrunk | None = None
+
+
+class UpdateDeviceApplianceInterfacesPortPersonality(_BaseSchema):
+    """Describes the port's configurability."""
+
+    mode: str | None = None
+    layer: CreateDeviceApplianceInterfacesPortsUpdatePersonalityLayer | None = None
+
+
+class UpdateDeviceApplianceInterfacesPortProfile(_BaseSchema):
+    """The optional LAN port's profile which it inherits from."""
+
+    id: str | None = None
+
+
+class UpdateDeviceApplianceInterfacesPortUplink(_BaseSchema):
+    """The port's settings when in WAN mode."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+
+
 class UpdateDeviceApplianceRadioSettingsFiveGhzSettings(_BaseSchema):
     """Manual radio settings for 5 GHz."""
 
@@ -3398,6 +3980,7 @@ class UpdateDeviceApplianceUplinksSettingsInterfacesWan1(_BaseSchema):
     )
     svis: ApplianceSvis | None = None
     pppoe: AppliancePppoe2 | None = None
+    transition: ApplianceTransition2 | None = None
 
 
 class UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem(_BaseSchema):
@@ -3787,6 +4370,14 @@ class UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem
         return [] if value is None else value
 
 
+class UpdateNetworkApplianceSecurityIntrusionPolicy(_BaseSchema):
+    """Set a custom intrusion policy by id (optional - omitting will leave current config
+    unchanged).
+    """
+
+    id: str | None = None
+
+
 class UpdateNetworkApplianceSecurityIntrusionProtectedNetworks(_BaseSchema):
     """Set the included/excluded networks from the intrusion engine (optional - omitting will leave
     current config unchanged). This is available only in 'passthrough' mode.
@@ -3816,6 +4407,7 @@ class UpdateNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
     ids_rulesets: str | None = Field(
         default=None, validation_alias="idsRulesets", serialization_alias="idsRulesets"
     )
+    policy: GetNetworkApplianceSecurityIntrusionResponsePolicy | None = None
     protected_networks: GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = (
         Field(
             default=None,
@@ -3933,6 +4525,12 @@ class UpdateNetworkApplianceStaticRouteReservedIpRangesItem(_BaseSchema):
     start: str
     end: str
     comment: str
+
+
+class UpdateNetworkApplianceStaticRouteVrf(_BaseSchema):
+    """VRF settings for the static route."""
+
+    id: str | None = None
 
 
 class UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits(_BaseSchema):
@@ -4178,6 +4776,14 @@ class UpdateNetworkApplianceVlanVrf(_BaseSchema):
     id: str | None = None
 
 
+class UpdateNetworkApplianceVpnBgpIpv6(_BaseSchema):
+    """Settings for IPv6 configurations on the organization."""
+
+    single_peering: ApplianceSgt | None = Field(
+        default=None, validation_alias="singlePeering", serialization_alias="singlePeering"
+    )
+
+
 class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
     """Item schema for neighbors."""
 
@@ -4218,8 +4824,16 @@ class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
     filter_in: list[str] = Field(
         default_factory=list, validation_alias="filterIn", serialization_alias="filterIn"
     )
+    filter_: ApplianceNeighborsFilter | None = Field(
+        default=None, validation_alias="filter", serialization_alias="filter"
+    )
     community_out: list[str] = Field(
         default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
+    )
+    explicit_outbound_route_advertisement: ApplianceSgt | None = Field(
+        default=None,
+        validation_alias="explicitOutboundRouteAdvertisement",
+        serialization_alias="explicitOutboundRouteAdvertisement",
     )
 
     @field_validator("path_prepend", "filter_in", "community_out", mode="before")
@@ -4233,6 +4847,12 @@ class UpdateNetworkApplianceVpnBgpNeighborsItemIpv6(_BaseSchema):
     """Information regarding IPv6 address of the neighbor, Required if `ip` is not present."""
 
     address: str
+
+
+class UpdateNetworkApplianceVpnBgpTunnelDownTermination(_BaseSchema):
+    """Settings for tunnel down termination on the organization."""
+
+    enabled: bool | None = None
 
 
 class UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem(_BaseSchema):
@@ -4308,6 +4928,28 @@ class UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem(_BaseSchema):
 
     rule_id: str = Field(validation_alias="ruleId", serialization_alias="ruleId")
     message: str | None = None
+
+
+class UpdateOrganizationApplianceSecurityIntrusionPolicyPolicy(_BaseSchema):
+    """Attributes for the intrusion policy."""
+
+    name: str | None = None
+    description: str | None = None
+    base_policy: ApplianceDownlinkSgt | None = Field(
+        default=None, validation_alias="basePolicy", serialization_alias="basePolicy"
+    )
+
+
+class UpdateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride(_BaseSchema):
+    """Attributes for the override for a rule group in a intrusion policy."""
+
+    security: ApplianceSecurity2 | None = None
+
+
+class UpdateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride(_BaseSchema):
+    """Override attributes."""
+
+    action: str | None = None
 
 
 class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem(_BaseSchema):
