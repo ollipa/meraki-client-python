@@ -40,6 +40,8 @@ __all__ = [
     "CreateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy",
     "CreateOrganizationPolicyObjectType",
     "CreateOrganizationSmAdminsRoleScope",
+    "DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesMode",
+    "DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesMode",
     "GetAdministeredLicensingSubscriptionEntitlementsSubscriptionType",
     "GetAdministeredLicensingSubscriptionSubscriptionsProductTypes",
     "GetAdministeredLicensingSubscriptionSubscriptionsStatuses",
@@ -101,7 +103,10 @@ __all__ = [
     "GetOrganizationApiRequestsOverviewResponseCodesByIntervalVersion",
     "GetOrganizationApiRequestsVersion",
     "GetOrganizationApiRestProvisioningPipelinesJobsStatus",
+    "GetOrganizationApiRestProvisioningPipelinesSortOrder",
+    "GetOrganizationApiRestProvisioningPipelinesStatus",
     "GetOrganizationApplianceSecurityEventsSortOrder",
+    "GetOrganizationApplianceSecurityIntrusionPoliciesMode",
     "GetOrganizationAssuranceAlertsCategory",
     "GetOrganizationAssuranceAlertsDeviceTypes",
     "GetOrganizationAssuranceAlertsOverviewByNetworkCategory",
@@ -129,7 +134,9 @@ __all__ = [
     "GetOrganizationCampusGatewayClustersNetworksOverviewsTunnelingSources",
     "GetOrganizationCampusGatewayClustersSsidsSortBy",
     "GetOrganizationCampusGatewayClustersSsidsSortOrder",
+    "GetOrganizationCampusGatewayConnectionsCampusGatewayPriorities",
     "GetOrganizationCampusGatewayConnectionsDataEncryptionStatuses",
+    "GetOrganizationCampusGatewayConnectionsOverviewCampusGatewayPriorities",
     "GetOrganizationCampusGatewayConnectionsOverviewDataEncryptionStatuses",
     "GetOrganizationCampusGatewayConnectionsSortBy",
     "GetOrganizationCampusGatewayConnectionsSortOrder",
@@ -163,6 +170,8 @@ __all__ = [
     "GetOrganizationNetworksProductTypes",
     "GetOrganizationNetworksTagsFilterType",
     "GetOrganizationOpenapiSpecVersion",
+    "GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsFirewallTypes",
+    "GetOrganizationPoliciesGlobalGroupPoliciesNetworksFirewallTypes",
     "GetOrganizationSaseSitesStatus",
     "GetOrganizationSensorReadingsHistoryMetrics",
     "GetOrganizationSensorReadingsLatestMetrics",
@@ -208,6 +217,7 @@ __all__ = [
     "UpdateNetworkApplianceVlanDhcpHandling",
     "UpdateNetworkApplianceVlanDhcpLeaseTime",
     "UpdateNetworkApplianceVlanTemplateVlanType",
+    "UpdateNetworkApplianceVpnBgpPriorityRoute",
     "UpdateNetworkApplianceVpnSiteToSiteVpnMode",
     "UpdateNetworkGroupPolicySplashAuthSettings",
     "UpdateNetworkSnmpAccess",
@@ -354,6 +364,12 @@ CreateOrganizationPolicyObjectType: TypeAlias = Literal["adaptivePolicyIpv4Cidr"
 CreateOrganizationSmAdminsRoleScope: TypeAlias = Literal[
     "all_tags", "some", "without_all_tags", "without_some"
 ]
+DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesMode: TypeAlias = Literal[
+    "complete", "partial"
+]
+DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesMode: TypeAlias = Literal[
+    "complete", "partial"
+]
 GetAdministeredLicensingSubscriptionEntitlementsSubscriptionType: TypeAlias = Literal[
     "termed", "unified"
 ]
@@ -488,7 +504,12 @@ GetOrganizationApiRequestsVersion: TypeAlias = Literal[0, 1]
 GetOrganizationApiRestProvisioningPipelinesJobsStatus: TypeAlias = Literal[
     "complete", "deferred", "failed", "new", "ready", "running", "scheduled"
 ]
+GetOrganizationApiRestProvisioningPipelinesSortOrder: TypeAlias = Literal["ascending", "descending"]
+GetOrganizationApiRestProvisioningPipelinesStatus: TypeAlias = Literal[
+    "active", "error", "pending", "success"
+]
 GetOrganizationApplianceSecurityEventsSortOrder: TypeAlias = Literal["ascending", "descending"]
+GetOrganizationApplianceSecurityIntrusionPoliciesMode: TypeAlias = Literal["base", "intrusion"]
 GetOrganizationAssuranceAlertsCategory: TypeAlias = Literal[
     "configuration", "connectivity", "device_health", "experience_metrics", "insights"
 ]
@@ -615,9 +636,11 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "lacp_configuration",
         "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
+        "low_flash_storage",
         "low_power",
         "mac_flap_alert",
         "manual_config_fix_required",
@@ -633,6 +656,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "missized_errors",
         "mmc_issue",
         "modular_supervisor_node_group_mismatch",
+        "module_down",
         "monitoring_stack_error",
         "monitoring_tls_tunnel_connected",
         "monitoring_unsupported_version",
@@ -693,9 +717,11 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "stack_cable_auth_failure",
         "stack_misconfigured",
         "stack_not_configured",
+        "stack_platform_mismatch",
         "stack_version_mismatch",
         "start_monitoring_provisioning",
         "sticky_client",
+        "storm_control",
         "stp_bpdu_conflict",
         "stp_bpdu_delay",
         "stp_bpduguard_active",
@@ -704,6 +730,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "stp_rootguard_active",
         "stp_tcn_errors",
         "successful_connect_degraded",
+        "switch_critical_temperature",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -714,6 +741,7 @@ GetOrganizationAssuranceAlertsOverviewByNetworkTypes: TypeAlias = list[
         "thousand_eyes_application_alert",
         "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
+        "ttl_expiration",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
         "udld_err_unidir",
@@ -867,9 +895,11 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "lacp_configuration",
         "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
+        "low_flash_storage",
         "low_power",
         "mac_flap_alert",
         "manual_config_fix_required",
@@ -885,6 +915,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "missized_errors",
         "mmc_issue",
         "modular_supervisor_node_group_mismatch",
+        "module_down",
         "monitoring_stack_error",
         "monitoring_tls_tunnel_connected",
         "monitoring_unsupported_version",
@@ -945,9 +976,11 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "stack_cable_auth_failure",
         "stack_misconfigured",
         "stack_not_configured",
+        "stack_platform_mismatch",
         "stack_version_mismatch",
         "start_monitoring_provisioning",
         "sticky_client",
+        "storm_control",
         "stp_bpdu_conflict",
         "stp_bpdu_delay",
         "stp_bpduguard_active",
@@ -956,6 +989,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "stp_rootguard_active",
         "stp_tcn_errors",
         "successful_connect_degraded",
+        "switch_critical_temperature",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -966,6 +1000,7 @@ GetOrganizationAssuranceAlertsOverviewByTypeTypes: TypeAlias = list[
         "thousand_eyes_application_alert",
         "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
+        "ttl_expiration",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
         "udld_err_unidir",
@@ -1134,9 +1169,11 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "lacp_configuration",
         "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
+        "low_flash_storage",
         "low_power",
         "mac_flap_alert",
         "manual_config_fix_required",
@@ -1152,6 +1189,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "missized_errors",
         "mmc_issue",
         "modular_supervisor_node_group_mismatch",
+        "module_down",
         "monitoring_stack_error",
         "monitoring_tls_tunnel_connected",
         "monitoring_unsupported_version",
@@ -1212,9 +1250,11 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "stack_cable_auth_failure",
         "stack_misconfigured",
         "stack_not_configured",
+        "stack_platform_mismatch",
         "stack_version_mismatch",
         "start_monitoring_provisioning",
         "sticky_client",
+        "storm_control",
         "stp_bpdu_conflict",
         "stp_bpdu_delay",
         "stp_bpduguard_active",
@@ -1223,6 +1263,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "stp_rootguard_active",
         "stp_tcn_errors",
         "successful_connect_degraded",
+        "switch_critical_temperature",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -1233,6 +1274,7 @@ GetOrganizationAssuranceAlertsOverviewHistoricalTypes: TypeAlias = list[
         "thousand_eyes_application_alert",
         "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
+        "ttl_expiration",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
         "udld_err_unidir",
@@ -1359,9 +1401,11 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "lacp_configuration",
         "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
+        "low_flash_storage",
         "low_power",
         "mac_flap_alert",
         "manual_config_fix_required",
@@ -1377,6 +1421,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "missized_errors",
         "mmc_issue",
         "modular_supervisor_node_group_mismatch",
+        "module_down",
         "monitoring_stack_error",
         "monitoring_tls_tunnel_connected",
         "monitoring_unsupported_version",
@@ -1437,9 +1482,11 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "stack_cable_auth_failure",
         "stack_misconfigured",
         "stack_not_configured",
+        "stack_platform_mismatch",
         "stack_version_mismatch",
         "start_monitoring_provisioning",
         "sticky_client",
+        "storm_control",
         "stp_bpdu_conflict",
         "stp_bpdu_delay",
         "stp_bpduguard_active",
@@ -1448,6 +1495,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "stp_rootguard_active",
         "stp_tcn_errors",
         "successful_connect_degraded",
+        "switch_critical_temperature",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -1458,6 +1506,7 @@ GetOrganizationAssuranceAlertsOverviewTypes: TypeAlias = list[
         "thousand_eyes_application_alert",
         "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
+        "ttl_expiration",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
         "udld_err_unidir",
@@ -1588,9 +1637,11 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "known_hardware_problem",
         "l3_dynamic_routes_overflow",
         "l3_hosts_overflow",
+        "lacp_configuration",
         "line_card_insufficient_power_shutdown",
         "line_vty_conflict",
         "line_vty_error",
+        "low_flash_storage",
         "low_power",
         "mac_flap_alert",
         "manual_config_fix_required",
@@ -1606,6 +1657,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "missized_errors",
         "mmc_issue",
         "modular_supervisor_node_group_mismatch",
+        "module_down",
         "monitoring_stack_error",
         "monitoring_tls_tunnel_connected",
         "monitoring_unsupported_version",
@@ -1666,9 +1718,11 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "stack_cable_auth_failure",
         "stack_misconfigured",
         "stack_not_configured",
+        "stack_platform_mismatch",
         "stack_version_mismatch",
         "start_monitoring_provisioning",
         "sticky_client",
+        "storm_control",
         "stp_bpdu_conflict",
         "stp_bpdu_delay",
         "stp_bpduguard_active",
@@ -1677,6 +1731,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "stp_rootguard_active",
         "stp_tcn_errors",
         "successful_connect_degraded",
+        "switch_critical_temperature",
         "switch_not_setup_as_stack",
         "switch_required_vlans_missing",
         "switch_reserved_vlans",
@@ -1687,6 +1742,7 @@ GetOrganizationAssuranceAlertsTypes: TypeAlias = list[
         "thousand_eyes_application_alert",
         "time_to_connect_degraded",
         "traffic_shaping_rule_saturation",
+        "ttl_expiration",
         "udld_err_n_mismatch",
         "udld_err_tx_rx_loop",
         "udld_err_unidir",
@@ -1749,8 +1805,12 @@ GetOrganizationCampusGatewayClustersSsidsSortBy: TypeAlias = Literal[
     "clusterId", "name", "networkId", "ssidId"
 ]
 GetOrganizationCampusGatewayClustersSsidsSortOrder: TypeAlias = Literal["asc", "desc"]
+GetOrganizationCampusGatewayConnectionsCampusGatewayPriorities: TypeAlias = list[Literal[0, 1]]
 GetOrganizationCampusGatewayConnectionsDataEncryptionStatuses: TypeAlias = list[
     Literal["down", "up"]
+]
+GetOrganizationCampusGatewayConnectionsOverviewCampusGatewayPriorities: TypeAlias = list[
+    Literal[0, 1]
 ]
 GetOrganizationCampusGatewayConnectionsOverviewDataEncryptionStatuses: TypeAlias = list[
     Literal["down", "up"]
@@ -1927,6 +1987,12 @@ GetOrganizationNetworksProductTypes: TypeAlias = list[
 ]
 GetOrganizationNetworksTagsFilterType: TypeAlias = Literal["withAllTags", "withAnyTags"]
 GetOrganizationOpenapiSpecVersion: TypeAlias = Literal[2, 3]
+GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsFirewallTypes: TypeAlias = list[
+    Literal["vpnInbound"]
+]
+GetOrganizationPoliciesGlobalGroupPoliciesNetworksFirewallTypes: TypeAlias = list[
+    Literal["vpnInbound"]
+]
 GetOrganizationSaseSitesStatus: TypeAlias = Literal[
     "bad NAT", "bad tunnel", "dormant", "good", "many bad tunnels", "no registry", "offline"
 ]
@@ -2016,7 +2082,7 @@ GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortBy: TypeAlias = Lite
 GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkSortOrder: TypeAlias = Literal[
     "asc", "desc"
 ]
-GetOrganizationWirelessSsidsProfilesOverviewsSortBy: TypeAlias = Literal["name"]
+GetOrganizationWirelessSsidsProfilesOverviewsSortBy: TypeAlias = Literal["attached", "name"]
 GetOrganizationWirelessSsidsProfilesOverviewsSortOrder: TypeAlias = Literal["asc", "desc"]
 GetOrganizationWirelessSsidsProfilesSortBy: TypeAlias = Literal["name"]
 GetOrganizationWirelessSsidsProfilesSortOrder: TypeAlias = Literal["asc", "desc"]
@@ -2084,6 +2150,7 @@ UpdateNetworkApplianceVlanDhcpLeaseTime: TypeAlias = Literal[
     "1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"
 ]
 UpdateNetworkApplianceVlanTemplateVlanType: TypeAlias = Literal["same", "unique"]
+UpdateNetworkApplianceVpnBgpPriorityRoute: TypeAlias = Literal["Auto VPN", "eBGP"]
 UpdateNetworkApplianceVpnSiteToSiteVpnMode: TypeAlias = Literal["hub", "none", "spoke"]
 UpdateNetworkGroupPolicySplashAuthSettings: TypeAlias = Literal["bypass", "network default"]
 UpdateNetworkSnmpAccess: TypeAlias = Literal["community", "none", "users"]
@@ -2221,6 +2288,6 @@ UpdateOrganizationPoliciesGlobalFirewallRulesetsRulePolicy: TypeAlias = Literal[
 UpdateOrganizationSmAdminsRoleScope: TypeAlias = Literal[
     "all_tags", "some", "without_all_tags", "without_some"
 ]
-UpdateOrganizationSnmpV3AuthMode: TypeAlias = Literal["MD5", "SHA"]
+UpdateOrganizationSnmpV3AuthMode: TypeAlias = Literal["MD5", "SHA", "SHA256", "SHA384", "SHA512"]
 UpdateOrganizationSnmpV3PrivMode: TypeAlias = Literal["AES128", "DES"]
 VmxNetworkDevicesClaimSize: TypeAlias = Literal["100", "large", "medium", "small", "xlarge"]

@@ -474,6 +474,17 @@ def test_get_organization_wireless_ssids_open_roaming_by_network(
     assert isinstance(result, list)
 
 
+def test_get_organization_wireless_ssids_owe_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_wireless_ssids_owe_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.wireless.get_organization_wireless_ssids_owe_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
 def test_get_organization_wireless_ssids_profiles(
     client: MerakiClient, organization_id: str
 ) -> None:

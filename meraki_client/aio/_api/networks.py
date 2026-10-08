@@ -2006,7 +2006,8 @@ class Networks:
                   "name": "Catalyst serial",
                   "value": "123ABC"
                 }
-              ]
+              ],
+              "configurationUpdatedAt": "2026-09-15T01:19:07Z"
             }
             ```
 
@@ -4167,7 +4168,8 @@ class Networks:
                         "name": "Catalyst serial",
                         "value": "123ABC"
                       }
-                    ]
+                    ],
+                    "configurationUpdatedAt": "2026-09-15T01:19:07Z"
                   }
                 ],
                 "width": 100.0,
@@ -4284,7 +4286,8 @@ class Networks:
                       "name": "Catalyst serial",
                       "value": "123ABC"
                     }
-                  ]
+                  ],
+                  "configurationUpdatedAt": "2026-09-15T01:19:07Z"
                 }
               ],
               "width": 100.0,
@@ -4618,7 +4621,8 @@ class Networks:
                       "name": "Catalyst serial",
                       "value": "123ABC"
                     }
-                  ]
+                  ],
+                  "configurationUpdatedAt": "2026-09-15T01:19:07Z"
                 }
               ],
               "width": 100.0,
@@ -4741,7 +4745,8 @@ class Networks:
                       "name": "Catalyst serial",
                       "value": "123ABC"
                     }
-                  ]
+                  ],
+                  "configurationUpdatedAt": "2026-09-15T01:19:07Z"
                 }
               ],
               "width": 100.0,
@@ -4851,7 +4856,8 @@ class Networks:
                       "name": "Catalyst serial",
                       "value": "123ABC"
                     }
-                  ]
+                  ],
+                  "configurationUpdatedAt": "2026-09-15T01:19:07Z"
                 }
               ],
               "width": 100.0,
@@ -7826,6 +7832,7 @@ class Networks:
                 "iname": "Profile1",
                 "name": "My VLAN profile name",
                 "isDefault": false,
+                "activeVlans": "1-1000",
                 "vlanNames": [
                   {
                     "name": "named-1",
@@ -7865,6 +7872,7 @@ class Networks:
         vlan_names: list[CreateNetworkVlanProfileVlanNamesItem],
         vlan_groups: list[CreateNetworkVlanProfileVlanGroupsItem],
         iname: str,
+        active_vlans: str | None = None,
     ) -> NetworkVlanProfileResponse:
         """Create a VLAN profile for a network.
 
@@ -7873,6 +7881,8 @@ class Networks:
         Args:
             network_id: Network ID.
             name: Name of the profile, string length must be from 1 to 255 characters.
+            active_vlans: The active VLANs for the VLAN profile. Only applicable to trunk ports. The
+                given range must be inclusive of all named VLANs.
             vlan_names: An array of named VLANs.
             vlan_groups: An array of VLAN groups.
             iname: IName of the profile.
@@ -7886,6 +7896,7 @@ class Networks:
               "iname": "Profile1",
               "name": "My VLAN profile name",
               "isDefault": false,
+              "activeVlans": "1-1000",
               "vlanNames": [
                 {
                   "name": "named-1",
@@ -7912,6 +7923,8 @@ class Networks:
         payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
+        if active_vlans is not None:
+            payload["activeVlans"] = active_vlans
         if vlan_names is not None:
             payload["vlanNames"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in vlan_names
@@ -8102,6 +8115,7 @@ class Networks:
               "iname": "Profile1",
               "name": "My VLAN profile name",
               "isDefault": false,
+              "activeVlans": "1-1000",
               "vlanNames": [
                 {
                   "name": "named-1",
@@ -8141,6 +8155,7 @@ class Networks:
         name: str,
         vlan_names: list[UpdateNetworkVlanProfileVlanNamesItem],
         vlan_groups: list[UpdateNetworkVlanProfileVlanGroupsItem],
+        active_vlans: str | None = None,
     ) -> NetworkVlanProfileResponse:
         """Update an existing VLAN profile of a network.
 
@@ -8150,6 +8165,8 @@ class Networks:
             network_id: Network ID.
             iname: Iname.
             name: Name of the profile, string length must be from 1 to 255 characters.
+            active_vlans: The active VLANs for the VLAN profile. Only applicable to trunk ports. The
+                given range must be inclusive of all named VLANs.
             vlan_names: An array of named VLANs.
             vlan_groups: An array of VLAN groups.
 
@@ -8162,6 +8179,7 @@ class Networks:
               "iname": "Profile1",
               "name": "My VLAN profile name",
               "isDefault": false,
+              "activeVlans": "1-1000",
               "vlanNames": [
                 {
                   "name": "named-1",
@@ -8189,6 +8207,8 @@ class Networks:
         payload: dict[str, Any] = {}
         if name is not None:
             payload["name"] = name
+        if active_vlans is not None:
+            payload["activeVlans"] = active_vlans
         if vlan_names is not None:
             payload["vlanNames"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in vlan_names
