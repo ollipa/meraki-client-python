@@ -13,6 +13,7 @@ from typing import TYPE_CHECKING, Any, Literal
 from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
+    AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
     AttachOrganizationSaseSitesItemsItem,
     AttachOrganizationSaseSitesResponse,
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
@@ -24,6 +25,11 @@ from meraki_client.schemas import (
     BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateResponse,
     BulkOrganizationNetworksGroupAssignResponse,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignPolicy,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignResponse,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignTargetsItem,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeletePolicy,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeleteTargetsItem,
     BulkUpdateOrganizationDevicesDetailsDetailsItem,
     BulkUpdateOrganizationDevicesDetailsResponse,
     ClaimIntoOrganizationInventoryLicensesItem,
@@ -32,6 +38,7 @@ from meraki_client.schemas import (
     ClaimOrganizationInventoryOrdersResponse,
     ClaimOrganizationInventoryOrdersSubscriptionsItem,
     CombineOrganizationNetworksResponse,
+    CommitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentsPolicy,
     CreateNetworkMoveNetwork,
     CreateNetworkMoveOrganizations,
     CreateNetworkMoveResponse,
@@ -48,6 +55,7 @@ from meraki_client.schemas import (
     CreateOrganizationAlertsProfileRecipients,
     CreateOrganizationAssuranceAlertsProfileConfiguration,
     CreateOrganizationBrandingPolicyAdminSettings,
+    CreateOrganizationBrandingPolicyAppearance,
     CreateOrganizationBrandingPolicyCustomLogo,
     CreateOrganizationBrandingPolicyHelpSettings,
     CreateOrganizationDevicesCellularDataProfileRulesItem,
@@ -77,6 +85,7 @@ from meraki_client.schemas import (
     GetOrganizationApiRequestsResponseItem,
     GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponseItemsItem,
     GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem,
+    GetOrganizationApiRestProvisioningPipelinesResponseItemsItem,
     GetOrganizationAssuranceAlertResponse,
     GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem,
     GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem,
@@ -127,8 +136,8 @@ from meraki_client.schemas import (
     GetOrganizationPoliciesAssignmentsByClientResponseItem,
     GetOrganizationPoliciesGlobalFirewallApplicationCategoriesResponseItem,
     GetOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAssignmentsResponseItemsItem,
-    GetOrganizationSamlIdpResponse,
-    GetOrganizationSamlIdpsResponse,
+    GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsResponseItemsItem,
+    GetOrganizationPoliciesGlobalGroupPoliciesNetworksResponseItemsItem,
     GetOrganizationSaseConnectorsResponseItemsItem,
     GetOrganizationSaseNetworksEligibleResponseItemsItem,
     GetOrganizationSaseRegionsResponseItemsItem,
@@ -136,6 +145,12 @@ from meraki_client.schemas import (
     GetOrganizationSaseSitesConnectivityOverviewResponse,
     GetOrganizationSaseSitesResponseItemsItem,
     GetOrganizationSplashAssetResponse,
+    GetOrganizationSummarySustainabilityDailyConsumerMetricsNetworksResponse,
+    GetOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategoriesAggregatedResponse,
+    GetOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategoriesResponse,
+    GetOrganizationSummarySustainabilitySummaryConsumerMetricsDevicesResponse,
+    GetOrganizationSummarySustainabilitySummaryConsumerMetricsNetworksAggregatedResponse,
+    GetOrganizationSummarySustainabilitySummaryConsumerMetricsNetworksResponse,
     GetOrganizationSummaryTopAppliancesByUtilizationResponseItem,
     GetOrganizationSummaryTopApplicationsByUsageResponseItem,
     GetOrganizationSummaryTopApplicationsCategoriesByUsageResponseItem,
@@ -174,12 +189,12 @@ from meraki_client.schemas import (
     OrganizationNetworksGroupResponse,
     OrganizationPoliciesGlobalFirewallRulesetResponse,
     OrganizationPoliciesGlobalFirewallRulesetsRuleResponse,
-    OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
     OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse,
     OrganizationPoliciesGlobalGroupPolicyResponse,
     OrganizationPolicyObjectResponse,
     OrganizationPolicyObjectsGroupResponse,
     OrganizationResponse,
+    OrganizationSamlIdpResponse,
     OrganizationSamlResponse,
     OrganizationSamlRoleResponse,
     OrganizationSaseIntegrationResponse,
@@ -204,6 +219,7 @@ from meraki_client.schemas import (
     UpdateOrganizationApi,
     UpdateOrganizationAssuranceAlertsProfileConfiguration,
     UpdateOrganizationBrandingPolicyAdminSettings,
+    UpdateOrganizationBrandingPolicyAppearance,
     UpdateOrganizationBrandingPolicyCustomLogo,
     UpdateOrganizationBrandingPolicyHelpSettings,
     UpdateOrganizationDevicesCellularDataProfileRulesItem,
@@ -234,6 +250,8 @@ from meraki_client.types import (
     GetOrganizationApiRequestsOverviewResponseCodesByIntervalVersion,
     GetOrganizationApiRequestsVersion,
     GetOrganizationApiRestProvisioningPipelinesJobsStatus,
+    GetOrganizationApiRestProvisioningPipelinesSortOrder,
+    GetOrganizationApiRestProvisioningPipelinesStatus,
     GetOrganizationAssuranceAlertsCategory,
     GetOrganizationAssuranceAlertsDeviceTypes,
     GetOrganizationAssuranceAlertsOverviewByNetworkCategory,
@@ -284,6 +302,8 @@ from meraki_client.types import (
     GetOrganizationNetworksProductTypes,
     GetOrganizationNetworksTagsFilterType,
     GetOrganizationOpenapiSpecVersion,
+    GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsFirewallTypes,
+    GetOrganizationPoliciesGlobalGroupPoliciesNetworksFirewallTypes,
     GetOrganizationSaseSitesStatus,
     GetOrganizationWebhooksAlertTypesProductType,
     UpdateOrganizationAdaptivePolicyAclIpVersion,
@@ -2328,6 +2348,106 @@ class Organizations:
             scope="organizations", operation_id="deleteOrganizationAlertsProfile", path=path
         )
 
+    def get_organization_api_rest_provisioning_pipelines(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        sort_order: GetOrganizationApiRestProvisioningPipelinesSortOrder | None = None,
+        status: GetOrganizationApiRestProvisioningPipelinesStatus | None = None,
+        timespan: int | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[GetOrganizationApiRestProvisioningPipelinesResponseItemsItem]:
+        """List pipelines with operation and status metadata, sorted by pipeline ID.
+
+        [API documentation: getOrganizationApiRestProvisioningPipelines](https://developer.cisco.com/meraki/api-v1/#!get-organization-api-rest-provisioning-pipelines)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 10.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
+                Default is 'descending'.
+            status: If provided, filters pipelines by status. If omitted, pipelines of all statuses
+                are returned. `pending` pipelines have not started, `active` pipelines
+                have started but not finished, `success` pipelines completed
+                successfully, and `error` pipelines failed.
+            timespan: Created-at lookback for matching pipelines, in seconds. Defaults to 7200
+                seconds. The maximum is 30 days.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "pipelineId": "1234",
+                  "operation": {
+                    "id": "enrollOrganizationSaseSites"
+                  },
+                  "status": "active"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 10
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/api/rest/provisioning/pipelines"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if status is not None:
+            params["status"] = status
+        if timespan is not None:
+            params["timespan"] = timespan
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationApiRestProvisioningPipelines",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApiRestProvisioningPipelinesResponseItemsItem,
+        )
+
     def get_organization_api_rest_provisioning_pipelines_jobs(
         self,
         *,
@@ -4079,6 +4199,9 @@ class Organizations:
               {
                 "name": "My Branding Policy",
                 "enabled": true,
+                "appearance": {
+                  "dashboardMenuTheme": "light"
+                },
                 "adminSettings": {
                   "appliesTo": "All admins of networks...",
                   "values": [
@@ -4133,6 +4256,7 @@ class Organizations:
         organization_id: str,
         name: str,
         enabled: bool | None = None,
+        appearance: CreateOrganizationBrandingPolicyAppearance | None = None,
         admin_settings: CreateOrganizationBrandingPolicyAdminSettings | None = None,
         help_settings: CreateOrganizationBrandingPolicyHelpSettings | None = None,
         custom_logo: CreateOrganizationBrandingPolicyCustomLogo | None = None,
@@ -4145,6 +4269,7 @@ class Organizations:
             organization_id: Organization ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
+            appearance: Dashboard appearance settings.
             admin_settings: Settings for describing which kinds of admins this policy applies to.
             help_settings: Settings for describing the modifications to various Help page features.
                 Each property in this object accepts one of 'default or inherit' (do not
@@ -4163,6 +4288,9 @@ class Organizations:
             {
               "name": "My Branding Policy",
               "enabled": true,
+              "appearance": {
+                "dashboardMenuTheme": "light"
+              },
               "adminSettings": {
                 "appliesTo": "All admins of networks...",
                 "values": [
@@ -4208,6 +4336,8 @@ class Organizations:
             payload["name"] = name
         if enabled is not None:
             payload["enabled"] = enabled
+        if appearance is not None:
+            payload["appearance"] = appearance.model_dump(by_alias=True, exclude_none=True)
         if admin_settings is not None:
             payload["adminSettings"] = admin_settings.model_dump(by_alias=True, exclude_none=True)
         if help_settings is not None:
@@ -4319,6 +4449,9 @@ class Organizations:
             {
               "name": "My Branding Policy",
               "enabled": true,
+              "appearance": {
+                "dashboardMenuTheme": "light"
+              },
               "adminSettings": {
                 "appliesTo": "All admins of networks...",
                 "values": [
@@ -4374,6 +4507,7 @@ class Organizations:
         branding_policy_id: str,
         name: str,
         enabled: bool | None = None,
+        appearance: UpdateOrganizationBrandingPolicyAppearance | None = None,
         admin_settings: UpdateOrganizationBrandingPolicyAdminSettings | None = None,
         help_settings: UpdateOrganizationBrandingPolicyHelpSettings | None = None,
         custom_logo: UpdateOrganizationBrandingPolicyCustomLogo | None = None,
@@ -4387,6 +4521,7 @@ class Organizations:
             branding_policy_id: Branding policy ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
+            appearance: Dashboard appearance settings.
             admin_settings: Settings for describing which kinds of admins this policy applies to.
             help_settings: Settings for describing the modifications to various Help page features.
                 Each property in this object accepts one of 'default or inherit' (do not
@@ -4404,6 +4539,9 @@ class Organizations:
             {
               "name": "My Branding Policy",
               "enabled": true,
+              "appearance": {
+                "dashboardMenuTheme": "light"
+              },
               "adminSettings": {
                 "appliesTo": "All admins of networks...",
                 "values": [
@@ -4450,6 +4588,8 @@ class Organizations:
             payload["name"] = name
         if enabled is not None:
             payload["enabled"] = enabled
+        if appearance is not None:
+            payload["appearance"] = appearance.model_dump(by_alias=True, exclude_none=True)
         if admin_settings is not None:
             payload["adminSettings"] = admin_settings.model_dump(by_alias=True, exclude_none=True)
         if help_settings is not None:
@@ -4633,7 +4773,7 @@ class Organizations:
         t1: str | None = None,
         timespan: float | None = None,
     ) -> GetOrganizationClientsOverviewResponse:
-        """Return summary information around client data usage (in kb) across the given organization.
+        """Return summary information around client data usage in MiB across the given organization.
 
         [API documentation: getOrganizationClientsOverview](https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-overview)
 
@@ -4653,11 +4793,11 @@ class Organizations:
             {
               "usage": {
                 "overall": {
-                  "total": 18000.0,
-                  "downstream": 10000.0,
-                  "upstream": 8000.0
+                  "total": 1024.0,
+                  "downstream": 768.0,
+                  "upstream": 256.0
                 },
-                "average": 1.37
+                "average": 51.2
               },
               "counts": {
                 "total": 20
@@ -4942,7 +5082,8 @@ class Organizations:
                   "switch",
                   "wireless"
                 ],
-                "timeZone": "America/Los_Angeles"
+                "timeZone": "America/Los_Angeles",
+                "url": "https://n1.meraki.com/n/12345678901234567890/manage/usage/list"
               }
             ]
             ```
@@ -4994,7 +5135,8 @@ class Organizations:
                 "switch",
                 "wireless"
               ],
-              "timeZone": "America/Los_Angeles"
+              "timeZone": "America/Los_Angeles",
+              "url": "https://n1.meraki.com/n/12345678901234567890/manage/usage/list"
             }
             ```
 
@@ -5042,7 +5184,8 @@ class Organizations:
                 "switch",
                 "wireless"
               ],
-              "timeZone": "America/Los_Angeles"
+              "timeZone": "America/Los_Angeles",
+              "url": "https://n1.meraki.com/n/12345678901234567890/manage/usage/list"
             }
             ```
 
@@ -5092,7 +5235,8 @@ class Organizations:
                 "switch",
                 "wireless"
               ],
-              "timeZone": "America/Los_Angeles"
+              "timeZone": "America/Los_Angeles",
+              "url": "https://n1.meraki.com/n/12345678901234567890/manage/usage/list"
             }
             ```
 
@@ -5351,7 +5495,8 @@ class Organizations:
                     "name": "Catalyst serial",
                     "value": "123ABC"
                   }
-                ]
+                ],
+                "configurationUpdatedAt": "2026-09-15T01:19:07Z"
               }
             ]
             ```
@@ -11703,6 +11848,7 @@ class Organizations:
         organization_id: str,
         *,
         group_ids: list[str] | None = None,
+        search: str | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -11716,6 +11862,8 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             group_ids: Optional parameter to filter network groups by ID.
+            search: Optional parameter to filter network groups by a case-insensitive partial group
+                name match.
             per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
                 is 100.
             starting_after: A token used by the server to indicate the start of the page. Often this
@@ -11766,6 +11914,8 @@ class Organizations:
         params: dict[str, Any] = {}
         if group_ids is not None:
             params["groupIds[]"] = group_ids
+        if search is not None:
+            params["search"] = search
         if per_page is not None:
             params["perPage"] = per_page
         if starting_after is not None:
@@ -12780,6 +12930,11 @@ class Organizations:
                             }
                           }
                         }
+                      ],
+                      "adaptivePolicyGroups": [
+                        {
+                          "id": "67"
+                        }
                       ]
                     }
                   },
@@ -12988,6 +13143,11 @@ class Organizations:
                         }
                       }
                     }
+                  ],
+                  "adaptivePolicyGroups": [
+                    {
+                      "id": "67"
+                    }
                   ]
                 }
               },
@@ -13192,6 +13352,11 @@ class Organizations:
                           "ipv6": "0:ff:fe01:0"
                         }
                       }
+                    }
+                  ],
+                  "adaptivePolicyGroups": [
+                    {
+                      "id": "67"
                     }
                   ]
                 }
@@ -13483,7 +13648,7 @@ class Organizations:
         adaptive_policy_groups: list[
             AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem
         ],
-    ) -> OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
+    ) -> AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
         """Assign adaptive policy groups to a policy.
 
         [API documentation: assignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!assign-organization-policies-global-group-policies-adaptive-policy-groups)
@@ -13520,7 +13685,7 @@ class Organizations:
             operation_id="assignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups",
             path=path,
             json=payload,
-            response_schema=OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
+            response_schema=AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
         )
 
     def get_organization_policies_global_group_policies_adaptive_policy_groups_assignments(
@@ -13626,7 +13791,7 @@ class Organizations:
         adaptive_policy_groups: list[
             RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem
         ],
-    ) -> OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
+    ) -> AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
         """Remove adaptive policy groups from a policy.
 
         [API documentation: removeOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!remove-organization-policies-global-group-policies-adaptive-policy-groups)
@@ -13663,7 +13828,7 @@ class Organizations:
             operation_id="removeOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups",
             path=path,
             json=payload,
-            response_schema=OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
+            response_schema=AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
         )
 
     def get_organization_policies_global_group_policies_firewall_rulesets_assignments(
@@ -13765,7 +13930,13 @@ class Organizations:
         )
 
     async def create_organization_policies_global_group_policies_firewall_rulesets_assignment(
-        self, *, organization_id: str, ruleset_id: str, policy_id: str, priority: int | None = None
+        self,
+        *,
+        organization_id: str,
+        ruleset_id: str,
+        policy_id: str,
+        priority: int | None = None,
+        staged: bool | None = None,
     ) -> OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse:
         """Create an Organization-Wide Policy Ruleset Assignment.
 
@@ -13776,6 +13947,7 @@ class Organizations:
             ruleset_id: ID of the ruleset to assign.
             policy_id: ID of the policy to assign the ruleset to.
             priority: Priority of the ruleset assignment (lower numbers = higher priority).
+            staged: Stage an assignment without applying it immediately to the policy.
 
         Returns:
             Successful operation.
@@ -13803,6 +13975,8 @@ class Organizations:
             payload["policyId"] = policy_id
         if priority is not None:
             payload["priority"] = priority
+        if staged is not None:
+            payload["staged"] = staged
 
         return await self._session.post(
             scope="organizations",
@@ -13810,6 +13984,46 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=OrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentResponse,
+        )
+
+    async def commit_organization_policies_global_group_policies_firewall_rulesets_assignments(
+        self,
+        *,
+        organization_id: str,
+        policy: CommitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentsPolicy,
+    ) -> AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
+        """Commit staged Organization-Wide Policy Ruleset Assignments.
+
+        [API documentation: commitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignments](https://developer.cisco.com/meraki/api-v1/#!commit-organization-policies-global-group-policies-firewall-rulesets-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy in which all staged rulesets will be committed.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments/commit"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return await self._session.post(
+            scope="organizations",
+            operation_id="commitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignments",
+            path=path,
+            json=payload,
+            response_schema=AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
         )
 
     async def update_organization_policies_global_group_policies_firewall_rulesets_assignment(
@@ -13891,6 +14105,341 @@ class Organizations:
             scope="organizations",
             operation_id="deleteOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignment",
             path=path,
+        )
+
+    def get_organization_policies_global_group_policies_networks(
+        self,
+        organization_id: str,
+        *,
+        policy_ids: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        firewall_types: GetOrganizationPoliciesGlobalGroupPoliciesNetworksFirewallTypes
+        | None = None,
+        name: str | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationPoliciesGlobalGroupPoliciesNetworksResponseItemsItem
+    ]:
+        """List all available Network Enforcement Targets for an Organization and their associated Organization-Wide Policies if applicable.
+
+        [API documentation: getOrganizationPoliciesGlobalGroupPoliciesNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-group-policies-networks)
+
+        Args:
+            organization_id: Organization ID.
+            policy_ids: Filter network enforcement targets by policy IDs.
+            network_ids: Filter network enforcement targets by network IDs.
+            firewall_types: Filter network enforcement targets by firewall enforcement types for a
+                network.
+            name: Filter network enforcement targets by network name with support for partial
+                matches. Case insensitive.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "policy": {
+                    "id": "12345",
+                    "name": "Policy A"
+                  },
+                  "network": {
+                    "id": "N_123456789012345678",
+                    "name": "Network A"
+                  },
+                  "firewall": {
+                    "type": "vpnInbound",
+                    "direction": "inbound"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 25,
+                    "remaining": 15
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/networks"
+
+        params: dict[str, Any] = {}
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if firewall_types is not None:
+            params["firewallTypes[]"] = firewall_types
+        if name is not None:
+            params["name"] = name
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationPoliciesGlobalGroupPoliciesNetworks",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationPoliciesGlobalGroupPoliciesNetworksResponseItemsItem,
+        )
+
+    def get_organization_policies_global_group_policies_networks_assignments(
+        self,
+        organization_id: str,
+        *,
+        assignment_ids: list[str] | None = None,
+        policy_ids: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        firewall_types: GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsFirewallTypes
+        | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[
+        GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsResponseItemsItem
+    ]:
+        """List Network Enforcement Target Assignments for Organization-Wide policies for the specified organization.
+
+        [API documentation: getOrganizationPoliciesGlobalGroupPoliciesNetworksAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-global-group-policies-networks-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            assignment_ids: Filter network enforcement target assignments by assignment IDs.
+            policy_ids: Filter network enforcement target assignments by policy IDs.
+            network_ids: Filter network enforcement target assignments by network IDs.
+            firewall_types: Filter network enforcement target assignments by firewall enforcement
+                types for a network.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123456",
+                  "policy": {
+                    "id": "12345"
+                  },
+                  "network": {
+                    "id": "N_123456789012345678",
+                    "name": "Network A"
+                  },
+                  "firewall": {
+                    "type": "vpnInbound",
+                    "direction": "inbound"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 25,
+                    "remaining": 15
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = (
+            f"/organizations/{organization_id}/policies/global/group/policies/networks/assignments"
+        )
+
+        params: dict[str, Any] = {}
+        if assignment_ids is not None:
+            params["assignmentIds[]"] = assignment_ids
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if firewall_types is not None:
+            params["firewallTypes[]"] = firewall_types
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="getOrganizationPoliciesGlobalGroupPoliciesNetworksAssignments",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsResponseItemsItem,
+        )
+
+    async def bulk_organization_policies_global_group_policies_networks_assignments_assign(
+        self,
+        *,
+        organization_id: str,
+        policy: BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignPolicy,
+        targets: list[
+            BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignTargetsItem
+        ],
+    ) -> BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignResponse:
+        """Assign Network Enforcement Targets to an Organization-Wide Policy.
+
+        [API documentation: bulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssign](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-policies-global-group-policies-networks-assignments-assign)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to assign network enforcement targets to.
+            targets: Network enforcement targets to assign to the specified policy. Maximum 1000 per
+                request.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "assignmentId": "123456",
+                  "policy": {
+                    "id": "12345"
+                  },
+                  "network": {
+                    "id": "N_123456789012345678",
+                    "name": "Network A"
+                  },
+                  "firewall": {
+                    "type": "vpnInbound",
+                    "direction": "inbound"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 25
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/networks/assignments/bulkAssign"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if targets is not None:
+            payload["targets"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in targets
+            ]
+
+        return await self._session.post(
+            scope="organizations",
+            operation_id="bulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssign",
+            path=path,
+            json=payload,
+            response_schema=BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignResponse,
+        )
+
+    async def bulk_organization_policies_global_group_policies_networks_assignments_delete(
+        self,
+        *,
+        organization_id: str,
+        policy: BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeletePolicy,
+        targets: list[
+            BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeleteTargetsItem
+        ],
+    ) -> None:
+        """Remove Network Enforcement Targets from an Organization-Wide Policy.
+
+        [API documentation: bulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDelete](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-policies-global-group-policies-networks-assignments-delete)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to remove network enforcement targets from.
+            targets: Network enforcement targets to remove for the specified policy. Maximum 1000
+                per request.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/networks/assignments/bulkDelete"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if targets is not None:
+            payload["targets"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in targets
+            ]
+
+        return await self._session.post(
+            scope="organizations",
+            operation_id="bulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDelete",
+            path=path,
+            json=payload,
         )
 
     async def update_organization_policies_global_group_policy(
@@ -14642,7 +15191,7 @@ class Organizations:
 
     def get_organization_saml_idps(
         self, organization_id: str
-    ) -> AsyncPaginatedResponse[GetOrganizationSamlIdpResponse]:
+    ) -> AsyncPaginatedResponse[OrganizationSamlIdpResponse]:
         """List the SAML IdPs in your organization.
 
         [API documentation: getOrganizationSamlIdps](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps)
@@ -14680,7 +15229,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationSamlIdps",
             path=path,
-            item_schema=GetOrganizationSamlIdpResponse,
+            item_schema=OrganizationSamlIdpResponse,
         )
 
     async def create_organization_saml_idp(
@@ -14690,7 +15239,7 @@ class Organizations:
         x509cert_sha1_fingerprint: str,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
-    ) -> GetOrganizationSamlIdpsResponse:
+    ) -> OrganizationSamlIdpResponse:
         """Create a SAML IdP for your organization.
 
         [API documentation: createOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp)
@@ -14708,16 +15257,14 @@ class Organizations:
 
         Example API response:
             ```json
-            [
-              {
-                "idpId": "1284392014819",
-                "consumerUrl": "https://n7.meraki.com/saml/login/XXX",
-                "visionConsumerUrl": "https://n7.meraki.com/saml/login/XXX?appTarget=MerakiVision",
-                "x509certSha1Fingerprint": "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:99",
-                "ssoLoginUrl": "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b",
-                "sloLogoutUrl": "https://onelogin.com/trust/saml2/http-redirect/slo/4155000"
-              }
-            ]
+            {
+              "idpId": "1284392014819",
+              "consumerUrl": "https://n7.meraki.com/saml/login/XXX",
+              "visionConsumerUrl": "https://n7.meraki.com/saml/login/XXX?appTarget=MerakiVision",
+              "x509certSha1Fingerprint": "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:99",
+              "ssoLoginUrl": "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b",
+              "sloLogoutUrl": "https://onelogin.com/trust/saml2/http-redirect/slo/4155000"
+            }
             ```
 
         """
@@ -14737,12 +15284,12 @@ class Organizations:
             operation_id="createOrganizationSamlIdp",
             path=path,
             json=payload,
-            response_schema=GetOrganizationSamlIdpsResponse,
+            response_schema=OrganizationSamlIdpResponse,
         )
 
     async def get_organization_saml_idp(
         self, *, organization_id: str, idp_id: str
-    ) -> GetOrganizationSamlIdpResponse:
+    ) -> OrganizationSamlIdpResponse:
         """Get a SAML IdP from your organization.
 
         [API documentation: getOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp)
@@ -14775,7 +15322,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationSamlIdp",
             path=path,
-            response_schema=GetOrganizationSamlIdpResponse,
+            response_schema=OrganizationSamlIdpResponse,
         )
 
     async def update_organization_saml_idp(
@@ -14786,7 +15333,7 @@ class Organizations:
         x509cert_sha1_fingerprint: str | None = None,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
-    ) -> GetOrganizationSamlIdpsResponse:
+    ) -> OrganizationSamlIdpResponse:
         """Update a SAML IdP in your organization.
 
         [API documentation: updateOrganizationSamlIdp](https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp)
@@ -14805,16 +15352,14 @@ class Organizations:
 
         Example API response:
             ```json
-            [
-              {
-                "idpId": "1284392014819",
-                "consumerUrl": "https://n7.meraki.com/saml/login/XXX",
-                "visionConsumerUrl": "https://n7.meraki.com/saml/login/XXX?appTarget=MerakiVision",
-                "x509certSha1Fingerprint": "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:99",
-                "ssoLoginUrl": "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b",
-                "sloLogoutUrl": "https://onelogin.com/trust/saml2/http-redirect/slo/4155000"
-              }
-            ]
+            {
+              "idpId": "1284392014819",
+              "consumerUrl": "https://n7.meraki.com/saml/login/XXX",
+              "visionConsumerUrl": "https://n7.meraki.com/saml/login/XXX?appTarget=MerakiVision",
+              "x509certSha1Fingerprint": "00:11:22:33:44:55:66:77:88:99:00:11:22:33:44:55:66:77:88:99",
+              "ssoLoginUrl": "https://onelogin.com/trust/saml2/http-post/sso/3de5f942-e7b8-4cb9-94e3-85828111158b",
+              "sloLogoutUrl": "https://onelogin.com/trust/saml2/http-redirect/slo/4155000"
+            }
             ```
 
         """
@@ -14835,7 +15380,7 @@ class Organizations:
             operation_id="updateOrganizationSamlIdp",
             path=path,
             json=payload,
-            response_schema=GetOrganizationSamlIdpsResponse,
+            response_schema=OrganizationSamlIdpResponse,
         )
 
     async def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> None:
@@ -16044,7 +16589,9 @@ class Organizations:
             organization_id: Organization ID.
             v2c_enabled: Boolean indicating whether SNMP version 2c is enabled for the organization.
             v3_enabled: Boolean indicating whether SNMP version 3 is enabled for the organization.
-            v3_auth_mode: The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
+            v3_auth_mode: The SNMP version 3 authentication mode. Can be one of 'SHA', 'MD5',
+                'SHA256', 'SHA384', or 'SHA512'. MD5 is not supported in the Cisco
+                Meraki US Government Region.
             v3_auth_pass: The SNMP version 3 authentication password. Must be at least 8 characters
                 if specified.
             v3_priv_mode: The SNMP version 3 privacy mode. Can be either 'DES' or 'AES128'.
@@ -16318,6 +16865,387 @@ class Organizations:
             path=path,
             json=payload,
             response_schema=GetOrganizationSplashAssetResponse,
+        )
+
+    async def get_organization_summary_sustainability_daily_consumer_metrics_networks(
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+    ) -> GetOrganizationSummarySustainabilityDailyConsumerMetricsNetworksResponse:
+        """Lists daily consumer metrics for networks.
+
+        [API documentation: getOrganizationSummarySustainabilityDailyConsumerMetricsNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-sustainability-daily-consumer-metrics-networks)
+
+        Args:
+            organization_id: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 730 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 32 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 32 days. The default is 30 days.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "pageItems": 10,
+              "contents": [
+                {
+                  "startTime": "2025-04-01T00:00:00Z",
+                  "endTime": "2025-04-01T23:59:59Z",
+                  "powerConsumption": 4.916,
+                  "carbonEmissions": 1.4443,
+                  "powerCost": 0.525
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = (
+            f"/organizations/{organization_id}/summary/sustainability/dailyConsumerMetrics/networks"
+        )
+
+        params: dict[str, Any] = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+
+        return await self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationSummarySustainabilityDailyConsumerMetricsNetworks",
+            path=path,
+            params=params,
+            response_schema=GetOrganizationSummarySustainabilityDailyConsumerMetricsNetworksResponse,
+        )
+
+    async def get_organization_summary_sustainability_summary_consumer_metrics_device_categories(
+        self, organization_id: str
+    ) -> GetOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategoriesResponse:
+        """Lists available device categories for sustainability metrics with their corresponding device types.
+
+        [API documentation: getOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategories](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-sustainability-summary-consumer-metrics-device-categories)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "accessPoints": [
+                "WirelessController",
+                "ReadOnlyWirelessNode"
+              ],
+              "switches": [
+                "ReadOnlySwitch",
+                "Switch"
+              ],
+              "cameras": [
+                "Camera"
+              ],
+              "sensors": [
+                "Sensor"
+              ],
+              "securityAppliances": [
+                "WiredNode",
+                "CRouter"
+              ],
+              "cellularGateways": [
+                "CellularGateway"
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/summary/sustainability/summaryConsumerMetrics/deviceCategories"
+
+        return await self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategories",
+            path=path,
+            response_schema=GetOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategoriesResponse,
+        )
+
+    async def get_organization_summary_sustainability_summary_consumer_metrics_device_categories_aggregated(
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+    ) -> (
+        GetOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategoriesAggregatedResponse
+    ):
+        """Lists summary consumer metrics aggregated by device category.
+
+        [API documentation: getOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategoriesAggregated](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-sustainability-summary-consumer-metrics-device-categories-aggregated)
+
+        Args:
+            organization_id: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 730 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 32 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 32 days. The default is 30 days.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "pageIndex": 0,
+              "pageItems": 10,
+              "totalItems": 100,
+              "hasNext": true,
+              "hasPrevious": false,
+              "contents": [
+                {
+                  "deviceCategory": "Switches",
+                  "startTime": "2025-04-01T00:00:00Z",
+                  "endTime": "2025-04-30T23:59:59Z",
+                  "powerConsumption": 24.916,
+                  "carbonEmissions": 7.4443,
+                  "powerCost": 2.525,
+                  "percentageOfTotal": 0.6834,
+                  "isEstimated": 1
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/summary/sustainability/summaryConsumerMetrics/deviceCategories/aggregated"
+
+        params: dict[str, Any] = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+
+        return await self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategoriesAggregated",
+            path=path,
+            params=params,
+            response_schema=GetOrganizationSummarySustainabilitySummaryConsumerMetricsDeviceCategoriesAggregatedResponse,
+        )
+
+    async def get_organization_summary_sustainability_summary_consumer_metrics_devices(
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+    ) -> GetOrganizationSummarySustainabilitySummaryConsumerMetricsDevicesResponse:
+        """Lists summary consumer metrics for devices.
+
+        [API documentation: getOrganizationSummarySustainabilitySummaryConsumerMetricsDevices](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-sustainability-summary-consumer-metrics-devices)
+
+        Args:
+            organization_id: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 730 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 32 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 32 days. The default is 30 days.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "pageIndex": 0,
+              "pageItems": 10,
+              "totalItems": 100,
+              "hasNext": true,
+              "hasPrevious": false,
+              "contents": [
+                {
+                  "networkId": "569142402909566885",
+                  "deviceType": "Switch",
+                  "deviceCategory": "Switches",
+                  "serial": "119292934476097",
+                  "location": {
+                    "latitude": 37.566,
+                    "longitude": 126.9784
+                  },
+                  "startTime": "2025-04-01T00:00:00Z",
+                  "endTime": "2025-04-30T23:59:59Z",
+                  "powerConsumption": 4.916,
+                  "carbonEmissions": 1.4443,
+                  "powerCost": 0.525,
+                  "percentageOfTotal": 1.0,
+                  "isEstimated": 0
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/summary/sustainability/summaryConsumerMetrics/devices"
+
+        params: dict[str, Any] = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+
+        return await self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationSummarySustainabilitySummaryConsumerMetricsDevices",
+            path=path,
+            params=params,
+            response_schema=GetOrganizationSummarySustainabilitySummaryConsumerMetricsDevicesResponse,
+        )
+
+    async def get_organization_summary_sustainability_summary_consumer_metrics_networks(
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+    ) -> GetOrganizationSummarySustainabilitySummaryConsumerMetricsNetworksResponse:
+        """Lists summary consumer metrics for networks.
+
+        [API documentation: getOrganizationSummarySustainabilitySummaryConsumerMetricsNetworks](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-sustainability-summary-consumer-metrics-networks)
+
+        Args:
+            organization_id: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 730 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 32 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 32 days. The default is 30 days.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "pageIndex": 0,
+              "pageItems": 10,
+              "totalItems": 100,
+              "hasNext": true,
+              "hasPrevious": false,
+              "contents": [
+                {
+                  "networkId": "569142402909566885",
+                  "powerConsumption": 4.916,
+                  "carbonEmissions": 1.4443,
+                  "powerCost": 0.525,
+                  "percentageOfTotal": 1.0,
+                  "location": {
+                    "latitude": 37.566,
+                    "longitude": 126.9784
+                  },
+                  "startTime": "2025-04-01T00:00:00Z",
+                  "endTime": "2025-04-30T23:59:59Z"
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/summary/sustainability/summaryConsumerMetrics/networks"
+
+        params: dict[str, Any] = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+
+        return await self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationSummarySustainabilitySummaryConsumerMetricsNetworks",
+            path=path,
+            params=params,
+            response_schema=GetOrganizationSummarySustainabilitySummaryConsumerMetricsNetworksResponse,
+        )
+
+    async def get_organization_summary_sustainability_summary_consumer_metrics_networks_aggregated(
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+    ) -> GetOrganizationSummarySustainabilitySummaryConsumerMetricsNetworksAggregatedResponse:
+        """Returns aggregated consumer metrics for all networks in the organization.
+
+        [API documentation: getOrganizationSummarySustainabilitySummaryConsumerMetricsNetworksAggregated](https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-sustainability-summary-consumer-metrics-networks-aggregated)
+
+        Args:
+            organization_id: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 730 days
+                from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 32 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+                timespan, do not specify parameters t0 and t1. The value must be in
+                seconds and be less than or equal to 32 days. The default is 30 days.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "startTime": "2025-07-01T00:00:00Z",
+              "endTime": "2025-07-31T23:59:59Z",
+              "powerConsumption": 2000.0,
+              "carbonEmissions": 1.0004,
+              "powerCost": 300.7
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/summary/sustainability/summaryConsumerMetrics/networks/aggregated"
+
+        params: dict[str, Any] = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+
+        return await self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationSummarySustainabilitySummaryConsumerMetricsNetworksAggregated",
+            path=path,
+            params=params,
+            response_schema=GetOrganizationSummarySustainabilitySummaryConsumerMetricsNetworksAggregatedResponse,
         )
 
     def get_organization_summary_top_appliances_by_utilization(

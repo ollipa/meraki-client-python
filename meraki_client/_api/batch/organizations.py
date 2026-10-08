@@ -13,8 +13,13 @@ from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
     BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignPolicy,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignTargetsItem,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeletePolicy,
+    BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeleteTargetsItem,
     BulkUpdateOrganizationDevicesDetailsDetailsItem,
     ClaimOrganizationInventoryOrdersSubscriptionsItem,
+    CommitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentsPolicy,
     CreateOrganizationActionBatchActionsItem,
     CreateOrganizationAdaptivePolicyAclRulesItem,
     CreateOrganizationAdaptivePolicyGroupPolicyObjectsItem,
@@ -25,6 +30,7 @@ from meraki_client.schemas import (
     CreateOrganizationAlertsProfileRecipients,
     CreateOrganizationAssuranceAlertsProfileConfiguration,
     CreateOrganizationBrandingPolicyAdminSettings,
+    CreateOrganizationBrandingPolicyAppearance,
     CreateOrganizationBrandingPolicyCustomLogo,
     CreateOrganizationBrandingPolicyHelpSettings,
     CreateOrganizationDevicesCellularDataProfileRulesItem,
@@ -32,7 +38,6 @@ from meraki_client.schemas import (
     CreateOrganizationDevicesPacketCaptureScheduleSchedule,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
-    CreateOrganizationSaseIntegrationApi,
     DisableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksNetworksItem,
     RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
@@ -48,6 +53,7 @@ from meraki_client.schemas import (
     UpdateOrganizationApi,
     UpdateOrganizationAssuranceAlertsProfileConfiguration,
     UpdateOrganizationBrandingPolicyAdminSettings,
+    UpdateOrganizationBrandingPolicyAppearance,
     UpdateOrganizationBrandingPolicyCustomLogo,
     UpdateOrganizationBrandingPolicyHelpSettings,
     UpdateOrganizationDevicesCellularDataProfileRulesItem,
@@ -712,6 +718,7 @@ class ActionBatchOrganizations:
         organization_id: str,
         name: str,
         enabled: bool | None = None,
+        appearance: CreateOrganizationBrandingPolicyAppearance | None = None,
         admin_settings: CreateOrganizationBrandingPolicyAdminSettings | None = None,
         help_settings: CreateOrganizationBrandingPolicyHelpSettings | None = None,
         custom_logo: CreateOrganizationBrandingPolicyCustomLogo | None = None,
@@ -724,6 +731,7 @@ class ActionBatchOrganizations:
             organization_id: Organization ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
+            appearance: Dashboard appearance settings.
             admin_settings: Settings for describing which kinds of admins this policy applies to.
             help_settings: Settings for describing the modifications to various Help page features.
                 Each property in this object accepts one of 'default or inherit' (do not
@@ -743,6 +751,8 @@ class ActionBatchOrganizations:
             payload["name"] = name
         if enabled is not None:
             payload["enabled"] = enabled
+        if appearance is not None:
+            payload["appearance"] = appearance.model_dump(by_alias=True, exclude_none=True)
         if admin_settings is not None:
             payload["adminSettings"] = admin_settings.model_dump(by_alias=True, exclude_none=True)
         if help_settings is not None:
@@ -789,6 +799,7 @@ class ActionBatchOrganizations:
         branding_policy_id: str,
         name: str,
         enabled: bool | None = None,
+        appearance: UpdateOrganizationBrandingPolicyAppearance | None = None,
         admin_settings: UpdateOrganizationBrandingPolicyAdminSettings | None = None,
         help_settings: UpdateOrganizationBrandingPolicyHelpSettings | None = None,
         custom_logo: UpdateOrganizationBrandingPolicyCustomLogo | None = None,
@@ -802,6 +813,7 @@ class ActionBatchOrganizations:
             branding_policy_id: Branding policy ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
+            appearance: Dashboard appearance settings.
             admin_settings: Settings for describing which kinds of admins this policy applies to.
             help_settings: Settings for describing the modifications to various Help page features.
                 Each property in this object accepts one of 'default or inherit' (do not
@@ -821,6 +833,8 @@ class ActionBatchOrganizations:
             payload["name"] = name
         if enabled is not None:
             payload["enabled"] = enabled
+        if appearance is not None:
+            payload["appearance"] = appearance.model_dump(by_alias=True, exclude_none=True)
         if admin_settings is not None:
             payload["adminSettings"] = admin_settings.model_dump(by_alias=True, exclude_none=True)
         if help_settings is not None:
@@ -2304,7 +2318,13 @@ class ActionBatchOrganizations:
         )
 
     def create_organization_policies_global_group_policies_firewall_rulesets_assignment(
-        self, *, organization_id: str, ruleset_id: str, policy_id: str, priority: int | None = None
+        self,
+        *,
+        organization_id: str,
+        ruleset_id: str,
+        policy_id: str,
+        priority: int | None = None,
+        staged: bool | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create an Organization-Wide Policy Ruleset Assignment.
 
@@ -2315,6 +2335,7 @@ class ActionBatchOrganizations:
             ruleset_id: ID of the ruleset to assign.
             policy_id: ID of the policy to assign the ruleset to.
             priority: Priority of the ruleset assignment (lower numbers = higher priority).
+            staged: Stage an assignment without applying it immediately to the policy.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -2327,10 +2348,40 @@ class ActionBatchOrganizations:
             payload["policyId"] = policy_id
         if priority is not None:
             payload["priority"] = priority
+        if staged is not None:
+            payload["staged"] = staged
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="create",
+            body=payload,
+        )
+
+    def commit_organization_policies_global_group_policies_firewall_rulesets_assignments(
+        self,
+        *,
+        organization_id: str,
+        policy: CommitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentsPolicy,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Commit staged Organization-Wide Policy Ruleset Assignments.
+
+        [API documentation: commitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignments](https://developer.cisco.com/meraki/api-v1/#!commit-organization-policies-global-group-policies-firewall-rulesets-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy in which all staged rulesets will be committed.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/firewall/rulesets/assignments/commit"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="commit",
             body=payload,
         )
 
@@ -2392,6 +2443,80 @@ class ActionBatchOrganizations:
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
             operation="destroy",
+        )
+
+    def bulk_organization_policies_global_group_policies_networks_assignments_assign(
+        self,
+        *,
+        organization_id: str,
+        policy: BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignPolicy,
+        targets: list[
+            BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignTargetsItem
+        ],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Assign Network Enforcement Targets to an Organization-Wide Policy.
+
+        [API documentation: bulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssign](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-policies-global-group-policies-networks-assignments-assign)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to assign network enforcement targets to.
+            targets: Network enforcement targets to assign to the specified policy. Maximum 1000 per
+                request.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/networks/assignments/bulkAssign"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if targets is not None:
+            payload["targets"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in targets
+            ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="bulk_create",
+            body=payload,
+        )
+
+    def bulk_organization_policies_global_group_policies_networks_assignments_delete(
+        self,
+        *,
+        organization_id: str,
+        policy: BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeletePolicy,
+        targets: list[
+            BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeleteTargetsItem
+        ],
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Remove Network Enforcement Targets from an Organization-Wide Policy.
+
+        [API documentation: bulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDelete](https://developer.cisco.com/meraki/api-v1/#!bulk-organization-policies-global-group-policies-networks-assignments-delete)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Policy to remove network enforcement targets from.
+            targets: Network enforcement targets to remove for the specified policy. Maximum 1000
+                per request.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/policies/global/group/policies/networks/assignments/bulkDelete"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+        if targets is not None:
+            payload["targets"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in targets
+            ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="bulk_delete",
+            body=payload,
         )
 
     def update_organization_policies_global_group_policy(
@@ -2785,31 +2910,6 @@ class ActionBatchOrganizations:
             operation="destroy",
         )
 
-    def create_organization_sase_integration(
-        self, *, organization_id: str, api: CreateOrganizationSaseIntegrationApi
-    ) -> CreateOrganizationActionBatchActionsItem:
-        """Create a new Secure Access integration.
-
-        [API documentation: createOrganizationSaseIntegration](https://developer.cisco.com/meraki/api-v1/#!create-organization-sase-integration)
-
-        Args:
-            organization_id: Organization ID.
-            api: API credentials.
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/sase/integrations"
-
-        payload: dict[str, Any] = {}
-        if api is not None:
-            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
-
-        return CreateOrganizationActionBatchActionsItem(
-            resource=path,
-            operation="create",
-            body=payload,
-        )
-
     def delete_organization_sase_integration(
         self, *, organization_id: str, integration_id: str
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -2884,7 +2984,9 @@ class ActionBatchOrganizations:
             organization_id: Organization ID.
             v2c_enabled: Boolean indicating whether SNMP version 2c is enabled for the organization.
             v3_enabled: Boolean indicating whether SNMP version 3 is enabled for the organization.
-            v3_auth_mode: The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
+            v3_auth_mode: The SNMP version 3 authentication mode. Can be one of 'SHA', 'MD5',
+                'SHA256', 'SHA384', or 'SHA512'. MD5 is not supported in the Cisco
+                Meraki US Government Region.
             v3_auth_pass: The SNMP version 3 authentication password. Must be at least 8 characters
                 if specified.
             v3_priv_mode: The SNMP version 3 privacy mode. Can be either 'DES' or 'AES128'.

@@ -28,6 +28,7 @@ from meraki_client.schemas import (
     GetOrganizationCampusGatewayClustersTunnelingByClusterByNetworkResponseItemsItem,
     GetOrganizationCampusGatewayConnectionsOverviewResponse,
     GetOrganizationCampusGatewayConnectionsResponseItemsItem,
+    GetOrganizationCampusGatewayDevicesSystemCpuLoadResponseItemsItem,
     GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem,
     NetworkCampusGatewayClusterResponse,
     ProvisionOrganizationCampusGatewayClustersDevicesItem,
@@ -53,7 +54,9 @@ from meraki_client.types import (
     GetOrganizationCampusGatewayClustersNetworksOverviewsTunnelingSources,
     GetOrganizationCampusGatewayClustersSsidsSortBy,
     GetOrganizationCampusGatewayClustersSsidsSortOrder,
+    GetOrganizationCampusGatewayConnectionsCampusGatewayPriorities,
     GetOrganizationCampusGatewayConnectionsDataEncryptionStatuses,
+    GetOrganizationCampusGatewayConnectionsOverviewCampusGatewayPriorities,
     GetOrganizationCampusGatewayConnectionsOverviewDataEncryptionStatuses,
     GetOrganizationCampusGatewayConnectionsSortBy,
     GetOrganizationCampusGatewayConnectionsSortOrder,
@@ -1650,6 +1653,8 @@ class CampusGateway:
         campus_gateway_serials: list[str] | None = None,
         campus_gateway_cluster_ids: list[str] | None = None,
         campus_gateway_tunnel_statuses: list[str] | None = None,
+        campus_gateway_priorities: GetOrganizationCampusGatewayConnectionsCampusGatewayPriorities
+        | None = None,
         search: str | None = None,
         models: list[str] | None = None,
         data_encryption_statuses: GetOrganizationCampusGatewayConnectionsDataEncryptionStatuses
@@ -1678,6 +1683,9 @@ class CampusGateway:
                 IDs. This filter uses multiple exact matches.
             campus_gateway_tunnel_statuses: Optional parameter to filter connections(APs) by tunnel
                 statuses. This filter uses multiple exact matches.
+            campus_gateway_priorities: Optional parameter to filter connections(APs) by Campus
+                Gateway tunnel priority. Use 0 for primary or 1 for backup. This filter
+                uses multiple exact matches.
             search: Optional parameter to filter connections(APs) on AP name, serial, MAC address,
                 network name, or interface IP address. This filter uses partial string
                 matching (ILIKE).
@@ -1792,6 +1800,8 @@ class CampusGateway:
             params["campusGatewayClusterIds[]"] = campus_gateway_cluster_ids
         if campus_gateway_tunnel_statuses is not None:
             params["campusGatewayTunnelStatuses[]"] = campus_gateway_tunnel_statuses
+        if campus_gateway_priorities is not None:
+            params["campusGatewayPriorities[]"] = campus_gateway_priorities
         if search is not None:
             params["search"] = search
         if models is not None:
@@ -1828,6 +1838,8 @@ class CampusGateway:
         campus_gateway_serials: list[str] | None = None,
         campus_gateway_cluster_ids: list[str] | None = None,
         campus_gateway_tunnel_statuses: list[str] | None = None,
+        campus_gateway_priorities: GetOrganizationCampusGatewayConnectionsOverviewCampusGatewayPriorities
+        | None = None,
         search: str | None = None,
         models: list[str] | None = None,
         data_encryption_statuses: GetOrganizationCampusGatewayConnectionsOverviewDataEncryptionStatuses
@@ -1849,6 +1861,9 @@ class CampusGateway:
                 Gateway cluster IDs. This filter uses multiple exact matches.
             campus_gateway_tunnel_statuses: Optional parameter to filter connections(APs) by tunnel
                 statuses. This filter uses multiple exact matches.
+            campus_gateway_priorities: Optional parameter to filter connections(APs) by Campus
+                Gateway tunnel priority. Use 0 for primary or 1 for backup. This filter
+                uses multiple exact matches.
             search: Optional setting that lets you filter access points (APs) by name, serial
                 number, MAC address, network name, or interface IP address. The filter
                 matches partial text, not just exact values (uses ILIKE matching).
@@ -1888,6 +1903,8 @@ class CampusGateway:
             params["campusGatewayClusterIds[]"] = campus_gateway_cluster_ids
         if campus_gateway_tunnel_statuses is not None:
             params["campusGatewayTunnelStatuses[]"] = campus_gateway_tunnel_statuses
+        if campus_gateway_priorities is not None:
+            params["campusGatewayPriorities[]"] = campus_gateway_priorities
         if search is not None:
             params["search"] = search
         if models is not None:
@@ -1901,6 +1918,105 @@ class CampusGateway:
             path=path,
             params=params,
             response_schema=GetOrganizationCampusGatewayConnectionsOverviewResponse,
+        )
+
+    def get_organization_campus_gateway_devices_system_cpu_load(
+        self,
+        organization_id: str,
+        *,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[GetOrganizationCampusGatewayDevicesSystemCpuLoadResponseItemsItem]:
+        """Return the latest CPU load averages reported by Campus Gateway devices.
+
+        [API documentation: getOrganizationCampusGatewayDevicesSystemCpuLoad](https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-devices-system-cpu-load)
+
+        Args:
+            organization_id: Organization ID.
+            network_ids: Optional exact-match network filters. Accepts both node group (N_) and
+                locale (L_) network IDs.
+            serials: Optional exact-match Campus Gateway serial filters.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy AsyncPaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "serial": "Q234-ABCD-5678",
+                  "network": {
+                    "id": "N_1234"
+                  },
+                  "observedAt": "2026-09-22T01:33:33Z",
+                  "load": {
+                    "averages": {
+                      "oneMinute": 0.07,
+                      "fiveMinutes": 0.04,
+                      "fifteenMinutes": 0.02
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/campusGateway/devices/system/cpu/load"
+
+        params: dict[str, Any] = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="getOrganizationCampusGatewayDevicesSystemCpuLoad",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCampusGatewayDevicesSystemCpuLoadResponseItemsItem,
         )
 
     def get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(

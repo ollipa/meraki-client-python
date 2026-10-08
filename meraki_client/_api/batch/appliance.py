@@ -13,10 +13,10 @@ from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
     AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
-    ConnectNetworkApplianceUmbrellaAccountApi,
     CreateDeviceApplianceInterfacesPortsUpdateDownlink,
     CreateDeviceApplianceInterfacesPortsUpdateInterface,
     CreateDeviceApplianceInterfacesPortsUpdatePersonality,
+    CreateDeviceApplianceInterfacesPortsUpdateProfile,
     CreateDeviceApplianceInterfacesPortsUpdateUplink,
     CreateNetworkApplianceInterfacesL3Ipv4,
     CreateNetworkApplianceInterfacesL3Port,
@@ -36,9 +36,18 @@ from meraki_client.schemas import (
     CreateOrganizationApplianceDnsSplitProfileNameservers,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem,
+    CreateOrganizationApplianceSecurityIntrusionPolicyPolicy,
+    CreateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride,
+    CreateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesItemsItem,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesItemsItem,
     RemoveNetworkApplianceUmbrellaPoliciesPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
+    UpdateDeviceApplianceInterfacesPortDownlink,
+    UpdateDeviceApplianceInterfacesPortPersonality,
+    UpdateDeviceApplianceInterfacesPortProfile,
+    UpdateDeviceApplianceInterfacesPortUplink,
     UpdateDeviceApplianceRadioSettingsFiveGhzSettings,
     UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings,
     UpdateDeviceApplianceUplinksSettingsInterfaces,
@@ -77,7 +86,9 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceVlanSgt,
     UpdateNetworkApplianceVlanUplinksItem,
     UpdateNetworkApplianceVlanVrf,
+    UpdateNetworkApplianceVpnBgpIpv6,
     UpdateNetworkApplianceVpnBgpNeighborsItem,
+    UpdateNetworkApplianceVpnBgpTunnelDownTermination,
     UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnSgt,
@@ -85,6 +96,9 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem,
     UpdateOrganizationApplianceDnsLocalRecordProfile,
     UpdateOrganizationApplianceDnsSplitProfileNameservers,
+    UpdateOrganizationApplianceSecurityIntrusionPolicyPolicy,
+    UpdateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride,
+    UpdateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride,
     UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem,
     UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem,
 )
@@ -92,6 +106,8 @@ from meraki_client.types import (
     CreateNetworkApplianceVlanDhcpHandling,
     CreateNetworkApplianceVlanDhcpLeaseTime,
     CreateNetworkApplianceVlanTemplateVlanType,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesMode,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesMode,
     UpdateNetworkApplianceDevicesRedundancyMode,
     UpdateNetworkApplianceSettingsClientTrackingMethod,
     UpdateNetworkApplianceSettingsDeploymentMode,
@@ -101,6 +117,7 @@ from meraki_client.types import (
     UpdateNetworkApplianceVlanDhcpHandling,
     UpdateNetworkApplianceVlanDhcpLeaseTime,
     UpdateNetworkApplianceVlanTemplateVlanType,
+    UpdateNetworkApplianceVpnBgpPriorityRoute,
     UpdateNetworkApplianceVpnSiteToSiteVpnMode,
 )
 
@@ -120,6 +137,7 @@ class ActionBatchAppliance:
         personality: CreateDeviceApplianceInterfacesPortsUpdatePersonality | None = None,
         uplink: CreateDeviceApplianceInterfacesPortsUpdateUplink | None = None,
         downlink: CreateDeviceApplianceInterfacesPortsUpdateDownlink | None = None,
+        profile: CreateDeviceApplianceInterfacesPortsUpdateProfile | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update configurations for an appliance's specified port.
 
@@ -132,6 +150,7 @@ class ActionBatchAppliance:
             personality: Describes the port's configurability.
             uplink: The port's settings when in WAN mode.
             downlink: The port's VLAN settings when in LAN mode.
+            profile: The optional LAN port's profile which it inherits from.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -148,6 +167,55 @@ class ActionBatchAppliance:
             payload["uplink"] = uplink.model_dump(by_alias=True, exclude_none=True)
         if downlink is not None:
             payload["downlink"] = downlink.model_dump(by_alias=True, exclude_none=True)
+        if profile is not None:
+            payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def update_device_appliance_interfaces_port(
+        self,
+        *,
+        serial: str,
+        number: str,
+        enabled: bool | None = None,
+        personality: UpdateDeviceApplianceInterfacesPortPersonality | None = None,
+        uplink: UpdateDeviceApplianceInterfacesPortUplink | None = None,
+        downlink: UpdateDeviceApplianceInterfacesPortDownlink | None = None,
+        profile: UpdateDeviceApplianceInterfacesPortProfile | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update configurations for an appliance's specified port.
+
+        [API documentation: updateDeviceApplianceInterfacesPort](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-interfaces-port)
+
+        Args:
+            serial: Serial.
+            number: Number.
+            enabled: Indicates whether the port is enabled.
+            personality: Describes the port's configurability.
+            uplink: The port's settings when in WAN mode.
+            downlink: The port's VLAN settings when in LAN mode.
+            profile: The optional LAN port's profile which it inherits from.
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        path = f"/devices/{serial}/appliance/interfaces/ports/{number}"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if personality is not None:
+            payload["personality"] = personality.model_dump(by_alias=True, exclude_none=True)
+        if uplink is not None:
+            payload["uplink"] = uplink.model_dump(by_alias=True, exclude_none=True)
+        if downlink is not None:
+            payload["downlink"] = downlink.model_dump(by_alias=True, exclude_none=True)
+        if profile is not None:
+            payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1075,7 +1143,7 @@ class ActionBatchAppliance:
         default_rules_enabled: bool | None = None,
         rules: list[UpdateNetworkApplianceTrafficShapingRulesRulesItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
-        """Update the traffic shaping settings rules for an MX network.
+        """Update the traffic shaping settings rules for a Security Appliance or Secure Router network.
 
         [API documentation: updateNetworkApplianceTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules)
 
@@ -1240,31 +1308,6 @@ class ActionBatchAppliance:
             body=payload,
         )
 
-    def connect_network_appliance_umbrella_account(
-        self, *, network_id: str, api: ConnectNetworkApplianceUmbrellaAccountApi
-    ) -> CreateOrganizationActionBatchActionsItem:
-        """Connect a Cisco Umbrella account to this network.
-
-        [API documentation: connectNetworkApplianceUmbrellaAccount](https://developer.cisco.com/meraki/api-v1/#!connect-network-appliance-umbrella-account)
-
-        Args:
-            network_id: Network ID.
-            api: Umbrella API credentials.
-
-        """
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        path = f"/networks/{network_id}/appliance/umbrella/account/connect"
-
-        payload: dict[str, Any] = {}
-        if api is not None:
-            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
-
-        return CreateOrganizationActionBatchActionsItem(
-            resource=path,
-            operation="action",
-            body=payload,
-        )
-
     def disconnect_network_appliance_umbrella_account(
         self, network_id: str
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -1383,7 +1426,7 @@ class ActionBatchAppliance:
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
-            operation="action",
+            operation="update",
             body=payload,
         )
 
@@ -1737,6 +1780,10 @@ class ActionBatchAppliance:
         enabled: bool,
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
+        ipv6: UpdateNetworkApplianceVpnBgpIpv6 | None = None,
+        tunnel_down_termination: UpdateNetworkApplianceVpnBgpTunnelDownTermination | None = None,
+        local_as_number: int | None = None,
+        priority_route: UpdateNetworkApplianceVpnBgpPriorityRoute | None = None,
         router_id: str | None = None,
         neighbors: list[UpdateNetworkApplianceVpnBgpNeighborsItem] | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
@@ -1758,6 +1805,12 @@ class ActionBatchAppliance:
             ibgp_hold_timer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
                 between 12 and 240. When absent, this field is not updated. If no value
                 exists then it defaults to 240.
+            ipv6: Settings for IPv6 configurations on the organization.
+            tunnel_down_termination: Settings for tunnel down termination on the organization.
+            local_as_number: Network-specific local Autonomous System Number (ASN) to which the
+                appliance belongs. This field is only configurable for Independent BGP
+                networks.
+            priority_route: Sets the priority route between eBGP and Auto VPN.
             router_id: The router ID of the appliance.
             neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
                 absent, this field is not updated.
@@ -1773,6 +1826,16 @@ class ActionBatchAppliance:
             payload["asNumber"] = as_number
         if ibgp_hold_timer is not None:
             payload["ibgpHoldTimer"] = ibgp_hold_timer
+        if ipv6 is not None:
+            payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
+        if tunnel_down_termination is not None:
+            payload["tunnelDownTermination"] = tunnel_down_termination.model_dump(
+                by_alias=True, exclude_none=True
+            )
+        if local_as_number is not None:
+            payload["localAsNumber"] = local_as_number
+        if priority_route is not None:
+            payload["priorityRoute"] = priority_route
         if router_id is not None:
             payload["routerId"] = router_id
         if neighbors is not None:
@@ -2314,6 +2377,361 @@ class ActionBatchAppliance:
             resource=path,
             operation="update",
             body=payload,
+        )
+
+    def create_organization_appliance_security_intrusion_policy(
+        self,
+        organization_id: str,
+        *,
+        policy: CreateOrganizationApplianceSecurityIntrusionPolicyPolicy | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create a new intrusion policy for the organization.
+
+        [API documentation: createOrganizationApplianceSecurityIntrusionPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-security-intrusion-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Attributes for the intrusion policy.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def update_organization_appliance_security_intrusion_policy(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        policy: UpdateOrganizationApplianceSecurityIntrusionPolicyPolicy,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update a single intrusion policy for the organization.
+
+        [API documentation: updateOrganizationApplianceSecurityIntrusionPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            policy: Attributes for the intrusion policy.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def delete_organization_appliance_security_intrusion_policy(
+        self, *, organization_id: str, policy_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete a single intrusion policy for the organization.
+
+        [API documentation: deleteOrganizationApplianceSecurityIntrusionPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-security-intrusion-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def declare_organization_appliance_security_intrusion_policy_rule_groups_overrides(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        items: list[
+            DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesItemsItem
+        ],
+        mode: DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesMode
+        | None = None,
+        recursive: bool | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Declare the desired rule group overrides for an intrusion policy.
+
+        [API documentation: declareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverrides](https://developer.cisco.com/meraki/api-v1/#!declare-organization-appliance-security-intrusion-policy-rule-groups-overrides)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            mode: Controls how the configuration payload in the request body is applied to the
+                resource. This parameter dictates the declarative mode: *
+                **`complete`**: The request body represents the entire desired
+                configuration for this resource. Any existing configurations that are
+                not included in the payload will be removed. * **`partial` (default)**:
+                The request body contains only the configurations to be created or
+                modified. Existing configurations that are not specified in the payload
+                will be preserved.
+            recursive: Controls how the configuration payload in the request body applies to the
+                rule group hierarchy. When true, the API applies each declared override
+                to the rule group itself and its descendants unless the payload
+                explicitly sets a descendant override. When false (default), the API
+                applies overrides only to the rule groups listed in the payload.
+            items: Desired overrides state.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/ruleGroups/overrides/declare"
+
+        payload: dict[str, Any] = {}
+        if mode is not None:
+            payload["mode"] = mode
+        if recursive is not None:
+            payload["recursive"] = recursive
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="declare",
+            body=payload,
+        )
+
+    def update_organization_appliance_security_intrusion_policy_rule_group_override(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        rule_group_id: str,
+        override: UpdateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update a rule group override for an intrusion policy.
+
+        [API documentation: updateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverride](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion-policy-rule-group-override)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            rule_group_id: Rule group ID.
+            override: Attributes for the override for a rule group in a intrusion policy.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        rule_group_id = urllib.parse.quote(str(rule_group_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/ruleGroups/{rule_group_id}/override"
+
+        payload: dict[str, Any] = {}
+        if override is not None:
+            payload["override"] = override.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def create_organization_appliance_security_intrusion_policy_rule_group_override(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        rule_group_id: str,
+        override: CreateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create a rule group override for an intrusion policy.
+
+        [API documentation: createOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverride](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-security-intrusion-policy-rule-group-override)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            rule_group_id: Rule group ID.
+            override: Attributes for the override for a rule group in a intrusion policy.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        rule_group_id = urllib.parse.quote(str(rule_group_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/ruleGroups/{rule_group_id}/override"
+
+        payload: dict[str, Any] = {}
+        if override is not None:
+            payload["override"] = override.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def declare_organization_appliance_security_intrusion_policy_rules_overrides(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        items: list[DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesItemsItem],
+        mode: DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesMode | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Declare the desired rule overrides for an intrusion policy.
+
+        [API documentation: declareOrganizationApplianceSecurityIntrusionPolicyRulesOverrides](https://developer.cisco.com/meraki/api-v1/#!declare-organization-appliance-security-intrusion-policy-rules-overrides)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            mode: Controls how the configuration payload in the request body is applied to the
+                resource. This parameter dictates the declarative mode: *
+                **`complete`**: The request body represents the entire desired
+                configuration for this resource. Any existing configurations that are
+                not included in the payload will be removed. This effectively performs a
+                full replacement or overwrite of the resource's configuration. *
+                **`partial` (default)**: The request body contains only the
+                configurations to be created or modified. Existing configurations that
+                are not specified in the payload will be preserved. This performs a
+                merge or partial update, applying only the changes specified.
+            items: Desired overrides state.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/rules/overrides/declare"
+
+        payload: dict[str, Any] = {}
+        if mode is not None:
+            payload["mode"] = mode
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="declare",
+            body=payload,
+        )
+
+    def update_organization_appliance_security_intrusion_policy_rule_override(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        rule_id: str,
+        override: UpdateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update a rule override for an intrusion policy.
+
+        [API documentation: updateOrganizationApplianceSecurityIntrusionPolicyRuleOverride](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion-policy-rule-override)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            rule_id: Rule ID.
+            override: Override attributes.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        rule_id = urllib.parse.quote(str(rule_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/rules/{rule_id}/override"
+
+        payload: dict[str, Any] = {}
+        if override is not None:
+            payload["override"] = override.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def create_organization_appliance_security_intrusion_policy_rule_override(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        rule_id: str,
+        override: CreateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Create a rule override for an intrusion policy.
+
+        [API documentation: createOrganizationApplianceSecurityIntrusionPolicyRuleOverride](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-security-intrusion-policy-rule-override)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            rule_id: Rule ID.
+            override: Rule override to create.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        rule_id = urllib.parse.quote(str(rule_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/rules/{rule_id}/override"
+
+        payload: dict[str, Any] = {}
+        if override is not None:
+            payload["override"] = override.model_dump(by_alias=True, exclude_none=True)
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
+
+    def delete_organization_appliance_security_intrusion_rule_groups_override(
+        self, *, organization_id: str, override_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete a rule group override for an intrusion policy.
+
+        [API documentation: deleteOrganizationApplianceSecurityIntrusionRuleGroupsOverride](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-security-intrusion-rule-groups-override)
+
+        Args:
+            organization_id: Organization ID.
+            override_id: Override ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        override_id = urllib.parse.quote(str(override_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/ruleGroups/overrides/{override_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
+    def delete_organization_appliance_security_intrusion_rules_override(
+        self, *, organization_id: str, override_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete a rule override for an intrusion policy.
+
+        [API documentation: deleteOrganizationApplianceSecurityIntrusionRulesOverride](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-security-intrusion-rules-override)
+
+        Args:
+            organization_id: Organization ID.
+            override_id: Override ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        override_id = urllib.parse.quote(str(override_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/rules/overrides/{override_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
         )
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(

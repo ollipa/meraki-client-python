@@ -68,7 +68,7 @@ class CreateNetworkWirelessEthernetPortsProfileUsbPortsItem(_BaseSchema):
     """Item schema for usbPorts."""
 
     name: str
-    enabled: bool | None = None
+    enabled: bool
     ssid: int | None = None
 
 
@@ -1705,6 +1705,19 @@ class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem(_BaseSch
         return [] if value is None else value
 
 
+class GetOrganizationWirelessSsidsOweByNetworkResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessSsidsOweByNetworkResponseItemsItem."""
+
+    network: WirelessDoorLocksNetwork | None = None
+    transitions: list[WirelessTransitionsItem] = Field(default_factory=list)
+
+    @field_validator("transitions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
 class GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponse(_BaseSchema):
     """Response for getOrganizationWirelessSsidsProfilesAssignmentsByNetwork operation."""
 
@@ -1730,6 +1743,16 @@ class GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignment
 
     profile: WirelessDoorLocksNetwork | None = None
     ssid: WirelessSsid | None = None
+
+
+class GetOrganizationWirelessSsidsProfilesOverviewsResponse(_BaseSchema):
+    """Response for getOrganizationWirelessSsidsProfilesOverviews operation."""
+
+    id: str | None = None
+    name: str | None = None
+    precedence: GetOrganizationWirelessSsidsProfilesResponsePrecedence | None = None
+    ssid: GetOrganizationWirelessSsidsProfilesResponseSsid | None = None
+    is_attached: bool = Field(validation_alias="isAttached", serialization_alias="isAttached")
 
 
 class GetOrganizationWirelessSsidsProfilesResponse(_BaseSchema):
@@ -1906,13 +1929,6 @@ class NetworkWirelessElectronicShelfLabelResponse(_BaseSchema):
     hostname: str | None = None
     enabled: bool | None = None
     mode: str | None = None
-    sepioo: NetworkWirelessElectronicShelfLabelResponseSepioo | None = None
-
-
-class NetworkWirelessElectronicShelfLabelResponseSepioo(_BaseSchema):
-    """sepioo IIoT settings."""
-
-    hostname: str | None = None
 
 
 class NetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
@@ -2223,6 +2239,14 @@ class NetworkWirelessSsidIdentityPskResponse(_BaseSchema):
     email: str | None = None
     expires_at: datetime | None = Field(
         default=None, validation_alias="expiresAt", serialization_alias="expiresAt"
+    )
+
+
+class NetworkWirelessSsidOverridesResponse(_BaseSchema):
+    """Schema for NetworkWirelessSsidOverridesResponse."""
+
+    ccx_name_ie_enabled: bool | None = Field(
+        default=None, validation_alias="ccxNameIeEnabled", serialization_alias="ccxNameIeEnabled"
     )
 
 
@@ -2900,7 +2924,7 @@ class UpdateNetworkWirelessEthernetPortsProfileUsbPortsItem(_BaseSchema):
     """Item schema for usbPorts."""
 
     name: str
-    enabled: bool | None = None
+    enabled: bool
     ssid: int | None = None
 
 
@@ -2950,6 +2974,7 @@ class UpdateNetworkWirelessRadioRrmChannel(_BaseSchema):
     """Channel settings."""
 
     avoidance: WirelessBusyHourMinimizeChanges | None = None
+    selection: WirelessChannelSelection | None = None
 
 
 class UpdateNetworkWirelessRadioRrmFra(_BaseSchema):
@@ -2998,6 +3023,7 @@ class UpdateNetworkWirelessRadioRrmResponseChannel(_BaseSchema):
     """Channel settings."""
 
     avoidance: WirelessBusyHourMinimizeChanges | None = None
+    selection: WirelessChannelSelection | None = None
 
 
 class UpdateNetworkWirelessRfProfileApBandSettings(_BaseSchema):
@@ -3797,6 +3823,44 @@ class UpdateNetworkWirelessSsidVpnSplitTunnelRulesItem(_BaseSchema):
     comment: str | None = None
 
 
+class UpdateNetworkWirelessSsidsOweResponse(_BaseSchema):
+    """Response for updateNetworkWirelessSsidsOwe operation."""
+
+    items: list[UpdateNetworkWirelessSsidsOweResponseItemsItem] = Field(default_factory=list)
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class UpdateNetworkWirelessSsidsOweResponseItemsItem(_BaseSchema):
+    """Schema for UpdateNetworkWirelessSsidsOweResponseItemsItem."""
+
+    network: WirelessDoorLocksNetwork | None = None
+    transitions: list[WirelessTransitionsItem] = Field(default_factory=list)
+
+    @field_validator("transitions", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class UpdateNetworkWirelessSsidsOweTransitionsItem(_BaseSchema):
+    """Item schema for transitions."""
+
+    ssids: UpdateNetworkWirelessSsidsOweTransitionsItemSsids
+
+
+class UpdateNetworkWirelessSsidsOweTransitionsItemSsids(_BaseSchema):
+    """The paired SSIDs in this transition."""
+
+    legacy: WirelessLegacy2 | None = None
+    encrypted: WirelessLegacy2
+
+
 class UpdateNetworkWirelessZigbeeDefaults(_BaseSchema):
     """Default Settings for Zigbee Devices."""
 
@@ -4373,6 +4437,12 @@ class WirelessCaptivePortal(_BaseSchema):
     hosted: WirelessHosted | None = None
 
 
+class WirelessChannelSelection(_BaseSchema):
+    """Channel selection settings."""
+
+    preferred: WirelessPreferred | None = None
+
+
 class WirelessClient(_BaseSchema):
     """Client."""
 
@@ -4838,6 +4908,18 @@ class WirelessLatestMeshPerformance(_BaseSchema):
     )
 
 
+class WirelessLegacy(_BaseSchema):
+    """The legacy (Open) SSID."""
+
+    number: int | None = None
+
+
+class WirelessLegacy2(_BaseSchema):
+    """The legacy (Open) SSID. Omit to remove pairing."""
+
+    number: int
+
+
 class WirelessLinkNegotiation(_BaseSchema):
     """Link negotiation details object for the port."""
 
@@ -5183,6 +5265,12 @@ class WirelessPreAccess(_BaseSchema):
     )
 
 
+class WirelessPreferred(_BaseSchema):
+    """Preferred channel selection settings."""
+
+    mode: str | None = None
+
+
 class WirelessPublishing(_BaseSchema):
     """MQTT Publishing Settings."""
 
@@ -5509,6 +5597,13 @@ class WirelessSsidSplash(_BaseSchema):
     )
 
 
+class WirelessSsids(_BaseSchema):
+    """The paired SSIDs in this transition."""
+
+    legacy: WirelessLegacy | None = None
+    encrypted: WirelessLegacy | None = None
+
+
 class WirelessTagging(_BaseSchema):
     """VLAN tagging settings."""
 
@@ -5533,6 +5628,12 @@ class WirelessTagsItem(_BaseSchema):
     policy: str | None = None
     site: str | None = None
     rf: str | None = None
+
+
+class WirelessTransitionsItem(_BaseSchema):
+    """Schema for WirelessTransitionsItem."""
+
+    ssids: WirelessSsids | None = None
 
 
 class WirelessTunneledTo(_BaseSchema):

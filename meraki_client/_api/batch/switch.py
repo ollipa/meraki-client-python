@@ -9,6 +9,7 @@ import urllib.parse
 from typing import Any
 
 from meraki_client.schemas import (
+    CreateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection,
     CreateDeviceSwitchRoutingInterfaceIpv6,
     CreateDeviceSwitchRoutingInterfaceOspfSettings,
     CreateDeviceSwitchRoutingInterfaceVrf,
@@ -22,6 +23,7 @@ from meraki_client.schemas import (
     CreateNetworkSwitchLinkAggregationSwitchProfilePortsItem,
     CreateNetworkSwitchPortSchedulePortSchedule,
     CreateNetworkSwitchRoutingMulticastRendezvousPointVrf,
+    CreateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection,
     CreateNetworkSwitchStackRoutingInterfaceIpv6,
     CreateNetworkSwitchStackRoutingInterfaceOspfSettings,
     CreateNetworkSwitchStackRoutingInterfaceVrf,
@@ -32,6 +34,7 @@ from meraki_client.schemas import (
     UpdateDeviceSwitchPortHighSpeed,
     UpdateDeviceSwitchPortPerpetualPoe,
     UpdateDeviceSwitchPortProfile,
+    UpdateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection,
     UpdateDeviceSwitchRoutingInterfaceDhcpDhcpOptionsItem,
     UpdateDeviceSwitchRoutingInterfaceDhcpFixedIpAssignmentsItem,
     UpdateDeviceSwitchRoutingInterfaceDhcpReservedIpRangesItem,
@@ -63,6 +66,7 @@ from meraki_client.schemas import (
     UpdateNetworkSwitchSettingsUplinkClientSampling,
     UpdateNetworkSwitchSettingsUplinkSelection,
     UpdateNetworkSwitchStackMembersItem,
+    UpdateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpOptionsItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpFixedIpAssignmentsItem,
     UpdateNetworkSwitchStackRoutingInterfaceDhcpReservedIpRangesItem,
@@ -72,7 +76,9 @@ from meraki_client.schemas import (
     UpdateNetworkSwitchStackRoutingStaticRouteVrf,
     UpdateNetworkSwitchStpStpBridgePriorityItem,
     UpdateOrganizationConfigTemplateSwitchProfilePortDot3az,
+    UpdateOrganizationConfigTemplateSwitchProfilePortFastPoe,
     UpdateOrganizationConfigTemplateSwitchProfilePortHighSpeed,
+    UpdateOrganizationConfigTemplateSwitchProfilePortPerpetualPoe,
     UpdateOrganizationConfigTemplateSwitchProfilePortProfile,
 )
 from meraki_client.types import (
@@ -182,7 +188,9 @@ class ActionBatchSwitch:
         Args:
             serial: Serial.
             port_id: Port ID.
-            name: The name of the switch port.
+            name: The name of the switch port. Dashboard displays this value as the port
+                description. For Cisco Catalyst switches running IOS XE, it corresponds
+                to the configured interface description.
             tags: The list of tags of the switch port.
             enabled: The status of the switch port.
             poe_enabled: The PoE status of the switch port.
@@ -329,6 +337,8 @@ class ActionBatchSwitch:
         ipv6: CreateDeviceSwitchRoutingInterfaceIpv6 | None = None,
         vrf: CreateDeviceSwitchRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
+        bidirectional_forwarding_detection: CreateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection
+        | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 interface for a switch.
 
@@ -360,6 +370,7 @@ class ActionBatchSwitch:
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+            bidirectional_forwarding_detection: BFD configuration for the L3 interface.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -392,6 +403,10 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if loopback is not None:
             payload["loopback"] = loopback
+        if bidirectional_forwarding_detection is not None:
+            payload["bidirectionalForwardingDetection"] = (
+                bidirectional_forwarding_detection.model_dump(by_alias=True, exclude_none=True)
+            )
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -416,6 +431,8 @@ class ActionBatchSwitch:
         ipv6: UpdateDeviceSwitchRoutingInterfaceIpv6 | None = None,
         vrf: UpdateDeviceSwitchRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
+        bidirectional_forwarding_detection: UpdateDeviceSwitchRoutingInterfaceBidirectionalForwardingDetection
+        | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface for a switch.
 
@@ -444,6 +461,7 @@ class ActionBatchSwitch:
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+            bidirectional_forwarding_detection: BFD configuration for the L3 interface.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -475,6 +493,10 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if loopback is not None:
             payload["loopback"] = loopback
+        if bidirectional_forwarding_detection is not None:
+            payload["bidirectionalForwardingDetection"] = (
+                bidirectional_forwarding_detection.model_dump(by_alias=True, exclude_none=True)
+            )
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -522,6 +544,8 @@ class ActionBatchSwitch:
         | None = None,
         fixed_ip_assignments: list[UpdateDeviceSwitchRoutingInterfaceDhcpFixedIpAssignmentsItem]
         | None = None,
+        dhcp_default_router_ips: str | None = None,
+        dhcp_domain_name: str | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface DHCP configuration for a switch.
 
@@ -553,6 +577,10 @@ class ActionBatchSwitch:
                 the switch interface.
             fixed_ip_assignments: Array of DHCP fixed IP assignments for the DHCP server running on
                 the switch interface.
+            dhcp_default_router_ips: The DHCP default router IPs for the DHCP server running on the
+                switch interface.
+            dhcp_domain_name: The DHCP domain name for the DHCP server running on the switch
+                interface.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
@@ -588,6 +616,10 @@ class ActionBatchSwitch:
             payload["fixedIpAssignments"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in fixed_ip_assignments
             ]
+        if dhcp_default_router_ips is not None:
+            payload["dhcpDefaultRouterIps"] = dhcp_default_router_ips
+        if dhcp_domain_name is not None:
+            payload["dhcpDomainName"] = dhcp_domain_name
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1444,6 +1476,27 @@ class ActionBatchSwitch:
             body=payload,
         )
 
+    def delete_network_switch_port_schedule(
+        self, *, network_id: str, port_schedule_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Delete a switch port schedule.
+
+        [API documentation: deleteNetworkSwitchPortSchedule](https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-port-schedule)
+
+        Args:
+            network_id: Network ID.
+            port_schedule_id: Port schedule ID.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
+        path = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
+
     def create_network_switch_qos_rule(
         self,
         *,
@@ -1642,7 +1695,7 @@ class ActionBatchSwitch:
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
-            operation="ms/multicast/actions/update",
+            operation="update",
             body=payload,
         )
 
@@ -1925,6 +1978,8 @@ class ActionBatchSwitch:
         ipv6: CreateNetworkSwitchStackRoutingInterfaceIpv6 | None = None,
         vrf: CreateNetworkSwitchStackRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
+        bidirectional_forwarding_detection: CreateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection
+        | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 interface for a switch stack.
 
@@ -1957,6 +2012,7 @@ class ActionBatchSwitch:
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+            bidirectional_forwarding_detection: BFD configuration for the L3 interface.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -1990,6 +2046,10 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if loopback is not None:
             payload["loopback"] = loopback
+        if bidirectional_forwarding_detection is not None:
+            payload["bidirectionalForwardingDetection"] = (
+                bidirectional_forwarding_detection.model_dump(by_alias=True, exclude_none=True)
+            )
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -2015,6 +2075,8 @@ class ActionBatchSwitch:
         ipv6: UpdateNetworkSwitchStackRoutingInterfaceIpv6 | None = None,
         vrf: UpdateNetworkSwitchStackRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
+        bidirectional_forwarding_detection: UpdateNetworkSwitchStackRoutingInterfaceBidirectionalForwardingDetection
+        | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface for a switch stack.
 
@@ -2044,6 +2106,7 @@ class ActionBatchSwitch:
             ipv6: The IPv6 settings of the interface.
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
             loopback: The loopback settings of the interface.
+            bidirectional_forwarding_detection: BFD configuration for the L3 interface.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2076,6 +2139,10 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
         if loopback is not None:
             payload["loopback"] = loopback
+        if bidirectional_forwarding_detection is not None:
+            payload["bidirectionalForwardingDetection"] = (
+                bidirectional_forwarding_detection.model_dump(by_alias=True, exclude_none=True)
+            )
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -2129,6 +2196,8 @@ class ActionBatchSwitch:
             UpdateNetworkSwitchStackRoutingInterfaceDhcpFixedIpAssignmentsItem
         ]
         | None = None,
+        dhcp_default_router_ips: str | None = None,
+        dhcp_domain_name: str | None = None,
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface DHCP configuration for a switch stack.
 
@@ -2161,6 +2230,10 @@ class ActionBatchSwitch:
                 the switch stack interface.
             fixed_ip_assignments: Array of DHCP fixed IP assignments for the DHCP server running on
                 the switch stack interface.
+            dhcp_default_router_ips: The DHCP default router IPs for the DHCP server running on the
+                switch stack interface.
+            dhcp_domain_name: The DHCP domain name for the DHCP server running on the switch stack
+                interface.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2197,6 +2270,10 @@ class ActionBatchSwitch:
             payload["fixedIpAssignments"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in fixed_ip_assignments
             ]
+        if dhcp_default_router_ips is not None:
+            payload["dhcpDefaultRouterIps"] = dhcp_default_router_ips
+        if dhcp_domain_name is not None:
+            payload["dhcpDomainName"] = dhcp_domain_name
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -2434,6 +2511,8 @@ class ActionBatchSwitch:
         tags: list[str] | None = None,
         enabled: bool | None = None,
         poe_enabled: bool | None = None,
+        perpetual_poe: UpdateOrganizationConfigTemplateSwitchProfilePortPerpetualPoe | None = None,
+        fast_poe: UpdateOrganizationConfigTemplateSwitchProfilePortFastPoe | None = None,
         type_: UpdateOrganizationConfigTemplateSwitchProfilePortType | None = None,
         vlan: int | None = None,
         voice_vlan: int | None = None,
@@ -2468,10 +2547,14 @@ class ActionBatchSwitch:
             config_template_id: Config template ID.
             profile_id: Profile ID.
             port_id: Port ID.
-            name: The name of the switch template port.
+            name: The name of the switch template port. Dashboard displays this value as the port
+                description. For Cisco Catalyst switches running IOS XE, it corresponds
+                to the configured interface description.
             tags: The list of tags of the switch template port.
             enabled: The status of the switch template port.
             poe_enabled: The PoE status of the switch template port.
+            perpetual_poe: Perpetual PoE settings for the switch template port.
+            fast_poe: Fast PoE settings for the switch template port.
             type_: The type of the switch template port ('access', 'trunk', 'stack', 'routed', 'svl'
                 or 'dad').
             vlan: The VLAN of the switch template port. For a trunk port, this is the native VLAN. A
@@ -2532,6 +2615,10 @@ class ActionBatchSwitch:
             payload["enabled"] = enabled
         if poe_enabled is not None:
             payload["poeEnabled"] = poe_enabled
+        if perpetual_poe is not None:
+            payload["perpetualPoe"] = perpetual_poe.model_dump(by_alias=True, exclude_none=True)
+        if fast_poe is not None:
+            payload["fastPoe"] = fast_poe.model_dump(by_alias=True, exclude_none=True)
         if type_ is not None:
             payload["type"] = type_
         if vlan is not None:

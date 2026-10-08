@@ -22,6 +22,7 @@ from meraki_client.schemas import (
     CreateDeviceApplianceInterfacesPortsUpdateDownlink,
     CreateDeviceApplianceInterfacesPortsUpdateInterface,
     CreateDeviceApplianceInterfacesPortsUpdatePersonality,
+    CreateDeviceApplianceInterfacesPortsUpdateProfile,
     CreateDeviceApplianceInterfacesPortsUpdateResponse,
     CreateDeviceApplianceInterfacesPortsUpdateUplink,
     CreateDeviceApplianceVmxAuthenticationTokenResponse,
@@ -31,6 +32,7 @@ from meraki_client.schemas import (
     CreateNetworkApplianceRfProfileFiveGhzSettings,
     CreateNetworkApplianceRfProfilePerSsidSettings,
     CreateNetworkApplianceRfProfileTwoFourGhzSettings,
+    CreateNetworkApplianceStaticRouteVrf,
     CreateNetworkApplianceVlanDhcpOptionsItem,
     CreateNetworkApplianceVlanIpv6,
     CreateNetworkApplianceVlanMandatoryDhcp,
@@ -43,6 +45,13 @@ from meraki_client.schemas import (
     CreateOrganizationApplianceDnsSplitProfileNameservers,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem,
+    CreateOrganizationApplianceSecurityIntrusionPolicyPolicy,
+    CreateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride,
+    CreateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesItemsItem,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesResponse,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesItemsItem,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesResponse,
     DeviceApplianceRadioSettingsResponse,
     DeviceApplianceUplinksSettingsResponse,
     ExclusionsNetworkApplianceUmbrellaDomainsResponse,
@@ -59,10 +68,15 @@ from meraki_client.schemas import (
     GetNetworkApplianceUplinksUsageHistoryResponseItem,
     GetOrganizationApplianceDevicesInterfacesL3ResponseItemsItem,
     GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem,
+    GetOrganizationApplianceDevicesInterfacesPortsProfilesAssignmentsResponseItemsItem,
     GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem,
     GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem,
     GetOrganizationApplianceDnsLocalRecordsResponse,
     GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem,
+    GetOrganizationApplianceSecurityIntrusionPoliciesOverviewsResponseItemsItem,
+    GetOrganizationApplianceSecurityIntrusionRuleGroupsOverviewsResponseItemsItem,
+    GetOrganizationApplianceSecurityIntrusionRuleGroupsResponseItemsItem,
+    GetOrganizationApplianceSecurityIntrusionRulesResponseItemsItem,
     GetOrganizationApplianceUplinksNatByNetworkResponseItem,
     GetOrganizationApplianceUplinksStatusesOverviewResponse,
     GetOrganizationApplianceUplinkStatusesResponseItem,
@@ -102,6 +116,9 @@ from meraki_client.schemas import (
     OrganizationApplianceDnsLocalProfileResponse,
     OrganizationApplianceDnsSplitProfileResponse,
     OrganizationApplianceRoutingVrfsSettingsResponse,
+    OrganizationApplianceSecurityIntrusionPolicyResponse,
+    OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse,
+    OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse,
     OrganizationApplianceSecurityIntrusionResponse,
     OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
     OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
@@ -111,6 +128,10 @@ from meraki_client.schemas import (
     RemoveNetworkApplianceUmbrellaPoliciesPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
+    UpdateDeviceApplianceInterfacesPortDownlink,
+    UpdateDeviceApplianceInterfacesPortPersonality,
+    UpdateDeviceApplianceInterfacesPortProfile,
+    UpdateDeviceApplianceInterfacesPortUplink,
     UpdateDeviceApplianceRadioSettingsFiveGhzSettings,
     UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings,
     UpdateDeviceApplianceUplinksSettingsInterfaces,
@@ -139,6 +160,7 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceRfProfileTwoFourGhzSettings,
     UpdateNetworkApplianceSdwanInternetPoliciesResponse,
     UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem,
+    UpdateNetworkApplianceSecurityIntrusionPolicy,
     UpdateNetworkApplianceSecurityIntrusionProtectedNetworks,
     UpdateNetworkApplianceSecurityIntrusionResponse,
     UpdateNetworkApplianceSecurityMalwareAllowedFilesItem,
@@ -152,6 +174,7 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceSsidRadiusServersItem,
     UpdateNetworkApplianceStaticRouteFixedIpAssignmentsValue,
     UpdateNetworkApplianceStaticRouteReservedIpRangesItem,
+    UpdateNetworkApplianceStaticRouteVrf,
     UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits,
     UpdateNetworkApplianceTrafficShapingRulesRulesItem,
     UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits,
@@ -170,7 +193,9 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceVlanSgt,
     UpdateNetworkApplianceVlanUplinksItem,
     UpdateNetworkApplianceVlanVrf,
+    UpdateNetworkApplianceVpnBgpIpv6,
     UpdateNetworkApplianceVpnBgpNeighborsItem,
+    UpdateNetworkApplianceVpnBgpTunnelDownTermination,
     UpdateNetworkApplianceVpnSiteToSiteVpnHostTranslationsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnSgt,
@@ -180,6 +205,9 @@ from meraki_client.schemas import (
     UpdateOrganizationApplianceDnsLocalRecordResponse,
     UpdateOrganizationApplianceDnsSplitProfileNameservers,
     UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem,
+    UpdateOrganizationApplianceSecurityIntrusionPolicyPolicy,
+    UpdateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride,
+    UpdateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride,
     UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem,
     UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem,
     UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem,
@@ -188,9 +216,12 @@ from meraki_client.types import (
     CreateNetworkApplianceVlanDhcpHandling,
     CreateNetworkApplianceVlanDhcpLeaseTime,
     CreateNetworkApplianceVlanTemplateVlanType,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesMode,
+    DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesMode,
     GetNetworkApplianceClientSecurityEventsSortOrder,
     GetNetworkApplianceSecurityEventsSortOrder,
     GetOrganizationApplianceSecurityEventsSortOrder,
+    GetOrganizationApplianceSecurityIntrusionPoliciesMode,
     UpdateNetworkApplianceContentFilteringUrlCategoryListSize,
     UpdateNetworkApplianceDevicesRedundancyMode,
     UpdateNetworkApplianceFirewallFirewalledServiceAccess,
@@ -205,6 +236,7 @@ from meraki_client.types import (
     UpdateNetworkApplianceVlanDhcpHandling,
     UpdateNetworkApplianceVlanDhcpLeaseTime,
     UpdateNetworkApplianceVlanTemplateVlanType,
+    UpdateNetworkApplianceVpnBgpPriorityRoute,
     UpdateNetworkApplianceVpnSiteToSiteVpnMode,
 )
 
@@ -268,6 +300,7 @@ class Appliance:
         personality: CreateDeviceApplianceInterfacesPortsUpdatePersonality | None = None,
         uplink: CreateDeviceApplianceInterfacesPortsUpdateUplink | None = None,
         downlink: CreateDeviceApplianceInterfacesPortsUpdateDownlink | None = None,
+        profile: CreateDeviceApplianceInterfacesPortsUpdateProfile | None = None,
     ) -> CreateDeviceApplianceInterfacesPortsUpdateResponse:
         """Update configurations for an appliance's specified port.
 
@@ -280,6 +313,7 @@ class Appliance:
             personality: Describes the port's configurability.
             uplink: The port's settings when in WAN mode.
             downlink: The port's VLAN settings when in LAN mode.
+            profile: The optional LAN port's profile which it inherits from.
 
         Returns:
             Successful operation.
@@ -331,6 +365,9 @@ class Appliance:
                     "enabled": false
                   }
                 }
+              },
+              "profile": {
+                "id": "99"
               }
             }
             ```
@@ -350,10 +387,118 @@ class Appliance:
             payload["uplink"] = uplink.model_dump(by_alias=True, exclude_none=True)
         if downlink is not None:
             payload["downlink"] = downlink.model_dump(by_alias=True, exclude_none=True)
+        if profile is not None:
+            payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="appliance",
             operation_id="createDeviceApplianceInterfacesPortsUpdate",
+            path=path,
+            json=payload,
+            response_schema=CreateDeviceApplianceInterfacesPortsUpdateResponse,
+        )
+
+    def update_device_appliance_interfaces_port(
+        self,
+        *,
+        serial: str,
+        number: str,
+        enabled: bool | None = None,
+        personality: UpdateDeviceApplianceInterfacesPortPersonality | None = None,
+        uplink: UpdateDeviceApplianceInterfacesPortUplink | None = None,
+        downlink: UpdateDeviceApplianceInterfacesPortDownlink | None = None,
+        profile: UpdateDeviceApplianceInterfacesPortProfile | None = None,
+    ) -> CreateDeviceApplianceInterfacesPortsUpdateResponse:
+        """Update configurations for an appliance's specified port.
+
+        [API documentation: updateDeviceApplianceInterfacesPort](https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-interfaces-port)
+
+        Args:
+            serial: Serial.
+            number: Number.
+            enabled: Indicates whether the port is enabled.
+            personality: Describes the port's configurability.
+            uplink: The port's settings when in WAN mode.
+            downlink: The port's VLAN settings when in LAN mode.
+            profile: The optional LAN port's profile which it inherits from.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "number": "1",
+              "interface": {
+                "name": "GigabitEthernet1/2/3",
+                "slot": 1,
+                "subslot": 2,
+                "number": 3
+              },
+              "enabled": true,
+              "name": "wan1",
+              "personality": {
+                "mode": "wan",
+                "isFlexible": false,
+                "layer": {
+                  "mode": 3,
+                  "isFlexible": false
+                }
+              },
+              "uplink": {
+                "type": "ethernet",
+                "primary": true
+              },
+              "downlink": {
+                "mode": "access",
+                "sgt": {
+                  "id": "1234"
+                },
+                "access": {
+                  "vlan": "1",
+                  "policy": {
+                    "type": "802.1X"
+                  }
+                },
+                "trunk": {
+                  "nativeVlan": "2",
+                  "allowedVlans": [
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  "sgt": {
+                    "enabled": false
+                  }
+                }
+              },
+              "profile": {
+                "id": "99"
+              }
+            }
+            ```
+
+        """
+        serial = urllib.parse.quote(str(serial), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        path = f"/devices/{serial}/appliance/interfaces/ports/{number}"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if personality is not None:
+            payload["personality"] = personality.model_dump(by_alias=True, exclude_none=True)
+        if uplink is not None:
+            payload["uplink"] = uplink.model_dump(by_alias=True, exclude_none=True)
+        if downlink is not None:
+            payload["downlink"] = downlink.model_dump(by_alias=True, exclude_none=True)
+        if profile is not None:
+            payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="updateDeviceApplianceInterfacesPort",
             path=path,
             json=payload,
             response_schema=CreateDeviceApplianceInterfacesPortsUpdateResponse,
@@ -677,6 +822,59 @@ class Appliance:
                       "enabled": true,
                       "username": "username"
                     }
+                  },
+                  "transition": {
+                    "enabled": true,
+                    "mode": "MAP-E",
+                    "authentication": {
+                      "enabled": true,
+                      "username": "4o6ddns"
+                    },
+                    "ipv4": {
+                      "local": {
+                        "address": null
+                      }
+                    },
+                    "ipv6": {
+                      "borderRelay": {
+                        "mode": "auto",
+                        "address": null
+                      },
+                      "interfaceId": null
+                    },
+                    "isp": {
+                      "name": "OCN IPoE"
+                    },
+                    "map": {
+                      "rules": {
+                        "source": "manual",
+                        "entries": [
+                          {
+                            "ipv6": {
+                              "prefix": {
+                                "address": "2001:db8:100::",
+                                "length": 36
+                              }
+                            },
+                            "ipv4": {
+                              "prefix": {
+                                "address": "192.0.2.0",
+                                "length": 18
+                              }
+                            },
+                            "borderRelay": {
+                              "address": "2001:db8:ffff::1",
+                              "prefix": null
+                            },
+                            "eaBitLength": 20,
+                            "psIdOffset": 6
+                          }
+                        ]
+                      },
+                      "draft": {
+                        "enabled": false
+                      }
+                    }
                   }
                 },
                 "wan2": {
@@ -713,6 +911,59 @@ class Appliance:
                     "authentication": {
                       "enabled": true,
                       "username": "username"
+                    }
+                  },
+                  "transition": {
+                    "enabled": true,
+                    "mode": "MAP-E",
+                    "authentication": {
+                      "enabled": true,
+                      "username": "4o6ddns"
+                    },
+                    "ipv4": {
+                      "local": {
+                        "address": null
+                      }
+                    },
+                    "ipv6": {
+                      "borderRelay": {
+                        "mode": "auto",
+                        "address": null
+                      },
+                      "interfaceId": null
+                    },
+                    "isp": {
+                      "name": "OCN IPoE"
+                    },
+                    "map": {
+                      "rules": {
+                        "source": "manual",
+                        "entries": [
+                          {
+                            "ipv6": {
+                              "prefix": {
+                                "address": "2001:db8:100::",
+                                "length": 36
+                              }
+                            },
+                            "ipv4": {
+                              "prefix": {
+                                "address": "192.0.2.0",
+                                "length": 18
+                              }
+                            },
+                            "borderRelay": {
+                              "address": "2001:db8:ffff::1",
+                              "prefix": null
+                            },
+                            "eaBitLength": 20,
+                            "psIdOffset": 6
+                          }
+                        ]
+                      },
+                      "draft": {
+                        "enabled": false
+                      }
                     }
                   }
                 }
@@ -784,6 +1035,59 @@ class Appliance:
                       "enabled": true,
                       "username": "username"
                     }
+                  },
+                  "transition": {
+                    "enabled": true,
+                    "mode": "MAP-E",
+                    "authentication": {
+                      "enabled": true,
+                      "username": "4o6ddns"
+                    },
+                    "ipv4": {
+                      "local": {
+                        "address": null
+                      }
+                    },
+                    "ipv6": {
+                      "borderRelay": {
+                        "mode": "auto",
+                        "address": null
+                      },
+                      "interfaceId": null
+                    },
+                    "isp": {
+                      "name": "OCN IPoE"
+                    },
+                    "map": {
+                      "rules": {
+                        "source": "manual",
+                        "entries": [
+                          {
+                            "ipv6": {
+                              "prefix": {
+                                "address": "2001:db8:100::",
+                                "length": 36
+                              }
+                            },
+                            "ipv4": {
+                              "prefix": {
+                                "address": "192.0.2.0",
+                                "length": 18
+                              }
+                            },
+                            "borderRelay": {
+                              "address": "2001:db8:ffff::1",
+                              "prefix": null
+                            },
+                            "eaBitLength": 20,
+                            "psIdOffset": 6
+                          }
+                        ]
+                      },
+                      "draft": {
+                        "enabled": false
+                      }
+                    }
                   }
                 },
                 "wan2": {
@@ -820,6 +1124,59 @@ class Appliance:
                     "authentication": {
                       "enabled": true,
                       "username": "username"
+                    }
+                  },
+                  "transition": {
+                    "enabled": true,
+                    "mode": "MAP-E",
+                    "authentication": {
+                      "enabled": true,
+                      "username": "4o6ddns"
+                    },
+                    "ipv4": {
+                      "local": {
+                        "address": null
+                      }
+                    },
+                    "ipv6": {
+                      "borderRelay": {
+                        "mode": "auto",
+                        "address": null
+                      },
+                      "interfaceId": null
+                    },
+                    "isp": {
+                      "name": "OCN IPoE"
+                    },
+                    "map": {
+                      "rules": {
+                        "source": "manual",
+                        "entries": [
+                          {
+                            "ipv6": {
+                              "prefix": {
+                                "address": "2001:db8:100::",
+                                "length": 36
+                              }
+                            },
+                            "ipv4": {
+                              "prefix": {
+                                "address": "192.0.2.0",
+                                "length": 18
+                              }
+                            },
+                            "borderRelay": {
+                              "address": "2001:db8:ffff::1",
+                              "prefix": null
+                            },
+                            "eaBitLength": 20,
+                            "psIdOffset": 6
+                          }
+                        ]
+                      },
+                      "draft": {
+                        "enabled": false
+                      }
                     }
                   }
                 }
@@ -3597,6 +3954,11 @@ class Appliance:
             {
               "mode": "prevention",
               "idsRulesets": "balanced",
+              "policy": {
+                "id": "123",
+                "name": "Strict Policy",
+                "description": "Custom policy for strict security controls"
+              },
               "protectedNetworks": {
                 "useDefault": false,
                 "includedCidr": [
@@ -3630,6 +3992,7 @@ class Appliance:
         *,
         mode: UpdateNetworkApplianceSecurityIntrusionMode | None = None,
         ids_rulesets: UpdateNetworkApplianceSecurityIntrusionIdsRulesets | None = None,
+        policy: UpdateNetworkApplianceSecurityIntrusionPolicy | None = None,
         protected_networks: UpdateNetworkApplianceSecurityIntrusionProtectedNetworks | None = None,
     ) -> UpdateNetworkApplianceSecurityIntrusionResponse:
         """Set the supported intrusion settings for an MX network.
@@ -3643,6 +4006,8 @@ class Appliance:
             ids_rulesets: Set the detection ruleset 'connectivity'/'balanced'/'security' (optional -
                 omitting will leave current config unchanged). Default value is
                 'balanced' if none currently saved.
+            policy: Set a custom intrusion policy by id (optional - omitting will leave current
+                config unchanged).
             protected_networks: Set the included/excluded networks from the intrusion engine
                 (optional - omitting will leave current config unchanged). This is
                 available only in 'passthrough' mode.
@@ -3655,6 +4020,11 @@ class Appliance:
             {
               "mode": "prevention",
               "idsRulesets": "balanced",
+              "policy": {
+                "id": "123",
+                "name": "Strict Policy",
+                "description": "Custom policy for strict security controls"
+              },
               "protectedNetworks": {
                 "useDefault": false,
                 "includedCidr": [
@@ -3680,6 +4050,8 @@ class Appliance:
             payload["mode"] = mode
         if ids_rulesets is not None:
             payload["idsRulesets"] = ids_rulesets
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
         if protected_networks is not None:
             payload["protectedNetworks"] = protected_networks.model_dump(
                 by_alias=True, exclude_none=True
@@ -4282,7 +4654,11 @@ class Appliance:
                     "comment": "A reserved IP range"
                   }
                 ],
-                "gatewayVlanId": 100
+                "gatewayVlanId": 100,
+                "vrf": {
+                  "id": "12345",
+                  "name": "VRF Blue"
+                }
               }
             ]
             ```
@@ -4307,6 +4683,7 @@ class Appliance:
         gateway_ip: str,
         gateway_vlan_id: int | None = None,
         enabled: bool | None = None,
+        vrf: CreateNetworkApplianceStaticRouteVrf | None = None,
     ) -> NetworkApplianceStaticRouteResponse:
         """Add a static route for an MX or teleworker network.
 
@@ -4319,6 +4696,7 @@ class Appliance:
             gateway_ip: Gateway IP address (next hop).
             gateway_vlan_id: Gateway VLAN ID.
             enabled: Enable/disable the static route.
+            vrf: VRF settings for the static route.
 
         Returns:
             Successful operation.
@@ -4346,7 +4724,11 @@ class Appliance:
                   "comment": "A reserved IP range"
                 }
               ],
-              "gatewayVlanId": 100
+              "gatewayVlanId": 100,
+              "vrf": {
+                "id": "12345",
+                "name": "VRF Blue"
+              }
             }
             ```
 
@@ -4365,6 +4747,8 @@ class Appliance:
             payload["gatewayVlanId"] = gateway_vlan_id
         if enabled is not None:
             payload["enabled"] = enabled
+        if vrf is not None:
+            payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="appliance",
@@ -4411,7 +4795,11 @@ class Appliance:
                   "comment": "A reserved IP range"
                 }
               ],
-              "gatewayVlanId": 100
+              "gatewayVlanId": 100,
+              "vrf": {
+                "id": "12345",
+                "name": "VRF Blue"
+              }
             }
             ```
 
@@ -4441,6 +4829,7 @@ class Appliance:
         | None = None,
         reserved_ip_ranges: list[UpdateNetworkApplianceStaticRouteReservedIpRangesItem]
         | None = None,
+        vrf: UpdateNetworkApplianceStaticRouteVrf | None = None,
     ) -> NetworkApplianceStaticRouteResponse:
         """Update a static route for an MX or teleworker network.
 
@@ -4456,6 +4845,7 @@ class Appliance:
             enabled: Whether the route should be enabled or not.
             fixed_ip_assignments: Fixed DHCP IP assignments on the route.
             reserved_ip_ranges: DHCP reserved IP ranges.
+            vrf: VRF settings for the static route.
 
         Returns:
             Successful operation.
@@ -4483,7 +4873,11 @@ class Appliance:
                   "comment": "A reserved IP range"
                 }
               ],
-              "gatewayVlanId": 100
+              "gatewayVlanId": 100,
+              "vrf": {
+                "id": "12345",
+                "name": "VRF Blue"
+              }
             }
             ```
 
@@ -4512,6 +4906,8 @@ class Appliance:
             payload["reservedIpRanges"] = [
                 item.model_dump(by_alias=True, exclude_none=True) for item in reserved_ip_ranges
             ]
+        if vrf is not None:
+            payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -4845,7 +5241,7 @@ class Appliance:
     def get_network_appliance_traffic_shaping_rules(
         self, network_id: str
     ) -> NetworkApplianceTrafficShapingRulesResponse:
-        """Display the traffic shaping settings rules for an MX network.
+        """Display the traffic shaping settings rules for a Security Appliance or Secure Router network.
 
         [API documentation: getNetworkApplianceTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules)
 
@@ -4899,7 +5295,7 @@ class Appliance:
         default_rules_enabled: bool | None = None,
         rules: list[UpdateNetworkApplianceTrafficShapingRulesRulesItem] | None = None,
     ) -> NetworkApplianceTrafficShapingRulesResponse:
-        """Update the traffic shaping settings rules for an MX network.
+        """Update the traffic shaping settings rules for a Security Appliance or Secure Router network.
 
         [API documentation: updateNetworkApplianceTrafficShapingRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules)
 
@@ -6431,6 +6827,16 @@ class Appliance:
               "enabled": true,
               "asNumber": 64515,
               "ibgpHoldTimer": 120,
+              "ipv6": {
+                "singlePeering": {
+                  "enabled": true
+                }
+              },
+              "tunnelDownTermination": {
+                "enabled": true
+              },
+              "localAsNumber": 64514,
+              "priorityRoute": "eBGP",
               "routerId": "10.15.10.2",
               "neighbors": [
                 {
@@ -6465,6 +6871,15 @@ class Appliance:
                     "64515:100",
                     "NO_EXPORT"
                   ],
+                  "filter": {
+                    "out": [
+                      "10.0.0.0/8",
+                      "172.16.0.0/12"
+                    ]
+                  },
+                  "explicitOutboundRouteAdvertisement": {
+                    "enabled": true
+                  },
                   "vrf": {
                     "id": "12345",
                     "name": "VRF Blue"
@@ -6492,6 +6907,10 @@ class Appliance:
         enabled: bool,
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
+        ipv6: UpdateNetworkApplianceVpnBgpIpv6 | None = None,
+        tunnel_down_termination: UpdateNetworkApplianceVpnBgpTunnelDownTermination | None = None,
+        local_as_number: int | None = None,
+        priority_route: UpdateNetworkApplianceVpnBgpPriorityRoute | None = None,
         router_id: str | None = None,
         neighbors: list[UpdateNetworkApplianceVpnBgpNeighborsItem] | None = None,
     ) -> NetworkApplianceVpnBgpResponse:
@@ -6513,6 +6932,12 @@ class Appliance:
             ibgp_hold_timer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
                 between 12 and 240. When absent, this field is not updated. If no value
                 exists then it defaults to 240.
+            ipv6: Settings for IPv6 configurations on the organization.
+            tunnel_down_termination: Settings for tunnel down termination on the organization.
+            local_as_number: Network-specific local Autonomous System Number (ASN) to which the
+                appliance belongs. This field is only configurable for Independent BGP
+                networks.
+            priority_route: Sets the priority route between eBGP and Auto VPN.
             router_id: The router ID of the appliance.
             neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
                 absent, this field is not updated.
@@ -6526,6 +6951,16 @@ class Appliance:
               "enabled": true,
               "asNumber": 64515,
               "ibgpHoldTimer": 120,
+              "ipv6": {
+                "singlePeering": {
+                  "enabled": true
+                }
+              },
+              "tunnelDownTermination": {
+                "enabled": true
+              },
+              "localAsNumber": 64514,
+              "priorityRoute": "eBGP",
               "routerId": "10.15.10.2",
               "neighbors": [
                 {
@@ -6560,6 +6995,15 @@ class Appliance:
                     "64515:100",
                     "NO_EXPORT"
                   ],
+                  "filter": {
+                    "out": [
+                      "10.0.0.0/8",
+                      "172.16.0.0/12"
+                    ]
+                  },
+                  "explicitOutboundRouteAdvertisement": {
+                    "enabled": true
+                  },
                   "vrf": {
                     "id": "12345",
                     "name": "VRF Blue"
@@ -6580,6 +7024,16 @@ class Appliance:
             payload["asNumber"] = as_number
         if ibgp_hold_timer is not None:
             payload["ibgpHoldTimer"] = ibgp_hold_timer
+        if ipv6 is not None:
+            payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
+        if tunnel_down_termination is not None:
+            payload["tunnelDownTermination"] = tunnel_down_termination.model_dump(
+                by_alias=True, exclude_none=True
+            )
+        if local_as_number is not None:
+            payload["localAsNumber"] = local_as_number
+        if priority_route is not None:
+            payload["priorityRoute"] = priority_route
         if router_id is not None:
             payload["routerId"] = router_id
         if neighbors is not None:
@@ -6615,7 +7069,13 @@ class Appliance:
               "hubs": [
                 {
                   "hubId": "N_4901849",
-                  "useDefaultRoute": true
+                  "useDefaultRoute": true,
+                  "vrfs": [
+                    {
+                      "id": "0",
+                      "name": "Default"
+                    }
+                  ]
                 }
               ],
               "subnets": [
@@ -6698,7 +7158,13 @@ class Appliance:
               "hubs": [
                 {
                   "hubId": "N_4901849",
-                  "useDefaultRoute": true
+                  "useDefaultRoute": true,
+                  "vrfs": [
+                    {
+                      "id": "0",
+                      "name": "Default"
+                    }
+                  ]
                 }
               ],
               "subnets": [
@@ -7090,6 +7556,9 @@ class Appliance:
                             "enabled": false
                           }
                         }
+                      },
+                      "profile": {
+                        "id": "99"
                       }
                     }
                   ]
@@ -7116,6 +7585,110 @@ class Appliance:
             path=path,
             params=params,
             item_schema=GetOrganizationApplianceDevicesInterfacesPortsByDeviceResponseItemsItem,
+        )
+
+    def get_organization_appliance_devices_interfaces_ports_profiles_assignments(
+        self,
+        organization_id: str,
+        *,
+        serials: list[str] | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationApplianceDevicesInterfacesPortsProfilesAssignmentsResponseItemsItem
+    ]:
+        """Returns MX port profile assignments.
+
+        [API documentation: getOrganizationApplianceDevicesInterfacesPortsProfilesAssignments](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-devices-interfaces-ports-profiles-assignments)
+
+        Args:
+            organization_id: Organization ID.
+            serials: Optional device serials to filter by. Results include assignments whose device
+                serial is an exact match for any provided serial. If some requested
+                serials are inaccessible, only accessible matches are returned. Maximum:
+                50 serials per request.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 50.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "device": {
+                    "name": "Branch Gateway",
+                    "mac": "e0:cb:bc:a5:98:16",
+                    "serial": "Q234-ABCD-5678"
+                  },
+                  "port": {
+                    "interface": {
+                      "name": "GigabitEthernet1/2/3",
+                      "slot": 1,
+                      "subslot": 2,
+                      "number": 3
+                    }
+                  },
+                  "profile": {
+                    "id": "123",
+                    "name": "Guest VLAN Profile"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 1,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/devices/interfaces/ports/profiles/assignments"
+
+        params: dict[str, Any] = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDevicesInterfacesPortsProfilesAssignments",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceDevicesInterfacesPortsProfilesAssignmentsResponseItemsItem,
         )
 
     def get_organization_appliance_devices_ports_transceivers_readings_history_by_device(
@@ -8791,6 +9364,1257 @@ class Appliance:
             response_schema=OrganizationApplianceSecurityIntrusionResponse,
         )
 
+    def get_organization_appliance_security_intrusion_policies(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        mode: GetOrganizationApplianceSecurityIntrusionPoliciesMode | None = None,
+        policy_ids: list[str] | None = None,
+        search: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[OrganizationApplianceSecurityIntrusionPolicyResponse]:
+        """List the intrusion policies configured for an organization along with base policies.
+
+        [API documentation: getOrganizationApplianceSecurityIntrusionPolicies](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion-policies)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 25.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            mode: Controls which policy set is returned.
+            policy_ids: Identifiers of policies to filter.
+            search: Filter policies by case-insensitive partial match on name or description.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "policyId": "eb508df4-58a2-59c3-a610-500d9a9e4423",
+                  "name": "Strict",
+                  "description": "Blocks the most aggressive threats",
+                  "basePolicy": {
+                    "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+                  },
+                  "isBasePolicy": false
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 5,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if mode is not None:
+            params["mode"] = mode
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if search is not None:
+            params["search"] = search
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceSecurityIntrusionPolicies",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationApplianceSecurityIntrusionPolicyResponse,
+        )
+
+    def create_organization_appliance_security_intrusion_policy(
+        self,
+        organization_id: str,
+        *,
+        policy: CreateOrganizationApplianceSecurityIntrusionPolicyPolicy | None = None,
+    ) -> OrganizationApplianceSecurityIntrusionPolicyResponse:
+        """Create a new intrusion policy for the organization.
+
+        [API documentation: createOrganizationApplianceSecurityIntrusionPolicy](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-security-intrusion-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy: Attributes for the intrusion policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "policyId": "eb508df4-58a2-59c3-a610-500d9a9e4423",
+              "name": "Strict",
+              "description": "Blocks the most aggressive threats",
+              "basePolicy": {
+                "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+              },
+              "isBasePolicy": false
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceSecurityIntrusionPolicy",
+            path=path,
+            json=payload,
+            response_schema=OrganizationApplianceSecurityIntrusionPolicyResponse,
+        )
+
+    def get_organization_appliance_security_intrusion_policies_overviews(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        policy_ids: list[str] | None = None,
+        search: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationApplianceSecurityIntrusionPoliciesOverviewsResponseItemsItem
+    ]:
+        """List counts for the intrusion and base policies configured for an organization.
+
+        [API documentation: getOrganizationApplianceSecurityIntrusionPoliciesOverviews](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion-policies-overviews)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 25.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            policy_ids: Identifiers of policies to filter.
+            search: Filter policy overviews by case-insensitive partial match on policy name or
+                description.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "policyId": "eb508df4-58a2-59c3-a610-500d9a9e4423",
+                  "counts": {
+                    "networks": {
+                      "total": 5
+                    },
+                    "rules": {
+                      "total": 300,
+                      "overridden": {
+                        "total": 12
+                      },
+                      "byAction": {
+                        "alert": 180,
+                        "block": 120
+                      }
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 5,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/overviews"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if search is not None:
+            params["search"] = search
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceSecurityIntrusionPoliciesOverviews",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceSecurityIntrusionPoliciesOverviewsResponseItemsItem,
+        )
+
+    def update_organization_appliance_security_intrusion_policy(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        policy: UpdateOrganizationApplianceSecurityIntrusionPolicyPolicy,
+    ) -> OrganizationApplianceSecurityIntrusionPolicyResponse:
+        """Update a single intrusion policy for the organization.
+
+        [API documentation: updateOrganizationApplianceSecurityIntrusionPolicy](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            policy: Attributes for the intrusion policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "policyId": "eb508df4-58a2-59c3-a610-500d9a9e4423",
+              "name": "Strict",
+              "description": "Blocks the most aggressive threats",
+              "basePolicy": {
+                "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+              },
+              "isBasePolicy": false
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}"
+
+        payload: dict[str, Any] = {}
+        if policy is not None:
+            payload["policy"] = policy.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceSecurityIntrusionPolicy",
+            path=path,
+            json=payload,
+            response_schema=OrganizationApplianceSecurityIntrusionPolicyResponse,
+        )
+
+    def delete_organization_appliance_security_intrusion_policy(
+        self, *, organization_id: str, policy_id: str
+    ) -> None:
+        """Delete a single intrusion policy for the organization.
+
+        [API documentation: deleteOrganizationApplianceSecurityIntrusionPolicy](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-security-intrusion-policy)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}"
+
+        return self._session.delete(
+            scope="appliance",
+            operation_id="deleteOrganizationApplianceSecurityIntrusionPolicy",
+            path=path,
+        )
+
+    def declare_organization_appliance_security_intrusion_policy_rule_groups_overrides(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        items: list[
+            DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesItemsItem
+        ],
+        mode: DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesMode
+        | None = None,
+        recursive: bool | None = None,
+    ) -> DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesResponse:
+        """Declare the desired rule group overrides for an intrusion policy.
+
+        [API documentation: declareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverrides](https://developer.cisco.com/meraki/api-v1/#!declare-organization-appliance-security-intrusion-policy-rule-groups-overrides)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            mode: Controls how the configuration payload in the request body is applied to the
+                resource. This parameter dictates the declarative mode: *
+                **`complete`**: The request body represents the entire desired
+                configuration for this resource. Any existing configurations that are
+                not included in the payload will be removed. * **`partial` (default)**:
+                The request body contains only the configurations to be created or
+                modified. Existing configurations that are not specified in the payload
+                will be preserved.
+            recursive: Controls how the configuration payload in the request body applies to the
+                rule group hierarchy. When true, the API applies each declared override
+                to the rule group itself and its descendants unless the payload
+                explicitly sets a descendant override. When false (default), the API
+                applies overrides only to the rule groups listed in the payload.
+            items: Desired overrides state.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "overrideId": "123456789012345678",
+                  "policy": {
+                    "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+                  },
+                  "group": {
+                    "id": "9c7645bf-1b92-43d9-b4bb-8b4d5af731e1"
+                  },
+                  "security": {
+                    "level": 3
+                  }
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/ruleGroups/overrides/declare"
+
+        payload: dict[str, Any] = {}
+        if mode is not None:
+            payload["mode"] = mode
+        if recursive is not None:
+            payload["recursive"] = recursive
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="declareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverrides",
+            path=path,
+            json=payload,
+            response_schema=DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesResponse,
+        )
+
+    def update_organization_appliance_security_intrusion_policy_rule_group_override(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        rule_group_id: str,
+        override: UpdateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride,
+    ) -> OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse:
+        """Update a rule group override for an intrusion policy.
+
+        [API documentation: updateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverride](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion-policy-rule-group-override)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            rule_group_id: Rule group ID.
+            override: Attributes for the override for a rule group in a intrusion policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "overrideId": "123456789012345678",
+              "policy": {
+                "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+              },
+              "group": {
+                "id": "9c7645bf-1b92-43d9-b4bb-8b4d5af731e1"
+              },
+              "security": {
+                "level": 3
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        rule_group_id = urllib.parse.quote(str(rule_group_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/ruleGroups/{rule_group_id}/override"
+
+        payload: dict[str, Any] = {}
+        if override is not None:
+            payload["override"] = override.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverride",
+            path=path,
+            json=payload,
+            response_schema=OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse,
+        )
+
+    def create_organization_appliance_security_intrusion_policy_rule_group_override(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        rule_group_id: str,
+        override: CreateOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideOverride,
+    ) -> OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse:
+        """Create a rule group override for an intrusion policy.
+
+        [API documentation: createOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverride](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-security-intrusion-policy-rule-group-override)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            rule_group_id: Rule group ID.
+            override: Attributes for the override for a rule group in a intrusion policy.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "overrideId": "123456789012345678",
+              "policy": {
+                "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+              },
+              "group": {
+                "id": "9c7645bf-1b92-43d9-b4bb-8b4d5af731e1"
+              },
+              "security": {
+                "level": 3
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        rule_group_id = urllib.parse.quote(str(rule_group_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/ruleGroups/{rule_group_id}/override"
+
+        payload: dict[str, Any] = {}
+        if override is not None:
+            payload["override"] = override.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceSecurityIntrusionPolicyRuleGroupOverride",
+            path=path,
+            json=payload,
+            response_schema=OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse,
+        )
+
+    def declare_organization_appliance_security_intrusion_policy_rules_overrides(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        items: list[DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesItemsItem],
+        mode: DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesMode | None = None,
+    ) -> DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesResponse:
+        """Declare the desired rule overrides for an intrusion policy.
+
+        [API documentation: declareOrganizationApplianceSecurityIntrusionPolicyRulesOverrides](https://developer.cisco.com/meraki/api-v1/#!declare-organization-appliance-security-intrusion-policy-rules-overrides)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            mode: Controls how the configuration payload in the request body is applied to the
+                resource. This parameter dictates the declarative mode: *
+                **`complete`**: The request body represents the entire desired
+                configuration for this resource. Any existing configurations that are
+                not included in the payload will be removed. This effectively performs a
+                full replacement or overwrite of the resource's configuration. *
+                **`partial` (default)**: The request body contains only the
+                configurations to be created or modified. Existing configurations that
+                are not specified in the payload will be preserved. This performs a
+                merge or partial update, applying only the changes specified.
+            items: Desired overrides state.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "overrideId": "override-123",
+                  "policy": {
+                    "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+                  },
+                  "rule": {
+                    "id": "ntd-ips-rule-123"
+                  },
+                  "action": "disable"
+                }
+              ]
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/rules/overrides/declare"
+
+        payload: dict[str, Any] = {}
+        if mode is not None:
+            payload["mode"] = mode
+        if items is not None:
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="declareOrganizationApplianceSecurityIntrusionPolicyRulesOverrides",
+            path=path,
+            json=payload,
+            response_schema=DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesResponse,
+        )
+
+    def update_organization_appliance_security_intrusion_policy_rule_override(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        rule_id: str,
+        override: UpdateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride,
+    ) -> OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse:
+        """Update a rule override for an intrusion policy.
+
+        [API documentation: updateOrganizationApplianceSecurityIntrusionPolicyRuleOverride](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion-policy-rule-override)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            rule_id: Rule ID.
+            override: Override attributes.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "overrideId": "override-123",
+              "policy": {
+                "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+              },
+              "rule": {
+                "id": "ntd-ips-rule-123"
+              },
+              "action": "disable"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        rule_id = urllib.parse.quote(str(rule_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/rules/{rule_id}/override"
+
+        payload: dict[str, Any] = {}
+        if override is not None:
+            payload["override"] = override.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceSecurityIntrusionPolicyRuleOverride",
+            path=path,
+            json=payload,
+            response_schema=OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse,
+        )
+
+    def create_organization_appliance_security_intrusion_policy_rule_override(
+        self,
+        *,
+        organization_id: str,
+        policy_id: str,
+        rule_id: str,
+        override: CreateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride,
+    ) -> OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse:
+        """Create a rule override for an intrusion policy.
+
+        [API documentation: createOrganizationApplianceSecurityIntrusionPolicyRuleOverride](https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-security-intrusion-policy-rule-override)
+
+        Args:
+            organization_id: Organization ID.
+            policy_id: Policy ID.
+            rule_id: Rule ID.
+            override: Rule override to create.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "overrideId": "override-123",
+              "policy": {
+                "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+              },
+              "rule": {
+                "id": "ntd-ips-rule-123"
+              },
+              "action": "disable"
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_id = urllib.parse.quote(str(policy_id), safe="")
+        rule_id = urllib.parse.quote(str(rule_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/policies/{policy_id}/rules/{rule_id}/override"
+
+        payload: dict[str, Any] = {}
+        if override is not None:
+            payload["override"] = override.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceSecurityIntrusionPolicyRuleOverride",
+            path=path,
+            json=payload,
+            response_schema=OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse,
+        )
+
+    def get_organization_appliance_security_intrusion_rule_groups(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        policy_ids: list[str] | None = None,
+        parent_rule_group_ids: list[str] | None = None,
+        search: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationApplianceSecurityIntrusionRuleGroupsResponseItemsItem]:
+        """List the rule groups that belong to a security policy.
+
+        [API documentation: getOrganizationApplianceSecurityIntrusionRuleGroups](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion-rule-groups)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 500. Default
+                is 50.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            policy_ids: Collection of base or intrusion policy identifiers to filter results by.
+            parent_rule_group_ids: Filter results to rule groups whose parent matches any of the
+                provided identifiers.
+            search: Case-insensitive text filter applied to rule group name and description.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "groupId": "8dfddd5a-3bb0-5f61-8ea4-b0b48d9ab1c2",
+                  "parent": {
+                    "id": "0c6e7e7a-30c6-5d14-80b2-30f0826db098",
+                    "name": "File Transfer Parent"
+                  },
+                  "name": "File Transfer",
+                  "description": "Rules that inspect file transfer protocols",
+                  "policy": {
+                    "id": "3e9a2a8b-0e56-5a4d-9588-5ac3524c39ad"
+                  },
+                  "base": {
+                    "security": {
+                      "level": 3
+                    }
+                  },
+                  "override": {
+                    "id": "override-123",
+                    "security": {
+                      "level": 4
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 5,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/ruleGroups"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if parent_rule_group_ids is not None:
+            params["parentRuleGroupIds[]"] = parent_rule_group_ids
+        if search is not None:
+            params["search"] = search
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceSecurityIntrusionRuleGroups",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceSecurityIntrusionRuleGroupsResponseItemsItem,
+        )
+
+    def get_organization_appliance_security_intrusion_rule_groups_overrides(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        policy_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse]:
+        """List the rule group overrides configured for an intrusion policy.
+
+        [API documentation: getOrganizationApplianceSecurityIntrusionRuleGroupsOverrides](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion-rule-groups-overrides)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 25.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            policy_ids: Collection of intrusion policy identifiers to filter the overrides by.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "overrideId": "123456789012345678",
+                  "policy": {
+                    "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+                  },
+                  "group": {
+                    "id": "9c7645bf-1b92-43d9-b4bb-8b4d5af731e1"
+                  },
+                  "security": {
+                    "level": 3
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 5,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/ruleGroups/overrides"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceSecurityIntrusionRuleGroupsOverrides",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse,
+        )
+
+    def delete_organization_appliance_security_intrusion_rule_groups_override(
+        self, *, organization_id: str, override_id: str
+    ) -> None:
+        """Delete a rule group override for an intrusion policy.
+
+        [API documentation: deleteOrganizationApplianceSecurityIntrusionRuleGroupsOverride](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-security-intrusion-rule-groups-override)
+
+        Args:
+            organization_id: Organization ID.
+            override_id: Override ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        override_id = urllib.parse.quote(str(override_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/ruleGroups/overrides/{override_id}"
+
+        return self._session.delete(
+            scope="appliance",
+            operation_id="deleteOrganizationApplianceSecurityIntrusionRuleGroupsOverride",
+            path=path,
+        )
+
+    def get_organization_appliance_security_intrusion_rule_groups_overviews(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        policy_ids: list[str] | None = None,
+        parent_rule_group_ids: list[str] | None = None,
+        search: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[
+        GetOrganizationApplianceSecurityIntrusionRuleGroupsOverviewsResponseItemsItem
+    ]:
+        """List counts for the child rule groups and rules for each rule group in a security policy.
+
+        [API documentation: getOrganizationApplianceSecurityIntrusionRuleGroupsOverviews](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion-rule-groups-overviews)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 500. Default
+                is 50.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            policy_ids: Collection of base or intrusion policy identifiers to filter results by.
+            parent_rule_group_ids: Filter results to rule groups whose parent matches any of the
+                provided identifiers.
+            search: Case-insensitive text filter applied to rule group name and description.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "ruleGroupId": "8dfddd5a-3bb0-5f61-8ea4-b0b48d9ab1c2",
+                  "policy": {
+                    "id": "3e9a2a8b-0e56-5a4d-9588-5ac3524c39ad"
+                  },
+                  "counts": {
+                    "ruleGroups": {
+                      "total": 3,
+                      "bySecurityLevel": {
+                        "1": 1,
+                        "2": 1,
+                        "3": 1,
+                        "4": 0,
+                        "unknown": 0
+                      }
+                    },
+                    "rules": {
+                      "total": 6,
+                      "byAction": {
+                        "alert": 4,
+                        "block": 2,
+                        "other": 0
+                      }
+                    }
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 5,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/ruleGroups/overviews"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if parent_rule_group_ids is not None:
+            params["parentRuleGroupIds[]"] = parent_rule_group_ids
+        if search is not None:
+            params["search"] = search
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceSecurityIntrusionRuleGroupsOverviews",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceSecurityIntrusionRuleGroupsOverviewsResponseItemsItem,
+        )
+
+    def get_organization_appliance_security_intrusion_rules(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        policy_ids: list[str] | None = None,
+        parent_rule_group_ids: list[str] | None = None,
+        search: str | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationApplianceSecurityIntrusionRulesResponseItemsItem]:
+        r"""List the rules that belong to a security policy.
+
+        [API documentation: getOrganizationApplianceSecurityIntrusionRules](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion-rules)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 500. Default
+                is 50.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            policy_ids: Identifiers of the base or intrusion policies to query.
+            parent_rule_group_ids: Filter results to rules that belong to any of the specified rule
+                groups.
+            search: Case-insensitive text filter applied to rule name and description.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "ruleId": "98126c0f-83f2-52dc-9186-0c97905348a6",
+                  "gid": 1,
+                  "sid": 57556,
+                  "name": "Block known malware",
+                  "description": "alert tcp any any -> any any (msg:\"Block known malware\";)",
+                  "base": {
+                    "enabled": true,
+                    "action": "alert"
+                  },
+                  "override": {
+                    "id": "override-123",
+                    "action": "drop"
+                  },
+                  "policy": {
+                    "id": "3e9a2a8b-0e56-5a4d-9588-5ac3524c39ad"
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 100,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/rules"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+        if parent_rule_group_ids is not None:
+            params["parentRuleGroupIds[]"] = parent_rule_group_ids
+        if search is not None:
+            params["search"] = search
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceSecurityIntrusionRules",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceSecurityIntrusionRulesResponseItemsItem,
+        )
+
+    def get_organization_appliance_security_intrusion_rules_overrides(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        policy_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse]:
+        """List the rule overrides configured for an intrusion policy.
+
+        [API documentation: getOrganizationApplianceSecurityIntrusionRulesOverrides](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion-rules-overrides)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
+                is 25.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            policy_ids: Identifiers of intrusion policies to filter.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "overrideId": "override-123",
+                  "policy": {
+                    "id": "eb508df4-58a2-59c3-a610-500d9a9e4423"
+                  },
+                  "rule": {
+                    "id": "ntd-ips-rule-123"
+                  },
+                  "action": "disable"
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 5,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/rules/overrides"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if policy_ids is not None:
+            params["policyIds[]"] = policy_ids
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceSecurityIntrusionRulesOverrides",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse,
+        )
+
+    def delete_organization_appliance_security_intrusion_rules_override(
+        self, *, organization_id: str, override_id: str
+    ) -> None:
+        """Delete a rule override for an intrusion policy.
+
+        [API documentation: deleteOrganizationApplianceSecurityIntrusionRulesOverride](https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-security-intrusion-rules-override)
+
+        Args:
+            organization_id: Organization ID.
+            override_id: Override ID.
+
+        Returns:
+            Successful operation.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        override_id = urllib.parse.quote(str(override_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/intrusion/rules/overrides/{override_id}"
+
+        return self._session.delete(
+            scope="appliance",
+            operation_id="deleteOrganizationApplianceSecurityIntrusionRulesOverride",
+            path=path,
+        )
+
     def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
         self,
         organization_id: str,
@@ -8893,7 +10717,7 @@ class Appliance:
         total_pages: int | Literal["all"] = "all",
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationApplianceUplinkStatusesResponseItem]:
-        """List the uplink status of every Meraki MX and Z series appliances in the organization.
+        """List the uplink status of every Meraki MX appliance, Z series appliance, and Secure Router in the organization.
 
         [API documentation: getOrganizationApplianceUplinkStatuses](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses)
 
@@ -9621,7 +11445,31 @@ class Appliance:
                     "ebgpHoldTimer": 180,
                     "ebgpMultihop": 2,
                     "sourceIp": "10.10.10.22",
+                    "ttlSecurity": {
+                      "enabled": false
+                    },
+                    "authentication": {
+                      "password": "abc123"
+                    },
+                    "allowTransit": true,
                     "receiveLimit": 100,
+                    "explicitOutboundRouteAdvertisement": {
+                      "enabled": true
+                    },
+                    "filter": {
+                      "out": [
+                        "10.0.0.0/8",
+                        "172.16.0.0/12"
+                      ]
+                    },
+                    "filterIn": [
+                      "10.0.0.0/8",
+                      "172.16.0.0/12"
+                    ],
+                    "communityOut": [
+                      "64515:100",
+                      "NO_EXPORT"
+                    ],
                     "pathPrepend": [
                       1,
                       2
@@ -9752,7 +11600,31 @@ class Appliance:
                     "ebgpHoldTimer": 180,
                     "ebgpMultihop": 2,
                     "sourceIp": "10.10.10.22",
+                    "ttlSecurity": {
+                      "enabled": false
+                    },
+                    "authentication": {
+                      "password": "abc123"
+                    },
+                    "allowTransit": true,
                     "receiveLimit": 100,
+                    "explicitOutboundRouteAdvertisement": {
+                      "enabled": true
+                    },
+                    "filter": {
+                      "out": [
+                        "10.0.0.0/8",
+                        "172.16.0.0/12"
+                      ]
+                    },
+                    "filterIn": [
+                      "10.0.0.0/8",
+                      "172.16.0.0/12"
+                    ],
+                    "communityOut": [
+                      "64515:100",
+                      "NO_EXPORT"
+                    ],
                     "pathPrepend": [
                       1,
                       2
