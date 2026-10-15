@@ -11,7 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Update to Meraki API v1.75.0
 
-- TODO: summarize generated SDK changes for Meraki API v1.75.0.
+- Added appliance intrusion policy endpoints for managing organization intrusion policies, rule groups, rules, and their overrides (e.g. `get_organization_appliance_security_intrusion_policies`, `create_organization_appliance_security_intrusion_policy`, `get_organization_appliance_security_intrusion_rules`).
+- Added appliance endpoints `update_device_appliance_interfaces_port` and `get_organization_appliance_devices_interfaces_ports_profiles_assignments`.
+- Added organization endpoints `get_organization_api_rest_provisioning_pipelines`, `commit_organization_policies_global_group_policies_firewall_rulesets_assignments`, `get_organization_policies_global_group_policies_networks`, `get_organization_policies_global_group_policies_networks_assignments`, `bulk_organization_policies_global_group_policies_networks_assignments_assign`, and `bulk_organization_policies_global_group_policies_networks_assignments_delete`.
+- Added sustainability consumer metrics endpoints under `get_organization_summary_sustainability_*` (daily and summary metrics by network, device, and device category).
+- Added wireless endpoints `update_network_wireless_ssids_owe`, `get_network_wireless_ssid_overrides`, `update_network_wireless_ssid_overrides`, and `get_organization_wireless_ssids_owe_by_network`, plus campus gateway endpoint `get_organization_campus_gateway_devices_system_cpu_load`.
+- Added action batch helpers for the new intrusion policy, global group policy, appliance interface port, and wireless SSID OWE/override write endpoints, plus `delete_network_switch_port_schedule`.
+- Added parameters: `vrf` on appliance static route create/update; `ipv6`, `tunnel_down_termination`, `local_as_number`, and `priority_route` on `update_network_appliance_vpn_bgp`; `policy` on `update_network_appliance_security_intrusion`; `profile` on `create_device_appliance_interfaces_ports_update`; `active_vlans` on VLAN profile create/update; `bidirectional_forwarding_detection` on switch routing interface create/update; `dhcp_default_router_ips` and `dhcp_domain_name` on switch routing interface DHCP updates; `perpetual_poe` and `fast_poe` on `update_organization_config_template_switch_profile_port`; `appearance` on branding policy create/update; `staged` on `create_organization_policies_global_group_policies_firewall_rulesets_assignment`; `search` on `get_organization_networks_groups`; `campus_gateway_priorities` on campus gateway connection queries; and `network_ids`, `ssid_numbers`, and `attachable` on `get_organization_wireless_ssids_profiles_overviews`.
+- Added `radsec` settings to switch access policy RADIUS servers, `selection` to wireless RRM channel settings, `configuration_updated_at` to organization device responses, and SHA-2 `v3_auth_mode` values to `update_organization_snmp`.
+- Changed `get_organization_wireless_ssids_profiles_overviews` to return the new `GetOrganizationWirelessSsidsProfilesOverviewsResponse` schema.
+- Changed action batch operations: `protection_network_appliance_umbrella` from `action` to `update`, and `update_network_switch_routing_multicast` from `ms/multicast/actions/update` to `update`.
+- Changed `enabled` on wireless ethernet port profile USB port items to required.
+- Removed action batch helpers `connect_network_appliance_umbrella_account` and `create_organization_sase_integration`.
+- Removed `sepioo` from the wireless electronic shelf label response.
+- Renamed schemas: `GetOrganizationSamlIdpResponse` is now `OrganizationSamlIdpResponse` (also returned by SAML IdP create/update), and `OrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse` is now `AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse`. `UpdateNetworkSwitchSettingsUplinkSelectionFailback` was removed in favor of a deduplicated shared schema. Code importing the old names must be updated.
 
 ## v0.20.0
 
