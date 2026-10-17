@@ -6098,7 +6098,7 @@ class Wireless:
                 802.11r enabled or adaptive, custom text is available only to
                 organizations enabled for this feature; otherwise, use only $NODE_MAC$,
                 $VAP_NUM$, and $VAP_NAME$. When this feature is enabled, the complete
-                rendered NAS identifier must be 1–48 bytes.
+                rendered NAS identifier must be 1-48 bytes.
             radius_server_timeout: The amount of time for which a RADIUS client waits for a reply
                 from the RADIUS server (must be between 1-10 seconds).
             radius_server_attempts_limit: The maximum number of transmit attempts after which a
