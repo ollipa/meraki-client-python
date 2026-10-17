@@ -12,6 +12,9 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSetting,
+)
 
 
 class CameraAppliedOnDevicesItem(_BaseSchema):
@@ -441,7 +444,7 @@ class DeviceCameraSenseResponse(_BaseSchema):
     mqtt_topics: list[str] = Field(
         default_factory=list, validation_alias="mqttTopics", serialization_alias="mqttTopics"
     )
-    audio_detection: DeviceCameraSenseResponseAudioDetection | None = Field(
+    audio_detection: EnabledSetting | None = Field(
         default=None, validation_alias="audioDetection", serialization_alias="audioDetection"
     )
     detection_model_id: str | None = Field(
@@ -453,12 +456,6 @@ class DeviceCameraSenseResponse(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class DeviceCameraSenseResponseAudioDetection(_BaseSchema):
-    """Audio detection configuration."""
-
-    enabled: bool | None = None
 
 
 class DeviceCameraVideoSettingsResponse(_BaseSchema):
@@ -753,7 +750,7 @@ class NetworkCameraQualityRetentionProfileResponse(_BaseSchema):
         validation_alias="motionDetectorVersion",
         serialization_alias="motionDetectorVersion",
     )
-    smart_retention: DeviceCameraSenseResponseAudioDetection | None = Field(
+    smart_retention: EnabledSetting | None = Field(
         default=None, validation_alias="smartRetention", serialization_alias="smartRetention"
     )
     axis_video_quality: str | None = Field(
@@ -934,12 +931,6 @@ class UpdateNetworkCameraWirelessProfileSsid(_BaseSchema):
         default=None, validation_alias="encryptionMode", serialization_alias="encryptionMode"
     )
     psk: str | None = None
-
-
-class UpdateOrganizationCameraOnboardingStatusesResponse(_BaseSchema):
-    """Response for updateOrganizationCameraOnboardingStatuses operation."""
-
-    success: bool | None = None
 
 
 class UpdateOrganizationCameraRoleAppliedOnDevicesItem(_BaseSchema):

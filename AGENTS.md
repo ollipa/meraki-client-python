@@ -18,6 +18,7 @@ Key implications:
   - `main.py`: generation entry point.
   - `templates/`: Jinja2 templates for SDK, tests, and docs output.
   - `spec_overrides.toml`: OpenAPI workarounds and override config.
+  - `shared_schemas.py`: generic schemas with fixed names shared across scopes.
   - `static/`: files copied directly into generated output.
 - `meraki_client/`: generated SDK package.
   - `_api/`: generated sync endpoint modules by scope.

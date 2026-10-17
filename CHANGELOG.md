@@ -15,7 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `logging` parameter to organization-wide policy firewall rule create/update (including action batch helpers).
 - Added `vrf` to the eBGP neighbor settings of appliance third-party VPN peers (get and update).
 - Added `ips` (IP translation state) to `get_device_cellular_sims` SIM responses, and power `reported_at`/`draw` and PoE `is_active`, `protocol`, `requested`, and `granted` fields to `get_organization_wireless_devices_ethernet_statuses` responses.
-- Renamed shared schemas due to deduplication: `ApplianceVrf` is now `UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork`, and `OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse` (returned by the global group policy appliance VLAN assign/remove endpoints) is now `CertificatesOrganizationApplianceSecurityHttpsiResponse`. Code importing the old names must be updated.
+
+#### Shared schemas for generic structures
+
+Small, generic structures now use shared schemas with fixed names instead of per-scope classes named after whichever endpoint or field used them first. Previously these names could change when an unrelated endpoint was added. This renames 55 schemas once; code importing the old names must be updated.
+
+- New shared schemas: `SuccessResponse` (`{success}`), `EnabledSetting` (`{enabled}`), `IdRef` (`{id}`), `NameRef` (`{name}`), and `IdNameRef` (`{id, name}`), plus `EnabledSettingStrict`, `IdRefStrict`, and `IdNameRefStrict` when all fields are required.
+- For example, `ApplianceVrf` is now `IdRefStrict`; `OrganizationsApi`, `UpdateDeviceCellularGeolocationsResponse`, and `OrganizationApplianceRoutingVrfsSettingsResponse` are now `EnabledSetting`; and `OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse`, `RebootDeviceResponse`, and other success-only responses are now `SuccessResponse`.
 
 ### Fixed
 

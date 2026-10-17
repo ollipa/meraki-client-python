@@ -12,6 +12,15 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSetting,
+    EnabledSettingStrict,
+    IdNameRef,
+    IdNameRefStrict,
+    IdRef,
+    IdRefStrict,
+    NameRef,
+)
 
 
 class AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem(
@@ -28,16 +37,10 @@ class AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy(_B
     id: str | None = None
 
 
-class AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse(_BaseSchema):
-    """Schema for AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse."""
-
-    success: bool | None = None
-
-
 class AttachOrganizationSaseSitesItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    network: IdRefStrict
     region: AttachOrganizationSaseSitesItemsItemRegion
 
 
@@ -53,7 +56,7 @@ class AttachOrganizationSaseSitesResponse(_BaseSchema):
     pipeline_id: str | None = Field(
         default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
     )
-    operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    operation: IdRef | None = None
     status: str | None = None
     counts: AttachOrganizationSaseSitesResponseCounts | None = None
 
@@ -78,7 +81,7 @@ class AttachOrganizationSaseSitesResponseCounts(_BaseSchema):
 class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    profile: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    profile: IdRefStrict
     device: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemDevice
 
 
@@ -86,12 +89,6 @@ class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemDevi
     """Device to assign to the profile."""
 
     serial: str
-
-
-class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile(_BaseSchema):
-    """Profile to assign to the device."""
-
-    id: str
 
 
 class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponse(_BaseSchema):
@@ -114,7 +111,7 @@ class BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateResponseItems
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    profile: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    profile: IdRef | None = None
     device: OrganizationsDevice2 | None = None
 
 
@@ -130,7 +127,7 @@ class BatchOrganizationSaseConnectorsDeleteResponse(_BaseSchema):
     pipeline_id: str | None = Field(
         default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
     )
-    operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    operation: IdRef | None = None
     status: str | None = None
     counts: BatchOrganizationSaseConnectorsDeleteResponseCounts | None = None
 
@@ -155,7 +152,7 @@ class BatchOrganizationSaseConnectorsDeleteResponseCounts(_BaseSchema):
 class BulkOrganizationDevicesCellularDataProfilesAssignmentsDeleteItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    profile: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    profile: IdRefStrict
     device: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemDevice
 
 
@@ -222,10 +219,10 @@ class BulkOrganizationDevicesPacketCaptureCapturesCreateResponseItemsItem(_BaseS
     capture_id: str | None = Field(
         default=None, validation_alias="captureId", serialization_alias="captureId"
     )
-    network: OrganizationsPolicyObjectsItem | None = None
+    network: IdNameRef | None = None
     devices: list[dict[str, Any]] = Field(default_factory=list)
     device: OrganizationsDevice3 | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
+    admin: IdNameRef | None = None
     client: OrganizationsClient3 | None = None
     details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
     name: str | None = None
@@ -298,7 +295,7 @@ class BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignRespon
 class BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsAssignTargetsItem(_BaseSchema):
     """Item schema for targets."""
 
-    network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    network: IdRefStrict
     firewall: OrganizationsFirewall2
 
 
@@ -311,7 +308,7 @@ class BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeletePolicy
 class BulkOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsDeleteTargetsItem(_BaseSchema):
     """Item schema for targets."""
 
-    network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    network: IdRefStrict
     firewall: OrganizationsFirewall2
 
 
@@ -441,9 +438,7 @@ class CreateNetworkMoveNetwork(_BaseSchema):
 class CreateNetworkMoveOrganizations(_BaseSchema):
     """Organizations involved in the network move."""
 
-    target: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile | None = (
-        None
-    )
+    target: IdRefStrict | None = None
 
 
 class CreateNetworkMoveResponse(_BaseSchema):
@@ -454,7 +449,7 @@ class CreateNetworkMoveResponse(_BaseSchema):
     )
     initiator: OrganizationsInitiator | None = None
     organizations: OrganizationsOrganizations | None = None
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    network: IdRef | None = None
     created_at: datetime | None = Field(
         default=None, validation_alias="createdAt", serialization_alias="createdAt"
     )
@@ -479,18 +474,12 @@ class CreateOrganizationActionBatchCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
-
-
-class CreateOrganizationActionBatchCallbackHttpServer(_BaseSchema):
-    """The webhook receiver used for the callback webhook."""
-
-    id: str | None = None
 
 
 class CreateOrganizationAdaptivePolicyAclRulesItem(_BaseSchema):
@@ -919,21 +908,15 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinationsCriteria(_
         serialization_alias="applicationCategories",
     )
     applications: list[OrganizationsApplicationsItem2] = Field(default_factory=list)
-    policy_objects: list[
-        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
-    ] = Field(
+    policy_objects: list[IdRefStrict] = Field(
         default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
     )
-    policy_object_groups: list[
-        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
-    ] = Field(
+    policy_object_groups: list[IdRefStrict] = Field(
         default_factory=list,
         validation_alias="policyObjectGroups",
         serialization_alias="policyObjectGroups",
     )
-    adaptive_policy_groups: list[
-        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
-    ] = Field(
+    adaptive_policy_groups: list[IdRefStrict] = Field(
         default_factory=list,
         validation_alias="adaptivePolicyGroups",
         serialization_alias="adaptivePolicyGroups",
@@ -1003,14 +986,10 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSourcesCriteria(_BaseS
         default_factory=list, validation_alias="addressRanges", serialization_alias="addressRanges"
     )
     ports: list[str] = Field(default_factory=list)
-    policy_objects: list[
-        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
-    ] = Field(
+    policy_objects: list[IdRefStrict] = Field(
         default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
     )
-    policy_object_groups: list[
-        BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
-    ] = Field(
+    policy_object_groups: list[IdRefStrict] = Field(
         default_factory=list,
         validation_alias="policyObjectGroups",
         serialization_alias="policyObjectGroups",
@@ -1070,7 +1049,7 @@ class CreateOrganizationSplashThemeResponse(_BaseSchema):
     is_system_theme: bool | None = Field(
         default=None, validation_alias="isSystemTheme", serialization_alias="isSystemTheme"
     )
-    theme_assets: list[OrganizationsPolicyObjectsItem] = Field(
+    theme_assets: list[IdNameRef] = Field(
         default_factory=list, validation_alias="themeAssets", serialization_alias="themeAssets"
     )
 
@@ -1093,7 +1072,7 @@ class DetachOrganizationSaseSitesResponse(_BaseSchema):
     pipeline_id: str | None = Field(
         default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
     )
-    operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    operation: IdRef | None = None
     status: str | None = None
     counts: DetachOrganizationSaseSitesResponseCounts | None = None
 
@@ -1405,7 +1384,7 @@ class GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse
     pipeline_id: str | None = Field(
         default=None, validation_alias="pipelineId", serialization_alias="pipelineId"
     )
-    operation: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    operation: IdRef | None = None
     status: str | None = None
     counts: OrganizationsCounts | None = None
 
@@ -1413,9 +1392,9 @@ class GetOrganizationApiRestProvisioningPipelinesJobsOverviewsByPipelineResponse
 class GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationApiRestProvisioningPipelinesJobsResponseItemsItem."""
 
-    pipeline: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    pipeline: IdRef | None = None
     job_id: str | None = Field(default=None, validation_alias="jobId", serialization_alias="jobId")
-    operation: OrganizationsHost | None = None
+    operation: NameRef | None = None
     status: str | None = None
     errors: list[OrganizationsErrorsItem] = Field(default_factory=list)
     details: list[OrganizationsDetailsItem] = Field(default_factory=list)
@@ -1498,7 +1477,7 @@ class GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem(_BaseSchema)
         validation_alias="deviceTypes", serialization_alias="deviceTypes"
     )
     device_tags: list[str] = Field(validation_alias="deviceTags", serialization_alias="deviceTags")
-    networks: list[OrganizationsNetworksItem2]
+    networks: list[IdNameRefStrict]
 
     @field_validator("device_types", "device_tags", "networks", mode="before")
     @classmethod
@@ -1767,7 +1746,7 @@ class GetOrganizationDevicesAvailabilitiesResponseItem(_BaseSchema):
 
     mac: str | None = None
     name: str | None = None
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    network: IdRef | None = None
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
@@ -1792,7 +1771,7 @@ class GetOrganizationDevicesCellularDataDevicesResponseItemsItem(_BaseSchema):
     software: OrganizationsSoftware | None = None
     modems: list[OrganizationsModemsItem] = Field(default_factory=list)
     profile: OrganizationsProfile | None = None
-    network: OrganizationsPolicyObjectsItem | None = None
+    network: IdNameRef | None = None
 
     @field_validator("modems", mode="before")
     @classmethod
@@ -1807,7 +1786,7 @@ class GetOrganizationDevicesCellularDataProfilesAssignmentsResponseItemsItem(_Ba
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    profile: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    profile: IdRef | None = None
     device: OrganizationsDevice2 | None = None
 
 
@@ -1938,7 +1917,7 @@ class GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem(_BaseSchema
 
     mac: str | None = None
     name: str | None = None
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    network: IdRef | None = None
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
@@ -1964,7 +1943,7 @@ class GetOrganizationDevicesProvisioningStatusesResponseItem(_BaseSchema):
 
     mac: str | None = None
     name: str | None = None
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    network: IdRef | None = None
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
@@ -2083,7 +2062,7 @@ class GetOrganizationDevicesStatusesResponseItem(_BaseSchema):
 class GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem."""
 
-    network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    network: IdRefStrict
     servers: list[OrganizationsServersItem]
 
     @field_validator("servers", mode="before")
@@ -2096,7 +2075,7 @@ class GetOrganizationDevicesSyslogServersByNetworkResponseItemsItem(_BaseSchema)
 class GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationDevicesSyslogServersRolesByNetworkResponseItemsItem."""
 
-    network: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    network: IdRefStrict
     available: list[OrganizationsAvailableItem]
 
     @field_validator("available", mode="before")
@@ -2138,7 +2117,7 @@ class GetOrganizationDevicesUplinksAddressesByDeviceResponseItem(_BaseSchema):
 
     mac: str | None = None
     name: str | None = None
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    network: IdRef | None = None
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
@@ -2186,7 +2165,7 @@ class GetOrganizationEarlyAccessFeaturesOptInsResponse(_BaseSchema):
     short_name: str | None = Field(
         default=None, validation_alias="shortName", serialization_alias="shortName"
     )
-    limit_scope_to_networks: list[OrganizationsPolicyObjectsItem] = Field(
+    limit_scope_to_networks: list[IdNameRef] = Field(
         default_factory=list,
         validation_alias="limitScopeToNetworks",
         serialization_alias="limitScopeToNetworks",
@@ -2318,7 +2297,7 @@ class GetOrganizationFirmwareUpgradesResponseItem(_BaseSchema):
     upgrade_batch_id: str | None = Field(
         default=None, validation_alias="upgradeBatchId", serialization_alias="upgradeBatchId"
     )
-    network: OrganizationsPolicyObjectsItem | None = None
+    network: IdNameRef | None = None
     status: str | None = None
     time: datetime | None = None
     completed_at: str | None = Field(
@@ -2350,8 +2329,8 @@ class GetOrganizationFloorPlansAutoLocateDevicesResponseItem(_BaseSchema):
     model: str | None = None
     tags: list[str] = Field(default_factory=list)
     status: str | None = None
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
-    floor_plan: OrganizationsPolicyObjectsItem | None = Field(
+    network: IdRef | None = None
+    floor_plan: IdNameRef | None = Field(
         default=None, validation_alias="floorPlan", serialization_alias="floorPlan"
     )
     lat: float | None = None
@@ -2380,7 +2359,7 @@ class GetOrganizationFloorPlansAutoLocateStatusesResponse(
 class GetOrganizationFloorPlansAutoLocateStatusesResponseItem(_BaseSchema):
     """Schema for GetOrganizationFloorPlansAutoLocateStatusesResponseItem."""
 
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    network: IdRef | None = None
     floor_plan_id: str | None = Field(
         default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
     )
@@ -2724,7 +2703,7 @@ class GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsResponseItems
     """Schema for GetOrganizationPoliciesGlobalGroupPoliciesNetworksAssignmentsResponseItemsItem."""
 
     assignment_id: str = Field(validation_alias="assignmentId", serialization_alias="assignmentId")
-    policy: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    policy: IdRefStrict
     network: OrganizationsApplicationsItem2
     firewall: OrganizationsFirewall
 
@@ -2773,7 +2752,7 @@ class GetOrganizationSaseNetworksEligibleResponseItemsItem(_BaseSchema):
     )
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
-    region: OrganizationsHost | None = None
+    region: NameRef | None = None
     device: OrganizationsDevice5 | None = None
     address: OrganizationsAddress2 | None = None
     vpn: OrganizationsVpn | None = None
@@ -2783,7 +2762,7 @@ class GetOrganizationSaseNetworksEligibleResponseItemsItem(_BaseSchema):
 class GetOrganizationSaseRegionsResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSaseRegionsResponseItemsItem."""
 
-    connector: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    connector: IdRef | None = None
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
     slug: str | None = None
@@ -2827,7 +2806,7 @@ class GetOrganizationSaseSitesResponseItemsItem(_BaseSchema):
     site_id: str | None = Field(
         default=None, validation_alias="siteId", serialization_alias="siteId"
     )
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    network: IdRef | None = None
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
     region: OrganizationsRegion3 | None = None
@@ -3033,7 +3012,7 @@ class GetOrganizationSummaryTopAppliancesByUtilizationResponse(
 class GetOrganizationSummaryTopAppliancesByUtilizationResponseItem(_BaseSchema):
     """Schema for GetOrganizationSummaryTopAppliancesByUtilizationResponseItem."""
 
-    network: OrganizationsPolicyObjectsItem | None = None
+    network: IdNameRef | None = None
     name: str | None = None
     mac: str | None = None
     serial: str | None = None
@@ -3085,7 +3064,7 @@ class GetOrganizationSummaryTopClientsByUsageResponseItem(_BaseSchema):
     name: str | None = None
     mac: str | None = None
     id: str | None = None
-    network: OrganizationsPolicyObjectsItem | None = None
+    network: IdNameRef | None = None
     usage: OrganizationsUsage3 | None = None
 
 
@@ -3119,7 +3098,7 @@ class GetOrganizationSummaryTopDevicesByUsageResponseItem(_BaseSchema):
     product_type: str | None = Field(
         default=None, validation_alias="productType", serialization_alias="productType"
     )
-    network: OrganizationsPolicyObjectsItem | None = None
+    network: IdNameRef | None = None
     usage: OrganizationsUsage4 | None = None
     clients: OrganizationsClients2 | None = None
 
@@ -3153,7 +3132,7 @@ class GetOrganizationSummaryTopNetworksByStatusResponseItem(_BaseSchema):
     name: str | None = None
     url: str | None = None
     tags: list[str] = Field(default_factory=list)
-    group: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    group: IdRef | None = None
     clients: OrganizationsClients | None = None
     statuses: OrganizationsStatuses2 | None = None
     devices: OrganizationsDevices4 | None = None
@@ -3192,7 +3171,7 @@ class GetOrganizationSummaryTopSwitchesByEnergyUsageResponse(
 class GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem(_BaseSchema):
     """Schema for GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem."""
 
-    network: OrganizationsPolicyObjectsItem | None = None
+    network: IdNameRef | None = None
     name: str | None = None
     mac: str | None = None
     model: str | None = None
@@ -3278,10 +3257,10 @@ class GetOrganizationWebhooksCallbacksStatusResponseWebhook(_BaseSchema):
     """The webhook receiver used by the callback to send results."""
 
     url: str | None = None
-    http_server: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
     sent_at: datetime | None = Field(
@@ -3422,7 +3401,7 @@ class OrganizationAdaptivePolicyGroupResponse(_BaseSchema):
     name: str | None = None
     sgt: int | None = None
     description: str | None = None
-    policy_objects: list[OrganizationsPolicyObjectsItem] = Field(
+    policy_objects: list[IdNameRef] = Field(
         default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
     )
     is_default_group: bool | None = Field(
@@ -3459,7 +3438,7 @@ class OrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
     destination_group: OrganizationsSourceGroup | None = Field(
         default=None, validation_alias="destinationGroup", serialization_alias="destinationGroup"
     )
-    acls: list[OrganizationsPolicyObjectsItem] = Field(default_factory=list)
+    acls: list[IdNameRef] = Field(default_factory=list)
     last_entry_rule: str | None = Field(
         default=None, validation_alias="lastEntryRule", serialization_alias="lastEntryRule"
     )
@@ -3660,10 +3639,10 @@ class OrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
     capture_id: str | None = Field(
         default=None, validation_alias="captureId", serialization_alias="captureId"
     )
-    network: OrganizationsPolicyObjectsItem | None = None
+    network: IdNameRef | None = None
     devices: list[dict[str, Any]] = Field(default_factory=list)
     device: OrganizationsDevice3 | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
+    admin: IdNameRef | None = None
     client: OrganizationsClient3 | None = None
     details: list[OrganizationsDetailsItem2] = Field(default_factory=list)
     name: str | None = None
@@ -3700,7 +3679,7 @@ class OrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
     )
     devices: list[OrganizationsDevicesItem2] = Field(default_factory=list)
     name: str | None = None
-    admin: OrganizationsPolicyObjectsItem | None = None
+    admin: IdNameRef | None = None
     notes: str | None = None
     duration: int | None = None
     filter_expression: str | None = Field(
@@ -4065,7 +4044,7 @@ class OrganizationPoliciesGlobalFirewallRulesetsRuleResponse(_BaseSchema):
     enabled: bool | None = None
     priority: int | None = None
     description: str | None = None
-    logging: OrganizationsApi | None = None
+    logging: EnabledSetting | None = None
     sources: OrganizationsSources | None = None
     destinations: OrganizationsDestinations | None = None
     created_at: datetime | None = Field(
@@ -4167,7 +4146,7 @@ class OrganizationResponse(_BaseSchema):
     id: str
     name: str
     url: str
-    api: OrganizationsApi | None = None
+    api: EnabledSetting | None = None
     licensing: OrganizationsLicensing | None = None
     cloud: OrganizationsCloud | None = None
     management: OrganizationsManagement | None = None
@@ -4246,7 +4225,7 @@ class OrganizationSaseIntegrationResponse(_BaseSchema):
 class OrganizationSaseIntegrationResponseExternal(_BaseSchema):
     """External system metadata."""
 
-    organization: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    organization: IdRef | None = None
 
 
 class OrganizationSaseIntegrationResponseIntegrated(_BaseSchema):
@@ -4327,7 +4306,7 @@ class OrganizationsAddressesItem(_BaseSchema):
     gateway: str | None = None
     nameservers: OrganizationsNameservers | None = None
     public: OrganizationsPublic | None = None
-    vlan: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    vlan: IdRef | None = None
 
 
 class OrganizationsAdminSettings(_BaseSchema):
@@ -4360,12 +4339,6 @@ class OrganizationsAlertDestinations(_BaseSchema):
     email: OrganizationsEmail | None = None
     sms: OrganizationsEmail | None = None
     webhook: OrganizationsWebhook | None = None
-
-
-class OrganizationsApi(_BaseSchema):
-    """API related settings."""
-
-    enabled: bool | None = None
 
 
 class OrganizationsApiAuthenticationIpRestrictionsForKeys(_BaseSchema):
@@ -4670,7 +4643,7 @@ class OrganizationsConfiguration(_BaseSchema):
 class OrganizationsConnection(_BaseSchema):
     """Details about the cellular connection."""
 
-    cell: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    cell: IdRef | None = None
     tac: str | None = None
 
 
@@ -4924,10 +4897,10 @@ class OrganizationsCriteria(_BaseSchema):
         default_factory=list, validation_alias="addressRanges", serialization_alias="addressRanges"
     )
     ports: list[str] = Field(default_factory=list)
-    policy_objects: list[CreateOrganizationActionBatchCallbackHttpServer] = Field(
+    policy_objects: list[IdRef] = Field(
         default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
     )
-    policy_object_groups: list[CreateOrganizationActionBatchCallbackHttpServer] = Field(
+    policy_object_groups: list[IdRef] = Field(
         default_factory=list,
         validation_alias="policyObjectGroups",
         serialization_alias="policyObjectGroups",
@@ -4966,16 +4939,16 @@ class OrganizationsCriteria2(_BaseSchema):
     )
     ports: list[str] = Field(default_factory=list)
     services: list[OrganizationsServicesItem] = Field(default_factory=list)
-    application_categories: list[CreateOrganizationActionBatchCallbackHttpServer] = Field(
+    application_categories: list[IdRef] = Field(
         default_factory=list,
         validation_alias="applicationCategories",
         serialization_alias="applicationCategories",
     )
-    applications: list[OrganizationsPolicyObjectsItem] = Field(default_factory=list)
-    policy_objects: list[CreateOrganizationActionBatchCallbackHttpServer] = Field(
+    applications: list[IdNameRef] = Field(default_factory=list)
+    policy_objects: list[IdRef] = Field(
         default_factory=list, validation_alias="policyObjects", serialization_alias="policyObjects"
     )
-    policy_object_groups: list[CreateOrganizationActionBatchCallbackHttpServer] = Field(
+    policy_object_groups: list[IdRef] = Field(
         default_factory=list,
         validation_alias="policyObjectGroups",
         serialization_alias="policyObjectGroups",
@@ -4992,7 +4965,7 @@ class OrganizationsCriteria2(_BaseSchema):
         validation_alias="siteSpecificVlans",
         serialization_alias="siteSpecificVlans",
     )
-    adaptive_policy_groups: list[CreateOrganizationActionBatchCallbackHttpServer] = Field(
+    adaptive_policy_groups: list[IdRef] = Field(
         default_factory=list,
         validation_alias="adaptivePolicyGroups",
         serialization_alias="adaptivePolicyGroups",
@@ -5228,7 +5201,7 @@ class OrganizationsEncryption(_BaseSchema):
     """Encryption settings for the syslog server."""
 
     enabled: bool | None = None
-    certificate: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    certificate: IdRef | None = None
 
 
 class OrganizationsEox(_BaseSchema):
@@ -5474,12 +5447,6 @@ class OrganizationsHistoryItem(_BaseSchema):
     timestamp: str | None = None
 
 
-class OrganizationsHost(_BaseSchema):
-    """Where organization data is hosted."""
-
-    name: str | None = None
-
-
 class OrganizationsImage(_BaseSchema):
     """Properties of the image."""
 
@@ -5489,13 +5456,13 @@ class OrganizationsImage(_BaseSchema):
 class OrganizationsInitiator(_BaseSchema):
     """User who initiated the move."""
 
-    admin: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    admin: IdRef | None = None
 
 
 class OrganizationsIntegratedBy(_BaseSchema):
     """Integration creator."""
 
-    admin: OrganizationsHost | None = None
+    admin: NameRef | None = None
 
 
 class OrganizationsIntervalsItem(_BaseSchema):
@@ -5524,7 +5491,7 @@ class OrganizationsItemsItem(_BaseSchema):
     """Schema for OrganizationsItemsItem."""
 
     assignment_id: str = Field(validation_alias="assignmentId", serialization_alias="assignmentId")
-    policy: BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItemProfile
+    policy: IdRefStrict
     network: OrganizationsApplicationsItem2
     firewall: OrganizationsFirewall
 
@@ -5599,7 +5566,7 @@ class OrganizationsLocation(_BaseSchema):
 class OrganizationsMaintenance(_BaseSchema):
     """Maintenance configuration for this profile."""
 
-    silencing: OrganizationsApi | None = None
+    silencing: EnabledSetting | None = None
 
 
 class OrganizationsManagement(_BaseSchema):
@@ -5714,13 +5681,6 @@ class OrganizationsNetworksItem(_BaseSchema):
     access: str | None = None
 
 
-class OrganizationsNetworksItem2(_BaseSchema):
-    """Schema for OrganizationsNetworksItem2."""
-
-    id: str
-    name: str
-
-
 class OrganizationsOffsets(_BaseSchema):
     """IP address offsets."""
 
@@ -5764,8 +5724,8 @@ class OrganizationsOptOutEligibilityHelp(_BaseSchema):
 class OrganizationsOrganizations(_BaseSchema):
     """Organizations involved in the network move."""
 
-    source: CreateOrganizationActionBatchCallbackHttpServer | None = None
-    target: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    source: IdRef | None = None
+    target: IdRef | None = None
 
 
 class OrganizationsPercentages(_BaseSchema):
@@ -5805,13 +5765,6 @@ class OrganizationsPoe(_BaseSchema):
 
     unit: str | None = None
     maximum: int | None = None
-
-
-class OrganizationsPolicyObjectsItem(_BaseSchema):
-    """Schema for OrganizationsPolicyObjectsItem."""
-
-    id: str | None = None
-    name: str | None = None
 
 
 class OrganizationsPowerSuppliesItem(_BaseSchema):
@@ -5956,7 +5909,7 @@ class OrganizationsRegion(_BaseSchema):
     """Region info."""
 
     name: str | None = None
-    host: OrganizationsHost | None = None
+    host: NameRef | None = None
 
 
 class OrganizationsRegion2(_BaseSchema):
@@ -5988,7 +5941,7 @@ class OrganizationsRoaming(_BaseSchema):
 class OrganizationsRouting(_BaseSchema):
     """Routing configuration for the site."""
 
-    default_route: OrganizationsApi | None = Field(
+    default_route: EnabledSetting | None = Field(
         default=None, validation_alias="defaultRoute", serialization_alias="defaultRoute"
     )
 
@@ -6246,7 +6199,7 @@ class OrganizationsSsidsItem(_BaseSchema):
 class OrganizationsStaged(_BaseSchema):
     """Staged upgrade."""
 
-    group: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    group: IdRef | None = None
 
 
 class OrganizationsStarts(_BaseSchema):
@@ -7117,7 +7070,7 @@ class UpdateOrganizationSaseSiteResponse(_BaseSchema):
     site_id: str | None = Field(
         default=None, validation_alias="siteId", serialization_alias="siteId"
     )
-    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
+    network: IdRef | None = None
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     name: str | None = None
     region: OrganizationsRegion3 | None = None
@@ -7130,12 +7083,6 @@ class UpdateOrganizationSaseSiteResponse(_BaseSchema):
 class UpdateOrganizationSaseSiteRouting(_BaseSchema):
     """Routing configuration for the site."""
 
-    default_route: UpdateOrganizationSaseSiteRoutingDefaultRoute | None = Field(
+    default_route: EnabledSettingStrict | None = Field(
         default=None, validation_alias="defaultRoute", serialization_alias="defaultRoute"
     )
-
-
-class UpdateOrganizationSaseSiteRoutingDefaultRoute(_BaseSchema):
-    """Default route configuration for the site."""
-
-    enabled: bool

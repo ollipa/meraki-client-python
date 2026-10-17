@@ -12,6 +12,11 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    IdNameRef,
+    IdRef,
+    NameRef,
+)
 
 
 class BlinkDeviceLedsResponse(_BaseSchema):
@@ -58,18 +63,12 @@ class CreateDeviceLiveToolsArpTableCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
-
-
-class CreateDeviceLiveToolsArpTableCallbackHttpServer(_BaseSchema):
-    """The webhook receiver used for the callback webhook."""
-
-    id: str | None = None
 
 
 class CreateDeviceLiveToolsArpTableResponse(_BaseSchema):
@@ -105,10 +104,10 @@ class CreateDeviceLiveToolsCableTestCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -145,10 +144,10 @@ class CreateDeviceLiveToolsLedsBlinkCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -180,10 +179,10 @@ class CreateDeviceLiveToolsMacTableCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -214,10 +213,10 @@ class CreateDeviceLiveToolsMulticastRoutingCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -243,10 +242,10 @@ class CreateDeviceLiveToolsPingCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -258,10 +257,10 @@ class CreateDeviceLiveToolsPingDeviceCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -312,10 +311,10 @@ class CreateDeviceLiveToolsPortsCycleCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -339,10 +338,10 @@ class CreateDeviceLiveToolsPortsStatusCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -364,10 +363,10 @@ class CreateDeviceLiveToolsPowerUsageCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -379,10 +378,10 @@ class CreateDeviceLiveToolsRoutingTableLookupCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -428,7 +427,7 @@ class CreateDeviceLiveToolsRoutingTableLookupResponseRequest(_BaseSchema):
 class CreateDeviceLiveToolsRoutingTableLookupVpn(_BaseSchema):
     """VPN related search criteria."""
 
-    peer: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = None
+    peer: IdRef | None = None
 
 
 class CreateDeviceLiveToolsRoutingTableLookupVrf(_BaseSchema):
@@ -450,10 +449,10 @@ class CreateDeviceLiveToolsRoutingTableSummaryCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -476,10 +475,10 @@ class CreateDeviceLiveToolsThroughputTestCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -511,10 +510,10 @@ class CreateDeviceLiveToolsWakeOnLanCallback(_BaseSchema):
     shared_secret: str | None = Field(
         default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
     )
-    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    http_server: IdRef | None = Field(
         default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
-    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+    payload_template: IdRef | None = Field(
         default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
@@ -636,7 +635,7 @@ class DeviceManagementInterfaceResponseWan1(_BaseSchema):
         default_factory=list, validation_alias="staticDns", serialization_alias="staticDns"
     )
     vlan: int | None = None
-    vrf: DevicesEntriesVrf | None = None
+    vrf: NameRef | None = None
 
     @field_validator("static_dns", mode="before")
     @classmethod
@@ -737,14 +736,8 @@ class DevicesEntriesNextHopsItem(_BaseSchema):
 
     number: int | None = None
     address: str | None = None
-    vlan: DevicesVlan | None = None
+    vlan: IdNameRef | None = None
     vpn: DevicesVpn | None = None
-
-
-class DevicesEntriesVrf(_BaseSchema):
-    """The VRF details for the route."""
-
-    name: str | None = None
 
 
 class DevicesIpv4(_BaseSchema):
@@ -769,7 +762,7 @@ class DevicesRequestNextHop(_BaseSchema):
 class DevicesRequestVpn(_BaseSchema):
     """VPN related search criteria."""
 
-    peer: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = None
+    peer: IdRef | None = None
 
 
 class DevicesRequestVrf(_BaseSchema):
@@ -877,17 +870,10 @@ class DevicesUsage(_BaseSchema):
     recv: float | None = None
 
 
-class DevicesVlan(_BaseSchema):
-    """The VLAN associated with this next hop."""
-
-    id: str | None = None
-    name: str | None = None
-
-
 class DevicesVpn(_BaseSchema):
     """The VPN peer details, if the next hop is a VPN peer."""
 
-    peer: DevicesVlan | None = None
+    peer: IdNameRef | None = None
 
 
 class GetDeviceClientsResponse(RootModel[list["GetDeviceClientsResponseItem"]]):
@@ -1251,7 +1237,7 @@ class GetDeviceLiveToolsRoutingTableLookupResponseEntriesItem(_BaseSchema):
     ip_version: str | None = Field(
         default=None, validation_alias="ipVersion", serialization_alias="ipVersion"
     )
-    vrf: DevicesEntriesVrf | None = None
+    vrf: NameRef | None = None
 
     @field_validator("next_hops", mode="before")
     @classmethod
@@ -1350,18 +1336,6 @@ class GetDeviceLossAndLatencyHistoryResponseItem(_BaseSchema):
     )
     goodput: int | None = None
     jitter: float | None = None
-
-
-class RebootDeviceResponse(_BaseSchema):
-    """Response for rebootDevice operation."""
-
-    success: bool | None = None
-
-
-class UpdateDeviceCellularGeolocationsResponse(_BaseSchema):
-    """Response for updateDeviceCellularGeolocations operation."""
-
-    enabled: bool | None = None
 
 
 class UpdateDeviceCellularSimsSimFailover(_BaseSchema):

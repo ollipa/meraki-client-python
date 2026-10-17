@@ -12,6 +12,9 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    IdNameRef,
+)
 
 
 class BindAdministeredLicensingSubscriptionSubscriptionResponse(_BaseSchema):
@@ -20,9 +23,7 @@ class BindAdministeredLicensingSubscriptionSubscriptionResponse(_BaseSchema):
     subscription_id: str | None = Field(
         default=None, validation_alias="subscriptionId", serialization_alias="subscriptionId"
     )
-    networks: list[BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem] = Field(
-        default_factory=list
-    )
+    networks: list[IdNameRef] = Field(default_factory=list)
     errors: list[str] = Field(default_factory=list)
     insufficient_entitlements: list[LicensingEntitlementsItem2] = Field(
         default_factory=list,
@@ -35,13 +36,6 @@ class BindAdministeredLicensingSubscriptionSubscriptionResponse(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem(_BaseSchema):
-    """Schema for BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem."""
-
-    id: str | None = None
-    name: str | None = None
 
 
 class ClaimAdministeredLicensingSubscriptionSubscriptionsResponse(_BaseSchema):

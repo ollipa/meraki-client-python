@@ -13,7 +13,6 @@ from typing import TYPE_CHECKING, Any, Literal
 from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
     AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
-    AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
     AttachOrganizationSaseSitesItemsItem,
     AttachOrganizationSaseSitesResponse,
     BatchOrganizationDevicesCellularDataProfilesAssignmentsCreateItemsItem,
@@ -166,6 +165,7 @@ from meraki_client.schemas import (
     GetOrganizationWebhooksAlertTypesResponseItem,
     GetOrganizationWebhooksCallbacksStatusResponse,
     GetOrganizationWebhooksLogsResponseItem,
+    IdNameRef,
     MoveOrganizationLicensesResponse,
     MoveOrganizationLicensesSeatsResponse,
     OrganizationActionBatchResponse,
@@ -200,13 +200,13 @@ from meraki_client.schemas import (
     OrganizationSamlRoleResponse,
     OrganizationSaseIntegrationResponse,
     OrganizationSnmpResponse,
-    OrganizationsPolicyObjectsItem,
     PreviewOrganizationInventoryOrdersResponse,
     ReleaseFromOrganizationInventoryResponse,
     RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem,
     RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsPolicy,
     ReorderOrganizationDevicesPacketCaptureSchedulesOrderItem,
     ReorderOrganizationDevicesPacketCaptureSchedulesResponse,
+    SuccessResponse,
     UpdateOrganizationActionBatchResponse,
     UpdateOrganizationAdaptivePolicyAclRulesItem,
     UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem,
@@ -9196,7 +9196,7 @@ class Organizations:
 
     def get_organization_early_access_features_opt_ins(
         self, organization_id: str
-    ) -> AsyncPaginatedResponse[OrganizationsPolicyObjectsItem]:
+    ) -> AsyncPaginatedResponse[IdNameRef]:
         """List the early access feature opt-ins for an organization.
 
         [API documentation: getOrganizationEarlyAccessFeaturesOptIns](https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-ins)
@@ -9243,7 +9243,7 @@ class Organizations:
             scope="organizations",
             operation_id="getOrganizationEarlyAccessFeaturesOptIns",
             path=path,
-            item_schema=OrganizationsPolicyObjectsItem,
+            item_schema=IdNameRef,
         )
 
     async def create_organization_early_access_features_opt_in(
@@ -13667,7 +13667,7 @@ class Organizations:
         adaptive_policy_groups: list[
             AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem
         ],
-    ) -> AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
+    ) -> SuccessResponse:
         """Assign adaptive policy groups to a policy.
 
         [API documentation: assignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!assign-organization-policies-global-group-policies-adaptive-policy-groups)
@@ -13704,7 +13704,7 @@ class Organizations:
             operation_id="assignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups",
             path=path,
             json=payload,
-            response_schema=AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
+            response_schema=SuccessResponse,
         )
 
     def get_organization_policies_global_group_policies_adaptive_policy_groups_assignments(
@@ -13810,7 +13810,7 @@ class Organizations:
         adaptive_policy_groups: list[
             RemoveOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsAdaptivePolicyGroupsItem
         ],
-    ) -> AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
+    ) -> SuccessResponse:
         """Remove adaptive policy groups from a policy.
 
         [API documentation: removeOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups](https://developer.cisco.com/meraki/api-v1/#!remove-organization-policies-global-group-policies-adaptive-policy-groups)
@@ -13847,7 +13847,7 @@ class Organizations:
             operation_id="removeOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroups",
             path=path,
             json=payload,
-            response_schema=AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
+            response_schema=SuccessResponse,
         )
 
     def get_organization_policies_global_group_policies_firewall_rulesets_assignments(
@@ -14010,7 +14010,7 @@ class Organizations:
         *,
         organization_id: str,
         policy: CommitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignmentsPolicy,
-    ) -> AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse:
+    ) -> SuccessResponse:
         """Commit staged Organization-Wide Policy Ruleset Assignments.
 
         [API documentation: commitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignments](https://developer.cisco.com/meraki/api-v1/#!commit-organization-policies-global-group-policies-firewall-rulesets-assignments)
@@ -14042,7 +14042,7 @@ class Organizations:
             operation_id="commitOrganizationPoliciesGlobalGroupPoliciesFirewallRulesetsAssignments",
             path=path,
             json=payload,
-            response_schema=AssignOrganizationPoliciesGlobalGroupPoliciesAdaptivePolicyGroupsResponse,
+            response_schema=SuccessResponse,
         )
 
     async def update_organization_policies_global_group_policies_firewall_rulesets_assignment(

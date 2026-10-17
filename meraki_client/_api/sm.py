@@ -32,17 +32,17 @@ from meraki_client.schemas import (
     GetOrganizationSmApnsCertResponse,
     GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem,
     GetOrganizationSmVppAccountResponse,
+    IdRef,
     ModifyNetworkSmDevicesTagsResponse,
     MoveNetworkSmDevicesResponse,
     NetworkSmDevicesResponse,
     NetworkSmTargetGroupResponse,
     OrganizationSmAdminsRoleResponse,
-    UnenrollNetworkSmDeviceResponse,
+    SuccessResponse,
     UpdateNetworkSmDevicesFieldsDeviceFields,
     UpdateNetworkSmDevicesFieldsResponse,
     UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem,
     UpdateOrganizationSmSentryPoliciesAssignmentsResponse,
-    WipeNetworkSmDevicesResponse,
 )
 from meraki_client.types import (
     CreateOrganizationSmAdminsRoleScope,
@@ -712,7 +712,7 @@ class Sm:
         id: str | None = None,
         serial: str | None = None,
         pin: int | None = None,
-    ) -> WipeNetworkSmDevicesResponse:
+    ) -> IdRef:
         """Wipe a device.
 
         [API documentation: wipeNetworkSmDevices](https://developer.cisco.com/meraki/api-v1/#!wipe-network-sm-devices)
@@ -754,7 +754,7 @@ class Sm:
             operation_id="wipeNetworkSmDevices",
             path=path,
             json=payload,
-            response_schema=WipeNetworkSmDevicesResponse,
+            response_schema=IdRef,
         )
 
     def get_network_sm_device_cellular_usage_history(
@@ -1473,9 +1473,7 @@ class Sm:
             item_schema=GetNetworkSmDeviceSoftwaresResponseItem,
         )
 
-    def unenroll_network_sm_device(
-        self, *, network_id: str, device_id: str
-    ) -> UnenrollNetworkSmDeviceResponse:
+    def unenroll_network_sm_device(self, *, network_id: str, device_id: str) -> SuccessResponse:
         """Unenroll a device.
 
         [API documentation: unenrollNetworkSmDevice](https://developer.cisco.com/meraki/api-v1/#!unenroll-network-sm-device)
@@ -1503,7 +1501,7 @@ class Sm:
             scope="sm",
             operation_id="unenrollNetworkSmDevice",
             path=path,
-            response_schema=UnenrollNetworkSmDeviceResponse,
+            response_schema=SuccessResponse,
         )
 
     def uninstall_network_sm_device_apps(

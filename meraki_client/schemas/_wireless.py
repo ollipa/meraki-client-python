@@ -12,6 +12,14 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSetting,
+    IdNameRef,
+    IdNameRefStrict,
+    IdRef,
+    IdRefStrict,
+    NameRef,
+)
 
 
 class AssignNetworkWirelessEthernetPortsProfilesResponse(_BaseSchema):
@@ -132,7 +140,7 @@ class CreateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
     )
-    dot11ax: WirelessBusyHourMinimizeChanges | None = None
+    dot11ax: EnabledSetting | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -291,7 +299,7 @@ class CreateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
     )
-    dot11ax: WirelessBusyHourMinimizeChanges | None = None
+    dot11ax: EnabledSetting | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -310,7 +318,7 @@ class CreateOrganizationWirelessDevicesProvisioningDeploymentItemsItem(_BaseSche
     devices: UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItemDevices
     status: str
     type_: str = Field(validation_alias="type", serialization_alias="type")
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     created_at: datetime | None = Field(
         default=None, validation_alias="createdAt", serialization_alias="createdAt"
     )
@@ -378,7 +386,7 @@ class CreateOrganizationWirelessSsidsProfileSsid(_BaseSchema):
     """SSID configuration for the profile."""
 
     name: str | None = None
-    advertisement: WirelessBusyHourMinimizeChanges | None = None
+    advertisement: EnabledSetting | None = None
     security: CreateOrganizationWirelessSsidsProfileSsidSecurity | None = None
     radius: CreateOrganizationWirelessSsidsProfileSsidRadius | None = None
     addressing: CreateOrganizationWirelessSsidsProfileSsidAddressing | None = None
@@ -399,11 +407,11 @@ class CreateOrganizationWirelessSsidsProfileSsidAddressing(_BaseSchema):
 class CreateOrganizationWirelessSsidsProfileSsidRadius(_BaseSchema):
     """RADIUS settings for the SSID."""
 
-    servers: list[DeviceWirelessRadioOverridesResponseNetwork] = Field(default_factory=list)
+    servers: list[IdRef] = Field(default_factory=list)
     accounting: WirelessAccounting | None = None
     policies: WirelessPolicies2 | None = None
-    proxy: WirelessBusyHourMinimizeChanges | None = None
-    testing: WirelessBusyHourMinimizeChanges | None = None
+    proxy: EnabledSetting | None = None
+    testing: EnabledSetting | None = None
     identifiers: WirelessIdentifiers | None = None
     das: WirelessDas | None = None
     eap_timers: WirelessEapTimers | None = Field(
@@ -446,8 +454,8 @@ class CreateOrganizationWirelessSsidsProfilesAssignmentResponse(_BaseSchema):
     """Response for createOrganizationWirelessSsidsProfilesAssignment operation."""
 
     ssid: WirelessSsid | None = None
-    profile: WirelessDoorLocksNetwork | None = None
-    network: WirelessNetwork4 | None = None
+    profile: IdNameRef | None = None
+    network: WirelessNetwork3 | None = None
 
 
 class CreateOrganizationWirelessSsidsProfilesAssignmentSsid(_BaseSchema):
@@ -523,8 +531,8 @@ class DeviceWirelessRadioOverridesResponse(_BaseSchema):
     """Schema for DeviceWirelessRadioOverridesResponse."""
 
     serial: str | None = None
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
-    rf_profile: DeviceWirelessRadioOverridesResponseNetwork | None = Field(
+    network: IdRef | None = None
+    rf_profile: IdRef | None = Field(
         default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
     )
     radios: list[DeviceWirelessRadioOverridesResponseRadiosItem] = Field(default_factory=list)
@@ -534,12 +542,6 @@ class DeviceWirelessRadioOverridesResponse(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class DeviceWirelessRadioOverridesResponseNetwork(_BaseSchema):
-    """The device's network."""
-
-    id: str | None = None
 
 
 class DeviceWirelessRadioOverridesResponseRadiosItem(_BaseSchema):
@@ -722,7 +724,7 @@ class GetDeviceWirelessZigbeeEnrollmentResponseDoorLocksItem(_BaseSchema):
     last_seen_at: datetime | None = Field(
         default=None, validation_alias="lastSeenAt", serialization_alias="lastSeenAt"
     )
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     gateway: WirelessDoorLocksGateway | None = None
 
 
@@ -1094,7 +1096,7 @@ class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
     six_ghz_settings: GetNetworkWirelessRfProfilesResponseSixGhzSettings | None = Field(
         default=None, validation_alias="sixGhzSettings", serialization_alias="sixGhzSettings"
     )
-    transmission: WirelessBusyHourMinimizeChanges | None = None
+    transmission: EnabledSetting | None = None
     per_ssid_settings: GetNetworkWirelessRfProfilesResponsePerSsidSettings | None = Field(
         default=None, validation_alias="perSsidSettings", serialization_alias="perSsidSettings"
     )
@@ -1104,7 +1106,7 @@ class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
     is_outdoor_default: bool | None = Field(
         default=None, validation_alias="isOutdoorDefault", serialization_alias="isOutdoorDefault"
     )
-    dot11be: WirelessBusyHourMinimizeChanges | None = None
+    dot11be: EnabledSetting | None = None
 
 
 class GetNetworkWirelessRfProfilesResponseApBandSettings(_BaseSchema):
@@ -1142,7 +1144,7 @@ class GetNetworkWirelessRfProfilesResponseFiveGhzSettings(_BaseSchema):
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
     )
     rxsop: int | None = None
-    dot11ax: WirelessBusyHourMinimizeChanges | None = None
+    dot11ax: EnabledSetting | None = None
 
     @field_validator("valid_auto_channels", mode="before")
     @classmethod
@@ -1250,7 +1252,7 @@ class GetNetworkWirelessRfProfilesResponseTwoFourGhzSettings(_BaseSchema):
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
     )
-    dot11ax: WirelessBusyHourMinimizeChanges | None = None
+    dot11ax: EnabledSetting | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -1318,7 +1320,7 @@ class GetNetworkWirelessUsageHistoryResponseItem(_BaseSchema):
 class GetOrganizationAssuranceImpactedDeviceWirelessByNetworkResponse(_BaseSchema):
     """Response for getOrganizationAssuranceImpactedDeviceWirelessByNetwork operation."""
 
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     counts: GetOrganizationAssuranceImpactedDeviceWirelessByNetworkResponseCounts | None = None
 
 
@@ -1344,7 +1346,7 @@ class GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseIt
     GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseItemsItem.
     """
 
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     ssid: WirelessSsid | None = None
     clients: WirelessClients | None = None
 
@@ -1352,7 +1354,7 @@ class GetOrganizationWirelessClientsConnectionsImpactedByNetworkBySsidResponseIt
 class GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem."""
 
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     serial: str | None = None
     counts: WirelessCounts | None = None
 
@@ -1360,7 +1362,7 @@ class GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem(_BaseSchem
 class GetOrganizationWirelessClientsUsageByNetworkBySsidResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessClientsUsageByNetworkBySsidResponseItemsItem."""
 
-    network: WirelessNetwork
+    network: IdNameRefStrict
     ssid: WirelessSsid2
     clients: WirelessClients2
     devices: WirelessDevices
@@ -1370,7 +1372,7 @@ class GetOrganizationWirelessClientsUsageByNetworkBySsidResponseItemsItem(_BaseS
 class GetOrganizationWirelessClientsUsageByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessClientsUsageByNetworkResponseItemsItem."""
 
-    network: WirelessNetwork
+    network: IdNameRefStrict
     clients: WirelessClients2
     devices: WirelessDevices
     usage: WirelessUsage
@@ -1396,7 +1398,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem(_Base
 
     serial: str | None = None
     mac: str | None = None
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1417,7 +1419,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponse(
 class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem."""
 
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1456,7 +1458,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalR
     )
     serial: str | None = None
     mac: str | None = None
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1493,7 +1495,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
     end_ts: datetime | None = Field(
         default=None, validation_alias="endTs", serialization_alias="endTs"
     )
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     by_band: list[WirelessByBandItem] = Field(
         default_factory=list, validation_alias="byBand", serialization_alias="byBand"
     )
@@ -1516,7 +1518,7 @@ class GetOrganizationWirelessDevicesEthernetStatusesResponseItem(_BaseSchema):
 
     serial: str | None = None
     name: str | None = None
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     power: WirelessPower | None = None
     ports: list[WirelessPortsItem2] = Field(default_factory=list)
     aggregation: WirelessAggregation | None = None
@@ -1540,7 +1542,7 @@ class GetOrganizationWirelessDevicesPacketLossByClientResponseItem(_BaseSchema):
     downstream: WirelessDownstream | None = None
     upstream: WirelessDownstream | None = None
     client: WirelessClient | None = None
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
 
 
 class GetOrganizationWirelessDevicesPacketLossByDeviceResponse(
@@ -1554,7 +1556,7 @@ class GetOrganizationWirelessDevicesPacketLossByDeviceResponseItem(_BaseSchema):
 
     downstream: WirelessDownstream | None = None
     upstream: WirelessDownstream | None = None
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     device: WirelessDevice | None = None
 
 
@@ -1569,7 +1571,7 @@ class GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem(_BaseSchema)
 
     downstream: WirelessDownstream | None = None
     upstream: WirelessDownstream | None = None
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
 
 
 class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchema):
@@ -1580,7 +1582,7 @@ class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchem
     name: str | None = None
     mac: str | None = None
     tags: list[str] = Field(default_factory=list)
-    network: WirelessNetwork2 | None = None
+    network: WirelessNetwork | None = None
     events: list[WirelessEventsItem] = Field(default_factory=list)
 
     @field_validator("tags", "events", mode="before")
@@ -1621,7 +1623,7 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
     name: str | None = None
     mac: str | None = None
     tags: list[str] = Field(default_factory=list)
-    network: WirelessNetwork2 | None = None
+    network: WirelessNetwork | None = None
     cpu_count: int | None = Field(
         default=None, validation_alias="cpuCount", serialization_alias="cpuCount"
     )
@@ -1637,7 +1639,7 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
 class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem."""
 
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     serial: str | None = None
     controller: CreateDeviceWirelessZigbeeEnrollmentResponseRequest | None = None
     joined_at: str | None = Field(
@@ -1678,7 +1680,7 @@ class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponse(
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
     """Schema for GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem."""
 
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     name: str | None = None
     serial: str | None = None
     model: str | None = None
@@ -1708,7 +1710,7 @@ class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem(_BaseSch
 class GetOrganizationWirelessSsidsOweByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessSsidsOweByNetworkResponseItemsItem."""
 
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     transitions: list[WirelessTransitionsItem] = Field(default_factory=list)
 
     @field_validator("transitions", mode="before")
@@ -1723,7 +1725,7 @@ class GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponse(_BaseSche
 
     id: str | None = None
     name: str | None = None
-    group: WirelessDoorLocksNetwork | None = None
+    group: IdNameRef | None = None
     clients_url: str | None = Field(
         default=None, validation_alias="clientsUrl", serialization_alias="clientsUrl"
     )
@@ -1741,7 +1743,7 @@ class GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponse(_BaseSche
 class GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessSsidsProfilesAssignmentsByNetworkResponseAssignmentsItem."""
 
-    profile: WirelessDoorLocksNetwork | None = None
+    profile: IdNameRef | None = None
     ssid: WirelessSsid | None = None
 
 
@@ -1774,7 +1776,7 @@ class GetOrganizationWirelessSsidsProfilesResponseSsid(_BaseSchema):
     """SSID configuration."""
 
     name: str | None = None
-    advertisement: WirelessBusyHourMinimizeChanges | None = None
+    advertisement: EnabledSetting | None = None
     security: WirelessSsidSecurity | None = None
     radius: WirelessSsidRadius | None = None
     addressing: WirelessSsidAddressing | None = None
@@ -1786,7 +1788,7 @@ class GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem(_BaseSchema)
 
     serial: str | None = None
     name: str | None = None
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     basic_service_sets: list[WirelessBasicServiceSetsItem] = Field(
         default_factory=list,
         validation_alias="basicServiceSets",
@@ -1850,7 +1852,7 @@ class GetOrganizationWirelessZigbeeDoorLocksResponse(
 class NetworkWirelessAirMarshalRuleResponse(_BaseSchema):
     """Schema for NetworkWirelessAirMarshalRuleResponse."""
 
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     rule_id: str | None = Field(
         default=None, validation_alias="ruleId", serialization_alias="ruleId"
     )
@@ -1974,7 +1976,7 @@ class NetworkWirelessSettingsResponse(_BaseSchema):
     led_lights_on: bool | None = Field(
         default=None, validation_alias="ledLightsOn", serialization_alias="ledLightsOn"
     )
-    multicast_to_unicast_conversion: WirelessBusyHourMinimizeChanges | None = Field(
+    multicast_to_unicast_conversion: EnabledSetting | None = Field(
         default=None,
         validation_alias="multicastToUnicastConversion",
         serialization_alias="multicastToUnicastConversion",
@@ -2010,14 +2012,14 @@ class NetworkWirelessSettingsResponseRegulatoryDomain(_BaseSchema):
 class NetworkWirelessSettingsResponseUpgrade(_BaseSchema):
     """Upgrade settings for the network."""
 
-    predownload: WirelessBusyHourMinimizeChanges | None = None
+    predownload: EnabledSetting | None = None
 
 
 class NetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
     """Schema for NetworkWirelessSsidBonjourForwardingResponse."""
 
     enabled: bool | None = None
-    exception: WirelessBusyHourMinimizeChanges | None = None
+    exception: EnabledSetting | None = None
     rules: list[NetworkWirelessSsidBonjourForwardingResponseRulesItem] = Field(default_factory=list)
 
     @field_validator("rules", mode="before")
@@ -2161,7 +2163,7 @@ class NetworkWirelessSsidHotspot20Response(_BaseSchema):
     """Schema for NetworkWirelessSsidHotspot20Response."""
 
     enabled: bool | None = None
-    operator: NetworkWirelessSsidHotspot20ResponseOperator | None = None
+    operator: NameRef | None = None
     venue: NetworkWirelessSsidHotspot20ResponseVenue | None = None
     network_access_type: str | None = Field(
         default=None, validation_alias="networkAccessType", serialization_alias="networkAccessType"
@@ -2207,12 +2209,6 @@ class NetworkWirelessSsidHotspot20ResponseNaiRealmsItem(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class NetworkWirelessSsidHotspot20ResponseOperator(_BaseSchema):
-    """Operator settings for this SSID."""
-
-    name: str | None = None
 
 
 class NetworkWirelessSsidHotspot20ResponseVenue(_BaseSchema):
@@ -2436,7 +2432,7 @@ class NetworkWirelessSsidResponse(_BaseSchema):
     named_vlans: WirelessNamedVlans | None = Field(
         default=None, validation_alias="namedVlans", serialization_alias="namedVlans"
     )
-    speed_burst: WirelessBusyHourMinimizeChanges = Field(
+    speed_burst: EnabledSetting = Field(
         validation_alias="speedBurst", serialization_alias="speedBurst"
     )
     wifi_personal_network_enabled: bool | None = Field(
@@ -2607,7 +2603,7 @@ class NetworkWirelessSsidSplashSettingsResponseSelfRegistration(_BaseSchema):
 class NetworkWirelessSsidSplashSettingsResponseSentryEnrollment(_BaseSchema):
     """Systems Manager sentry enrollment splash settings."""
 
-    systems_manager_network: DeviceWirelessRadioOverridesResponseNetwork | None = Field(
+    systems_manager_network: IdRef | None = Field(
         default=None,
         validation_alias="systemsManagerNetwork",
         serialization_alias="systemsManagerNetwork",
@@ -2741,7 +2737,7 @@ class NetworkWirelessSsidVpnResponseSplitTunnel(_BaseSchema):
 class OrganizationWirelessLocationScanningReceiverResponse(_BaseSchema):
     """Schema for OrganizationWirelessLocationScanningReceiverResponse."""
 
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     receiver_id: str | None = Field(
         default=None, validation_alias="receiverId", serialization_alias="receiverId"
     )
@@ -2763,7 +2759,7 @@ class OrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse(_BaseSche
     description: str | None = None
     client: WirelessClient2 | None = None
     ssid: WirelessSsid4 | None = None
-    network: WirelessNetwork3 | None = None
+    network: WirelessNetwork2 | None = None
 
 
 class RecalculateOrganizationWirelessRadioAutoRfChannelsResponse(_BaseSchema):
@@ -2958,7 +2954,7 @@ class UpdateNetworkWirelessRadioRrmBusyHour(_BaseSchema):
     """Busy Hour settings."""
 
     schedule: UpdateNetworkWirelessRadioRrmBusyHourSchedule | None = None
-    minimize_changes: WirelessBusyHourMinimizeChanges | None = Field(
+    minimize_changes: EnabledSetting | None = Field(
         default=None, validation_alias="minimizeChanges", serialization_alias="minimizeChanges"
     )
 
@@ -2973,7 +2969,7 @@ class UpdateNetworkWirelessRadioRrmBusyHourSchedule(_BaseSchema):
 class UpdateNetworkWirelessRadioRrmChannel(_BaseSchema):
     """Channel settings."""
 
-    avoidance: WirelessBusyHourMinimizeChanges | None = None
+    avoidance: EnabledSetting | None = None
     selection: WirelessChannelSelection | None = None
 
 
@@ -2997,7 +2993,7 @@ class UpdateNetworkWirelessRadioRrmResponse(_BaseSchema):
         default=None, validation_alias="busyHour", serialization_alias="busyHour"
     )
     channel: UpdateNetworkWirelessRadioRrmResponseChannel | None = None
-    fra: WirelessBusyHourMinimizeChanges | None = None
+    fra: EnabledSetting | None = None
     ai: UpdateNetworkWirelessRadioRrmResponseAi | None = None
 
 
@@ -3014,7 +3010,7 @@ class UpdateNetworkWirelessRadioRrmResponseBusyHour(_BaseSchema):
     """Busy Hour settings."""
 
     schedule: WirelessBusyHourSchedule | None = None
-    minimize_changes: WirelessBusyHourMinimizeChanges | None = Field(
+    minimize_changes: EnabledSetting | None = Field(
         default=None, validation_alias="minimizeChanges", serialization_alias="minimizeChanges"
     )
 
@@ -3022,7 +3018,7 @@ class UpdateNetworkWirelessRadioRrmResponseBusyHour(_BaseSchema):
 class UpdateNetworkWirelessRadioRrmResponseChannel(_BaseSchema):
     """Channel settings."""
 
-    avoidance: WirelessBusyHourMinimizeChanges | None = None
+    avoidance: EnabledSetting | None = None
     selection: WirelessChannelSelection | None = None
 
 
@@ -3068,7 +3064,7 @@ class UpdateNetworkWirelessRfProfileFiveGhzSettings(_BaseSchema):
     channel_width: str | None = Field(
         default=None, validation_alias="channelWidth", serialization_alias="channelWidth"
     )
-    dot11ax: WirelessBusyHourMinimizeChanges | None = None
+    dot11ax: EnabledSetting | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -3197,7 +3193,7 @@ class UpdateNetworkWirelessRfProfileTwoFourGhzSettings(_BaseSchema):
     ax_enabled: bool | None = Field(
         default=None, validation_alias="axEnabled", serialization_alias="axEnabled"
     )
-    dot11ax: WirelessBusyHourMinimizeChanges | None = None
+    dot11ax: EnabledSetting | None = None
     rxsop: int | None = None
 
     @field_validator("valid_auto_channels", mode="before")
@@ -3226,7 +3222,7 @@ class UpdateNetworkWirelessSettingsNamedVlans(_BaseSchema):
 class UpdateNetworkWirelessSettingsUpgrade(_BaseSchema):
     """Upgrade settings for the network."""
 
-    predownload: WirelessBusyHourMinimizeChanges | None = None
+    predownload: EnabledSetting | None = None
 
 
 class UpdateNetworkWirelessSsidActiveDirectory(_BaseSchema):
@@ -3302,7 +3298,7 @@ class UpdateNetworkWirelessSsidBonjourForwardingRulesItem(_BaseSchema):
 class UpdateNetworkWirelessSsidCampusGateway(_BaseSchema):
     """Campus gateway settings."""
 
-    cluster: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    cluster: IdRef | None = None
 
 
 class UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem(_BaseSchema):
@@ -3497,7 +3493,7 @@ class UpdateNetworkWirelessSsidLocalRadius(_BaseSchema):
     cache_timeout: int | None = Field(
         default=None, validation_alias="cacheTimeout", serialization_alias="cacheTimeout"
     )
-    password_authentication: WirelessBusyHourMinimizeChanges | None = Field(
+    password_authentication: EnabledSetting | None = Field(
         default=None,
         validation_alias="passwordAuthentication",
         serialization_alias="passwordAuthentication",
@@ -3681,9 +3677,7 @@ class UpdateNetworkWirelessSsidSplashSettingsSelfRegistration(_BaseSchema):
 class UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment(_BaseSchema):
     """Systems Manager sentry enrollment splash settings."""
 
-    systems_manager_network: (
-        UpdateNetworkWirelessSsidSplashSettingsSentryEnrollmentSystemsManagerNetwork | None
-    ) = Field(
+    systems_manager_network: IdRefStrict | None = Field(
         default=None,
         validation_alias="systemsManagerNetwork",
         serialization_alias="systemsManagerNetwork",
@@ -3700,12 +3694,6 @@ class UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class UpdateNetworkWirelessSsidSplashSettingsSentryEnrollmentSystemsManagerNetwork(_BaseSchema):
-    """Systems Manager network targeted for sentry enrollment."""
-
-    id: str
 
 
 class UpdateNetworkWirelessSsidSplashSettingsSplashImage(_BaseSchema):
@@ -3838,7 +3826,7 @@ class UpdateNetworkWirelessSsidsOweResponse(_BaseSchema):
 class UpdateNetworkWirelessSsidsOweResponseItemsItem(_BaseSchema):
     """Schema for UpdateNetworkWirelessSsidsOweResponseItemsItem."""
 
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     transitions: list[WirelessTransitionsItem] = Field(default_factory=list)
 
     @field_validator("transitions", mode="before")
@@ -3889,7 +3877,7 @@ class UpdateNetworkWirelessZigbeeLockManagement(_BaseSchema):
 class UpdateNetworkWirelessZigbeeResponse(_BaseSchema):
     """Response for updateNetworkWirelessZigbee operation."""
 
-    network: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    network: IdRef | None = None
     enabled: bool | None = None
     iot_controller: UpdateNetworkWirelessZigbeeResponseIotController | None = Field(
         default=None, validation_alias="iotController", serialization_alias="iotController"
@@ -3937,7 +3925,7 @@ class UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItem(_BaseSch
     devices: UpdateOrganizationWirelessDevicesProvisioningDeploymentsItemsItemDevices
     status: str
     type_: str = Field(validation_alias="type", serialization_alias="type")
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     created_at: datetime | None = Field(
         default=None, validation_alias="createdAt", serialization_alias="createdAt"
     )
@@ -4024,7 +4012,7 @@ class UpdateOrganizationWirelessMqttSettingsMqtt(_BaseSchema):
         default_factory=list, validation_alias="messageFields", serialization_alias="messageFields"
     )
     publishing: WirelessPublishing | None = None
-    broker: NetworkWirelessSsidHotspot20ResponseOperator | None = None
+    broker: NameRef | None = None
 
     @field_validator("message_fields", mode="before")
     @classmethod
@@ -4042,7 +4030,7 @@ class UpdateOrganizationWirelessMqttSettingsNetwork(_BaseSchema):
 class UpdateOrganizationWirelessMqttSettingsResponse(_BaseSchema):
     """Response for updateOrganizationWirelessMqttSettings operation."""
 
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     mqtt: WirelessMqtt | None = None
     ble: WirelessBle | None = None
     wifi: WirelessWifi2 | None = None
@@ -4070,7 +4058,7 @@ class UpdateOrganizationWirelessSsidsProfileSsid(_BaseSchema):
     """SSID configuration for the profile."""
 
     name: str | None = None
-    advertisement: WirelessBusyHourMinimizeChanges | None = None
+    advertisement: EnabledSetting | None = None
     security: CreateOrganizationWirelessSsidsProfileSsidSecurity | None = None
     radius: CreateOrganizationWirelessSsidsProfileSsidRadius | None = None
     addressing: UpdateOrganizationWirelessSsidsProfileSsidAddressing | None = None
@@ -4090,7 +4078,7 @@ class UpdateOrganizationWirelessSsidsProfileSsidAddressing(_BaseSchema):
 class UpdateOrganizationWirelessZigbeeDeviceResponse(_BaseSchema):
     """Response for updateOrganizationWirelessZigbeeDevice operation."""
 
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     pan_id: str | None = Field(default=None, validation_alias="panId", serialization_alias="panId")
     channel: str | None = None
     transmit_power_level: int | None = Field(
@@ -4124,7 +4112,7 @@ class UpdateOrganizationWirelessZigbeeDoorLockResponse(_BaseSchema):
     last_seen_at: datetime | None = Field(
         default=None, validation_alias="lastSeenAt", serialization_alias="lastSeenAt"
     )
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     gateway: WirelessDoorLocksGateway | None = None
 
 
@@ -4210,7 +4198,7 @@ class WirelessApiValidator(_BaseSchema):
 class WirelessAuth(_BaseSchema):
     """Authentication-related splash settings."""
 
-    simultaneous_logins: WirelessBusyHourMinimizeChanges | None = Field(
+    simultaneous_logins: EnabledSetting | None = Field(
         default=None,
         validation_alias="simultaneousLogins",
         serialization_alias="simultaneousLogins",
@@ -4353,12 +4341,6 @@ class WirelessBssidsItem(_BaseSchema):
         return [] if value is None else value
 
 
-class WirelessBusyHourMinimizeChanges(_BaseSchema):
-    """Minimize Changes settings."""
-
-    enabled: bool | None = None
-
-
 class WirelessBusyHourSchedule(_BaseSchema):
     """Busy hour mode settings."""
 
@@ -4426,7 +4408,7 @@ class WirelessByStep(_BaseSchema):
 class WirelessCampusGateway(_BaseSchema):
     """Campus gateway settings. Only present when ipAssignmentMode is 'Campus Gateway'."""
 
-    cluster: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    cluster: IdRef | None = None
 
 
 class WirelessCaptivePortal(_BaseSchema):
@@ -4513,7 +4495,7 @@ class WirelessCountsByFailureTypeItem(_BaseSchema):
 class WirelessDas(_BaseSchema):
     """Direct Access Server settings."""
 
-    coa: WirelessBusyHourMinimizeChanges | None = None
+    coa: EnabledSetting | None = None
 
 
 class WirelessDetailsItem(_BaseSchema):
@@ -4556,7 +4538,7 @@ class WirelessDevices2(_BaseSchema):
 class WirelessDhcp(_BaseSchema):
     """DHCP settings."""
 
-    mandatory: WirelessBusyHourMinimizeChanges | None = None
+    mandatory: EnabledSetting | None = None
 
 
 class WirelessDnsRewrite(_BaseSchema):
@@ -4589,13 +4571,6 @@ class WirelessDoorLocksGateway(_BaseSchema):
 
     name: str | None = None
     serial: str | None = None
-
-
-class WirelessDoorLocksNetwork(_BaseSchema):
-    """Network this door lock is connected to."""
-
-    id: str | None = None
-    name: str | None = None
 
 
 class WirelessDot11r(_BaseSchema):
@@ -4753,24 +4728,16 @@ class WirelessGre(_BaseSchema):
 class WirelessGroups(_BaseSchema):
     """802.11be settings for SSID groups."""
 
-    n_1: WirelessBusyHourMinimizeChanges | None = Field(
-        default=None, validation_alias="1", serialization_alias="1"
-    )
-    n_2: WirelessBusyHourMinimizeChanges | None = Field(
-        default=None, validation_alias="2", serialization_alias="2"
-    )
-    n_3: WirelessBusyHourMinimizeChanges | None = Field(
-        default=None, validation_alias="3", serialization_alias="3"
-    )
-    n_4: WirelessBusyHourMinimizeChanges | None = Field(
-        default=None, validation_alias="4", serialization_alias="4"
-    )
+    n_1: EnabledSetting | None = Field(default=None, validation_alias="1", serialization_alias="1")
+    n_2: EnabledSetting | None = Field(default=None, validation_alias="2", serialization_alias="2")
+    n_3: EnabledSetting | None = Field(default=None, validation_alias="3", serialization_alias="3")
+    n_4: EnabledSetting | None = Field(default=None, validation_alias="4", serialization_alias="4")
 
 
 class WirelessGuest(_BaseSchema):
     """Guest VLAN settings."""
 
-    vlan: WirelessBusyHourMinimizeChanges | None = None
+    vlan: EnabledSetting | None = None
 
 
 class WirelessGuestVlan(_BaseSchema):
@@ -4783,7 +4750,7 @@ class WirelessGuestVlan(_BaseSchema):
 class WirelessHosted(_BaseSchema):
     """Hosted splash configuration."""
 
-    theme: DeviceWirelessRadioOverridesResponseNetwork | None = None
+    theme: IdRef | None = None
     language: WirelessLanguage | None = None
     consent: NetworkWirelessSsidSplashSettingsResponseUserConsent | None = None
 
@@ -4816,7 +4783,7 @@ class WirelessIdentity(_BaseSchema):
 class WirelessIdentityPassphrase(_BaseSchema):
     """Identity passphrase settings."""
 
-    personal_network: WirelessBusyHourMinimizeChanges | None = Field(
+    personal_network: EnabledSetting | None = Field(
         default=None, validation_alias="personalNetwork", serialization_alias="personalNetwork"
     )
 
@@ -4844,7 +4811,7 @@ class WirelessItemsItem(_BaseSchema):
     devices: WirelessDevices2
     status: str
     type_: str = Field(validation_alias="type", serialization_alias="type")
-    network: WirelessDoorLocksNetwork | None = None
+    network: IdNameRef | None = None
     created_at: datetime | None = Field(
         default=None, validation_alias="createdAt", serialization_alias="createdAt"
     )
@@ -4987,7 +4954,7 @@ class WirelessMqtt(_BaseSchema):
         default_factory=list, validation_alias="messageFields", serialization_alias="messageFields"
     )
     publishing: WirelessPublishing | None = None
-    broker: WirelessDoorLocksNetwork | None = None
+    broker: IdNameRef | None = None
 
     @field_validator("message_fields", mode="before")
     @classmethod
@@ -5022,13 +4989,6 @@ class WirelessNamedVlansPoolDhcpMonitoring(_BaseSchema):
 
 
 class WirelessNetwork(_BaseSchema):
-    """Details about the network."""
-
-    id: str
-    name: str
-
-
-class WirelessNetwork2(_BaseSchema):
     """Information regarding the network the device belongs to."""
 
     id: str | None = None
@@ -5042,14 +5002,14 @@ class WirelessNetwork2(_BaseSchema):
         return [] if value is None else value
 
 
-class WirelessNetwork3(_BaseSchema):
+class WirelessNetwork2(_BaseSchema):
     """The network that allowlist SSID belongs to."""
 
     id: str
     name: str | None = None
 
 
-class WirelessNetwork4(_BaseSchema):
+class WirelessNetwork3(_BaseSchema):
     """Network information."""
 
     id: str | None = None
@@ -5067,7 +5027,7 @@ class WirelessNew(_BaseSchema):
     model: str
     mac: str
     tags: list[str] = Field(default_factory=list)
-    rf_profile: WirelessDoorLocksNetwork | None = Field(
+    rf_profile: IdNameRef | None = Field(
         default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
     )
 
@@ -5086,7 +5046,7 @@ class WirelessNew2(_BaseSchema):
     model: str | None = None
     mac: str | None = None
     tags: list[str] = Field(default_factory=list)
-    rf_profile: WirelessDoorLocksNetwork | None = Field(
+    rf_profile: IdNameRef | None = Field(
         default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
     )
 
@@ -5138,7 +5098,7 @@ class WirelessOld(_BaseSchema):
     model: str | None = None
     mac: str | None = None
     tags: list[str] = Field(default_factory=list)
-    rf_profile: WirelessDoorLocksNetwork | None = Field(
+    rf_profile: IdNameRef | None = Field(
         default=None, validation_alias="rfProfile", serialization_alias="rfProfile"
     )
 
@@ -5213,7 +5173,7 @@ class WirelessPolicies(_BaseSchema):
     load_balancing: WirelessFailover | None = Field(
         default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
     )
-    fallback: WirelessBusyHourMinimizeChanges | None = None
+    fallback: EnabledSetting | None = None
     attribute: str | None = None
     timeout: int | None = None
     num_attempts: int | None = Field(
@@ -5228,7 +5188,7 @@ class WirelessPolicies2(_BaseSchema):
     load_balancing: WirelessLoadBalancing | None = Field(
         default=None, validation_alias="loadBalancing", serialization_alias="loadBalancing"
     )
-    fallback: WirelessBusyHourMinimizeChanges | None = None
+    fallback: EnabledSetting | None = None
     attribute: str | None = None
 
 
@@ -5531,7 +5491,7 @@ class WirelessSsidAddressing(_BaseSchema):
     """Addressing settings for the SSID."""
 
     mode: str | None = None
-    adult_content_filtering: WirelessBusyHourMinimizeChanges | None = Field(
+    adult_content_filtering: EnabledSetting | None = Field(
         default=None,
         validation_alias="adultContentFiltering",
         serialization_alias="adultContentFiltering",
@@ -5563,8 +5523,8 @@ class WirelessSsidRadius(_BaseSchema):
     servers: list[WirelessServersItem] = Field(default_factory=list)
     accounting: WirelessAccounting | None = None
     policies: WirelessPolicies | None = None
-    proxy: WirelessBusyHourMinimizeChanges | None = None
-    testing: WirelessBusyHourMinimizeChanges | None = None
+    proxy: EnabledSetting | None = None
+    testing: EnabledSetting | None = None
     identifiers: WirelessIdentifiers | None = None
     das: WirelessDas | None = None
     eap_timers: WirelessEapTimers | None = Field(
@@ -5649,8 +5609,8 @@ class WirelessTransitionsItem(_BaseSchema):
 class WirelessTunneledTo(_BaseSchema):
     """Details about the network to which the SSID is tunneling traffic."""
 
-    network: WirelessNetwork
-    cluster: WirelessNetwork
+    network: IdNameRefStrict
+    cluster: IdNameRefStrict
 
 
 class WirelessUsage(_BaseSchema):

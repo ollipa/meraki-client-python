@@ -12,6 +12,13 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSetting,
+    EnabledSettingStrict,
+    IdNameRef,
+    IdNameRefStrict,
+    NameRef,
+)
 
 
 class CloneOrganizationSwitchDevicesResponse(_BaseSchema):
@@ -100,7 +107,7 @@ class CreateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
         default=None, validation_alias="ospfV3", serialization_alias="ospfV3"
     )
     ipv6: SwitchIpv6 | None = None
-    vrf: SwitchVrf | None = None
+    vrf: NameRef | None = None
     loopback: dict[str, Any] | None = None
     bidirectional_forwarding_detection: SwitchBidirectionalForwardingDetection | None = Field(
         default=None,
@@ -130,7 +137,7 @@ class CreateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
     management_next_hop: str | None = Field(
         default=None, validation_alias="managementNextHop", serialization_alias="managementNextHop"
     )
-    vrf: SwitchVrf2 | None = None
+    vrf: SwitchVrf | None = None
     advertise_via_ospf_enabled: bool | None = Field(
         default=None,
         validation_alias="advertiseViaOspfEnabled",
@@ -207,7 +214,7 @@ class CreateNetworkSwitchAccessPolicyRadiusAccountingServersItem(_BaseSchema):
     host: str | None = None
     port: int | None = None
     secret: str | None = None
-    radsec: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
+    radsec: EnabledSettingStrict | None = None
 
 
 class CreateNetworkSwitchAccessPolicyRadiusAuthentication(_BaseSchema):
@@ -230,15 +237,7 @@ class CreateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
     host: str | None = None
     port: int | None = None
     secret: str | None = None
-    radsec: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
-
-
-class CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec(_BaseSchema):
-    """RadSec settings for this RADIUS server assignment. If omitted, a copied server preserves its
-    current transport and a new server uses RADIUS over UDP.
-    """
-
-    enabled: bool
+    radsec: EnabledSettingStrict | None = None
 
 
 class CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerIpv4(_BaseSchema):
@@ -371,10 +370,10 @@ class DeviceSwitchPortResponse(_BaseSchema):
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
     )
-    perpetual_poe: SwitchPerpetualPoe | None = Field(
+    perpetual_poe: EnabledSetting | None = Field(
         default=None, validation_alias="perpetualPoe", serialization_alias="perpetualPoe"
     )
-    fast_poe: SwitchPerpetualPoe | None = Field(
+    fast_poe: EnabledSetting | None = Field(
         default=None, validation_alias="fastPoe", serialization_alias="fastPoe"
     )
     type_: str = Field(validation_alias="type", serialization_alias="type")
@@ -408,7 +407,7 @@ class DeviceSwitchPortResponse(_BaseSchema):
     port_schedule_id: str | None = Field(
         default=None, validation_alias="portScheduleId", serialization_alias="portScheduleId"
     )
-    schedule: SwitchSchedule | None = None
+    schedule: IdNameRef | None = None
     udld: str | None = None
     access_policy_type: str | None = Field(
         default=None, validation_alias="accessPolicyType", serialization_alias="accessPolicyType"
@@ -444,7 +443,7 @@ class DeviceSwitchPortResponse(_BaseSchema):
         validation_alias="adaptivePolicyGroupId",
         serialization_alias="adaptivePolicyGroupId",
     )
-    adaptive_policy_group: SwitchSchedule | None = Field(
+    adaptive_policy_group: IdNameRef | None = Field(
         default=None,
         validation_alias="adaptivePolicyGroup",
         serialization_alias="adaptivePolicyGroup",
@@ -463,8 +462,8 @@ class DeviceSwitchPortResponse(_BaseSchema):
     profile: SwitchProfile | None = None
     module: SwitchModule | None = None
     mirror: SwitchMirror | None = None
-    dot3az: SwitchPerpetualPoe | None = None
-    high_speed: SwitchPerpetualPoe | None = Field(
+    dot3az: EnabledSetting | None = None
+    high_speed: EnabledSetting | None = Field(
         default=None, validation_alias="highSpeed", serialization_alias="highSpeed"
     )
 
@@ -825,7 +824,7 @@ class GetOrganizationSwitchPortsBySwitchResponseItem(_BaseSchema):
     name: str
     serial: str
     mac: str
-    network: SwitchNetwork
+    network: IdNameRefStrict
     model: str
     ports: list[SwitchPortsItem]
 
@@ -842,7 +841,7 @@ class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem(_BaseSc
     name: str | None = None
     serial: str | None = None
     mac: str | None = None
-    network: SwitchSchedule | None = None
+    network: IdNameRef | None = None
     model: str | None = None
     ports: list[SwitchPortsItem2] = Field(default_factory=list)
 
@@ -874,7 +873,7 @@ class GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem(_BaseSchema):
     name: str | None = None
     serial: str | None = None
     mac: str | None = None
-    network: SwitchSchedule | None = None
+    network: IdNameRef | None = None
     model: str | None = None
     ports: list[SwitchPortsItem3] = Field(default_factory=list)
 
@@ -891,7 +890,7 @@ class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_Base
     name: str | None = None
     serial: str | None = None
     mac: str | None = None
-    network: SwitchSchedule | None = None
+    network: IdNameRef | None = None
     model: str | None = None
     ports: list[SwitchPortsItem4] = Field(default_factory=list)
 
@@ -908,7 +907,7 @@ class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(
     name: str | None = None
     serial: str | None = None
     mac: str | None = None
-    network: SwitchSchedule | None = None
+    network: IdNameRef | None = None
     model: str | None = None
     ports: list[SwitchPortsItem5] = Field(default_factory=list)
 
@@ -1135,7 +1134,7 @@ class NetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
 class NetworkSwitchDhcpServerPolicyResponseAlerts(_BaseSchema):
     """Email alert settings for DHCP servers."""
 
-    email: SwitchPerpetualPoe | None = None
+    email: EnabledSetting | None = None
 
 
 class NetworkSwitchDhcpServerPolicyResponseArpInspection(_BaseSchema):
@@ -1377,7 +1376,7 @@ class NetworkSwitchRoutingOspfResponse(_BaseSchema):
         validation_alias="md5AuthenticationKey",
         serialization_alias="md5AuthenticationKey",
     )
-    vrf: SwitchVrf | None = None
+    vrf: NameRef | None = None
 
     @field_validator("areas", mode="before")
     @classmethod
@@ -1444,12 +1443,12 @@ class NetworkSwitchSettingsResponse(_BaseSchema):
         validation_alias="powerExceptions",
         serialization_alias="powerExceptions",
     )
-    uplink_client_sampling: SwitchPerpetualPoe | None = Field(
+    uplink_client_sampling: EnabledSetting | None = Field(
         default=None,
         validation_alias="uplinkClientSampling",
         serialization_alias="uplinkClientSampling",
     )
-    mac_blocklist: SwitchPerpetualPoe | None = Field(
+    mac_blocklist: EnabledSetting | None = Field(
         default=None, validation_alias="macBlocklist", serialization_alias="macBlocklist"
     )
     port_channel_fallback: bool | None = Field(
@@ -1480,7 +1479,7 @@ class NetworkSwitchSettingsResponsePowerExceptionsItem(_BaseSchema):
 class NetworkSwitchSettingsResponseUplinkSelection(_BaseSchema):
     """Settings related to uplink selection on IOS-XE switches."""
 
-    failback: SwitchPerpetualPoe | None = None
+    failback: EnabledSetting | None = None
     candidates: str | None = None
 
 
@@ -1588,10 +1587,10 @@ class OrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
     poe_enabled: bool | None = Field(
         default=None, validation_alias="poeEnabled", serialization_alias="poeEnabled"
     )
-    perpetual_poe: SwitchPerpetualPoe | None = Field(
+    perpetual_poe: EnabledSetting | None = Field(
         default=None, validation_alias="perpetualPoe", serialization_alias="perpetualPoe"
     )
-    fast_poe: SwitchPerpetualPoe | None = Field(
+    fast_poe: EnabledSetting | None = Field(
         default=None, validation_alias="fastPoe", serialization_alias="fastPoe"
     )
     type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
@@ -1625,7 +1624,7 @@ class OrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
     port_schedule_id: str | None = Field(
         default=None, validation_alias="portScheduleId", serialization_alias="portScheduleId"
     )
-    schedule: SwitchSchedule | None = None
+    schedule: IdNameRef | None = None
     udld: str | None = None
     access_policy_type: str | None = Field(
         default=None, validation_alias="accessPolicyType", serialization_alias="accessPolicyType"
@@ -1667,8 +1666,8 @@ class OrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
     profile: SwitchProfile | None = None
     module: SwitchModule | None = None
     mirror: SwitchMirror | None = None
-    dot3az: SwitchPerpetualPoe | None = None
-    high_speed: SwitchPerpetualPoe | None = Field(
+    dot3az: EnabledSetting | None = None
+    high_speed: EnabledSetting | None = Field(
         default=None, validation_alias="highSpeed", serialization_alias="highSpeed"
     )
 
@@ -2071,13 +2070,6 @@ class SwitchMonday(_BaseSchema):
     to: str | None = None
 
 
-class SwitchNetwork(_BaseSchema):
-    """Identifying information of the switch's network."""
-
-    name: str
-    id: str
-
-
 class SwitchOptionsItem(_BaseSchema):
     """Schema for SwitchOptionsItem."""
 
@@ -2108,12 +2100,6 @@ class SwitchPacketsItem(_BaseSchema):
     rate_per_sec: SwitchUsageInKb | None = Field(
         default=None, validation_alias="ratePerSec", serialization_alias="ratePerSec"
     )
-
-
-class SwitchPerpetualPoe(_BaseSchema):
-    """Perpetual PoE settings for the switch port."""
-
-    enabled: bool | None = None
 
 
 class SwitchPoe(_BaseSchema):
@@ -2152,10 +2138,10 @@ class SwitchPortsItem(_BaseSchema):
     tags: list[str]
     enabled: bool
     poe_enabled: bool = Field(validation_alias="poeEnabled", serialization_alias="poeEnabled")
-    perpetual_poe: SwitchPerpetualPoe = Field(
+    perpetual_poe: EnabledSetting = Field(
         validation_alias="perpetualPoe", serialization_alias="perpetualPoe"
     )
-    fast_poe: SwitchPerpetualPoe = Field(validation_alias="fastPoe", serialization_alias="fastPoe")
+    fast_poe: EnabledSetting = Field(validation_alias="fastPoe", serialization_alias="fastPoe")
     type_: str = Field(validation_alias="type", serialization_alias="type")
     vlan: int | None
     voice_vlan: int | None = Field(validation_alias="voiceVlan", serialization_alias="voiceVlan")
@@ -2311,7 +2297,7 @@ class SwitchRadiusServersItem(_BaseSchema):
     )
     host: str | None = None
     port: int | None = None
-    radsec: SwitchPerpetualPoe | None = None
+    radsec: EnabledSetting | None = None
 
 
 class SwitchRj45(_BaseSchema):
@@ -2330,13 +2316,6 @@ class SwitchRj452(_BaseSchema):
     """The count data for inactive RJ45 ports."""
 
     total: int | None = None
-
-
-class SwitchSchedule(_BaseSchema):
-    """The port schedule data."""
-
-    id: str | None = None
-    name: str | None = None
 
 
 class SwitchSecurePort(_BaseSchema):
@@ -2470,12 +2449,6 @@ class SwitchUsageInKb(_BaseSchema):
 
 
 class SwitchVrf(_BaseSchema):
-    """VRF settings. Included on networks with IOS XE 17.18 or higher."""
-
-    name: str | None = None
-
-
-class SwitchVrf2(_BaseSchema):
     """VRF settings of the static route. Requires IOS XE 17.18 or higher."""
 
     name: str | None = None
@@ -2665,7 +2638,7 @@ class UpdateNetworkSwitchAccessPolicyRadiusAccountingServersItem(_BaseSchema):
     host: str | None = None
     port: int | None = None
     secret: str | None = None
-    radsec: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
+    radsec: EnabledSettingStrict | None = None
 
 
 class UpdateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
@@ -2682,7 +2655,7 @@ class UpdateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
     host: str | None = None
     port: int | None = None
     secret: str | None = None
-    radsec: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
+    radsec: EnabledSettingStrict | None = None
 
 
 class UpdateNetworkSwitchAlternateManagementInterfaceSwitchesItem(_BaseSchema):
@@ -2701,7 +2674,7 @@ class UpdateNetworkSwitchAlternateManagementInterfaceSwitchesItem(_BaseSchema):
 class UpdateNetworkSwitchDhcpServerPolicyAlerts(_BaseSchema):
     """Alert settings for DHCP servers."""
 
-    email: SwitchPerpetualPoe | None = None
+    email: EnabledSetting | None = None
 
 
 class UpdateNetworkSwitchDhcpServerPolicyArpInspection(_BaseSchema):
@@ -2889,7 +2862,7 @@ class UpdateNetworkSwitchSettingsUplinkClientSampling(_BaseSchema):
 class UpdateNetworkSwitchSettingsUplinkSelection(_BaseSchema):
     """Settings related to uplink selection on IOS-XE switches."""
 
-    failback: CreateNetworkSwitchAccessPolicyRadiusServersItemRadsec | None = None
+    failback: EnabledSettingStrict | None = None
     candidates: str | None = None
 
 
@@ -2992,7 +2965,7 @@ class UpdateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
         default=None, validation_alias="ospfV3", serialization_alias="ospfV3"
     )
     ipv6: SwitchIpv6 | None = None
-    vrf: SwitchVrf | None = None
+    vrf: NameRef | None = None
     loopback: dict[str, Any] | None = None
     bidirectional_forwarding_detection: SwitchBidirectionalForwardingDetection | None = Field(
         default=None,

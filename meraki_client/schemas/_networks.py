@@ -12,6 +12,13 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSetting,
+    EnabledSettingStrict,
+    IdNameRef,
+    IdRef,
+    IdRefStrict,
+)
 
 
 class BatchNetworkFloorPlansAutoLocateJobsJobsItem(_BaseSchema):
@@ -193,7 +200,7 @@ class CreateNetworkFirmwareUpgradesRollbackResponse(_BaseSchema):
     reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] = Field(
         default_factory=list
     )
-    predownload: NetworksMutingByPortSchedules | None = None
+    predownload: EnabledSetting | None = None
 
     @field_validator("reasons", mode="before")
     @classmethod
@@ -235,7 +242,7 @@ class CreateNetworkFirmwareUpgradesStagedEventProductsSwitch(_BaseSchema):
 class CreateNetworkFirmwareUpgradesStagedEventStagesItem(_BaseSchema):
     """Item schema for stages."""
 
-    group: UpdateNetworkDevicesSyslogServersResponseNetwork | None = None
+    group: IdRefStrict | None = None
     milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
 
 
@@ -462,7 +469,7 @@ class CreateNetworkVlanProfileVlanNamesItem(_BaseSchema):
 
     name: str
     vlan_id: str = Field(validation_alias="vlanId", serialization_alias="vlanId")
-    adaptive_policy_group: NetworksCertificate | None = Field(
+    adaptive_policy_group: IdRef | None = Field(
         default=None,
         validation_alias="adaptivePolicyGroup",
         serialization_alias="adaptivePolicyGroup",
@@ -1260,7 +1267,7 @@ class GetNetworkTrafficShapingApplicationCategoriesResponseApplicationCategories
 
     id: str | None = None
     name: str | None = None
-    applications: list[NetworksSwitchStacksItem] = Field(default_factory=list)
+    applications: list[IdNameRef] = Field(default_factory=list)
 
     @field_validator("applications", mode="before")
     @classmethod
@@ -1307,7 +1314,7 @@ class GetNetworkVlanProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
     vlan_profile: NetworksVlanProfile | None = Field(
         default=None, validation_alias="vlanProfile", serialization_alias="vlanProfile"
     )
-    stack: NetworksCertificate | None = None
+    stack: IdRef | None = None
 
 
 class GetNetworkVlanProfilesResponse(RootModel[list["NetworkVlanProfileResponse"]]):
@@ -1375,7 +1382,7 @@ class NetworkAlertsSettingsResponseDefaultDestinations(_BaseSchema):
 class NetworkAlertsSettingsResponseMuting(_BaseSchema):
     """Mute alerts under certain conditions."""
 
-    by_port_schedules: NetworksMutingByPortSchedules | None = Field(
+    by_port_schedules: EnabledSetting | None = Field(
         default=None, validation_alias="byPortSchedules", serialization_alias="byPortSchedules"
     )
 
@@ -1658,11 +1665,11 @@ class NetworkSettingsResponse(_BaseSchema):
     local_status_page: NetworkSettingsResponseLocalStatusPage | None = Field(
         default=None, validation_alias="localStatusPage", serialization_alias="localStatusPage"
     )
-    secure_port: NetworksMutingByPortSchedules | None = Field(
+    secure_port: EnabledSetting | None = Field(
         default=None, validation_alias="securePort", serialization_alias="securePort"
     )
-    fips: NetworksMutingByPortSchedules | None = None
-    named_vlans: NetworkSettingsResponseNamedVlans | None = Field(
+    fips: EnabledSetting | None = None
+    named_vlans: EnabledSettingStrict | None = Field(
         default=None, validation_alias="namedVlans", serialization_alias="namedVlans"
     )
 
@@ -1671,12 +1678,6 @@ class NetworkSettingsResponseLocalStatusPage(_BaseSchema):
     """A hash of Local Status page(s)' authentication options applied to the Network."""
 
     authentication: NetworksLocalStatusPageAuthentication | None = None
-
-
-class NetworkSettingsResponseNamedVlans(_BaseSchema):
-    """A hash of Named VLANs options applied to the Network."""
-
-    enabled: bool
 
 
 class NetworkSnmpResponse(_BaseSchema):
@@ -1921,7 +1922,7 @@ class NetworksAssignedDevices(_BaseSchema):
     """The devices and Switch Stacks assigned to the Group."""
 
     devices: list[NetworksDevicesItem] = Field(default_factory=list)
-    switch_stacks: list[NetworksSwitchStacksItem] = Field(
+    switch_stacks: list[IdNameRef] = Field(
         default_factory=list, validation_alias="switchStacks", serialization_alias="switchStacks"
     )
 
@@ -2085,12 +2086,6 @@ class NetworksCenter(_BaseSchema):
 
     lat: float | None = None
     lng: float | None = None
-
-
-class NetworksCertificate(_BaseSchema):
-    """The certificate for encryption with the syslog server."""
-
-    id: str | None = None
 
 
 class NetworksClients(_BaseSchema):
@@ -2433,18 +2428,12 @@ class NetworksMonday(_BaseSchema):
     to: str | None = None
 
 
-class NetworksMutingByPortSchedules(_BaseSchema):
-    """Mute wireless unreachable alerts based on switch port schedules."""
-
-    enabled: bool | None = None
-
-
 class NetworksNextUpgrade(_BaseSchema):
     """Details of the next firmware upgrade on the device."""
 
     time: str | None = None
     strategy: str | None = None
-    predownload: NetworksMutingByPortSchedules | None = None
+    predownload: EnabledSetting | None = None
     to_version: NetworksCurrentVersion | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
@@ -2473,9 +2462,9 @@ class NetworksNextUpgrade4(_BaseSchema):
     """The pending firmware upgrade if it exists."""
 
     strategy: str | None = None
-    predownload: NetworksMutingByPortSchedules | None = None
+    predownload: EnabledSetting | None = None
     time: str | None = None
-    to_version: NetworksCertificate | None = Field(
+    to_version: IdRef | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2484,7 +2473,7 @@ class NetworksNextUpgrade5(_BaseSchema):
     """The pending firmware upgrade if it exists."""
 
     time: str | None = None
-    to_version: NetworksCertificate | None = Field(
+    to_version: IdRef | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2494,7 +2483,7 @@ class NetworksNextUpgrade6(_BaseSchema):
 
     strategy: str | None = None
     time: str | None = None
-    to_version: NetworksCertificate | None = Field(
+    to_version: IdRef | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2510,7 +2499,7 @@ class NetworksNextUpgrade7(_BaseSchema):
 class NetworksNextUpgrade8(_BaseSchema):
     """The next upgrade version for the switch network."""
 
-    to_version: UpdateNetworkDevicesSyslogServersResponseNetwork | None = Field(
+    to_version: IdRefStrict | None = Field(
         default=None, validation_alias="toVersion", serialization_alias="toVersion"
     )
 
@@ -2582,7 +2571,7 @@ class NetworksPeersItem(_BaseSchema):
     """Schema for NetworksPeersItem."""
 
     url: str | None = None
-    network: NetworksSwitchStacksItem | None = None
+    network: IdNameRef | None = None
 
 
 class NetworksPerClientBandwidthLimits(_BaseSchema):
@@ -2759,7 +2748,7 @@ class NetworksServersEncryption(_BaseSchema):
     """Encryption settings for the syslog server."""
 
     enabled: bool | None = None
-    certificate: NetworksCertificate | None = None
+    certificate: IdRef | None = None
 
 
 class NetworksSharing(_BaseSchema):
@@ -2815,13 +2804,6 @@ class NetworksStagesMilestones(_BaseSchema):
     canceled_at: datetime | None = Field(
         default=None, validation_alias="canceledAt", serialization_alias="canceledAt"
     )
-
-
-class NetworksSwitchStacksItem(_BaseSchema):
-    """Schema for NetworksSwitchStacksItem."""
-
-    id: str | None = None
-    name: str | None = None
 
 
 class NetworksTls(_BaseSchema):
@@ -2907,7 +2889,7 @@ class NetworksVlanNamesItem(_BaseSchema):
     vlan_id: str | None = Field(
         default=None, validation_alias="vlanId", serialization_alias="vlanId"
     )
-    adaptive_policy_group: NetworksSwitchStacksItem | None = Field(
+    adaptive_policy_group: IdNameRef | None = Field(
         default=None,
         validation_alias="adaptivePolicyGroup",
         serialization_alias="adaptivePolicyGroup",
@@ -3082,12 +3064,6 @@ class PublishNetworkFloorPlansAutoLocateJobDevicesItemAutoLocate(_BaseSchema):
     )
 
 
-class PublishNetworkFloorPlansAutoLocateJobResponse(_BaseSchema):
-    """Schema for PublishNetworkFloorPlansAutoLocateJobResponse."""
-
-    success: bool | None = None
-
-
 class ReassignNetworkVlanProfilesAssignmentsResponse(_BaseSchema):
     """Response for reassignNetworkVlanProfilesAssignments operation."""
 
@@ -3146,7 +3122,7 @@ class RollbacksNetworkFirmwareUpgradesStagedEventsReasonsItem(_BaseSchema):
 class RollbacksNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
     """Item schema for stages."""
 
-    group: UpdateNetworkDevicesSyslogServersResponseNetwork | None = None
+    group: IdRefStrict | None = None
     milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
 
 
@@ -3232,7 +3208,7 @@ class UpdateNetworkAlertsSettingsDefaultDestinations(_BaseSchema):
 class UpdateNetworkAlertsSettingsMuting(_BaseSchema):
     """Mute alerts under certain conditions."""
 
-    by_port_schedules: NetworksMutingByPortSchedules | None = Field(
+    by_port_schedules: EnabledSetting | None = Field(
         default=None, validation_alias="byPortSchedules", serialization_alias="byPortSchedules"
     )
 
@@ -3301,7 +3277,7 @@ class UpdateNetworkClientSplashAuthorizationStatusSsids0(_BaseSchema):
 class UpdateNetworkDevicesSyslogServersResponse(_BaseSchema):
     """Response for updateNetworkDevicesSyslogServers operation."""
 
-    network: UpdateNetworkDevicesSyslogServersResponseNetwork
+    network: IdRefStrict
     servers: list[UpdateNetworkDevicesSyslogServersResponseServersItem]
 
     @field_validator("servers", mode="before")
@@ -3309,12 +3285,6 @@ class UpdateNetworkDevicesSyslogServersResponse(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class UpdateNetworkDevicesSyslogServersResponseNetwork(_BaseSchema):
-    """Contains details about the Network associated with this record."""
-
-    id: str
 
 
 class UpdateNetworkDevicesSyslogServersResponseServersItem(_BaseSchema):
@@ -3466,7 +3436,7 @@ class UpdateNetworkFirmwareUpgradesStagedEventsProductsSwitchCatalyst(_BaseSchem
 class UpdateNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
     """Item schema for stages."""
 
-    group: UpdateNetworkDevicesSyslogServersResponseNetwork | None = None
+    group: IdRefStrict | None = None
     milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
 
 
@@ -3500,7 +3470,7 @@ class UpdateNetworkFirmwareUpgradesStagedGroupAssignedDevices(_BaseSchema):
 class UpdateNetworkFirmwareUpgradesStagedStagesJsonItem(_BaseSchema):
     """Item schema for _json."""
 
-    group: UpdateNetworkDevicesSyslogServersResponseNetwork | None = None
+    group: IdRefStrict | None = None
 
 
 class UpdateNetworkFirmwareUpgradesUpgradeWindow(_BaseSchema):
@@ -3757,7 +3727,7 @@ class UpdateNetworkVlanProfileVlanNamesItem(_BaseSchema):
 
     name: str
     vlan_id: str = Field(validation_alias="vlanId", serialization_alias="vlanId")
-    adaptive_policy_group: NetworksCertificate | None = Field(
+    adaptive_policy_group: IdRef | None = Field(
         default=None,
         validation_alias="adaptivePolicyGroup",
         serialization_alias="adaptivePolicyGroup",

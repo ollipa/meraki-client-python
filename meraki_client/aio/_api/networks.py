@@ -94,13 +94,13 @@ from meraki_client.schemas import (
     ProvisionNetworkClientsPoliciesBySsid,
     ProvisionNetworkClientsResponse,
     PublishNetworkFloorPlansAutoLocateJobDevicesItem,
-    PublishNetworkFloorPlansAutoLocateJobResponse,
     ReassignNetworkVlanProfilesAssignmentsResponse,
     ReassignNetworkVlanProfilesAssignmentsVlanProfile,
     RecalculateNetworkFloorPlansAutoLocateJobDevicesItem,
     RollbacksNetworkFirmwareUpgradesStagedEventsReasonsItem,
     RollbacksNetworkFirmwareUpgradesStagedEventsStagesItem,
     SplitNetworkResponse,
+    SuccessResponse,
     UpdateNetworkAlertsSettingsAlertsItem,
     UpdateNetworkAlertsSettingsDefaultDestinations,
     UpdateNetworkAlertsSettingsMuting,
@@ -4448,7 +4448,7 @@ class Networks:
         network_id: str,
         job_id: str,
         devices: list[PublishNetworkFloorPlansAutoLocateJobDevicesItem] | None = None,
-    ) -> PublishNetworkFloorPlansAutoLocateJobResponse:
+    ) -> SuccessResponse:
         """Update the status of a finished auto locate job to be published, and update device locations.
 
         [API documentation: publishNetworkFloorPlansAutoLocateJob](https://developer.cisco.com/meraki/api-v1/#!publish-network-floor-plans-auto-locate-job)
@@ -4484,7 +4484,7 @@ class Networks:
             operation_id="publishNetworkFloorPlansAutoLocateJob",
             path=path,
             json=payload,
-            response_schema=PublishNetworkFloorPlansAutoLocateJobResponse,
+            response_schema=SuccessResponse,
         )
 
     async def recalculate_network_floor_plans_auto_locate_job(
@@ -4493,7 +4493,7 @@ class Networks:
         network_id: str,
         job_id: str,
         devices: list[RecalculateNetworkFloorPlansAutoLocateJobDevicesItem] | None = None,
-    ) -> PublishNetworkFloorPlansAutoLocateJobResponse:
+    ) -> SuccessResponse:
         """Trigger auto locate recalculation for a job, and optionally set anchors.
 
         [API documentation: recalculateNetworkFloorPlansAutoLocateJob](https://developer.cisco.com/meraki/api-v1/#!recalculate-network-floor-plans-auto-locate-job)
@@ -4529,7 +4529,7 @@ class Networks:
             operation_id="recalculateNetworkFloorPlansAutoLocateJob",
             path=path,
             json=payload,
-            response_schema=PublishNetworkFloorPlansAutoLocateJobResponse,
+            response_schema=SuccessResponse,
         )
 
     async def batch_network_floor_plans_devices_update(
@@ -4537,7 +4537,7 @@ class Networks:
         *,
         network_id: str,
         assignments: list[BatchNetworkFloorPlansDevicesUpdateAssignmentsItem],
-    ) -> PublishNetworkFloorPlansAutoLocateJobResponse:
+    ) -> SuccessResponse:
         """Update floorplan assignments for a batch of devices.
 
         [API documentation: batchNetworkFloorPlansDevicesUpdate](https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-devices-update)
@@ -4572,7 +4572,7 @@ class Networks:
             operation_id="batchNetworkFloorPlansDevicesUpdate",
             path=path,
             json=payload,
-            response_schema=PublishNetworkFloorPlansAutoLocateJobResponse,
+            response_schema=SuccessResponse,
         )
 
     async def get_network_floor_plan(

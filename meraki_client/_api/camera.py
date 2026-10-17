@@ -41,6 +41,7 @@ from meraki_client.schemas import (
     NetworkCameraQualityRetentionProfileResponse,
     NetworkCameraWirelessProfileResponse,
     OrganizationCameraRoleResponse,
+    SuccessResponse,
     UpdateDeviceCameraCustomAnalyticsParametersItem,
     UpdateDeviceCameraSenseAudioDetection,
     UpdateDeviceCameraWirelessProfilesIds,
@@ -48,7 +49,6 @@ from meraki_client.schemas import (
     UpdateNetworkCameraQualityRetentionProfileVideoSettings,
     UpdateNetworkCameraWirelessProfileIdentity,
     UpdateNetworkCameraWirelessProfileSsid,
-    UpdateOrganizationCameraOnboardingStatusesResponse,
     UpdateOrganizationCameraRoleAppliedOnDevicesItem,
     UpdateOrganizationCameraRoleAppliedOnNetworksItem,
     UpdateOrganizationCameraRoleAppliedOrgWideItem,
@@ -2033,7 +2033,7 @@ class Camera:
         *,
         serial: str | None = None,
         wireless_credentials_sent: bool | None = None,
-    ) -> UpdateOrganizationCameraOnboardingStatusesResponse:
+    ) -> SuccessResponse:
         """Notify that credential handoff to camera has completed.
 
         [API documentation: updateOrganizationCameraOnboardingStatuses](https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-onboarding-statuses)
@@ -2068,7 +2068,7 @@ class Camera:
             operation_id="updateOrganizationCameraOnboardingStatuses",
             path=path,
             json=payload,
-            response_schema=UpdateOrganizationCameraOnboardingStatusesResponse,
+            response_schema=SuccessResponse,
         )
 
     def get_organization_camera_permissions(

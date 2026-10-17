@@ -12,6 +12,10 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    IdRef,
+    NameRef,
+)
 
 
 class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem(_BaseSchema):
@@ -35,7 +39,7 @@ class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalR
     """
 
     serial: str | None = None
-    network: WirelessControllerNetwork | None = None
+    network: IdRef | None = None
     readings: list[WirelessControllerReadingsItem] = Field(default_factory=list)
 
     @field_validator("readings", mode="before")
@@ -50,7 +54,7 @@ class GetOrganizationWirelessControllerConnectionsResponseItemsItem(_BaseSchema)
 
     serial: str | None = None
     controller: WirelessControllerController | None = None
-    network: WirelessControllerNetwork2 | None = None
+    network: WirelessControllerNetwork | None = None
 
 
 class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem(_BaseSchema):
@@ -196,7 +200,7 @@ class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem(_BaseSc
     """Schema for GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem."""
 
     serial: str | None = None
-    network: WirelessControllerNetwork | None = None
+    network: IdRef | None = None
     counts: WirelessControllerCounts3 | None = None
     redundancy: WirelessControllerRedundancy | None = None
     firmware: WirelessControllerFirmware | None = None
@@ -319,7 +323,7 @@ class WirelessControllerCounts3(_BaseSchema):
 class WirelessControllerFailed(_BaseSchema):
     """Details about the failed unit."""
 
-    chassis: WirelessControllerVrf | None = None
+    chassis: NameRef | None = None
 
 
 class WirelessControllerFailover(_BaseSchema):
@@ -383,7 +387,7 @@ class WirelessControllerInterfacesItem3(_BaseSchema):
     status: str | None = None
     speed: str | None = None
     addresses: list[WirelessControllerAddressesItem] = Field(default_factory=list)
-    vrf: WirelessControllerVrf | None = None
+    vrf: NameRef | None = None
     is_uplink: bool | None = Field(
         default=None, validation_alias="isUplink", serialization_alias="isUplink"
     )
@@ -480,12 +484,6 @@ class WirelessControllerModule(_BaseSchema):
 
 
 class WirelessControllerNetwork(_BaseSchema):
-    """Wireless LAN controller network."""
-
-    id: str | None = None
-
-
-class WirelessControllerNetwork2(_BaseSchema):
     """Access points network."""
 
     id: str | None = None
@@ -564,9 +562,3 @@ class WirelessControllerVersion(_BaseSchema):
     short_name: str | None = Field(
         default=None, validation_alias="shortName", serialization_alias="shortName"
     )
-
-
-class WirelessControllerVrf(_BaseSchema):
-    """The virtual routing and forwarding (VRF) for the wireless LAN controller interface."""
-
-    name: str | None = None

@@ -818,12 +818,6 @@ class SmTrustedAccessConnectionsItem(_BaseSchema):
     )
 
 
-class UnenrollNetworkSmDeviceResponse(_BaseSchema):
-    """Response for unenrollNetworkSmDevice operation."""
-
-    success: bool | None = None
-
-
 class UpdateNetworkSmDevicesFieldsDeviceFields(_BaseSchema):
     """The new fields of the device. Each field of this object is optional."""
 
@@ -911,9 +905,3 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem(_BaseSchema
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class WipeNetworkSmDevicesResponse(_BaseSchema):
-    """Response for wipeNetworkSmDevices operation."""
-
-    id: str | None = None

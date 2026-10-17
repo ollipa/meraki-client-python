@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import functools
 import json
 import logging
 import re
@@ -12,6 +13,7 @@ from typing import TYPE_CHECKING, Any, Literal, NamedTuple, overload
 
 from openapi_pydantic.v3.v3_0 import OpenAPI, Operation, Reference
 
+from codegen.shared_schemas import SHARED_SCHEMAS, SHARED_SCOPE, SharedSchema
 from codegen.utils import (
     SpecOverrides,
     capitalize_first,
@@ -95,6 +97,7 @@ class ResponseSchemaPlan:
     schema: dict[str, Any]
     class_name: str
     description: str
+    shared_schema: SharedSchema | None = None
 
 
 @dataclass
@@ -293,6 +296,17 @@ def _plan_response_schemas(spec: OpenAPI, spec_overrides: SpecOverrides) -> Plan
     response_plans: dict[str, ResponseSchemaPlan] = {}
     canonical_object_plans: dict[str, ResponseSchemaPlan] = {}
     for grouped_responses in response_groups.values():
+        shared_schema = _match_shared_response_schema(grouped_responses[0], spec_overrides)
+        if shared_schema is not None:
+            for prepared in grouped_responses:
+                response_plans[prepared.operation_id] = ResponseSchemaPlan(
+                    schema=prepared.schema,
+                    class_name=shared_schema.name,
+                    description=shared_schema.description,
+                    shared_schema=shared_schema,
+                )
+            continue
+
         class_name = _get_grouped_response_schema_name(grouped_responses, used_class_names)
         description = _build_response_schema_description(class_name, grouped_responses)
         used_class_names.add(class_name)
@@ -619,6 +633,20 @@ def _get_grouped_response_schema_name(
     return _make_unique_class_name(default_name, used_class_names)
 
 
+def _match_shared_response_schema(
+    prepared: PreparedResponseSchema, spec_overrides: SpecOverrides
+) -> SharedSchema | None:
+    """Return the shared schema for a response, unless overrides customize it."""
+    operation_id = prepared.operation_id
+    if (
+        spec_overrides.response_fields.get(operation_id)
+        or spec_overrides.required_fields.get(operation_id)
+        or spec_overrides.extra_fields.get(operation_id)
+    ):
+        return None
+    return _match_shared_schema(prepared.schema)
+
+
 def _get_shared_response_schema_name(operation_ids: list[str]) -> str | None:
     """Derive a shared resource-style response name when CRUD tails match."""
     if len(operation_ids) < 2:
@@ -711,7 +739,11 @@ def generate_response_schemas(
 
             # Generate response schemas
             response_plan = planned_response_schemas.response_plans.get(operation_id)
-            if response_plan:
+            if response_plan and response_plan.shared_schema:
+                state.response_schemas[operation_id] = _ensure_shared_schema(
+                    ctx, response_plan.shared_schema
+                )
+            elif response_plan:
                 response_schema = response_plan.schema
                 class_name = response_plan.class_name
                 response_ctx = ctx.with_planned_response_item_plan(
@@ -1544,8 +1576,12 @@ def _ensure_deduped_nested_schema(
 ) -> str:
     """Generate or refresh a structurally deduplicated nested schema."""
     nested_ctx = ctx.nested(prop_name)
-    fingerprint = _compute_fingerprint(schema, ctx.scope)
     current_state = _get_applicable_nested_override_state(nested_ctx)
+    shared_schema = _match_shared_schema(schema)
+    if shared_schema is not None and not current_state.has_overrides():
+        return _ensure_shared_schema(ctx, shared_schema)
+
+    fingerprint = _compute_fingerprint(schema, ctx.scope)
     merged_state, changed = _merge_nested_override_state(
         nested_ctx.nested_override_states.get(fingerprint), current_state
     )
@@ -1580,6 +1616,39 @@ def _ensure_deduped_nested_schema(
         _consume_schema_overrides(nested_ctx, schema)
 
     return nested_class
+
+
+@functools.cache
+def _get_shared_schemas_by_shape() -> dict[str, SharedSchema]:
+    """Index shared schemas by their normalized structure."""
+    return {
+        json.dumps(_normalize_schema(shared.schema), sort_keys=True): shared
+        for shared in SHARED_SCHEMAS
+    }
+
+
+def _match_shared_schema(schema: dict[str, Any]) -> SharedSchema | None:
+    """Return the shared schema with exactly this structure, if any."""
+    shape = json.dumps(_normalize_schema(schema), sort_keys=True)
+    return _get_shared_schemas_by_shape().get(shape)
+
+
+def _ensure_shared_schema(ctx: GenerationContext, shared_schema: SharedSchema) -> str:
+    """Generate a shared schema into the shared scope, returning its class name."""
+    shared_ctx = GenerationContext(
+        schemas=ctx.schemas,
+        schema_to_scope=ctx.schema_to_scope,
+        schema_fingerprints=ctx.schema_fingerprints,
+        nested_override_states=ctx.nested_override_states,
+        scope=SHARED_SCOPE,
+    )
+    _generate_schema_class(
+        shared_ctx,
+        class_name=shared_schema.name,
+        schema=shared_schema.schema,
+        description=shared_schema.description,
+    )
+    return shared_schema.name
 
 
 def _get_simple_type(schema: dict[str, Any]) -> str:
@@ -1882,6 +1951,8 @@ def _write_schema_files(
     with open(f"{output_dir}/schemas/_base.py", "w") as f:
         f.write(templates.schema_base_template.render())
 
+    # Unused shared schema imports are removed when the generated code is formatted.
+    shared_schemas = sorted(schemas_by_scope.get(SHARED_SCOPE, {}))
     all_exports: dict[str, list[str]] = {}
     for scope, scope_schemas in schemas_by_scope.items():
         module_name = to_snake_case(scope)
@@ -1893,6 +1964,8 @@ def _write_schema_files(
             f.write(
                 templates.schema_module_template.render(
                     scope=module_name,
+                    is_shared=scope == SHARED_SCOPE,
+                    shared_schemas=[] if scope == SHARED_SCOPE else shared_schemas,
                     schema_definitions=schema_definitions,
                 )
             )

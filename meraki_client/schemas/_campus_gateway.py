@@ -12,13 +12,19 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSettingStrict,
+    IdNameRefStrict,
+    IdRef,
+    IdRefStrict,
+)
 
 
 class BatchOrganizationCampusGatewayClustersTunnelingUpdateItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    cluster: CampusGatewayNetwork3
-    network: CampusGatewayNetwork3
+    cluster: IdRefStrict
+    network: IdRefStrict
     data: CampusGatewayData
 
 
@@ -37,8 +43,8 @@ class BatchOrganizationCampusGatewayClustersTunnelingUpdateResponse(_BaseSchema)
 class BatchOrganizationCampusGatewayClustersTunnelingUpdateResponseItemsItem(_BaseSchema):
     """Schema for BatchOrganizationCampusGatewayClustersTunnelingUpdateResponseItemsItem."""
 
-    cluster: CampusGatewayNetwork3
-    network: CampusGatewayNetwork3
+    cluster: IdRefStrict
+    network: IdRefStrict
     data: CampusGatewayData
 
 
@@ -84,7 +90,7 @@ class CampusGatewayAvailableItem(_BaseSchema):
         default=None, validation_alias="clusterId", serialization_alias="clusterId"
     )
     name: str | None = None
-    network: CampusGatewayNetwork2 | None = None
+    network: IdRef | None = None
     model: str | None = None
     allowed_vlans: str | None = Field(
         default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
@@ -127,7 +133,7 @@ class CampusGatewayCampusGatewaysItem(_BaseSchema):
     tunnel: CampusGatewayTunnel
     data: CampusGatewayData2
     url: str
-    cluster: CampusGatewayNetwork
+    cluster: IdNameRefStrict
 
 
 class CampusGatewayClients(_BaseSchema):
@@ -160,13 +166,13 @@ class CampusGatewayCountsByTunnelStatus(_BaseSchema):
 class CampusGatewayData(_BaseSchema):
     """Attributes related to the data plane."""
 
-    encryption: CampusGatewayEncryption
+    encryption: EnabledSettingStrict
 
 
 class CampusGatewayData2(_BaseSchema):
     """Attributes related to the data plane."""
 
-    encryption: CampusGatewayEncryption2
+    encryption: CampusGatewayEncryption
 
 
 class CampusGatewayDevices(_BaseSchema):
@@ -192,12 +198,6 @@ class CampusGatewayDevicesUplinksItem(_BaseSchema):
 
 
 class CampusGatewayEncryption(_BaseSchema):
-    """Configured encryption settings of the data plane."""
-
-    enabled: bool
-
-
-class CampusGatewayEncryption2(_BaseSchema):
     """Encryption status of the data plane."""
 
     status: str
@@ -222,25 +222,6 @@ class CampusGatewayLoad(_BaseSchema):
 
 
 class CampusGatewayNetwork(_BaseSchema):
-    """Details about the network."""
-
-    id: str
-    name: str
-
-
-class CampusGatewayNetwork2(_BaseSchema):
-    """Network details of the cluster."""
-
-    id: str | None = None
-
-
-class CampusGatewayNetwork3(_BaseSchema):
-    """Associated network."""
-
-    id: str
-
-
-class CampusGatewayNetwork4(_BaseSchema):
     """Network information."""
 
     id: str
@@ -259,7 +240,7 @@ class CampusGatewaySite(_BaseSchema):
 class CampusGatewaySource(_BaseSchema):
     """The source network from which the cluster is tunnelable."""
 
-    network: CampusGatewayNetwork3
+    network: IdRefStrict
 
 
 class CampusGatewayTargetsItem(_BaseSchema):
@@ -459,8 +440,8 @@ class CreateNetworkCampusGatewayClusterUplinksItemAddressesItem(_BaseSchema):
 class GetOrganizationCampusGatewayClientsUsageByNetworkByClusterResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCampusGatewayClientsUsageByNetworkByClusterResponseItemsItem."""
 
-    network: CampusGatewayNetwork
-    cluster: CampusGatewayNetwork
+    network: IdNameRefStrict
+    cluster: IdNameRefStrict
     clients: CampusGatewayClients
     devices: CampusGatewayDevices
     usage: CampusGatewayUsage
@@ -473,7 +454,7 @@ class GetOrganizationCampusGatewayClustersFailoverTargetsByClusterResponseItemsI
         default=None, validation_alias="clusterId", serialization_alias="clusterId"
     )
     name: str | None = None
-    network: CampusGatewayNetwork2 | None = None
+    network: IdRef | None = None
     model: str | None = None
     available: list[CampusGatewayAvailableItem] = Field(default_factory=list)
 
@@ -496,7 +477,7 @@ class GetOrganizationCampusGatewayClustersFailoverTargetsResponseItem(_BaseSchem
     cluster_id: str | None = Field(
         default=None, validation_alias="clusterId", serialization_alias="clusterId"
     )
-    network: CampusGatewayNetwork2 | None = None
+    network: IdRef | None = None
     failover: CampusGatewayFailover | None = None
 
 
@@ -509,13 +490,13 @@ class GetOrganizationCampusGatewayClustersNetworksOverviewsResponseItemsItem(_Ba
     site: CampusGatewaySite | None = None
     url: str
     counts: CampusGatewayCounts
-    cluster: CampusGatewayNetwork
+    cluster: IdNameRefStrict
 
 
 class GetOrganizationCampusGatewayClustersResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCampusGatewayClustersResponseItemsItem."""
 
-    network: CampusGatewayNetwork2 | None = None
+    network: IdRef | None = None
     cluster_id: str | None = Field(
         default=None, validation_alias="clusterId", serialization_alias="clusterId"
     )
@@ -544,8 +525,8 @@ class GetOrganizationCampusGatewayClustersSsidsResponseItemsItem(_BaseSchema):
     ssid_id: str = Field(validation_alias="ssidId", serialization_alias="ssidId")
     name: str
     url: str
-    network: CampusGatewayNetwork3
-    cluster: CampusGatewayNetwork
+    network: IdRefStrict
+    cluster: IdNameRefStrict
 
 
 class GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem(_BaseSchema):
@@ -554,15 +535,15 @@ class GetOrganizationCampusGatewayClustersTunnelableResponseItemsItem(_BaseSchem
     cluster_id: str = Field(validation_alias="clusterId", serialization_alias="clusterId")
     name: str
     url: str
-    network: CampusGatewayNetwork
+    network: IdNameRefStrict
     source: CampusGatewaySource
 
 
 class GetOrganizationCampusGatewayClustersTunnelingByClusterByNetworkResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCampusGatewayClustersTunnelingByClusterByNetworkResponseItemsItem."""
 
-    cluster: CampusGatewayNetwork
-    network: CampusGatewayNetwork
+    cluster: IdNameRefStrict
+    network: IdNameRefStrict
     data: CampusGatewayData
 
 
@@ -591,15 +572,15 @@ class GetOrganizationCampusGatewayConnectionsResponseItemsItem(_BaseSchema):
     uptime: int
     status: str
     tunnel_status: str = Field(validation_alias="tunnelStatus", serialization_alias="tunnelStatus")
-    tunnel_admin: CampusGatewayEncryption = Field(
+    tunnel_admin: EnabledSettingStrict = Field(
         validation_alias="tunnelAdmin", serialization_alias="tunnelAdmin"
     )
-    tunnel_schedule: CampusGatewayEncryption = Field(
+    tunnel_schedule: EnabledSettingStrict = Field(
         validation_alias="tunnelSchedule", serialization_alias="tunnelSchedule"
     )
     interfaces: list[str]
     url: str
-    network: CampusGatewayNetwork4
+    network: CampusGatewayNetwork
     counts: CampusGatewayCounts2
     campus_gateways: list[CampusGatewayCampusGatewaysItem] = Field(
         validation_alias="campusGateways", serialization_alias="campusGateways"
@@ -616,7 +597,7 @@ class GetOrganizationCampusGatewayDevicesSystemCpuLoadResponseItemsItem(_BaseSch
     """Schema for GetOrganizationCampusGatewayDevicesSystemCpuLoadResponseItemsItem."""
 
     serial: str
-    network: CampusGatewayNetwork3
+    network: IdRefStrict
     observed_at: datetime | None = Field(
         validation_alias="observedAt", serialization_alias="observedAt"
     )

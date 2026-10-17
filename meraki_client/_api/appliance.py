@@ -17,7 +17,6 @@ from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
-    CertificatesOrganizationApplianceSecurityHttpsiResponse,
     ConnectNetworkApplianceUmbrellaAccountApi,
     ConnectNetworkApplianceUmbrellaAccountResponse,
     CreateDeviceApplianceInterfacesPortsUpdateDownlink,
@@ -55,6 +54,7 @@ from meraki_client.schemas import (
     DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesResponse,
     DeviceApplianceRadioSettingsResponse,
     DeviceApplianceUplinksSettingsResponse,
+    EnabledSetting,
     ExclusionsNetworkApplianceUmbrellaDomainsResponse,
     GetDeviceApplianceDhcpSubnetsResponseItem,
     GetDeviceAppliancePerformanceResponse,
@@ -117,7 +117,6 @@ from meraki_client.schemas import (
     NetworkApplianceWarmSpareResponse,
     OrganizationApplianceDnsLocalProfileResponse,
     OrganizationApplianceDnsSplitProfileResponse,
-    OrganizationApplianceRoutingVrfsSettingsResponse,
     OrganizationApplianceSecurityIntrusionPolicyResponse,
     OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse,
     OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse,
@@ -129,6 +128,7 @@ from meraki_client.schemas import (
     RemoveNetworkApplianceUmbrellaPoliciesPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
+    SuccessResponse,
     UpdateDeviceApplianceInterfacesPortDownlink,
     UpdateDeviceApplianceInterfacesPortPersonality,
     UpdateDeviceApplianceInterfacesPortProfile,
@@ -9152,7 +9152,7 @@ class Appliance:
 
     def get_organization_appliance_routing_vrfs_settings(
         self, organization_id: str
-    ) -> OrganizationApplianceRoutingVrfsSettingsResponse:
+    ) -> EnabledSetting:
         """Return the VRF setting for an organization.
 
         [API documentation: getOrganizationApplianceRoutingVrfsSettings](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-routing-vrfs-settings)
@@ -9178,12 +9178,12 @@ class Appliance:
             scope="appliance",
             operation_id="getOrganizationApplianceRoutingVrfsSettings",
             path=path,
-            response_schema=OrganizationApplianceRoutingVrfsSettingsResponse,
+            response_schema=EnabledSetting,
         )
 
     def update_organization_appliance_routing_vrfs_settings(
         self, *, organization_id: str, enabled: bool
-    ) -> OrganizationApplianceRoutingVrfsSettingsResponse:
+    ) -> EnabledSetting:
         """Update the VRF setting for an organization.
 
         [API documentation: updateOrganizationApplianceRoutingVrfsSettings](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-routing-vrfs-settings)
@@ -9215,7 +9215,7 @@ class Appliance:
             operation_id="updateOrganizationApplianceRoutingVrfsSettings",
             path=path,
             json=payload,
-            response_schema=OrganizationApplianceRoutingVrfsSettingsResponse,
+            response_schema=EnabledSetting,
         )
 
     def get_organization_appliance_security_events(
@@ -9500,7 +9500,7 @@ class Appliance:
 
     def certificates_organization_appliance_security_httpsi(
         self, *, organization_id: str, contents: str, serials: list[str]
-    ) -> CertificatesOrganizationApplianceSecurityHttpsiResponse:
+    ) -> SuccessResponse:
         """Upload an HTTPS Inspection certificate to MX devices in the same organization.
 
         [API documentation: certificatesOrganizationApplianceSecurityHttpsi](https://developer.cisco.com/meraki/api-v1/#!certificates-organization-appliance-security-httpsi)
@@ -9537,7 +9537,7 @@ class Appliance:
             operation_id="certificatesOrganizationApplianceSecurityHttpsi",
             path=path,
             json=payload,
-            response_schema=CertificatesOrganizationApplianceSecurityHttpsiResponse,
+            response_schema=SuccessResponse,
         )
 
     def get_organization_appliance_security_intrusion(
@@ -12045,7 +12045,7 @@ class Appliance:
         organization_id: str,
         policy: AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
         vlans: list[AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem],
-    ) -> CertificatesOrganizationApplianceSecurityHttpsiResponse:
+    ) -> SuccessResponse:
         """Assign VLANs to a policy.
 
         [API documentation: assignOrganizationPoliciesGlobalGroupPoliciesApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!assign-organization-policies-global-group-policies-appliance-vlans)
@@ -12080,7 +12080,7 @@ class Appliance:
             operation_id="assignOrganizationPoliciesGlobalGroupPoliciesApplianceVlans",
             path=path,
             json=payload,
-            response_schema=CertificatesOrganizationApplianceSecurityHttpsiResponse,
+            response_schema=SuccessResponse,
         )
 
     def get_organization_policies_global_group_policies_appliance_vlans_assignments(
@@ -12291,7 +12291,7 @@ class Appliance:
         organization_id: str,
         policy: RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
         vlans: list[RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem],
-    ) -> CertificatesOrganizationApplianceSecurityHttpsiResponse:
+    ) -> SuccessResponse:
         """Remove VLANs from a policy.
 
         [API documentation: removeOrganizationPoliciesGlobalGroupPoliciesApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!remove-organization-policies-global-group-policies-appliance-vlans)
@@ -12326,5 +12326,5 @@ class Appliance:
             operation_id="removeOrganizationPoliciesGlobalGroupPoliciesApplianceVlans",
             path=path,
             json=payload,
-            response_schema=CertificatesOrganizationApplianceSecurityHttpsiResponse,
+            response_schema=SuccessResponse,
         )

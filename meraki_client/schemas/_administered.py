@@ -11,18 +11,15 @@ from datetime import datetime
 from pydantic import Field, RootModel
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSetting,
+)
 
 
 class AdministeredAuthenticationApi(_BaseSchema):
     """API authentication."""
 
     key: AdministeredKey | None = None
-
-
-class AdministeredAuthenticationTwoFactor(_BaseSchema):
-    """TwoFactor authentication."""
-
-    enabled: bool | None = None
 
 
 class AdministeredKey(_BaseSchema):
@@ -70,7 +67,7 @@ class GetAdministeredIdentitiesMeResponseAuthentication(_BaseSchema):
 
     mode: str | None = None
     api: AdministeredAuthenticationApi | None = None
-    two_factor: AdministeredAuthenticationTwoFactor | None = Field(
+    two_factor: EnabledSetting | None = Field(
         default=None, validation_alias="twoFactor", serialization_alias="twoFactor"
     )
-    saml: AdministeredAuthenticationTwoFactor | None = None
+    saml: EnabledSetting | None = None

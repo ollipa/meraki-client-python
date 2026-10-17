@@ -12,12 +12,10 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
-
-
-class CellularGatewayApnsItem(_BaseSchema):
-    """Schema for CellularGatewayApnsItem."""
-
-    name: str | None = None
+from meraki_client.schemas._shared import (
+    IdRef,
+    NameRef,
+)
 
 
 class CellularGatewayDevice(_BaseSchema):
@@ -34,12 +32,6 @@ class CellularGatewayLogo(_BaseSchema):
     """Service Provider logo data."""
 
     url: str | None = None
-
-
-class CellularGatewayNetwork(_BaseSchema):
-    """Meraki Network properties."""
-
-    id: str | None = None
 
 
 class CellularGatewayPlansItem(_BaseSchema):
@@ -258,7 +250,7 @@ class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPl
     account_id: str | None = Field(
         default=None, validation_alias="accountId", serialization_alias="accountId"
     )
-    apns: list[CellularGatewayApnsItem] = Field(default_factory=list)
+    apns: list[NameRef] = Field(default_factory=list)
     name: str | None = None
 
     @field_validator("apns", mode="before")
@@ -503,7 +495,7 @@ class UpdateOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
     last_updated_at: str | None = Field(
         default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
     )
-    network: CellularGatewayNetwork | None = None
+    network: IdRef | None = None
     profiles: list[CellularGatewayProfilesItem] = Field(default_factory=list)
 
     @field_validator("profiles", mode="before")

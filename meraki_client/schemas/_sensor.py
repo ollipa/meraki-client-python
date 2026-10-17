@@ -12,6 +12,11 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSetting,
+    IdNameRef,
+    IdNameRefStrict,
+)
 
 
 class CreateNetworkSensorAlertsProfileConditionsItem(_BaseSchema):
@@ -199,7 +204,7 @@ class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem(_BaseSchem
         default=None, validation_alias="lastConnectedAt", serialization_alias="lastConnectedAt"
     )
     rssi: int
-    network: SensorNetwork
+    network: IdNameRefStrict
     sensor: SensorSensor
     gateway: SensorSensor
 
@@ -214,7 +219,7 @@ class GetOrganizationSensorReadingsHistoryResponseItem(_BaseSchema):
     """Schema for GetOrganizationSensorReadingsHistoryResponseItem."""
 
     serial: str | None = None
-    network: SensorSchedule | None = None
+    network: IdNameRef | None = None
     ts: str | None = None
     metric: str | None = None
     apparent_power: SensorApparentPower | None = Field(
@@ -225,7 +230,7 @@ class GetOrganizationSensorReadingsHistoryResponseItem(_BaseSchema):
     co2: SensorCo2 | None = None
     current: SensorApparentPower | None = None
     door: SensorDoor2 | None = None
-    downstream_power: SensorDownstreamPower | None = Field(
+    downstream_power: EnabledSetting | None = Field(
         default=None, validation_alias="downstreamPower", serialization_alias="downstreamPower"
     )
     frequency: SensorFrequency | None = None
@@ -268,7 +273,7 @@ class GetOrganizationSensorReadingsLatestResponseItem(_BaseSchema):
     """Schema for GetOrganizationSensorReadingsLatestResponseItem."""
 
     serial: str | None = None
-    network: SensorSchedule | None = None
+    network: IdNameRef | None = None
     readings: list[SensorReadingsItem] = Field(default_factory=list)
 
     @field_validator("readings", mode="before")
@@ -285,7 +290,7 @@ class NetworkSensorAlertsProfileResponse(_BaseSchema):
         default=None, validation_alias="profileId", serialization_alias="profileId"
     )
     name: str | None = None
-    schedule: SensorSchedule | None = None
+    schedule: IdNameRef | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
     serials: list[str] = Field(default_factory=list)
@@ -406,14 +411,6 @@ class SensorDoor2(_BaseSchema):
     open_: bool | None = Field(default=None, validation_alias="open", serialization_alias="open")
 
 
-class SensorDownstreamPower(_BaseSchema):
-    """Reading for the 'downstreamPower' metric. This will only be present if the 'metric' property
-    equals 'downstreamPower'.
-    """
-
-    enabled: bool | None = None
-
-
 class SensorFrequency(_BaseSchema):
     """Reading for the 'frequency' metric. This will only be present if the 'metric' property
     equals 'frequency'.
@@ -469,13 +466,6 @@ class SensorLivestreamRelatedDevicesItem(_BaseSchema):
     )
 
 
-class SensorNetwork(_BaseSchema):
-    """Information about the network that the sensor and gateway are in."""
-
-    name: str
-    id: str
-
-
 class SensorNoise(_BaseSchema):
     """Noise threshold. 'ambient' must be provided."""
 
@@ -509,7 +499,7 @@ class SensorReadingsItem(_BaseSchema):
     co2: SensorCo2 | None = None
     current: SensorApparentPower | None = None
     door: SensorDoor2 | None = None
-    downstream_power: SensorDownstreamPower | None = Field(
+    downstream_power: EnabledSetting | None = Field(
         default=None, validation_alias="downstreamPower", serialization_alias="downstreamPower"
     )
     frequency: SensorFrequency | None = None
@@ -578,13 +568,6 @@ class SensorRemoteLockoutSwitch(_BaseSchema):
     """
 
     locked: bool | None = None
-
-
-class SensorSchedule(_BaseSchema):
-    """The sensor schedule to use with the alert profile."""
-
-    id: str | None = None
-    name: str | None = None
 
 
 class SensorSensor(_BaseSchema):

@@ -12,6 +12,15 @@ from typing import Any
 from pydantic import Field, RootModel, field_validator
 
 from meraki_client.schemas._base import _BaseSchema
+from meraki_client.schemas._shared import (
+    EnabledSetting,
+    EnabledSettingStrict,
+    IdNameRef,
+    IdNameRefStrict,
+    IdRef,
+    IdRefStrict,
+    NameRef,
+)
 
 
 class AddNetworkApplianceUmbrellaPoliciesPolicy(_BaseSchema):
@@ -23,8 +32,8 @@ class AddNetworkApplianceUmbrellaPoliciesPolicy(_BaseSchema):
 class AddNetworkApplianceUmbrellaPoliciesResponse(_BaseSchema):
     """Response for addNetworkApplianceUmbrellaPolicies operation."""
 
-    network: ApplianceDownlinkSgt | None = None
-    policies: list[ApplianceDownlinkSgt] = Field(default_factory=list)
+    network: IdRef | None = None
+    policies: list[IdRef] = Field(default_factory=list)
 
     @field_validator("policies", mode="before")
     @classmethod
@@ -58,9 +67,7 @@ class ApplianceApplicationCategoriesItem(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    applications: list[NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem] = Field(
-        default_factory=list
-    )
+    applications: list[IdNameRef] = Field(default_factory=list)
 
     @field_validator("applications", mode="before")
     @classmethod
@@ -333,12 +340,6 @@ class ApplianceDownlinkAccess(_BaseSchema):
     policy: AppliancePolicy | None = None
 
 
-class ApplianceDownlinkSgt(_BaseSchema):
-    """Security Group Tag settings for this port."""
-
-    id: str | None = None
-
-
 class ApplianceDownlinkTrunk(_BaseSchema):
     """The port's settings when in 'trunk' mode."""
 
@@ -348,7 +349,7 @@ class ApplianceDownlinkTrunk(_BaseSchema):
     allowed_vlans: list[str] = Field(
         default_factory=list, validation_alias="allowedVlans", serialization_alias="allowedVlans"
     )
-    sgt: ApplianceSgt | None = None
+    sgt: EnabledSetting | None = None
 
     @field_validator("allowed_vlans", mode="before")
     @classmethod
@@ -411,12 +412,6 @@ class ApplianceFailover(_BaseSchema):
     direct_to_internet: bool | None = Field(
         default=None, validation_alias="directToInternet", serialization_alias="directToInternet"
     )
-
-
-class ApplianceFailoverAndFailbackImmediate(_BaseSchema):
-    """Immediate WAN failover and failback."""
-
-    enabled: bool
 
 
 class ApplianceGroup(_BaseSchema):
@@ -554,12 +549,6 @@ class ApplianceIpv6PrefixAssignmentsItem(_BaseSchema):
     origin: ApplianceOrigin4 | None = None
 
 
-class ApplianceIsp(_BaseSchema):
-    """ISP selection for the IPoE transition."""
-
-    name: str | None = None
-
-
 class ApplianceItems(_BaseSchema):
     """Counts relating to the paginated items."""
 
@@ -573,8 +562,8 @@ class ApplianceItemsItem(_BaseSchema):
     override_id: str | None = Field(
         default=None, validation_alias="overrideId", serialization_alias="overrideId"
     )
-    policy: ApplianceDownlinkSgt | None = None
-    group: ApplianceDownlinkSgt | None = None
+    policy: IdRef | None = None
+    group: IdRef | None = None
     security: ApplianceSecurity | None = None
 
 
@@ -584,8 +573,8 @@ class ApplianceItemsItem2(_BaseSchema):
     override_id: str | None = Field(
         default=None, validation_alias="overrideId", serialization_alias="overrideId"
     )
-    policy: ApplianceDownlinkSgt | None = None
-    rule: ApplianceDownlinkSgt | None = None
+    policy: IdRef | None = None
+    rule: IdRef | None = None
     action: str | None = None
 
 
@@ -665,14 +654,14 @@ class ApplianceMap(_BaseSchema):
     """MAP-E/MAP-T settings for the IPoE transition."""
 
     rules: ApplianceRules | None = None
-    draft: ApplianceSgt | None = None
+    draft: EnabledSetting | None = None
 
 
 class ApplianceMap2(_BaseSchema):
     """MAP-E/MAP-T settings for the IPoE transition."""
 
     rules: ApplianceRules2 | None = None
-    draft: ApplianceSgt | None = None
+    draft: EnabledSetting | None = None
 
 
 class ApplianceMerakiVpnPeersItem(_BaseSchema):
@@ -886,8 +875,8 @@ class AppliancePeersEbgpNeighbor(_BaseSchema):
     source_ip: str | None = Field(
         default=None, validation_alias="sourceIp", serialization_alias="sourceIp"
     )
-    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
-    ttl_security: ApplianceSgt | None = Field(
+    vrf: IdNameRef | None = None
+    ttl_security: EnabledSetting | None = Field(
         default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
     )
     authentication: ApplianceNeighborsAuthentication | None = None
@@ -897,7 +886,7 @@ class AppliancePeersEbgpNeighbor(_BaseSchema):
     receive_limit: int | None = Field(
         default=None, validation_alias="receiveLimit", serialization_alias="receiveLimit"
     )
-    explicit_outbound_route_advertisement: ApplianceSgt | None = Field(
+    explicit_outbound_route_advertisement: EnabledSetting | None = Field(
         default=None,
         validation_alias="explicitOutboundRouteAdvertisement",
         serialization_alias="explicitOutboundRouteAdvertisement",
@@ -1094,7 +1083,7 @@ class AppliancePortsItem(_BaseSchema):
     personality: CreateDeviceApplianceInterfacesPortsUpdateResponsePersonality | None = None
     uplink: CreateDeviceApplianceInterfacesPortsUpdateResponseUplink | None = None
     downlink: CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink | None = None
-    profile: ApplianceDownlinkSgt | None = None
+    profile: IdRef | None = None
 
 
 class AppliancePortsItem2(_BaseSchema):
@@ -1317,19 +1306,13 @@ class ApplianceSecurity2(_BaseSchema):
 
 
 class ApplianceSgt(_BaseSchema):
-    """Security Group Tag settings for this trunk port."""
-
-    enabled: bool | None = None
-
-
-class ApplianceSgt2(_BaseSchema):
     """Security Group Tag settings for the port."""
 
     id: int | None = None
     enabled: bool | None = None
 
 
-class ApplianceSgt3(_BaseSchema):
+class ApplianceSgt2(_BaseSchema):
     """Security Group Tag settings for the VLAN."""
 
     id: int | None = None
@@ -1443,7 +1426,7 @@ class ApplianceTransition(_BaseSchema):
     authentication: ApplianceAuthentication | None = None
     ipv4: ApplianceIpv42 | None = None
     ipv6: ApplianceIpv62 | None = None
-    isp: ApplianceIsp | None = None
+    isp: NameRef | None = None
     map: ApplianceMap | None = None
 
 
@@ -1455,7 +1438,7 @@ class ApplianceTransition2(_BaseSchema):
     authentication: ApplianceAuthentication2 | None = None
     ipv4: ApplianceIpv42 | None = None
     ipv6: ApplianceIpv62 | None = None
-    isp: ApplianceIsp | None = None
+    isp: NameRef | None = None
     map: ApplianceMap2 | None = None
 
 
@@ -1594,7 +1577,7 @@ class ApplianceVpnTrafficUplinkPreferencesItem(_BaseSchema):
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
-    vrf: UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork | None = None
+    vrf: IdNameRefStrict | None = None
     fail_over_criterion: str | None = Field(
         default=None, validation_alias="failOverCriterion", serialization_alias="failOverCriterion"
     )
@@ -1641,7 +1624,7 @@ class ApplianceWanTrafficUplinkPreferencesItem2(_BaseSchema):
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
-    vrf: UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork | None = None
+    vrf: IdNameRefStrict | None = None
 
     @field_validator("traffic_filters", mode="before")
     @classmethod
@@ -1665,8 +1648,8 @@ class AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem(_Base
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: ApplianceDownlinkSgt | None = None
-    profile: ApplianceDownlinkSgt | None = None
+    network: IdRef | None = None
+    profile: IdRef | None = None
 
 
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse(_BaseSchema):
@@ -1689,14 +1672,8 @@ class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsIte
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    network: ApplianceDownlinkSgt | None = None
-    profile: ApplianceDownlinkSgt | None = None
-
-
-class CertificatesOrganizationApplianceSecurityHttpsiResponse(_BaseSchema):
-    """Schema for CertificatesOrganizationApplianceSecurityHttpsiResponse."""
-
-    success: bool | None = None
+    network: IdRef | None = None
+    profile: IdRef | None = None
 
 
 class ConnectNetworkApplianceUmbrellaAccountApi(_BaseSchema):
@@ -1715,14 +1692,14 @@ class ConnectNetworkApplianceUmbrellaAccountResponse(_BaseSchema):
 class ConnectNetworkApplianceUmbrellaAccountResponseUmbrella(_BaseSchema):
     """Umbrella configuration."""
 
-    organization: ApplianceDownlinkSgt | None = None
+    organization: IdRef | None = None
 
 
 class CreateDeviceApplianceInterfacesPortsUpdateDownlink(_BaseSchema):
     """The port's VLAN settings when in LAN mode."""
 
     mode: str | None = None
-    sgt: ApplianceDownlinkSgt | None = None
+    sgt: IdRef | None = None
     access: ApplianceDownlinkAccess | None = None
     trunk: ApplianceDownlinkTrunk | None = None
 
@@ -1764,14 +1741,14 @@ class CreateDeviceApplianceInterfacesPortsUpdateResponse(_BaseSchema):
     personality: CreateDeviceApplianceInterfacesPortsUpdateResponsePersonality | None = None
     uplink: CreateDeviceApplianceInterfacesPortsUpdateResponseUplink | None = None
     downlink: CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink | None = None
-    profile: ApplianceDownlinkSgt | None = None
+    profile: IdRef | None = None
 
 
 class CreateDeviceApplianceInterfacesPortsUpdateResponseDownlink(_BaseSchema):
     """The port's VLAN settings when in LAN mode."""
 
     mode: str | None = None
-    sgt: ApplianceDownlinkSgt | None = None
+    sgt: IdRef | None = None
     access: ApplianceDownlinkAccess | None = None
     trunk: ApplianceDownlinkTrunk | None = None
 
@@ -1980,12 +1957,12 @@ class CreateNetworkApplianceVlanResponse(_BaseSchema):
     )
     cidr: str | None = None
     mask: int | None = None
-    mandatory_dhcp: ApplianceSgt | None = Field(
+    mandatory_dhcp: EnabledSetting | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
-    sgt: ApplianceSgt3 | None = None
+    sgt: ApplianceSgt2 | None = None
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
-    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    vrf: IdNameRef | None = None
 
 
 class CreateNetworkApplianceVlanSgt(_BaseSchema):
@@ -1998,7 +1975,7 @@ class CreateNetworkApplianceVlanUplinksItem(_BaseSchema):
     """Item schema for uplinks."""
 
     interface: str
-    nat: ApplianceFailoverAndFailbackImmediate
+    nat: EnabledSettingStrict
 
 
 class CreateNetworkApplianceVlanVrf(_BaseSchema):
@@ -2036,8 +2013,8 @@ class CreateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network: ApplianceDownlinkSgt | None = None
-    profile: ApplianceDownlinkSgt | None = None
+    network: IdRef | None = None
+    profile: IdRef | None = None
 
 
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem(_BaseSchema):
@@ -2053,7 +2030,7 @@ class CreateOrganizationApplianceSecurityIntrusionPolicyPolicy(_BaseSchema):
 
     name: str | None = None
     description: str | None = None
-    base_policy: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork | None = Field(
+    base_policy: IdRefStrict | None = Field(
         default=None, validation_alias="basePolicy", serialization_alias="basePolicy"
     )
 
@@ -2073,7 +2050,7 @@ class CreateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride(_Ba
 class DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    group: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork
+    group: IdRefStrict
     security: ApplianceSecurity2
 
 
@@ -2094,7 +2071,7 @@ class DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesResp
 class DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    rule: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork
+    rule: IdRefStrict
     action: str
 
 
@@ -2452,7 +2429,7 @@ class GetOrganizationApplianceDevicesInterfacesL3ResponseItemsItem(_BaseSchema):
         default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
     )
     ipv4: ApplianceAddressesItem | None = None
-    network: ApplianceDownlinkSgt | None = None
+    network: IdRef | None = None
     port: NetworkApplianceInterfacesL3ResponsePort | None = None
 
 
@@ -2478,7 +2455,7 @@ class GetOrganizationApplianceDevicesInterfacesPortsProfilesAssignmentsResponseI
 
     device: ApplianceDevice | None = None
     port: NetworkApplianceInterfacesL3ResponsePort | None = None
-    profile: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    profile: IdNameRef | None = None
 
 
 class GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceResponseItemsItem(
@@ -2490,7 +2467,7 @@ class GetOrganizationApplianceDevicesPortsTransceiversReadingsHistoryByDeviceRes
 
     serial: str | None = None
     ports: list[AppliancePortsItem2] = Field(default_factory=list)
-    network: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    network: IdNameRef | None = None
 
     @field_validator("ports", mode="before")
     @classmethod
@@ -2505,8 +2482,8 @@ class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem(_Base
     assignment_id: str | None = Field(
         default=None, validation_alias="assignmentId", serialization_alias="assignmentId"
     )
-    network: ApplianceDownlinkSgt | None = None
-    profile: ApplianceDownlinkSgt | None = None
+    network: IdRef | None = None
+    profile: IdRef | None = None
 
 
 class GetOrganizationApplianceDnsLocalProfilesResponse(
@@ -2530,7 +2507,7 @@ class GetOrganizationApplianceDnsSplitProfilesResponse(
 class GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationApplianceInterfacesPacketsOverviewsByDeviceResponseItemsItem."""
 
-    network: ApplianceDownlinkSgt | None = None
+    network: IdRef | None = None
     serial: str | None = None
     interfaces: list[ApplianceInterfacesItem] = Field(default_factory=list)
 
@@ -2556,7 +2533,7 @@ class GetOrganizationApplianceSecurityIntrusionRuleGroupsOverviewsResponseItemsI
     rule_group_id: str | None = Field(
         default=None, validation_alias="ruleGroupId", serialization_alias="ruleGroupId"
     )
-    policy: ApplianceDownlinkSgt | None = None
+    policy: IdRef | None = None
     counts: ApplianceCounts3 | None = None
 
 
@@ -2566,10 +2543,10 @@ class GetOrganizationApplianceSecurityIntrusionRuleGroupsResponseItemsItem(_Base
     group_id: str | None = Field(
         default=None, validation_alias="groupId", serialization_alias="groupId"
     )
-    parent: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    parent: IdNameRef | None = None
     name: str | None = None
     description: str | None = None
-    policy: ApplianceDownlinkSgt | None = None
+    policy: IdRef | None = None
     base: ApplianceBase | None = None
     override: ApplianceOverride | None = None
 
@@ -2586,7 +2563,7 @@ class GetOrganizationApplianceSecurityIntrusionRulesResponseItemsItem(_BaseSchem
     description: str | None = None
     base: ApplianceBase2 | None = None
     override: ApplianceOverride2 | None = None
-    policy: ApplianceDownlinkSgt | None = None
+    policy: IdRef | None = None
 
 
 class GetOrganizationApplianceUplinkStatusesResponse(
@@ -2760,7 +2737,7 @@ class GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanR
     GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanResponseItemsItem.
     """
 
-    network: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    network: IdNameRef | None = None
     name: str | None = None
     subnet: str | None = None
     interface_id: str | None = Field(
@@ -3089,7 +3066,7 @@ class NetworkAppliancePortResponse(_BaseSchema):
     access_policy: str | None = Field(
         default=None, validation_alias="accessPolicy", serialization_alias="accessPolicy"
     )
-    sgt: ApplianceSgt2 | None = None
+    sgt: ApplianceSgt | None = None
 
 
 class NetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
@@ -3195,11 +3172,11 @@ class NetworkApplianceSingleLanResponse(_BaseSchema):
     appliance_ip: str | None = Field(
         default=None, validation_alias="applianceIp", serialization_alias="applianceIp"
     )
-    mandatory_dhcp: ApplianceSgt | None = Field(
+    mandatory_dhcp: EnabledSetting | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
-    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    vrf: IdNameRef | None = None
 
 
 class NetworkApplianceSingleLanResponseIpv6(_BaseSchema):
@@ -3278,7 +3255,7 @@ class NetworkApplianceStaticRouteResponse(_BaseSchema):
     gateway_vlan_id: int | None = Field(
         default=None, validation_alias="gatewayVlanId", serialization_alias="gatewayVlanId"
     )
-    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    vrf: IdNameRef | None = None
 
     @field_validator("reserved_ip_ranges", mode="before")
     @classmethod
@@ -3424,7 +3401,7 @@ class NetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
 class NetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailback(_BaseSchema):
     """WAN failover and failback."""
 
-    immediate: ApplianceFailoverAndFailbackImmediate | None = None
+    immediate: EnabledSettingStrict | None = None
 
 
 class NetworkApplianceVlanResponse(_BaseSchema):
@@ -3484,12 +3461,12 @@ class NetworkApplianceVlanResponse(_BaseSchema):
     vpn_nat_subnet: str | None = Field(
         default=None, validation_alias="vpnNatSubnet", serialization_alias="vpnNatSubnet"
     )
-    mandatory_dhcp: ApplianceSgt | None = Field(
+    mandatory_dhcp: EnabledSetting | None = Field(
         default=None, validation_alias="mandatoryDhcp", serialization_alias="mandatoryDhcp"
     )
-    sgt: ApplianceSgt3 | None = None
+    sgt: ApplianceSgt2 | None = None
     ipv6: NetworkApplianceSingleLanResponseIpv6 | None = None
-    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    vrf: IdNameRef | None = None
     network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
 
     @field_validator("dhcp_relay_server_ips", "reserved_ip_ranges", "dhcp_options", mode="before")
@@ -3518,7 +3495,7 @@ class NetworkApplianceVpnBgpResponse(_BaseSchema):
         default=None, validation_alias="ibgpHoldTimer", serialization_alias="ibgpHoldTimer"
     )
     ipv6: NetworkApplianceVpnBgpResponseIpv6 | None = None
-    tunnel_down_termination: ApplianceSgt | None = Field(
+    tunnel_down_termination: EnabledSetting | None = Field(
         default=None,
         validation_alias="tunnelDownTermination",
         serialization_alias="tunnelDownTermination",
@@ -3544,7 +3521,7 @@ class NetworkApplianceVpnBgpResponse(_BaseSchema):
 class NetworkApplianceVpnBgpResponseIpv6(_BaseSchema):
     """Settings for IPv6 configurations on the organization."""
 
-    single_peering: ApplianceSgt | None = Field(
+    single_peering: EnabledSetting | None = Field(
         default=None, validation_alias="singlePeering", serialization_alias="singlePeering"
     )
 
@@ -3575,7 +3552,7 @@ class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
     next_hop_ip: str | None = Field(
         default=None, validation_alias="nextHopIp", serialization_alias="nextHopIp"
     )
-    ttl_security: ApplianceSgt | None = Field(
+    ttl_security: EnabledSetting | None = Field(
         default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
     )
     authentication: ApplianceNeighborsAuthentication | None = None
@@ -3597,12 +3574,12 @@ class NetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
     filter_: ApplianceNeighborsFilter | None = Field(
         default=None, validation_alias="filter", serialization_alias="filter"
     )
-    explicit_outbound_route_advertisement: ApplianceSgt | None = Field(
+    explicit_outbound_route_advertisement: EnabledSetting | None = Field(
         default=None,
         validation_alias="explicitOutboundRouteAdvertisement",
         serialization_alias="explicitOutboundRouteAdvertisement",
     )
-    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
+    vrf: IdNameRef | None = None
 
     @field_validator("path_prepend", "filter_in", "community_out", mode="before")
     @classmethod
@@ -3617,7 +3594,7 @@ class NetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
     mode: str | None = None
     hubs: list[NetworkApplianceVpnSiteToSiteVpnResponseHubsItem] = Field(default_factory=list)
     subnets: list[NetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem] = Field(default_factory=list)
-    sgt: ApplianceSgt | None = None
+    sgt: EnabledSetting | None = None
     subnet: NetworkApplianceVpnSiteToSiteVpnResponseSubnet | None = None
     host_translations: list[NetworkApplianceVpnSiteToSiteVpnResponseHostTranslationsItem] = Field(
         default_factory=list,
@@ -3647,9 +3624,7 @@ class NetworkApplianceVpnSiteToSiteVpnResponseHubsItem(_BaseSchema):
     use_default_route: bool | None = Field(
         default=None, validation_alias="useDefaultRoute", serialization_alias="useDefaultRoute"
     )
-    vrfs: list[NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem] = Field(
-        default_factory=list
-    )
+    vrfs: list[IdNameRef] = Field(default_factory=list)
 
     @field_validator("vrfs", mode="before")
     @classmethod
@@ -3726,12 +3701,6 @@ class OrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
         return [] if value is None else value
 
 
-class OrganizationApplianceRoutingVrfsSettingsResponse(_BaseSchema):
-    """Schema for OrganizationApplianceRoutingVrfsSettingsResponse."""
-
-    enabled: bool | None = None
-
-
 class OrganizationApplianceSecurityIntrusionPolicyResponse(_BaseSchema):
     """Schema for OrganizationApplianceSecurityIntrusionPolicyResponse."""
 
@@ -3740,7 +3709,7 @@ class OrganizationApplianceSecurityIntrusionPolicyResponse(_BaseSchema):
     )
     name: str | None = None
     description: str | None = None
-    base_policy: ApplianceDownlinkSgt | None = Field(
+    base_policy: IdRef | None = Field(
         default=None, validation_alias="basePolicy", serialization_alias="basePolicy"
     )
     is_base_policy: bool | None = Field(
@@ -3754,8 +3723,8 @@ class OrganizationApplianceSecurityIntrusionPolicyRuleGroupOverrideResponse(_Bas
     override_id: str | None = Field(
         default=None, validation_alias="overrideId", serialization_alias="overrideId"
     )
-    policy: ApplianceDownlinkSgt | None = None
-    group: ApplianceDownlinkSgt | None = None
+    policy: IdRef | None = None
+    group: IdRef | None = None
     security: ApplianceSecurity | None = None
 
 
@@ -3765,8 +3734,8 @@ class OrganizationApplianceSecurityIntrusionPolicyRuleOverrideResponse(_BaseSche
     override_id: str | None = Field(
         default=None, validation_alias="overrideId", serialization_alias="overrideId"
     )
-    policy: ApplianceDownlinkSgt | None = None
-    rule: ApplianceDownlinkSgt | None = None
+    policy: IdRef | None = None
+    rule: IdRef | None = None
     action: str | None = None
 
 
@@ -3862,7 +3831,7 @@ class OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema):
     ipsec_policies: AppliancePeersIpsecPolicies | None = Field(
         default=None, validation_alias="ipsecPolicies", serialization_alias="ipsecPolicies"
     )
-    sla_policy: ApplianceDownlinkSgt | None = Field(
+    sla_policy: IdRef | None = Field(
         default=None, validation_alias="slaPolicy", serialization_alias="slaPolicy"
     )
     ipsec_policies_preset: str | None = Field(
@@ -3910,8 +3879,8 @@ class ProtectionNetworkApplianceUmbrellaResponse(_BaseSchema):
 class ProtectionNetworkApplianceUmbrellaResponseUmbrella(_BaseSchema):
     """Umbrella configuration. Organization and origin IDs are null when protection is disabled."""
 
-    organization: ApplianceDownlinkSgt | None = None
-    origin: ApplianceDownlinkSgt | None = None
+    organization: IdRef | None = None
+    origin: IdRef | None = None
 
 
 class RemoveNetworkApplianceUmbrellaPoliciesPolicy(_BaseSchema):
@@ -3936,7 +3905,7 @@ class UpdateDeviceApplianceInterfacesPortDownlink(_BaseSchema):
     """The port's VLAN settings when in LAN mode."""
 
     mode: str | None = None
-    sgt: ApplianceDownlinkSgt | None = None
+    sgt: IdRef | None = None
     access: ApplianceDownlinkAccess | None = None
     trunk: ApplianceDownlinkTrunk | None = None
 
@@ -4158,7 +4127,7 @@ class UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem(_BaseSchema):
 class UpdateNetworkApplianceFirewallMulticastForwardingResponse(_BaseSchema):
     """Response for updateNetworkApplianceFirewallMulticastForwarding operation."""
 
-    network: UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork
+    network: IdNameRefStrict
     rules: list[UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem]
 
     @field_validator("rules", mode="before")
@@ -4166,13 +4135,6 @@ class UpdateNetworkApplianceFirewallMulticastForwardingResponse(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork(_BaseSchema):
-    """Network details."""
-
-    id: str
-    name: str
 
 
 class UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem(_BaseSchema):
@@ -4413,7 +4375,7 @@ class UpdateNetworkApplianceSecurityHttpsInspectionAllowListsApplicationsItem(_B
 class UpdateNetworkApplianceSecurityHttpsInspectionResponse(_BaseSchema):
     """Response for updateNetworkApplianceSecurityHttpsInspection operation."""
 
-    network: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork
+    network: IdRefStrict
     enabled: bool
     allow_lists: UpdateNetworkApplianceSecurityHttpsInspectionResponseAllowLists = Field(
         validation_alias="allowLists", serialization_alias="allowLists"
@@ -4425,19 +4387,13 @@ class UpdateNetworkApplianceSecurityHttpsInspectionResponseAllowLists(_BaseSchem
 
     l3: list[str]
     l7: list[str]
-    applications: list[UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork]
+    applications: list[IdNameRefStrict]
 
     @field_validator("l3", "l7", "applications", mode="before")
     @classmethod
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
-
-
-class UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork(_BaseSchema):
-    """Network information."""
-
-    id: str
 
 
 class UpdateNetworkApplianceSecurityIntrusionPolicy(_BaseSchema):
@@ -4648,7 +4604,7 @@ class UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits(_BaseSc
 class UpdateNetworkApplianceTrafficShapingUplinkSelectionFailoverAndFailback(_BaseSchema):
     """WAN failover and failback behavior."""
 
-    immediate: ApplianceFailoverAndFailbackImmediate | None = None
+    immediate: EnabledSettingStrict | None = None
 
 
 class UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesItem(
@@ -4662,7 +4618,7 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPrefere
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
-    vrf: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork | None = None
+    vrf: IdRefStrict | None = None
     fail_over_criterion: str | None = Field(
         default=None, validation_alias="failOverCriterion", serialization_alias="failOverCriterion"
     )
@@ -4688,7 +4644,7 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPrefere
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
-    vrf: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork | None = None
+    vrf: IdRefStrict | None = None
 
     @field_validator("traffic_filters", mode="before")
     @classmethod
@@ -4760,14 +4716,14 @@ class UpdateNetworkApplianceUplinksNatResponseUplinksItem(_BaseSchema):
     """Schema for UpdateNetworkApplianceUplinksNatResponseUplinksItem."""
 
     interface: str | None = None
-    nat: ApplianceSgt | None = None
+    nat: EnabledSetting | None = None
 
 
 class UpdateNetworkApplianceUplinksNatUplinksItem(_BaseSchema):
     """Item schema for uplinks."""
 
     interface: str
-    nat: ApplianceFailoverAndFailbackImmediate
+    nat: EnabledSettingStrict
 
 
 class UpdateNetworkApplianceVlanDhcpOptionsItem(_BaseSchema):
@@ -4837,7 +4793,7 @@ class UpdateNetworkApplianceVlanUplinksItem(_BaseSchema):
     """Item schema for uplinks."""
 
     interface: str
-    nat: ApplianceFailoverAndFailbackImmediate
+    nat: EnabledSettingStrict
 
 
 class UpdateNetworkApplianceVlanVrf(_BaseSchema):
@@ -4849,7 +4805,7 @@ class UpdateNetworkApplianceVlanVrf(_BaseSchema):
 class UpdateNetworkApplianceVpnBgpIpv6(_BaseSchema):
     """Settings for IPv6 configurations on the organization."""
 
-    single_peering: ApplianceSgt | None = Field(
+    single_peering: EnabledSetting | None = Field(
         default=None, validation_alias="singlePeering", serialization_alias="singlePeering"
     )
 
@@ -4878,7 +4834,7 @@ class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
     next_hop_ip: str | None = Field(
         default=None, validation_alias="nextHopIp", serialization_alias="nextHopIp"
     )
-    ttl_security: ApplianceSgt | None = Field(
+    ttl_security: EnabledSetting | None = Field(
         default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
     )
     authentication: ApplianceNeighborsAuthentication | None = None
@@ -4900,7 +4856,7 @@ class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
     community_out: list[str] = Field(
         default_factory=list, validation_alias="communityOut", serialization_alias="communityOut"
     )
-    explicit_outbound_route_advertisement: ApplianceSgt | None = Field(
+    explicit_outbound_route_advertisement: EnabledSetting | None = Field(
         default=None,
         validation_alias="explicitOutboundRouteAdvertisement",
         serialization_alias="explicitOutboundRouteAdvertisement",
@@ -4978,7 +4934,7 @@ class UpdateOrganizationApplianceDnsLocalRecordResponse(_BaseSchema):
     )
     hostname: str | None = None
     address: str | None = None
-    profile: ApplianceDownlinkSgt | None = None
+    profile: IdRef | None = None
 
 
 class UpdateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
@@ -5005,7 +4961,7 @@ class UpdateOrganizationApplianceSecurityIntrusionPolicyPolicy(_BaseSchema):
 
     name: str | None = None
     description: str | None = None
-    base_policy: ApplianceDownlinkSgt | None = Field(
+    base_policy: IdRef | None = Field(
         default=None, validation_alias="basePolicy", serialization_alias="basePolicy"
     )
 
@@ -5059,7 +5015,7 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem(_BaseSchema):
         validation_alias="ipsecPoliciesPreset",
         serialization_alias="ipsecPoliciesPreset",
     )
-    sla_policy: ApplianceDownlinkSgt | None = Field(
+    sla_policy: IdRef | None = Field(
         default=None, validation_alias="slaPolicy", serialization_alias="slaPolicy"
     )
     secret: str

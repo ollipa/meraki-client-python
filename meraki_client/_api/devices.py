@@ -47,6 +47,7 @@ from meraki_client.schemas import (
     DeviceCellularSimsResponse,
     DeviceManagementInterfaceResponse,
     DeviceResponse,
+    EnabledSetting,
     GetDeviceClientsResponseItem,
     GetDeviceLiveToolsArpTableResponse,
     GetDeviceLiveToolsCableTestResponse,
@@ -64,8 +65,7 @@ from meraki_client.schemas import (
     GetDeviceLiveToolsWakeOnLanResponse,
     GetDeviceLldpCdpResponse,
     GetDeviceLossAndLatencyHistoryResponseItem,
-    RebootDeviceResponse,
-    UpdateDeviceCellularGeolocationsResponse,
+    SuccessResponse,
     UpdateDeviceCellularSimsSimFailover,
     UpdateDeviceCellularSimsSimsItem,
     UpdateDeviceManagementInterfaceWan1,
@@ -295,9 +295,7 @@ class Devices:
             response_schema=BlinkDeviceLedsResponse,
         )
 
-    def update_device_cellular_geolocations(
-        self, *, serial: str, enabled: bool
-    ) -> UpdateDeviceCellularGeolocationsResponse:
+    def update_device_cellular_geolocations(self, *, serial: str, enabled: bool) -> EnabledSetting:
         """Update the enablement of the geolocation feature for a device.
 
         [API documentation: updateDeviceCellularGeolocations](https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-geolocations)
@@ -330,7 +328,7 @@ class Devices:
             operation_id="updateDeviceCellularGeolocations",
             path=path,
             json=payload,
-            response_schema=UpdateDeviceCellularGeolocationsResponse,
+            response_schema=EnabledSetting,
         )
 
     def get_device_cellular_sims(self, serial: str) -> DeviceCellularSimsResponse:
@@ -2469,7 +2467,7 @@ class Devices:
             response_schema=DeviceManagementInterfaceResponse,
         )
 
-    def reboot_device(self, serial: str) -> RebootDeviceResponse:
+    def reboot_device(self, serial: str) -> SuccessResponse:
         """Reboot a device.
 
         [API documentation: rebootDevice](https://developer.cisco.com/meraki/api-v1/#!reboot-device)
@@ -2492,8 +2490,5 @@ class Devices:
         path = f"/devices/{serial}/reboot"
 
         return self._session.post(
-            scope="devices",
-            operation_id="rebootDevice",
-            path=path,
-            response_schema=RebootDeviceResponse,
+            scope="devices", operation_id="rebootDevice", path=path, response_schema=SuccessResponse
         )
