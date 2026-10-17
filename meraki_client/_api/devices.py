@@ -368,6 +368,14 @@ class Devices:
                         "password": "secret"
                       }
                     }
+                  ],
+                  "ips": [
+                    {
+                      "translation": {
+                        "type": "464XLAT",
+                        "status": "active"
+                      }
+                    }
                   ]
                 }
               ],
@@ -442,6 +450,14 @@ class Devices:
                         "type": "pap",
                         "username": "milesmeraki",
                         "password": "secret"
+                      }
+                    }
+                  ],
+                  "ips": [
+                    {
+                      "translation": {
+                        "type": "464XLAT",
+                        "status": "active"
                       }
                     }
                   ]

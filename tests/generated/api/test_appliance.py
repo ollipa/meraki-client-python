@@ -459,6 +459,23 @@ def test_get_organization_appliance_security_events(
     assert isinstance(result, list)
 
 
+def test_get_organization_appliance_security_https_inspection_by_network(
+    client: MerakiClient, organization_id: str
+) -> None:
+    """Test get_organization_appliance_security_https_inspection_by_network endpoint."""
+    with skip_on_unsupported():
+        result = client.appliance.get_organization_appliance_security_https_inspection_by_network(
+            organization_id=organization_id
+        ).collect()
+    assert isinstance(result, list)
+
+
+def test_httpsi_organization_appliance_security(client: MerakiClient, organization_id: str) -> None:
+    """Test httpsi_organization_appliance_security endpoint."""
+    with skip_on_unsupported():
+        client.appliance.httpsi_organization_appliance_security(organization_id=organization_id)
+
+
 def test_get_organization_appliance_security_intrusion(
     client: MerakiClient, organization_id: str
 ) -> None:

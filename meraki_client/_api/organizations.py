@@ -67,6 +67,7 @@ from meraki_client.schemas import (
     CreateOrganizationManagement,
     CreateOrganizationNetworkResponse,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
+    CreateOrganizationPoliciesGlobalFirewallRulesetsRuleLogging,
     CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
     CreateOrganizationSamlRoleNetworksItem,
     CreateOrganizationSamlRoleTagsItem,
@@ -228,6 +229,7 @@ from meraki_client.schemas import (
     UpdateOrganizationLoginSecurityApiAuthentication,
     UpdateOrganizationManagement,
     UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations,
+    UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleLogging,
     UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources,
     UpdateOrganizationSamlRoleNetworksItem,
     UpdateOrganizationSamlRoleTagsItem,
@@ -2708,8 +2710,8 @@ class Organizations:
                 "version": 1,
                 "operationId": "getOrganizationApiRequests",
                 "client": {
-                  "id": "0hoXjtjX6C-Nk4Nr6kEbCJJFRmIgycaG1HBE572hlIc",
-                  "type": "oauth"
+                  "id": null,
+                  "type": "api_key"
                 }
               }
             ]
@@ -12795,6 +12797,9 @@ class Organizations:
                   "enabled": true,
                   "priority": 100,
                   "description": "This is rule 1",
+                  "logging": {
+                    "enabled": false
+                  },
                   "sources": {
                     "matchCriteria": [
                       "addressRanges",
@@ -12973,6 +12978,7 @@ class Organizations:
         enabled: bool | None = None,
         priority: int | None = None,
         description: str | None = None,
+        logging: CreateOrganizationPoliciesGlobalFirewallRulesetsRuleLogging | None = None,
     ) -> OrganizationPoliciesGlobalFirewallRulesetsRuleResponse:
         """Create an Organization-Wide Policy Firewall Rule.
 
@@ -12986,6 +12992,7 @@ class Organizations:
             enabled: Whether the rule is enabled.
             priority: Rule priority (lower numbers = higher priority).
             description: Description of the firewall rule.
+            logging: Logging settings for the rule.
             sources: Source traffic criteria. Each source or destination bloc is capped separately
                 per rule at 100 total segment values. The count is
                 segments_values_count: the sum of all values across every segment type
@@ -13008,6 +13015,9 @@ class Organizations:
               "enabled": true,
               "priority": 100,
               "description": "This is rule 1",
+              "logging": {
+                "enabled": false
+              },
               "sources": {
                 "matchCriteria": [
                   "addressRanges",
@@ -13155,6 +13165,8 @@ class Organizations:
             payload["priority"] = priority
         if description is not None:
             payload["description"] = description
+        if logging is not None:
+            payload["logging"] = logging.model_dump(by_alias=True, exclude_none=True)
         if sources is not None:
             payload["sources"] = sources.model_dump(by_alias=True, exclude_none=True)
         if destinations is not None:
@@ -13179,6 +13191,7 @@ class Organizations:
         enabled: bool | None = None,
         priority: int | None = None,
         description: str | None = None,
+        logging: UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleLogging | None = None,
         sources: UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources | None = None,
         destinations: UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations
         | None = None,
@@ -13196,6 +13209,7 @@ class Organizations:
             enabled: Whether the rule is enabled.
             priority: Rule priority (lower numbers = higher priority).
             description: Description of the firewall rule.
+            logging: Logging settings for the rule.
             sources: Source traffic criteria. Each source or destination bloc is capped separately
                 per rule at 100 total segment values. The count is
                 segments_values_count: the sum of all values across every segment type
@@ -13218,6 +13232,9 @@ class Organizations:
               "enabled": true,
               "priority": 100,
               "description": "This is rule 1",
+              "logging": {
+                "enabled": false
+              },
               "sources": {
                 "matchCriteria": [
                   "addressRanges",
@@ -13366,6 +13383,8 @@ class Organizations:
             payload["priority"] = priority
         if description is not None:
             payload["description"] = description
+        if logging is not None:
+            payload["logging"] = logging.model_dump(by_alias=True, exclude_none=True)
         if sources is not None:
             payload["sources"] = sources.model_dump(by_alias=True, exclude_none=True)
         if destinations is not None:
