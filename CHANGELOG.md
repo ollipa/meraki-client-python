@@ -11,7 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Update to Meraki API v1.75.1
 
-- TODO: summarize generated SDK changes for Meraki API v1.75.1.
+- Added appliance HTTPS inspection endpoints `update_network_appliance_security_https_inspection`, `get_organization_appliance_security_https_inspection_by_network`, `httpsi_organization_appliance_security`, and `certificates_organization_appliance_security_httpsi`, plus an action batch helper for `update_network_appliance_security_https_inspection`.
+- Added `logging` parameter to organization-wide policy firewall rule create/update (including action batch helpers).
+- Added `vrf` to the eBGP neighbor settings of appliance third-party VPN peers (get and update).
+- Added `ips` (IP translation state) to `get_device_cellular_sims` SIM responses, and power `reported_at`/`draw` and PoE `is_active`, `protocol`, `requested`, and `granted` fields to `get_organization_wireless_devices_ethernet_statuses` responses.
+- Renamed shared schemas due to deduplication: `ApplianceVrf` is now `UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork`, and `OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse` (returned by the global group policy appliance VLAN assign/remove endpoints) is now `CertificatesOrganizationApplianceSecurityHttpsiResponse`. Code importing the old names must be updated.
+
+### Fixed
+
+- Codegen now replaces en dashes with hyphens in spec descriptions, fixing ruff `RUF002` lint failures in generated docstrings.
 
 ## v0.21.0
 
