@@ -972,6 +972,12 @@ class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinationsCriteria(_
         return [] if value is None else value
 
 
+class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleLogging(_BaseSchema):
+    """Logging settings for the rule."""
+
+    enabled: bool | None = None
+
+
 class CreateOrganizationPoliciesGlobalFirewallRulesetsRuleSources(_BaseSchema):
     """Source traffic criteria. Each source or destination bloc is capped separately per rule at
     100 total segment values. The count is segments_values_count: the sum of all values across
@@ -4059,6 +4065,7 @@ class OrganizationPoliciesGlobalFirewallRulesetsRuleResponse(_BaseSchema):
     enabled: bool | None = None
     priority: int | None = None
     description: str | None = None
+    logging: OrganizationsApi | None = None
     sources: OrganizationsSources | None = None
     destinations: OrganizationsDestinations | None = None
     created_at: datetime | None = Field(
@@ -7057,6 +7064,12 @@ class UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleDestinations(_BaseSche
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleLogging(_BaseSchema):
+    """Logging settings for the rule."""
+
+    enabled: bool | None = None
 
 
 class UpdateOrganizationPoliciesGlobalFirewallRulesetsRuleSources(_BaseSchema):

@@ -64,6 +64,7 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceRfProfilePerSsidSettings,
     UpdateNetworkApplianceRfProfileTwoFourGhzSettings,
     UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem,
+    UpdateNetworkApplianceSecurityHttpsInspectionAllowLists,
     UpdateNetworkApplianceSettingsDynamicDns,
     UpdateNetworkApplianceSingleLanIpv6,
     UpdateNetworkApplianceSingleLanMandatoryDhcp,
@@ -855,6 +856,38 @@ class ActionBatchAppliance:
                 item.model_dump(by_alias=True, exclude_none=True)
                 for item in wan_traffic_uplink_preferences
             ]
+
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
+
+    def update_network_appliance_security_https_inspection(
+        self,
+        *,
+        network_id: str,
+        enabled: bool,
+        allow_lists: UpdateNetworkApplianceSecurityHttpsInspectionAllowLists | None = None,
+    ) -> CreateOrganizationActionBatchActionsItem:
+        """Update HTTPS inspection configuration for a network.
+
+        [API documentation: updateNetworkApplianceSecurityHttpsInspection](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-https-inspection)
+
+        Args:
+            network_id: Network ID.
+            enabled: Whether HTTPS inspection is enabled.
+            allow_lists: Allow lists for HTTPS inspection exclusions.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/security/httpsInspection"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if allow_lists is not None:
+            payload["allowLists"] = allow_lists.model_dump(by_alias=True, exclude_none=True)
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

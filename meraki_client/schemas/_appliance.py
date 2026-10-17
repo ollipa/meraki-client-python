@@ -358,7 +358,9 @@ class ApplianceDownlinkTrunk(_BaseSchema):
 
 
 class ApplianceEbgpNeighbor(_BaseSchema):
-    """[optional] The eBGP neighbor configuration associated with this ECMP uplink configuration."""
+    """[optional] The eBGP neighbor configuration associated with this ECMP uplink configuration.
+    Catalyst uplinks inherit the VRF association from the parent ebgpNeighbor.
+    """
 
     neighbor_ip: str | None = Field(
         default=None, validation_alias="neighborIp", serialization_alias="neighborIp"
@@ -884,6 +886,7 @@ class AppliancePeersEbgpNeighbor(_BaseSchema):
     source_ip: str | None = Field(
         default=None, validation_alias="sourceIp", serialization_alias="sourceIp"
     )
+    vrf: NetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem | None = None
     ttl_security: ApplianceSgt | None = Field(
         default=None, validation_alias="ttlSecurity", serialization_alias="ttlSecurity"
     )
@@ -1606,14 +1609,6 @@ class ApplianceVpnTrafficUplinkPreferencesItem(_BaseSchema):
         return [] if value is None else value
 
 
-class ApplianceVrf(_BaseSchema):
-    """VRF settings for this uplink preference rule. Omit this field to use the default VRF for the
-    rule. Only 'vrf.id' may be set by the client.
-    """
-
-    id: str
-
-
 class ApplianceWanTrafficUplinkPreferencesItem(_BaseSchema):
     """Schema for ApplianceWanTrafficUplinkPreferencesItem."""
 
@@ -1696,6 +1691,12 @@ class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponseItemsIte
     )
     network: ApplianceDownlinkSgt | None = None
     profile: ApplianceDownlinkSgt | None = None
+
+
+class CertificatesOrganizationApplianceSecurityHttpsiResponse(_BaseSchema):
+    """Schema for CertificatesOrganizationApplianceSecurityHttpsiResponse."""
+
+    success: bool | None = None
 
 
 class ConnectNetworkApplianceUmbrellaAccountApi(_BaseSchema):
@@ -2052,7 +2053,7 @@ class CreateOrganizationApplianceSecurityIntrusionPolicyPolicy(_BaseSchema):
 
     name: str | None = None
     description: str | None = None
-    base_policy: ApplianceVrf | None = Field(
+    base_policy: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork | None = Field(
         default=None, validation_alias="basePolicy", serialization_alias="basePolicy"
     )
 
@@ -2072,7 +2073,7 @@ class CreateOrganizationApplianceSecurityIntrusionPolicyRuleOverrideOverride(_Ba
 class DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    group: ApplianceVrf
+    group: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork
     security: ApplianceSecurity2
 
 
@@ -2093,7 +2094,7 @@ class DeclareOrganizationApplianceSecurityIntrusionPolicyRuleGroupsOverridesResp
 class DeclareOrganizationApplianceSecurityIntrusionPolicyRulesOverridesItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    rule: ApplianceVrf
+    rule: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork
     action: str
 
 
@@ -2786,6 +2787,28 @@ class GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsRespons
     )
     interface_id: str | None = Field(
         default=None, validation_alias="interfaceId", serialization_alias="interfaceId"
+    )
+
+
+class HttpsiOrganizationApplianceSecurityResponse(
+    RootModel[list["HttpsiOrganizationApplianceSecurityResponseItem"]]
+):
+    """Response for httpsiOrganizationApplianceSecurity operation."""
+
+
+class HttpsiOrganizationApplianceSecurityResponseItem(_BaseSchema):
+    """Schema for HttpsiOrganizationApplianceSecurityResponseItem."""
+
+    name: str | None = None
+    mac: str | None = None
+    serial: str | None = None
+    certificate_installed: bool | None = Field(
+        default=None,
+        validation_alias="certificateInstalled",
+        serialization_alias="certificateInstalled",
+    )
+    httpsi_supported: bool | None = Field(
+        default=None, validation_alias="httpsiSupported", serialization_alias="httpsiSupported"
     )
 
 
@@ -3877,12 +3900,6 @@ class OrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema):
         return [] if value is None else value
 
 
-class OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse(_BaseSchema):
-    """Schema for OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse."""
-
-    success: bool | None = None
-
-
 class ProtectionNetworkApplianceUmbrellaResponse(_BaseSchema):
     """Response for protectionNetworkApplianceUmbrella operation."""
 
@@ -4370,6 +4387,59 @@ class UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem
         return [] if value is None else value
 
 
+class UpdateNetworkApplianceSecurityHttpsInspectionAllowLists(_BaseSchema):
+    """Allow lists for HTTPS inspection exclusions."""
+
+    l3: list[str] = Field(default_factory=list)
+    l7: list[str] = Field(default_factory=list)
+    applications: list[UpdateNetworkApplianceSecurityHttpsInspectionAllowListsApplicationsItem] = (
+        Field(default_factory=list)
+    )
+
+    @field_validator("l3", "l7", "applications", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class UpdateNetworkApplianceSecurityHttpsInspectionAllowListsApplicationsItem(_BaseSchema):
+    """Schema for UpdateNetworkApplianceSecurityHttpsInspectionAllowListsApplicationsItem."""
+
+    id: str
+    name: str | None = None
+
+
+class UpdateNetworkApplianceSecurityHttpsInspectionResponse(_BaseSchema):
+    """Response for updateNetworkApplianceSecurityHttpsInspection operation."""
+
+    network: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork
+    enabled: bool
+    allow_lists: UpdateNetworkApplianceSecurityHttpsInspectionResponseAllowLists = Field(
+        validation_alias="allowLists", serialization_alias="allowLists"
+    )
+
+
+class UpdateNetworkApplianceSecurityHttpsInspectionResponseAllowLists(_BaseSchema):
+    """Allow lists for HTTPS inspection exclusions."""
+
+    l3: list[str]
+    l7: list[str]
+    applications: list[UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork]
+
+    @field_validator("l3", "l7", "applications", mode="before")
+    @classmethod
+    def coerce_null_lists(cls, value: Any) -> Any:
+        """Convert null array values from the API to empty lists."""
+        return [] if value is None else value
+
+
+class UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork(_BaseSchema):
+    """Network information."""
+
+    id: str
+
+
 class UpdateNetworkApplianceSecurityIntrusionPolicy(_BaseSchema):
     """Set a custom intrusion policy by id (optional - omitting will leave current config
     unchanged).
@@ -4592,7 +4662,7 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPrefere
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
-    vrf: ApplianceVrf | None = None
+    vrf: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork | None = None
     fail_over_criterion: str | None = Field(
         default=None, validation_alias="failOverCriterion", serialization_alias="failOverCriterion"
     )
@@ -4618,7 +4688,7 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPrefere
     preferred_uplink: str = Field(
         validation_alias="preferredUplink", serialization_alias="preferredUplink"
     )
-    vrf: ApplianceVrf | None = None
+    vrf: UpdateNetworkApplianceSecurityHttpsInspectionResponseNetwork | None = None
 
     @field_validator("traffic_filters", mode="before")
     @classmethod
@@ -5046,6 +5116,7 @@ class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemEbgpNeighbor(_Bas
     source_ip: str | None = Field(
         default=None, validation_alias="sourceIp", serialization_alias="sourceIp"
     )
+    vrf: UpdateNetworkApplianceSecurityHttpsInspectionAllowListsApplicationsItem | None = None
     path_prepend: list[int] = Field(
         default_factory=list, validation_alias="pathPrepend", serialization_alias="pathPrepend"
     )

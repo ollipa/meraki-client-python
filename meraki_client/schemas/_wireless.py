@@ -5198,6 +5198,12 @@ class WirelessPoe(_BaseSchema):
     """PoE details object for the port."""
 
     standard: str | None = None
+    is_active: bool | None = Field(
+        default=None, validation_alias="isActive", serialization_alias="isActive"
+    )
+    protocol: str | None = None
+    requested: float | None = None
+    granted: float | None = None
 
 
 class WirelessPolicies(_BaseSchema):
@@ -5252,6 +5258,10 @@ class WirelessPower(_BaseSchema):
     """Power details object."""
 
     mode: str | None = None
+    reported_at: datetime | None = Field(
+        default=None, validation_alias="reportedAt", serialization_alias="reportedAt"
+    )
+    draw: float | None = None
     ac: WirelessAc | None = None
     poe: WirelessAc | None = None
 

@@ -17,6 +17,7 @@ from meraki_client.schemas import (
     AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
+    CertificatesOrganizationApplianceSecurityHttpsiResponse,
     ConnectNetworkApplianceUmbrellaAccountApi,
     ConnectNetworkApplianceUmbrellaAccountResponse,
     CreateDeviceApplianceInterfacesPortsUpdateDownlink,
@@ -85,6 +86,7 @@ from meraki_client.schemas import (
     GetOrganizationApplianceVpnStatusesResponseItem,
     GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsByVlanResponseItemsItem,
     GetOrganizationPoliciesGlobalGroupPoliciesApplianceVlansAssignmentsResponseItemsItem,
+    HttpsiOrganizationApplianceSecurityResponseItem,
     NetworkApplianceConnectivityMonitoringDestinationsResponse,
     NetworkApplianceContentFilteringResponse,
     NetworkApplianceFirewallFirewalledServiceResponse,
@@ -123,7 +125,6 @@ from meraki_client.schemas import (
     OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
     OrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem,
     OrganizationApplianceVpnThirdPartyVPNPeersResponse,
-    OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse,
     ProtectionNetworkApplianceUmbrellaResponse,
     RemoveNetworkApplianceUmbrellaPoliciesPolicy,
     RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
@@ -160,6 +161,8 @@ from meraki_client.schemas import (
     UpdateNetworkApplianceRfProfileTwoFourGhzSettings,
     UpdateNetworkApplianceSdwanInternetPoliciesResponse,
     UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem,
+    UpdateNetworkApplianceSecurityHttpsInspectionAllowLists,
+    UpdateNetworkApplianceSecurityHttpsInspectionResponse,
     UpdateNetworkApplianceSecurityIntrusionPolicy,
     UpdateNetworkApplianceSecurityIntrusionProtectedNetworks,
     UpdateNetworkApplianceSecurityIntrusionResponse,
@@ -806,7 +809,7 @@ class Appliance:
                     },
                     "ipv6": {
                       "assignmentMode": "static",
-                      "address": "1:2:3::4",
+                      "address": "1:2:3::4/64",
                       "gateway": "1:2:3::5",
                       "nameservers": {
                         "addresses": [
@@ -896,7 +899,7 @@ class Appliance:
                     },
                     "ipv6": {
                       "assignmentMode": "static",
-                      "address": "1:2:3::4",
+                      "address": "1:2:3::4/64",
                       "gateway": "1:2:3::5",
                       "nameservers": {
                         "addresses": [
@@ -965,6 +968,11 @@ class Appliance:
                         "enabled": false
                       }
                     }
+                  }
+                },
+                "wan3": {
+                  "mtu": {
+                    "limit": 1500
                   }
                 }
               }
@@ -1019,7 +1027,7 @@ class Appliance:
                     },
                     "ipv6": {
                       "assignmentMode": "static",
-                      "address": "1:2:3::4",
+                      "address": "1:2:3::4/64",
                       "gateway": "1:2:3::5",
                       "nameservers": {
                         "addresses": [
@@ -1109,7 +1117,7 @@ class Appliance:
                     },
                     "ipv6": {
                       "assignmentMode": "static",
-                      "address": "1:2:3::4",
+                      "address": "1:2:3::4/64",
                       "gateway": "1:2:3::5",
                       "nameservers": {
                         "addresses": [
@@ -1178,6 +1186,11 @@ class Appliance:
                         "enabled": false
                       }
                     }
+                  }
+                },
+                "wan3": {
+                  "mtu": {
+                    "limit": 1500
                   }
                 }
               }
@@ -3934,6 +3947,67 @@ class Appliance:
             total_pages=total_pages,
             direction=direction,
             item_schema=GetNetworkApplianceClientSecurityEventsResponse,
+        )
+
+    def update_network_appliance_security_https_inspection(
+        self,
+        *,
+        network_id: str,
+        enabled: bool,
+        allow_lists: UpdateNetworkApplianceSecurityHttpsInspectionAllowLists | None = None,
+    ) -> UpdateNetworkApplianceSecurityHttpsInspectionResponse:
+        """Update HTTPS inspection configuration for a network.
+
+        [API documentation: updateNetworkApplianceSecurityHttpsInspection](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-https-inspection)
+
+        Args:
+            network_id: Network ID.
+            enabled: Whether HTTPS inspection is enabled.
+            allow_lists: Allow lists for HTTPS inspection exclusions.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "network": {
+                "id": "N_24329156"
+              },
+              "enabled": true,
+              "allowLists": {
+                "l3": [
+                  "192.0.2.10"
+                ],
+                "l7": [
+                  "*.example.com"
+                ],
+                "applications": [
+                  {
+                    "id": "meraki:layer7/application/5",
+                    "name": "Advertising.com"
+                  }
+                ]
+              }
+            }
+            ```
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        path = f"/networks/{network_id}/appliance/security/httpsInspection"
+
+        payload: dict[str, Any] = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if allow_lists is not None:
+            payload["allowLists"] = allow_lists.model_dump(by_alias=True, exclude_none=True)
+
+        return self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceSecurityHttpsInspection",
+            path=path,
+            json=payload,
+            response_schema=UpdateNetworkApplianceSecurityHttpsInspectionResponse,
         )
 
     def get_network_appliance_security_intrusion(
@@ -9281,6 +9355,191 @@ class Appliance:
             item_schema=GetNetworkApplianceClientSecurityEventsResponse,
         )
 
+    def get_organization_appliance_security_https_inspection_by_network(
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = "all",
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[UpdateNetworkApplianceSecurityHttpsInspectionResponse]:
+        """List HTTPS inspection status and configuration for appliances in the organization.
+
+        [API documentation: getOrganizationApplianceSecurityHttpsInspectionByNetwork](https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-https-inspection-by-network)
+
+        Args:
+            organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+                is 100.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+                is a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+                a timestamp or an ID but it is not limited to those. This parameter
+                should not be defined by client applications. The link for the first,
+                last, prev, or next page in the HTTP Link header should define it.
+            network_ids: A list of network IDs. The returned list will be filtered to only include
+                these networks.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+                "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            {
+              "items": [
+                {
+                  "network": {
+                    "id": "N_24329156"
+                  },
+                  "enabled": true,
+                  "allowLists": {
+                    "l3": [
+                      "192.0.2.10"
+                    ],
+                    "l7": [
+                      "*.example.com"
+                    ],
+                    "applications": [
+                      {
+                        "id": "meraki:layer7/application/5",
+                        "name": "Advertising.com"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "meta": {
+                "counts": {
+                  "items": {
+                    "total": 10,
+                    "remaining": 0
+                  }
+                }
+              }
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/httpsInspection/byNetwork"
+
+        params: dict[str, Any] = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="getOrganizationApplianceSecurityHttpsInspectionByNetwork",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=UpdateNetworkApplianceSecurityHttpsInspectionResponse,
+        )
+
+    def httpsi_organization_appliance_security(
+        self, organization_id: str
+    ) -> PaginatedResponse[HttpsiOrganizationApplianceSecurityResponseItem]:
+        """Retrieve the HTTPS Inspection state for all security appliances in an organization.
+
+        [API documentation: httpsiOrganizationApplianceSecurity](https://developer.cisco.com/meraki/api-v1/#!httpsi-organization-appliance-security)
+
+        Args:
+            organization_id: Organization ID.
+
+        Returns:
+            Successful operation.
+
+        Note:
+            Returns a lazy PaginatedResponse
+            that can be iterated or collected with `.collect()`.
+            Page metadata is available on `.meta` and `.meta_pages`.
+
+        Example API response:
+            ```json
+            [
+              {
+                "name": "My AP",
+                "mac": "00:11:22:33:44:55",
+                "serial": "Q234-ABCD-5678",
+                "certificateInstalled": true,
+                "httpsiSupported": true
+              }
+            ]
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/httpsi"
+
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="httpsiOrganizationApplianceSecurity",
+            path=path,
+            item_schema=HttpsiOrganizationApplianceSecurityResponseItem,
+        )
+
+    def certificates_organization_appliance_security_httpsi(
+        self, *, organization_id: str, contents: str, serials: list[str]
+    ) -> CertificatesOrganizationApplianceSecurityHttpsiResponse:
+        """Upload an HTTPS Inspection certificate to MX devices in the same organization.
+
+        [API documentation: certificatesOrganizationApplianceSecurityHttpsi](https://developer.cisco.com/meraki/api-v1/#!certificates-organization-appliance-security-httpsi)
+
+        Args:
+            organization_id: Organization ID.
+            contents: The private key and certificate used to inspect HTTPS traffic. The certificate
+                must be in .pem format.
+            serials: Serial numbers of the security appliances that will receive the new HTTPS
+                certificate for HTTPS Inspection.
+
+        Returns:
+            Successful operation.
+
+        Example API response:
+            ```json
+            {
+              "success": true
+            }
+            ```
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        path = f"/organizations/{organization_id}/appliance/security/httpsi/certificates"
+
+        payload: dict[str, Any] = {}
+        if contents is not None:
+            payload["contents"] = contents
+        if serials is not None:
+            payload["serials"] = serials
+
+        return self._session.post(
+            scope="appliance",
+            operation_id="certificatesOrganizationApplianceSecurityHttpsi",
+            path=path,
+            json=payload,
+            response_schema=CertificatesOrganizationApplianceSecurityHttpsiResponse,
+        )
+
     def get_organization_appliance_security_intrusion(
         self, organization_id: str
     ) -> OrganizationApplianceSecurityIntrusionResponse:
@@ -11445,6 +11704,10 @@ class Appliance:
                     "ebgpHoldTimer": 180,
                     "ebgpMultihop": 2,
                     "sourceIp": "10.10.10.22",
+                    "vrf": {
+                      "id": "12345",
+                      "name": "VRF Blue"
+                    },
                     "ttlSecurity": {
                       "enabled": false
                     },
@@ -11600,6 +11863,10 @@ class Appliance:
                     "ebgpHoldTimer": 180,
                     "ebgpMultihop": 2,
                     "sourceIp": "10.10.10.22",
+                    "vrf": {
+                      "id": "12345",
+                      "name": "VRF Blue"
+                    },
                     "ttlSecurity": {
                       "enabled": false
                     },
@@ -11778,7 +12045,7 @@ class Appliance:
         organization_id: str,
         policy: AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
         vlans: list[AssignOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem],
-    ) -> OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse:
+    ) -> CertificatesOrganizationApplianceSecurityHttpsiResponse:
         """Assign VLANs to a policy.
 
         [API documentation: assignOrganizationPoliciesGlobalGroupPoliciesApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!assign-organization-policies-global-group-policies-appliance-vlans)
@@ -11813,7 +12080,7 @@ class Appliance:
             operation_id="assignOrganizationPoliciesGlobalGroupPoliciesApplianceVlans",
             path=path,
             json=payload,
-            response_schema=OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse,
+            response_schema=CertificatesOrganizationApplianceSecurityHttpsiResponse,
         )
 
     def get_organization_policies_global_group_policies_appliance_vlans_assignments(
@@ -12024,7 +12291,7 @@ class Appliance:
         organization_id: str,
         policy: RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansPolicy,
         vlans: list[RemoveOrganizationPoliciesGlobalGroupPoliciesApplianceVlansVlansItem],
-    ) -> OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse:
+    ) -> CertificatesOrganizationApplianceSecurityHttpsiResponse:
         """Remove VLANs from a policy.
 
         [API documentation: removeOrganizationPoliciesGlobalGroupPoliciesApplianceVlans](https://developer.cisco.com/meraki/api-v1/#!remove-organization-policies-global-group-policies-appliance-vlans)
@@ -12059,5 +12326,5 @@ class Appliance:
             operation_id="removeOrganizationPoliciesGlobalGroupPoliciesApplianceVlans",
             path=path,
             json=payload,
-            response_schema=OrganizationPoliciesGlobalGroupPoliciesApplianceVlansResponse,
+            response_schema=CertificatesOrganizationApplianceSecurityHttpsiResponse,
         )

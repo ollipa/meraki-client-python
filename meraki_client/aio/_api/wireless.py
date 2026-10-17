@@ -3671,7 +3671,7 @@ class Wireless:
               },
               "ai": {
                 "enabled": true,
-                "lastEnabledAt": "2026-09-07T08:09:02Z"
+                "lastEnabledAt": "2026-09-16T08:08:54Z"
               }
             }
             ```
@@ -6094,8 +6094,11 @@ class Wireless:
                 to ensure that the RADIUS servers are reachable.
             radius_called_station_id: The template of the called station identifier to be used for
                 RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
-            radius_authentication_nas_id: The template of the NAS identifier to be used for RADIUS
-                authentication (ex. $NODE_MAC$:$VAP_NUM$).
+            radius_authentication_nas_id: The NAS identifier to use for RADIUS authentication. With
+                802.11r enabled or adaptive, custom text is available only to
+                organizations enabled for this feature; otherwise, use only $NODE_MAC$,
+                $VAP_NUM$, and $VAP_NAME$. When this feature is enabled, the complete
+                rendered NAS identifier must be 1–48 bytes.
             radius_server_timeout: The amount of time for which a RADIUS client waits for a reply
                 from the RADIUS server (must be between 1-10 seconds).
             radius_server_attempts_limit: The maximum number of transmit attempts after which a
@@ -9845,6 +9848,8 @@ class Wireless:
                 },
                 "power": {
                   "mode": "full",
+                  "reportedAt": "2026-09-12T18:43:31Z",
+                  "draw": 18.7,
                   "ac": {
                     "isConnected": false
                   },
@@ -9856,7 +9861,11 @@ class Wireless:
                   {
                     "name": "Ethernet 0",
                     "poe": {
-                      "standard": "802.3at"
+                      "standard": "802.3at",
+                      "isActive": true,
+                      "protocol": "LLDP",
+                      "requested": 33.0,
+                      "granted": 33.0
                     },
                     "linkNegotiation": {
                       "duplex": "full",
@@ -12041,7 +12050,7 @@ class Wireless:
                   },
                   "ai": {
                     "enabled": true,
-                    "lastEnabledAt": "2026-09-07T08:09:02Z"
+                    "lastEnabledAt": "2026-09-16T08:08:54Z"
                   }
                 }
               ],

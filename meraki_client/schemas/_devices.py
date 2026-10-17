@@ -579,8 +579,9 @@ class DeviceCellularSimsResponseSimsItem(_BaseSchema):
     )
     status: str | None = None
     apns: list[DevicesSimsApnsItem] = Field(default_factory=list)
+    ips: list[DevicesSimsIpsItem] = Field(default_factory=list)
 
-    @field_validator("apns", mode="before")
+    @field_validator("apns", "ips", mode="before")
     @classmethod
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
@@ -854,6 +855,19 @@ class DevicesSimsApnsItem(_BaseSchema):
     def coerce_null_lists(cls, value: Any) -> Any:
         """Convert null array values from the API to empty lists."""
         return [] if value is None else value
+
+
+class DevicesSimsIpsItem(_BaseSchema):
+    """Schema for DevicesSimsIpsItem."""
+
+    translation: DevicesTranslation | None = None
+
+
+class DevicesTranslation(_BaseSchema):
+    """IP translation state for this cellular data connection."""
+
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    status: str | None = None
 
 
 class DevicesUsage(_BaseSchema):
