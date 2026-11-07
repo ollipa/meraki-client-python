@@ -70,6 +70,7 @@ Types of changes:
 - `Removed` for now removed features.
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities.
+- `Infrastructure` for CI, release, and tooling changes that only affect maintainers.
 
 ## Spec Overrides Guidance
 

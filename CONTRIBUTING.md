@@ -41,6 +41,26 @@ tests/
 
 Some endpoints have bugs in the OpenAPI spec. Workarounds are configured in `codegen/spec_overrides.toml`. The generator validates that overrides reference existing operations and logs warnings when the spec appears fixed.
 
+## Releasing
+
+Releases go through a pull request; nothing is pushed to `main` directly.
+
+1. On an up-to-date `main` with a clean working tree, run:
+
+   ```shell
+   uv run scripts/bump_version.py minor  # or major / patch
+   ```
+
+   This bumps the version, moves the `Unreleased` changelog entries under the new version heading, regenerates the SDK, and opens a `release/vX.Y.Z` pull request.
+
+2. Review and merge the pull request.
+3. The `Publish` workflow on `main` sees that the merge changed the version to one with no tag, builds the package, and waits for approval of the `pypi` environment. Approve the deployment in the workflow run to publish to PyPI. CI then creates the `vX.Y.Z` tag and GitHub release.
+
+Notes:
+
+- Only the push that changes the version releases; other merges while a release is pending don't publish. To retry a rejected or expired approval, re-run all jobs of the original workflow run. If tagging fails after the package was published, re-run the failed jobs.
+- Don't create the tag or GitHub release by hand: CI then skips publishing without an error.
+
 ## Testing
 
 Tests require a Meraki API key with access to an organization:
